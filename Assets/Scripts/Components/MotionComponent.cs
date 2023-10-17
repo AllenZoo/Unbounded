@@ -12,11 +12,13 @@ public class MotionComponent : MonoBehaviour
     public Vector2 lastDir { get; private set; }
 
     private PlayerInput playerInput;
+    private EnemyAIComponent enemyAIComponent;
     private bool wasDiaganol = false;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        enemyAIComponent = GetComponent<EnemyAIComponent>();
         dir = new Vector2 (0, 0);
     }
 
@@ -24,11 +26,19 @@ public class MotionComponent : MonoBehaviour
     {
         if (playerInput != null)
         {
-            playerInput.OnMovementInput += PlayerInput_OnMovementInput;
+            playerInput.OnMovementInput += OnMovementInput;
         }
+
+        if (enemyAIComponent != null)
+        {
+            enemyAIComponent.OnMotionChange += OnMovementInput;
+        }
+
+        Debug.Assert(playerInput != null ^ enemyAIComponent != null, 
+            "Cannot have both playerInput and AI component, but need atleast one in object: " + gameObject.name);
     }
 
-    private void PlayerInput_OnMovementInput(Vector2 dir)
+    private void OnMovementInput(Vector2 dir)
     {
         float offset = 0.1f;
         this.dir = dir;
