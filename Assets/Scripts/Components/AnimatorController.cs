@@ -18,6 +18,9 @@ public class AnimatorController : MonoBehaviour
     public static string LAST_DIRECTION_PARAMETER_X = "last_xDir";
     public static string LAST_DIRECTION_PARAMETER_Y = "last_yDir";
 
+    // Update this whenever new parameter is added.
+    public static float NUMBER_OF_PARAMETERS = 4;
+
     private MotionComponent motion;
     private StateComponent state;
     private Animator animator;
@@ -36,6 +39,11 @@ public class AnimatorController : MonoBehaviour
         Debug.Assert(animator != null, "Animator null in animation controller for object: " + gameObject);
         state.OnStateChanged += State_OnStateChanged;
         motion.OnMotionChange += Motion_OnMotionChange;
+
+
+        // Check Parameters are present in animator controller
+        Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS, 
+            "Animator parameters not set up correctly for object: " + gameObject);
 
         // Init Parameters in animator (TODO: once it gets large, move to helper)
         animator.SetFloat(DIRECTION_PARAMETER_X, 0);
