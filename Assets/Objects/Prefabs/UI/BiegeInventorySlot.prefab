@@ -86,6 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8297662552223535181}
   - component: {fileID: 8929463775860353510}
+  - component: {fileID: 1247434219901478668}
   m_Layer: 5
   m_Name: BiegeInventorySlot
   m_TagString: Untagged
@@ -122,6 +123,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5480198858256591077}
   m_CullTransparentMesh: 1
+--- !u!114 &1247434219901478668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480198858256591077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa34020d6bbc50044ab9dd497a4b0ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 0}
+  itemIconElement: {fileID: 6002535924948179873}
 --- !u!1 &6002535924948179873
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +148,7 @@ GameObject:
   - component: {fileID: 860356816480159150}
   - component: {fileID: 8449230477032801318}
   - component: {fileID: 3447907468834708343}
+  - component: {fileID: 496464024}
   m_Layer: 5
   m_Name: item_sprite
   m_TagString: Untagged
@@ -188,9 +204,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -870168203, guid: a64d73120f737c2458025e8b118a7997, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -198,6 +214,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &496464024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6002535924948179873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 3
+  m_AspectRatio: 1.25
 --- !u!1 &6050123061690506224
 GameObject:
   m_ObjectHideFlags: 0

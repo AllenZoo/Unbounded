@@ -21,23 +21,47 @@ public class InventorySystem : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(inventoryData);
+        inventoryUI = GetComponent<InventoryUI>();
     }
 
     private void Start()
     {
         inventory = new Inventory(inventoryData);
-        // onInventoryDataChange += inventoryUI.Rerender;
+        onInventoryDataChange += InventorySystem_onInventoryDataChange;
+    }
+
+    private void InventorySystem_onInventoryDataChange()
+    {
+        Debug.Log("On inventory data change event triggered.");
+        inventoryUI.Rerender();
     }
 
     public void AddItem(Item item)
     {
         int emptySlot = inventory.GetFirstEmptySlot();
+
+        if (emptySlot == -1)
+        {
+            // Inventory Full!
+            Debug.Log("Inventory Full! Failed to add item");
+            return;
+        }
+
         inventory.AddItem(emptySlot, item);
-        // onInventoryDataChange();
+        onInventoryDataChange?.Invoke();
     }
 
     public void RemoveItem(Item item)
     {
-        inventory.RemoveItem(inventoryData.items.IndexOf(item.data));
+        int itemIndex = inventoryData.items.LastIndexOf(item.data);
+
+        if (itemIndex == -1)
+        {
+            // Item not found in inventory!
+            Debug.Log("Item not found in inventory! Failed to remove item");
+            return;
+        }
+        inventory.RemoveItem(itemIndex);
+        onInventoryDataChange?.Invoke();
     }
 }

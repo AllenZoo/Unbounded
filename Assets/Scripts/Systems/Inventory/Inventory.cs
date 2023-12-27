@@ -19,7 +19,7 @@ public class Inventory
 
     public void RemoveItem(int index)
     {
-        data.items.RemoveAt(index);
+        data.items[index] = null;
     }
 
     public void SwapItems(int index1, int index2)

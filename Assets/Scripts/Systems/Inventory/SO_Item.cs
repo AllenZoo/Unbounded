@@ -7,6 +7,7 @@ public class SO_Item : ScriptableObject
 {
     public string itemName;
     public Sprite itemSprite;
+    public Vector2 spriteDims;
     public int quantity;
     public bool isStackable;
 }
