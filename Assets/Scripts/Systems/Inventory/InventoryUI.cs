@@ -7,6 +7,7 @@ using UnityEngine.Events;
 // Modifies state of UI based on inventory data. Also handles user input.
 public class InventoryUI : MonoBehaviour
 {
+    // Only invoked in Rerender().
     public UnityEvent OnRerender;
 
     [SerializeField] private SO_Inventory inventoryData;
@@ -17,11 +18,13 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
+        Init();
     }
 
-    private void Start()
+    // For when Inventory UI is closed and reopened.
+    private void OnEnable()
     {
-        Init();
+        Rerender();
     }
 
     // Init process consists of:
@@ -43,6 +46,12 @@ public class InventoryUI : MonoBehaviour
     // TODO: On inventory data change, rerender UI.
     public void Rerender()
     {
+        // Check if InventoryUI is active
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+
         // Assing items to slots.
         for (int i = 0; i < inventoryData.slots; i++)
         {

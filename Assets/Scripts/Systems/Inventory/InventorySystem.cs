@@ -32,7 +32,7 @@ public class InventorySystem : MonoBehaviour
 
     private void InventorySystem_onInventoryDataChange()
     {
-        Debug.Log("On inventory data change event triggered.");
+        // Debug.Log("On inventory data change event triggered.");
         inventoryUI.Rerender();
     }
 
