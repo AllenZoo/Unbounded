@@ -989,6 +989,7 @@ RectTransform:
   m_Children:
   - {fileID: 1569876283}
   - {fileID: 475091949}
+  - {fileID: 1367273478}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1159,6 +1160,111 @@ RectTransform:
   m_AnchoredPosition: {x: -0.22982788, y: 138.9256}
   m_SizeDelta: {x: 271, y: 45.3427}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1367273475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1367273478}
+  - component: {fileID: 1367273477}
+  - component: {fileID: 1367273480}
+  - component: {fileID: 1367273479}
+  - component: {fileID: 1367273481}
+  m_Layer: 0
+  m_Name: InventoryMouseHoverObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1367273477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367273475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08b162b2b3249f478b5d322586a3581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 969628348}
+--- !u!224 &1367273478
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367273475}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.3888887, y: 1.3888887, z: 1.3888887}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 969628349}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -404.63882, y: -227.36108}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1367273479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367273475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: da88614486a38514788ff6f3fd390d41, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1367273480
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367273475}
+  m_CullTransparentMesh: 1
+--- !u!114 &1367273481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367273475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2788e00073e15534e8309bc1202fc4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
+  slotIndex: 0
 --- !u!1001 &1402456414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1396,12 +1502,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b49bcbde1630b1749b886960352f9ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryMouseFollower: {fileID: 1367273475}
   OnRerender:
     m_PersistentCalls:
       m_Calls: []
   inventoryData: {fileID: 11400000, guid: eac6917f07cfcb94c9818c1e6537e34e, type: 2}
   inventorySlotParent: {fileID: 1431418052}
-  inventorySlotPrefab: {fileID: 5480198858256591077, guid: 703081fdbf85ae64b967b2ebf01936c3, type: 3}
+  inventorySlotPrefab: {fileID: 6071097289829333637, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
   inventoryTitle: {fileID: 1366540745}
 --- !u!4 &1713174459 stripped
 Transform:
@@ -2355,6 +2462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BiegeInventorySlot
       objectReference: {fileID: 0}
+    - target: {fileID: 5880595909882306063, guid: 703081fdbf85ae64b967b2ebf01936c3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8297662552223535181, guid: 703081fdbf85ae64b967b2ebf01936c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2439,7 +2550,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7672421341678110594, guid: 703081fdbf85ae64b967b2ebf01936c3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 703081fdbf85ae64b967b2ebf01936c3, type: 3}
 --- !u!224 &3720712936711333871 stripped
 RectTransform:

@@ -1,23 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 // Modifies state of UI based on inventory data. Also handles user input.
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IPointerUpHandler
 {
+    [SerializeField] public GameObject inventoryMouseFollower;
+
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
+    public event Action<int, int> OnSwapItems;
 
     [SerializeField] private SO_Inventory inventoryData;
     [SerializeField] private GameObject inventorySlotParent;
     [SerializeField] private GameObject inventorySlotPrefab;
     [SerializeField] private GameObject inventoryTitle;
 
+    private List<SlotUI> slots = new List<SlotUI>();
+    private int selectedSlotIndex = -1;
+    
+
     private void Awake()
     {
         Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
+        Assert.IsNotNull(inventorySlotParent, "Need inventory slot parent to instantiate slots.");
+        Assert.IsNotNull(inventorySlotPrefab, "Need inventory slot prefab to instantiate slots.");
+        Assert.IsNotNull(inventoryMouseFollower.GetComponent<ItemHoverer>(), "Inventory mouse follower needs ItemHoverer component.");
+        Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
         Init();
     }
 
@@ -29,7 +42,10 @@ public class InventoryUI : MonoBehaviour
 
     // Init process consists of:
     // 1. Create inventory slots.
-    // 2. (Rendering)
+    // 2. Assign index to slots.
+    // 3. Assign instance of itemHoverer to each slot.
+    // 4. Add slots to list.
+    // 5. (Rendering)
     //      - Assign items to slots.
     //      - Triggering onRerender event.
     public void Init()
@@ -38,6 +54,17 @@ public class InventoryUI : MonoBehaviour
         while (inventorySlotParent.transform.childCount < inventoryData.slots)
         {
             Instantiate(inventorySlotPrefab, inventorySlotParent.transform);
+        }
+
+        for (int i = 0; i < inventoryData.slots; i++)
+        {
+            GameObject slot = inventorySlotParent.transform.GetChild(i).gameObject;
+            SlotUI slotUI = slot.GetComponent<SlotUI>();
+            Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
+            slotUI.SetSlotIndex(i);
+            slotUI.SetItemHoverer(inventoryMouseFollower.GetComponent<ItemHoverer>());
+
+            slots.Add(slotUI);
         }
 
         Rerender();
@@ -52,15 +79,21 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        // Assing items to slots.
-        for (int i = 0; i < inventoryData.slots; i++)
+        // Assiging items to slots.
+        int index = 0;
+        foreach (SlotUI slot in slots)
         {
-            GameObject slot = inventorySlotParent.transform.GetChild(i).gameObject;
-            SlotUI slotUI = slot.GetComponent<SlotUI>();
-            Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
-            slotUI.SetItem(inventoryData.items[i]);
+            slot.SetItem(inventoryData.items[index]);
+            index++;
         }
 
         OnRerender?.Invoke();
+    }
+
+    // Function to check if item mouse is released ontop of inventory. If so, do nothing and reset mouse follower.
+    // (Maybe need to move this logic since slots are also within inventoryUI)
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        throw new System.NotImplementedException();
     }
 }
