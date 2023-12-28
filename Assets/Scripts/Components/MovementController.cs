@@ -24,8 +24,11 @@ public class MovementController : MonoBehaviour
     {
         float scale = 100;
 
+        // 0. Normalize motion.dir vector if it exceeeds magnitude of 1 (diagonal movement)
+        Vector2 processed_dir = motion.dir.sqrMagnitude > 1 ? motion.dir.normalized : motion.dir;
+
         // 1. Velocity Calculation
-        Vector2 velocity = motion.dir * stat.speed * Time.fixedDeltaTime * scale;
+        Vector2 velocity = processed_dir * stat.speed * Time.fixedDeltaTime * scale;
 
         // 2. Apply translation
         rb.velocity = velocity;
