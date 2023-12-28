@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 // Modifies state of UI based on inventory data. Also handles user input.
-public class InventoryUI : MonoBehaviour, IPointerUpHandler
+public class InventoryUI : MonoBehaviour
 {
     [SerializeField] public GameObject inventoryMouseFollower;
 
@@ -32,6 +32,17 @@ public class InventoryUI : MonoBehaviour, IPointerUpHandler
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<ItemHoverer>(), "Inventory mouse follower needs ItemHoverer component.");
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
         Init();
+    }
+
+    private void Start()
+    {
+        // Assign Event Listeners
+        foreach (SlotUI slot in slots)
+        {
+            slot.OnDragItem += OnSlotDrag;
+            slot.OnEndDragItem += OnSlotEndDrag;
+            slot.OnDropItem += OnSlotDrop;
+        }
     }
 
     // For when Inventory UI is closed and reopened.
@@ -90,10 +101,28 @@ public class InventoryUI : MonoBehaviour, IPointerUpHandler
         OnRerender?.Invoke();
     }
 
-    // Function to check if item mouse is released ontop of inventory. If so, do nothing and reset mouse follower.
-    // (Maybe need to move this logic since slots are also within inventoryUI)
-    public void OnPointerUp(PointerEventData eventData)
+    // Modify selected slot index to slot that is being dragged.
+    public void OnSlotDrag(SlotUI slot)
     {
-        throw new System.NotImplementedException();
+        selectedSlotIndex  = slot.GetSlotIndex();
+    }
+
+    // Reset selected slot index.
+    public void OnSlotEndDrag(SlotUI slot)
+    {
+        selectedSlotIndex = -1;
+    }
+
+    // Swap items in slot
+    public void OnSlotDrop(SlotUI slot)
+    {
+        // Check if selected slot index is valid.
+        if (selectedSlotIndex == -1)
+        {
+            return;
+        }
+        int slotIndex = slot.GetSlotIndex();
+        OnSwapItems?.Invoke(selectedSlotIndex, slotIndex);
+        selectedSlotIndex = -1;
     }
 }

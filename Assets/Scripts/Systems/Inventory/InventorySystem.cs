@@ -28,6 +28,9 @@ public class InventorySystem : MonoBehaviour
     {
         inventory = new Inventory(inventoryData);
         onInventoryDataChange += InventorySystem_onInventoryDataChange;
+
+        // Assign Event Listeners
+        inventoryUI.OnSwapItems += SwapItems;
     }
 
     private void InventorySystem_onInventoryDataChange()
@@ -62,6 +65,12 @@ public class InventorySystem : MonoBehaviour
             return;
         }
         inventory.RemoveItem(itemIndex);
+        onInventoryDataChange?.Invoke();
+    }
+
+    public void SwapItems(int index1, int index2)
+    {
+        inventory.SwapItems(index1, index2);
         onInventoryDataChange?.Invoke();
     }
 }

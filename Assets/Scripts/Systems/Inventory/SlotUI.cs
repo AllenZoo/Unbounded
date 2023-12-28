@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine.UI;
 
 public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
+    public event Action<SlotUI> OnDragItem, OnEndDragItem, OnDropItem;
+
     [SerializeField] private SO_Item itemData;
     [SerializeField] private GameObject itemIconElement;
     private InventoryUI inventoryUI;
@@ -40,23 +43,6 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         image.sprite = itemData.itemSprite;
     }
 
-    public void SetSlotIndex(int index)
-    {
-        slotIndex = index;
-    }
-
-    public void SetItemHoverer(ItemHoverer itemHoverer)
-    {
-        this.itemHoverer = itemHoverer;
-    }
-
-    public void SetItem(SO_Item item)
-    {
-        itemData = item;
-        Rerender();
-    }
-
-
     // On Begin Drag
     // 1. If item is selected in slot, hold it to mouse.
     //    Mouse needs info about:
@@ -71,9 +57,10 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         }
 
         Assert.IsNotNull(itemHoverer, "Need reference to item hoverer.");
-        // Set Data
+        // Set Data (TODO: maybe don't need slot index)
         itemHoverer.SetData(itemData);
         itemHoverer.SetSlotIndex(slotIndex);
+        OnDragItem?.Invoke(this);
     }
 
     // On End Drag (check if this calls first, or OnDrop)
@@ -81,6 +68,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     // 2. 
     public void OnEndDrag(PointerEventData eventData)
     {
+        OnEndDragItem?.Invoke(this);
     }
 
     // On Drop
@@ -88,5 +76,28 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("Mouse released over slot index: " + slotIndex);
+        OnDropItem?.Invoke(this);
     }
+
+    #region Setters and Getters
+    public void SetSlotIndex(int index)
+    {
+        slotIndex = index;
+    }
+    public int GetSlotIndex()
+    {
+        return slotIndex;
+    }
+
+    public void SetItemHoverer(ItemHoverer itemHoverer)
+    {
+        this.itemHoverer = itemHoverer;
+    }
+
+    public void SetItem(SO_Item item)
+    {
+        itemData = item;
+        Rerender();
+    }
+    #endregion
 }
