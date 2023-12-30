@@ -64,6 +64,6 @@ public class StatComponent : MonoBehaviour
         attack = baseStats.attack;
         defense = baseStats.defense;
         speed = baseStats.speed;
-        OnStatChange?.Invoke(this);
+        OnStatChange?.Invoke(this, null);
     }
 }
