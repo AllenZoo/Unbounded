@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StatComponent : MonoBehaviour
 {
+    public event Action<StatComponent, IStatModifier> OnStatChange;
     [SerializeField] private SO_StatContainer baseStats;
     public float health { get; private set; }
     public float maxHealth { get; private set; }
@@ -48,6 +50,9 @@ public class StatComponent : MonoBehaviour
                 speed += statModifier.Value;
                 break;
         }
+        OnStatChange?.Invoke(this, statModifier);
+        Debug.Log("Modified stat: " + statModifier.Stat + " by " + statModifier.Value);
+        Debug.Log("Cur health: " + health + " max health: " + maxHealth);
     }
 
     private void initStats()
@@ -59,5 +64,6 @@ public class StatComponent : MonoBehaviour
         attack = baseStats.attack;
         defense = baseStats.defense;
         speed = baseStats.speed;
+        OnStatChange?.Invoke(this, null);
     }
 }

@@ -9,7 +9,7 @@ public class IStatModifier
     private float value;
     private Stat stat;
 
-    public IStatModifier(float value, Stat stat)
+    public IStatModifier(Stat stat, float value)
     {
         this.value = value;
         this.stat = stat;
