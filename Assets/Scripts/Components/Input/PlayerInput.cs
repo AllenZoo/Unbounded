@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StateComponent))]
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : InputController
 {
-    public event Action<Vector2> OnMovementInput;
     private StateComponent state;
 
     private void Awake()
@@ -18,6 +17,7 @@ public class PlayerInput : MonoBehaviour
     private void Handle_Input()
     {
         Handle_Movement_Input();
+        Handle_Attack_Input();
     }
     
     // Handles AWSD, arrow key movement
@@ -29,8 +29,9 @@ public class PlayerInput : MonoBehaviour
 
         // Send movement input event
         Vector2 movementInput = new Vector2(horizontal, vertical);
-        OnMovementInput?.Invoke(movementInput);
+        base.InvokeMovementInput(movementInput);
 
+        // TODO: move this logic into State class later.
         // Set state to WALKING (handle state in helper later)
         if (horizontal != 0 || vertical != 0)
         {
@@ -38,6 +39,15 @@ public class PlayerInput : MonoBehaviour
         } else
         {
             state.SetState(State.IDLE);
+        }
+    }
+
+    private void Handle_Attack_Input()
+    {
+        // Handle attack input (left click)
+        if (Input.GetMouseButtonDown(0))
+        {
+            base.InvokeAttackInput(KeyCode.Mouse0);
         }
     }
 

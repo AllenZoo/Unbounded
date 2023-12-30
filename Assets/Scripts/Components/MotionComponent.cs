@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class MotionComponent : MonoBehaviour
 {
@@ -11,31 +12,19 @@ public class MotionComponent : MonoBehaviour
     // Last Direction of one of: (1,0), (1, 1), (1, -1), (0, 1), (0, -1), (-1, -1), (-1, 1)
     public Vector2 lastDir { get; private set; }
 
-    private PlayerInput playerInput;
-    private EnemyAIComponent enemyAIComponent;
+    private InputController inputController;
     private bool wasDiaganol = false;
 
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-        enemyAIComponent = GetComponent<EnemyAIComponent>();
+        inputController = GetComponent<InputController>();
+        Assert.IsNotNull(inputController, "Class of type Input controller must exist on obj with motion component");
         dir = new Vector2 (0, 0);
     }
 
     private void Start()
     {
-        if (playerInput != null)
-        {
-            playerInput.OnMovementInput += OnMovementInput;
-        }
-
-        if (enemyAIComponent != null)
-        {
-            enemyAIComponent.OnMotionChange += OnMovementInput;
-        }
-
-        Debug.Assert(playerInput != null ^ enemyAIComponent != null, 
-            "Cannot have both playerInput and AI component, but need atleast one in object: " + gameObject.name);
+        inputController.OnMovementInput += OnMovementInput;
     }
 
     private void OnMovementInput(Vector2 dir)
