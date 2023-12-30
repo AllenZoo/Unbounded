@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StatComponent : MonoBehaviour
 {
-    public event Action<StatComponent> OnStatChange;
+    public event Action<StatComponent, IStatModifier> OnStatChange;
     [SerializeField] private SO_StatContainer baseStats;
     public float health { get; private set; }
     public float maxHealth { get; private set; }
@@ -50,7 +50,7 @@ public class StatComponent : MonoBehaviour
                 speed += statModifier.Value;
                 break;
         }
-        OnStatChange?.Invoke(this);
+        OnStatChange?.Invoke(this, statModifier);
         Debug.Log("Modified stat: " + statModifier.Stat + " by " + statModifier.Value);
         Debug.Log("Cur health: " + health + " max health: " + maxHealth);
     }
