@@ -47,7 +47,10 @@ public class PlayerInput : InputController
         // Handle attack input (left click)
         if (Input.GetMouseButtonDown(0))
         {
-            base.InvokeAttackInput(KeyCode.Mouse0);
+            // Mouse position in world space
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            AttackSpawnInfo info = new AttackSpawnInfo(mousePos);
+            base.InvokeAttackInput(KeyCode.Mouse0, info);
         }
     }
 

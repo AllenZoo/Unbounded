@@ -12,6 +12,7 @@ public class Attack : MonoBehaviour
 
     // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
     [SerializeField] private float damage = 5f;
+    [SerializeField] private float duration = 0.5f;
 
     [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
     [SerializeField] private Boolean isAOE = false;
@@ -74,6 +75,11 @@ public class Attack : MonoBehaviour
     public float DotDuration
     {
         get { return dotDuration; }
+    }
+
+    public float Duration
+    {
+        get { return duration; }
     }
     #endregion
 }

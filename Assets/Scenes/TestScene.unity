@@ -2512,6 +2512,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordAttack
       objectReference: {fileID: 0}
+    - target: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -2530,7 +2534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2542,7 +2546,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2554,7 +2558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
