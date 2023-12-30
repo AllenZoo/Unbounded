@@ -6,10 +6,12 @@ using UnityEngine.Assertions;
 public class Attacker : MonoBehaviour
 {
     [SerializeField] private GameObject attackObj;
+    [SerializeField] private float cooldown = 0.5f;
 
     // Variable that we will receive inputs to attack.
     private InputController inputController;
     private Attack attack;
+    private bool attackRdy = true;
 
     private void Awake()
     {
@@ -24,7 +26,16 @@ public class Attacker : MonoBehaviour
 
     private void Start()
     {
-        inputController.OnAttackInput += Attack;
+        inputController.OnAttackInput += AttackReq;
+    }
+
+    public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
+    {
+        if (attackRdy)
+        {
+            Attack(keyCode, info);
+            StartCoroutine(AttackCooldown());
+        }
     }
 
     public void Attack(KeyCode keyCode, AttackSpawnInfo info)
@@ -32,16 +43,9 @@ public class Attacker : MonoBehaviour
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 1f;
 
-        // Calculate the direction from the attacker to the mouse
         Vector3 direction = info.mousePosition - transform.position;
-
-        // Calculate the rotation angle in radians using Mathf.Atan2
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        // Create a rotation quaternion based on the angle
         Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-
-        // Spawn position of attack
         Vector2 spawnPos = direction.normalized * offset + transform.position;
        
         // Spawn attack object a certain distance from attacker, rotated towards mouse.
@@ -56,5 +60,10 @@ public class Attacker : MonoBehaviour
         // attack.GetComponent<Rigidbody2D>().velocity = 0;
     }
 
-
+    public IEnumerator AttackCooldown()
+    {
+        attackRdy = false;
+        yield return new WaitForSeconds(cooldown);
+        attackRdy = true;
+    }
 }

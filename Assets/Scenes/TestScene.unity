@@ -2512,10 +2512,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordAttack
       objectReference: {fileID: 0}
-    - target: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2714405999033833533, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -2784,6 +2780,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: cooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: attackObj
       value: 
