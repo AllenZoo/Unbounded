@@ -55,6 +55,48 @@ public class StatComponent : MonoBehaviour
         Debug.Log("Cur health: " + health + " max health: " + maxHealth);
     }
 
+    public float GetCurStat(Stat stat)
+    {
+        switch(stat)
+        {
+            case Stat.HP:
+                return health;
+            case Stat.MP:
+                return mana;
+            case Stat.SP:
+                return stamina;
+            case Stat.ATK:
+                return attack;
+            case Stat.DEF:
+                return defense;
+            case Stat.SPD:
+                return speed;
+            default:
+                return 0;
+        }
+    }
+
+    public float GetMaxStat(Stat stat)
+    {
+        switch (stat)
+        {
+            case Stat.HP:
+                return maxHealth;
+            case Stat.MP:
+                return maxMana;
+            case Stat.SP:
+                return maxStamina;
+            case Stat.ATK:
+                return attack;
+            case Stat.DEF:
+                return defense;
+            case Stat.SPD:
+                return speed;
+            default:
+                return 0;
+        }
+    }
+
     private void initStats()
     {
         health = baseStats.health;
