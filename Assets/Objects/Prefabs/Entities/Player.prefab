@@ -44,7 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackObj: {fileID: 0}
+  targetTypes: 01000000020000000300000004000000
+  attackObj: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
+  cooldown: 0.5
+  attackPool: {fileID: 0}
 --- !u!1 &242522279
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +188,7 @@ GameObject:
   - component: {fileID: 7405677662020512082}
   - component: {fileID: 7405677662020512085}
   - component: {fileID: 7405677661359215970}
+  - component: {fileID: 8900387146241712057}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -387,5 +391,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a88aca7a364cbda488d067158c14d24d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8900387146241712057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7405677662020513453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

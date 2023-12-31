@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(StatComponent))]
-[RequireComponent (typeof(Rigidbody2D))]
 public class Damageable : MonoBehaviour
 {
+    [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
+    [SerializeField] private EntityType entityType;
+    public EntityType EntityType { get { return entityType; } }
+
     private StatComponent stat;
 
     // Refers to dot attacks that the Damageable is currently taking damage from.
