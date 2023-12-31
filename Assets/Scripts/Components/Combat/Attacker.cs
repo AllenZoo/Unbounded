@@ -59,8 +59,6 @@ public class Attacker : MonoBehaviour
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
-        // GameObject newAttackObj = Instantiate(attackObj, spawnPos, rotation, attackPool.transform);
-
         // Set newAttackObj inactive after attack.Duration
         StartCoroutine(DeactivateAttack(newAttackObj, attack.Duration));
 

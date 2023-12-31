@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Sub-trees of attacks
 // Check sub-tree if any attack is not active. return that attack to reuse.
+// TODO: make this a singleton
 public class AttackPool : MonoBehaviour
 {
     [SerializeField] private GameObject subPoolPrefab;
-
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class AttackPool : MonoBehaviour
     private GameObject FindSubPool(GameObject attack)
     {
         string groupName = attack.GetComponent<Attack>().Name;
+        Assert.IsTrue(groupName.EndsWith("|"), "It is required convention that attack names need to end with |");
 
         // Attempt to search for existing sub-pool
         for (int i = 0; i < transform.childCount; i++)
