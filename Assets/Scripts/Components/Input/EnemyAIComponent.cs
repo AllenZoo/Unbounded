@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StateComponent))]
-public class EnemyAIComponent : MonoBehaviour
+public class EnemyAIComponent : InputController
 {
-    public event Action<Vector2> OnMotionChange;
     private StateComponent state;
 
     private float movementTimer = 3f; // Time interval to change movement direction
@@ -42,7 +41,7 @@ public class EnemyAIComponent : MonoBehaviour
             Vector2 dir = new Vector2(randX, randY);
 
             // Invoke the event to notify listeners about the new motion direction
-            OnMotionChange?.Invoke(dir);
+            base.InvokeMovementInput(dir);
 
             // Debug.Log("Setting enemy dir to: " + dir);
 
