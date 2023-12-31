@@ -59,12 +59,17 @@ public class Attacker : MonoBehaviour
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
+        // TODO: add a new Deactivatable component to handle this logic.
+        // Reset any existing coroutines on newAttackObj
+        StopCoroutine(DeactivateAttack(newAttackObj, attack.Duration));
+
         // Set newAttackObj inactive after attack.Duration
         StartCoroutine(DeactivateAttack(newAttackObj, attack.Duration));
+        // END TODO.
 
 
-        // TODO:  Set velocity of attack (get from Attack in attackObj)
-        // attack.GetComponent<Rigidbody2D>().velocity = 0;
+        // Set velocity of attack (get from Attack in attackObj)
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.InitialSpeed;
     }
 
     public IEnumerator AttackCooldown()

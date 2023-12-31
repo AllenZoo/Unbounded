@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Script attached to attack objects that contain info about the attack.
 [RequireComponent(typeof(Collider2D))]
@@ -14,6 +15,7 @@ public class Attack : MonoBehaviour
     [SerializeField] private string attackName = "Attack";
     [SerializeField] private float damage = 5f;
     [SerializeField] private float duration = 0.5f;
+    [SerializeField] private float initialSpeed = 0f;
 
     [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
     [SerializeField] private Boolean isAOE = false;
@@ -26,6 +28,17 @@ public class Attack : MonoBehaviour
     [SerializeField] private float dotDuration = 5f;
 
     private List<Damageable> hitTargets = new List<Damageable>();
+
+    private void Awake()
+    {
+        // Checks to see RB2 and Collider2D components properties are correct.
+        
+        // Check if RB2 is kinematic.
+        Assert.IsTrue(GetComponent<Rigidbody2D>().isKinematic, "RB2D needs to be kinematic");
+
+        // Check if Collider2D is a trigger.
+        Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
+    }
 
     private void Start()
     {
@@ -92,6 +105,11 @@ public class Attack : MonoBehaviour
     public string Name
     {
         get { return attackName; }
+    }
+
+    public float InitialSpeed
+    {
+        get { return initialSpeed; }
     }
     #endregion
 }
