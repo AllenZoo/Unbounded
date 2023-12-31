@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -6282356925321559982}
   - component: {fileID: 2537435771086828967}
   - component: {fileID: 1713174469}
+  - component: {fileID: 1713174470}
   m_Layer: 0
   m_Name: Archer_Goblin
   m_TagString: Untagged
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatType: 0
 --- !u!114 &2927453995066883929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,3 +226,15 @@ CapsuleCollider2D:
   m_Offset: {x: -0.036150098, y: -0.036150128}
   m_Size: {x: 0.68669915, y: 0.92769974}
   m_Direction: 0
+--- !u!114 &1713174470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927453995066883934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

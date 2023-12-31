@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(StateComponent))]
 public class EnemyAIComponent : InputController
 {
+    [SerializeField] private CombatType combatType;
     private StateComponent state;
 
     private float movementTimer = 3f; // Time interval to change movement direction
@@ -25,11 +26,15 @@ public class EnemyAIComponent : InputController
     private void Update()
     {
         // Count down the timer
-        timer -= Time.deltaTime;
-        Handle_Move();
+        //timer -= Time.deltaTime;
+        //Random_Move();
+
+        // For testing
+        Targetted_Ranged_Move(GameObject.Find("Player"), 5f);
     }
 
-    private void Handle_Move()
+    // Randomly move around
+    private void Random_Move()
     {
         // If the timer reaches or goes below 0, change movement direction
         if (timer <= 0f)
@@ -45,7 +50,7 @@ public class EnemyAIComponent : InputController
 
             // Debug.Log("Setting enemy dir to: " + dir);
 
-            // Set state to WALKING (handle state in helper later)
+            // Set state to WALKING (handle state in State component later)
             if (randX != 0 || randY != 0)
             {
                 state.SetState(State.WALKING);
@@ -57,6 +62,31 @@ public class EnemyAIComponent : InputController
 
             // Reset the timer
             timer = movementTimer;
+        }
+    }
+
+    // Move torwards a target and attack (melee)
+    private void Targetted_Move(GameObject target)
+    {
+
+    }
+
+    // Move torwards a target and attack (ranged)
+    // MinDist is the minimum distance to keep from the target
+    private void Targetted_Ranged_Move(GameObject target, float minDist)
+    {
+        float dist = Vector2.Distance(transform.position, target.transform.position);
+        Vector2 dir = target.transform.position - transform.position;
+        if (dist < minDist)
+        {
+            // Move away from the target
+            base.InvokeMovementInput(-dir);
+
+        }
+        else
+        {
+            // Move towards the target
+            base.InvokeMovementInput(dir);
         }
     }
 }
