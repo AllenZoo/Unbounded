@@ -11,6 +11,7 @@ public class Attack : MonoBehaviour
     public event Action<Damageable> OnHit;
 
     // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
+    [SerializeField] private string attackName = "Attack";
     [SerializeField] private float damage = 5f;
     [SerializeField] private float duration = 0.5f;
 
@@ -38,6 +39,12 @@ public class Attack : MonoBehaviour
         {
             OnHit?.Invoke(target);
         }
+    }
+
+    // For resetting the attack when it is disabled.
+    public void Reset()
+    {
+        hitTargets.Clear();
     }
 
     // Logic to determine what happens when the attack hits a target.
@@ -80,6 +87,11 @@ public class Attack : MonoBehaviour
     public float Duration
     {
         get { return duration; }
+    }
+
+    public string Name
+    {
+        get { return attackName; }
     }
     #endregion
 }

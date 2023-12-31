@@ -54,7 +54,12 @@ public class Attacker : MonoBehaviour
        
         // TODO: check if attackObj is in pool, use it. else, instantiate new one.
         // Spawn attack object a certain distance from attacker, rotated towards mouse.
-        GameObject newAttackObj = Instantiate(attackObj, spawnPos, rotation, attackPool.transform);
+        GameObject newAttackObj = attackPool.GetComponent<AttackPool>().GetAttack(attackObj);
+        newAttackObj.transform.position = spawnPos;
+        newAttackObj.transform.rotation = rotation;
+        newAttackObj.SetActive(true);
+
+        // GameObject newAttackObj = Instantiate(attackObj, spawnPos, rotation, attackPool.transform);
 
         // Set newAttackObj inactive after attack.Duration
         StartCoroutine(DeactivateAttack(newAttackObj, attack.Duration));
@@ -74,6 +79,7 @@ public class Attacker : MonoBehaviour
     public IEnumerator DeactivateAttack(GameObject attackObj, float duration)
     {
         yield return new WaitForSeconds(duration);
+        attackObj.GetComponent<Attack>().Reset();
         attackObj.SetActive(false);
     }
 }
