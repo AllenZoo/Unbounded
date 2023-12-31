@@ -7,6 +7,7 @@ public class Attacker : MonoBehaviour
 {
     [SerializeField] private GameObject attackObj;
     [SerializeField] private float cooldown = 0.5f;
+    [SerializeField] private GameObject attackPool;
 
     // Variable that we will receive inputs to attack.
     private InputController inputController;
@@ -22,6 +23,9 @@ public class Attacker : MonoBehaviour
 
         inputController = GetComponentInParent<InputController>();
         Assert.IsNotNull(inputController, "Attacker needs InputController");
+
+        attackPool = FindObjectOfType<AttackPool>().gameObject;
+        Assert.IsNotNull(attackPool, "Attacker needs AttackPool");
     }
 
     private void Start()
@@ -48,12 +52,12 @@ public class Attacker : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
         Vector2 spawnPos = direction.normalized * offset + transform.position;
        
+        // TODO: check if attackObj is in pool, use it. else, instantiate new one.
         // Spawn attack object a certain distance from attacker, rotated towards mouse.
-        GameObject newAttackObj = Instantiate(attackObj, spawnPos, rotation);
+        GameObject newAttackObj = Instantiate(attackObj, spawnPos, rotation, attackPool.transform);
 
-        // Delete newAttackObj after attack.Duration
-        // TODO: optimize by using an attack pool.
-        Destroy(newAttackObj, attack.Duration);
+        // Set newAttackObj inactive after attack.Duration
+        StartCoroutine(DeactivateAttack(newAttackObj, attack.Duration));
 
 
         // TODO:  Set velocity of attack (get from Attack in attackObj)
@@ -65,5 +69,11 @@ public class Attacker : MonoBehaviour
         attackRdy = false;
         yield return new WaitForSeconds(cooldown);
         attackRdy = true;
+    }
+
+    public IEnumerator DeactivateAttack(GameObject attackObj, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        attackObj.SetActive(false);
     }
 }
