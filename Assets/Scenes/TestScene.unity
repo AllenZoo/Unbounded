@@ -1586,11 +1586,6 @@ MonoBehaviour:
   m_Spacing: {x: 15, y: 8}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!1 &1537462961 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
-  m_PrefabInstance: {fileID: 2927453993558771943}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1569876282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,18 +1675,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
   m_PrefabInstance: {fileID: 2927453993558771943}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1713174470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537462961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1804751946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,6 +2566,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1427456478}
     m_Modifications:
+    - target: {fileID: 1819181395631967876, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: attackObj
+      value: 
+      objectReference: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
     - target: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_RootOrder
       value: 0

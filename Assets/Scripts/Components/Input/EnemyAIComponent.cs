@@ -30,7 +30,7 @@ public class EnemyAIComponent : InputController
         //Random_Move();
 
         // For testing
-        Targetted_Ranged_Move(GameObject.Find("Player"), 5f);
+        Targetted_Ranged_Move(GameObject.Find("Player"), 5f, 6f);
     }
 
     // Randomly move around
@@ -73,7 +73,7 @@ public class EnemyAIComponent : InputController
 
     // Move torwards a target and attack (ranged)
     // MinDist is the minimum distance to keep from the target
-    private void Targetted_Ranged_Move(GameObject target, float minDist)
+    private void Targetted_Ranged_Move(GameObject target, float minDist, float attackRange)
     {
         float dist = Vector2.Distance(transform.position, target.transform.position);
         Vector2 dir = target.transform.position - transform.position;
@@ -88,6 +88,20 @@ public class EnemyAIComponent : InputController
             // Move towards the target
             base.InvokeMovementInput(dir);
         }
+
+        // If the target is within attack range, attack
+        if (dist < attackRange)
+        {
+            Attack(target);
+        }
+    }
+
+    // Attack a target
+    private void Attack(GameObject target)
+    {
+        // Invoke the event to notify listeners about the attack input
+
+        base.InvokeAttackInput(KeyCode.K, new AttackSpawnInfo(target.transform.position));
     }
 }
 
