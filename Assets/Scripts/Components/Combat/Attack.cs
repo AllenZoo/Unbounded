@@ -67,9 +67,20 @@ public class Attack : MonoBehaviour
     //   - Sets attack object to inactive.
     public void ResetAttack()
     {
-        Debug.Log("resetting attack");
+        StopAllCoroutines();
         hitTargets.Clear();
         this.gameObject.SetActive(false);
+    }
+
+    public void ResetAttackAfterTime(float time)
+    {
+        StartCoroutine(ResetAttackAfterTimeCoroutine(time));
+    }
+
+    private IEnumerator ResetAttackAfterTimeCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ResetAttack();
     }
 
     // Logic to determine what happens when the attack hits a target.
