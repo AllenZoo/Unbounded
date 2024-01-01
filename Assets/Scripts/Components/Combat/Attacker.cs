@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 
 public class Attacker : MonoBehaviour
 {
+    [SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
     [SerializeField] private GameObject attackObj;
     [SerializeField] private float cooldown = 0.5f;
     [SerializeField] private GameObject attackPool;
@@ -26,6 +27,9 @@ public class Attacker : MonoBehaviour
 
         attackPool = FindObjectOfType<AttackPool>().gameObject;
         Assert.IsNotNull(attackPool, "Attacker needs AttackPool");
+
+        // Check if target types has atleast one element.
+        Assert.IsTrue(targetTypes.Count > 0, "Attacker needs atleast one target type");
     }
 
     private void Start()
@@ -59,12 +63,15 @@ public class Attacker : MonoBehaviour
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
-        // Set newAttackObj inactive after attack.Duration
-        StartCoroutine(DeactivateAttack(newAttackObj, attack.Duration));
+        Attack newAttack = newAttackObj.GetComponent<Attack>();
 
+        newAttack.ResetAttackAfterTime(newAttack.Duration);
 
-        // TODO:  Set velocity of attack (get from Attack in attackObj)
-        // attack.GetComponent<Rigidbody2D>().velocity = 0;
+        // Set velocity of attack (get from Attack in attackObj)
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.InitialSpeed;
+
+        // Set valid EntityType targets for attack.
+        newAttack.TargetTypes = targetTypes;
     }
 
     public IEnumerator AttackCooldown()
@@ -77,7 +84,6 @@ public class Attacker : MonoBehaviour
     public IEnumerator DeactivateAttack(GameObject attackObj, float duration)
     {
         yield return new WaitForSeconds(duration);
-        attackObj.GetComponent<Attack>().Reset();
-        attackObj.SetActive(false);
+        attackObj.GetComponent<Attack>().ResetAttack();
     }
 }

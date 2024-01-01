@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Script attached to attack objects that contain info about the attack.
 [RequireComponent(typeof(Collider2D))]
@@ -9,11 +10,13 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     public event Action<Damageable> OnHit;
+    public List<EntityType> TargetTypes { get; set; }
 
     // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
     [SerializeField] private string attackName = "Attack";
     [SerializeField] private float damage = 5f;
     [SerializeField] private float duration = 0.5f;
+    [SerializeField] private float initialSpeed = 0f;
 
     [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
     [SerializeField] private Boolean isAOE = false;
@@ -25,7 +28,21 @@ public class Attack : MonoBehaviour
     [SerializeField] private Boolean isDOT = false;
     [SerializeField] private float dotDuration = 5f;
 
-    private List<Damageable> hitTargets = new List<Damageable>();
+    [Tooltip("If true, the attack will pierce through targets.")]
+    [SerializeField] private Boolean isPiercing = false;
+
+    [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
+
+    private void Awake()
+    {
+        // Checks to see RB2 and Collider2D components properties are correct.
+        
+        // Check if RB2 is kinematic.
+        Assert.IsTrue(GetComponent<Rigidbody2D>().isKinematic, "RB2D needs to be kinematic");
+
+        // Check if Collider2D is a trigger.
+        Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
+    }
 
     private void Start()
     {
@@ -34,7 +51,11 @@ public class Attack : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        Damageable target = collision.GetComponent<Damageable>();
+
+        // Check if root of collision has Damageable component. (Maybe add)
+        Damageable target = collision.gameObject.transform.root.GetComponent<Damageable>();
+
+        // Damageable target = collision.GetComponent<Damageable>();
         if (target != null)
         {
             OnHit?.Invoke(target);
@@ -42,14 +63,36 @@ public class Attack : MonoBehaviour
     }
 
     // For resetting the attack when it is disabled.
-    public void Reset()
+    //   - Clears hitTargets list.
+    //   - Sets attack object to inactive.
+    public void ResetAttack()
     {
+        StopAllCoroutines();
         hitTargets.Clear();
+        this.gameObject.SetActive(false);
+    }
+
+    public void ResetAttackAfterTime(float time)
+    {
+        StartCoroutine(ResetAttackAfterTimeCoroutine(time));
+    }
+
+    private IEnumerator ResetAttackAfterTimeCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ResetAttack();
     }
 
     // Logic to determine what happens when the attack hits a target.
     private void Hit(Damageable hit)
     {
+        // Check if hit target EntityType matches what the attack can hit.
+        if (!TargetTypes.Contains(hit.EntityType))
+        {
+            // Attack can't hit this target.
+            return;
+        }
+
         // Checks if hit already has been processed by this attack on this target.
         if (!canRepeat && hitTargets.Contains(hit))
         {
@@ -57,20 +100,24 @@ public class Attack : MonoBehaviour
             return;
         }
 
-        if (!isAOE)
-        {
-            // Destroy the attack object. (or set inactive if we want to reuse it)
-            gameObject.SetActive(false);
-        }
-
+        // Damage the target.
         if (isDOT)
         {
             hit.TakeDamageOverTime(this);
-            return; 
+            return;
         }
 
         hit.TakeDamage(damage);
         hitTargets.Add(hit);
+
+
+        // Resets the attack if conditions are met.
+        if (!isAOE || !isPiercing)
+        {
+            // Destroy the attack object. (or set inactive if we want to reuse it)
+            ResetAttack();
+            return;
+        }
     }
 
     #region Getters and Setters
@@ -92,6 +139,11 @@ public class Attack : MonoBehaviour
     public string Name
     {
         get { return attackName; }
+    }
+
+    public float InitialSpeed
+    {
+        get { return initialSpeed; }
     }
     #endregion
 }

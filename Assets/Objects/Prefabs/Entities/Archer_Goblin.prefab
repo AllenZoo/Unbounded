@@ -19,7 +19,8 @@ GameObject:
   - component: {fileID: -6282356925321559982}
   - component: {fileID: 2537435771086828967}
   - component: {fileID: 1713174469}
-  m_Layer: 0
+  - component: {fileID: 6267190135131815100}
+  m_Layer: 6
   m_Name: Archer_Goblin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +38,9 @@ Transform:
   m_LocalPosition: {x: -2.75, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5943380441519516068}
+  - {fileID: 7282639126342794371}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,6 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatType: 1
+  movementTimer: 0.5
+  aggroTarget: {fileID: 0}
 --- !u!114 &2927453995066883929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,3 +230,129 @@ CapsuleCollider2D:
   m_Offset: {x: -0.036150098, y: -0.036150128}
   m_Size: {x: 0.68669915, y: 0.92769974}
   m_Direction: 0
+--- !u!114 &6267190135131815100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927453995066883934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 1
+--- !u!1 &4160062725044798197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7282639126342794371}
+  - component: {fileID: 2012597375838743751}
+  - component: {fileID: 8935193011353247623}
+  m_Layer: 7
+  m_Name: AggroHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7282639126342794371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160062725044798197}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2927453995066883932}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2012597375838743751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160062725044798197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aggroRange: 7
+  aggroReleaseRange: 8
+  aggroDetecter: {fileID: 8935193011353247623}
+  aggroBrain: {fileID: 2927453995066883928}
+--- !u!58 &8935193011353247623
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160062725044798197}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 7
+--- !u!1 &5823682458718899363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5943380441519516068}
+  - component: {fileID: 1819181395631967876}
+  m_Layer: 0
+  m_Name: AttackHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5943380441519516068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5823682458718899363}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2927453995066883932}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1819181395631967876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5823682458718899363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTypes: 00000000
+  attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
+  cooldown: 1.5
+  attackPool: {fileID: 0}

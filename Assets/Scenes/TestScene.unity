@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer_Goblin (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
 --- !u!4 &69578697 stripped
@@ -473,6 +477,10 @@ PrefabInstance:
     - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_Name
       value: Archer_Goblin (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
@@ -1193,6 +1201,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer_Goblin (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
 --- !u!4 &1010042366 stripped
@@ -1254,6 +1266,10 @@ PrefabInstance:
     - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_Name
       value: Archer_Goblin (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
@@ -1460,6 +1476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer_Goblin (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
 --- !u!4 &1402456415 stripped
@@ -1482,7 +1502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1427456478
 Transform:
   m_ObjectHideFlags: 0
@@ -2809,6 +2829,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TargetDummy
       objectReference: {fileID: 0}
+    - target: {fileID: 6697286029762107670, guid: d89748c268418204b8f390820a60ed1d, type: 3}
+      propertyPath: entityType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d89748c268418204b8f390820a60ed1d, type: 3}
 --- !u!1001 &7405677661359215958
@@ -2818,14 +2842,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
-      propertyPath: cooldown
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
-      propertyPath: attackObj
-      value: 
-      objectReference: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
     - target: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_RootOrder
       value: 3
