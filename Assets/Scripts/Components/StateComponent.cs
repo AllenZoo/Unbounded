@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class StateComponent : MonoBehaviour
 {
-    public event Action<State> OnStateChanged;
+    // Old State, and New State.
+    public event Action<State, State> OnStateChanged;
     public State state { get; private set; } = State.IDLE;
 
     public void SetState(State state)
     {
+        State oldState = this.state;
         this.state = state;
-        OnStateChanged?.Invoke(this.state);
+        OnStateChanged?.Invoke(oldState, this.state);
     }
 }

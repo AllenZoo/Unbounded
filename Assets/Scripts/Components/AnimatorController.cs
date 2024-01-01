@@ -57,7 +57,7 @@ public class AnimatorController : MonoBehaviour
         SetMovementParameters();
     }
 
-    private void State_OnStateChanged(State obj)
+    private void State_OnStateChanged(State oldState, State newState)
     {
         Handle_Animation();
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles enemy inputs such as movement and attacking.
 [RequireComponent(typeof(StateComponent))]
 public class EnemyAIComponent : InputController
 {
@@ -11,6 +12,8 @@ public class EnemyAIComponent : InputController
 
     [SerializeField] private float movementTimer = 3f; // Time interval to change movement direction
     private float timer;
+
+    [SerializeField] private GameObject aggroTarget;
 
     private void Awake()
     {
@@ -21,16 +24,43 @@ public class EnemyAIComponent : InputController
     {
         // Set the initial timer value
         timer = movementTimer;
+
+        state.OnStateChanged += OnStateChange;
     }
 
     private void Update()
     {
         // Count down the timer
         timer -= Time.deltaTime;
-        //Random_Move();
 
-        // For testing
-        Targetted_Ranged_Move(GameObject.Find("Player"), 5f, 6f);
+        // Check if enemy is aggroed to a target.
+        if (aggroTarget != null)
+        {
+            // Aggroed
+            switch(combatType)
+            {
+                case CombatType.MELEE:
+                    Targetted_Move(aggroTarget);
+                    break;
+                case CombatType.RANGED:
+                    Targetted_Ranged_Move(aggroTarget, 5f, 6f);
+                    break;
+            }
+        } else
+        {
+            Random_Move();
+        }
+        
+    }
+
+    public void SetAggroTarget(GameObject target)
+    {
+        this.aggroTarget = target;
+    }
+
+    private void OnStateChange(State oldState, State newState)
+    {
+
     }
 
     // Randomly move around
@@ -103,8 +133,8 @@ public class EnemyAIComponent : InputController
             Attack(target);
         }
 
-        // Reset the timer
-        timer = movementTimer;
+        // Stutter the timer to prevent crazy movement.
+        timer = 0.5f;
     }
 
     // Attack a target
