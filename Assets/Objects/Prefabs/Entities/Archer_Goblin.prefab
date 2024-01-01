@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatType: 1
+  minDist: 5
+  attackRange: 6
   movementTimer: 0.5
   aggroTarget: {fileID: 0}
 --- !u!114 &2927453995066883929
@@ -292,6 +294,9 @@ MonoBehaviour:
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 8935193011353247623}
   aggroBrain: {fileID: 2927453995066883928}
+  aggroTarget: {fileID: 0}
+  distFromTarget: -1
+  isAggroed: 0
 --- !u!58 &8935193011353247623
 CircleCollider2D:
   m_ObjectHideFlags: 0

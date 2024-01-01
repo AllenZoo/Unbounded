@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Handles enemy inputs such as movement and attacking.
 [RequireComponent(typeof(StateComponent))]
@@ -10,13 +11,20 @@ public class EnemyAIComponent : InputController
     [SerializeField] private CombatType combatType;
     private StateComponent state;
 
+    [Tooltip("Minimum distance to keep from target")]
+    [SerializeField] private float minDist;
+    [SerializeField] private float attackRange;
+
+
     [SerializeField] private float movementTimer = 3f; // Time interval to change movement direction
     private float timer;
 
+    [Header("For debugging, don't assign value")]
     [SerializeField] private GameObject aggroTarget;
 
     private void Awake()
     {
+        Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
         state = GetComponent<StateComponent>();
     }
 
@@ -43,7 +51,7 @@ public class EnemyAIComponent : InputController
                     Targetted_Move(aggroTarget);
                     break;
                 case CombatType.RANGED:
-                    Targetted_Ranged_Move(aggroTarget, 5f, 6f);
+                    Targetted_Ranged_Move(aggroTarget, minDist, attackRange);
                     break;
             }
         } else
