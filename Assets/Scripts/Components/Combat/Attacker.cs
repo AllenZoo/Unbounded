@@ -10,6 +10,9 @@ public class Attacker : MonoBehaviour
     [SerializeField] private float cooldown = 0.5f;
     [SerializeField] private GameObject attackPool;
 
+    [Tooltip("Offset to rotate from attacker to spawn attack object.")]
+    [SerializeField] private float rotOffset = 0f;
+
     // Variable that we will receive inputs to attack.
     private InputController inputController;
     private Attack attack;
@@ -53,7 +56,7 @@ public class Attacker : MonoBehaviour
 
         Vector3 direction = info.mousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + rotOffset));
         Vector2 spawnPos = direction.normalized * offset + transform.position;
        
         // TODO: check if attackObj is in pool, use it. else, instantiate new one.
