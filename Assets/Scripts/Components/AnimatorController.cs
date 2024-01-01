@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(MotionComponent))]
 [RequireComponent(typeof(StateComponent))]
@@ -89,4 +90,5 @@ public class AnimatorController : MonoBehaviour
                 break;
         }
     }
+
 }

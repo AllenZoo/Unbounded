@@ -48,7 +48,7 @@ public class EnemyAIComponent : InputController
             switch(combatType)
             {
                 case CombatType.MELEE:
-                    Targetted_Move(aggroTarget);
+                    Targetted_Move(aggroTarget, attackRange);
                     break;
                 case CombatType.RANGED:
                     Targetted_Ranged_Move(aggroTarget, minDist, attackRange);
@@ -104,9 +104,29 @@ public class EnemyAIComponent : InputController
     }
 
     // Move torwards a target and attack (melee)
-    private void Targetted_Move(GameObject target)
+    private void Targetted_Move(GameObject target, float attackRange)
     {
+        // This is to prevent the enemy from stuttering and updating it's movement direction
+        // too frequently
+        if (timer >= 0f)
+        {
+            return;
+        }
 
+        state.SetState(State.RUNNING);
+        float dist = Vector2.Distance(transform.position, target.transform.position);
+        Vector2 dir = target.transform.position - transform.position;
+        // Move towards the target
+        base.InvokeMovementInput(dir);
+
+        // If the target is within attack range, attack
+        if (dist < attackRange)
+        {
+            Attack(target);
+        }
+
+        // Stutter the timer to prevent crazy movement.
+        timer = 0.5f;
     }
 
     // Move torwards a target and attack (ranged)
@@ -121,6 +141,7 @@ public class EnemyAIComponent : InputController
             return;
         }
 
+        state.SetState(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
         Vector2 dir = target.transform.position - transform.position;
         if (dist < minDist)
