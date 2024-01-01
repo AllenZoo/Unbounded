@@ -9,7 +9,7 @@ public class EnemyAIComponent : InputController
     [SerializeField] private CombatType combatType;
     private StateComponent state;
 
-    private float movementTimer = 3f; // Time interval to change movement direction
+    [SerializeField] private float movementTimer = 3f; // Time interval to change movement direction
     private float timer;
 
     private void Awake()
@@ -26,7 +26,7 @@ public class EnemyAIComponent : InputController
     private void Update()
     {
         // Count down the timer
-        //timer -= Time.deltaTime;
+        timer -= Time.deltaTime;
         //Random_Move();
 
         // For testing
@@ -75,6 +75,14 @@ public class EnemyAIComponent : InputController
     // MinDist is the minimum distance to keep from the target
     private void Targetted_Ranged_Move(GameObject target, float minDist, float attackRange)
     {
+
+        // This is to prevent the enemy from stuttering and updating it's movement direction
+        // too frequently
+        if (timer >= 0f)
+        {
+            return;
+        }
+
         float dist = Vector2.Distance(transform.position, target.transform.position);
         Vector2 dir = target.transform.position - transform.position;
         if (dist < minDist)
@@ -94,6 +102,9 @@ public class EnemyAIComponent : InputController
         {
             Attack(target);
         }
+
+        // Reset the timer
+        timer = movementTimer;
     }
 
     // Attack a target
