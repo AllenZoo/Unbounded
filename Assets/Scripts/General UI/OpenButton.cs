@@ -6,15 +6,19 @@ using UnityEngine.Assertions;
 // Script that handles the logic of opening the UI element assigned to the close button.
 public class OpenButton : MonoBehaviour
 {
-    [SerializeField] private GameObject uiElementToOpen;
+    [SerializeField] private List<GameObject> uiElementsToOpen;
 
     private void Start()
     {
-        Assert.IsNotNull(uiElementToOpen, "Open Button logic requires an UI element to open.");
+        Assert.IsTrue(uiElementsToOpen.Count > 0, "Open Button logic requires an UI element to open.");
     }
 
-    public void OpenUIElement()
+    // Manually subscribed to Button OnClick event.
+    public void OpenUIElements()
     {
-        uiElementToOpen.SetActive(true);
+        foreach (GameObject uiElements in uiElementsToOpen)
+        {
+            uiElements.SetActive(true);
+        }
     }
 }

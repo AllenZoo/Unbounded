@@ -17,9 +17,19 @@ public class Inventory
         data.items[index] = item.data;
     }
 
+    public void AddItem(int index, SO_Item item)
+    {
+        data.items[index] = item;
+    }
+
     public void RemoveItem(int index)
     {
         data.items[index] = null;
+    }
+
+    public SO_Item GetItem(int index)
+    {
+        return data.items[index];
     }
 
     public void SwapItems(int index1, int index2)

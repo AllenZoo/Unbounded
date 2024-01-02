@@ -8,18 +8,24 @@ using UnityEngine.UI;
 
 public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
-    public event Action<SlotUI> OnDragItem, OnEndDragItem, OnDropItem;
+    public event Action<InventorySystem, SlotUI> OnDragItem, OnEndDragItem, OnDropItem;
 
+    private InventoryUI inventoryUI;
+    private ItemHoverer itemHoverer;
+    private InventorySystem parentSystem;
+
+    [Header("For debugging, don't set via inspector.")]
+    [SerializeField] private int slotIndex;
     [SerializeField] private SO_Item itemData;
     [SerializeField] private GameObject itemIconElement;
-    private InventoryUI inventoryUI;
-    [SerializeField] private int slotIndex;
-    private ItemHoverer itemHoverer;
 
     private void Awake()
     {
         Assert.IsNotNull(itemIconElement, "Need item data sprite gameobject.");
         inventoryUI = GetComponentInParent<InventoryUI>();
+
+        parentSystem = GetComponentInParent<InventorySystem>();
+        Assert.IsNotNull(parentSystem, "SlotUI needs reference to parent inventory system.");
     }
 
     private void Start()
@@ -60,7 +66,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         // Set Data (TODO: maybe don't need slot index)
         itemHoverer.SetData(itemData);
         itemHoverer.SetSlotIndex(slotIndex);
-        OnDragItem?.Invoke(this);
+        OnDragItem?.Invoke(parentSystem, this);
     }
 
     // On End Drag (check if this calls first, or OnDrop)
@@ -68,7 +74,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     // 2. 
     public void OnEndDrag(PointerEventData eventData)
     {
-        OnEndDragItem?.Invoke(this);
+        OnEndDragItem?.Invoke(parentSystem, this);
     }
 
     // On Drop
@@ -76,7 +82,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("Mouse released over slot index: " + slotIndex);
-        OnDropItem?.Invoke(this);
+        OnDropItem?.Invoke(parentSystem, this);
     }
 
     #region Setters and Getters

@@ -13,7 +13,9 @@ public class InventoryUI : MonoBehaviour
 
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
+    // Within the same inventory.
     public event Action<int, int> OnSwapItems;
+   
 
     [SerializeField] private SO_Inventory inventoryData;
     [SerializeField] private GameObject inventorySlotParent;
@@ -21,8 +23,10 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventoryTitle;
 
     private List<SlotUI> slots = new List<SlotUI>();
-    private int selectedSlotIndex = -1;
-    
+
+    //private int selectedSlotIndex = -1;
+    //private InventorySystem selectedSlotInventorySystem = null;
+
 
     private void Awake()
     {
@@ -81,7 +85,7 @@ public class InventoryUI : MonoBehaviour
         Rerender();
     }
 
-    // TODO: On inventory data change, rerender UI.
+    // TODO: On inventory data change, rerender UI. Currently done manually in InventorySystem.
     public void Rerender()
     {
         // Check if InventoryUI is active
@@ -102,27 +106,43 @@ public class InventoryUI : MonoBehaviour
     }
 
     // Modify selected slot index to slot that is being dragged.
-    public void OnSlotDrag(SlotUI slot)
+    public void OnSlotDrag(InventorySystem system, SlotUI slot)
     {
-        selectedSlotIndex  = slot.GetSlotIndex();
+        InventorySwapperManager.Instance.selectedSlotIndex  = slot.GetSlotIndex();
+        InventorySwapperManager.Instance.selectedSlotInventorySystem = system;
     }
 
     // Reset selected slot index.
-    public void OnSlotEndDrag(SlotUI slot)
+    public void OnSlotEndDrag(InventorySystem system, SlotUI slot)
     {
-        selectedSlotIndex = -1;
+        InventorySwapperManager.Instance.ResetSelection();
     }
 
     // Swap items in slot
-    public void OnSlotDrop(SlotUI slot)
+    public void OnSlotDrop(InventorySystem system, SlotUI slot)
     {
         // Check if selected slot index is valid.
-        if (selectedSlotIndex == -1)
+        if (InventorySwapperManager.Instance.selectedSlotIndex == -1)
         {
             return;
         }
-        int slotIndex = slot.GetSlotIndex();
-        OnSwapItems?.Invoke(selectedSlotIndex, slotIndex);
-        selectedSlotIndex = -1;
+
+        Assert.IsNotNull(InventorySwapperManager.Instance.selectedSlotInventorySystem, "Selected slot inventory system is null.");
+        // Check if item dropped on same system or different system.
+        if (system != InventorySwapperManager.Instance.selectedSlotInventorySystem)
+        {
+            // Different system, swap externally. (Could make this an event call, but would require extra checks in Swap function)
+            system.SwapItemsBetweenSystems(
+                InventorySwapperManager.Instance.selectedSlotInventorySystem,
+                InventorySwapperManager.Instance.selectedSlotIndex, 
+                slot.GetSlotIndex());
+            InventorySwapperManager.Instance.ResetSelection();
+        } else
+        {
+            // Same System, swap internally.
+            OnSwapItems?.Invoke(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+            InventorySwapperManager.Instance.ResetSelection();
+        }
     }
+
 }

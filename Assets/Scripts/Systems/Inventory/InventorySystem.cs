@@ -73,4 +73,21 @@ public class InventorySystem : MonoBehaviour
         inventory.SwapItems(index1, index2);
         onInventoryDataChange?.Invoke();
     }
+
+    // Switch items between two inventory systems
+    public void SwapItemsBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
+    {
+        SO_Item tempThis = inventory.GetItem(thisIndex);
+        SO_Item tempOther = other.inventory.GetItem(otherIndex);
+
+        inventory.RemoveItem(thisIndex);
+        inventory.AddItem(thisIndex, tempOther);
+
+        other.inventory.RemoveItem(otherIndex);
+        other.inventory.AddItem(otherIndex, tempThis);
+
+        // Invoke events.
+        onInventoryDataChange?.Invoke();
+        other.onInventoryDataChange?.Invoke();
+    }
 }
