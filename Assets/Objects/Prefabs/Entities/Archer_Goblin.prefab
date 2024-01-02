@@ -189,6 +189,7 @@ MonoBehaviour:
   damageable: {fileID: 2927453993558771945}
   knockbackable: {fileID: 2040274624}
   debuggingState: 0
+  crowdControlStates: 05000000
 --- !u!95 &-6282356925321559982
 Animator:
   serializedVersion: 5
@@ -322,7 +323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5943380441519516068
 Transform:
   m_ObjectHideFlags: 0

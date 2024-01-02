@@ -12,6 +12,12 @@ public class AnimatorController : MonoBehaviour
     public static string IDLE_ANIMATION_NAME = "Idle";
     public static string WALKING_ANIMATION_NAME = "Walking";
     public static string RUNNING_ANIMATION_NAME = "Running";
+    public static string ATTACKING_ANIMATION_NAME = "Attacking";
+    public static string STUNNED_ANIMATION_NAME = "Stunned";
+
+    // Update this whenever a new animation is added.
+    // TODO: incorporate this in checking for animation clips.
+    private static int ANIMATION_CLIP_COUNT = 5;
 
     // Animator Parameter Names
     public static string DIRECTION_PARAMETER_X = "xDir";
@@ -61,6 +67,7 @@ public class AnimatorController : MonoBehaviour
     private void State_OnStateChanged(State oldState, State newState)
     {
         Handle_Animation();
+        // Handle_Effects();
     }
 
     private void SetMovementParameters()
@@ -84,6 +91,12 @@ public class AnimatorController : MonoBehaviour
                 break;
             case State.RUNNING:
                 animator.Play(RUNNING_ANIMATION_NAME);
+                break;
+            case State.STUNNED:
+                animator.Play(STUNNED_ANIMATION_NAME);
+                break;
+            case State.ATTACKING:
+                animator.Play(ATTACKING_ANIMATION_NAME);
                 break;
             default:
                 Debug.LogWarning("Implement animator for state: " + state.state.ToString());

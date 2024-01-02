@@ -122,6 +122,7 @@ public class EnemyAIComponent : InputController
         // If the target is within attack range, attack
         if (dist < attackRange)
         {
+            state.ReqStateChange(State.ATTACKING);
             Attack(target);
         }
 
@@ -159,6 +160,7 @@ public class EnemyAIComponent : InputController
         // If the target is within attack range, attack
         if (dist < attackRange)
         {
+            state.ReqStateChange(State.ATTACKING);
             Attack(target);
         }
 

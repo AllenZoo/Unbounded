@@ -8,6 +8,7 @@ public enum State
    WALKING,
    RUNNING,
    DAMAGED,
+   ATTACKING,
    STUNNED,
    CCFREE,
 }
