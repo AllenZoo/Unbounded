@@ -8,6 +8,9 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
+    // For changing colour of the sprite (giving it a tint) based on state.
+    [SerializeField] private SpriteRenderer sprite;
+
     // Animation Names
     public static string IDLE_ANIMATION_NAME = "Idle";
     public static string WALKING_ANIMATION_NAME = "Walking";
@@ -37,6 +40,13 @@ public class AnimatorController : MonoBehaviour
         motion = GetComponent<MotionComponent>();
         state = GetComponent<StateComponent>();
         animator = GetComponent<Animator>();
+
+
+        if (sprite == null)
+        {
+            sprite = GetComponent<SpriteRenderer>();
+        }
+        Assert.IsNotNull(sprite, "SpriteRenderer null in animation controller for object: " + gameObject);
     }
 
     private void Start()
@@ -67,7 +77,7 @@ public class AnimatorController : MonoBehaviour
     private void State_OnStateChanged(State oldState, State newState)
     {
         Handle_Animation();
-        // Handle_Effects();
+        Handle_Effects();
     }
 
     private void SetMovementParameters()
@@ -105,4 +115,17 @@ public class AnimatorController : MonoBehaviour
         }
     }
 
+    // Modifies the sprite colour
+    private void Handle_Effects()
+    {
+        switch (state.state)
+        {
+            case State.STUNNED:
+                sprite.color = new Color(0.745283f, 0.614507f, 0.614507f);
+                break;
+            default:
+                sprite.color = Color.white;
+                break;
+        }
+    }
 }
