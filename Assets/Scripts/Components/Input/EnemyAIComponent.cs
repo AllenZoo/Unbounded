@@ -91,11 +91,11 @@ public class EnemyAIComponent : InputController
             // Set state to WALKING (handle state in State component later)
             if (randX != 0 || randY != 0)
             {
-                state.SetState(State.WALKING);
+                state.ReqStateChange(State.WALKING);
             }
             else
             {
-                state.SetState(State.IDLE);
+                state.ReqStateChange(State.IDLE);
             }
 
             // Reset the timer
@@ -113,7 +113,7 @@ public class EnemyAIComponent : InputController
             return;
         }
 
-        state.SetState(State.RUNNING);
+        state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
         Vector2 dir = target.transform.position - transform.position;
         // Move towards the target
@@ -141,7 +141,7 @@ public class EnemyAIComponent : InputController
             return;
         }
 
-        state.SetState(State.RUNNING);
+        state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
         Vector2 dir = target.transform.position - transform.position;
         if (dist < minDist)

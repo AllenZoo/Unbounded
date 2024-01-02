@@ -86,7 +86,8 @@ public class AnimatorController : MonoBehaviour
                 animator.Play(RUNNING_ANIMATION_NAME);
                 break;
             default:
-                Debug.LogError("Encountered invalid state: " + state.state.ToString());
+                Debug.LogWarning("Implement animator for state: " + state.state.ToString());
+                //Debug.LogError("Encountered invalid state: " + state.state.ToString());
                 break;
         }
     }

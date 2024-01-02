@@ -7,4 +7,7 @@ public enum State
    IDLE,
    WALKING,
    RUNNING,
+   DAMAGED,
+   STUNNED,
+   CCFREE,
 }
