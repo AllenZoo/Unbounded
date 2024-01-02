@@ -2140,10 +2140,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shaman_Orc
       objectReference: {fileID: 0}
-    - target: {fileID: 1489280840202876609, guid: 4a55371537d42634e9d81dd96b389d67, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a55371537d42634e9d81dd96b389d67, type: 3}
 --- !u!1001 &2136167022698602201
@@ -2200,10 +2196,6 @@ PrefabInstance:
     - target: {fileID: 3820556010379128882, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
       propertyPath: m_Name
       value: Club_Goblin
-      objectReference: {fileID: 0}
-    - target: {fileID: 3820556010379128882, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
@@ -2687,6 +2679,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer_Goblin
       objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
 --- !u!4 &2927453994726665961 stripped
@@ -2920,10 +2916,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
-      propertyPath: rotOffset
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_RootOrder
       value: 3

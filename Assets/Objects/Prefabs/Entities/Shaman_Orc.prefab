@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &915452586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 915452587}
+  - component: {fileID: 915452590}
+  - component: {fileID: 915452589}
+  - component: {fileID: 915452588}
+  m_Layer: 6
+  m_Name: HitboxCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &915452587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915452586}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1489280840202876608}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &915452590
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915452586}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.5, y: 1}
+  m_Direction: 0
+--- !u!114 &915452589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915452586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 1
+  stat: {fileID: 1489280840202876662}
+--- !u!114 &915452588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915452586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943b4c603787f7a4e8b63501261d9674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1489280840202876616}
+  currentlyKnockbackable: 1
 --- !u!1 &1489280840202876609
 GameObject:
   m_ObjectHideFlags: 0
@@ -19,7 +97,6 @@ GameObject:
   - component: {fileID: 1489280840202876619}
   - component: {fileID: 1489280840202876620}
   - component: {fileID: 1489280840202876621}
-  - component: {fileID: 1489280840202876622}
   m_Layer: 6
   m_Name: Shaman_Orc
   m_TagString: Untagged
@@ -41,6 +118,7 @@ Transform:
   m_Children:
   - {fileID: 1489280841367128980}
   - {fileID: 1489280840952041257}
+  - {fileID: 915452587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -133,7 +211,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -154,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementEnabled: 1
 --- !u!114 &1489280840202876623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +262,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animatorController: {fileID: 1489280840202876620}
+  movementController: {fileID: 1489280840202876617}
+  damageable: {fileID: 915452589}
+  knockbackable: {fileID: 915452588}
   debuggingState: 0
+  crowdControlStates: 05000000
 --- !u!95 &1489280840202876619
 Animator:
   serializedVersion: 5
@@ -233,19 +317,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.036150098, y: -0.036150128}
   m_Size: {x: 0.68669915, y: 0.92769974}
   m_Direction: 0
---- !u!114 &1489280840202876622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1489280840202876609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityType: 1
 --- !u!1 &1489280840952041258
 GameObject:
   m_ObjectHideFlags: 0

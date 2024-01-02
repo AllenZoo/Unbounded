@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1491955253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1491955254}
+  - component: {fileID: 1491955255}
+  - component: {fileID: 7694019108583975917}
+  - component: {fileID: 6305350193626298311}
+  m_Layer: 6
+  m_Name: HitboxCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1491955254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491955253}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3820556010379128880}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1491955255
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491955253}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.027505636, y: -0.010002077}
+  m_Size: {x: 0.80506086, y: 0.9099821}
+  m_Direction: 0
+--- !u!114 &7694019108583975917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491955253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 1
+  stat: {fileID: 3820556010379128887}
+--- !u!114 &6305350193626298311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491955253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943b4c603787f7a4e8b63501261d9674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 3820556010379128906}
+  currentlyKnockbackable: 1
 --- !u!1 &2602715096236969369
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +165,6 @@ GameObject:
   - component: {fileID: 3852166748880867134}
   - component: {fileID: 4509221384095546059}
   - component: {fileID: 2136167021568538793}
-  - component: {fileID: 5430418316273316816}
   m_Layer: 6
   m_Name: Club_Goblin
   m_TagString: Untagged
@@ -109,6 +186,7 @@ Transform:
   m_Children:
   - {fileID: 5755056698471851720}
   - {fileID: 8697595634097992687}
+  - {fileID: 1491955254}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -201,7 +279,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -222,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementEnabled: 1
 --- !u!114 &3820556010379128884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +330,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animatorController: {fileID: 4509221384095546059}
+  movementController: {fileID: 3820556010379128907}
+  damageable: {fileID: 7694019108583975917}
+  knockbackable: {fileID: 6305350193626298311}
+  debuggingState: 0
+  crowdControlStates: 05000000
 --- !u!95 &3852166748880867134
 Animator:
   serializedVersion: 5
@@ -300,19 +385,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.036150098, y: -0.036150128}
   m_Size: {x: 0.68669915, y: 0.92769974}
   m_Direction: 0
---- !u!114 &5430418316273316816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3820556010379128882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityType: 1
 --- !u!1 &5581315368787297231
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,3 +433,4 @@ MonoBehaviour:
   attackObj: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
   cooldown: 1
   attackPool: {fileID: 0}
+  rotOffset: 0

@@ -12,7 +12,7 @@ public class StateComponent : MonoBehaviour
     public State state { get; private set; } = State.IDLE;
 
     // Can be null.
-    [Header("Can be null.")]
+    [Header("Can be null. Set if we want to control behaviours based on state.")]
     [SerializeField] private AnimatorController animatorController;
     [SerializeField] private MovementController movementController;
 
@@ -22,6 +22,14 @@ public class StateComponent : MonoBehaviour
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField] State debuggingState = State.IDLE;
     [SerializeField] private List<State> crowdControlStates = new List<State>() {State.STUNNED };
+
+    private void Awake()
+    {
+        if (animatorController == null || movementController == null) {
+            Debug.LogWarning("Have not serialized animatorController or movementController. This means that animations and movement requests" +
+                "will not be affected by States");
+        }
+    }
 
     private void Start()
     {
