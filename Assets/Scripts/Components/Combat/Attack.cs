@@ -36,6 +36,9 @@ public class Attack : MonoBehaviour
     [Tooltip("If true, the attack will pierce through targets.")]
     [SerializeField] private Boolean isPiercing = false;
 
+    [Tooltip("If true, the attack will last until duration is over.")]
+    [SerializeField] private Boolean lastsUntilDuration = false;
+
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
 
     private void Awake()
@@ -127,7 +130,7 @@ public class Attack : MonoBehaviour
 
 
         // Resets the attack if conditions are met.
-        if (!isAOE || !isPiercing)
+        if (!isAOE && !isPiercing && !lastsUntilDuration)
         {
             // Destroy the attack object. (or set inactive if we want to reuse it)
             ResetAttack();

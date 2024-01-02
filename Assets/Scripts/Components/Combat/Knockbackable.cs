@@ -30,8 +30,14 @@ public class Knockbackable : MonoBehaviour
         rb.mass = 5;
     }
 
+    // Knockbacks the attached entity if currentlyKnockbackable is true.
     public void Knockback(Vector2 direction, float force, float duration)
     {
+        if (!currentlyKnockbackable)
+        {
+            Debug.Log("Tried to knockback currently unknockbackable entity.");
+            return;
+        }
         StartCoroutine(ApplyKnockback(direction, force, duration));
     }
 
@@ -42,13 +48,13 @@ public class Knockbackable : MonoBehaviour
 
     private IEnumerator ApplyKnockback(Vector2 direction, float force, float duration)
     {
-        Debug.Log("Knockback start!");
+        // Debug.Log("Knockback start!");
         OnKnockBackBegin?.Invoke(direction, force);
         rb.velocity = Vector2.zero;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
         yield return new WaitForSeconds(duration);
         rb.velocity = Vector2.zero;
-        Debug.Log("Knockback ended!");
+        // Debug.Log("Knockback ended!");
         OnKnockBackEnd?.Invoke();
     }
 }

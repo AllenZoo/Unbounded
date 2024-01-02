@@ -10,5 +10,6 @@ public enum State
    DAMAGED,
    ATTACKING,
    STUNNED,
+   DEAD,
    CCFREE,
 }

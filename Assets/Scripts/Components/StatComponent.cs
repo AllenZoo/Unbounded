@@ -51,8 +51,8 @@ public class StatComponent : MonoBehaviour
                 break;
         }
         OnStatChange?.Invoke(this, statModifier);
-        Debug.Log("Modified stat: " + statModifier.Stat + " by " + statModifier.Value);
-        Debug.Log("Cur health: " + health + " max health: " + maxHealth);
+       // Debug.Log("Modified stat: " + statModifier.Stat + " by " + statModifier.Value);
+       // Debug.Log("Cur health: " + health + " max health: " + maxHealth);
     }
 
     public float GetCurStat(Stat stat)

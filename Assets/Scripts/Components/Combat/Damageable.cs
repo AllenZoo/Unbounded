@@ -29,6 +29,14 @@ public class Damageable : MonoBehaviour
     public void TakeDamage(float damage)
     {
         stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
+
+        // TODO: think about where to move this logic to.
+        if (stat.GetCurStat(Stat.HP) <= 0)
+        {
+            // TODO: add death animation.
+            // Destroy(gameObject);
+            Debug.Log("" + gameObject.transform.parent.gameObject.name + " has died.");
+        }
     }
 
     public void TakeDamageOverTime(Attack attack)
