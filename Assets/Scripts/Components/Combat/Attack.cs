@@ -10,13 +10,17 @@ using UnityEngine.Assertions;
 public class Attack : MonoBehaviour
 {
     public event Action<Damageable> OnHit;
-    public List<EntityType> TargetTypes { get; set; }
+    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
     [SerializeField] private string attackName = "Attack";
     [SerializeField] private float damage = 5f;
     [SerializeField] private float duration = 0.5f;
     [SerializeField] private float initialSpeed = 0f;
+
+    [Tooltip("time it takes to charge up attack.")]
+    [SerializeField] private float chargeUp = 0f;
+    [SerializeField] private float knockback = 0f;
 
     [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
     [SerializeField] private Boolean isAOE = false;
@@ -144,6 +148,11 @@ public class Attack : MonoBehaviour
     public float InitialSpeed
     {
         get { return initialSpeed; }
+    }
+
+    public float ChargeUp
+    {
+        get { return chargeUp; }
     }
     #endregion
 }

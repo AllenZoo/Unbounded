@@ -59,7 +59,7 @@ public class Attacker : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + rotOffset));
         Vector2 spawnPos = direction.normalized * offset + transform.position;
        
-        // TODO: check if attackObj is in pool, use it. else, instantiate new one.
+        // Check if attackObj is in pool, use it. else, instantiate new one.
         // Spawn attack object a certain distance from attacker, rotated towards mouse.
         GameObject newAttackObj = attackPool.GetComponent<AttackPool>().GetAttack(attackObj);
         newAttackObj.transform.position = spawnPos;
@@ -67,7 +67,6 @@ public class Attacker : MonoBehaviour
         newAttackObj.SetActive(true);
 
         Attack newAttack = newAttackObj.GetComponent<Attack>();
-
         newAttack.ResetAttackAfterTime(newAttack.Duration);
 
         // Set velocity of attack (get from Attack in attackObj)
@@ -75,6 +74,13 @@ public class Attacker : MonoBehaviour
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
+    }
+
+    // Handles setting non-transform property of attacks..
+    public IEnumerator ChargeUpAttack(Attack attack)
+    {
+        // Charge up attack
+        yield return new WaitForSeconds(attack.ChargeUp);
     }
 
     public IEnumerator AttackCooldown()
