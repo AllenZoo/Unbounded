@@ -71,6 +71,11 @@ public class StateComponent : MonoBehaviour
         }
     }
 
+    public List<State> GetCCStates
+    {
+        get { return crowdControlStates; }
+    }
+
     private void SetState(State state)
     {
         State oldState = this.state;
