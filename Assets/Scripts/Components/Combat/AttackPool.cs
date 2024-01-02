@@ -12,7 +12,10 @@ public class AttackPool : MonoBehaviour
 
     private void Awake()
     {
-        subPoolPrefab = new GameObject();
+        if (subPoolPrefab == null)
+        {
+            subPoolPrefab = Instantiate(new GameObject(), this.transform);
+        }
     }
 
     // Check if any attack is not active. return that attack to reuse.

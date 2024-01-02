@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovementController : MonoBehaviour
 {
+    [SerializeField] private bool movementEnabled = true;
     private MotionComponent motion;
     private StatComponent stat;
     private Rigidbody2D rb;
@@ -17,6 +18,20 @@ public class MovementController : MonoBehaviour
         motion = GetComponent<MotionComponent>();
         stat = GetComponent<StatComponent>();
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (movementEnabled)
+        {
+            HandleMovement();
+        }
+
+    }
+
+    public void SetMovementEnabled(bool enabled)
+    {
+        movementEnabled = enabled;
     }
 
     // Calculates velocity and moves gameobject appropriately
@@ -32,10 +47,6 @@ public class MovementController : MonoBehaviour
 
         // 2. Apply translation
         rb.velocity = velocity;
-    }
+    }    
 
-    private void FixedUpdate()
-    {
-        HandleMovement();
-    }
 }

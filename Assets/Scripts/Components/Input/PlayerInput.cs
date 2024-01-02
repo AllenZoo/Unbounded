@@ -35,10 +35,10 @@ public class PlayerInput : InputController
         // Set state to WALKING (handle state in helper later)
         if (horizontal != 0 || vertical != 0)
         {
-            state.SetState(State.WALKING);
+            state.ReqStateChange(State.WALKING);
         } else
         {
-            state.SetState(State.IDLE);
+            state.ReqStateChange(State.IDLE);
         }
     }
 

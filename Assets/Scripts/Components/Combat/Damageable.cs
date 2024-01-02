@@ -1,27 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-[RequireComponent(typeof(StatComponent))]
+[RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
     public EntityType EntityType { get { return entityType; } }
 
-    private StatComponent stat;
+    [SerializeField] private StatComponent stat;
 
     // Refers to dot attacks that the Damageable is currently taking damage from.
     private List<Attack> dotAttacks;
 
     private void Awake()
     {
-        stat = GetComponent<StatComponent>();
+        Assert.IsNotNull(stat, "Damageable object needs a stat component to deal damage to");
+        
+        // Check that collider2d on object with this script is a trigger.
+        Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
+        
+        // Set collider2d to be a trigger.
+        GetComponent<Collider2D>().isTrigger = true;
     }
 
     public void TakeDamage(float damage)
     {
         stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
+
+        // TODO: think about where to move this logic to.
+        if (stat.GetCurStat(Stat.HP) <= 0)
+        {
+            // TODO: add death animation.
+            // Destroy(gameObject);
+            Debug.Log("" + gameObject.transform.parent.gameObject.name + " has died.");
+        }
     }
 
     public void TakeDamageOverTime(Attack attack)

@@ -47,14 +47,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b0fe1e785318749a07853fd5d3661e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetTypes: 
   attackName: SwordSlash|
   damage: 5
-  duration: 0.5
+  duration: 0.2
   initialSpeed: 0
+  chargeUp: 0
+  knockback: 0
+  stunDuration: 1
   isAOE: 1
   canRepeat: 0
   isDOT: 0
   dotDuration: 5
+  isPiercing: 0
+  lastsUntilDuration: 1
+  hitTargets: []
 --- !u!212 &2714405999033833535
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -96,7 +103,7 @@ SpriteRenderer:
   m_SortingLayerID: -374378069
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ece3e85f5ef16e045b30a331e91f0bb0, type: 3}
+  m_Sprite: {fileID: 1630239925, guid: 76edf7bb4de23b247a1415683d9cad09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +131,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 2.1979167}
+    oldSize: {x: 1.5625, y: 2.25}
     newSize: {x: 1.375, y: 1.3125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

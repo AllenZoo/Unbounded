@@ -10,13 +10,18 @@ using UnityEngine.Assertions;
 public class Attack : MonoBehaviour
 {
     public event Action<Damageable> OnHit;
-    public List<EntityType> TargetTypes { get; set; }
+    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
     [SerializeField] private string attackName = "Attack";
     [SerializeField] private float damage = 5f;
     [SerializeField] private float duration = 0.5f;
     [SerializeField] private float initialSpeed = 0f;
+
+    [Tooltip("time it takes to charge up attack.")]
+    [SerializeField] private float chargeUp = 0f;
+    [SerializeField] private float knockback = 0f;
+    [SerializeField] private float stunDuration = 1f;
 
     [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
     [SerializeField] private Boolean isAOE = false;
@@ -30,6 +35,9 @@ public class Attack : MonoBehaviour
 
     [Tooltip("If true, the attack will pierce through targets.")]
     [SerializeField] private Boolean isPiercing = false;
+
+    [Tooltip("If true, the attack will last until duration is over.")]
+    [SerializeField] private Boolean lastsUntilDuration = false;
 
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
 
@@ -52,10 +60,8 @@ public class Attack : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
 
-        // Check if root of collision has Damageable component. (Maybe add)
-        Damageable target = collision.gameObject.transform.root.GetComponent<Damageable>();
-
-        // Damageable target = collision.GetComponent<Damageable>();
+        // All Damageable objects have a collider2d and Damageable component.
+        Damageable target = collision.GetComponent<Damageable>();
         if (target != null)
         {
             OnHit?.Invoke(target);
@@ -109,10 +115,22 @@ public class Attack : MonoBehaviour
 
         hit.TakeDamage(damage);
         hitTargets.Add(hit);
+        
+        // Knockback the target if:
+        //      - attack has knockback
+        //      - target is knockbackable
+        if (knockback > 0)
+        {
+            Knockbackable kb = hit.GetComponent<Knockbackable>();
+            if (kb != null)
+            {
+                kb.Knockback(hit.transform.position - this.transform.position, knockback, stunDuration);
+            }
+        }
 
 
         // Resets the attack if conditions are met.
-        if (!isAOE || !isPiercing)
+        if (!isAOE && !isPiercing && !lastsUntilDuration)
         {
             // Destroy the attack object. (or set inactive if we want to reuse it)
             ResetAttack();
@@ -144,6 +162,11 @@ public class Attack : MonoBehaviour
     public float InitialSpeed
     {
         get { return initialSpeed; }
+    }
+
+    public float ChargeUp
+    {
+        get { return chargeUp; }
     }
     #endregion
 }

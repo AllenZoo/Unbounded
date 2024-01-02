@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(MotionComponent))]
 [RequireComponent(typeof(StateComponent))]
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
+    // For changing colour of the sprite (giving it a tint) based on state.
+    [SerializeField] private SpriteRenderer sprite;
+
     // Animation Names
     public static string IDLE_ANIMATION_NAME = "Idle";
     public static string WALKING_ANIMATION_NAME = "Walking";
     public static string RUNNING_ANIMATION_NAME = "Running";
+    public static string ATTACKING_ANIMATION_NAME = "Attacking";
+    public static string STUNNED_ANIMATION_NAME = "Stunned";
+
+    // Update this whenever a new animation is added.
+    // TODO: incorporate this in checking for animation clips.
+    private static int ANIMATION_CLIP_COUNT = 5;
 
     // Animator Parameter Names
     public static string DIRECTION_PARAMETER_X = "xDir";
@@ -25,11 +35,20 @@ public class AnimatorController : MonoBehaviour
     private StateComponent state;
     private Animator animator;
 
+    private State lastNonCCState;
+
     private void Awake()
     {
         motion = GetComponent<MotionComponent>();
         state = GetComponent<StateComponent>();
         animator = GetComponent<Animator>();
+
+
+        if (sprite == null)
+        {
+            sprite = GetComponent<SpriteRenderer>();
+        }
+        Assert.IsNotNull(sprite, "SpriteRenderer null in animation controller for object: " + gameObject);
     }
 
     private void Start()
@@ -59,7 +78,13 @@ public class AnimatorController : MonoBehaviour
 
     private void State_OnStateChanged(State oldState, State newState)
     {
-        Handle_Animation();
+        if (!state.GetCCStates.Contains(newState))
+        {
+            lastNonCCState = newState;
+        }
+
+        Handle_Animation(state.state);
+        Handle_Effects(state.state);
     }
 
     private void SetMovementParameters()
@@ -71,9 +96,9 @@ public class AnimatorController : MonoBehaviour
     }
 
     // Modifies the state of the animator 
-    private void Handle_Animation()
+    private void Handle_Animation(State state)
     {
-        switch (state.state)
+        switch (state)
         {
             case State.IDLE:
                 animator.Play(IDLE_ANIMATION_NAME);
@@ -84,8 +109,29 @@ public class AnimatorController : MonoBehaviour
             case State.RUNNING:
                 animator.Play(RUNNING_ANIMATION_NAME);
                 break;
+            case State.STUNNED:
+                animator.Play(STUNNED_ANIMATION_NAME);
+                break;
+            case State.ATTACKING:
+                animator.Play(ATTACKING_ANIMATION_NAME);
+                break;
             default:
-                Debug.LogError("Encountered invalid state: " + state.state.ToString());
+                Debug.LogWarning("Implement animator for state: " + state.ToString());
+                //Debug.LogError("Encountered invalid state: " + state.state.ToString());
+                break;
+        }
+    }
+
+    // Modifies the sprite colour
+    private void Handle_Effects(State state)
+    {
+        switch (state)
+        {
+            case State.STUNNED:
+                sprite.color = new Color(0.745283f, 0.614507f, 0.614507f);
+                break;
+            default:
+                sprite.color = Color.white;
                 break;
         }
     }

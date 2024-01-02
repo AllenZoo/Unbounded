@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Handles enemy inputs such as movement and attacking.
 [RequireComponent(typeof(StateComponent))]
@@ -10,13 +11,20 @@ public class EnemyAIComponent : InputController
     [SerializeField] private CombatType combatType;
     private StateComponent state;
 
+    [Tooltip("Minimum distance to keep from target")]
+    [SerializeField] private float minDist;
+    [SerializeField] private float attackRange;
+
+
     [SerializeField] private float movementTimer = 3f; // Time interval to change movement direction
     private float timer;
 
+    [Header("For debugging, don't assign value")]
     [SerializeField] private GameObject aggroTarget;
 
     private void Awake()
     {
+        Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
         state = GetComponent<StateComponent>();
     }
 
@@ -40,10 +48,10 @@ public class EnemyAIComponent : InputController
             switch(combatType)
             {
                 case CombatType.MELEE:
-                    Targetted_Move(aggroTarget);
+                    Targetted_Move(aggroTarget, attackRange);
                     break;
                 case CombatType.RANGED:
-                    Targetted_Ranged_Move(aggroTarget, 5f, 6f);
+                    Targetted_Ranged_Move(aggroTarget, minDist, attackRange);
                     break;
             }
         } else
@@ -83,11 +91,11 @@ public class EnemyAIComponent : InputController
             // Set state to WALKING (handle state in State component later)
             if (randX != 0 || randY != 0)
             {
-                state.SetState(State.WALKING);
+                state.ReqStateChange(State.WALKING);
             }
             else
             {
-                state.SetState(State.IDLE);
+                state.ReqStateChange(State.IDLE);
             }
 
             // Reset the timer
@@ -96,9 +104,30 @@ public class EnemyAIComponent : InputController
     }
 
     // Move torwards a target and attack (melee)
-    private void Targetted_Move(GameObject target)
+    private void Targetted_Move(GameObject target, float attackRange)
     {
+        // This is to prevent the enemy from stuttering and updating it's movement direction
+        // too frequently
+        if (timer >= 0f)
+        {
+            return;
+        }
 
+        state.ReqStateChange(State.RUNNING);
+        float dist = Vector2.Distance(transform.position, target.transform.position);
+        Vector2 dir = target.transform.position - transform.position;
+        // Move towards the target
+        base.InvokeMovementInput(dir);
+
+        // If the target is within attack range, attack
+        if (dist < attackRange)
+        {
+            state.ReqStateChange(State.ATTACKING);
+            Attack(target);
+        }
+
+        // Stutter the timer to prevent crazy movement.
+        timer = 0.5f;
     }
 
     // Move torwards a target and attack (ranged)
@@ -113,6 +142,7 @@ public class EnemyAIComponent : InputController
             return;
         }
 
+        state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
         Vector2 dir = target.transform.position - transform.position;
         if (dist < minDist)
@@ -130,6 +160,7 @@ public class EnemyAIComponent : InputController
         // If the target is within attack range, attack
         if (dist < attackRange)
         {
+            state.ReqStateChange(State.ATTACKING);
             Attack(target);
         }
 

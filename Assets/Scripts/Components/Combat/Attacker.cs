@@ -10,6 +10,9 @@ public class Attacker : MonoBehaviour
     [SerializeField] private float cooldown = 0.5f;
     [SerializeField] private GameObject attackPool;
 
+    [Tooltip("Offset to rotate from attacker to spawn attack object.")]
+    [SerializeField] private float rotOffset = 0f;
+
     // Variable that we will receive inputs to attack.
     private InputController inputController;
     private Attack attack;
@@ -53,10 +56,10 @@ public class Attacker : MonoBehaviour
 
         Vector3 direction = info.mousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + rotOffset));
         Vector2 spawnPos = direction.normalized * offset + transform.position;
        
-        // TODO: check if attackObj is in pool, use it. else, instantiate new one.
+        // Check if attackObj is in pool, use it. else, instantiate new one.
         // Spawn attack object a certain distance from attacker, rotated towards mouse.
         GameObject newAttackObj = attackPool.GetComponent<AttackPool>().GetAttack(attackObj);
         newAttackObj.transform.position = spawnPos;
@@ -64,7 +67,6 @@ public class Attacker : MonoBehaviour
         newAttackObj.SetActive(true);
 
         Attack newAttack = newAttackObj.GetComponent<Attack>();
-
         newAttack.ResetAttackAfterTime(newAttack.Duration);
 
         // Set velocity of attack (get from Attack in attackObj)
@@ -72,6 +74,13 @@ public class Attacker : MonoBehaviour
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
+    }
+
+    // Handles setting non-transform property of attacks..
+    public IEnumerator ChargeUpAttack(Attack attack)
+    {
+        // Charge up attack
+        yield return new WaitForSeconds(attack.ChargeUp);
     }
 
     public IEnumerator AttackCooldown()
