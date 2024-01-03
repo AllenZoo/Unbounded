@@ -6,25 +6,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Conditions", menuName = "Inventory/Slot Conditions")]
 public class SO_Conditions : ScriptableObject
 {
-    // Temp fix. TODO: find better way of doing this.
-    public bool hasWeaponCondition = false;
-
-
-    [SerializeReference]
-    public List<ICondition> conditions = new List<ICondition>();
-
-    private WeaponSlotCondition wsc = new WeaponSlotCondition();
+   public List<ConditionType> conditionTypes = new List<ConditionType>();
 
     private void OnValidate()
     {
-        if (hasWeaponCondition)
+        // Check for any duplicate enums
+        for (int i = 0; i < conditionTypes.Count; i++)
         {
-            conditions.Add(wsc);
-        } else
-        {
-            if (conditions.Contains(wsc))
+            for (int j = i + 1; j < conditionTypes.Count; j++)
             {
-                conditions.Remove(wsc);
+                if (conditionTypes[i] == conditionTypes[j])
+                {
+                    Debug.LogError("Duplicate condition type: " + conditionTypes[i] + " in SO_Condition object.");
+                }
             }
         }
     }

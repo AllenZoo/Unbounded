@@ -173,6 +173,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &264945623 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6047087158584713369, guid: 1f40663005e6a9148a6372ee6a24c6f3, type: 3}
+  m_PrefabInstance: {fileID: 6047087157413853790}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &352798710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -381,6 +386,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377525118}
   m_CullTransparentMesh: 1
+--- !u!1 &394476609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 394476610}
+  - component: {fileID: 394476611}
+  m_Layer: 0
+  m_Name: ConditionTypeTranslator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &394476610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394476609}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 264945623}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &394476611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394476609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60b546e26458a4cbd7e15ebec90d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &475091949 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9151966750363239874, guid: 7c95dbb78e28fed42971729bcf76b122, type: 3}
@@ -1659,9 +1708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotRules:
-    _serializedList:
-    - Key: 0
-      Value: {fileID: 0}
+    _serializedList: []
   inventoryData: {fileID: 11400000, guid: 1bd5f15836f224140858fb6d6f03c8e8, type: 2}
 --- !u!114 &1728890766
 MonoBehaviour:
@@ -2780,7 +2827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6390549700487428151, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
       propertyPath: test._serializedList.Array.data[0].Key
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6390549700487428151, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
       propertyPath: test._serializedList.Array.data[1].Key
@@ -2802,6 +2849,14 @@ PrefabInstance:
       propertyPath: slotRules._serializedList.Array.data[0].Value
       value: 
       objectReference: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
+    - target: {fileID: 6390549700487428151, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
+      propertyPath: test._serializedList.Array.data[0].Value.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390549700487428151, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
+      propertyPath: slotRules._serializedList.Array.data[0].Value.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
 --- !u!1001 &6697286031536079730

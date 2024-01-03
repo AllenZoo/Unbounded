@@ -20,7 +20,7 @@ public class InventorySwapperManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.transform.parent.gameObject);
         }
     }
 

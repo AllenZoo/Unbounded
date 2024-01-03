@@ -17,7 +17,8 @@ public class InventorySystem : MonoBehaviour
     // Implement interface ConditionMet(SO_Item item) for each condition
     // to be met. If index of slot not in dictionary, then no rules for that slot.
     // NOTE: SerializedDictionary cannot serialize lists of interfaces as values, so we use
-    // a custom class SO_Conditions to wrap the list.
+    // enums to represent each condition.
+    // NOTE: also cant serialize list of enums, so we use SO_Conditions to store the enums.
     [Tooltip("For adding specific rules for specified slots.")]
     [SerializedDictionary("Slot index", "Slot conditions")]
     [SerializeField] private SerializedDictionary<int, SO_Conditions> slotRules;
@@ -139,8 +140,9 @@ public class InventorySystem : MonoBehaviour
             return true;
         }
 
-        foreach (ICondition condition in conditions.conditions)
+        foreach (ConditionType conditionType in conditions.conditionTypes)
         {
+            ICondition condition = ConditionTypeTranslator.Instance.Translate(conditionType);
             if (!condition.ConditionMet(itemToInsert))
             {
                 // Condition not met!
