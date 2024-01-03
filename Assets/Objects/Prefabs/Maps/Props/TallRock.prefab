@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca8089f8e26f764e8250fe8aa8ceaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentTransform: {fileID: 7695107562675694656}
   shouldFadeInFrontOfPlayer: 1
   oldSortingOrder: 0
 --- !u!60 &7695107561738506629
@@ -250,5 +251,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transparency: 0.5
-  doFade: 0
   fadeSpeed: 0.5
+  doFade: 0

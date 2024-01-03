@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transparency: 0.5
-  doFade: 0
   fadeSpeed: 0.5
+  doFade: 0
 --- !u!1 &2633674934879732352
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca8089f8e26f764e8250fe8aa8ceaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentTransform: {fileID: 2633674934353386598}
   shouldFadeInFrontOfPlayer: 1
   oldSortingOrder: 0
 --- !u!60 &2633674935823212963

@@ -6,6 +6,8 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Collider2D))]
 public class ViewColliderCollisionManager : MonoBehaviour
 {
+    [SerializeField] private Transform parentTransform;
+
     [SerializeField] private bool shouldFadeInFrontOfPlayer = false;
 
     [SerializeField] private int oldSortingOrder;
@@ -20,7 +22,8 @@ public class ViewColliderCollisionManager : MonoBehaviour
             Assert.IsNotNull(GetComponentInParent<ObjectFader>());
             objFader = GetComponentInParent<ObjectFader>();
         }
-        
+
+        Assert.IsNotNull(parentTransform);
         Assert.IsNotNull(GetComponentInParent<SpriteRenderer>());
         objSprite = GetComponentInParent<SpriteRenderer>();
     }
@@ -82,8 +85,13 @@ public class ViewColliderCollisionManager : MonoBehaviour
     private void HandlePlayerViewCollision(Collider2D playerCollision)
     {
         // Should fade, if object is in front of player.
-        if (transform.parent.position.y < playerCollision.transform.parent.position.y)
+        // TODO: take into account of sprite size.
+        if (parentTransform.position.y < playerCollision.transform.parent.position.y)
         {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            float spriteYSize = sr.size.y;
+            // image.
+
             // Object is in front of player.
 
             // Increase Sorting Layer of Object
