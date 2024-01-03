@@ -41,6 +41,9 @@ public class Attack : MonoBehaviour
 
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
 
+    [Header("For rendering")]
+    [SerializeField] private float rotOffset;
+
     private void Awake()
     {
         // Checks to see RB2 and Collider2D components properties are correct.
@@ -167,6 +170,11 @@ public class Attack : MonoBehaviour
     public float ChargeUp
     {
         get { return chargeUp; }
+    }
+
+    public float RotOffset
+    {
+        get { return rotOffset; }
     }
     #endregion
 }

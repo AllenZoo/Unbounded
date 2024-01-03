@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,20 +7,40 @@ using UnityEngine;
 public class Inventory
 {
     private SO_Inventory data;
+    public event Action OnInventoryDataModified;
 
     public Inventory(SO_Inventory inventory)
     {
         this.data = inventory;
+        OnInventoryDataModified += Inventory_OnInventoryDataModified;
+    }
+
+    private void Inventory_OnInventoryDataModified()
+    {
+        data.InvokeOnDataChange();
     }
 
     public void AddItem(int index, Item item)
     {
         data.items[index] = item.data;
+        OnInventoryDataModified?.Invoke();
+    }
+
+    public void AddItem(int index, SO_Item item)
+    {
+        data.items[index] = item;
+        OnInventoryDataModified?.Invoke();
     }
 
     public void RemoveItem(int index)
     {
         data.items[index] = null;
+        OnInventoryDataModified?.Invoke();
+    }
+
+    public SO_Item GetItem(int index)
+    {
+        return data.items[index];
     }
 
     public void SwapItems(int index1, int index2)
@@ -27,6 +48,7 @@ public class Inventory
         SO_Item temp = data.items[index1];
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
+        OnInventoryDataModified?.Invoke();
     }
 
     public int GetFirstEmptySlot()

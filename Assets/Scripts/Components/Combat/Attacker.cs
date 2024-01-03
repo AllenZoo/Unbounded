@@ -8,15 +8,18 @@ public class Attacker : MonoBehaviour
     [SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
     [SerializeField] private GameObject attackObj;
     [SerializeField] private float cooldown = 0.5f;
-    [SerializeField] private GameObject attackPool;
 
-    [Tooltip("Offset to rotate from attacker to spawn attack object.")]
-    [SerializeField] private float rotOffset = 0f;
+    // Pool of attacks to spawn/get attacks from.
+    private GameObject attackPool;
 
     // Variable that we will receive inputs to attack.
     private InputController inputController;
     private Attack attack;
     private bool attackRdy = true;
+
+    // Offset to rotate from attacker to spawn attack object.
+    // Get from attackObj, Attack component.
+    private float rotOffset = 0f;
 
     private void Awake()
     {
@@ -38,6 +41,22 @@ public class Attacker : MonoBehaviour
     private void Start()
     {
         inputController.OnAttackInput += AttackReq;
+        
+        rotOffset = attack.RotOffset;
+    }
+
+
+    // Reset all fields related to attack.
+    public void SetAttackObj(GameObject attackObj)
+    {
+        if (attackObj == null)
+        {
+            // TODO: set default attack object or disable attacker.
+            return;
+        }
+        this.attackObj = attackObj;
+        this.attack = attackObj.GetComponent<Attack>();
+        this.rotOffset = attackObj.GetComponent<Attack>().RotOffset;
     }
 
     public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
@@ -95,4 +114,6 @@ public class Attacker : MonoBehaviour
         yield return new WaitForSeconds(duration);
         attackObj.GetComponent<Attack>().ResetAttack();
     }
+
+    
 }

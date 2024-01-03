@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac225974a231d0949a60d50773eaf327, type: 3}
-  m_Name: WoodenSword
+  m_Script: {fileID: 11500000, guid: 23b4fd1a5acb1744aa5ac95c6974daa4, type: 3}
+  m_Name: ArrowWeapon
   m_EditorClassIdentifier: 
-  itemName: wooden_sword
-  itemSprite: {fileID: -870168203, guid: a64d73120f737c2458025e8b118a7997, type: 3}
-  spriteDims: {x: 10, y: 41}
-  quantity: 1
-  isStackable: 0
+  attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
+  statModifiers:
+  - value: 8
+    stat: 3

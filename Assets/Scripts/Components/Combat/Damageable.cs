@@ -35,7 +35,7 @@ public class Damageable : MonoBehaviour
         {
             // TODO: add death animation.
             // Destroy(gameObject);
-            Debug.Log("" + gameObject.transform.parent.gameObject.name + " has died.");
+            // Debug.Log("" + gameObject.transform.parent.gameObject.name + " has died."); 
         }
     }
 
