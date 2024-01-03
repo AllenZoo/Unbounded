@@ -70,7 +70,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     //      - the item in slot.
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Got into pointer drag event!");
+        // Debug.Log("Got into pointer drag event!");
         if (itemData == null)
         {
             return;
@@ -95,7 +95,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     // 1. If item is dropped on slot, swap items.
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("Mouse released over slot index: " + slotIndex);
+        // Debug.Log("Mouse released over slot index: " + slotIndex);
         OnDropItem?.Invoke(parentSystem, this);
     }
 

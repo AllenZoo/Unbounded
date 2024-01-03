@@ -20,6 +20,9 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private SO_Inventory inventoryData;
     [SerializeField] private GameObject inventorySlotParent;
     [SerializeField] private GameObject inventorySlotPrefab;
+
+    [Tooltip("When slots on ui # is less than slots in inventory, should generate slots?")]
+    [SerializeField] private bool shouldGenerateSlots = true;
     [SerializeField] private GameObject inventoryTitle;
 
     private List<SlotUI> slots = new List<SlotUI>();
@@ -31,8 +34,13 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
-        Assert.IsNotNull(inventorySlotParent, "Need inventory slot parent to instantiate slots.");
-        Assert.IsNotNull(inventorySlotPrefab, "Need inventory slot prefab to instantiate slots.");
+
+        if (shouldGenerateSlots)
+        {
+            Assert.IsNotNull(inventorySlotParent, "Need inventory slot parent to instantiate slots.");
+            Assert.IsNotNull(inventorySlotPrefab, "Need inventory slot prefab to instantiate slots.");
+        }
+
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<ItemHoverer>(), "Inventory mouse follower needs ItemHoverer component.");
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
         Init();
@@ -59,19 +67,19 @@ public class InventoryUI : MonoBehaviour
     // 1. Create inventory slots.
     // 2. Assign index to slots.
     // 3. Assign instance of itemHoverer to each slot.
-    // 4. Add slots to list.
+    // 4. Add slots to list. (init slotUI list)
     // 5. (Rendering)
     //      - Assign items to slots.
     //      - Triggering onRerender event.
     public void Init()
     {
         // Create inventory slots.
-        while (inventorySlotParent.transform.childCount < inventoryData.slots)
+        while (inventorySlotParent.transform.childCount < inventoryData.slots && shouldGenerateSlots)
         {
             Instantiate(inventorySlotPrefab, inventorySlotParent.transform);
         }
 
-        for (int i = 0; i < inventoryData.slots; i++)
+        for (int i = 0; i < inventorySlotParent.transform.childCount; i++)
         {
             GameObject slot = inventorySlotParent.transform.GetChild(i).gameObject;
             SlotUI slotUI = slot.GetComponent<SlotUI>();

@@ -33,6 +33,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // If weapon is null, then we don't have a weapon equipped.
         if (weapon == null)
         {
+            Debug.Log("No weapon found in slot " + weaponSlotIndex + ".");
             // Set attack object to null.
             attacker.SetAttackObj(null);
             return;
