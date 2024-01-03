@@ -16,10 +16,11 @@ public class InventorySystem : MonoBehaviour
     // Maps each slot and their respective rules.
     // Implement interface ConditionMet(SO_Item item) for each condition
     // to be met. If index of slot not in dictionary, then no rules for that slot.
+    // NOTE: SerializedDictionary cannot serialize lists of interfaces as values, so we use
+    // a custom class SO_Conditions to wrap the list.
     [Tooltip("For adding specific rules for specified slots.")]
-
     [SerializedDictionary("Slot index", "Slot conditions")]
-    public SerializedDictionary<int, List<ICondition>> slotRules;
+    [SerializeField] private SerializedDictionary<int, SO_Conditions> slotRules;
 
     // Ref to inventory data.
     [SerializeField] private SO_Inventory inventoryData;
@@ -33,7 +34,7 @@ public class InventorySystem : MonoBehaviour
 
         if (slotRules == null)
         {
-            slotRules = new SerializedDictionary<int, List<ICondition>>();
+            slotRules = new SerializedDictionary<int, SO_Conditions>();
         }
     }
 
@@ -131,14 +132,14 @@ public class InventorySystem : MonoBehaviour
     // HELPER. Checks if an insert condition is met for a slot.
     private bool CheckConditionMet(InventorySystem system, int slotIndex, SO_Item itemToInsert)
     {
-        system.GetSlotRules().TryGetValue(slotIndex, out List<ICondition> conditions);
+        system.GetSlotRules().TryGetValue(slotIndex, out SO_Conditions conditions);
         
-        if (conditions == null) {
-            // No conditions
+        if (conditions == null || itemToInsert == null) {
+            // No conditions or no item to insert.
             return true;
         }
 
-        foreach (ICondition condition in conditions)
+        foreach (ICondition condition in conditions.conditions)
         {
             if (!condition.ConditionMet(itemToInsert))
             {
@@ -151,7 +152,7 @@ public class InventorySystem : MonoBehaviour
     }
 
     #region Getters and Setters
-    public Dictionary<int, List<ICondition>> GetSlotRules()
+    public Dictionary<int, SO_Conditions> GetSlotRules()
     {
         return slotRules;
     }
