@@ -21,7 +21,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventorySlotParent;
     [SerializeField] private GameObject inventorySlotPrefab;
 
-    [Tooltip("When slots on ui # is less than slots in inventory, should generate slots?")]
+    [Tooltip("When slots on ui # is less than slots in inventory, should generate slots? Generally" +
+        "true unless we want to manually make the slots.")]
     [SerializeField] private bool shouldGenerateSlots = true;
     [SerializeField] private GameObject inventoryTitle;
 

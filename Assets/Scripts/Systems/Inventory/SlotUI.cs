@@ -34,6 +34,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     private void Start()
     {
         inventoryUI.OnRerender.AddListener(Rerender);
+        Rerender();
     }
 
     // Handles rerendering the item sprite of a slot.
@@ -61,6 +62,8 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         Image image = itemIconElement.GetComponentInParent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
         image.sprite = itemData.itemSprite;
+
+        itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, itemData.spriteRot);
     }
 
     // On Begin Drag

@@ -70,6 +70,7 @@ MonoBehaviour:
   inventoryData: {fileID: 11400000, guid: f7e77c9f6f100c74d99c203ef7e58243, type: 2}
   inventorySlotParent: {fileID: 6009033261186152789}
   inventorySlotPrefab: {fileID: 1087937387224623893, guid: 0016ee090cfd3a04a949b5e16f93e590, type: 3}
+  shouldGenerateSlots: 0
   inventoryTitle: {fileID: 6009033260393703994}
 --- !u!114 &6009033260288310315
 MonoBehaviour:
@@ -85,9 +86,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotRules:
     _serializedList:
-    - Key: 2
+    - Key: 0
       Value: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
-  inventoryData: {fileID: 11400000, guid: f7e77c9f6f100c74d99c203ef7e58243, type: 2}
 --- !u!1 &6009033260393703994
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,11 +121,11 @@ RectTransform:
   m_Father: {fileID: 6009033260288310314}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.22982788, y: 138.9256}
-  m_SizeDelta: {x: 271, y: 45.3427}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.2298584, y: -22.40306}
+  m_SizeDelta: {x: 271, y: 46.342697}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &6009033260564326616
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +161,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000045776367, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6009033260564326439
@@ -237,7 +237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6009033261077632000
@@ -313,7 +313,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.22976685, y: -17.220993}
+  m_AnchoredPosition: {x: -0.22979736, y: -17.220993}
   m_SizeDelta: {x: 271, y: 266.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6009033261186152787
@@ -333,7 +333,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 15
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 80, y: 80}
@@ -375,7 +375,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000045776367, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6009033261246710407
@@ -482,9 +482,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6009033261186152786}
     m_Modifications:
+    - target: {fileID: 762096909445709114, guid: 0016ee090cfd3a04a949b5e16f93e590, type: 3}
+      propertyPath: m_AspectMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 762096909445709114, guid: 0016ee090cfd3a04a949b5e16f93e590, type: 3}
+      propertyPath: m_AspectRatio
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1087937387224623893, guid: 0016ee090cfd3a04a949b5e16f93e590, type: 3}
       propertyPath: m_Name
       value: GrayWeaponSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2316573515048347833, guid: 0016ee090cfd3a04a949b5e16f93e590, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2666841821270727870, guid: 0016ee090cfd3a04a949b5e16f93e590, type: 3}
       propertyPath: slotItemBackground
