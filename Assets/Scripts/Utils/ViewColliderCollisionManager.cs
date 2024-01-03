@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Collider2D))]
+// Attached to every view collider of every entity.
 public class ViewColliderCollisionManager : MonoBehaviour
 {
     [SerializeField] private Transform parentTransform;
@@ -12,20 +14,39 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
     [SerializeField] private int oldSortingOrder;
 
-    private ObjectFader objFader;
-    private SpriteRenderer objSprite;
+    [SerializeField] private ObjectFader objFader;
+    
+    [SerializeField] private SpriteRenderer objSprite;
+
+    [Tooltip("Position to be considered the objects feet relative to parent transform.")]
+    [SerializeField] private Transform objFeet;
+
+    public SpriteRenderer ObjSprite
+    {
+        get { return objSprite; }
+    }
+    public Transform ParentTransform
+    {
+        get { return parentTransform;}
+    }
+    public Transform ObjFeet { 
+        get { return objFeet; } 
+    }
 
     private void Awake()
     {
         if (shouldFadeInFrontOfPlayer)
         {
             Assert.IsNotNull(GetComponentInParent<ObjectFader>());
-            objFader = GetComponentInParent<ObjectFader>();
+            Assert.IsNotNull(objFader);
         }
 
         Assert.IsNotNull(parentTransform);
-        Assert.IsNotNull(GetComponentInParent<SpriteRenderer>());
-        objSprite = GetComponentInParent<SpriteRenderer>();
+        Assert.IsNotNull(objSprite);
+        Assert.IsNotNull(objFeet);
+
+        // Check if this object is on the ViewCollider layer.
+        Assert.IsTrue(gameObject.layer == LayerMask.NameToLayer("ViewCollider"), "ViewColliderCollisionManager should be on the ViewCollider layer.");
     }
 
     private void Start()
@@ -33,6 +54,10 @@ public class ViewColliderCollisionManager : MonoBehaviour
         oldSortingOrder = objSprite.sortingOrder;
     }
 
+    // TODO: refactor
+    //  - move into private helper (so don't have dup code in OnTriggerStay2D)
+    //  - assign 'ViewCollider' layer and make it such that objs on 'ViewCollider' can only
+    //    collide with other objects on 'ViewCollider' layer.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // View Collider just collided with View Collider.
@@ -84,14 +109,20 @@ public class ViewColliderCollisionManager : MonoBehaviour
     // increase it's sorting layer so it renders in front of the player and is transparent.
     private void HandlePlayerViewCollision(Collider2D playerCollision)
     {
-        // Should fade, if object is in front of player.
-        // TODO: take into account of sprite size.
-        if (parentTransform.position.y < playerCollision.transform.parent.position.y)
-        {
-            SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            float spriteYSize = sr.size.y;
-            // image.
+        // TODO: once refactored, remove theses lines as otherVCCM should be passed as a function parameter.
+        // Collided object should be a viewCollider and thus should also have a ViewColliderCollisionManager
+        ViewColliderCollisionManager otherVCCM = playerCollision.GetComponent<ViewColliderCollisionManager>();
+        Assert.IsNotNull(otherVCCM, "Collision in ViewCollider layer should result in both objects containing" +
+            "a ViewColliderCollisionManager component.");
 
+        // Should fade, if object is in front of player. 
+
+        // Check which feet is in front.
+        float playerYPos = otherVCCM.ObjFeet.position.y;
+        float thisYPos = objFeet.position.y;
+
+        if (playerYPos > thisYPos)
+        {
             // Object is in front of player.
 
             // Increase Sorting Layer of Object

@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 2633674935823212960}
   - component: {fileID: 2633674935823212962}
   - component: {fileID: 2633674935823212963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ViewCollider
   m_TagString: ViewCollider
   m_Icon: {fileID: 0}
@@ -193,7 +193,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3394406365487731057}
   m_Father: {fileID: 2633674934353386598}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -212,6 +213,9 @@ MonoBehaviour:
   parentTransform: {fileID: 2633674934353386598}
   shouldFadeInFrontOfPlayer: 1
   oldSortingOrder: 0
+  objFader: {fileID: 2633674934353386599}
+  objSprite: {fileID: 2633674934353386597}
+  objFeet: {fileID: 3394406365487731057}
 --- !u!60 &2633674935823212963
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -244,3 +248,34 @@ PolygonCollider2D:
       - {x: 0.31422007, y: -0.44232357}
       - {x: 0.4153099, y: 0.07021731}
       - {x: 0.24677181, y: 0.42542773}
+--- !u!1 &5366369727696832051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3394406365487731057}
+  m_Layer: 0
+  m_Name: Feet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3394406365487731057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5366369727696832051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.013, y: -0.433, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2633674935823212960}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
