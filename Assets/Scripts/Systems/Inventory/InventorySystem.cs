@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,21 +8,33 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(InventoryUI))]
 public class InventorySystem : MonoBehaviour
 {
-    // Ref to inventory data.
-    [SerializeField] private SO_Inventory inventoryData;
-    private Inventory inventory;
-    private InventoryUI inventoryUI;
-
     // Events
     // Callbacks for when inventory data changes.
     public delegate void OnInventoryDataChange();
     public event OnInventoryDataChange onInventoryDataChange;
 
+    // Maps each slot and their respective rules.
+    // Implement interface ConditionMet(SO_Item item) for each condition
+    // to be met. If index of slot not in dictionary, then no rules for that slot.
+    [Tooltip("For adding specific rules for specified slots.")]
+
+    [SerializedDictionary("Slot index", "Slot conditions")]
+    public SerializedDictionary<int, List<ICondition>> slotRules;
+
+    // Ref to inventory data.
+    [SerializeField] private SO_Inventory inventoryData;
+    private Inventory inventory;
+    private InventoryUI inventoryUI;
 
     private void Awake()
     {
         Assert.IsNotNull(inventoryData);
         inventoryUI = GetComponent<InventoryUI>();
+
+        if (slotRules == null)
+        {
+            slotRules = new SerializedDictionary<int, List<ICondition>>();
+        }
     }
 
     private void Start()
@@ -39,6 +52,9 @@ public class InventorySystem : MonoBehaviour
         inventoryUI.Rerender();
     }
 
+    // TODO: think about how to incoporate checking for conditions with adding items.
+    // Maybe don't need to if we implicitly decide items can only be added to inventory where
+    // slots can hold any items.
     public void AddItem(Item item)
     {
         int emptySlot = inventory.GetFirstEmptySlot();
@@ -70,6 +86,17 @@ public class InventorySystem : MonoBehaviour
 
     public void SwapItems(int index1, int index2)
     {
+        SO_Item item1 = inventory.GetItem(index1);
+        SO_Item item2 = inventory.GetItem(index2);
+
+        // Check swap conditions.
+        if (!CheckConditionMet(this, index1, item2) || !CheckConditionMet(this, index2, item1))
+        {
+            // Condition not met!
+            Debug.Log("Condition not met! Item cannot be swapped.");
+            return;
+        }
+
         inventory.SwapItems(index1, index2);
         onInventoryDataChange?.Invoke();
     }
@@ -77,9 +104,19 @@ public class InventorySystem : MonoBehaviour
     // Switch items between two inventory systems
     public void SwapItemsBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
     {
+        // Get temp of items to swap.
         SO_Item tempThis = inventory.GetItem(thisIndex);
         SO_Item tempOther = other.inventory.GetItem(otherIndex);
 
+        // Check swap conditions.
+        if (!CheckConditionMet(this, thisIndex, tempOther) || !CheckConditionMet(other, otherIndex, tempThis))
+        {
+            // Condition not met!
+            Debug.Log("Condition not met! Item cannot be swapped.");
+            return;
+        }
+
+        // Swap items.
         inventory.RemoveItem(thisIndex);
         inventory.AddItem(thisIndex, tempOther);
 
@@ -90,4 +127,33 @@ public class InventorySystem : MonoBehaviour
         onInventoryDataChange?.Invoke();
         other.onInventoryDataChange?.Invoke();
     }
+
+    // HELPER. Checks if an insert condition is met for a slot.
+    private bool CheckConditionMet(InventorySystem system, int slotIndex, SO_Item itemToInsert)
+    {
+        system.GetSlotRules().TryGetValue(slotIndex, out List<ICondition> conditions);
+        
+        if (conditions == null) {
+            // No conditions
+            return true;
+        }
+
+        foreach (ICondition condition in conditions)
+        {
+            if (!condition.ConditionMet(itemToInsert))
+            {
+                // Condition not met!
+                Debug.Log("Condition not met!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    #region Getters and Setters
+    public Dictionary<int, List<ICondition>> GetSlotRules()
+    {
+        return slotRules;
+    }
+    #endregion  
 }

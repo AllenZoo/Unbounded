@@ -10,4 +10,8 @@ public class SO_Item : ScriptableObject
     public Vector2 spriteDims;
     public int quantity;
     public bool isStackable;
+    public string description;
+
+    [Tooltip("If item is weapon, attach the corresponding weapon_item data here.")]
+    public SO_Weapon_Item weaponItem;
 }
