@@ -145,4 +145,9 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+
+    public SO_Inventory GetInventoryData()
+    {
+        return inventoryData;
+    }
 }

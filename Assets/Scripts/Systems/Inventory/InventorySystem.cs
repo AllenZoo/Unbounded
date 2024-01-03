@@ -24,14 +24,14 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] private SerializedDictionary<int, SO_Conditions> slotRules;
 
     // Ref to inventory data.
-    [SerializeField] private SO_Inventory inventoryData;
+    private SO_Inventory inventoryData;
     private Inventory inventory;
     private InventoryUI inventoryUI;
 
     private void Awake()
     {
-        Assert.IsNotNull(inventoryData);
         inventoryUI = GetComponent<InventoryUI>();
+        inventoryData = inventoryUI.GetInventoryData();
 
         if (slotRules == null)
         {

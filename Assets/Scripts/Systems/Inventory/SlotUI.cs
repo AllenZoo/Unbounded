@@ -17,7 +17,10 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     [Header("For debugging, don't set via inspector.")]
     [SerializeField] private int slotIndex;
     [SerializeField] private SO_Item itemData;
+
+    [Header("Set via inspector.")]
     [SerializeField] private GameObject itemIconElement;
+    [SerializeField] private GameObject slotItemBackground;
 
     private void Awake()
     {
@@ -39,8 +42,19 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         // Check if slot holds an item.
         if (itemData == null)
         {
+            if (slotItemBackground != null)
+            {
+                slotItemBackground.SetActive(true);
+            }
+
             itemIconElement.SetActive(false);
             return;
+        }
+
+        // Slot holds an item
+        if (slotItemBackground != null)
+        {
+            slotItemBackground.SetActive(false);
         }
 
         itemIconElement.SetActive(true);
