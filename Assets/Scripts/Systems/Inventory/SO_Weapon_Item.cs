@@ -7,8 +7,36 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Weapon Item", menuName = "Inventory/Weapon Item")]
 public class SO_Weapon_Item : ScriptableObject
 {
-    public Attack attack;
+    public GameObject attackObj;
     public List<IStatModifier> statModifiers = new List<IStatModifier>();
 
     // TODO: think of more fields that weapon items need.
+    private void OnValidate()
+    {
+        bool goodObj = true;
+        // Check if attackObj contains necessary components
+        if (attackObj != null)
+        {
+            if (attackObj.GetComponent<Attack>() == null)
+            {
+                Debug.LogError("Attack object needs Attack component.");
+                goodObj = false;
+            }
+            if (attackObj.GetComponent<Collider2D>() == null)
+            {
+                Debug.LogError("Attack object needs Collider component.");
+                goodObj = false;
+            }
+            if (attackObj.GetComponent<Rigidbody2D>() == null)
+            {
+                Debug.LogError("Attack object needs Rigidbody component.");
+                 goodObj = false;
+            }
+        }
+
+        if (!goodObj)
+        {
+            attackObj = null;
+        }
+    }
 }

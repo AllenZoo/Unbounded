@@ -54,6 +54,11 @@ public class InventorySystem : MonoBehaviour
         inventoryUI.Rerender();
     }
 
+    public SO_Item GetItem(int index)
+    {
+        return inventory.GetItem(index);
+    }
+
     // TODO: think about how to incoporate checking for conditions with adding items.
     // Maybe don't need to if we implicitly decide items can only be added to inventory where
     // slots can hold any items.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class SO_Inventory : ScriptableObject
 {
     public int slots = 9;
     public List<SO_Item> items = new List<SO_Item>();
+
+    public event Action OnInventoryDataChange;
 
     private void OnValidate()
     {
@@ -23,5 +26,10 @@ public class SO_Inventory : ScriptableObject
                 items.Add(null);
             }
         }
+    }
+
+    public void InvokeOnDataChange()
+    {
+        OnInventoryDataChange?.Invoke();
     }
 }

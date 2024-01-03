@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 230558453}
   - component: {fileID: 230558454}
+  - component: {fileID: 1773246356}
   m_Layer: 0
   m_Name: AttackHandler
   m_TagString: Untagged
@@ -47,8 +48,18 @@ MonoBehaviour:
   targetTypes: 01000000020000000300000004000000
   attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
   cooldown: 0.5
-  attackPool: {fileID: 0}
-  rotOffset: 90
+--- !u!114 &1773246356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230558452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df4aa276add087e4dae7943d26d89c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &242522279
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
 --- !u!114 &7405677661359215970
 MonoBehaviour:
   m_ObjectHideFlags: 0

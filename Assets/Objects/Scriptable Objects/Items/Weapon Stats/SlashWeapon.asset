@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ef4a92674145a545a5d2b7a3e243cc9, type: 3}
-  m_Name: Player_Equipment
+  m_Script: {fileID: 11500000, guid: 23b4fd1a5acb1744aa5ac95c6974daa4, type: 3}
+  m_Name: SlashWeapon
   m_EditorClassIdentifier: 
-  slots: 1
-  items:
-  - {fileID: 11400000, guid: 079e61f376f1afc4c9d9a91e7e1f4ebe, type: 2}
+  attackObj: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
+  statModifiers:
+  - value: 8
+    stat: 3

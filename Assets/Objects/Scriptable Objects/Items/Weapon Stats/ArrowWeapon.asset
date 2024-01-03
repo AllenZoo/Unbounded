@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b4fd1a5acb1744aa5ac95c6974daa4, type: 3}
   m_Name: ArrowWeapon
   m_EditorClassIdentifier: 
-  attack: {fileID: 0}
+  attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
+  statModifiers:
+  - value: 8
+    stat: 3
