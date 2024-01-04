@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 242522280}
   - component: {fileID: 242522281}
   - component: {fileID: 242522282}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ViewCollider
   m_TagString: ViewCollider
   m_Icon: {fileID: 0}
@@ -125,11 +125,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTransform: {fileID: 7405677662020513450}
-  shouldFadeInFrontOfPlayer: 0
-  oldSortingOrder: 0
+  shouldFadeIfInFront: 0
   objFader: {fileID: 0}
   objSprite: {fileID: 7405677662020512087}
   objFeet: {fileID: 2097524961}
+  oldSortingOrder: 0
 --- !u!1 &1676611838
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 0
   stat: {fileID: 7405677662020513449}
+  isDamageable: 1
 --- !u!1 &7405677662020513453
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6986ae1d2084546a54982d4570778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputEnabled: 1
 --- !u!114 &7405677662020513451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorController: {fileID: 7405677662020512085}
   movementController: {fileID: 7405677662020512084}
+  inputController: {fileID: 7405677662020513448}
   damageable: {fileID: 2123717542}
   knockbackable: {fileID: 0}
   debuggingState: 0
@@ -563,7 +566,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 7405677662020512087}
+  damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
 --- !u!114 &7405677661359215970
 MonoBehaviour:
   m_ObjectHideFlags: 0

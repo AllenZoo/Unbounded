@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(MotionComponent))]
 [RequireComponent(typeof(StateComponent))]
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
     // For changing colour of the sprite (giving it a tint) based on state.
     [SerializeField] private SpriteRenderer sprite;
+
+    // For making the sprite flash white. 
+    [SerializeField] private Material damageMaterial;
+    private Material defaultMaterial;
+    private bool runningDamageEffect = false;
+
 
     // Animation Names
     public static string IDLE_ANIMATION_NAME = "Idle";
@@ -31,35 +36,50 @@ public class AnimatorController : MonoBehaviour
     // Update this whenever new parameter is added.
     public static float NUMBER_OF_PARAMETERS = 4;
 
-    private MotionComponent motion;
-    private StateComponent state;
+    // Components
+    [Header("Can be null.")]
+    [Tooltip("Can be null. Set if we want to control animations that change based on motion.")]
+    [SerializeField] private MotionComponent motionComponent;
+    private StateComponent stateComponent;
     private Animator animator;
 
+    // State in this case refers to animation states and not entity states.
+    private bool canTransitionState;
     private State lastNonCCState;
 
     private void Awake()
     {
-        motion = GetComponent<MotionComponent>();
-        state = GetComponent<StateComponent>();
+        stateComponent = GetComponent<StateComponent>();
         animator = GetComponent<Animator>();
 
+        if (motionComponent == null)
+        {
+            // Try seeing if motionComponent is on obj.
+            motionComponent = GetComponent<MotionComponent>();
+        }
 
         if (sprite == null)
         {
             sprite = GetComponent<SpriteRenderer>();
         }
         Assert.IsNotNull(sprite, "SpriteRenderer null in animation controller for object: " + gameObject);
+
+        defaultMaterial = sprite.material;
+
+        Assert.IsNotNull(damageMaterial, "Need material for being damaged");
     }
 
     private void Start()
     {
-        Debug.Assert(motion != null, "Motion null in animation controller for object: " + gameObject);
-        Debug.Assert(state != null, "State null in animation controller for object: " + gameObject);
+        Debug.Assert(stateComponent != null, "State null in animation controller for object: " + gameObject);
         Debug.Assert(animator != null, "Animator null in animation controller for object: " + gameObject);
-        state.OnStateChanged += State_OnStateChanged;
-        motion.OnMotionChange += Motion_OnMotionChange;
+        stateComponent.OnStateChanged += State_OnStateChanged;
 
-
+        if (motionComponent != null)
+        {
+            motionComponent.OnMotionChange += Motion_OnMotionChange;
+        }
+        
         // Check Parameters are present in animator controller
         Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS, 
             "Animator parameters not set up correctly for object: " + gameObject);
@@ -71,28 +91,33 @@ public class AnimatorController : MonoBehaviour
         animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, 0);
     }
 
-    private void Motion_OnMotionChange(Vector2 obj)
+    public void PlayDamagedEffect(float damage)
     {
-        SetMovementParameters();
+        StartCoroutine(DamagedEffect(damage));
+    }
+
+    private void Motion_OnMotionChange(Vector2 dir, Vector2 lastDir)
+    {
+        SetMovementParameters(dir, lastDir);
     }
 
     private void State_OnStateChanged(State oldState, State newState)
     {
-        if (!state.GetCCStates.Contains(newState))
+        if (!stateComponent.GetCCStates.Contains(newState))
         {
             lastNonCCState = newState;
         }
 
-        Handle_Animation(state.state);
-        Handle_Effects(state.state);
+        Handle_Animation(stateComponent.state);
+        Handle_Effects(stateComponent.state);
     }
 
-    private void SetMovementParameters()
+    private void SetMovementParameters(Vector2 dir, Vector2 lastDir)
     {
-        animator.SetFloat(DIRECTION_PARAMETER_X, motion.dir.x);
-        animator.SetFloat(DIRECTION_PARAMETER_Y, motion.dir.y);
-        animator.SetFloat(LAST_DIRECTION_PARAMETER_X, motion.lastDir.x);
-        animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, motion.lastDir.y);
+        animator.SetFloat(DIRECTION_PARAMETER_X, dir.x);
+        animator.SetFloat(DIRECTION_PARAMETER_Y, dir.y);
+        animator.SetFloat(LAST_DIRECTION_PARAMETER_X, lastDir.x);
+        animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, lastDir.y);
     }
 
     // Modifies the state of the animator 
@@ -125,14 +150,50 @@ public class AnimatorController : MonoBehaviour
     // Modifies the sprite colour
     private void Handle_Effects(State state)
     {
+        if (runningDamageEffect)
+        {
+            sprite.color = Color.white;
+            return;
+        }
+
         switch (state)
         {
             case State.STUNNED:
                 sprite.color = new Color(0.745283f, 0.614507f, 0.614507f);
+                break;
+            case State.DEAD:
+                sprite.color = Color.black;
                 break;
             default:
                 sprite.color = Color.white;
                 break;
         }
     }
+
+    private IEnumerator DamagedEffect(float damage)
+    {
+        runningDamageEffect = true;
+        Handle_Effects(stateComponent.state);
+
+        sprite.material = new Material(damageMaterial);
+        yield return new WaitForSeconds(0.2f);
+        sprite.material = new Material(defaultMaterial);
+
+        runningDamageEffect = false;
+        Handle_Effects(stateComponent.state);
+    }
+    #region Getters and Setters
+
+    public bool CanTransitionState
+    {
+        get
+        {
+            return canTransitionState;
+        }
+        set
+        {
+            canTransitionState = value;
+        }
+    }
+    #endregion
 }

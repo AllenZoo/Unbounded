@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,17 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
+    // <Damage>
+    public event Action<float> OnDamage;
+    public event Action OnDeath;
+    
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
-    public EntityType EntityType { get { return entityType; } }
-
     [SerializeField] private StatComponent stat;
 
     // Refers to dot attacks that the Damageable is currently taking damage from.
+    public EntityType EntityType { get { return entityType; } }
+    public bool isDamageable = true;
     private List<Attack> dotAttacks;
 
     private void Awake()
@@ -26,16 +31,27 @@ public class Damageable : MonoBehaviour
         GetComponent<Collider2D>().isTrigger = true;
     }
 
+    // Damage needs to be > 0
     public void TakeDamage(float damage)
     {
-        stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
+        if (!isDamageable)
+        {
+            Debug.Log("Target is currently not damageable!");
+            return;
+        }
 
-        // TODO: think about where to move this logic to.
+        if (damage <= 0)
+        {
+            Debug.Log("Damage needs to be > 0");
+            return;
+        }
+
+        stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
+        OnDamage?.Invoke(damage);
+
         if (stat.GetCurStat(Stat.HP) <= 0)
         {
-            // TODO: add death animation.
-            // Destroy(gameObject);
-            // Debug.Log("" + gameObject.transform.parent.gameObject.name + " has died."); 
+            OnDeath?.Invoke();
         }
     }
 

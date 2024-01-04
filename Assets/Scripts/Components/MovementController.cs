@@ -26,12 +26,17 @@ public class MovementController : MonoBehaviour
         {
             HandleMovement();
         }
-
     }
 
     public void SetMovementEnabled(bool enabled)
     {
         movementEnabled = enabled;
+    }
+
+    // Resets the rb velocity to zero.
+    public void ResetMovementVelocity()
+    {
+        rb.velocity = Vector3.zero;
     }
 
     // Calculates velocity and moves gameobject appropriately
