@@ -11,10 +11,11 @@ public class ObjectFader : MonoBehaviour
     // The desired transparency value
     [SerializeField] private float transparency = 0.5f;
 
-    // This value will be set to true when the object should start fading
-    [SerializeField] private bool doFade = false;
-
     [SerializeField] private float fadeSpeed = 0.5f;
+
+    // This value will be set to true when the object should start fading
+    [Header("For debugging, don't modify")]
+    [SerializeField] private bool doFade = false;
 
     // Start is called before the first frame update
     private void Start()
