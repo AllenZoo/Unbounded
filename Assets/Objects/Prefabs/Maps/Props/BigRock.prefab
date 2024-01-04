@@ -113,10 +113,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentTransform: {fileID: 1174450661357923165}
   shouldFadeIfInFront: 1
-  oldSortingOrder: 0
   objFader: {fileID: 1174450661357923164}
   objSprite: {fileID: 1174450661357923166}
   objFeet: {fileID: 286836113978008935}
+  oldSortingOrder: 0
 --- !u!60 &1174450660412380824
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -143,7 +143,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0.55481595, y: 0.49908662}
-      - {x: 0.08566703, y: 0.44792342}
+      - {x: 0.21906291, y: 0.8747903}
+      - {x: -0.05967173, y: 0.8576424}
       - {x: -0.46895927, y: 0.5059848}
       - {x: -0.9129822, y: -0.22402236}
       - {x: -0.83729047, y: -0.5885241}
