@@ -64,7 +64,13 @@ public class StateComponent : MonoBehaviour
             //       for future enhancements.
             damageable.OnDamage += (float dmg) =>
             {
-                ReqStateChange(State.DAMAGED);
+                // TODO: instead of changing state, just invoke an 'Damaged' effect in AnimatorController from here.
+                // ReqStateChange(State.DAMAGED);
+                if (state != State.DEAD)
+                {
+                    animatorController.PlayDamagedEffect(dmg);
+                }
+                
             };
         }
     }

@@ -31,11 +31,18 @@ public class Damageable : MonoBehaviour
         GetComponent<Collider2D>().isTrigger = true;
     }
 
+    // Damage needs to be > 0
     public void TakeDamage(float damage)
     {
         if (!isDamageable)
         {
             Debug.Log("Target is currently not damageable!");
+            return;
+        }
+
+        if (damage <= 0)
+        {
+            Debug.Log("Damage needs to be > 0");
             return;
         }
 

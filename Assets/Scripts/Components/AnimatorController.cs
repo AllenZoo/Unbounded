@@ -11,6 +11,12 @@ public class AnimatorController : MonoBehaviour
     // For changing colour of the sprite (giving it a tint) based on state.
     [SerializeField] private SpriteRenderer sprite;
 
+    // For making the sprite flash white. 
+    [SerializeField] private Material damageMaterial;
+    private Material defaultMaterial;
+    private bool runningDamageEffect = false;
+
+
     // Animation Names
     public static string IDLE_ANIMATION_NAME = "Idle";
     public static string WALKING_ANIMATION_NAME = "Walking";
@@ -51,6 +57,10 @@ public class AnimatorController : MonoBehaviour
             sprite = GetComponent<SpriteRenderer>();
         }
         Assert.IsNotNull(sprite, "SpriteRenderer null in animation controller for object: " + gameObject);
+
+        defaultMaterial = sprite.material;
+
+        Assert.IsNotNull(damageMaterial, "Need material for being damaged");
     }
 
     private void Start()
@@ -71,6 +81,11 @@ public class AnimatorController : MonoBehaviour
         animator.SetFloat(DIRECTION_PARAMETER_Y, 0);
         animator.SetFloat(LAST_DIRECTION_PARAMETER_X, 0);
         animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, 0);
+    }
+
+    public void PlayDamagedEffect(float damage)
+    {
+        StartCoroutine(DamagedEffect(damage));
     }
 
     private void Motion_OnMotionChange(Vector2 obj)
@@ -127,6 +142,12 @@ public class AnimatorController : MonoBehaviour
     // Modifies the sprite colour
     private void Handle_Effects(State state)
     {
+        if (runningDamageEffect)
+        {
+            sprite.color = Color.white;
+            return;
+        }
+
         switch (state)
         {
             case State.STUNNED:
@@ -141,6 +162,18 @@ public class AnimatorController : MonoBehaviour
         }
     }
 
+    private IEnumerator DamagedEffect(float damage)
+    {
+        runningDamageEffect = true;
+        Handle_Effects(state.state);
+
+        sprite.material = new Material(damageMaterial);
+        yield return new WaitForSeconds(0.2f);
+        sprite.material = new Material(defaultMaterial);
+
+        runningDamageEffect = false;
+        Handle_Effects(state.state);
+    }
     #region Getters and Setters
 
     public bool CanTransitionState
