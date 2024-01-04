@@ -35,6 +35,8 @@ public class AnimatorController : MonoBehaviour
     private StateComponent state;
     private Animator animator;
 
+    // State in this case refers to animation states and not entity states.
+    private bool canTransitionState;
     private State lastNonCCState;
 
     private void Awake()
@@ -130,9 +132,27 @@ public class AnimatorController : MonoBehaviour
             case State.STUNNED:
                 sprite.color = new Color(0.745283f, 0.614507f, 0.614507f);
                 break;
+            case State.DEAD:
+                sprite.color = Color.black;
+                break;
             default:
                 sprite.color = Color.white;
                 break;
         }
     }
+
+    #region Getters and Setters
+
+    public bool CanTransitionState
+    {
+        get
+        {
+            return canTransitionState;
+        }
+        set
+        {
+            canTransitionState = value;
+        }
+    }
+    #endregion
 }

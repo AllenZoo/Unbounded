@@ -64,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 1
   stat: {fileID: 3820556010379128887}
+  isDamageable: 1
 --- !u!114 &6305350193626298311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputEnabled: 1
   combatType: 0
   minDist: 1
   attackRange: 2
@@ -333,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorController: {fileID: 4509221384095546059}
   movementController: {fileID: 3820556010379128907}
+  inputController: {fileID: 3820556010379128884}
   damageable: {fileID: 7694019108583975917}
   knockbackable: {fileID: 6305350193626298311}
   debuggingState: 0

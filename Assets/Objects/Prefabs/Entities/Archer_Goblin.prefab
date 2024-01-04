@@ -91,10 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentTransform: {fileID: 2927453995066883932}
   shouldFadeIfInFront: 0
-  oldSortingOrder: 0
   objFader: {fileID: 0}
   objSprite: {fileID: 2927453995066883933}
   objFeet: {fileID: 7876661830799427504}
+  oldSortingOrder: 0
 --- !u!1 &2927453995066883934
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputEnabled: 1
   combatType: 1
   minDist: 5
   attackRange: 6
@@ -282,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorController: {fileID: 2537435771086828967}
   movementController: {fileID: 2927453995066883879}
+  inputController: {fileID: 2927453995066883928}
   damageable: {fileID: 2927453993558771945}
   knockbackable: {fileID: 2040274624}
   debuggingState: 0
@@ -530,6 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 1
   stat: {fileID: 2927453995066883931}
+  isDamageable: 1
 --- !u!114 &2040274624
 MonoBehaviour:
   m_ObjectHideFlags: 0

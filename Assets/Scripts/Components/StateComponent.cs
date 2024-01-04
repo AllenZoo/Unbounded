@@ -12,12 +12,16 @@ public class StateComponent : MonoBehaviour
     public State state { get; private set; } = State.IDLE;
 
     // Can be null.
-    [Header("Can be null. Set if we want to control behaviours based on state.")]
+    [Header("Can be null. Set if we want to control behaviours of animation, movement, and input based on state.")]
     [SerializeField] private AnimatorController animatorController;
     [SerializeField] private MovementController movementController;
+    [SerializeField] private InputController inputController;
 
+    [Header("Can be null. Set if we have components (Damageable/Knockbackable) that set state.")]
     [SerializeField] private Damageable damageable;
     [SerializeField] private Knockbackable knockbackable;
+
+
 
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField] State debuggingState = State.IDLE;
@@ -25,9 +29,10 @@ public class StateComponent : MonoBehaviour
 
     private void Awake()
     {
-        if (animatorController == null || movementController == null) {
-            Debug.LogWarning("Have not serialized animatorController or movementController. This means that animations and movement requests" +
-                "will not be affected by States");
+        if (animatorController == null || movementController == null || inputController == null) {
+            Debug.LogWarning("Have not serialized animatorController or movementController or inputController." +
+                " This means that animations, movement, and input behaviour" +
+                "will not be affected by States for object: " + gameObject.name);
         }
     }
 
@@ -47,13 +52,34 @@ public class StateComponent : MonoBehaviour
                 ReqStateChange(State.CCFREE);
             };
         }
+
+        if (damageable != null)
+        {
+            damageable.OnDeath += () =>
+            {
+                ReqStateChange(State.DEAD);
+            };
+
+            // TODO: could change state based on how much damage is taken. eg. more dmg = more damaged state.
+            //       for future enhancements.
+            damageable.OnDamage += (float dmg) =>
+            {
+                ReqStateChange(State.DAMAGED);
+            };
+        }
     }
 
     // If current state is not part of a CC state (crowd controlled state), then change state.
     // Otherwise, a CC state can only be changed into CCFREE state, or into a higher priority CC state.
+    // If dead, cannot switch to any other state. (unless maybe new State 'Revived' we add)
     public void ReqStateChange(State newState)
     {
         if (newState == state)
+        {
+            return;
+        }
+
+        if (state == State.DEAD)
         {
             return;
         }
@@ -90,7 +116,15 @@ public class StateComponent : MonoBehaviour
     {
         if (animatorController != null)
         {
-            // animatorController.SetState(newState);
+            switch (newState)
+            {
+                case State.DEAD:
+                    animatorController.CanTransitionState = false;
+                    break;
+                default:
+                    animatorController.CanTransitionState = true;
+                    break;
+            }
         }
         if (movementController != null)
         {
@@ -99,8 +133,27 @@ public class StateComponent : MonoBehaviour
                 case State.STUNNED:
                     movementController.SetMovementEnabled(false);
                     break;
+                case State.DEAD:
+                    movementController.SetMovementEnabled(false);
+                    movementController.ResetMovementVelocity();
+                    break;
                 default:
                     movementController.SetMovementEnabled(true);
+                    break;
+            }
+        }
+
+        if (inputController != null)
+        {
+            switch (newState)
+            {
+                // fall through
+                case State.STUNNED:
+                case State.DEAD:
+                    inputController.inputEnabled = false;
+                    break;
+                default:
+                    inputController.inputEnabled = true;
                     break;
             }
         }
