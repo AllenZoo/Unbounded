@@ -9,17 +9,17 @@ using UnityEngine.Assertions;
 public class ViewColliderCollisionManager : MonoBehaviour
 {
     [SerializeField] private Transform parentTransform;
-
     [SerializeField] private bool shouldFadeIfInFront = false;
-
-    [SerializeField] private int oldSortingOrder;
-
     [SerializeField] private ObjectFader objFader;
-    
     [SerializeField] private SpriteRenderer objSprite;
 
     [Tooltip("Position to be considered the objects feet relative to parent transform.")]
     [SerializeField] private Transform objFeet;
+
+    [Header("For debugging, don't set value")]
+    [SerializeField] private int oldSortingOrder;
+    // TODO: use this to unfade, and reset sorting order when collidedWith.Count is empty.
+    private List<ViewColliderCollisionManager> collidedWith;
 
     public ObjectFader ObjFader
     {
@@ -51,11 +51,17 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
         // Check if this object is on the ViewCollider layer.
         Assert.IsTrue(gameObject.layer == LayerMask.NameToLayer("ViewCollider"), "ViewColliderCollisionManager should be on the ViewCollider layer.");
+    
+        // Check if collider is a trigger.
+        Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "ViewColliderCollisionManager should have a trigger collider.");
     }
 
     private void Start()
     {
         oldSortingOrder = objSprite.sortingOrder;
+
+        // Make Collider a trigger.
+        GetComponent<Collider2D>().isTrigger = true;
     }
 
     // TODO: refactor
@@ -88,8 +94,15 @@ public class ViewColliderCollisionManager : MonoBehaviour
         if (otherVCCM.parentTransform.CompareTag("Player")
             || otherVCCM.parentTransform.CompareTag("Entity"))
         {
-            this.objFader.setDoFade(false);
+            // Unfade
+            if (objFader != null)
+            {
+                this.objFader.setDoFade(false);
+            }
         }
+
+        // Reset Sorting Layer of Object
+        objSprite.sortingOrder = oldSortingOrder;
     }
 
     // Process collision (HELPER)
@@ -112,38 +125,41 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
     // If player is behind object, and object should fade,
     // increase it's sorting layer so it renders in front of the player and is transparent.
-    // Make this more general and not just player.
+    // Note: All potential otherVCCM are from Entitites/Players.
     private void HandleViewCollision(ViewColliderCollisionManager otherVCCM)
     {
-        // Check if should fade, if object is in front of otherVCCM
-        if (!shouldFadeIfInFront)
-        {
-            // Shouldn't fade, so just return.
-            return;
-        }
-
         // Check which feet is in front.
-        float playerYPos = otherVCCM.ObjFeet.position.y;
+        float otherYPos = otherVCCM.ObjFeet.position.y;
         float thisYPos = objFeet.position.y;
 
-        if (playerYPos > thisYPos)
+        if (otherYPos > thisYPos)
         {
-            // Object is in front of player.
+            // This Object is in front of other (player/entity).
 
             // Increase Sorting Layer of Object
             objSprite.sortingOrder = otherVCCM.ObjSprite.sortingOrder + 1;
 
-            // Fade Object
-            objFader.setDoFade(true);
+
+            if (shouldFadeIfInFront)
+            {
+                // Fade Object
+                objFader.setDoFade(true);
+            }
         }
         else
         {
             // Object is behind player.
-            // Reset Sorting Layer of Object
-            objSprite.sortingOrder = oldSortingOrder;
 
-            // Undo Fade (if faded)
-            objFader.setDoFade(false);
+            // Decrease Sorting Layer of Object
+            objSprite.sortingOrder = otherVCCM.ObjSprite.sortingOrder - 1;
+
+
+            if (shouldFadeIfInFront)
+            {
+                // Undo Fade (if faded)
+                objFader.setDoFade(false);
+            }
+            
         }
     }
 }
