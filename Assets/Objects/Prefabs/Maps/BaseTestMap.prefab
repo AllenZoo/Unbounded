@@ -42,26 +42,6 @@ Tilemap:
   m_GameObject: {fileID: 694021916}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: 17, y: -16, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 19
-      m_TileSpriteIndex: 14
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741826
-  - first: {x: 18, y: -16, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 19
-      m_TileSpriteIndex: 15
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741826
   - first: {x: -12, y: -14, z: 0}
     second:
       serializedVersion: 2
@@ -432,8 +412,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2
-    m_Data: {fileID: 11400000, guid: 27740d48dd1057e46b16ddddbdfc4375, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: a49321feb475bb44b8514fe41298a9cc, type: 2}
   - m_RefCount: 10
@@ -471,10 +451,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: -1584486950, guid: a1d0fa9a188cf6a4ea48ee268c601cd6, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -717813838, guid: a1d0fa9a188cf6a4ea48ee268c601cd6, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: -2042615848, guid: e96f1d59f7fc8034fb5ea64fc989c80f, type: 3}
   - m_RefCount: 10
@@ -492,7 +472,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -667787204, guid: e96f1d59f7fc8034fb5ea64fc989c80f, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 35
+  - m_RefCount: 33
     m_Data:
       e00: 1
       e01: 0
@@ -547,7 +527,7 @@ Tilemap:
       e32: 4.5905e-41
       e33: 0
   m_TileColorArray:
-  - m_RefCount: 35
+  - m_RefCount: 33
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -642,7 +622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6279463775555237239
 Transform:
   m_ObjectHideFlags: 0
@@ -2271,65 +2251,22 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1674494783144425915}
-    m_ColliderPaths:
-    - - X: 196562496
-        Y: 130000000
-      - X: 193437504
-        Y: 130000000
-      - X: 193437504
-        Y: -155624992
-      - X: -173437504
-        Y: -155624992
-      - X: -173437504
-        Y: 132500000
-      - X: -170000000
-        Y: 132500000
-      - X: -170000000
-        Y: 130000000
-      - X: 190000000
-        Y: 130000000
-      - X: 190000000
-        Y: 132500000
-      - X: 193437504
-        Y: 132500000
-      - X: 193437504
-        Y: 130312496
-      - X: 196562496
-        Y: 130000000
-      - X: 196562496
-        Y: 134687504
-      - X: 190000000
-        Y: 134375008
-      - X: -176562496
-        Y: 134375008
-      - X: -176562496
-        Y: -160000000
-      - X: 196562496
-        Y: -160000000
-    - - X: -70000000
-        Y: -29375000
-      - X: -70000000
-        Y: -20000000
-      - X: -80000000
-        Y: -20000000
-      - X: -80000000
-        Y: -26875000
-      - X: -79375000
-        Y: -28125000
-      - X: -77500000
-        Y: -30000000
-      - X: -70625000
-        Y: -30000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
-    - - {x: -17.656221, y: 13.437501}
-      - {x: -17.656221, y: -16}
-      - {x: 19.65625, y: -15.999971}
+    - - {x: 19.656221, y: -16}
       - {x: 19.65622, y: 13.468749}
-      - {x: 18.999998, y: 13.437501}
+      - {x: 19, y: 13.437531}
+      - {x: 18.999971, y: 14}
+      - {x: -17, y: 13.999971}
+      - {x: -17.000029, y: 13.437501}
+      - {x: -17.65625, y: 13.437472}
+      - {x: -17.656221, y: -16}
     - - {x: 19.34375, y: -15.56247}
+      - {x: 19, y: -15.56247}
+      - {x: 18.999971, y: -15}
+      - {x: -17, y: -15.000029}
+      - {x: -17.000029, y: -15.562499}
       - {x: -17.34375, y: -15.56247}
       - {x: -17.343721, y: 13.25}
       - {x: -17, y: 13.24997}
