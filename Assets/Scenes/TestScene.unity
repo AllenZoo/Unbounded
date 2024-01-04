@@ -460,7 +460,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -836,17 +836,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
   m_PrefabInstance: {fileID: 1010042365}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1204669168 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6697286029762107671, guid: d89748c268418204b8f390820a60ed1d, type: 3}
-  m_PrefabInstance: {fileID: 6697286031536079730}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1367273475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1174,7 @@ MonoBehaviour:
   m_Follow: {fileID: 731626492}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1287,10 +1276,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shaman_Orc
       objectReference: {fileID: 0}
-    - target: {fileID: 1489280840202876609, guid: 4a55371537d42634e9d81dd96b389d67, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a55371537d42634e9d81dd96b389d67, type: 3}
 --- !u!1001 &2136167022698602201
@@ -1347,10 +1332,6 @@ PrefabInstance:
     - target: {fileID: 3820556010379128882, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
       propertyPath: m_Name
       value: Club_Goblin
-      objectReference: {fileID: 0}
-    - target: {fileID: 3820556010379128882, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
@@ -2097,10 +2078,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TargetDummy
       objectReference: {fileID: 0}
-    - target: {fileID: 6697286029762107670, guid: d89748c268418204b8f390820a60ed1d, type: 3}
-      propertyPath: stat
-      value: 
-      objectReference: {fileID: 1204669168}
+    - target: {fileID: 6697286029762107668, guid: d89748c268418204b8f390820a60ed1d, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d89748c268418204b8f390820a60ed1d, type: 3}
 --- !u!1001 &7405677661359215958

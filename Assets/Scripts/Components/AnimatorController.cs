@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(MotionComponent))]
 [RequireComponent(typeof(StateComponent))]
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
@@ -37,8 +36,11 @@ public class AnimatorController : MonoBehaviour
     // Update this whenever new parameter is added.
     public static float NUMBER_OF_PARAMETERS = 4;
 
-    private MotionComponent motion;
-    private StateComponent state;
+    // Components
+    [Header("Can be null.")]
+    [Tooltip("Can be null. Set if we want to control animations that change based on motion.")]
+    [SerializeField] private MotionComponent motionComponent;
+    private StateComponent stateComponent;
     private Animator animator;
 
     // State in this case refers to animation states and not entity states.
@@ -47,10 +49,14 @@ public class AnimatorController : MonoBehaviour
 
     private void Awake()
     {
-        motion = GetComponent<MotionComponent>();
-        state = GetComponent<StateComponent>();
+        stateComponent = GetComponent<StateComponent>();
         animator = GetComponent<Animator>();
 
+        if (motionComponent == null)
+        {
+            // Try seeing if motionComponent is on obj.
+            motionComponent = GetComponent<MotionComponent>();
+        }
 
         if (sprite == null)
         {
@@ -65,13 +71,15 @@ public class AnimatorController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Assert(motion != null, "Motion null in animation controller for object: " + gameObject);
-        Debug.Assert(state != null, "State null in animation controller for object: " + gameObject);
+        Debug.Assert(stateComponent != null, "State null in animation controller for object: " + gameObject);
         Debug.Assert(animator != null, "Animator null in animation controller for object: " + gameObject);
-        state.OnStateChanged += State_OnStateChanged;
-        motion.OnMotionChange += Motion_OnMotionChange;
+        stateComponent.OnStateChanged += State_OnStateChanged;
 
-
+        if (motionComponent != null)
+        {
+            motionComponent.OnMotionChange += Motion_OnMotionChange;
+        }
+        
         // Check Parameters are present in animator controller
         Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS, 
             "Animator parameters not set up correctly for object: " + gameObject);
@@ -88,28 +96,28 @@ public class AnimatorController : MonoBehaviour
         StartCoroutine(DamagedEffect(damage));
     }
 
-    private void Motion_OnMotionChange(Vector2 obj)
+    private void Motion_OnMotionChange(Vector2 dir, Vector2 lastDir)
     {
-        SetMovementParameters();
+        SetMovementParameters(dir, lastDir);
     }
 
     private void State_OnStateChanged(State oldState, State newState)
     {
-        if (!state.GetCCStates.Contains(newState))
+        if (!stateComponent.GetCCStates.Contains(newState))
         {
             lastNonCCState = newState;
         }
 
-        Handle_Animation(state.state);
-        Handle_Effects(state.state);
+        Handle_Animation(stateComponent.state);
+        Handle_Effects(stateComponent.state);
     }
 
-    private void SetMovementParameters()
+    private void SetMovementParameters(Vector2 dir, Vector2 lastDir)
     {
-        animator.SetFloat(DIRECTION_PARAMETER_X, motion.dir.x);
-        animator.SetFloat(DIRECTION_PARAMETER_Y, motion.dir.y);
-        animator.SetFloat(LAST_DIRECTION_PARAMETER_X, motion.lastDir.x);
-        animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, motion.lastDir.y);
+        animator.SetFloat(DIRECTION_PARAMETER_X, dir.x);
+        animator.SetFloat(DIRECTION_PARAMETER_Y, dir.y);
+        animator.SetFloat(LAST_DIRECTION_PARAMETER_X, lastDir.x);
+        animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, lastDir.y);
     }
 
     // Modifies the state of the animator 
@@ -165,14 +173,14 @@ public class AnimatorController : MonoBehaviour
     private IEnumerator DamagedEffect(float damage)
     {
         runningDamageEffect = true;
-        Handle_Effects(state.state);
+        Handle_Effects(stateComponent.state);
 
         sprite.material = new Material(damageMaterial);
         yield return new WaitForSeconds(0.2f);
         sprite.material = new Material(defaultMaterial);
 
         runningDamageEffect = false;
-        Handle_Effects(state.state);
+        Handle_Effects(stateComponent.state);
     }
     #region Getters and Setters
 

@@ -120,6 +120,12 @@ public class StateComponent : MonoBehaviour
 
     private void HandleStateChanged(State oldState, State newState)
     {
+        // TODO: handle destroying enemy somewhere else. Maybe even make a pool!
+        if (newState == State.DEAD)
+        {
+            Destroy(gameObject, 1.0f);
+        }
+
         if (animatorController != null)
         {
             switch (newState)

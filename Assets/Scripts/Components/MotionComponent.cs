@@ -6,7 +6,8 @@ using UnityEngine.Assertions;
 
 public class MotionComponent : MonoBehaviour
 {
-    public event Action<Vector2> OnMotionChange;
+    // Dir of motion. Last dir of motion.
+    public event Action<Vector2, Vector2> OnMotionChange;
     public Vector2 dir { get; private set; }
 
     // Last Direction of one of: (1,0), (1, 1), (1, -1), (0, 1), (0, -1), (-1, -1), (-1, 1)
@@ -62,6 +63,6 @@ public class MotionComponent : MonoBehaviour
             lastDir = new Vector2(r_x, r_y);
         }
 
-        OnMotionChange?.Invoke(dir);
+        OnMotionChange?.Invoke(dir, lastDir);
     }
 }
