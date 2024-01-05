@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dd5b1fb58b2f54daa7370e36a8e91f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootBagUI: {fileID: 0}
+  lootBagSystem: {fileID: 0}
   lootHolder: {fileID: 467078871908212798}
+  parentObject: {fileID: 467078871908212797}
 --- !u!1 &467078871729097512
 GameObject:
   m_ObjectHideFlags: 0
