@@ -12,12 +12,15 @@ public class Inventory
     public Inventory(SO_Inventory inventory)
     {
         this.data = inventory;
-        OnInventoryDataModified += Inventory_OnInventoryDataModified;
+
+        // Note: data.OnInventoryDataChange += OnInventoryDataModified does NOT work.
+        data.OnInventoryDataChange += InvokeOnInventoryDataModified;
     }
 
-    private void Inventory_OnInventoryDataModified()
+    public void InvokeOnInventoryDataModified()
     {
-        data.InvokeOnDataChange();
+        Debug.Log("Inventory caught SO_Inventory event call!");
+        OnInventoryDataModified?.Invoke();
     }
 
     public void AddItem(int index, Item item)

@@ -8,11 +8,6 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(InventoryUI))]
 public class InventorySystem : MonoBehaviour
 {
-    // Events
-    // Callbacks for when inventory data changes.
-    public delegate void OnInventoryDataChange();
-    public event OnInventoryDataChange onInventoryDataChange;
-
     // Maps each slot and their respective rules.
     // Implement interface ConditionMet(SO_Item item) for each condition
     // to be met. If index of slot not in dictionary, then no rules for that slot.
@@ -42,15 +37,15 @@ public class InventorySystem : MonoBehaviour
     private void Start()
     {
         inventory = new Inventory(inventoryData);
-        onInventoryDataChange += InventorySystem_onInventoryDataChange;
+        inventory.OnInventoryDataModified += InventorySystem_onInventoryDataModified;
 
         // Assign Event Listeners
         inventoryUI.OnSwapItems += SwapItems;
     }
 
-    private void InventorySystem_onInventoryDataChange()
+    private void InventorySystem_onInventoryDataModified()
     {
-        // Debug.Log("On inventory data change event triggered.");
+        Debug.Log("On inventory data change event triggered.");
         inventoryUI.Rerender();
     }
 
@@ -74,7 +69,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         inventory.AddItem(emptySlot, item);
-        onInventoryDataChange?.Invoke();
+        //onInventoryDataChange?.Invoke();
     }
 
     public void RemoveItem(Item item)
@@ -88,7 +83,7 @@ public class InventorySystem : MonoBehaviour
             return;
         }
         inventory.RemoveItem(itemIndex);
-        onInventoryDataChange?.Invoke();
+        //onInventoryDataChange?.Invoke();
     }
 
     public void SwapItems(int index1, int index2)
@@ -105,7 +100,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         inventory.SwapItems(index1, index2);
-        onInventoryDataChange?.Invoke();
+        //onInventoryDataChange?.Invoke();
     }
 
     // Switch items between two inventory systems
@@ -131,8 +126,8 @@ public class InventorySystem : MonoBehaviour
         other.inventory.AddItem(otherIndex, tempThis);
 
         // Invoke events.
-        onInventoryDataChange?.Invoke();
-        other.onInventoryDataChange?.Invoke();
+        //onInventoryDataChange?.Invoke();
+        //other.onInventoryDataChange?.Invoke();
     }
 
     // HELPER. Checks if an insert condition is met for a slot.
