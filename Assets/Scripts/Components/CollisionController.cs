@@ -49,7 +49,18 @@ public class CollisionController : MonoBehaviour
         if (triggeredInteractables.Count > 0)
         {
             IInteractable mostRecentTrigger = triggeredInteractables[triggeredInteractables.Count - 1];
+
+            // Set all other triggers to not interacting.
+            foreach (IInteractable interactable in triggeredInteractables)
+            {
+                if (interactable != mostRecentTrigger)
+                {
+                    interactable.IsInteracting = false;
+                }
+            }
+
             mostRecentTrigger.Interact();
+            mostRecentTrigger.IsInteracting = true;
         }
     }
 }

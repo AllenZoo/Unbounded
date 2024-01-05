@@ -6,15 +6,24 @@ using UnityEngine;
 // Handles logic of managing data of inventory.
 public class Inventory
 {
-    private SO_Inventory data;
     public event Action OnInventoryDataModified;
+    private List<SO_Item> items;
 
+    private SO_Inventory data;
+
+    // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
     {
         this.data = inventory;
+        items = inventory.items;
 
         // Note: data.OnInventoryDataChange += OnInventoryDataModified does NOT work.
         data.OnInventoryDataChange += InvokeOnInventoryDataModified;
+    }
+
+    public Inventory(List<SO_Item> items)
+    {
+        this.items = items;
     }
 
     // When SO_Inventory invokes OnInventoryDataChange, invoke Inventory OnInventoryDataModified.

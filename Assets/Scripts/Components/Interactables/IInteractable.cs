@@ -12,6 +12,8 @@ public interface IInteractable
     // If RequiresKeyPress is false, this value is ignored
     public KeyCode Key { get; set; }
 
+    public bool IsInteracting { get; set; }
+
     public void Interact();
     public void UnInteract();
 }

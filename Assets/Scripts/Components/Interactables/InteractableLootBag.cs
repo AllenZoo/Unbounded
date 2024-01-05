@@ -21,10 +21,17 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     public bool RequiresKeyPress { get; set; } = false;
     public KeyCode Key { get; set; } = KeyCode.E;
 
+    public bool IsInteracting { get; set; } = false;
+
     private void Awake()
     {
         Assert.IsNotNull(lootBagDisplayInventory);
         Assert.IsNotNull(lootHolder);
+    }
+
+    private void Start()
+    {
+        lootBagDisplayInventory.OnInventoryDataChange += UpdateLootBagLoot;
     }
 
     // Show Loot
@@ -45,5 +52,17 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
         {
             lootBagUI.SetActive(false);
         }
+    }
+
+
+    // Update loot bag (if still interacting)
+    private void UpdateLootBagLoot()
+    {
+        if (!IsInteracting)
+        {
+            return;
+        }
+
+        lootHolder.SetLoot(lootBagDisplayInventory.items);
     }
 }
