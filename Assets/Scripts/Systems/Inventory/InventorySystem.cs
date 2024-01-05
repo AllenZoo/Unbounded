@@ -180,6 +180,7 @@ public class InventorySystem : MonoBehaviour
         
         // Recreate inventory object with new inventoryData.
         Init();
+
         OnInventoryDataReset?.Invoke(inventoryData);
     }
     #endregion  

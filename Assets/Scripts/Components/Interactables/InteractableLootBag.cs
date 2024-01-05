@@ -45,12 +45,19 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Debug.Log("Interacted with Loot Bag: " + gameObject.transform.parent.name);
-        if (lootBagSystem != null)
+
+        if (lootBagSystem == null)
+        {
+            return;
+        }
+
+        if (!lootBagSystem.isActiveAndEnabled)
         {
             lootBagSystem.gameObject.SetActive(true);
-            lootBagSystem.SetInventoryData(lootBagDisplayInventory);
         }
-        
+
+        lootBagSystem.SetInventoryData(lootBagDisplayInventory);
+
     }
 
     public void UnInteract()
