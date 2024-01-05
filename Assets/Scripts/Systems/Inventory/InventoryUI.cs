@@ -19,8 +19,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventorySlotParent;
     [SerializeField] private GameObject inventorySlotPrefab;
 
-    [Tooltip("When slots on ui # is less than slots in inventory, should generate slots? Generally" +
-        "true unless we want to manually make the slots.")]
+    [Tooltip("Should we clear all existing slots and generate using pfb?")]
     [SerializeField] private bool shouldGenerateSlots = true;
     [SerializeField] private GameObject inventoryTitle;
 
@@ -44,7 +43,7 @@ public class InventoryUI : MonoBehaviour
 
         Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
 
-        Init();
+        InitWhole();
     }
 
     private void Start()
@@ -58,6 +57,7 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventorySystem.OnInventoryDataModified += Rerender;
+        inventorySystem.OnInventoryDataReset += SetInventoryData;
     }
 
     // For when Inventory UI is closed and reopened.
@@ -66,55 +66,6 @@ public class InventoryUI : MonoBehaviour
         Rerender();
     }
 
-    // Init process consists of:
-    // 1. Create inventory slots.
-    // 2. Assign index to slots.
-    // 3. Assign instance of itemHoverer to each slot.
-    // 4. Add slots to list. (init slotUI list)
-    // 5. (Rendering)
-    //      - Assign items to slots.
-    //      - Triggering onRerender event.
-    public void Init()
-    {
-        // Create inventory slots.
-        while (inventorySlotParent.transform.childCount < inventoryData.slots && shouldGenerateSlots)
-        {
-            Instantiate(inventorySlotPrefab, inventorySlotParent.transform);
-        }
-
-        for (int i = 0; i < inventorySlotParent.transform.childCount; i++)
-        {
-            GameObject slot = inventorySlotParent.transform.GetChild(i).gameObject;
-            SlotUI slotUI = slot.GetComponent<SlotUI>();
-            Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
-            slotUI.SetSlotIndex(i);
-            slotUI.SetItemHoverer(inventoryMouseFollower.GetComponent<ItemHoverer>());
-
-            slots.Add(slotUI);
-        }
-
-        Rerender();
-    }
-
-    // On inventory data change, rerender UI.
-    public void Rerender()
-    {
-        // Check if InventoryUI is active
-        if (!gameObject.activeSelf)
-        {
-            return;
-        }
-
-        // Assiging items to slots.
-        int index = 0;
-        foreach (SlotUI slot in slots)
-        {
-            slot.SetItem(inventoryData.items[index]);
-            index++;
-        }
-
-        OnRerender?.Invoke();
-    }
 
     // Modify selected slot index to slot that is being dragged.
     public void OnSlotDrag(InventorySystem system, SlotUI slot)
@@ -156,6 +107,86 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+
+    private void InitWhole()
+    {
+        // Generates slot gameobjects.
+        if (shouldGenerateSlots)
+        {
+            GenerateSlots();
+        }
+
+        // Assign logic to each gameobject slot.
+        InitSlots();
+
+        // Assign item to each slot and rerender it.
+        Rerender();
+    }
+
+    // InitSlots process consists of:
+    // 1. Assign index to slots.
+    // 2. Assign instance of itemHoverer to each slot.
+    // 3. Add slots to list. (init slotUI list)
+    private void InitSlots()
+    {
+        slots.Clear();
+
+        // Assign script logic to each slot.
+        for (int i = 0; i < inventorySlotParent.transform.childCount; i++)
+        {
+            GameObject slot = inventorySlotParent.transform.GetChild(i).gameObject;
+            SlotUI slotUI = slot.GetComponent<SlotUI>();
+            Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
+            slotUI.SetSlotIndex(i);
+            slotUI.SetItemHoverer(inventoryMouseFollower.GetComponent<ItemHoverer>());
+
+            slots.Add(slotUI);
+        }
+
+    }
+
+    // Clear and generate slots
+    private void GenerateSlots()
+    {
+        // TODO: if doing this, change the way we generate slots
+        // by using a for loop on inventoryData.slots
+
+        // Clear pre-existing slots in inventorySlotParent
+        //foreach (Transform child in inventorySlotParent.transform)
+        //{
+        //    Destroy(child.gameObject);
+        //    //Debug.Log("Destroying obj!");
+        //}
+
+        // Create inventory slots gameobjects.
+        while (inventorySlotParent.transform.childCount < inventoryData.slots)
+        {
+            Instantiate(inventorySlotPrefab, inventorySlotParent.transform);
+        }
+    }
+
+    // On inventory data change, rerender UI.
+    // Sets item in each slot and rerenders it.
+    private void Rerender()
+    {
+        // Check if InventoryUI is active
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+
+        // Assiging items to slots.
+        int index = 0;
+        foreach (SlotUI slot in slots)
+        {
+            slot.SetItem(inventoryData.items[index]);
+            index++;
+        }
+
+        OnRerender?.Invoke();
+    }
+
+
     #region Getters and Setters
     public SO_Inventory GetInventoryData()
     {
@@ -165,6 +196,7 @@ public class InventoryUI : MonoBehaviour
     public void SetInventoryData(SO_Inventory inventoryData)
     {
         this.inventoryData = inventoryData;
+        InitWhole();
     }
     #endregion
 }

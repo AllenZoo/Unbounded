@@ -78,12 +78,12 @@ public class AnimatorController : MonoBehaviour
         if (motionComponent != null)
         {
             motionComponent.OnMotionChange += Motion_OnMotionChange;
+
+            // Check Parameters are present in animator controller
+            Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS,
+                "Animator parameters not set up correctly for object: " + gameObject);
         }
         
-        // Check Parameters are present in animator controller
-        Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS, 
-            "Animator parameters not set up correctly for object: " + gameObject);
-
         // Init Parameters in animator (TODO: once it gets large, move to helper)
         animator.SetFloat(DIRECTION_PARAMETER_X, 0);
         animator.SetFloat(DIRECTION_PARAMETER_Y, 0);

@@ -8,7 +8,12 @@ using UnityEngine.Assertions;
 // Manages the inventory data. Does not handle UI, but processes requests to add/remove/swap items.
 public class InventorySystem : MonoBehaviour
 {
+    // Refers to when items in inventory are added/removed/swapped.
     public event Action OnInventoryDataModified;
+
+    // Refers to when inventory data is reset, or changed to a different seperate
+    // SO_Inventory.
+    public event Action<SO_Inventory> OnInventoryDataReset;
 
     // [Header("Init through SO or manual. If SO takes precendence.")]
     [Tooltip("Inventory Data to be used")]
@@ -45,8 +50,7 @@ public class InventorySystem : MonoBehaviour
 
     private void Start()
     {
-        inventory = new Inventory(inventoryData);
-        inventory.OnInventoryDataModified += Inventory_OnInventoryDataModified;
+        Init();
     }
 
     // TODO: think about how to incoporate checking for conditions with adding items.
@@ -147,6 +151,13 @@ public class InventorySystem : MonoBehaviour
         OnInventoryDataModified?.Invoke();
     }
 
+    // Init inventory
+    private void Init()
+    {
+        inventory = new Inventory(inventoryData);
+        inventory.OnInventoryDataModified += Inventory_OnInventoryDataModified;
+    }
+
     #region Getters and Setters
     public Dictionary<int, SO_Conditions> GetSlotRules()
     {
@@ -161,6 +172,15 @@ public class InventorySystem : MonoBehaviour
     public SO_Inventory GetInventoryData()
     {
         return inventoryData;
+    }
+
+    public void SetInventoryData(SO_Inventory inventoryData)
+    {
+        this.inventoryData = inventoryData;
+        
+        // Recreate inventory object with new inventoryData.
+        Init();
+        OnInventoryDataReset?.Invoke(inventoryData);
     }
     #endregion  
 }

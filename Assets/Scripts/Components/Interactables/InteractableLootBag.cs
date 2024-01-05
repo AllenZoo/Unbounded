@@ -7,9 +7,8 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
 {
 
     // OPTIONAL: instead of reference to lootBagUI, we can reference the open button.
-    [Tooltip("The UI object that displays the loot bag inventory. " +
-        "Can be null if all we want is to modify the loog bat inventory.")]
-    [SerializeField] private InventoryUI lootBagUI;
+    [Tooltip("The system in which we want to modify the inventory data of.")]
+    [SerializeField] private InventorySystem lootBagSystem;
 
     [Tooltip("Reference to the loot holder that contains information about the loot bag.")]
     [SerializeField] private LootHolder lootHolder;
@@ -33,18 +32,19 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Debug.Log("Interacted with Loot Bag: " + gameObject.transform.parent.name);
-        if (lootBagUI != null)
+        if (lootBagSystem != null)
         {
-            lootBagUI.gameObject.SetActive(true);
+            lootBagSystem.gameObject.SetActive(true);
+            lootBagSystem.SetInventoryData(lootBagDisplayInventory);
         }
         
     }
 
     public void UnInteract()
     {
-        if (lootBagUI != null)
+        if (lootBagSystem != null)
         {
-            lootBagUI.gameObject.SetActive(false);
+            lootBagSystem.gameObject.SetActive(false);
         }
     }
 
@@ -53,15 +53,4 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     public KeyCode Key { get; set; } = KeyCode.E;
     public bool IsInteracting { get; set; } = false;
 
-
-    // Update loot bag (if still interacting)
-    private void UpdateLootBagLoot()
-    {
-        if (!IsInteracting)
-        {
-            return;
-        }
-
-        lootHolder.SetLoot(lootBagDisplayInventory.items);
-    }
 }
