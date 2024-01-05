@@ -13,7 +13,7 @@ public class MouseHover : MonoBehaviour
         canvas = transform.root.GetComponent<Canvas>();
     }
 
-    public void Update()
+    private void Update()
     {
         Vector2 position;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
