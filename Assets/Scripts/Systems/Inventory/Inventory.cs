@@ -2,40 +2,75 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Handles logic of managing data of inventory.
 public class Inventory
 {
-    private SO_Inventory data;
     public event Action OnInventoryDataModified;
+    private SO_Inventory data;
 
+    //private List<SO_Item> items;
+    //private int numSlots;
+
+    // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
     {
-        this.data = inventory;
-        OnInventoryDataModified += Inventory_OnInventoryDataModified;
+        // Passes by ref!
+        //items = inventory.items;
+        //numSlots = inventory.slots;
+        data = inventory;
+
+        // Note: data.OnInventoryDataChange += OnInventoryDataModified does NOT work.
+        inventory.OnInventoryDataChange += InvokeOnInventoryDataModified;
     }
 
-    private void Inventory_OnInventoryDataModified()
+    // Init through other params
+    //public Inventory(List<SO_Item> items, int numSlots)
+    //{
+    //    // Assert that items.Count <= numSlots.
+    //    Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
+
+    //    this.items = items;
+    //    this.numSlots = numSlots;
+
+    //    // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
+    //    if (items.Count < numSlots)
+    //    {
+    //        int difference = numSlots - items.Count;
+    //        for (int i = 0; i < difference; i++)
+    //        {
+    //            items.Add(null);
+    //        }
+    //    }
+    //}
+
+    // When SO_Inventory invokes OnInventoryDataChange, invoke Inventory OnInventoryDataModified.
+    // Modifications to data.items should only invoke data.OnInventoryChange.
+    public void InvokeOnInventoryDataModified()
     {
-        data.InvokeOnDataChange();
+        OnInventoryDataModified?.Invoke();
     }
 
     public void AddItem(int index, Item item)
     {
         data.items[index] = item.data;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
+        // OnInventoryDataModified?.Invoke();
     }
 
     public void AddItem(int index, SO_Item item)
     {
         data.items[index] = item;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
+        // OnInventoryDataModified?.Invoke();
     }
 
     public void RemoveItem(int index)
     {
         data.items[index] = null;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
+        // OnInventoryDataModified?.Invoke();
     }
 
     public SO_Item GetItem(int index)
@@ -48,7 +83,8 @@ public class Inventory
         SO_Item temp = data.items[index1];
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
+        // OnInventoryDataModified?.Invoke();
     }
 
     public int GetFirstEmptySlot()

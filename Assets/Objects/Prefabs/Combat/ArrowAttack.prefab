@@ -68,14 +68,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b0fe1e785318749a07853fd5d3661e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetTypes: 
   attackName: ArrowAttack|
   damage: 5
   duration: 5
-  initialSpeed: 3
+  initialSpeed: 5
+  chargeUp: 0
+  knockback: 0
+  stunDuration: 1
   isAOE: 0
   canRepeat: 0
   isDOT: 0
   dotDuration: 5
+  isPiercing: 1
+  lastsUntilDuration: 0
+  hitTargets: []
+  rotOffset: 0
 --- !u!212 &1403582844052442420
 SpriteRenderer:
   m_ObjectHideFlags: 0
