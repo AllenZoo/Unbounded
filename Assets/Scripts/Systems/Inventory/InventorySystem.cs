@@ -1,13 +1,23 @@
 using AYellowpaper.SerializedCollections;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // Manages the inventory data. Does not handle UI, but processes requests to add/remove/swap items.
-[RequireComponent(typeof(InventoryUI))]
 public class InventorySystem : MonoBehaviour
 {
+    public event Action OnInventoryDataModified;
+
+    // [Header("Init through SO or manual. If SO takes precendence.")]
+    [Tooltip("Inventory Data to be used")]
+    [SerializeField] private SO_Inventory inventoryData;
+
+    //[Tooltip("Inventory Data to be used")]
+    //[SerializeField] private List<SO_Item> items;
+    //[SerializeField] private float numSlots = 9;
+
     // Maps each slot and their respective rules.
     // Implement interface ConditionMet(SO_Item item) for each condition
     // to be met. If index of slot not in dictionary, then no rules for that slot.
@@ -19,14 +29,13 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] private SerializedDictionary<int, SO_Conditions> slotRules;
 
     // Ref to inventory data.
-    private SO_Inventory inventoryData;
+    
     private Inventory inventory;
-    private InventoryUI inventoryUI;
 
     private void Awake()
     {
-        inventoryUI = GetComponent<InventoryUI>();
-        inventoryData = inventoryUI.GetInventoryData();
+        // Check that inventoryData is not null
+        Assert.IsNotNull(inventoryData);
 
         if (slotRules == null)
         {
@@ -37,21 +46,7 @@ public class InventorySystem : MonoBehaviour
     private void Start()
     {
         inventory = new Inventory(inventoryData);
-        inventory.OnInventoryDataModified += InventorySystem_onInventoryDataModified;
-
-        // Assign Event Listeners
-        inventoryUI.OnSwapItems += SwapItems;
-    }
-
-    private void InventorySystem_onInventoryDataModified()
-    {
-        Debug.Log("On inventory data change event triggered.");
-        inventoryUI.Rerender();
-    }
-
-    public SO_Item GetItem(int index)
-    {
-        return inventory.GetItem(index);
+        inventory.OnInventoryDataModified += Inventory_OnInventoryDataModified;
     }
 
     // TODO: think about how to incoporate checking for conditions with adding items.
@@ -69,7 +64,6 @@ public class InventorySystem : MonoBehaviour
         }
 
         inventory.AddItem(emptySlot, item);
-        //onInventoryDataChange?.Invoke();
     }
 
     public void RemoveItem(Item item)
@@ -83,7 +77,6 @@ public class InventorySystem : MonoBehaviour
             return;
         }
         inventory.RemoveItem(itemIndex);
-        //onInventoryDataChange?.Invoke();
     }
 
     public void SwapItems(int index1, int index2)
@@ -100,7 +93,6 @@ public class InventorySystem : MonoBehaviour
         }
 
         inventory.SwapItems(index1, index2);
-        //onInventoryDataChange?.Invoke();
     }
 
     // Switch items between two inventory systems
@@ -124,10 +116,6 @@ public class InventorySystem : MonoBehaviour
 
         other.inventory.RemoveItem(otherIndex);
         other.inventory.AddItem(otherIndex, tempThis);
-
-        // Invoke events.
-        //onInventoryDataChange?.Invoke();
-        //other.onInventoryDataChange?.Invoke();
     }
 
     // HELPER. Checks if an insert condition is met for a slot.
@@ -153,10 +141,26 @@ public class InventorySystem : MonoBehaviour
         return true;
     }
 
+    // Event linker.
+    private void Inventory_OnInventoryDataModified()
+    {
+        OnInventoryDataModified?.Invoke();
+    }
+
     #region Getters and Setters
     public Dictionary<int, SO_Conditions> GetSlotRules()
     {
         return slotRules;
+    }
+
+    public SO_Item GetItem(int index)
+    {
+        return inventory.GetItem(index);
+    }
+
+    public SO_Inventory GetInventoryData()
+    {
+        return inventoryData;
     }
     #endregion  
 }

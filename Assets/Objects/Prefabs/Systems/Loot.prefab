@@ -252,7 +252,6 @@ MonoBehaviour:
   OnRerender:
     m_PersistentCalls:
       m_Calls: []
-  inventoryData: {fileID: 11400000, guid: ad11b22669c7af743b3e7a5ca389fb29, type: 2}
   inventorySlotParent: {fileID: 5387389828476428672}
   inventorySlotPrefab: {fileID: 6071097289829333637, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
   shouldGenerateSlots: 1
@@ -269,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51625132256c8a84e80019c890cb87a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryData: {fileID: 11400000, guid: ad11b22669c7af743b3e7a5ca389fb29, type: 2}
   slotRules:
     _serializedList: []
 --- !u!1 &5387389828212208367

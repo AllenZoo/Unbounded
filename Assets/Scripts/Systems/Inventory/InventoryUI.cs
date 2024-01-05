@@ -7,17 +7,15 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 // Modifies state of UI based on inventory data. Also handles user input.
+// Needs inventory system to get data to display.
+[RequireComponent(typeof(InventorySystem))]
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] public GameObject inventoryMouseFollower;
 
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
-    // Within the same inventory.
-    public event Action<int, int> OnSwapItems;
    
-
-    [SerializeField] private SO_Inventory inventoryData;
     [SerializeField] private GameObject inventorySlotParent;
     [SerializeField] private GameObject inventorySlotPrefab;
 
@@ -27,15 +25,11 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventoryTitle;
 
     private List<SlotUI> slots = new List<SlotUI>();
-
-    //private int selectedSlotIndex = -1;
-    //private InventorySystem selectedSlotInventorySystem = null;
-
+    private InventorySystem inventorySystem;
+    private SO_Inventory inventoryData;
 
     private void Awake()
     {
-        Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
-
         if (shouldGenerateSlots)
         {
             Assert.IsNotNull(inventorySlotParent, "Need inventory slot parent to instantiate slots.");
@@ -44,6 +38,12 @@ public class InventoryUI : MonoBehaviour
 
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<ItemHoverer>(), "Inventory mouse follower needs ItemHoverer component.");
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
+        
+        inventorySystem = GetComponent<InventorySystem>();
+        inventoryData = inventorySystem.GetInventoryData();
+
+        Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
+
         Init();
     }
 
@@ -56,6 +56,8 @@ public class InventoryUI : MonoBehaviour
             slot.OnEndDragItem += OnSlotEndDrag;
             slot.OnDropItem += OnSlotDrop;
         }
+
+        inventorySystem.OnInventoryDataModified += Rerender;
     }
 
     // For when Inventory UI is closed and reopened.
@@ -94,7 +96,7 @@ public class InventoryUI : MonoBehaviour
         Rerender();
     }
 
-    // TODO: On inventory data change, rerender UI. Currently done manually in InventorySystem.
+    // On inventory data change, rerender UI.
     public void Rerender()
     {
         // Check if InventoryUI is active
@@ -149,14 +151,20 @@ public class InventoryUI : MonoBehaviour
         } else
         {
             // Same System, swap internally.
-            OnSwapItems?.Invoke(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+            system.SwapItems(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
             InventorySwapperManager.Instance.ResetSelection();
         }
     }
 
-
+    #region Getters and Setters
     public SO_Inventory GetInventoryData()
     {
         return inventoryData;
     }
+
+    public void SetInventoryData(SO_Inventory inventoryData)
+    {
+        this.inventoryData = inventoryData;
+    }
+    #endregion
 }
