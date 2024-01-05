@@ -6,6 +6,13 @@ using UnityEngine.Assertions;
 public class InteractableLootBag : MonoBehaviour, IInteractable
 {
 
+    #region IInteractable fields
+    public float Priority { get; set; } = 0;
+    public bool RequiresKeyPress { get; set; } = false;
+    public KeyCode Key { get; set; } = KeyCode.E;
+    public bool IsInteracting { get; set; } = false;
+    #endregion\
+
     // OPTIONAL: instead of reference to lootBagUI, we can reference the open button.
     [Tooltip("The system in which we want to modify the inventory data of.")]
     [SerializeField] private InventorySystem lootBagSystem;
@@ -26,7 +33,10 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
         lootBagDisplayInventory = ScriptableObject.CreateInstance<SO_Inventory>();
         lootBagDisplayInventory.items = lootHolder.GetLoot();
         lootBagDisplayInventory.slots = lootHolder.GetNumSlots();
+
+        lootBagDisplayInventory.OnInventoryDataChange += LootBagDisplayInventory_OnInventoryDataChange;
     }
+
 
     // Show Loot
     public void Interact()
@@ -48,9 +58,19 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
         }
     }
 
-    public float Priority { get; set; } = 0;
-    public bool RequiresKeyPress { get; set; } = false;
-    public KeyCode Key { get; set; } = KeyCode.E;
-    public bool IsInteracting { get; set; } = false;
+    // TODO: handle this logic somewhere else. Also considering using a pool system to prevent
+    // excessive instantiation and destruction of loot bags.
+    // Check if inventory is empty. If so, destroy the loot bag.
+    private void LootBagDisplayInventory_OnInventoryDataChange()
+    {
+        // Debug.Log("Checking whether to destroy loot bag.");
+        if (lootBagDisplayInventory.IsEmpty())
+        {
+            Debug.Log("Loot bag empty. Destroy loot bag! " + gameObject.transform.parent.name);
+            // Destroy(gameObject.transform.parent.gameObject);
+        }
+    }
+
+    
 
 }
