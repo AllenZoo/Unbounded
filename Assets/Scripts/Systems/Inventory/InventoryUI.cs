@@ -72,12 +72,20 @@ public class InventoryUI : MonoBehaviour
     {
         InventorySwapperManager.Instance.selectedSlotIndex  = slot.GetSlotIndex();
         InventorySwapperManager.Instance.selectedSlotInventorySystem = system;
+
+        // Set mouse follower active. Assign sprite to mouse follower.
+        inventoryMouseFollower.SetActive(true);
+        inventoryMouseFollower.GetComponent<ItemHoverer>()
+            .SetItemSprite(slot.GetItemSprite(), slot.GetItemSpriteRot());
     }
 
     // Reset selected slot index.
     public void OnSlotEndDrag(InventorySystem system, SlotUI slot)
     {
         InventorySwapperManager.Instance.ResetSelection();
+
+        // Deactivate mouse follower.
+        inventoryMouseFollower.SetActive(false);
     }
 
     // Swap items in slot
@@ -138,8 +146,6 @@ public class InventoryUI : MonoBehaviour
             SlotUI slotUI = slot.GetComponent<SlotUI>();
             Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
             slotUI.SetSlotIndex(i);
-            slotUI.SetItemHoverer(inventoryMouseFollower.GetComponent<ItemHoverer>());
-
             slots.Add(slotUI);
         }
 

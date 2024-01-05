@@ -11,7 +11,6 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public event Action<InventorySystem, SlotUI> OnDragItem, OnEndDragItem, OnDropItem;
 
     private InventoryUI inventoryUI;
-    private ItemHoverer itemHoverer;
     private InventorySystem parentSystem;
 
     [Header("For debugging, don't set via inspector.")]
@@ -79,10 +78,6 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             return;
         }
 
-        Assert.IsNotNull(itemHoverer, "Need reference to item hoverer.");
-        // Set Data (TODO: maybe don't need slot index)
-        itemHoverer.SetData(itemData);
-        itemHoverer.SetSlotIndex(slotIndex);
         OnDragItem?.Invoke(parentSystem, this);
     }
 
@@ -111,16 +106,18 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     {
         return slotIndex;
     }
-
-    public void SetItemHoverer(ItemHoverer itemHoverer)
-    {
-        this.itemHoverer = itemHoverer;
-    }
-
     public void SetItem(SO_Item item)
     {
         itemData = item;
         Rerender();
+    }
+    public Sprite GetItemSprite()
+    {
+        return itemData.itemSprite;
+    }
+    public float GetItemSpriteRot()
+    {
+        return itemData.spriteRot;
     }
     #endregion
 }

@@ -1,31 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 // Class that holds data for inventory mouse hoverers.
 public class ItemHoverer : MonoBehaviour
 {
+    [SerializeField] private Image displayImage;
 
-    [SerializeField] private SO_Item data;
-    [SerializeField] private int slotIndex;
-    
-    public void SetData(SO_Item itemData)
+    private void Awake()
     {
-        data = itemData;
+        Assert.IsNotNull(displayImage, "ItemHoverer needs image reference to display item.");
+
+        // Check that image is not a raycast target and also has perserve aspect ratio.
+        Assert.IsFalse(displayImage.raycastTarget, "ItemHoverer image should not be a raycast target.");
+        Assert.IsTrue(displayImage.preserveAspect, "ItemHoverer image should preserve aspect ratio.");
     }
 
-    public void SetSlotIndex(int index)
+    // RotOffset for rotating the transform of the object
+    public void SetItemSprite(Sprite sprite, float rotOffset)
     {
-        slotIndex = index;
-    }
-
-    public SO_Item GetData()
-    {
-        return data;
-    }
-
-    public int GetSlotIndex()
-    {
-        return slotIndex;
+        displayImage.sprite = sprite;
+        transform.rotation = Quaternion.Euler(0, 0, rotOffset);
     }
 }
