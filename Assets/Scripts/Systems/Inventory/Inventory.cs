@@ -17,28 +17,29 @@ public class Inventory
         data.OnInventoryDataChange += InvokeOnInventoryDataModified;
     }
 
+    // When SO_Inventory invokes OnInventoryDataChange, invoke Inventory OnInventoryDataModified.
+    // Modifications to data.items should only invoke data.OnInventoryChange.
     public void InvokeOnInventoryDataModified()
     {
-        Debug.Log("Inventory caught SO_Inventory event call!");
         OnInventoryDataModified?.Invoke();
     }
 
     public void AddItem(int index, Item item)
     {
         data.items[index] = item.data;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
     }
 
     public void AddItem(int index, SO_Item item)
     {
         data.items[index] = item;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
     }
 
     public void RemoveItem(int index)
     {
         data.items[index] = null;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
     }
 
     public SO_Item GetItem(int index)
@@ -51,7 +52,7 @@ public class Inventory
         SO_Item temp = data.items[index1];
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
-        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
     }
 
     public int GetFirstEmptySlot()
