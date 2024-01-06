@@ -85,9 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryData: {fileID: 11400000, guid: eac6917f07cfcb94c9818c1e6537e34e, type: 2}
   slotRules:
-    _serializedList:
-    - Key: 8
-      Value: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
+    _serializedList: []
 --- !u!1 &6390549700634469837
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +597,10 @@ PrefabInstance:
     - target: {fileID: 6071097289829333637, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
       propertyPath: m_Name
       value: BiegeInventorySlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6558672657473307832, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7962551411744847206, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
       propertyPath: m_Pivot.x

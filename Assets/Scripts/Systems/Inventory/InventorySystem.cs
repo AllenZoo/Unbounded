@@ -83,6 +83,11 @@ public class InventorySystem : MonoBehaviour
         inventory.RemoveItem(itemIndex);
     }
 
+    /// <summary>
+    /// Switch items in the same inventory system
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
     public void SwapItems(int index1, int index2)
     {
         SO_Item item1 = inventory.GetItem(index1);
@@ -99,7 +104,12 @@ public class InventorySystem : MonoBehaviour
         inventory.SwapItems(index1, index2);
     }
 
-    // Switch items between two inventory systems
+    /// <summary>
+    /// Switch items between two inventory systems
+    /// </summary>
+    /// <param name="other"> the initially selected inventory system </param>
+    /// <param name="otherIndex"> index of the 'other' inventory system </param>
+    /// <param name="thisIndex"></param>
     public void SwapItemsBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
     {
         // Get temp of items to swap.
@@ -120,6 +130,131 @@ public class InventorySystem : MonoBehaviour
 
         other.inventory.RemoveItem(otherIndex);
         other.inventory.AddItem(otherIndex, tempThis);
+    }
+
+    /// <summary>
+    /// Attempt to stack items, if not possible, then swap items. (same inventory system).
+    /// If indexes to swap are the same, then do nothing.
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
+    public void AttemptStackThenSwap(int index1, int index2)
+    {
+        // Check if same index, if so do nothing.
+        if (index1 == index2)
+        {
+            return;
+        }
+
+        SO_Item item1 = inventory.GetItem(index1);
+        SO_Item item2 = inventory.GetItem(index2);
+
+        // Check if items can be stacked.
+        if (item1 != null && item2 != null && 
+            item1.itemName == item2.itemName && 
+            item1.isStackable && item2.isStackable)
+        {
+            // Stack items.
+            inventory.StackItems(index1, index2);
+        }
+        else
+        {
+            // Attempt Swap items. (Stacking not possible)
+            SwapItems(index1, index2);
+        }
+    }
+
+    /// <summary>
+    /// Attempt to stack items, if not possible, then swap items. (between two inventory systems)
+    /// </summary>
+    /// <param name="other"> initially selected inventory system </param>
+    /// <param name="otherIndex"> index that belongs to 'other' </param>
+    /// <param name="thisIndex"> index item is dropped on. </param>
+    public void AttemptStackThenSwapBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
+    {
+        SO_Item item1 = inventory.GetItem(thisIndex);
+        SO_Item item2 = other.inventory.GetItem(otherIndex);
+
+        // Check if items can be stacked.
+        if (item1 != null && item2 != null &&
+            item1.itemName == item2.itemName &&
+            item1.isStackable && item2.isStackable)
+        {
+            // Stack items.
+            inventory.AddItem(thisIndex, item2);
+            other.inventory.RemoveItem(otherIndex);
+        }
+        else
+        {
+            // Attempt Swap items. (Stacking not possible)
+            SwapItemsBetweenSystems(other, otherIndex, thisIndex);
+        }
+    }
+
+    /// <summary>
+    /// Split item from index1 into index2 in same inventory system.
+    /// index2 must contain no item (null), unless it contains the same item 
+    /// as index1 and is stackable, which then leads to the behaviour of the moving
+    /// split half of the item being stacked onto the item at index2. If these conditions do not match,
+    /// nothing happens.
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
+    public void Split(int index1, int index2)
+    {
+        SO_Item item1 = inventory.GetItem(index1);
+        SO_Item item2 = inventory.GetItem(index2);
+
+        // Check if item at index2 is null or atleast stackable and matches item at index 1.
+        if (item2 != null && (!item2.isStackable || item2.itemName != item1.itemName))
+        {
+            // item2 is not null and is not stackable with item1!
+            Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
+            return;
+        }
+
+        // Check if item is splittable.
+        if (!item1.isStackable || item1.quantity <= 1)
+        {
+            // Item is not splittable!
+            Debug.Log("Item is not splittable! Failed to split item.");
+            return;
+        }
+
+        // Split item.
+        SO_Item secondHalf = inventory.SplitIndex(index1);
+        inventory.AddItem(index2, secondHalf);
+    }
+
+    /// <summary>
+    /// Same as Split(), but between two inventory systems.
+    /// </summary>
+    /// <param name="other"> initially selected inventory system </param>
+    /// <param name="otherIndex"> index that belongs to 'other'. Also the item index we're splitting on </param>
+    /// <param name="thisIndex"> index item is dropped on. </param>
+    public void SplitBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
+    {
+        SO_Item item1 = inventory.GetItem(thisIndex);
+        SO_Item item2 = other.inventory.GetItem(otherIndex);
+        // Check if dropped on slot (thisIndex) is null or atleast stackable and matches item at otherIndex
+        // in the other inventory system.
+        if (item1 != null && (!item1.isStackable || item1.itemName != item2.itemName))
+        {
+            // item2 is not null and is not stackable with item1!
+            Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
+            return;
+        }
+        // Check if item2 is splittable.
+        if (!item2.isStackable || item2.quantity <= 1)
+        {
+            // Item is not splittable!
+            Debug.Log("Item is not splittable! Failed to split item.");
+            return;
+        }
+
+        // Split item. (otherIndex is the index we're splitting on)
+        SO_Item secondHalf = other.inventory.SplitIndex(otherIndex);
+        inventory.AddItem(thisIndex, secondHalf);
     }
 
     // HELPER. Checks if an insert condition is met for a slot.

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // Singleton that holds info about the swapping mechanism between inventory systems.
 public class InventorySwapperManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class InventorySwapperManager : MonoBehaviour
     public static InventorySwapperManager Instance;
     public int selectedSlotIndex = -1;
     public InventorySystem selectedSlotInventorySystem = null;
+    public PointerEventData.InputButton inputButton;
 
     private void Awake()
     {

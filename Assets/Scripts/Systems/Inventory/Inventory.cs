@@ -59,9 +59,32 @@ public class Inventory
         // OnInventoryDataModified?.Invoke();
     }
 
+    // Attempts to add/stack an item to an index of the inventory. 
     public void AddItem(int index, SO_Item item)
     {
-        data.items[index] = item;
+        SO_Item item1 = data.items[index];
+        SO_Item item2 = item;
+
+        if (item1 == null)
+        {
+            data.items[index] = item;
+        } else if (item1.itemName == item2.itemName
+            && item1.isStackable && item2.isStackable)
+        {
+            // Stack items.
+
+            // Create new reference to item in inventory.
+            SO_Item copy = data.items[index].Copy();
+            copy.quantity += item.quantity;
+
+            data.items[index] = copy;
+        } else
+        {
+            Debug.LogError("Cannot add item to inventory. " +
+                "Item at index is not null and does not match item to add." +
+                "Failed to guard somewhere.");
+        }
+        
         data.InvokeOnDataChange();
         // OnInventoryDataModified?.Invoke();
     }
@@ -85,6 +108,56 @@ public class Inventory
         data.items[index2] = temp;
         data.InvokeOnDataChange();
         // OnInventoryDataModified?.Invoke();
+    }
+
+    /// <summary>
+    /// Stack items in the same inventory system. 
+    /// Move item from index1 into index2
+    /// Assumes index1 and index2 are stackable. TODO: add check here in case.
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
+    public void StackItems(int index1, int index2)
+    {
+        // Create a new object (so that we don't modify the original object by ref).
+        int newStackCount = data.items[index1].quantity + data.items[index2].quantity;
+        SO_Item newItem = data.items[index1].Copy();
+        newItem.quantity = newStackCount;
+
+        data.items[index2] = newItem;
+        data.items[index1] = null;
+        data.InvokeOnDataChange();
+    }
+
+    /// <summary>
+    /// Splits the item at index in half. If item quantity is odd, 
+    /// the remainder is placed in the first half (not the returned SO_Item).
+    /// Creates two new SO_Items.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns>The other half of the item</returns>
+    public SO_Item SplitIndex(int index)
+    {
+        SO_Item firstHalf = data.items[index].Copy();
+        int totalQuantity = firstHalf.quantity;
+
+        if (totalQuantity <= 1)
+        {
+            // Not splittable, return error!
+            Debug.LogError("Should not have requested to split an item with quantity <= 0." +
+                "Missing guard!");
+            return null;
+        }
+
+        firstHalf.quantity = Mathf.CeilToInt(totalQuantity / 2f);
+        data.items[index] = firstHalf;
+
+        SO_Item secondHalf = data.items[index].Copy();
+        secondHalf.quantity = Mathf.FloorToInt(totalQuantity / 2f);
+
+        data.InvokeOnDataChange();
+
+        return secondHalf;
     }
 
     public int GetFirstEmptySlot()

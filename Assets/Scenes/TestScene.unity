@@ -956,11 +956,11 @@ PrefabInstance:
     - target: {fileID: 467078871908212798, guid: 1a71a6ecb15ee6143af68f5af6070712, type: 3}
       propertyPath: loot.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 8f76610ec57599745b6db1b688d8d618, type: 2}
     - target: {fileID: 467078871908212798, guid: 1a71a6ecb15ee6143af68f5af6070712, type: 3}
       propertyPath: loot.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 8f76610ec57599745b6db1b688d8d618, type: 2}
     - target: {fileID: 467078871908212799, guid: 1a71a6ecb15ee6143af68f5af6070712, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2253,6 +2253,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 969628349}
     m_Modifications:
+    - target: {fileID: 264266589005625618, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3904446372605757644, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2369,6 +2373,10 @@ PrefabInstance:
       propertyPath: inventoryMouseFollower
       value: 
       objectReference: {fileID: 1367273475}
+    - target: {fileID: 6390549700487428151, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
+      propertyPath: inventoryData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a88d7affd83aef4292c3d49927e248b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b636dfc5ec8b7954087da26f5a177b7e, type: 3}
 --- !u!1001 &6697286031536079730

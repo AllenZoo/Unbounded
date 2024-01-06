@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -8,7 +9,8 @@ using UnityEngine.UI;
 
 public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
-    public event Action<InventorySystem, SlotUI> OnDragItem, OnEndDragItem, OnDropItem;
+    public event Action<InventorySystem, SlotUI, PointerEventData.InputButton> OnDragItem;
+    public event Action<InventorySystem, SlotUI>  OnEndDragItem, OnDropItem;
 
     private InventoryUI inventoryUI;
     private InventorySystem parentSystem;
@@ -18,8 +20,14 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     [SerializeField] private SO_Item itemData;
 
     [Header("Set via inspector.")]
+    [Tooltip("Item icon element that displays item sprite of slot.")]
     [SerializeField] private GameObject itemIconElement;
+
+    [Tooltip("Optional, if you want to display a background for an empty item slot. Eg. dagger background" +
+        "for equipement weapon slot.")]
     [SerializeField] private GameObject slotItemBackground;
+
+    [SerializeField] private TextMeshProUGUI quantityText;
 
     private void Awake()
     {
@@ -28,6 +36,8 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
         parentSystem = GetComponentInParent<InventorySystem>();
         Assert.IsNotNull(parentSystem, "SlotUI needs reference to parent inventory system.");
+
+        Assert.IsNotNull(quantityText, "Need quantity text to display quantity of item.");
     }
 
     private void Start()
@@ -42,27 +52,42 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         // Check if slot holds an item.
         if (itemData == null)
         {
+            // Slot is empty
             if (slotItemBackground != null)
             {
                 slotItemBackground.SetActive(true);
             }
 
             itemIconElement.SetActive(false);
+            quantityText.gameObject.SetActive(false);
             return;
         }
 
         // Slot holds an item
+
+        // Hide slot background if it exists.
         if (slotItemBackground != null)
         {
             slotItemBackground.SetActive(false);
         }
 
+        // Display item sprite.
         itemIconElement.SetActive(true);
         Image image = itemIconElement.GetComponentInParent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
         image.sprite = itemData.itemSprite;
-
         itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, itemData.spriteRot);
+
+        // Check if item is stackable and if quantity is greater than 1.
+        if (itemData.isStackable && itemData.quantity > 1)
+        {
+            quantityText.text = "x" + itemData.quantity.ToString();
+            quantityText.gameObject.SetActive(true);
+        }
+        else
+        {
+            quantityText.gameObject.SetActive(false);
+        }
     }
 
     // On Begin Drag
@@ -78,7 +103,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             return;
         }
 
-        OnDragItem?.Invoke(parentSystem, this);
+        OnDragItem?.Invoke(parentSystem, this, eventData.button);
     }
 
     // On End Drag (check if this calls first, or OnDrop)
