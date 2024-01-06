@@ -101,16 +101,17 @@ public class InventoryUI : MonoBehaviour
         // Check if item dropped on same system or different system.
         if (system != InventorySwapperManager.Instance.selectedSlotInventorySystem)
         {
-            // Different system, swap externally. (Could make this an event call, but would require extra checks in Swap function)
-            system.SwapItemsBetweenSystems(
+            // Different system, swap externally.
+            system.AttemptStackThenSwapBetweenSystems(
                 InventorySwapperManager.Instance.selectedSlotInventorySystem,
                 InventorySwapperManager.Instance.selectedSlotIndex, 
                 slot.GetSlotIndex());
             InventorySwapperManager.Instance.ResetSelection();
-        } else
+        } 
+        else
         {
             // Same System, swap internally.
-            system.SwapItems(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+            system.AttemptStackThenSwap(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
             InventorySwapperManager.Instance.ResetSelection();
         }
     }

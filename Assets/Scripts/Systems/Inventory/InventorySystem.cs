@@ -83,6 +83,7 @@ public class InventorySystem : MonoBehaviour
         inventory.RemoveItem(itemIndex);
     }
 
+    // Switch items in the same inventory system
     public void SwapItems(int index1, int index2)
     {
         SO_Item item1 = inventory.GetItem(index1);
@@ -121,6 +122,48 @@ public class InventorySystem : MonoBehaviour
         other.inventory.RemoveItem(otherIndex);
         other.inventory.AddItem(otherIndex, tempThis);
     }
+
+    // Attempt to stack items, if not possible, then swap items. (same inventory system)
+    public void AttemptStackThenSwap(int index1, int index2)
+    {
+        SO_Item item1 = inventory.GetItem(index1);
+        SO_Item item2 = inventory.GetItem(index2);
+
+        // Check if items can be stacked.
+        if (item1 != null && item2 != null && 
+            item1.itemName == item2.itemName && 
+            item1.isStackable && item2.isStackable)
+        {
+            // Stack items.
+            inventory.StackItems(index1, index2);
+        }
+        else
+        {
+            // Attempt Swap items. (Stacking not possible)
+            SwapItems(index1, index2);
+        }
+    }
+
+    // Attempt to stack items, if not possible, then swap items. (between two inventory systems)
+    public void AttemptStackThenSwapBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
+    {
+        SO_Item item1 = inventory.GetItem(thisIndex);
+        SO_Item item2 = other.inventory.GetItem(otherIndex);
+        // Check if items can be stacked.
+        if (item1 != null && item2 != null &&
+            item1.itemName == item2.itemName &&
+            item1.isStackable && item2.isStackable)
+        {
+            // Stack items.
+            inventory.StackItems(thisIndex, otherIndex);
+        }
+        else
+        {
+            // Attempt Swap items. (Stacking not possible)
+            SwapItemsBetweenSystems(other, otherIndex, thisIndex);
+        }
+    }
+
 
     // HELPER. Checks if an insert condition is met for a slot.
     private bool CheckConditionMet(InventorySystem system, int slotIndex, SO_Item itemToInsert)

@@ -87,6 +87,21 @@ public class Inventory
         // OnInventoryDataModified?.Invoke();
     }
 
+    // Stack items in the same inventory system
+    // Move item from index1 into index2
+    // Assumes index1 and index2 are stackable. TODO: add check here in case.
+    public void StackItems(int index1, int index2)
+    {
+        // Create a new object (so that we don't modify the original object by ref).
+        int newStackCount = data.items[index1].quantity + data.items[index2].quantity;
+        SO_Item newItem = data.items[index1].Copy();
+        newItem.quantity = newStackCount;
+
+        data.items[index2] = newItem;
+        data.items[index1] = null;
+        data.InvokeOnDataChange();
+    }
+
     public int GetFirstEmptySlot()
     {
         for (int i = 0; i < data.slots; i++)
