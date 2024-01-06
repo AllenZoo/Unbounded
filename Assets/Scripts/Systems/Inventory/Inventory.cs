@@ -59,9 +59,32 @@ public class Inventory
         // OnInventoryDataModified?.Invoke();
     }
 
+    // Attempts to add an item to an index of the inventory. 
     public void AddItem(int index, SO_Item item)
     {
-        data.items[index] = item;
+        SO_Item item1 = data.items[index];
+        SO_Item item2 = item;
+
+        if (item1 == null)
+        {
+            data.items[index] = item;
+        } else if (item1.itemName == item2.itemName
+            && item1.isStackable && item2.isStackable)
+        {
+            // Stack items.
+
+            // Create new reference to item in inventory.
+            SO_Item copy = data.items[index].Copy();
+            copy.quantity += item.quantity;
+
+            data.items[index] = copy;
+        } else
+        {
+            Debug.LogError("Cannot add item to inventory. " +
+                "Item at index is not null and does not match item to add." +
+                "Failed to guard somewhere.");
+        }
+        
         data.InvokeOnDataChange();
         // OnInventoryDataModified?.Invoke();
     }
@@ -87,9 +110,13 @@ public class Inventory
         // OnInventoryDataModified?.Invoke();
     }
 
-    // Stack items in the same inventory system
-    // Move item from index1 into index2
-    // Assumes index1 and index2 are stackable. TODO: add check here in case.
+    /// <summary>
+    /// Stack items in the same inventory system. 
+    /// Move item from index1 into index2
+    /// Assumes index1 and index2 are stackable. TODO: add check here in case.
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
     public void StackItems(int index1, int index2)
     {
         // Create a new object (so that we don't modify the original object by ref).
@@ -126,6 +153,8 @@ public class Inventory
 
         SO_Item secondHalf = data.items[index].Copy();
         secondHalf.quantity = Mathf.FloorToInt(totalQuantity / 2f);
+
+        data.InvokeOnDataChange();
 
         return secondHalf;
     }

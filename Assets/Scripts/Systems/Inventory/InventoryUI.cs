@@ -98,7 +98,7 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        // Check if left click/right click
+        // Check if left click/right click initiated the drag.
         // left click = swap
         // right click = split
 
@@ -109,32 +109,37 @@ public class InventoryUI : MonoBehaviour
         // Check if item dropped on same system or different system.
         if (system != InventorySwapperManager.Instance.selectedSlotInventorySystem)
         {
+            // Different system
             if (shouldSwap)
             {
-                // Different system, swap externally.
+                // Swap externally.
                 system.AttemptStackThenSwapBetweenSystems(
                     InventorySwapperManager.Instance.selectedSlotInventorySystem,
                     InventorySwapperManager.Instance.selectedSlotIndex,
                     slot.GetSlotIndex());
             } else
             {
-                // Should split. (externally TODO:)
+                // Split externally.
+                system.SplitBetweenSystems(
+                    InventorySwapperManager.Instance.selectedSlotInventorySystem,
+                    InventorySwapperManager.Instance.selectedSlotIndex,
+                    slot.GetSlotIndex());
             }
             InventorySwapperManager.Instance.ResetSelection();
         } 
         else
         {
+            // Same system
             if (shouldSwap)
             {
+                // Swap internally.
                 system.AttemptStackThenSwap(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
                 InventorySwapperManager.Instance.ResetSelection();
             } else
             {
+                // Split internally.
                 system.Split(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
             }
-            
-            // Same System, swap internally.
-            
         }
     }
 
