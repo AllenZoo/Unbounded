@@ -59,7 +59,7 @@ public class Inventory
         // OnInventoryDataModified?.Invoke();
     }
 
-    // Attempts to add an item to an index of the inventory. 
+    // Attempts to add/stack an item to an index of the inventory. 
     public void AddItem(int index, SO_Item item)
     {
         SO_Item item1 = data.items[index];
@@ -132,6 +132,7 @@ public class Inventory
     /// <summary>
     /// Splits the item at index in half. If item quantity is odd, 
     /// the remainder is placed in the first half (not the returned SO_Item).
+    /// Creates two new SO_Items.
     /// </summary>
     /// <param name="index"></param>
     /// <returns>The other half of the item</returns>
