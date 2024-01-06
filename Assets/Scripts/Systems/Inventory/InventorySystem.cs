@@ -83,7 +83,11 @@ public class InventorySystem : MonoBehaviour
         inventory.RemoveItem(itemIndex);
     }
 
-    // Switch items in the same inventory system
+    /// <summary>
+    /// Switch items in the same inventory system
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
     public void SwapItems(int index1, int index2)
     {
         SO_Item item1 = inventory.GetItem(index1);
@@ -100,7 +104,12 @@ public class InventorySystem : MonoBehaviour
         inventory.SwapItems(index1, index2);
     }
 
-    // Switch items between two inventory systems
+    /// <summary>
+    /// Switch items between two inventory systems
+    /// </summary>
+    /// <param name="other"></param>
+    /// <param name="otherIndex"></param>
+    /// <param name="thisIndex"></param>
     public void SwapItemsBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
     {
         // Get temp of items to swap.
@@ -123,7 +132,11 @@ public class InventorySystem : MonoBehaviour
         other.inventory.AddItem(otherIndex, tempThis);
     }
 
-    // Attempt to stack items, if not possible, then swap items. (same inventory system)
+    /// <summary>
+    /// Attempt to stack items, if not possible, then swap items. (same inventory system)
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
     public void AttemptStackThenSwap(int index1, int index2)
     {
         SO_Item item1 = inventory.GetItem(index1);
@@ -144,7 +157,12 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    // Attempt to stack items, if not possible, then swap items. (between two inventory systems)
+    /// <summary>
+    /// Attempt to stack items, if not possible, then swap items. (between two inventory systems)
+    /// </summary>
+    /// <param name="other"></param>
+    /// <param name="otherIndex"></param>
+    /// <param name="thisIndex"></param>
     public void AttemptStackThenSwapBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
     {
         SO_Item item1 = inventory.GetItem(thisIndex);
@@ -162,6 +180,37 @@ public class InventorySystem : MonoBehaviour
             // Attempt Swap items. (Stacking not possible)
             SwapItemsBetweenSystems(other, otherIndex, thisIndex);
         }
+    }
+
+    /// <summary>
+    /// Split item from index1 into index2 in same inventory system.
+    /// </summary>
+    /// <param name="index1"></param>
+    /// <param name="index2"></param>
+    public void Split(int index1, int index2)
+    {
+        SO_Item item1 = inventory.GetItem(index1);
+        SO_Item item2 = inventory.GetItem(index2);
+
+        // Check if item at index2 is null.
+        if (item2 != null)
+        {
+            // Item at index2 is not null!
+            Debug.Log("Item at index2 is not null! Failed to split item.");
+            return;
+        }
+
+        // Check if item is splittable.
+        if (!item1.isStackable || item1.quantity <= 1)
+        {
+            // Item is not splittable!
+            Debug.Log("Item is not splittable! Failed to split item.");
+            return;
+        }
+
+        // Split item.
+        SO_Item secondHalf = inventory.SplitIndex(index1);
+        inventory.AddItem(index2, secondHalf);
     }
 
 

@@ -102,6 +102,34 @@ public class Inventory
         data.InvokeOnDataChange();
     }
 
+    /// <summary>
+    /// Splits the item at index in half. If item quantity is odd, 
+    /// the remainder is placed in the first half (not the returned SO_Item).
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns>The other half of the item</returns>
+    public SO_Item SplitIndex(int index)
+    {
+        SO_Item firstHalf = data.items[index].Copy();
+        int totalQuantity = firstHalf.quantity;
+
+        if (totalQuantity <= 1)
+        {
+            // Not splittable, return error!
+            Debug.LogError("Should not have requested to split an item with quantity <= 0." +
+                "Missing guard!");
+            return null;
+        }
+
+        firstHalf.quantity = Mathf.CeilToInt(totalQuantity / 2f);
+        data.items[index] = firstHalf;
+
+        SO_Item secondHalf = data.items[index].Copy();
+        secondHalf.quantity = Mathf.FloorToInt(totalQuantity / 2f);
+
+        return secondHalf;
+    }
+
     public int GetFirstEmptySlot()
     {
         for (int i = 0; i < data.slots; i++)

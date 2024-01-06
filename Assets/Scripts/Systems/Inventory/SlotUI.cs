@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
-    public event Action<InventorySystem, SlotUI> OnDragItem, OnEndDragItem, OnDropItem;
+    public event Action<InventorySystem, SlotUI, PointerEventData.InputButton> OnDragItem;
+    public event Action<InventorySystem, SlotUI>  OnEndDragItem, OnDropItem;
 
     private InventoryUI inventoryUI;
     private InventorySystem parentSystem;
@@ -102,22 +103,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             return;
         }
 
-        // If left mouse button starts drag, then start drag.
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            OnDragItem?.Invoke(parentSystem, this);
-        }
-
-        // If right mouse button, invoke new event OnDragItemSplit 'split'
-        // Maybe also check if item is stacakable and quantity is greater than 1.
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            Debug.Log("Splittig item!");
-
-            // temp
-            OnDragItem?.Invoke(parentSystem, this);
-        }
-
+        OnDragItem?.Invoke(parentSystem, this, eventData.button);
     }
 
     // On End Drag (check if this calls first, or OnDrop)
@@ -133,15 +119,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnDrop(PointerEventData eventData)
     {
         // Debug.Log("Mouse released over slot index: " + slotIndex);
-
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            Debug.Log("righty!");
-        } else
-        {
-            OnDropItem?.Invoke(parentSystem, this);
-        }
-        
+        OnDropItem?.Invoke(parentSystem, this);
     }
 
     #region Setters and Getters

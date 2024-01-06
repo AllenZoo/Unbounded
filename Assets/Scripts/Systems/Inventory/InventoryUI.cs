@@ -68,10 +68,11 @@ public class InventoryUI : MonoBehaviour
 
 
     // Modify selected slot index to slot that is being dragged.
-    public void OnSlotDrag(InventorySystem system, SlotUI slot)
+    public void OnSlotDrag(InventorySystem system, SlotUI slot, PointerEventData.InputButton input)
     {
         InventorySwapperManager.Instance.selectedSlotIndex  = slot.GetSlotIndex();
         InventorySwapperManager.Instance.selectedSlotInventorySystem = system;
+        InventorySwapperManager.Instance.inputButton = input;
 
         // Set mouse follower active. Assign sprite to mouse follower.
         inventoryMouseFollower.SetActive(true);
@@ -97,22 +98,43 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
+        // Check if left click/right click
+        // left click = swap
+        // right click = split
+
+        bool shouldSwap = InventorySwapperManager.Instance.inputButton == PointerEventData.InputButton.Left;
+
+
         Assert.IsNotNull(InventorySwapperManager.Instance.selectedSlotInventorySystem, "Selected slot inventory system is null.");
         // Check if item dropped on same system or different system.
         if (system != InventorySwapperManager.Instance.selectedSlotInventorySystem)
         {
-            // Different system, swap externally.
-            system.AttemptStackThenSwapBetweenSystems(
-                InventorySwapperManager.Instance.selectedSlotInventorySystem,
-                InventorySwapperManager.Instance.selectedSlotIndex, 
-                slot.GetSlotIndex());
+            if (shouldSwap)
+            {
+                // Different system, swap externally.
+                system.AttemptStackThenSwapBetweenSystems(
+                    InventorySwapperManager.Instance.selectedSlotInventorySystem,
+                    InventorySwapperManager.Instance.selectedSlotIndex,
+                    slot.GetSlotIndex());
+            } else
+            {
+                // Should split. (externally TODO:)
+            }
             InventorySwapperManager.Instance.ResetSelection();
         } 
         else
         {
+            if (shouldSwap)
+            {
+                system.AttemptStackThenSwap(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+                InventorySwapperManager.Instance.ResetSelection();
+            } else
+            {
+                system.Split(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+            }
+            
             // Same System, swap internally.
-            system.AttemptStackThenSwap(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
-            InventorySwapperManager.Instance.ResetSelection();
+            
         }
     }
 
