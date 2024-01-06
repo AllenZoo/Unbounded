@@ -78,10 +78,8 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, itemData.spriteRot);
 
         // Check if item is stackable and if quantity is greater than 1.
-        Debug.Log("Item quantity: " + itemData.quantity);
         if (itemData.isStackable && itemData.quantity > 1)
         {
-            Debug.Log("Got in here!");
             quantityText.text = "x" + itemData.quantity.ToString();
             quantityText.gameObject.SetActive(true);
         }
@@ -104,7 +102,22 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             return;
         }
 
-        OnDragItem?.Invoke(parentSystem, this);
+        // If left mouse button starts drag, then start drag.
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnDragItem?.Invoke(parentSystem, this);
+        }
+
+        // If right mouse button, invoke new event OnDragItemSplit 'split'
+        // Maybe also check if item is stacakable and quantity is greater than 1.
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            Debug.Log("Splittig item!");
+
+            // temp
+            OnDragItem?.Invoke(parentSystem, this);
+        }
+
     }
 
     // On End Drag (check if this calls first, or OnDrop)
@@ -120,7 +133,15 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnDrop(PointerEventData eventData)
     {
         // Debug.Log("Mouse released over slot index: " + slotIndex);
-        OnDropItem?.Invoke(parentSystem, this);
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            Debug.Log("righty!");
+        } else
+        {
+            OnDropItem?.Invoke(parentSystem, this);
+        }
+        
     }
 
     #region Setters and Getters
