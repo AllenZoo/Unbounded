@@ -18,24 +18,11 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
     [Header("For debugging, don't set value")]
     [SerializeField] private int oldSortingOrder;
-    // TODO: use this to unfade, and reset sorting order when collidedWith.Count is empty.
-    private List<ViewColliderCollisionManager> collidedWith;
+    private int bestSortingOrder;
 
-    public ObjectFader ObjFader
-    {
-        get { return objFader; }
-    }
-    public SpriteRenderer ObjSprite
-    {
-        get { return objSprite; }
-    }
-    public Transform ParentTransform
-    {
-        get { return parentTransform;}
-    }
-    public Transform ObjFeet { 
-        get { return objFeet; } 
-    }
+    // TODO: use this to unfade, and reset sorting order when collidedWith.Count is empty.
+    private HashSet<ViewColliderCollisionManager> collidedWith;
+    private bool isMovingObject = false;
 
     private void Awake()
     {
@@ -59,9 +46,13 @@ public class ViewColliderCollisionManager : MonoBehaviour
     private void Start()
     {
         oldSortingOrder = objSprite.sortingOrder;
+        bestSortingOrder = oldSortingOrder;
 
         // Make Collider a trigger.
         GetComponent<Collider2D>().isTrigger = true;
+
+        collidedWith = new HashSet<ViewColliderCollisionManager>();
+        isMovingObject = parentTransform.CompareTag("Player") || parentTransform.CompareTag("Entity");
     }
 
     // TODO: refactor
@@ -70,6 +61,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
     //    collide with other objects on 'ViewCollider' layer.
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        collidedWith.RemoveWhere(vccm => vccm == null);
         ProcessCollision(collision);
     }
 
@@ -77,12 +69,10 @@ public class ViewColliderCollisionManager : MonoBehaviour
     // Essentially an Update() but less expensive.
     private void OnTriggerStay2D(Collider2D collision)
     {
+        collidedWith.RemoveWhere(vccm => vccm == null);
         ProcessCollision(collision);
     }
 
-    // Undo fade if object leaving the ViewCollider is player/entity
-    // POTENTIAL BUG: If player leaves the collider, but there is an entity there, the object will
-    // be opaque and then fade once another OnTriggerStay is called.
     private void OnTriggerExit2D(Collider2D collision)
     {
         // Check if collided View Collider belongs to the Player.
@@ -90,19 +80,35 @@ public class ViewColliderCollisionManager : MonoBehaviour
         Assert.IsNotNull(otherVCCM, "Collision EXIT in ViewCollider layer should result in both objects containing" +
             "a ViewColliderCollisionManager component.");
 
-        // Check if collided View Collider belongs to the Player/Entity.
-        if (otherVCCM.parentTransform.CompareTag("Player")
-            || otherVCCM.parentTransform.CompareTag("Entity"))
+        collidedWith.RemoveWhere(vccm => vccm == null);
+        collidedWith.Remove(otherVCCM);
+
+        // Check if any collided View Colliders belongs to the Player/Entity.
+        foreach (ViewColliderCollisionManager vccm in collidedWith)
         {
-            // Unfade
-            if (objFader != null)
+            if (vccm.isMovingObject)
             {
-                this.objFader.setDoFade(false);
+                // Found a collider still colliding. So don't unfade.
+                return;
             }
         }
 
-        // Reset Sorting Layer of Object
-        objSprite.sortingOrder = oldSortingOrder;
+        // Unfade
+        if (objFader != null)
+        {
+            this.objFader.setDoFade(false);
+        }
+
+        if (isMovingObject)
+        {
+            // For moving VCCMs
+            objSprite.sortingOrder = oldSortingOrder;
+        }
+        else
+        {
+            // For static
+            objSprite.sortingOrder = bestSortingOrder;
+        }
     }
 
     // Process collision (HELPER)
@@ -115,15 +121,21 @@ public class ViewColliderCollisionManager : MonoBehaviour
         Assert.IsNotNull(otherVCCM, "Collision ENTER/STAY in ViewCollider layer should result in both objects containing" +
             "a ViewColliderCollisionManager component.");
 
-        // Check if collided View Collider belongs to the Player/Entity.
-        if (otherVCCM.parentTransform.CompareTag("Player")
-            || otherVCCM.parentTransform.CompareTag("Entity"))
+        collidedWith.Add(otherVCCM);
+        HandleViewCollision(otherVCCM);
+
+        // If not colliding with any moving objects, set bestSortingOrder to cur sorting order.
+        foreach (ViewColliderCollisionManager vccm in collidedWith)
         {
-            HandleViewCollision(otherVCCM, true);
-        } else
-        {
-            HandleViewCollision(otherVCCM, false);
+            if (vccm.isMovingObject)
+            {
+                // Found a collider still colliding. So don't set best sorting order.
+                return;
+            }
         }
+
+        // Set best sorting order to current sorting order. (bso represents the best sorting order for all static view collisions) 
+        bestSortingOrder = objSprite.sortingOrder;
     }
 
     /// <summary>
@@ -132,21 +144,34 @@ public class ViewColliderCollisionManager : MonoBehaviour
     /// </summary>
     /// <param name="otherVCCM"></param>
     /// <param name="againstEntity"></param>
-    private void HandleViewCollision(ViewColliderCollisionManager otherVCCM, bool againstEntity)
+    private void HandleViewCollision(ViewColliderCollisionManager otherVCCM)
     {
         // Check which feet is in front.
-        float otherYPos = otherVCCM.ObjFeet.position.y;
+        float otherYPos = otherVCCM.objFeet.position.y;
         float thisYPos = objFeet.position.y;
 
         if (otherYPos > thisYPos)
         {
-            // This Object is in front of other (player/entity).
+            // Object is in front of other.
 
-            // Increase Sorting Layer of Object
-            objSprite.sortingOrder = otherVCCM.ObjSprite.sortingOrder + 1;
+            // Increase Sorting Layer of object if necessary.
+            if (objSprite.sortingOrder <= otherVCCM.objSprite.sortingOrder)
+            {
+                // Increase
+                objSprite.sortingOrder = otherVCCM.objSprite.sortingOrder + 1;
 
-
-            if (shouldFadeIfInFront && againstEntity)
+                // Since sorting order has changed, update sorting order for other colliding vccms
+                foreach (ViewColliderCollisionManager vccm in collidedWith)
+                {
+                    if (vccm != this)
+                    {
+                        vccm.HandleViewCollision(this);
+                    }
+                }
+            }
+            
+            // If other is a moving object (player/entity), fade if necessary.
+            if (shouldFadeIfInFront && otherVCCM.isMovingObject)
             {
                 // Fade Object
                 objFader.setDoFade(true);
@@ -154,13 +179,10 @@ public class ViewColliderCollisionManager : MonoBehaviour
         }
         else
         {
-            // Object is behind player.
+            // Object is behind other.
 
-            // Decrease Sorting Layer of Object
-            objSprite.sortingOrder = otherVCCM.ObjSprite.sortingOrder - 1;
-
-
-            if (shouldFadeIfInFront && againstEntity)
+            // If other is a moving object (player/entity), and it is the only moving object... unfade if necessary.
+            if (shouldFadeIfInFront && otherVCCM.isMovingObject)
             {
                 // Undo Fade (if faded)
                 objFader.setDoFade(false);
