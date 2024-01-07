@@ -55,10 +55,6 @@ public class ViewColliderCollisionManager : MonoBehaviour
         isMovingObject = parentTransform.CompareTag("Player") || parentTransform.CompareTag("Entity");
     }
 
-    // TODO: refactor
-    //  - move into private helper (so don't have dup code in OnTriggerStay2D)
-    //  - assign 'ViewCollider' layer and make it such that objs on 'ViewCollider' can only
-    //    collide with other objects on 'ViewCollider' layer.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collidedWith.RemoveWhere(vccm => vccm == null);
