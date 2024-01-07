@@ -14,6 +14,9 @@ public class EnemyAIComponent : InputController
     [Tooltip("Used for calculating the best direction to move in to get to target.")]
     [SerializeField] private ContextSteerer contextSteerer;
 
+    [Tooltip("Position to spawn raycasts for detecting obstacles.")]
+    [SerializeField] private Transform feetTransform;
+
 
     [Tooltip("Minimum distance to keep from target")]
     [SerializeField] private float minDist;
@@ -122,7 +125,7 @@ public class EnemyAIComponent : InputController
         float dist = Vector2.Distance(transform.position, target.transform.position);
 
         // Use context steering to determine movement direction to best reach target.
-        Vector2 dir = contextSteerer.GetDir(target.transform.position, transform.position);
+        Vector2 dir = contextSteerer.GetDir(target.transform.position, feetTransform.position);
         Debug.Log("Best dir: " + dir);
 
         // Move towards the target
@@ -136,7 +139,7 @@ public class EnemyAIComponent : InputController
         }
 
         // Stutter the timer to prevent crazy movement.
-        timer = 0.5f;
+        timer = 0.2f;
     }
 
     // Move torwards a target and attack (ranged)

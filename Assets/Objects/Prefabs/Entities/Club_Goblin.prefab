@@ -319,6 +319,7 @@ MonoBehaviour:
   inputEnabled: 1
   combatType: 0
   contextSteerer: {fileID: 4856956981835329699}
+  feetTransform: {fileID: 4908574003477299549}
   minDist: 1
   attackRange: 2
   movementTimer: 0.5
@@ -438,7 +439,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02845788, y: -0.38181555}
+  m_Offset: {x: -0.0011497736, y: -0.3788541}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -449,7 +450,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6679864, y: 0.122535706}
+  m_Size: {x: 0.1291058, y: 0.12845862}
   m_EdgeRadius: 0
 --- !u!1 &4870079126796889414
 GameObject:
