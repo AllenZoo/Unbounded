@@ -119,14 +119,20 @@ public class ViewColliderCollisionManager : MonoBehaviour
         if (otherVCCM.parentTransform.CompareTag("Player")
             || otherVCCM.parentTransform.CompareTag("Entity"))
         {
-            HandleViewCollision(otherVCCM);
+            HandleViewCollision(otherVCCM, true);
+        } else
+        {
+            HandleViewCollision(otherVCCM, false);
         }
     }
 
-    // If player is behind object, and object should fade,
-    // increase it's sorting layer so it renders in front of the player and is transparent.
-    // Note: All potential otherVCCM are from Entitites/Players.
-    private void HandleViewCollision(ViewColliderCollisionManager otherVCCM)
+    /// <summary>
+    /// If player is behind object, and object should fade,increase it's sorting layer so it renders in front of the player and is transparent.
+    /// If againstEntity = true, the otherVCCM is from an Entity/Player. Else it is from another static object.
+    /// </summary>
+    /// <param name="otherVCCM"></param>
+    /// <param name="againstEntity"></param>
+    private void HandleViewCollision(ViewColliderCollisionManager otherVCCM, bool againstEntity)
     {
         // Check which feet is in front.
         float otherYPos = otherVCCM.ObjFeet.position.y;
@@ -140,7 +146,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
             objSprite.sortingOrder = otherVCCM.ObjSprite.sortingOrder + 1;
 
 
-            if (shouldFadeIfInFront)
+            if (shouldFadeIfInFront && againstEntity)
             {
                 // Fade Object
                 objFader.setDoFade(true);
@@ -154,7 +160,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
             objSprite.sortingOrder = otherVCCM.ObjSprite.sortingOrder - 1;
 
 
-            if (shouldFadeIfInFront)
+            if (shouldFadeIfInFront && againstEntity)
             {
                 // Undo Fade (if faded)
                 objFader.setDoFade(false);

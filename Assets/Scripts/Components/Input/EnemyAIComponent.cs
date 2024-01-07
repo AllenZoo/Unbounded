@@ -11,6 +11,10 @@ public class EnemyAIComponent : InputController
     [SerializeField] private CombatType combatType;
     private StateComponent state;
 
+    [Tooltip("Used for calculating the best direction to move in to get to target.")]
+    [SerializeField] private ContextSteerer contextSteerer;
+
+
     [Tooltip("Minimum distance to keep from target")]
     [SerializeField] private float minDist;
     [SerializeField] private float attackRange;
@@ -24,6 +28,7 @@ public class EnemyAIComponent : InputController
 
     private void Awake()
     {
+        Assert.IsNotNull(contextSteerer, "contextSteerer must be assigned in inspector for AI to perform context steering movement.");
         Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
         state = GetComponent<StateComponent>();
     }
@@ -115,7 +120,11 @@ public class EnemyAIComponent : InputController
 
         state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
-        Vector2 dir = target.transform.position - transform.position;
+
+        // Use context steering to determine movement direction to best reach target.
+        Vector2 dir = contextSteerer.GetDir(target.transform.position, transform.position);
+        Debug.Log("Best dir: " + dir);
+
         // Move towards the target
         base.InvokeMovementInput(dir);
 
