@@ -175,6 +175,9 @@ public class ContextSteerer : MonoBehaviour
             avgDir += (float) weights[i] * directions[i];
         }
 
+        // Draw ray pointing in direction of avgDir for debugging
+        // Debug.DrawRay(transform.position, avgDir, Color.red, 1f);
+
         return avgDir.normalized; // Stub
     }
 

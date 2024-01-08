@@ -8,31 +8,32 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(StateComponent))]
 public class EnemyAIComponent : InputController
 {
-    [SerializeField] private CombatType combatType;
-    private StateComponent state;
+    [SerializeField] protected CombatType combatType;
+    protected StateComponent state;
 
     [Tooltip("Used for calculating the best direction to move in to get to target.")]
-    [SerializeField] private ContextSteerer contextSteerer;
+    [SerializeField] protected ContextSteerer contextSteerer;
 
     [Tooltip("Position to spawn raycasts for detecting obstacles.")]
-    [SerializeField] private Transform feetTransform;
+    [SerializeField] protected Transform feetTransform;
 
     [Tooltip("Used for keeping track of where to follow target.")]
-    [SerializeField] private ObjectTracker tracker;
+    [SerializeField] protected ObjectTracker tracker;
 
 
+    // Kiting variables
     [Tooltip("Minimum distance to keep from target")]
-    [SerializeField] private float minDist;
-    [SerializeField] private float attackRange;
+    [SerializeField] protected float minDist;
+    [SerializeField] protected float attackRange;
 
 
-    [SerializeField] private float movementTimer = 3f; // Time interval to change movement direction
-    private float timer;
+    [SerializeField] protected float movementTimer = 3f; // Time interval to change movement direction
+    protected float timer;
 
     [Header("For debugging, don't assign value")]
-    [SerializeField] private GameObject aggroTarget;
+    [SerializeField] protected GameObject aggroTarget;
 
-    private void Awake()
+    protected void Awake()
     {
         Assert.IsNotNull(contextSteerer, "contextSteerer must be assigned in inspector for AI to perform context steering movement.");
         Assert.IsNotNull(feetTransform, "feetTransform must be assigned in inspector for AI to perform context steering movement.");
@@ -42,15 +43,16 @@ public class EnemyAIComponent : InputController
         state = GetComponent<StateComponent>();
     }
 
-    private void Start()
+    protected void Start()
     {
         // Set the initial timer value
         timer = movementTimer;
 
+        // Subscribe to state change event
         state.OnStateChanged += OnStateChange;
     }
 
-    private void Update()
+    protected void Update()
     {
         // Count down the timer
         timer -= Time.deltaTime;
@@ -89,7 +91,7 @@ public class EnemyAIComponent : InputController
     }
 
     // Randomly move around
-    private void Random_Move()
+    protected void Random_Move()
     {
         // If the timer reaches or goes below 0, change movement direction
         if (timer <= 0f)
@@ -121,7 +123,7 @@ public class EnemyAIComponent : InputController
     }
 
     // Move torwards a target and attack (melee)
-    private void Targetted_Move(GameObject target, float attackRange)
+    protected void Targetted_Move(GameObject target, float attackRange)
     {
         // This is to prevent the enemy from stuttering and updating it's movement direction
         // too frequently
@@ -152,7 +154,7 @@ public class EnemyAIComponent : InputController
 
     // Move torwards a target and attack (ranged)
     // MinDist is the minimum distance to keep from the target
-    private void Targetted_Ranged_Move(GameObject target, float minDist, float attackRange)
+    protected void Targetted_Ranged_Move(GameObject target, float minDist, float attackRange)
     {
 
         // This is to prevent the enemy from stuttering and updating it's movement direction
@@ -190,7 +192,7 @@ public class EnemyAIComponent : InputController
     }
 
     // Attack a target
-    private void Attack(GameObject target)
+    protected void Attack(GameObject target)
     {
         // Invoke the event to notify listeners about the attack input
 

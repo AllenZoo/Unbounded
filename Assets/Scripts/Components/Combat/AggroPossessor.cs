@@ -28,7 +28,7 @@ public class AggroPossessor : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<AggroTarget>() != null)
         {
-            aggroBrain.SetAggroTarget(collision.gameObject);
+            aggroBrain.SetAggroTarget(collision.gameObject);    
 
             aggroTarget = collision.gameObject;
             StopAllCoroutines();
