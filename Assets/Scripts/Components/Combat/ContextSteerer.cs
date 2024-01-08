@@ -49,7 +49,7 @@ public class ContextSteerer : MonoBehaviour
     /// <param name="targetPos"></param>
     /// <param name="currPos"></param>
     /// <returns>A normalized direction vector</returns>
-    public Vector2 GetDir(Vector2 targetPos, Vector2 currPos)
+    public Vector2 GetDirTorwards(Vector2 targetPos, Vector2 currPos)
     {
         CalculateTargetDirWeights(targetPos, currPos, true);
         CalculateDangerDirWeights(currPos);

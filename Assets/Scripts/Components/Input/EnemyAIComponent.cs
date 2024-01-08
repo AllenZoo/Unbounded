@@ -133,7 +133,7 @@ public class EnemyAIComponent : InputController
         state.ReqStateChange(State.RUNNING);
 
         // Use context steering to determine movement direction to best reach target.
-        Vector2 dir = contextSteerer.GetDir(tracker.GetLastSeenTargetPos(), feetTransform.position);
+        Vector2 dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
 
         // Move towards the target
         base.InvokeMovementInput(dir);
@@ -172,7 +172,7 @@ public class EnemyAIComponent : InputController
             dir = contextSteerer.GetDirAway(tracker.GetLastSeenTargetPos(), feetTransform.position);
         } else
         {
-            dir = contextSteerer.GetDir(tracker.GetLastSeenTargetPos(), feetTransform.position);
+            dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
         }
         
 
