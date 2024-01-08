@@ -67,10 +67,11 @@ public class ContextSteerer : MonoBehaviour
             // Calculate angle between targetDir and dir
             float angle = Vector2.Angle(targetDir, dir);
             
-            // If angle > 90, then assign a weight of 0
+            // If angle > 90, then assign a weight of 0 (or maybe add some randomization to get out of sticky situations)
             if (angle > 90)
             {
-                targetDirWeights[System.Array.IndexOf(directions, dir)] = 0;
+                float random = Random.Range(0f, 0.2f);
+                targetDirWeights[System.Array.IndexOf(directions, dir)] = random;
             }
             else
             {
@@ -86,11 +87,11 @@ public class ContextSteerer : MonoBehaviour
         // and assign weights based on the level of danger and dist to danger
         // (e.g. if danger is close, assign a higher weight)
 
-        // Clear danger weights
-        //for (int i = 0; i < dangerDirWeights.Length; i++)
-        //{
-        //    dangerDirWeights[i] = 0;
-        //}
+        // Clear previous danger weights
+        for (int i = 0; i < dangerDirWeights.Length; i++)
+        {
+            dangerDirWeights[i] = 0;
+        }
 
 
         //// Define ray length
@@ -117,7 +118,7 @@ public class ContextSteerer : MonoBehaviour
                 double distanceFactor = rayLength -  (hit.distance);
 
                 // ReLU (play around with threshold to achieve better behaviour)
-                double weight = ReLU(distanceFactor, 4.68);
+                double weight = ReLU(distanceFactor, 4.65);
 
                 dangerDirWeights[System.Array.IndexOf(directions, dir)] = weight;
             }

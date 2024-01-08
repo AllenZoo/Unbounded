@@ -26,18 +26,14 @@ public class AggroPossessor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Aggro colliders can only collide with aggro colliders.
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Aggro"))
+        if (collision.gameObject.GetComponent<AggroTarget>() != null)
         {
-            if (collision.gameObject.GetComponent<AggroTarget>() != null)
-            {
-                aggroBrain.SetAggroTarget(collision.gameObject);
+            aggroBrain.SetAggroTarget(collision.gameObject);
 
-                aggroTarget = collision.gameObject;
-                StopAllCoroutines();
-                isAggroed = true;
-                StartCoroutine(AggroCoroutine());
-            }
+            aggroTarget = collision.gameObject;
+            StopAllCoroutines();
+            isAggroed = true;
+            StartCoroutine(AggroCoroutine());
         }
     }
 

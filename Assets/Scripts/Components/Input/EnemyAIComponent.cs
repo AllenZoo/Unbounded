@@ -17,6 +17,9 @@ public class EnemyAIComponent : InputController
     [Tooltip("Position to spawn raycasts for detecting obstacles.")]
     [SerializeField] private Transform feetTransform;
 
+    [Tooltip("Used for keeping track of where to follow target.")]
+    [SerializeField] private ObjectTracker tracker;
+
 
     [Tooltip("Minimum distance to keep from target")]
     [SerializeField] private float minDist;
@@ -32,6 +35,9 @@ public class EnemyAIComponent : InputController
     private void Awake()
     {
         Assert.IsNotNull(contextSteerer, "contextSteerer must be assigned in inspector for AI to perform context steering movement.");
+        Assert.IsNotNull(feetTransform, "feetTransform must be assigned in inspector for AI to perform context steering movement.");
+        Assert.IsNotNull(tracker, "tracker must be assigned in inspector for AI to perform context steering movement.");
+
         Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
         state = GetComponent<StateComponent>();
     }
@@ -53,6 +59,8 @@ public class EnemyAIComponent : InputController
         if (aggroTarget != null)
         {
             // Aggroed
+            tracker.enabled = true;
+            tracker.Track(aggroTarget);
             switch(combatType)
             {
                 case CombatType.MELEE:
@@ -64,6 +72,7 @@ public class EnemyAIComponent : InputController
             }
         } else
         {
+            tracker.enabled = false;
             Random_Move();
         }
         
@@ -122,15 +131,19 @@ public class EnemyAIComponent : InputController
         }
 
         state.ReqStateChange(State.RUNNING);
-        float dist = Vector2.Distance(transform.position, target.transform.position);
+
+
+
 
         // Use context steering to determine movement direction to best reach target.
-        Vector2 dir = contextSteerer.GetDir(target.transform.position, feetTransform.position);
+        Vector2 dir = contextSteerer.GetDir(tracker.GetLastSeenTargetPos(), feetTransform.position);
+        // Vector2 dir = contextSteerer.GetDir(target.transform.position, feetTransform.position);
         Debug.Log("Best dir: " + dir);
 
         // Move towards the target
         base.InvokeMovementInput(dir);
 
+        float dist = Vector2.Distance(transform.position, target.transform.position);
         // If the target is within attack range, attack
         if (dist < attackRange)
         {
@@ -139,7 +152,7 @@ public class EnemyAIComponent : InputController
         }
 
         // Stutter the timer to prevent crazy movement.
-        timer = 0.2f;
+        timer = 0.5f;
     }
 
     // Move torwards a target and attack (ranged)
