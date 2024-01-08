@@ -147,7 +147,7 @@ public class EnemyAIComponent : InputController
         }
 
         // Stutter the timer to prevent crazy movement.
-        timer = 0.5f;
+        timer = 0.2f;
     }
 
     // Move torwards a target and attack (ranged)
@@ -164,12 +164,15 @@ public class EnemyAIComponent : InputController
 
         state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
-        Vector2 dir = contextSteerer.GetDir(tracker.GetLastSeenTargetPos(), feetTransform.position);
+        Vector2 dir = Vector2.zero;
 
         if (dist < minDist)
         {
             // Move away from the target
             dir = contextSteerer.GetDirAway(tracker.GetLastSeenTargetPos(), feetTransform.position);
+        } else
+        {
+            dir = contextSteerer.GetDir(tracker.GetLastSeenTargetPos(), feetTransform.position);
         }
         
 
@@ -183,7 +186,7 @@ public class EnemyAIComponent : InputController
         }
 
         // Stutter the timer to prevent crazy movement.
-        timer = 0.5f;
+        timer = 0.2f;
     }
 
     // Attack a target
