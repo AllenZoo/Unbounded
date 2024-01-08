@@ -12,14 +12,10 @@ public class AnimatorController : MonoBehaviour
     // For making the sprite flash white. 
     [SerializeField] private Material damageMaterial;
 
-    // For subscribing to entities state changes.
-    // TODO: remove. We just call the change state stuff in state component.
-    [SerializeField] private StateComponent stateComponent;
-
     private Material defaultMaterial;
     private bool runningDamageEffect = false;
 
-
+    #region Animator Parameters
     // Animation Names
     public static string IDLE_ANIMATION_NAME = "Idle";
     public static string WALKING_ANIMATION_NAME = "Walking";
@@ -40,26 +36,24 @@ public class AnimatorController : MonoBehaviour
     // Update this whenever new parameter is added.
     public static float NUMBER_OF_PARAMETERS = 4;
 
+    #endregion
+
     // Components
     [Header("Can be null.")]
     [Tooltip("Can be null. Set if we want to control animations that change based on motion.")]
     [SerializeField] private MotionComponent motionComponent;
-    
     private Animator animator;
 
     // State in this case refers to animation states and not entity states.
     private bool canTransitionState;
-    private State lastNonCCState;
+
+    // Information about entity state.
+    private State curState;
+    // private State lastNonCCState;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-
-        // TODO: remove this, temp.
-        if (stateComponent == null)
-        {
-            stateComponent = GetComponent<StateComponent>();
-        }
 
         if (motionComponent == null)
         {
@@ -80,9 +74,7 @@ public class AnimatorController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Assert(stateComponent != null, "State null in animation controller for object: " + gameObject);
         Debug.Assert(animator != null, "Animator null in animation controller for object: " + gameObject);
-        stateComponent.OnStateChanged += State_OnStateChanged;
 
         if (motionComponent != null)
         {
@@ -104,21 +96,16 @@ public class AnimatorController : MonoBehaviour
     {
         StartCoroutine(DamagedEffect(damage));
     }
+    public void SetState(State state)
+    {
+        this.curState = state;
+        Handle_Animation(state);
+        Handle_Effects(state);
+    }
 
     private void Motion_OnMotionChange(Vector2 dir, Vector2 lastDir)
     {
         SetMovementParameters(dir, lastDir);
-    }
-
-    private void State_OnStateChanged(State oldState, State newState)
-    {
-        if (!stateComponent.GetCCStates.Contains(newState))
-        {
-            lastNonCCState = newState;
-        }
-
-        Handle_Animation(stateComponent.state);
-        Handle_Effects(stateComponent.state);
     }
 
     private void SetMovementParameters(Vector2 dir, Vector2 lastDir)
@@ -132,6 +119,11 @@ public class AnimatorController : MonoBehaviour
     // Modifies the state of the animator 
     private void Handle_Animation(State state)
     {
+        if (!canTransitionState)
+        {
+            return;
+        }
+
         switch (state)
         {
             case State.IDLE:
@@ -182,15 +174,16 @@ public class AnimatorController : MonoBehaviour
     private IEnumerator DamagedEffect(float damage)
     {
         runningDamageEffect = true;
-        Handle_Effects(stateComponent.state);
+        Handle_Effects(curState);
 
         sprite.material = new Material(damageMaterial);
         yield return new WaitForSeconds(0.2f);
         sprite.material = new Material(defaultMaterial);
 
         runningDamageEffect = false;
-        Handle_Effects(stateComponent.state);
+        Handle_Effects(curState);
     }
+    
     #region Getters and Setters
 
     public bool CanTransitionState

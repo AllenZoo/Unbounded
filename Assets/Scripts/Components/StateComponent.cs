@@ -128,6 +128,7 @@ public class StateComponent : MonoBehaviour
 
         if (animatorController != null)
         {
+            animatorController.SetState(newState);
             switch (newState)
             {
                 case State.DEAD:
