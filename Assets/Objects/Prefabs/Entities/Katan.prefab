@@ -77,10 +77,9 @@ GameObject:
   - component: {fileID: 1547172783033353862}
   - component: {fileID: 1547172783033353881}
   - component: {fileID: 8188220333368915972}
-  - component: {fileID: 6830863354905272758}
   - component: {fileID: 4891969500134188528}
   m_Layer: 6
-  m_Name: RenderHandler
+  m_Name: GraphicsHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,25 +173,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6830863354905272758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547172783033353863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorController: {fileID: 0}
-  movementController: {fileID: 0}
-  inputController: {fileID: 0}
-  damageable: {fileID: 0}
-  knockbackable: {fileID: 0}
-  debuggingState: 0
-  crowdControlStates: 05000000
 --- !u!114 &4891969500134188528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 1547172783033353881}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  stateComponent: {fileID: 4456538979408597556}
   motionComponent: {fileID: 0}
 --- !u!1 &1645832319290299256
 GameObject:
@@ -684,7 +665,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.011505008, y: -0.053515315}

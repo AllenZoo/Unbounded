@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(StateComponent))]
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
@@ -12,6 +11,11 @@ public class AnimatorController : MonoBehaviour
 
     // For making the sprite flash white. 
     [SerializeField] private Material damageMaterial;
+
+    // For subscribing to entities state changes.
+    // TODO: remove. We just call the change state stuff in state component.
+    [SerializeField] private StateComponent stateComponent;
+
     private Material defaultMaterial;
     private bool runningDamageEffect = false;
 
@@ -40,7 +44,7 @@ public class AnimatorController : MonoBehaviour
     [Header("Can be null.")]
     [Tooltip("Can be null. Set if we want to control animations that change based on motion.")]
     [SerializeField] private MotionComponent motionComponent;
-    private StateComponent stateComponent;
+    
     private Animator animator;
 
     // State in this case refers to animation states and not entity states.
@@ -49,8 +53,13 @@ public class AnimatorController : MonoBehaviour
 
     private void Awake()
     {
-        stateComponent = GetComponent<StateComponent>();
         animator = GetComponent<Animator>();
+
+        // TODO: remove this, temp.
+        if (stateComponent == null)
+        {
+            stateComponent = GetComponent<StateComponent>();
+        }
 
         if (motionComponent == null)
         {

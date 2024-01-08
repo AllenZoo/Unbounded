@@ -49,7 +49,7 @@ public class KatanInput : EnemyAIComponent
 
     private void Phase0()
     {
-        Debug.Log("Katan in phase 0!");
+        // Debug.Log("Katan in phase 0!");
 
         // Melee move torwards player
         base.Targetted_Move(aggroTarget, attackRange);
@@ -58,7 +58,7 @@ public class KatanInput : EnemyAIComponent
 
     private void Phase1()
     {
-        Debug.Log("Katan in phase 1!");
+        // Debug.Log("Katan in phase 1!");
 
         // Ranged move away from player
         base.Targetted_Ranged_Move(aggroTarget, minDist, attackRange);
