@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 1676611839}
   - component: {fileID: 1676611840}
   - component: {fileID: 1676611841}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: AggroCollider
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -568,6 +568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 7405677662020512087}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  motionComponent: {fileID: 0}
 --- !u!114 &7405677661359215970
 MonoBehaviour:
   m_ObjectHideFlags: 0

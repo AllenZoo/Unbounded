@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 3927945928392415910}
   - component: {fileID: 3927945928392415909}
   - component: {fileID: 3927945928392415911}
+  - component: {fileID: 972226064173351376}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -191,7 +192,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1789471847
   m_SortingLayer: 2
-  m_SortingOrder: 5
+  m_SortingOrder: 88
   m_Sprite: {fileID: 1622759809, guid: c4ac82870dd324e4b9fa410dc3c433d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -218,6 +219,27 @@ MonoBehaviour:
   transparency: 0.5
   fadeSpeed: 0.5
   doFade: 0
+--- !u!50 &972226064173351376
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3927945928392415908}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &3927945928922956864
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3927945928922956865}
   - component: {fileID: 3927945928922956878}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HardCollider
   m_TagString: HardCollider
   m_Icon: {fileID: 0}
@@ -324,10 +346,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentTransform: {fileID: 3927945928392415910}
   shouldFadeIfInFront: 1
-  oldSortingOrder: 0
   objFader: {fileID: 3927945928392415911}
   objSprite: {fileID: 3927945928392415909}
   objFeet: {fileID: 671391729283840827}
+  oldSortingOrder: 0
 --- !u!60 &3927945929061689187
 PolygonCollider2D:
   m_ObjectHideFlags: 0
