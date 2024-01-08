@@ -68,7 +68,10 @@ public class StateComponent : MonoBehaviour
                 // ReqStateChange(State.DAMAGED);
                 if (state != State.DEAD)
                 {
-                    animatorController.PlayDamagedEffect(dmg);
+                    if (animatorController != null)
+                    {
+                        animatorController.PlayDamagedEffect(dmg);
+                    }
                 }
                 
             };
