@@ -44,20 +44,41 @@ public class ContextSteerer : MonoBehaviour
     };
 
     /// <summary>
-    /// Get the best direction for this object to move in to get to the target pos.
+    /// Get the best direction for this object to move in to get TO the target pos.
     /// </summary>
     /// <param name="targetPos"></param>
     /// <param name="currPos"></param>
     /// <returns>A normalized direction vector</returns>
     public Vector2 GetDir(Vector2 targetPos, Vector2 currPos)
     {
-        CalculateTargetDirWeights(targetPos, currPos);
+        CalculateTargetDirWeights(targetPos, currPos, true);
         CalculateDangerDirWeights(currPos);
         Vector2 dir = CalculateBestDir();
         return dir;
     }
 
-    private void CalculateTargetDirWeights(Vector2 targetPos, Vector2 currPos)
+    /// <summary>
+    /// Get the best direction for this object to move in to get AWAY from the target pos.
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <param name="currPos"></param>
+    /// <returns></returns>
+    public Vector2 GetDirAway(Vector2 targetPos, Vector2 currPos)
+    {
+        CalculateTargetDirWeights(targetPos, currPos, false);
+        CalculateDangerDirWeights(currPos);
+        Vector2 dir = CalculateBestDir();
+        return dir;
+    }
+
+    /// <summary>
+    /// Fill up the targetDirWeights array with weights based on the targetPos and whether we want to go
+    /// torwards it or away from it.
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <param name="currPos"></param>
+    /// <param name="shouldGoTorwards">If our weight should signify we go torwards or not.</param>
+    private void CalculateTargetDirWeights(Vector2 targetPos, Vector2 currPos, bool shouldGoTorwards)
     {
         // Calculate weights based on the target direction
         Vector2 targetDir = (targetPos - currPos).normalized;
@@ -77,6 +98,15 @@ public class ContextSteerer : MonoBehaviour
             {
                 // Else, assign a weight of 1 - (angle / 90)
                 targetDirWeights[System.Array.IndexOf(directions, dir)] = 1 - (angle / 90);
+            }
+        }
+
+        if (!shouldGoTorwards)
+        {
+            // Invert the weights if we want to go away from the target
+            for (int i = 0; i < targetDirWeights.Length; i++)
+            {
+                targetDirWeights[i] = 1 - targetDirWeights[i];
             }
         }
     }
@@ -136,10 +166,6 @@ public class ContextSteerer : MonoBehaviour
             weights[i] = targetDirWeights[i] - dangerDirWeights[i];
             weights[i] = Mathf.Clamp((float)weights[i], 0, 1);
         }
-
-        //Debug.Log("Target dir weights: " + string.Join(", ", targetDirWeights));
-        //Debug.Log("Danger dir weights: " + string.Join(", ", dangerDirWeights));
-        //Debug.Log("Processed dir weights: " + string.Join(", ", weights));
 
         // Use this weight array to determine the best direction to move in
         // Calculate the average of the weights * directions
