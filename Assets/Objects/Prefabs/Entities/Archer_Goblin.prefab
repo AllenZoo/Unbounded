@@ -95,6 +95,72 @@ MonoBehaviour:
   objSprite: {fileID: 2927453995066883933}
   objFeet: {fileID: 7876661830799427504}
   oldSortingOrder: 0
+--- !u!1 &1625983753565964364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2743229502735151103}
+  - component: {fileID: 6654532339964661576}
+  - component: {fileID: 4903432893556685013}
+  m_Layer: 0
+  m_Name: ContextSteeringHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2743229502735151103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625983753565964364}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.169999, y: 3.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2927453995066883932}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6654532339964661576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625983753565964364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dee1dba92f05f145bb0c24f04dbfdd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclesLayermask:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!114 &4903432893556685013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625983753565964364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7e770e6d4aca64bac53d6b252efa0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  sightRange: 10
+  rayCount: 18
+  coneAngle: 45
 --- !u!1 &2927453995066883934
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +179,6 @@ GameObject:
   - component: {fileID: 2927453995066883929}
   - component: {fileID: -6282356925321559982}
   - component: {fileID: 2537435771086828967}
-  - component: {fileID: 9111571311916844027}
   m_Layer: 6
   m_Name: Archer_Goblin
   m_TagString: Entity
@@ -138,6 +203,7 @@ Transform:
   - {fileID: 3881056529903164181}
   - {fileID: 5943380441519516068}
   - {fileID: 7282639126342794371}
+  - {fileID: 2743229502735151103}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -266,8 +332,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputEnabled: 1
   combatType: 1
-  contextSteerer: {fileID: 9111571311916844027}
-  feetTransform: {fileID: 0}
+  contextSteerer: {fileID: 6654532339964661576}
+  feetTransform: {fileID: 7876661830799427504}
+  tracker: {fileID: 4903432893556685013}
   minDist: 5
   attackRange: 6
   movementTimer: 0.5
@@ -327,21 +394,6 @@ MonoBehaviour:
   sprite: {fileID: 2927453995066883933}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   motionComponent: {fileID: 0}
---- !u!114 &9111571311916844027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2927453995066883934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dee1dba92f05f145bb0c24f04dbfdd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstaclesLayermask:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!1 &4160062725044798197
 GameObject:
   m_ObjectHideFlags: 0

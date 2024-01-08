@@ -138,7 +138,7 @@ public class EnemyAIComponent : InputController
         // Use context steering to determine movement direction to best reach target.
         Vector2 dir = contextSteerer.GetDir(tracker.GetLastSeenTargetPos(), feetTransform.position);
         // Vector2 dir = contextSteerer.GetDir(target.transform.position, feetTransform.position);
-        Debug.Log("Best dir: " + dir);
+        // Debug.Log("Best dir: " + dir);
 
         // Move towards the target
         base.InvokeMovementInput(dir);

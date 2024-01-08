@@ -10,7 +10,7 @@ public class ObjectTracker : MonoBehaviour
 
     [Header("Cone Raycast Settings")]
     [SerializeField] private float sightRange = 10f;
-    [SerializeField] private int rayCount = 10;
+    [SerializeField] private int rayCount = 18;
     [SerializeField] private float coneAngle = 45f;
 
 
@@ -35,7 +35,7 @@ public class ObjectTracker : MonoBehaviour
         if (target != null)
         {
             CastConeRays();
-            Debug.Log("Last seen target pos: " + lastSeenTargetPos);
+            // Debug.Log("Last seen target pos: " + lastSeenTargetPos);
         }
     }
 

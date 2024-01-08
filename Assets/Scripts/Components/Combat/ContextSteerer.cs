@@ -94,7 +94,7 @@ public class ContextSteerer : MonoBehaviour
         }
 
 
-        //// Define ray length
+        // Define ray length
         float rayLength = 5f;
 
         foreach (Vector2 dir in directions)
@@ -113,7 +113,6 @@ public class ContextSteerer : MonoBehaviour
             {
                 // Adjust the danger weight based on the distance to the obstacle
                 
-                // Debug.Log("Hit distance: " + hit.distance + " in direction " + dir);
 
                 double distanceFactor = rayLength -  (hit.distance);
 
@@ -138,9 +137,9 @@ public class ContextSteerer : MonoBehaviour
             weights[i] = Mathf.Clamp((float)weights[i], 0, 1);
         }
 
-        Debug.Log("Target dir weights: " + string.Join(", ", targetDirWeights));
-        Debug.Log("Danger dir weights: " + string.Join(", ", dangerDirWeights));
-        Debug.Log("Processed dir weights: " + string.Join(", ", weights));
+        //Debug.Log("Target dir weights: " + string.Join(", ", targetDirWeights));
+        //Debug.Log("Danger dir weights: " + string.Join(", ", dangerDirWeights));
+        //Debug.Log("Processed dir weights: " + string.Join(", ", weights));
 
         // Use this weight array to determine the best direction to move in
         // Calculate the average of the weights * directions
@@ -170,12 +169,12 @@ public class ContextSteerer : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // For debugging
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CalculateDangerDirWeights(transform.position);
-        }
-    }
+    //private void Update()
+    //{
+    //    // For debugging
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        CalculateDangerDirWeights(transform.position);
+    //    }
+    //}
 }
