@@ -8,12 +8,21 @@ public class KatanInput : EnemyAIComponent
 {
     public event Action<int> OnPhaseChange;
 
+    [SerializeField] private Transform centerTransform;
+
+    [Tooltip("Maximum distance away from centerTransform that Katan can move during certain phases.")]
+    [SerializeField] private float maxDistAwayFromCenter = 5f;
+
     [Header("For debugging purposes.")]
     [SerializeField] private int phase = 0;
 
     private new void Start()
     {
         base.Start();
+        if (centerTransform == null)
+        {
+            centerTransform = gameObject.transform;
+        }
         OnPhaseChange?.Invoke(phase);
     }
 
@@ -51,8 +60,9 @@ public class KatanInput : EnemyAIComponent
     {
         // Debug.Log("Katan in phase 0!");
 
-        // Melee move torwards player
-        base.Targetted_Move(aggroTarget, attackRange);
+        // Follow
+        base.Follow(aggroTarget);
+        base.ReadyAttack(aggroTarget, attackRange);
 
     }
 
@@ -60,7 +70,31 @@ public class KatanInput : EnemyAIComponent
     {
         // Debug.Log("Katan in phase 1!");
 
-        // Ranged move away from player
-        base.Targetted_Ranged_Move(aggroTarget, minDist, attackRange);
+        // Kite
+        base.KiteTarget(aggroTarget, minDist);
+        base.ReadyAttack(aggroTarget, attackRange);
+    }
+
+
+    // Move close to the player but stay within a maxDist of centerPos.
+    private void Phase2(GameObject target)
+    {
+        
+        float centerDist = Vector2.Distance(transform.position, centerTransform.position);
+
+        // If Katan is too far away from the center, move closer to the center.
+        if (centerDist > maxDistAwayFromCenter)
+        {
+            // Move closer to the center.
+            base.Follow(centerTransform.gameObject);
+        }
+        else
+        {
+            // Move closer to the player.
+            base.Follow(target);
+        }
+
+        base.ReadyAttack(target, attackRange);
+
     }
 }

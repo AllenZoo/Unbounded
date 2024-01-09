@@ -54,7 +54,7 @@ public class ObjectTracker : MonoBehaviour
             // 
            
             // Debug draw to visualize the cone rays (optional)
-            // Debug.DrawRay(transform.position, rayDirection.normalized * sightRange, Color.green);
+            Debug.DrawRay(transform.position, rayDirection.normalized * sightRange, Color.green);
 
             
             if (targetHit.collider != null)

@@ -66,12 +66,13 @@ public class EnemyAIComponent : InputController
             switch(combatType)
             {
                 case CombatType.MELEE:
-                    Targetted_Move(aggroTarget, attackRange);
+                    Follow(aggroTarget);
                     break;
                 case CombatType.RANGED:
-                    Targetted_Ranged_Move(aggroTarget, minDist, attackRange);
+                    KiteTarget(aggroTarget, minDist);
                     break;
             }
+            ReadyAttack(aggroTarget, attackRange);
         } else
         {
             tracker.enabled = false;
@@ -90,7 +91,9 @@ public class EnemyAIComponent : InputController
 
     }
 
-    // Randomly move around
+    /// <summary>
+    /// Randomly move around
+    /// </summary>
     protected void Random_Move()
     {
         // If the timer reaches or goes below 0, change movement direction
@@ -105,9 +108,7 @@ public class EnemyAIComponent : InputController
             // Invoke the event to notify listeners about the new motion direction
             base.InvokeMovementInput(dir);
 
-            // Debug.Log("Setting enemy dir to: " + dir);
-
-            // Set state to WALKING (handle state in State component later)
+            // Set state to WALKING (TODO: handle state in State component later)
             if (randX != 0 || randY != 0)
             {
                 state.ReqStateChange(State.WALKING);
@@ -122,8 +123,11 @@ public class EnemyAIComponent : InputController
         }
     }
 
-    // Move torwards a target and attack (melee)
-    protected void Targetted_Move(GameObject target, float attackRange)
+    /// <summary>
+    /// Move torwards a target, using context steering to avoid obstacles.
+    /// </summary>
+    /// <param name="target"></param>
+    protected void Follow(GameObject target)
     {
         // This is to prevent the enemy from stuttering and updating it's movement direction
         // too frequently
@@ -140,23 +144,18 @@ public class EnemyAIComponent : InputController
         // Move towards the target
         base.InvokeMovementInput(dir);
 
-        float dist = Vector2.Distance(transform.position, target.transform.position);
-        // If the target is within attack range, attack
-        if (dist < attackRange)
-        {
-            state.ReqStateChange(State.ATTACKING);
-            Attack(target);
-        }
-
         // Stutter the timer to prevent crazy movement.
         timer = 0.2f;
     }
 
-    // Move torwards a target and attack (ranged)
-    // MinDist is the minimum distance to keep from the target
-    protected void Targetted_Ranged_Move(GameObject target, float minDist, float attackRange)
+    /// <summary>
+    /// Move torwards a target until a suitable minDist, essentially kiting the target and keeping
+    /// a safe distance from it. Uses context steering to avoid obstacles.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="minDist"> the minimum distance/space to keep from the target</param>
+    protected void KiteTarget(GameObject target, float minDist)
     {
-
         // This is to prevent the enemy from stuttering and updating it's movement direction
         // too frequently
         if (timer >= 0f)
@@ -166,32 +165,42 @@ public class EnemyAIComponent : InputController
 
         state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
-        Vector2 dir = Vector2.zero;
+
+        // Initial direction to move torwards target
+        Vector2 dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
 
         if (dist < minDist)
         {
             // Move away from the target
             dir = contextSteerer.GetDirAway(tracker.GetLastSeenTargetPos(), feetTransform.position);
-        } else
-        {
-            dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
         }
-        
 
         base.InvokeMovementInput(dir);
 
+        // Stutter the timer to prevent crazy movement.
+        timer = 0.2f;
+    }
+
+    /// <summary>
+    /// Track the distance from target, and attack when in range.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="attackRange"></param>
+    protected void ReadyAttack(GameObject target, float attackRange)
+    {
+        float dist = Vector2.Distance(transform.position, target.transform.position);
         // If the target is within attack range, attack
         if (dist < attackRange)
         {
             state.ReqStateChange(State.ATTACKING);
             Attack(target);
         }
-
-        // Stutter the timer to prevent crazy movement.
-        timer = 0.2f;
     }
 
-    // Attack a target
+    /// <summary>
+    /// Attack a target
+    /// </summary>
+    /// <param name="target"></param>
     protected void Attack(GameObject target)
     {
         // Invoke the event to notify listeners about the attack input
