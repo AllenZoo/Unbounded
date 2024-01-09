@@ -27,6 +27,9 @@ public class StateComponent : MonoBehaviour
     [SerializeField] State debuggingState = State.IDLE;
     [SerializeField] private List<State> crowdControlStates = new List<State>() {State.STUNNED };
 
+    private delegate IEnumerator AnimationCoroutine();
+    private delegate void StateAction();
+
     private void Awake()
     {
         if (animatorController == null || movementController == null || inputController == null) {
@@ -126,7 +129,8 @@ public class StateComponent : MonoBehaviour
         // TODO: handle destroying enemy somewhere else. Maybe even make a pool!
         if (newState == State.DEAD)
         {
-            Destroy(gameObject, 1.0f);
+            // Destroy(gameObject, 1.0f);
+            StartCoroutine(WaitThenCall(DeactivateEntity, 1.0f));
         }
 
         if (animatorController != null)
@@ -172,6 +176,26 @@ public class StateComponent : MonoBehaviour
                     inputController.inputEnabled = true;
                     break;
             }
+        }
+    }
+
+    private IEnumerator WaitForClipEnd(AnimationCoroutine coroutine, StateAction onEnd)
+    {
+        yield return StartCoroutine(coroutine());
+        onEnd();
+        // ReqStateChange(State.CCFREE);
+    }
+    private IEnumerator WaitThenCall (StateAction onEnd, float time)
+    {
+        yield return new WaitForSeconds(time);
+        onEnd();
+    }
+
+    private void DeactivateEntity()
+    {
+        if (gameObject != null)
+        {
+            gameObject.SetActive(false);
         }
     }
 }

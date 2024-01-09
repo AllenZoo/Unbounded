@@ -71,15 +71,15 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // Check if collided View Collider belongs to the Player.
         ViewColliderCollisionManager otherVCCM = collision.GetComponent<ViewColliderCollisionManager>();
         Assert.IsNotNull(otherVCCM, "Collision EXIT in ViewCollider layer should result in both objects containing" +
             "a ViewColliderCollisionManager component.");
 
+        // Remove from collision list
         collidedWith.RemoveWhere(vccm => vccm == null);
         collidedWith.Remove(otherVCCM);
 
-        // Check if any collided View Colliders belongs to the Player/Entity.
+        // Check if any colliders in list are moving objects.
         foreach (ViewColliderCollisionManager vccm in collidedWith)
         {
             if (vccm.isMovingObject)
@@ -95,6 +95,9 @@ public class ViewColliderCollisionManager : MonoBehaviour
             this.objFader.setDoFade(false);
         }
 
+        // Set sorting order to old order before any collisions between static and dynamic view colliders.
+        // Static = objects that don't move
+        // Dynamic = objects that move
         if (isMovingObject)
         {
             // For moving VCCMs
@@ -165,25 +168,32 @@ public class ViewColliderCollisionManager : MonoBehaviour
                     }
                 }
             }
-            
-            // If other is a moving object (player/entity), fade if necessary.
-            if (shouldFadeIfInFront && otherVCCM.isMovingObject)
-            {
-                // Fade Object
-                objFader.setDoFade(true);
-            }
         }
-        else
-        {
-            // Object is behind other.
 
-            // If other is a moving object (player/entity), and it is the only moving object... unfade if necessary.
-            if (shouldFadeIfInFront && otherVCCM.isMovingObject)
-            {
-                // Undo Fade (if faded)
-                objFader.setDoFade(false);
-            }
-            
+        if (shouldFadeIfInFront)
+        {
+            // If shouldFadeIfInFront == true, objFader should not be null.
+            objFader.setDoFade(ShouldCurFade());
         }
+    }
+
+    // Helper that checks if any moving objects are behind this object.
+    private bool ShouldCurFade()
+    {
+        // Check if any colliders in list are moving objects.
+        foreach (ViewColliderCollisionManager vccm in collidedWith)
+        {
+            float thisYPos = objFeet.position.y;
+            float otherYPos = vccm.objFeet.position.y;
+            
+            if (vccm.isMovingObject && otherYPos > thisYPos)
+            {
+                // Found a collider still colliding and in front. So should fade.
+                return true;
+            }
+        }
+
+        // No moving objects in front. So don't fade.
+        return false;
     }
 }
