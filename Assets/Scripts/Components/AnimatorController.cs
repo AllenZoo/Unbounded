@@ -45,7 +45,7 @@ public class AnimatorController : MonoBehaviour
     private Animator animator;
 
     // State in this case refers to animation states and not entity states.
-    private bool canTransitionState;
+    private bool canTransitionState = true;
 
     // Information about entity state.
     private State curState;
