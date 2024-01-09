@@ -79,7 +79,6 @@ public class KatanInput : EnemyAIComponent
     // Move close to the player but stay within a maxDist of centerPos.
     private void Phase2(GameObject target)
     {
-        
         float centerDist = Vector2.Distance(transform.position, centerTransform.position);
 
         // If Katan is too far away from the center, move closer to the center.

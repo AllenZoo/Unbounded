@@ -1,23 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(MotionComponent))]
-[RequireComponent(typeof(StatComponent))]
-[RequireComponent(typeof(Rigidbody2D))]
 public class MovementController : MonoBehaviour
 {
     [SerializeField] private bool movementEnabled = true;
+    [SerializeField] private StatComponent stat;
+    [SerializeField] private Rigidbody2D rb;
+
     private MotionComponent motion;
-    private StatComponent stat;
-    private Rigidbody2D rb;
+    
 
     private void Awake()
     {
         motion = GetComponent<MotionComponent>();
-        stat = GetComponent<StatComponent>();
-        rb = GetComponent<Rigidbody2D>();
+
+        if (stat == null)
+        {
+            stat = GetComponent<StatComponent>();
+        }
+
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+        
+
+        Assert.IsNotNull(motion, "Class of type MotionComponent must exist on obj with MovementController");
+        Assert.IsNotNull(stat, "Class of type StatComponent must exist on obj with MovementController");
+        Assert.IsNotNull(rb, "Rigidbody2D must exist on obj with MovementController");
     }
 
     private void FixedUpdate()
