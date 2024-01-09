@@ -187,7 +187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 1547172783033353881}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  stateComponent: {fileID: 4456538979408597556}
   motionComponent: {fileID: 0}
 --- !u!1 &1645832319290299256
 GameObject:
@@ -341,6 +340,67 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 7
+--- !u!1 &4062177657863964859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2177548460890116519}
+  - component: {fileID: 2768012596061817983}
+  - component: {fileID: 6475032671688007822}
+  m_Layer: 0
+  m_Name: MovementHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2177548460890116519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4062177657863964859}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.5806704, y: -2.1263804, z: -0.011292396}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4456538979408597553}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2768012596061817983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4062177657863964859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputController: {fileID: 916700090708789427}
+--- !u!114 &6475032671688007822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4062177657863964859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementEnabled: 1
+  stat: {fileID: 4456538979408597558}
+  rb: {fileID: 4456538979408597579}
 --- !u!1 &4456538979408597555
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,9 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456538979408597553}
   - component: {fileID: 4456538979408597558}
-  - component: {fileID: 4456538979408597576}
   - component: {fileID: 4456538979408597579}
-  - component: {fileID: 4456538979408597578}
   - component: {fileID: 4456538979408597556}
   - component: {fileID: 916700090708789427}
   m_Layer: 6
@@ -382,6 +440,7 @@ Transform:
   - {fileID: 8100155770300223982}
   - {fileID: 3704564462266663570}
   - {fileID: 1547172783033353862}
+  - {fileID: 2177548460890116519}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -398,18 +457,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
---- !u!114 &4456538979408597576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456538979408597555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &4456538979408597579
 Rigidbody2D:
   serializedVersion: 4
@@ -431,19 +478,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4456538979408597578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456538979408597555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementEnabled: 1
 --- !u!114 &4456538979408597556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorController: {fileID: 4891969500134188528}
-  movementController: {fileID: 4456538979408597578}
+  movementController: {fileID: 0}
   inputController: {fileID: 916700090708789427}
   damageable: {fileID: 4456538981051934084}
   knockbackable: {fileID: 1547172781283259309}
@@ -484,6 +518,8 @@ MonoBehaviour:
   attackRange: 8
   movementTimer: 3
   aggroTarget: {fileID: 0}
+  centerTransform: {fileID: 0}
+  maxDistAwayFromCenter: 5
   phase: 0
 --- !u!1 &5019623686023127502
 GameObject:

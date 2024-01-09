@@ -89,9 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1489280840202876608}
   - component: {fileID: 1489280840202876662}
-  - component: {fileID: 1489280840202876663}
   - component: {fileID: 1489280840202876616}
-  - component: {fileID: 1489280840202876617}
   - component: {fileID: 1489280840202876623}
   - component: {fileID: 1489280840202876618}
   m_Layer: 6
@@ -120,6 +118,7 @@ Transform:
   - {fileID: 915452587}
   - {fileID: 3853201387853733064}
   - {fileID: 2122433991201156965}
+  - {fileID: 3257208661630342153}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,18 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 534630ad0ae4396458672f3a843d111f, type: 2}
---- !u!114 &1489280840202876663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1489280840202876609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1489280840202876616
 Rigidbody2D:
   serializedVersion: 4
@@ -169,19 +156,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1489280840202876617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1489280840202876609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementEnabled: 1
 --- !u!114 &1489280840202876623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorController: {fileID: 4143444910590052635}
-  movementController: {fileID: 1489280840202876617}
+  movementController: {fileID: 4308626138120947935}
   inputController: {fileID: 1489280840202876623}
   damageable: {fileID: 915452589}
   knockbackable: {fileID: 915452588}
@@ -490,6 +464,67 @@ MonoBehaviour:
   sightRange: 10
   rayCount: 18
   coneAngle: 45
+--- !u!1 &7239584585377205549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3257208661630342153}
+  - component: {fileID: 8530315993108759053}
+  - component: {fileID: 4308626138120947935}
+  m_Layer: 0
+  m_Name: MovementHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3257208661630342153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7239584585377205549}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.163513, y: 2.2364023, z: -0.011292396}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1489280840202876608}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8530315993108759053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7239584585377205549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputController: {fileID: 1489280840202876623}
+--- !u!114 &4308626138120947935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7239584585377205549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementEnabled: 1
+  stat: {fileID: 1489280840202876662}
+  rb: {fileID: 1489280840202876616}
 --- !u!1 &7777712982407403893
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 4693658594238709340}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 1489280840202876663}
+  motionComponent: {fileID: 0}
 --- !u!1 &8453840291651679978
 GameObject:
   m_ObjectHideFlags: 0

@@ -58,8 +58,6 @@ public class KatanInput : EnemyAIComponent
 
     private void Phase0()
     {
-        // Debug.Log("Katan in phase 0!");
-
         // Follow
         base.Follow(aggroTarget);
         base.ReadyAttack(aggroTarget, attackRange);
@@ -68,8 +66,6 @@ public class KatanInput : EnemyAIComponent
 
     private void Phase1()
     {
-        // Debug.Log("Katan in phase 1!");
-
         // Kite
         base.KiteTarget(aggroTarget, minDist);
         base.ReadyAttack(aggroTarget, attackRange);
@@ -94,6 +90,5 @@ public class KatanInput : EnemyAIComponent
         }
 
         base.ReadyAttack(target, attackRange);
-
     }
 }

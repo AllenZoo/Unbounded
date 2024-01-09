@@ -6,6 +6,8 @@ using UnityEngine.Assertions;
 
 public class MotionComponent : MonoBehaviour
 {
+    [SerializeField] private InputController inputController;
+
     // Dir of motion. Last dir of motion.
     public event Action<Vector2, Vector2> OnMotionChange;
     public Vector2 dir { get; private set; }
@@ -13,14 +15,17 @@ public class MotionComponent : MonoBehaviour
     // Last Direction of one of: (1,0), (1, 1), (1, -1), (0, 1), (0, -1), (-1, -1), (-1, 1)
     public Vector2 lastDir { get; private set; }
 
-    private InputController inputController;
     private bool wasDiaganol = false;
 
     private void Awake()
     {
-        inputController = GetComponent<InputController>();
-        Assert.IsNotNull(inputController, "Class of type Input controller must exist on obj with motion component");
-        dir = new Vector2 (0, 0);
+        if (inputController == null)
+        {
+            inputController = GetComponent<InputController>();
+        }
+        
+        Assert.IsNotNull(inputController, "Motion Component requires a reference to an inputController.");
+        dir = Vector2.zero;
     }
 
     private void Start()

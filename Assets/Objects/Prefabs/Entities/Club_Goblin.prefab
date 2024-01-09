@@ -79,6 +79,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 3820556010379128906}
   currentlyKnockbackable: 1
+--- !u!1 &305265794396497596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9204080761753945331}
+  - component: {fileID: 7922043184717930911}
+  - component: {fileID: 2175254656103687012}
+  m_Layer: 0
+  m_Name: MovementHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9204080761753945331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305265794396497596}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.807513, y: 2.2364023, z: -0.011292396}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3820556010379128880}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7922043184717930911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305265794396497596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputController: {fileID: 3820556010379128884}
+--- !u!114 &2175254656103687012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305265794396497596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementEnabled: 1
+  stat: {fileID: 3820556010379128887}
+  rb: {fileID: 3820556010379128906}
 --- !u!1 &1965217508344416292
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 2149649214554389934}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 3820556010379128905}
+  motionComponent: {fileID: 0}
 --- !u!1 &2602715096236969369
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,9 +340,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3820556010379128880}
   - component: {fileID: 3820556010379128887}
-  - component: {fileID: 3820556010379128905}
   - component: {fileID: 3820556010379128906}
-  - component: {fileID: 3820556010379128907}
   - component: {fileID: 3820556010379128884}
   - component: {fileID: 3820556010379128885}
   m_Layer: 6
@@ -310,6 +369,7 @@ Transform:
   - {fileID: 8697595634097992687}
   - {fileID: 5205383130445390398}
   - {fileID: 2273549194582647176}
+  - {fileID: 9204080761753945331}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -326,18 +386,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 23674f35256ae2446bba61a22c395e80, type: 2}
---- !u!114 &3820556010379128905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3820556010379128882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &3820556010379128906
 Rigidbody2D:
   serializedVersion: 4
@@ -359,19 +407,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3820556010379128907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3820556010379128882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementEnabled: 1
 --- !u!114 &3820556010379128884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorController: {fileID: 147259377866537169}
-  movementController: {fileID: 3820556010379128907}
+  movementController: {fileID: 2175254656103687012}
   inputController: {fileID: 3820556010379128884}
   damageable: {fileID: 7694019108583975917}
   knockbackable: {fileID: 6305350193626298311}
