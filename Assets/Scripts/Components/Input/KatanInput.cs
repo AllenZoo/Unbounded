@@ -2,19 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Input controller for the boss 'Katan'
 public class KatanInput : EnemyAIComponent
 {
     public event Action<int> OnPhaseChange;
 
+    [Header("Katan Inputs")]
     [SerializeField] private Transform centerTransform;
 
     [Tooltip("Maximum distance away from centerTransform that Katan can move during certain phases.")]
     [SerializeField] private float maxDistAwayFromCenter = 5f;
 
+    [SerializeField] private RingAttack ringAttack;
+
     [Header("For debugging purposes.")]
     [SerializeField] private int phase = 0;
+
+    private new void Awake()
+    {
+        base.Awake();
+        if (ringAttack == null)
+        {
+            ringAttack = GetComponentInChildren<RingAttack>();
+        }
+        Assert.IsNotNull(ringAttack, "Katan needs a ring attack obj!");
+    }
 
     private new void Start()
     {
@@ -62,6 +76,8 @@ public class KatanInput : EnemyAIComponent
         base.Follow(aggroTarget);
         base.ReadyAttack(aggroTarget, attackRange);
 
+        ringAttack.Toggle(true);
+        ringAttack.Spawn(this.transform);
     }
 
     private void Phase1()
@@ -69,6 +85,8 @@ public class KatanInput : EnemyAIComponent
         // Kite
         base.KiteTarget(aggroTarget, minDist);
         base.ReadyAttack(aggroTarget, attackRange);
+
+        ringAttack.Toggle(false);
     }
 
 
@@ -90,5 +108,8 @@ public class KatanInput : EnemyAIComponent
         }
 
         base.ReadyAttack(target, attackRange);
+
+        ringAttack.Toggle(true);
+        ringAttack.Spawn(this.transform);
     }
 }
