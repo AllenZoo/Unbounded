@@ -1301,6 +1301,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Katan
       objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
 --- !u!1001 &2136167022698602201
@@ -2124,14 +2128,14 @@ PrefabInstance:
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: attackObj
       value: 
-      objectReference: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
+      objectReference: {fileID: 6538108593564167323, guid: 84a7223dc0b264d4fb591f597dbbc367, type: 3}
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: numAttacks
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: angleOffset
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: inputController
@@ -2160,6 +2164,10 @@ PrefabInstance:
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: TargetTypes.Array.data[3]
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773246356, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4992106724855170257, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_Enabled
