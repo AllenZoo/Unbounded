@@ -308,9 +308,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTypes: 00000000
+  TargetTypes: 00000000
   attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
   cooldown: 1
+  inputController: {fileID: 1489280840202876623}
 --- !u!1 &3434620844648344537
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,7 +647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 4693658594238709340}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 0}
+  motionComponent: {fileID: 8530315993108759053}
 --- !u!1 &8453840291651679978
 GameObject:
   m_ObjectHideFlags: 0
