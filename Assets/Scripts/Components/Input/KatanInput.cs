@@ -7,8 +7,6 @@ using UnityEngine.Assertions;
 // Input controller for the boss 'Katan'
 public class KatanInput : EnemyAIComponent
 {
-    public event Action<int> OnPhaseChange;
-
     [Header("Katan Inputs")]
     [SerializeField] private Transform centerTransform;
 
@@ -20,11 +18,8 @@ public class KatanInput : EnemyAIComponent
     // Needed as Katan has phases.
     [SerializeField] private PhaseManager phaseManager;
 
-    [Header("For debugging purposes.")]
-    [SerializeField] private int phase = 0;
-
-    private delegate void Phase();
-    private Dictionary<int, Phase> phaseMap;
+    private delegate void PhaseAction();
+    private Dictionary<int, PhaseAction> phaseMap;
 
     private new void Awake()
     {
@@ -36,7 +31,7 @@ public class KatanInput : EnemyAIComponent
         Assert.IsNotNull(ringAttack, "Katan needs a ring attack obj!");
 
         // Init Phases
-        phaseMap = new Dictionary<int, Phase>
+        phaseMap = new Dictionary<int, PhaseAction>
         {
             { 0, Phase0 },
             { 1, Phase1 },
@@ -51,7 +46,6 @@ public class KatanInput : EnemyAIComponent
         {
             centerTransform = gameObject.transform;
         }
-        OnPhaseChange?.Invoke(phase);
     }
 
     protected new void Update()
@@ -65,8 +59,12 @@ public class KatanInput : EnemyAIComponent
             tracker.enabled = true;
             tracker.Track(aggroTarget);
 
-            // Run phase
-            phaseMap[phase]();
+            // Check if phase behaviour is in dictionary
+            if (phaseMap.ContainsKey(phaseManager.Phase))
+            {
+                // Run phase
+                phaseMap[phaseManager.Phase]();
+            }
         }
         else
         {
@@ -78,11 +76,8 @@ public class KatanInput : EnemyAIComponent
     // Ring rush.
     private void Phase0()
     {
-        // Follow
-        //base.Follow(aggroTarget);
+        // Follow + Kite so that player just gets hit by ring attack.
         base.KiteTarget(aggroTarget, ringAttack.Radius/2);
-
-        // base.ReadyAttack(aggroTarget, attackRange);
 
         ringAttack.Toggle(true);
     }

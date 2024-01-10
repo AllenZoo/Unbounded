@@ -564,6 +564,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetTypes: 00000000
   attackObj: {fileID: 899314943597054853, guid: cb3f9fdb1b413864ba5b8e3207691e35, type: 3}
+  numAttacks: 1
+  angleOffset: 0
   cooldown: 0.5
   inputController: {fileID: 916700090708789427}
 --- !u!1 &5041681082339125450
@@ -608,6 +610,7 @@ GameObject:
   - component: {fileID: 1279681379548919737}
   - component: {fileID: 5518171965787360333}
   - component: {fileID: 2242467778886982234}
+  - component: {fileID: 1968539576}
   m_Layer: 6
   m_Name: PhaseManager
   m_TagString: Untagged
@@ -663,6 +666,25 @@ MonoBehaviour:
       - value: 1.5
         stat: 5
   stats: {fileID: 4456538979408597558}
+--- !u!114 &1968539576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377583381993562378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5108d1a4ad29d464699cf0e9e85ed43c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phaseManager: {fileID: 5518171965787360333}
+  attackerMap:
+    _serializedList:
+    - Key: 1
+      Value: {fileID: 11400000, guid: 9b714c7fb130abe49a2d3db7296183bb, type: 2}
+  defaultAttackMode: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
+  attacker: {fileID: 884867878710551529}
 --- !u!1 &8061349305055560249
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,6 +902,10 @@ PrefabInstance:
     - target: {fileID: 2558543789735039352, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
       propertyPath: m_Name
       value: RingAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558543789735039355, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
+      propertyPath: numAttacks
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2558543789735039355, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
       propertyPath: targetTypes.Array.size

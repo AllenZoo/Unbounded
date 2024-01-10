@@ -9,6 +9,12 @@ public class Attacker : MonoBehaviour
 
     [SerializeField] private GameObject attackObj;
 
+    [Tooltip("Number of attacks to spawn when attacking.")]
+    [SerializeField] private int numAttacks = 1;
+
+    [Tooltip("Angle offset for between each attack spawned.")]
+    [SerializeField] private float angleOffset = 0f;
+
     // Could consider moving this to Attack, but it might make sense for the attacker to control the 
     // cooldown of attacks.
     [SerializeField] private float cooldown = 0.5f;
@@ -50,6 +56,17 @@ public class Attacker : MonoBehaviour
     }
 
 
+    public void SetAttacker(SO_Attacker data)
+    {
+        TargetTypes = data.TargetTypes;
+        attackObj = data.attackObj;
+        numAttacks = data.numAttacks;
+        angleOffset = data.angleOffset;
+        cooldown = data.cooldown;
+
+        SetAttackObj(attackObj);
+    }
+
     // Reset all fields related to attack.
     public void SetAttackObj(GameObject attackObj)
     {
@@ -73,7 +90,26 @@ public class Attacker : MonoBehaviour
 
     public void Attack(KeyCode keyCode, AttackSpawnInfo info)
     {
-        AttackSpawner.SpawnAttack(info, transform, TargetTypes, attackObj, attack);
+        for (int i = 0; i < numAttacks; i++)
+        {
+            // i = 0, shoot torwards mouse.
+            // i = 1, shoot to the right of mouse with angleOffset * 1 away from attack 0.
+            // i = 2, shoot to the left of mouse with angleOffset * 1 away from attack 0.
+            //float angle = (i+1)/2 * angleOffset;
+            float angle = (int) ((i+1)/2) * angleOffset;
+
+            // Odd's offset to the right.
+            // Even's offset to the left
+            if (i % 2 == 1)
+            {
+                // odd
+                angle *= -1;
+            }
+
+            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
+
+            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, attackObj, attack);
+        }
     }
 
     // Handles setting non-transform property of attacks..

@@ -1115,6 +1115,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a71a6ecb15ee6143af68f5af6070712, type: 3}
+--- !u!114 &1968539575 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5518171965787360333, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+  m_PrefabInstance: {fileID: 1547172781859948457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 170d21e6972694045b7e6e3e56faba24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2126979516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3820556010379128880, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
@@ -1253,14 +1264,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2242467778886982234, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: phaseBuffsMapper._serializedList.Array.data[0].Value.Array.data[0].value
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3504687662407887171, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: numAttacks
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 916700090708789427, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: phaseManager
+      value: 
+      objectReference: {fileID: 1968539575}
     - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1309,8 +1316,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Katan
       objectReference: {fileID: 0}
-    - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 5518171965787360333, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: phase
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2133,6 +2140,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: attackObj
+      value: 
+      objectReference: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
+    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: numAttacks
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: angleOffset
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 230558454, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: inputController
       value: 
