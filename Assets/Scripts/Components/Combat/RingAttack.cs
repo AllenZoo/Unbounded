@@ -11,6 +11,7 @@ public class RingAttack : MonoBehaviour
     [SerializeField] private GameObject attackObj;
     [SerializeField] private float numAttacks = 8;
     [SerializeField] private float radius = 1f;
+    public float Radius { get { return radius; } set { radius = value; } }
 
     private void Awake()
     {
@@ -59,9 +60,9 @@ public class RingAttack : MonoBehaviour
     {
         if (shouldBeActive)
         {
-            this.gameObject.SetActive(false);
+            this.gameObject.SetActive(true);
         } else { 
-            this.gameObject.SetActive(true); 
+            this.gameObject.SetActive(false); 
         }
     }
 

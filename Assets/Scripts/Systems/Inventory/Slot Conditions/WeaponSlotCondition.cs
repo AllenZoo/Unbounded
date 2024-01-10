@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponSlotCondition : ICondition
+public class WeaponSlotCondition : IItemCondition
 {
     public bool ConditionMet(SO_Item item)
     {

@@ -24,7 +24,7 @@ public class OrbitSpinner: MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("Center position: " + center.position);
+        // Debug.Log("Center position: " + center.position);
         if (obj != null)
         {
             // Spin the object around the center point.

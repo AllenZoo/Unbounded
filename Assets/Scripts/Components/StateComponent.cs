@@ -22,7 +22,6 @@ public class StateComponent : MonoBehaviour
     [SerializeField] private Knockbackable knockbackable;
 
 
-
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField] State debuggingState = State.IDLE;
     [SerializeField] private List<State> crowdControlStates = new List<State>() {State.STUNNED };

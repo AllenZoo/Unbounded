@@ -17,8 +17,14 @@ public class KatanInput : EnemyAIComponent
 
     [SerializeField] private RingAttack ringAttack;
 
+    // Needed as Katan has phases.
+    [SerializeField] private PhaseManager phaseManager;
+
     [Header("For debugging purposes.")]
     [SerializeField] private int phase = 0;
+
+    private delegate void Phase();
+    private Dictionary<int, Phase> phaseMap;
 
     private new void Awake()
     {
@@ -28,6 +34,14 @@ public class KatanInput : EnemyAIComponent
             ringAttack = GetComponentInChildren<RingAttack>();
         }
         Assert.IsNotNull(ringAttack, "Katan needs a ring attack obj!");
+
+        // Init Phases
+        phaseMap = new Dictionary<int, Phase>
+        {
+            { 0, Phase0 },
+            { 1, Phase1 },
+            { 2, Phase2 }
+        };
     }
 
     private new void Start()
@@ -45,23 +59,14 @@ public class KatanInput : EnemyAIComponent
         // Count down the timer
         base.timer -= Time.deltaTime;
 
-        // Debug.Log("Aggro target: " + aggroTarget);
         if (aggroTarget != null)
         {
             // Aggroed
             tracker.enabled = true;
             tracker.Track(aggroTarget);
-            switch (phase)
-            {
-                case 0:
-                    Phase0();
-                    break;
-                case 1:
-                    Phase1();
-                    break;
-                default:
-                    break;
-            }
+
+            // Run phase
+            phaseMap[phase]();
         }
         else
         {
@@ -70,14 +75,16 @@ public class KatanInput : EnemyAIComponent
         }
     }
 
+    // Ring rush.
     private void Phase0()
     {
         // Follow
-        base.Follow(aggroTarget);
-        base.ReadyAttack(aggroTarget, attackRange);
+        //base.Follow(aggroTarget);
+        base.KiteTarget(aggroTarget, ringAttack.Radius/2);
+
+        // base.ReadyAttack(aggroTarget, attackRange);
 
         ringAttack.Toggle(true);
-        ringAttack.Spawn(this.transform);
     }
 
     private void Phase1()
@@ -89,9 +96,8 @@ public class KatanInput : EnemyAIComponent
         ringAttack.Toggle(false);
     }
 
-
     // Move close to the player but stay within a maxDist of centerPos.
-    private void Phase2(GameObject target)
+    private void Phase2()
     {
         float centerDist = Vector2.Distance(transform.position, centerTransform.position);
 
@@ -104,12 +110,11 @@ public class KatanInput : EnemyAIComponent
         else
         {
             // Move closer to the player.
-            base.Follow(target);
+            base.Follow(aggroTarget);
         }
 
-        base.ReadyAttack(target, attackRange);
+        base.ReadyAttack(aggroTarget, attackRange);
 
         ringAttack.Toggle(true);
-        ringAttack.Spawn(this.transform);
     }
 }

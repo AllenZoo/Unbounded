@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public interface ICondition
+public interface IItemCondition
 {
     public bool ConditionMet(SO_Item item);
 }

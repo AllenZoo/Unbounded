@@ -1015,17 +1015,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3753612072776027391, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
   m_PrefabInstance: {fileID: 2150143408899663291}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1763030152 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3504687662407887171, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-  m_PrefabInstance: {fileID: 1547172781859948457}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63af1be979475144197f5abde27e22fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1777718087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2150143408244548144, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
@@ -1264,25 +1253,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 916700090708789427, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: ringAttack
-      value: 
-      objectReference: {fileID: 1763030152}
-    - target: {fileID: 3504687662407887168, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 2242467778886982234, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: phaseBuffsMapper._serializedList.Array.data[0].Value.Array.data[0].value
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3504687662407887171, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: targetTypes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3504687662407887172, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3504687662407887172, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
+      propertyPath: numAttacks
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
       propertyPath: m_RootOrder

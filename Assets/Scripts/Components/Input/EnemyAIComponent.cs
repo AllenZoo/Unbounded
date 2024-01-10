@@ -9,8 +9,8 @@ using UnityEngine.Assertions;
 public class EnemyAIComponent : InputController
 {
     [SerializeField] protected CombatType combatType;
-    protected StateComponent state;
-
+    
+    #region Context Steering Related Variables
     [Tooltip("Used for calculating the best direction to move in to get to target.")]
     [SerializeField] protected ContextSteerer contextSteerer;
 
@@ -19,19 +19,21 @@ public class EnemyAIComponent : InputController
 
     [Tooltip("Used for keeping track of where to follow target.")]
     [SerializeField] protected ObjectTracker tracker;
+    #endregion
 
-
-    // Kiting variables
     [Tooltip("Minimum distance to keep from target")]
-    [SerializeField] protected float minDist;
-    [SerializeField] protected float attackRange;
+    [SerializeField] protected float minDist = 0f;
+    [SerializeField] protected float attackRange = 2f;
+    [SerializeField] protected float movementTimer = 3f; // Time interval to change movement direction for random movement
 
-
-    [SerializeField] protected float movementTimer = 3f; // Time interval to change movement direction
     protected float timer;
+    protected StateComponent state;
+    protected GameObject aggroTarget;
 
-    [Header("For debugging, don't assign value")]
-    [SerializeField] protected GameObject aggroTarget;
+    private delegate void AggroBehaviour(GameObject target);
+
+    // Maps a combat type to a behaviour function.
+    private Dictionary<CombatType, AggroBehaviour> behaviourMap;
 
     protected void Awake()
     {
@@ -41,6 +43,13 @@ public class EnemyAIComponent : InputController
 
         Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
         state = GetComponent<StateComponent>();
+
+        // Init behaviour map
+        behaviourMap = new Dictionary<CombatType, AggroBehaviour>
+        {
+            { CombatType.MELEE, Follow },
+            { CombatType.RANGED, KiteTarget }
+        };
     }
 
     protected void Start()
@@ -60,18 +69,10 @@ public class EnemyAIComponent : InputController
         // Check if enemy is aggroed to a target.
         if (aggroTarget != null)
         {
-            // Aggroed
-            tracker.enabled = true;
-            tracker.Track(aggroTarget);
-            switch(combatType)
-            {
-                case CombatType.MELEE:
-                    Follow(aggroTarget);
-                    break;
-                case CombatType.RANGED:
-                    KiteTarget(aggroTarget, minDist);
-                    break;
-            }
+            // Aggroed. Perform behaviour based on combat type.
+            behaviourMap[combatType](aggroTarget);
+            
+            // Attack if target is in range.
             ReadyAttack(aggroTarget, attackRange);
         } else
         {
@@ -129,6 +130,9 @@ public class EnemyAIComponent : InputController
     /// <param name="target"></param>
     protected void Follow(GameObject target)
     {
+        tracker.enabled = true;
+        tracker.Track(target);
+
         // This is to prevent the enemy from stuttering and updating it's movement direction
         // too frequently
         if (timer >= 0f)
@@ -156,6 +160,9 @@ public class EnemyAIComponent : InputController
     /// <param name="minDist"> the minimum distance/space to keep from the target</param>
     protected void KiteTarget(GameObject target, float minDist)
     {
+        tracker.enabled = true;
+        tracker.Track(target);
+
         // This is to prevent the enemy from stuttering and updating it's movement direction
         // too frequently
         if (timer >= 0f)
@@ -179,6 +186,16 @@ public class EnemyAIComponent : InputController
 
         // Stutter the timer to prevent crazy movement.
         timer = 0.2f;
+    }
+
+    /// <inheritdoc cref="KiteTarget(GameObject, float)"/>
+    /// <summary>
+    /// If no minDist is specified, use the default minDist serialized on entity.
+    /// </summary>
+    /// <param name="target"></param>
+    protected void KiteTarget(GameObject target)
+    {
+        KiteTarget(target, minDist);
     }
 
     /// <summary>
