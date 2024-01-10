@@ -28,7 +28,11 @@ public class ViewColliderCollisionManager : MonoBehaviour
     {
         if (shouldFadeIfInFront)
         {
-            Assert.IsNotNull(GetComponentInParent<ObjectFader>());
+            // Try getting objFader from parent.
+            if (objFader == null)
+            {
+                objFader = parentTransform.GetComponent<ObjectFader>();
+            }
             Assert.IsNotNull(objFader);
         }
 
