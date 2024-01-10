@@ -82,34 +82,49 @@ public class KatanInput : EnemyAIComponent
         ringAttack.Toggle(true);
     }
 
+    // Sword slash trident.
     private void Phase1()
     {
         // Kite
         base.KiteTarget(aggroTarget, minDist);
+
+        // Attack if in range.
         base.ReadyAttack(aggroTarget, attackRange);
 
         ringAttack.Toggle(false);
     }
 
-    // Move close to the player but stay within a maxDist of centerPos.
+    // Arrow rain circle attack.
     private void Phase2()
     {
-        float centerDist = Vector2.Distance(transform.position, centerTransform.position);
+        // Follow
+        base.Follow(aggroTarget);
 
-        // If Katan is too far away from the center, move closer to the center.
-        if (centerDist > maxDistAwayFromCenter)
-        {
-            // Move closer to the center.
-            base.Follow(centerTransform.gameObject);
-        }
-        else
-        {
-            // Move closer to the player.
-            base.Follow(aggroTarget);
-        }
-
+        // Attack if in range
         base.ReadyAttack(aggroTarget, attackRange);
 
-        ringAttack.Toggle(true);
+        ringAttack.Toggle(false);
     }
+
+    // Previous centering movement.
+    //private void Phase2()
+    //{
+    //    float centerDist = Vector2.Distance(transform.position, centerTransform.position);
+
+    //    // If Katan is too far away from the center, move closer to the center.
+    //    if (centerDist > maxDistAwayFromCenter)
+    //    {
+    //        // Move closer to the center.
+    //        base.Follow(centerTransform.gameObject);
+    //    }
+    //    else
+    //    {
+    //        // Move closer to the player.
+    //        base.Follow(aggroTarget);
+    //    }
+
+    //    base.ReadyAttack(aggroTarget, attackRange);
+
+    //    ringAttack.Toggle(true);
+    //}
 }

@@ -516,8 +516,7 @@ MonoBehaviour:
   centerTransform: {fileID: 4456538979408597553}
   maxDistAwayFromCenter: 5
   ringAttack: {fileID: 3504687662407887171}
-  phaseManager: {fileID: 0}
-  phase: 0
+  phaseManager: {fileID: 5518171965787360333}
 --- !u!1 &5019623686023127502
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +644,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 170d21e6972694045b7e6e3e56faba24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 0
+  phase: 2
+  rotatedPhaseList: 000000000100000002000000
+  rotationTimeRange:
+    Item1: 5
+    Item2: 10
 --- !u!114 &2242467778886982234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +686,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value: {fileID: 11400000, guid: 9b714c7fb130abe49a2d3db7296183bb, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: f5c2d8cc17810ee40960ddfab380cda3, type: 2}
   defaultAttackMode: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
   attacker: {fileID: 884867878710551529}
 --- !u!1 &8061349305055560249

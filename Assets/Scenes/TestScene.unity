@@ -1115,17 +1115,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a71a6ecb15ee6143af68f5af6070712, type: 3}
---- !u!114 &1968539575 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5518171965787360333, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-  m_PrefabInstance: {fileID: 1547172781859948457}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170d21e6972694045b7e6e3e56faba24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2126979516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3820556010379128880, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
@@ -1264,10 +1253,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 916700090708789427, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: phaseManager
-      value: 
-      objectReference: {fileID: 1968539575}
     - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1315,10 +1300,6 @@ PrefabInstance:
     - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
       propertyPath: m_Name
       value: Katan
-      objectReference: {fileID: 0}
-    - target: {fileID: 5518171965787360333, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
-      propertyPath: phase
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
