@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 2123717541}
   - component: {fileID: 2123717543}
   - component: {fileID: 2123717542}
+  - component: {fileID: 1650935849}
   m_Layer: 3
   m_Name: HitboxCollider
   m_TagString: Player
@@ -347,6 +348,20 @@ MonoBehaviour:
   entityType: 0
   stat: {fileID: 7405677662020513449}
   isDamageable: 1
+--- !u!114 &1650935849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123717540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00350e3883691648a8845af89bfbbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
+  damageableRef: {fileID: 2123717542}
 --- !u!1 &2750164164373431974
 GameObject:
   m_ObjectHideFlags: 0

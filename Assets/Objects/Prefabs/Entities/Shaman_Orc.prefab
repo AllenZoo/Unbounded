@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 915452590}
   - component: {fileID: 915452589}
   - component: {fileID: 915452588}
+  - component: {fileID: 8379389405719099108}
   m_Layer: 6
   m_Name: HitboxCollider
   m_TagString: Untagged
@@ -79,6 +80,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1489280840202876616}
   currentlyKnockbackable: 1
+--- !u!114 &8379389405719099108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915452586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00350e3883691648a8845af89bfbbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
+  damageableRef: {fileID: 915452589}
 --- !u!1 &1489280840202876609
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +191,6 @@ MonoBehaviour:
   minDist: 7
   attackRange: 8
   movementTimer: 0.5
-  aggroTarget: {fileID: 0}
 --- !u!114 &1489280840202876618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +324,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetTypes: 00000000
   attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
+  numAttacks: 1
+  angleOffset: 0
   cooldown: 1
   inputController: {fileID: 1489280840202876623}
 --- !u!1 &3434620844648344537
