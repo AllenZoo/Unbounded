@@ -269,7 +269,7 @@ public class InventorySystem : MonoBehaviour
 
         foreach (ConditionType conditionType in conditions.conditionTypes)
         {
-            ICondition condition = ConditionTypeTranslator.Instance.Translate(conditionType);
+            IItemCondition condition = ConditionTypeTranslator.Instance.Translate(conditionType);
             if (!condition.ConditionMet(itemToInsert))
             {
                 // Condition not met!

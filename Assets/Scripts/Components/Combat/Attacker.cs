@@ -5,21 +5,25 @@ using UnityEngine.Assertions;
 
 public class Attacker : MonoBehaviour
 {
-    [SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
+    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+
     [SerializeField] private GameObject attackObj;
+
+    [Tooltip("Number of attacks to spawn when attacking.")]
+    [SerializeField] private int numAttacks = 1;
+
+    [Tooltip("Angle offset for between each attack spawned.")]
+    [SerializeField] private float angleOffset = 0f;
+
+    // Could consider moving this to Attack, but it might make sense for the attacker to control the 
+    // cooldown of attacks.
     [SerializeField] private float cooldown = 0.5f;
 
-    // Pool of attacks to spawn/get attacks from.
-    private GameObject attackPool;
+    [Tooltip("Input controller to receive inputs to attack from.")]
+    [SerializeField] private InputController inputController;
 
-    // Variable that we will receive inputs to attack.
-    private InputController inputController;
     private Attack attack;
     private bool attackRdy = true;
-
-    // Offset to rotate from attacker to spawn attack object.
-    // Get from attackObj, Attack component.
-    private float rotOffset = 0f;
 
     private void Awake()
     {
@@ -28,23 +32,40 @@ public class Attacker : MonoBehaviour
         attack = attackObj.GetComponent<Attack>();
         Assert.IsNotNull(attack, "Attack Obj needs Attack component");
 
-        inputController = GetComponentInParent<InputController>();
-        Assert.IsNotNull(inputController, "Attacker needs InputController");
-
-        attackPool = FindObjectOfType<AttackPool>().gameObject;
-        Assert.IsNotNull(attackPool, "Attacker needs AttackPool");
+        if (inputController == null)
+        {
+            inputController = GetComponentInParent<InputController>();
+        }
+        // Assert.IsNotNull(inputController, "Attacker needs InputController");
 
         // Check if target types has atleast one element.
-        Assert.IsTrue(targetTypes.Count > 0, "Attacker needs atleast one target type");
+        Assert.IsTrue(TargetTypes.Count > 0, "Attacker needs atleast one target type");
     }
 
     private void Start()
     {
-        inputController.OnAttackInput += AttackReq;
+        if (inputController != null)
+        {
+            inputController.OnAttackInput += AttackReq;
+        } else
+        {
+            Debug.LogWarning("Attacker has no input controller! This means that attacker will never attack as there is no input" +
+                "for it to listen to that calls it to attack.");
+        }
         
-        rotOffset = attack.RotOffset;
     }
 
+
+    public void SetAttacker(SO_Attacker data)
+    {
+        TargetTypes = data.TargetTypes;
+        attackObj = data.attackObj;
+        numAttacks = data.numAttacks;
+        angleOffset = data.angleOffset;
+        cooldown = data.cooldown;
+
+        SetAttackObj(attackObj);
+    }
 
     // Reset all fields related to attack.
     public void SetAttackObj(GameObject attackObj)
@@ -56,7 +77,6 @@ public class Attacker : MonoBehaviour
         }
         this.attackObj = attackObj;
         this.attack = attackObj.GetComponent<Attack>();
-        this.rotOffset = attackObj.GetComponent<Attack>().RotOffset;
     }
 
     public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
@@ -70,29 +90,26 @@ public class Attacker : MonoBehaviour
 
     public void Attack(KeyCode keyCode, AttackSpawnInfo info)
     {
-        // Offset from attacker. TODO: make this a better calculation.
-        float offset = 1f;
+        for (int i = 0; i < numAttacks; i++)
+        {
+            // i = 0, shoot torwards mouse.
+            // i = 1, shoot to the right of mouse with angleOffset * 1 away from attack 0.
+            // i = 2, shoot to the left of mouse with angleOffset * 1 away from attack 0.
+            //float angle = (i+1)/2 * angleOffset;
+            float angle = (int) ((i+1)/2) * angleOffset;
 
-        Vector3 direction = info.mousePosition - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + rotOffset));
-        Vector2 spawnPos = direction.normalized * offset + transform.position;
-       
-        // Check if attackObj is in pool, use it. else, instantiate new one.
-        // Spawn attack object a certain distance from attacker, rotated towards mouse.
-        GameObject newAttackObj = attackPool.GetComponent<AttackPool>().GetAttack(attackObj);
-        newAttackObj.transform.position = spawnPos;
-        newAttackObj.transform.rotation = rotation;
-        newAttackObj.SetActive(true);
+            // Odd's offset to the right.
+            // Even's offset to the left
+            if (i % 2 == 1)
+            {
+                // odd
+                angle *= -1;
+            }
 
-        Attack newAttack = newAttackObj.GetComponent<Attack>();
-        newAttack.ResetAttackAfterTime(newAttack.Duration);
+            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
 
-        // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.InitialSpeed;
-
-        // Set valid EntityType targets for attack.
-        newAttack.TargetTypes = targetTypes;
+            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, attackObj, attack);
+        }
     }
 
     // Handles setting non-transform property of attacks..

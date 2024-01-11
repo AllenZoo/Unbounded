@@ -44,7 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3c01c975d8e30458ced3737e000dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElements: []
+  uiElements:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &394476609
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedSlotIndex: -1
   selectedSlotInventorySystem: {fileID: 0}
+  inputButton: 0
 --- !u!1 &6047087158584713368
 GameObject:
   m_ObjectHideFlags: 0

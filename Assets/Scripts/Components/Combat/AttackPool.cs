@@ -5,13 +5,23 @@ using UnityEngine.Assertions;
 
 // Sub-trees of attacks
 // Check sub-tree if any attack is not active. return that attack to reuse.
-// TODO: make this a singleton
+// Singleton
 public class AttackPool : MonoBehaviour
 {
+    public static AttackPool Instance { get; private set; }
+
     [SerializeField] private GameObject subPoolPrefab;
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        } else if (Instance != this)
+        {
+            Destroy(this);
+        }
+
         if (subPoolPrefab == null)
         {
             subPoolPrefab = Instantiate(new GameObject(), this.transform);

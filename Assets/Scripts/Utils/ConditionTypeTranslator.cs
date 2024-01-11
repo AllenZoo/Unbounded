@@ -7,7 +7,7 @@ public class ConditionTypeTranslator : MonoBehaviour
 {
     public static ConditionTypeTranslator Instance;
 
-    private Dictionary<ConditionType, ICondition> conditionTypeToCondition;
+    private Dictionary<ConditionType, IItemCondition> conditionTypeToCondition;
 
     private void Awake()
     {
@@ -28,13 +28,13 @@ public class ConditionTypeTranslator : MonoBehaviour
     // Update this function when adding new condition types.
     private void Init()
     {
-        conditionTypeToCondition = new Dictionary<ConditionType, ICondition>();
+        conditionTypeToCondition = new Dictionary<ConditionType, IItemCondition>();
 
         // Add more mapping of condition type to condition here.
         conditionTypeToCondition.Add(ConditionType.WEAPON_SLOT_CONDITION, new WeaponSlotCondition());
     }
 
-    public ICondition Translate(ConditionType conditionType)
+    public IItemCondition Translate(ConditionType conditionType)
     {
         if (conditionTypeToCondition.ContainsKey(conditionType))
         {
