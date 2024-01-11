@@ -46,9 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 01000000020000000300000004000000
-  attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
+  attackObj: {fileID: 6538108593564167323, guid: 84a7223dc0b264d4fb591f597dbbc367, type: 3}
+  numAttacks: 1
+  angleOffset: 0
   cooldown: 0.5
-  inputController: {fileID: 0}
+  inputController: {fileID: 7405677662020513448}
 --- !u!114 &1773246356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +296,7 @@ GameObject:
   - component: {fileID: 2123717542}
   m_Layer: 3
   m_Name: HitboxCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

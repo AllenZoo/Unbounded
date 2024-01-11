@@ -20,12 +20,16 @@ public class PhaseManager : MonoBehaviour
     [Tooltip("Time between phase rotations in seconds. Item1 = min, Item2 = max")]
     [SerializeField] private SerializableTuple<int, int> rotationTimeRange = new SerializableTuple<int, int>(5, 10);
 
+    [Tooltip("Phase that the boss enters when it's ANGRY. Generally this happens when hp is low but could be triggered due" +
+        "to different reasons..")]
+    [SerializeField] private int ragePhase = 3;
     private float rotationTimer = 0f;
+    private bool shouldRotate = true;
 
     private void Update()
     {
         rotationTimer -= Time.deltaTime;
-        if (rotationTimer <= 0f)
+        if (shouldRotate && rotationTimer <= 0f)
         {
             RotatePhase();
             rotationTimer = UnityEngine.Random.Range(rotationTimeRange.Item1, rotationTimeRange.Item2);
@@ -39,6 +43,14 @@ public class PhaseManager : MonoBehaviour
         int oldPhase = phase;
         phase = newPhase;
         OnPhaseChange?.Invoke(oldPhase, phase);
+    }
+
+    public void TriggerRagePhase()
+    {
+        // Debug.Log("Triggered rage phase!");
+        // Disable random phase rotation when in rage phase.
+        shouldRotate = false;
+        ChangePhase(ragePhase);
     }
 
     // Rotate the phase list randomly.

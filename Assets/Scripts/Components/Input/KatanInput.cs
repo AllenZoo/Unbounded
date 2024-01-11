@@ -35,7 +35,8 @@ public class KatanInput : EnemyAIComponent
         {
             { 0, Phase0 },
             { 1, Phase1 },
-            { 2, Phase2 }
+            { 2, Phase2 },
+            { 3, RagePhase }
         };
     }
 
@@ -104,6 +105,14 @@ public class KatanInput : EnemyAIComponent
         base.ReadyAttack(aggroTarget, attackRange);
 
         ringAttack.Toggle(false);
+    }
+
+    // Phase 3: Rage mode. (triggered only when low.)
+    private void RagePhase()
+    {
+        base.Follow(aggroTarget);
+        base.ReadyAttack(aggroTarget, attackRange);
+        ringAttack.Toggle(true);
     }
 
     // Previous centering movement.

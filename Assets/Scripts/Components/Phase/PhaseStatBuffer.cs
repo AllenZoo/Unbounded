@@ -17,6 +17,8 @@ public class PhaseStatBuffer : MonoBehaviour
 
     [SerializeField] private StatComponent stats;
 
+    [SerializeField] private float hpThresholdForRagePhase = 100f;
+
     private void Awake()
     {
         Assert.IsNotNull(phaseManager, "Phase Stat Buffer requires Phase Manager");
@@ -27,6 +29,8 @@ public class PhaseStatBuffer : MonoBehaviour
     {
         phaseManager.OnPhaseChange += OnPhaseChange;
         ApplyPhaseBuff(phaseManager.Phase);
+
+        stats.OnStatChange += OnStatChange;
     }
 
     private void OnPhaseChange(int oldPhase, int phase)
@@ -41,6 +45,17 @@ public class PhaseStatBuffer : MonoBehaviour
 
         // Apply new phase buffs
         ApplyPhaseBuff(phase);
+    }
+
+    // TODO: handle this logic somewhere else?
+    private void OnStatChange(StatComponent sc, IStatModifier stat)
+    {
+        // Debug.Log("Cur health: " + sc.GetCurStat(Stat.HP) + " max health: " + sc.GetMaxStat(Stat.HP));
+        if (sc.GetCurStat(Stat.HP) <= hpThresholdForRagePhase)
+        {
+            // Debug.Log("Triggering rage phase");
+            phaseManager.TriggerRagePhase();
+        }
     }
 
     private void ApplyPhaseBuff(int phase)

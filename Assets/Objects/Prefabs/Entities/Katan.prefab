@@ -63,7 +63,7 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  sightRange: 10
+  sightRange: 30
   rayCount: 18
   coneAngle: 45
 --- !u!1 &1547172783033353863
@@ -511,7 +511,7 @@ MonoBehaviour:
   feetTransform: {fileID: 8662444364820851421}
   tracker: {fileID: 5869552945510471096}
   minDist: 5
-  attackRange: 8
+  attackRange: 18
   movementTimer: 0
   centerTransform: {fileID: 4456538979408597553}
   maxDistAwayFromCenter: 5
@@ -649,6 +649,7 @@ MonoBehaviour:
   rotationTimeRange:
     Item1: 5
     Item2: 10
+  ragePhase: 3
 --- !u!114 &2242467778886982234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,7 +669,14 @@ MonoBehaviour:
       Value:
       - value: 1.5
         stat: 5
+    - Key: 3
+      Value:
+      - value: 1.5
+        stat: 5
+      - value: 5
+        stat: 3
   stats: {fileID: 4456538979408597558}
+  hpThresholdForRagePhase: 200
 --- !u!114 &1968539576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +696,8 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 9b714c7fb130abe49a2d3db7296183bb, type: 2}
     - Key: 2
       Value: {fileID: 11400000, guid: f5c2d8cc17810ee40960ddfab380cda3, type: 2}
+    - Key: 3
+      Value: {fileID: 11400000, guid: 3cafe5e7c1c274543b71064fd9f9d694, type: 2}
   defaultAttackMode: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
   attacker: {fileID: 884867878710551529}
 --- !u!1 &8061349305055560249
