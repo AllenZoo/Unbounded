@@ -65,7 +65,7 @@ public class Attack : MonoBehaviour
 
         // All Damageable objects have a collider2d and Damageable component.
         Damageable target = collision.GetComponent<Damageable>();
-        if (target != null)
+        if (target != null && target.isHittable)
         {
             OnHit?.Invoke(target);
         }

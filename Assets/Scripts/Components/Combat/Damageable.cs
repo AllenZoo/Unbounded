@@ -17,7 +17,13 @@ public class Damageable : MonoBehaviour
 
     // Refers to dot attacks that the Damageable is currently taking damage from.
     public EntityType EntityType { get { return entityType; } }
+
+    // Can take damage if true. (Checked by Damageable component to see if hit should register damage)
     public bool isDamageable = true;
+
+    // Can be hit if true. (Checked by Attack component to see if OnHit should trigger)
+    public bool isHittable = true;
+
     private List<Attack> dotAttacks;
 
     private void Awake()
@@ -47,11 +53,16 @@ public class Damageable : MonoBehaviour
         }
 
         stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
-        OnDamage?.Invoke(damage);
 
         if (stat.GetCurStat(Stat.HP) <= 0)
         {
             OnDeath?.Invoke();
+
+            // Disable hittable so it can't be hit anymore.
+            isHittable = false;
+        } else
+        {
+            OnDamage?.Invoke(damage);
         }
     }
 
