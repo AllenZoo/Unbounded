@@ -44,8 +44,8 @@ public class PlayerInput : InputController
 
     private void Handle_Attack_Input()
     {
-        // Handle attack input (left click)
-        if (Input.GetMouseButtonDown(0))
+        // Handle attack input (left click or just pressed)
+        if (Input.GetMouseButton(0))
         {
             // Mouse position in world space
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
