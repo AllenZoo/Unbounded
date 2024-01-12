@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SO_Attack : MonoBehaviour
+[CreateAssetMenu(fileName = "SO_Attack", menuName = "ScriptableObjs/Attack", order = 1)]
+public class SO_Attack : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public AttackData data;
 }

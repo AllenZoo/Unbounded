@@ -16,7 +16,10 @@ public class SO_Attacker : ScriptableObject
 
     private void OnValidate()
     {
-        Assert.IsNotNull(data.attackObj.GetComponent<Rigidbody2D>(), "attack obj needs rb2d to set velocity");
-        Assert.IsNotNull(data.attackObj.GetComponent<Attack>(), "Attack Obj needs Attack component");
+        if (data.attackObj != null)
+        {
+            Assert.IsNotNull(data.attackObj.GetComponent<Rigidbody2D>(), "attack obj needs rb2d to set velocity");
+            Assert.IsNotNull(data.attackObj.GetComponent<Attack>(), "Attack Obj needs Attack component");
+        }
     }
 }

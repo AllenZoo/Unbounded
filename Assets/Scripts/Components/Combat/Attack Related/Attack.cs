@@ -12,6 +12,8 @@ public class Attack : MonoBehaviour
     public event Action<Damageable> OnHit;
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
+
+    // START
     // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
     [SerializeField] private string attackName = "Attack";
     [SerializeField] private float damage = 5f;
@@ -38,11 +40,16 @@ public class Attack : MonoBehaviour
 
     [Tooltip("If true, the attack will last until duration is over.")]
     [SerializeField] private Boolean lastsUntilDuration = false;
+    // END
 
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
-
+    
+    // Start
     [Header("For rendering")]
     [SerializeField] private float rotOffset;
+    // End
+
+    [SerializeField] private SO_Attack attackDataInit;
 
     private void Awake()
     {
