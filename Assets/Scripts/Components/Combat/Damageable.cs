@@ -58,23 +58,22 @@ public class Damageable : MonoBehaviour
 
         if (stat.GetCurStat(Stat.HP) <= 0)
         {
-            OnDeath?.Invoke();
 
+            OnDeath?.Invoke();
             // Disable hittable so it can't be hit anymore.
             isHittable = false;
-        } else
-        {
-            OnDamage?.Invoke(calculatedDamage);
-        }
+        } 
+        
+        OnDamage?.Invoke(calculatedDamage);
     }
 
-    public void TakeDamageOverTime(Attack attack)
+    public void TakeDamageOverTime(Attack attack, float damage)
     {
         dotAttacks.Add(attack);
-        StartCoroutine(DamageOverTime(attack));
+        StartCoroutine(DamageOverTime(attack, damage));
     }
 
-    private IEnumerator DamageOverTime(Attack attack)
+    private IEnumerator DamageOverTime(Attack attack, float damage)
     {
         float total_duration = 0;
         while (dotAttacks.Contains(attack))
@@ -85,7 +84,7 @@ public class Damageable : MonoBehaviour
                 yield break;
             }
 
-            TakeDamage(attack.Data.damage);
+            TakeDamage(damage);
             total_duration += 1f;
             yield return new WaitForSeconds(1f);
         }

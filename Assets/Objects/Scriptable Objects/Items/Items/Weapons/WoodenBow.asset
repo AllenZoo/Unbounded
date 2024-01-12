@@ -18,5 +18,7 @@ MonoBehaviour:
   quantity: 1
   isStackable: 0
   description: Like in the stone ages, but wood.
-  statModifiers: []
+  statModifiers:
+  - value: 1
+    stat: 3
   attacker: {fileID: 11400000, guid: a59fc54b5cb8ca244a50145286f67463, type: 2}

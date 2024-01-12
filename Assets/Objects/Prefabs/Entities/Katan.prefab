@@ -453,6 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
+  attack: 0
 --- !u!50 &4456538979408597579
 Rigidbody2D:
   serializedVersion: 4
@@ -562,11 +563,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 00000000
-  attackObj: {fileID: 899314943597054853, guid: cb3f9fdb1b413864ba5b8e3207691e35, type: 3}
-  numAttacks: 1
-  angleOffset: 0
-  cooldown: 0.5
+  attackerDataInit: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
+  data:
+    attackObj: {fileID: 0}
+    numAttacks: 1
+    angleOffset: 0
+    cooldown: 0.5
   inputController: {fileID: 916700090708789427}
+  statComponent: {fileID: 4456538979408597558}
 --- !u!1 &5041681082339125450
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,6 +898,7 @@ MonoBehaviour:
   entityType: 1
   stat: {fileID: 4456538979408597558}
   isDamageable: 1
+  isHittable: 1
 --- !u!114 &1547172781283259309
 MonoBehaviour:
   m_ObjectHideFlags: 0

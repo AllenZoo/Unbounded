@@ -9,14 +9,13 @@ public class AttackSpawner
 {
     /// <summary>
     /// Spawns attack object from attackObj at spawnerPos, towards mousePosition (or attack input position for monsters).
-    /// Attack reference should be the same one as the attackObj.
     /// </summary>
     /// <param name="info"></param>
     /// <param name="spawnerPos"></param>
     /// <param name="targetTypes"></param>
     /// <param name="attackObj"></param>
-    /// <param name="attack"></param>
-    public static void SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    /// <returns>The newly created Attack.</returns>
+    public static Attack SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
     {
         Attack attack = attackObj.GetComponent<Attack>();
         Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
@@ -24,7 +23,7 @@ public class AttackSpawner
         if (attack == null)
         {
             Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
-            return;
+            return null;
         }
 
         // Offset from attacker. TODO: make this a better calculation.
@@ -50,9 +49,22 @@ public class AttackSpawner
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
+
+        // Set sprite of attack.
+        //newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
+
+        return newAttack;
     }
 
-    public static void SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    /// <summary>
+    /// Spawns attack object torwards direction from spawnerPos.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="spawnerPos"></param>
+    /// <param name="targetTypes"></param>
+    /// <param name="attackObj"></param>
+    /// <returns>The newly created Attack.</returns>
+    public static Attack SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
     {
         Attack attack = attackObj.GetComponent<Attack>();
         Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
@@ -60,7 +72,7 @@ public class AttackSpawner
         if (attack == null)
         {
             Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
-            return;
+            return null;
         }
 
         // Offset from attacker. TODO: make this a better calculation.
@@ -85,5 +97,10 @@ public class AttackSpawner
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
+
+        // Set sprite of attack.
+        //newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
+
+        return newAttack;
     }
 }

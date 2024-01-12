@@ -18,5 +18,7 @@ MonoBehaviour:
   quantity: 1
   isStackable: 0
   description: Wooden Sword? Who made this?!
-  statModifiers: []
+  statModifiers:
+  - value: 10
+    stat: 4
   attacker: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}

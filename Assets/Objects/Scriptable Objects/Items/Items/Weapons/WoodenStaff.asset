@@ -18,5 +18,7 @@ MonoBehaviour:
   quantity: 0
   isStackable: 0
   description: FIREBALL!
-  statModifiers: []
+  statModifiers:
+  - value: 1
+    stat: 3
   attacker: {fileID: 11400000, guid: f62ab7f97308ef940911ffa21383f339, type: 2}

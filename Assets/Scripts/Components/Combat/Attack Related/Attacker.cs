@@ -16,6 +16,9 @@ public class Attacker : MonoBehaviour
     [Tooltip("Input controller to receive inputs to attack from.")]
     [SerializeField] private InputController inputController;
 
+    [Tooltip("Component that holds stats for adding damage to attacks.")]
+    [SerializeField] private StatComponent statComponent;
+
     private bool attackRdy = true;
 
     private void Awake()
@@ -29,6 +32,15 @@ public class Attacker : MonoBehaviour
 
         // Check if target types has atleast one element.
         Assert.IsTrue(TargetTypes.Count > 0, "Attacker needs atleast one target type");
+
+        Assert.IsNotNull(statComponent, "Attacker needs stat component to get ATK value.");
+
+        if (attackerDataInit != null)
+        {
+            // Debug.Log("Attacker data init is not null. Setting attacker data to attacker data init.");
+            // Init. Avoid pass by ref.
+            SetAttacker(attackerDataInit);
+        }
     }
 
     private void Start()
@@ -40,13 +52,6 @@ public class Attacker : MonoBehaviour
         {
             Debug.LogWarning("Attacker has no input controller! This means that attacker will never attack as there is no input" +
                 "for it to listen to that calls it to attack.");
-        }
-
-        if (attackerDataInit != null)
-        {
-            // Debug.Log("Attacker data init is not null. Setting attacker data to attacker data init.");
-            // Init. Avoid pass by ref.
-            SetAttacker(attackerDataInit);
         }
     }
 
@@ -61,7 +66,6 @@ public class Attacker : MonoBehaviour
 
         data = newData.data.Copy();
     }
-
 
     public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
     {
@@ -92,7 +96,8 @@ public class Attacker : MonoBehaviour
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
 
-            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj);
+            Attack newAttack = AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj);
+            newAttack.attackerATKStat = statComponent.GetCurStat(Stat.ATK);
         }
     }
 

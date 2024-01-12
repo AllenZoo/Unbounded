@@ -12,12 +12,17 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [Tooltip("Equipment inventory")]
     [SerializeField] private SO_Inventory inventory;
     [SerializeField] private int weaponSlotIndex;
+    [Tooltip("Stat component to modify when equipping weapon items.")]
+    [SerializeField] private StatComponent stat;
     private Attacker attacker;
+    private List<IStatModifier> curAppliedStats;
 
     private void Awake()
     {
-        Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory");
+        Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
+        Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attacker = GetComponent<Attacker>();
+        curAppliedStats = new List<IStatModifier>();
     }
 
     private void Start()
@@ -42,6 +47,44 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // Set attack object to weapon's attack object.
         // attacker.SetAttackObj(weapon.attacker.data.attackObj);
         attacker.SetAttacker(weapon.attacker);
+
+        // Clear all stat current stat modifiers.
+        ClearStatModifiers();
+
+        // Add all stat modifiers from weapon.
+        foreach (IStatModifier statMod in weapon.statModifiers)
+        {
+            curAppliedStats.Add(statMod);
+        }
+
+        // Apply all stat modifiers.
+        ApplyStatModifiers();
+    }
+
+    private void ClearStatModifiers()
+    {
+        if (curAppliedStats != null)
+        {
+            // Remove all applied stat modifiers.
+            foreach (IStatModifier statMod in curAppliedStats)
+            {
+                IStatModifier clearStat = new IStatModifier(statMod.Stat, -statMod.Value);
+                stat.ModifyStat(clearStat);
+            }
+        }
+        curAppliedStats.Clear();
+    }
+
+    private void ApplyStatModifiers()
+    {
+        if (curAppliedStats != null)
+        {
+            // Remove all applied stat modifiers.
+            foreach (IStatModifier statMod in curAppliedStats)
+            {
+                stat.ModifyStat(statMod);
+            }
+        }
     }
 
 

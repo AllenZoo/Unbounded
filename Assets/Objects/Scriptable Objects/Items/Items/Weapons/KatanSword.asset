@@ -18,5 +18,7 @@ MonoBehaviour:
   quantity: 1
   isStackable: 0
   description: Sword that belonged to a fierce warrior..
-  statModifiers: []
+  statModifiers:
+  - value: 3
+    stat: 3
   attacker: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}

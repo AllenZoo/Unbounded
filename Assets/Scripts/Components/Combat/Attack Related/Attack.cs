@@ -23,6 +23,8 @@ public class Attack : MonoBehaviour
         set { data.data = value; }
     }
 
+    public float attackerATKStat { private get; set; } = 0;
+
     private void Awake()
     {
         // Checks to see RB2 and Collider2D components properties are correct.
@@ -98,14 +100,16 @@ public class Attack : MonoBehaviour
             return;
         }
 
+        float calculatedDamage = CalculateDamage(Data.damage, attackerATKStat);
+
         // Damage the target.
         if (Data.isDOT)
         {
-            hit.TakeDamageOverTime(this);
+            hit.TakeDamageOverTime(this, calculatedDamage);
             return;
         }
 
-        hit.TakeDamage(Data.damage);
+        hit.TakeDamage(calculatedDamage);
         hitTargets.Add(hit);
         
         // Knockback the target if:
@@ -130,5 +134,12 @@ public class Attack : MonoBehaviour
         }
     }
 
-    
+    // Calculates the damage of the attack while also taking into account the attacker's stats.
+    // TODO: move this logic to a util class alongside with the damage calculation formula in Damageable.
+    private float CalculateDamage(float baseDamage, float atkStat)
+    {
+        float calculatedDMG = baseDamage + atkStat;
+        return calculatedDMG;
+
+    }
 }
