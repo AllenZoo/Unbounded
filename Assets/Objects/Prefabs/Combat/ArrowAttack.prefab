@@ -69,21 +69,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 
-  attackName: ArrowAttack|
-  damage: 5
-  duration: 5
-  initialSpeed: 5
-  chargeUp: 0
-  knockback: 0
-  stunDuration: 1
-  isAOE: 0
-  canRepeat: 0
-  isDOT: 0
-  dotDuration: 5
-  isPiercing: 1
-  lastsUntilDuration: 0
   hitTargets: []
-  rotOffset: 0
+  data: {fileID: 11400000, guid: 0cd391dc744174847b685226a93e254f, type: 2}
 --- !u!212 &1403582844052442420
 SpriteRenderer:
   m_ObjectHideFlags: 0

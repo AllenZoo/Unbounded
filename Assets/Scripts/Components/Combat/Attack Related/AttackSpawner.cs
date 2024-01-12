@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // Class that spawns attacks.
 public class AttackSpawner
@@ -15,14 +16,23 @@ public class AttackSpawner
     /// <param name="targetTypes"></param>
     /// <param name="attackObj"></param>
     /// <param name="attack"></param>
-    public static void SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, Attack attack)
+    public static void SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
     {
+        Attack attack = attackObj.GetComponent<Attack>();
+        Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
+
+        if (attack == null)
+        {
+            Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
+            return;
+        }
+
         // Offset from attacker. TODO: make this a better calculation.
-        float offset = 1f;
+        float offset = 0.5f;
 
         Vector3 direction = info.mousePosition - spawnerPos.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.RotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -33,22 +43,31 @@ public class AttackSpawner
         newAttackObj.SetActive(true);
 
         Attack newAttack = newAttackObj.GetComponent<Attack>();
-        newAttack.ResetAttackAfterTime(newAttack.Duration);
+        newAttack.ResetAttackAfterTime(newAttack.Data.duration);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.InitialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
     }
 
-    public static void SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, Attack attack)
+    public static void SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
     {
+        Attack attack = attackObj.GetComponent<Attack>();
+        Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
+
+        if (attack == null)
+        {
+            Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
+            return;
+        }
+
         // Offset from attacker. TODO: make this a better calculation.
-        float offset = 1f;
+        float offset = 0.5f;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.RotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -59,10 +78,10 @@ public class AttackSpawner
         newAttackObj.SetActive(true);
 
         Attack newAttack = newAttackObj.GetComponent<Attack>();
-        newAttack.ResetAttackAfterTime(newAttack.Duration);
+        newAttack.ResetAttackAfterTime(newAttack.Data.duration);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.InitialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;

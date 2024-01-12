@@ -36,11 +36,12 @@ public class EquipmentWeaponHandler : MonoBehaviour
         {
             Debug.Log("No weapon found in slot " + weaponSlotIndex + ".");
             // Set attack object to null.
-            attacker.SetAttackObj(null);
+            attacker.SetAttacker(null);
             return;
         }
         // Set attack object to weapon's attack object.
-        attacker.SetAttackObj(weapon.weaponItem.attackObj);
+        // attacker.SetAttackObj(weapon.attacker.data.attackObj);
+        attacker.SetAttacker(weapon.attacker);
     }
 
 

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: wooden_sword
   itemSprite: {fileID: -870168203, guid: a64d73120f737c2458025e8b118a7997, type: 3}
-  spriteDims: {x: 10, y: 41}
+  spriteRot: 0
   quantity: 1
   isStackable: 0
   description: Wooden Sword? Who made this?!
-  weaponItem: {fileID: 11400000, guid: 28b019259f39826469b7697c5bf2c108, type: 2}
+  statModifiers: []
+  attacker: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}

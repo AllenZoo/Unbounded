@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: KatanSwordSlashProjectileNORMAL
   m_EditorClassIdentifier: 
   data:
-    attackName: KatanSwordSlashProjectileSLOW
+    attackName: KatanSwordSlashProjectileNORMAL|
     damage: 10
-    duration: 20
-    initialSpeed: 5
+    duration: 2
+    initialSpeed: 8
     chargeUp: 0
     knockback: 0
     stunDuration: 1
@@ -28,3 +28,4 @@ MonoBehaviour:
     lastsUntilDuration: 1
     rotOffset: 0
     attackSprite: {fileID: 1630239925, guid: 76edf7bb4de23b247a1415683d9cad09, type: 3}
+    attackerAtkStat: 0

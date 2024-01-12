@@ -8,7 +8,7 @@ public class Attacker : MonoBehaviour
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     // Could be unecessary. But useful for quickly serializing values.
-    [Tooltip("To init attacker data.")]
+    [Tooltip("To init attacker data. Leave empty if we want to manually set attacker data values.")]
     [SerializeField] private SO_Attacker attackerDataInit;
 
     [SerializeField] private AttackerData data;
@@ -16,7 +16,6 @@ public class Attacker : MonoBehaviour
     [Tooltip("Input controller to receive inputs to attack from.")]
     [SerializeField] private InputController inputController;
 
-    private Attack attack;
     private bool attackRdy = true;
 
     private void Awake()
@@ -42,28 +41,27 @@ public class Attacker : MonoBehaviour
             Debug.LogWarning("Attacker has no input controller! This means that attacker will never attack as there is no input" +
                 "for it to listen to that calls it to attack.");
         }
-        
+
+        if (attackerDataInit != null)
+        {
+            // Debug.Log("Attacker data init is not null. Setting attacker data to attacker data init.");
+            // Init. Avoid pass by ref.
+            SetAttacker(attackerDataInit);
+        }
     }
 
     public void SetAttacker(SO_Attacker newData)
     {
-        data = newData.data;
-        SetAttackObj(data.attackObj);
-    }
 
-    // Reset all fields related to attack.
-    public void SetAttackObj(GameObject attackObj)
-    {
-        if (attackObj == null)
+        if (newData == null)
         {
-            // TODO: set default attack object or disable attacker.
+            Debug.LogWarning("Attacker data is null. Cannot set attacker data.");
             return;
         }
-        this.data.attackObj = attackObj;
 
-        // TODO: remove this once we refactor attack to be a scriptable object.
-        attack = attackObj.GetComponent<Attack>();
+        data = newData.data.Copy();
     }
+
 
     public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
     {
@@ -94,7 +92,7 @@ public class Attacker : MonoBehaviour
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
 
-            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj, attack);
+            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj);
         }
     }
 
@@ -102,7 +100,7 @@ public class Attacker : MonoBehaviour
     public IEnumerator ChargeUpAttack(Attack attack)
     {
         // Charge up attack
-        yield return new WaitForSeconds(attack.ChargeUp);
+        yield return new WaitForSeconds(attack.Data.chargeUp);
     }
 
     public IEnumerator AttackCooldown()

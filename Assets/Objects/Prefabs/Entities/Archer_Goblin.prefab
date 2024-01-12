@@ -607,10 +607,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 00000000
-  attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
-  numAttacks: 1
-  angleOffset: 0
-  cooldown: 1.5
+  attackerDataInit: {fileID: 0}
+  data:
+    attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
+    numAttacks: 1
+    angleOffset: 0
+    cooldown: 0.5
   inputController: {fileID: 2927453995066883928}
 --- !u!1 &7113278443387260328
 GameObject:

@@ -7,49 +7,21 @@ using UnityEngine.Assertions;
 // Script attached to attack objects that contain info about the attack.
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Attack : MonoBehaviour
 {
     public event Action<Damageable> OnHit;
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
-
-    // START
-    // TODO: Split these fields into different component classes. eg. DOT component, AOE component, etc.
-    [SerializeField] private string attackName = "Attack";
-    [SerializeField] private float damage = 5f;
-    [SerializeField] private float duration = 0.5f;
-    [SerializeField] private float initialSpeed = 0f;
-
-    [Tooltip("time it takes to charge up attack.")]
-    [SerializeField] private float chargeUp = 0f;
-    [SerializeField] private float knockback = 0f;
-    [SerializeField] private float stunDuration = 1f;
-
-    [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
-    [SerializeField] private Boolean isAOE = false;
-
-    [Tooltip("If true, the attack will be able to hit the same target multiple times.")]
-    [SerializeField] private Boolean canRepeat = false;
-
-    [Tooltip("If true, the attack will deal damage over time.")]
-    [SerializeField] private Boolean isDOT = false;
-    [SerializeField] private float dotDuration = 5f;
-
-    [Tooltip("If true, the attack will pierce through targets.")]
-    [SerializeField] private Boolean isPiercing = false;
-
-    [Tooltip("If true, the attack will last until duration is over.")]
-    [SerializeField] private Boolean lastsUntilDuration = false;
-    // END
-
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
-    
-    // Start
-    [Header("For rendering")]
-    [SerializeField] private float rotOffset;
-    // End
 
-    [SerializeField] private SO_Attack attackDataInit;
+    [SerializeField] private SO_Attack data;
+
+    public AttackData Data
+    {
+        get { return data.data; }
+        set { data.data = value; }
+    }
 
     private void Awake()
     {
@@ -60,12 +32,22 @@ public class Attack : MonoBehaviour
 
         // Check if Collider2D is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
+
+        // Check that data is not null.
+        Assert.IsNotNull(data, "Attack needs data to function");
     }
 
     private void Start()
     {
         OnHit += Hit;
+
+        if (data != null)
+        {
+            // Init Avoid pass by ref.
+            Data = data.data.Copy();   
+        }
     }
+
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -110,37 +92,37 @@ public class Attack : MonoBehaviour
         }
 
         // Checks if hit already has been processed by this attack on this target.
-        if (!canRepeat && hitTargets.Contains(hit))
+        if (!Data.canRepeat && hitTargets.Contains(hit))
         {
             // Attack doesn't repeat damage, and already has hit this target.
             return;
         }
 
         // Damage the target.
-        if (isDOT)
+        if (Data.isDOT)
         {
             hit.TakeDamageOverTime(this);
             return;
         }
 
-        hit.TakeDamage(damage);
+        hit.TakeDamage(Data.damage);
         hitTargets.Add(hit);
         
         // Knockback the target if:
         //      - attack has knockback
         //      - target is knockbackable
-        if (knockback > 0)
+        if (Data.knockback > 0)
         {
             Knockbackable kb = hit.GetComponent<Knockbackable>();
             if (kb != null)
             {
-                kb.Knockback(hit.transform.position - this.transform.position, knockback, stunDuration);
+                kb.Knockback(hit.transform.position - this.transform.position, Data.knockback, Data.stunDuration);
             }
         }
 
 
         // Resets the attack if conditions are met.
-        if (!isAOE && !isPiercing && !lastsUntilDuration)
+        if (!Data.isAOE && !Data.isPiercing && !Data.lastsUntilDuration)
         {
             // Destroy the attack object. (or set inactive if we want to reuse it)
             ResetAttack();
@@ -148,40 +130,5 @@ public class Attack : MonoBehaviour
         }
     }
 
-    #region Getters and Setters
-    public float Damage
-    {
-        get { return damage; }
-    }
-
-    public float DotDuration
-    {
-        get { return dotDuration; }
-    }
-
-    public float Duration
-    {
-        get { return duration; }
-    }
-
-    public string Name
-    {
-        get { return attackName; }
-    }
-
-    public float InitialSpeed
-    {
-        get { return initialSpeed; }
-    }
-
-    public float ChargeUp
-    {
-        get { return chargeUp; }
-    }
-
-    public float RotOffset
-    {
-        get { return rotOffset; }
-    }
-    #endregion
+    
 }

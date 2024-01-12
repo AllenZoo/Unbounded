@@ -48,21 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 
-  attackName: SwordSlash|
-  damage: 5
-  duration: 0.2
-  initialSpeed: 0
-  chargeUp: 0
-  knockback: 0
-  stunDuration: 1
-  isAOE: 1
-  canRepeat: 0
-  isDOT: 0
-  dotDuration: 5
-  isPiercing: 0
-  lastsUntilDuration: 1
   hitTargets: []
-  rotOffset: 0
+  data: {fileID: 11400000, guid: 79d2d2da178f1d64d98ea390fd9bcd69, type: 2}
 --- !u!212 &2714405999033833535
 SpriteRenderer:
   m_ObjectHideFlags: 0

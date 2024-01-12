@@ -18,8 +18,8 @@ public class SO_Attacker : ScriptableObject
     {
         if (data.attackObj != null)
         {
-            Assert.IsNotNull(data.attackObj.GetComponent<Rigidbody2D>(), "attack obj needs rb2d to set velocity");
-            Assert.IsNotNull(data.attackObj.GetComponent<Attack>(), "Attack Obj needs Attack component");
+            Assert.IsNotNull(data.attackObj.GetComponent<Rigidbody2D>(), "attack obj needs rb2d to set velocity in " + data.attackObj.name);
+            Assert.IsNotNull(data.attackObj.GetComponent<Attack>(), "Attack Obj needs Attack component in " + data.attackObj.name);
         }
     }
 }
