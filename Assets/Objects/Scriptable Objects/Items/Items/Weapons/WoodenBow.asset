@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: WoodenBow
   itemSprite: {fileID: 202112491, guid: a64d73120f737c2458025e8b118a7997, type: 3}
-  spriteDims: {x: 10, y: 32}
+  spriteRot: 0
   quantity: 1
   isStackable: 0
   description: Like in the stone ages, but wood.
-  weaponItem: {fileID: 11400000, guid: f4a654b8261836944b45919b4874c85a, type: 2}
+  statModifiers:
+  - value: 1
+    stat: 3
+  attacker: {fileID: 11400000, guid: a59fc54b5cb8ca244a50145286f67463, type: 2}

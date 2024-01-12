@@ -13,8 +13,7 @@ public class BarController : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
-        
-        Assert.IsNotNull(statObject, "Bar controller needs a stat object");
+        // Assert.IsNotNull(statObject, "Bar controller needs a stat object");
     }
 
     private void Start()
@@ -23,6 +22,13 @@ public class BarController : MonoBehaviour
         Render();
     }
 
+    public void Set(StatComponent statObject, Stat statToTrack)
+    {
+        this.statObject = statObject;
+        this.statToTrack = statToTrack;
+        statObject.OnStatChange += OnStatChange;
+        Render();
+    }
     private void OnStatChange(StatComponent statComponent, IStatModifier statModifier)
     {
         // Update the bar to reflect the new stat

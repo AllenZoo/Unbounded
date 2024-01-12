@@ -6,6 +6,6 @@ public class WeaponSlotCondition : IItemCondition
 {
     public bool ConditionMet(SO_Item item)
     {
-        return item.weaponItem != null;
+        return item.attacker != null;
     }
 }

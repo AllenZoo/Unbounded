@@ -14,9 +14,11 @@ public class SO_Item : ScriptableObject
 
     public List<IStatModifier> statModifiers = new List<IStatModifier>();
 
-    [Tooltip("If item is weapon, attach the corresponding weapon_item data here.")]
-    public SO_Weapon_Item weaponItem;
+    //[Tooltip("If item is weapon, attach the corresponding weapon_item data here.")]
+    //public SO_Weapon_Item weaponItem;
 
+    [Tooltip("If item is weapon, attach the corresponding attacker data here.")]
+    public SO_Attacker attacker;
 
     // To use via code when we want to duplicate SO_Items
     public SO_Item Copy()
@@ -37,7 +39,8 @@ public class SO_Item : ScriptableObject
         // Assuming IStatModifier is a class or a struct, this should be sufficient.
         // If it's a more complex object or references, you might need a deep copy.
 
-        copy.weaponItem = this.weaponItem;
+        // copy.weaponItem = this.weaponItem;
+        copy.attacker = this.attacker;
 
         return copy;
     }

@@ -46,11 +46,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 01000000020000000300000004000000
-  attackObj: {fileID: 6538108593564167323, guid: 84a7223dc0b264d4fb591f597dbbc367, type: 3}
-  numAttacks: 1
-  angleOffset: 0
-  cooldown: 0.5
+  attackerDataInit: {fileID: 0}
+  data:
+    attackObj: {fileID: 0}
+    numAttacks: 1
+    angleOffset: 0
+    cooldown: 0.5
   inputController: {fileID: 7405677662020513448}
+  statComponent: {fileID: 7405677662020513449}
 --- !u!114 &1773246356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: f7e77c9f6f100c74d99c203ef7e58243, type: 2}
   weaponSlotIndex: 0
+  stat: {fileID: 7405677662020513449}
 --- !u!1 &242522279
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,6 +511,7 @@ GameObject:
   - component: {fileID: 7405677662020513448}
   - component: {fileID: 7405677662020512083}
   - component: {fileID: 7405677661359215970}
+  - component: {fileID: 3185927748019698975}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -565,6 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: f012e5a20fdb94444a68536a454134c2, type: 2}
+  attack: 0
 --- !u!114 &7405677662020513448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,6 +613,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a88aca7a364cbda488d067158c14d24d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3185927748019698975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7405677662020513453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b250a2c7bdf6a4459463b1076cf0cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7905380374370108712

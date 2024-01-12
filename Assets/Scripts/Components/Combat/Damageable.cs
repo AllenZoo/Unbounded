@@ -46,46 +46,65 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        if (damage <= 0)
+        float calculatedDamage = CalculateDamage(damage);
+
+        if (calculatedDamage <= 0)
         {
-            Debug.Log("Damage needs to be > 0");
+            Debug.Log("Damage after stat processing needs to be > 0");
             return;
         }
 
-        stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
+        stat.ModifyStat(new IStatModifier(Stat.HP, -calculatedDamage));
 
         if (stat.GetCurStat(Stat.HP) <= 0)
         {
-            OnDeath?.Invoke();
 
+            OnDeath?.Invoke();
             // Disable hittable so it can't be hit anymore.
             isHittable = false;
-        } else
-        {
-            OnDamage?.Invoke(damage);
-        }
+        } 
+        
+        OnDamage?.Invoke(calculatedDamage);
     }
 
-    public void TakeDamageOverTime(Attack attack)
+    public void TakeDamageOverTime(Attack attack, float damage)
     {
         dotAttacks.Add(attack);
-        StartCoroutine(DamageOverTime(attack));
+        StartCoroutine(DamageOverTime(attack, damage));
     }
 
-    private IEnumerator DamageOverTime(Attack attack)
+    private IEnumerator DamageOverTime(Attack attack, float damage)
     {
         float total_duration = 0;
         while (dotAttacks.Contains(attack))
         {
-            if (total_duration >= attack.DotDuration)
+            if (total_duration >= attack.Data.dotDuration)
             {
                 dotAttacks.Remove(attack);
                 yield break;
             }
 
-            TakeDamage(attack.Damage);
+            TakeDamage(damage);
             total_duration += 1f;
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    // Calculate damage based on damage amount and damage reduction.
+    // At 5 defense, reduce about 10% of damage.
+    private float CalculateDamage(float damage)
+    {
+        // Increase this to make damage reudction growth slower.
+        float growthScale = 8f;
+
+        // Make damage reduction grow at a logarithmic rate. (This function looks good on desmos)
+        float damageReduction = Mathf.Log10(stat.GetCurStat(Stat.DEF)/growthScale + 1f) / 2f;
+
+        float damageTaken = damage * (1f - damageReduction);
+
+        // Round down to whole number.
+        damageTaken = Mathf.Floor(damageTaken);
+
+        return damageTaken;
     }
 }

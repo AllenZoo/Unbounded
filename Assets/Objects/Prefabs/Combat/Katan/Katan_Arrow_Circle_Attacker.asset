@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0716e7bce4c660d45b4ab8fb3969ef9b, type: 3}
   m_Name: Katan_Arrow_Circle_Attacker
   m_EditorClassIdentifier: 
-  TargetTypes: 00000000
-  attackObj: {fileID: 6538108593564167323, guid: 84a7223dc0b264d4fb591f597dbbc367, type: 3}
-  numAttacks: 16
-  angleOffset: 22.5
-  cooldown: 1
+  data:
+    attackObj: {fileID: 6538108593564167323, guid: 84a7223dc0b264d4fb591f597dbbc367, type: 3}
+    numAttacks: 16
+    angleOffset: 22.5
+    cooldown: 1

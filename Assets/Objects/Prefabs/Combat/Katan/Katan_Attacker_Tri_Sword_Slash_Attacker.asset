@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0716e7bce4c660d45b4ab8fb3969ef9b, type: 3}
   m_Name: Katan_Attacker_Tri_Sword_Slash_Attacker
   m_EditorClassIdentifier: 
-  TargetTypes: 00000000
-  attackObj: {fileID: 899314943597054853, guid: cb3f9fdb1b413864ba5b8e3207691e35, type: 3}
-  numAttacks: 3
-  angleOffset: 30
-  cooldown: 0.5
+  data:
+    attackObj: {fileID: 899314943597054853, guid: cb3f9fdb1b413864ba5b8e3207691e35, type: 3}
+    numAttacks: 3
+    angleOffset: 30
+    cooldown: 0.5

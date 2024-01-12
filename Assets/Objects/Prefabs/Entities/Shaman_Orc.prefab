@@ -318,11 +318,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 00000000
-  attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
-  numAttacks: 1
-  angleOffset: 0
-  cooldown: 1
+  attackerDataInit: {fileID: 0}
+  data:
+    attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
+    numAttacks: 1
+    angleOffset: 0
+    cooldown: 1
   inputController: {fileID: 1489280840202876623}
+  statComponent: {fileID: 1489280840202876662}
 --- !u!1 &3434620844648344537
 GameObject:
   m_ObjectHideFlags: 0

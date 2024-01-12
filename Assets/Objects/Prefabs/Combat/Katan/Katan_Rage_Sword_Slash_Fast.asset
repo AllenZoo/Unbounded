@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0716e7bce4c660d45b4ab8fb3969ef9b, type: 3}
   m_Name: Katan_Rage_Sword_Slash_Fast
   m_EditorClassIdentifier: 
-  TargetTypes: 00000000
-  attackObj: {fileID: 4672050705460870368, guid: fb7f2d9affe3fc34f85fe0afc9a5f431, type: 3}
-  numAttacks: 5
-  angleOffset: 20
-  cooldown: 1
+  data:
+    attackObj: {fileID: 4672050705460870368, guid: fb7f2d9affe3fc34f85fe0afc9a5f431, type: 3}
+    numAttacks: 5
+    angleOffset: 20
+    cooldown: 1
