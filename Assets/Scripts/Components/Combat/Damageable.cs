@@ -46,13 +46,15 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        if (damage <= 0)
+        float calculatedDamage = CalculateDamage(damage);
+
+        if (calculatedDamage <= 0)
         {
-            Debug.Log("Damage needs to be > 0");
+            Debug.Log("Damage after stat processing needs to be > 0");
             return;
         }
 
-        stat.ModifyStat(new IStatModifier(Stat.HP, -damage));
+        stat.ModifyStat(new IStatModifier(Stat.HP, -calculatedDamage));
 
         if (stat.GetCurStat(Stat.HP) <= 0)
         {
@@ -62,7 +64,7 @@ public class Damageable : MonoBehaviour
             isHittable = false;
         } else
         {
-            OnDamage?.Invoke(damage);
+            OnDamage?.Invoke(calculatedDamage);
         }
     }
 
@@ -87,5 +89,23 @@ public class Damageable : MonoBehaviour
             total_duration += 1f;
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    // Calculate damage based on damage amount and damage reduction.
+    // At 5 defense, reduce about 10% of damage.
+    private float CalculateDamage(float damage)
+    {
+        // Increase this to make damage reudction growth slower.
+        float growthScale = 8f;
+
+        // Make damage reduction grow at a logarithmic rate. (This function looks good on desmos)
+        float damageReduction = Mathf.Log10(stat.GetCurStat(Stat.DEF)/growthScale + 1f) / 2f;
+
+        float damageTaken = damage * (1f - damageReduction);
+
+        // Round down to whole number.
+        damageTaken = Mathf.Floor(damageTaken);
+
+        return damageTaken;
     }
 }

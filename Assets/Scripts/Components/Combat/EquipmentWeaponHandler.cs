@@ -26,6 +26,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         UpdateWeapon();
     }
 
+    // TODO: refactor SO_Weapon_Item to store SO_Attacker instead of attackObj.
     private void UpdateWeapon()
     {
         // Get weapon from inventory.

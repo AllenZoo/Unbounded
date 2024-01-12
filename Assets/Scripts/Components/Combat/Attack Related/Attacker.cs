@@ -7,17 +7,11 @@ public class Attacker : MonoBehaviour
 {
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
-    [SerializeField] private GameObject attackObj;
+    // Could be unecessary. But useful for quickly serializing values.
+    [Tooltip("To init attacker data.")]
+    [SerializeField] private SO_Attacker attackerDataInit;
 
-    [Tooltip("Number of attacks to spawn when attacking.")]
-    [SerializeField] private int numAttacks = 1;
-
-    [Tooltip("Angle offset for between each attack spawned.")]
-    [SerializeField] private float angleOffset = 0f;
-
-    // Could consider moving this to Attack, but it might make sense for the attacker to control the 
-    // cooldown of attacks.
-    [SerializeField] private float cooldown = 0.5f;
+    [SerializeField] private AttackerData data;
 
     [Tooltip("Input controller to receive inputs to attack from.")]
     [SerializeField] private InputController inputController;
@@ -27,16 +21,12 @@ public class Attacker : MonoBehaviour
 
     private void Awake()
     {
-        Assert.IsNotNull(attackObj.GetComponent<Rigidbody2D>(), "attack obj needs rb2d to set velocity");
-
-        attack = attackObj.GetComponent<Attack>();
-        Assert.IsNotNull(attack, "Attack Obj needs Attack component");
-
         if (inputController == null)
         {
+            Debug.LogWarning("Attacker input controller is null. " +
+                "Attempting to get input controller from parent.");
             inputController = GetComponentInParent<InputController>();
         }
-        // Assert.IsNotNull(inputController, "Attacker needs InputController");
 
         // Check if target types has atleast one element.
         Assert.IsTrue(TargetTypes.Count > 0, "Attacker needs atleast one target type");
@@ -55,16 +45,10 @@ public class Attacker : MonoBehaviour
         
     }
 
-
-    public void SetAttacker(SO_Attacker data)
+    public void SetAttacker(SO_Attacker newData)
     {
-        TargetTypes = data.TargetTypes;
-        attackObj = data.attackObj;
-        numAttacks = data.numAttacks;
-        angleOffset = data.angleOffset;
-        cooldown = data.cooldown;
-
-        SetAttackObj(attackObj);
+        data = newData.data;
+        SetAttackObj(data.attackObj);
     }
 
     // Reset all fields related to attack.
@@ -75,8 +59,10 @@ public class Attacker : MonoBehaviour
             // TODO: set default attack object or disable attacker.
             return;
         }
-        this.attackObj = attackObj;
-        this.attack = attackObj.GetComponent<Attack>();
+        this.data.attackObj = attackObj;
+
+        // TODO: remove this once we refactor attack to be a scriptable object.
+        attack = attackObj.GetComponent<Attack>();
     }
 
     public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
@@ -90,13 +76,13 @@ public class Attacker : MonoBehaviour
 
     public void Attack(KeyCode keyCode, AttackSpawnInfo info)
     {
-        for (int i = 0; i < numAttacks; i++)
+        for (int i = 0; i < data.numAttacks; i++)
         {
             // i = 0, shoot torwards mouse.
             // i = 1, shoot to the right of mouse with angleOffset * 1 away from attack 0.
             // i = 2, shoot to the left of mouse with angleOffset * 1 away from attack 0.
             //float angle = (i+1)/2 * angleOffset;
-            float angle = (int) ((i+1)/2) * angleOffset;
+            float angle = (int) ((i+1)/2) * data.angleOffset;
 
             // Odd's offset to the right.
             // Even's offset to the left
@@ -108,7 +94,7 @@ public class Attacker : MonoBehaviour
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
 
-            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, attackObj, attack);
+            AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj, attack);
         }
     }
 
@@ -122,7 +108,7 @@ public class Attacker : MonoBehaviour
     public IEnumerator AttackCooldown()
     {
         attackRdy = false;
-        yield return new WaitForSeconds(cooldown);
+        yield return new WaitForSeconds(data.cooldown);
         attackRdy = true;
     }
 
@@ -131,6 +117,4 @@ public class Attacker : MonoBehaviour
         yield return new WaitForSeconds(duration);
         attackObj.GetComponent<Attack>().ResetAttack();
     }
-
-    
 }
