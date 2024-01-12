@@ -23,6 +23,13 @@ public class BarController : MonoBehaviour
         Render();
     }
 
+    public void Set(StatComponent statObject, Stat statToTrack)
+    {
+        this.statObject = statObject;
+        this.statToTrack = statToTrack;
+        statObject.OnStatChange += OnStatChange;
+        Render();
+    }
     private void OnStatChange(StatComponent statComponent, IStatModifier statModifier)
     {
         // Update the bar to reflect the new stat

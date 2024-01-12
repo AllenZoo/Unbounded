@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.Assertions;
 // Attached to targets that have a
 public class AggroPossessor : MonoBehaviour
 {
+    // isAggroed?
+    public event Action<bool> OnAggroStatusChange;
+
     [SerializeField] private float aggroRange;
     [SerializeField] private float aggroReleaseRange;
     [SerializeField] private CircleCollider2D aggroDetecter;
@@ -28,11 +32,12 @@ public class AggroPossessor : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<AggroTarget>() != null)
         {
-            aggroBrain.SetAggroTarget(collision.gameObject);    
+            aggroBrain.SetAggroTarget(collision.gameObject);
 
             aggroTarget = collision.gameObject;
             StopAllCoroutines();
             isAggroed = true;
+            OnAggroStatusChange?.Invoke(true);
             StartCoroutine(AggroCoroutine());
         }
     }
@@ -49,9 +54,17 @@ public class AggroPossessor : MonoBehaviour
                 {
                     aggroBrain.SetAggroTarget(null);
                     isAggroed = false;
+                    OnAggroStatusChange?.Invoke(false);
                 }
             }
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    //  Disable aggro, if aggroer is not alive.
+    private void OnDisable()
+    {
+        isAggroed = false;
+        OnAggroStatusChange?.Invoke(false);
     }
 }

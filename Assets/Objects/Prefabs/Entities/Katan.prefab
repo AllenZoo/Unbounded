@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 8100155770300223982}
   - component: {fileID: 1051176910154285482}
   - component: {fileID: 7599973659860923114}
+  - component: {fileID: 7531693359182105070}
   m_Layer: 7
   m_Name: AggroHandler
   m_TagString: Untagged
@@ -340,6 +341,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 7
+--- !u!114 &7531693359182105070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3225468431850876824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccde9886d16d8ac4e80a69c1d3a689db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossHealthBarController: {fileID: 0}
+  aggro: {fileID: 1051176910154285482}
+  stats: {fileID: 4456538979408597558}
 --- !u!1 &4062177657863964859
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5117083647762023625
 Transform:
   m_ObjectHideFlags: 0
@@ -672,6 +688,10 @@ MonoBehaviour:
     - Key: 0
       Value:
       - value: 1.5
+        stat: 5
+    - Key: 2
+      Value:
+      - value: 1
         stat: 5
     - Key: 3
       Value:
