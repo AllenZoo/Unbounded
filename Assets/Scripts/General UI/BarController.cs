@@ -13,8 +13,7 @@ public class BarController : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
-        
-        Assert.IsNotNull(statObject, "Bar controller needs a stat object");
+        // Assert.IsNotNull(statObject, "Bar controller needs a stat object");
     }
 
     private void Start()

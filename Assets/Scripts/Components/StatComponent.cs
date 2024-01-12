@@ -13,7 +13,7 @@ public class StatComponent : MonoBehaviour
     public float maxMana { get; private set; }
     public float stamina { get; private set; }
     public float maxStamina { get; private set; }
-    public float attack;
+    public float attack { get; private set; }
     public float defense { get; private set; }
     public float speed { get; private set; }
 
