@@ -740,7 +740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1427456478
 Transform:
   m_ObjectHideFlags: 0
@@ -1010,6 +1010,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
   m_PrefabInstance: {fileID: 2927453993558771943}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1730007156
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_Name
+      value: Katan
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
 --- !u!1 &1754704944 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3753612072776027391, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
