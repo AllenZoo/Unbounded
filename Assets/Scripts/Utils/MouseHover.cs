@@ -7,7 +7,7 @@ using UnityEngine;
 public class MouseHover : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
-   
+    [SerializeField] private Vector2 offset;
     public void Awake()
     {
         canvas = transform.root.GetComponent<Canvas>();
@@ -23,6 +23,7 @@ public class MouseHover : MonoBehaviour
             out position
                 );
         transform.position = canvas.transform.TransformPoint(position);
+        transform.position += (Vector3)offset;
     }
 
     private void OnDisable()

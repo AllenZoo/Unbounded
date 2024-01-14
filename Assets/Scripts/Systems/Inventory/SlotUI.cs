@@ -7,8 +7,9 @@ using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler
+public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    #region Properties
     public event Action<InventorySystem, SlotUI, PointerEventData.InputButton> OnDragItem;
     public event Action<InventorySystem, SlotUI>  OnEndDragItem, OnDropItem;
 
@@ -28,6 +29,13 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     [SerializeField] private GameObject slotItemBackground;
 
     [SerializeField] private TextMeshProUGUI quantityText;
+
+    [Header("Hover params")]
+    [Tooltip("Delay before item description is shown.")]
+    [SerializeField] private float hoverDelay = 1.0f; // Adjust the delay time as needed
+    private bool isMouseOver = false;
+    private Coroutine hoverCoroutine;
+    #endregion
 
     private void Awake()
     {
@@ -121,6 +129,37 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         // Debug.Log("Mouse released over slot index: " + slotIndex);
         OnDropItem?.Invoke(parentSystem, this);
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!isMouseOver)
+        {
+            isMouseOver = true;
+            hoverCoroutine = StartCoroutine(DelayedItemDescriptor());
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (isMouseOver)
+        {
+            isMouseOver = false;
+            if (hoverCoroutine != null)
+            {
+                StopCoroutine(hoverCoroutine);
+            }
+            // Hide the item descriptor here (e.g., set it inactive)
+            ItemDescriptor.Instance.Toggle(false);
+        }
+    }
+
+    private IEnumerator DelayedItemDescriptor()
+    {
+        yield return new WaitForSeconds(hoverDelay);
+        // Show the item descriptor here (e.g., set it active)
+        ItemDescriptor.Instance.Toggle(true, itemData);
+    }
+
 
     #region Setters and Getters
     public void SetSlotIndex(int index)
