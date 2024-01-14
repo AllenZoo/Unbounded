@@ -132,7 +132,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isMouseOver)
+        if (!isMouseOver && itemData != null)
         {
             isMouseOver = true;
             hoverCoroutine = StartCoroutine(DelayedItemDescriptor());
