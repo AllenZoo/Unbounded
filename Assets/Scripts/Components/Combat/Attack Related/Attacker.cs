@@ -57,10 +57,11 @@ public class Attacker : MonoBehaviour
 
     public void SetAttacker(SO_Attacker newData)
     {
-
+        // Debug.Log("Set Attacker: " + newData);
         if (newData == null)
         {
-            Debug.LogWarning("Attacker data is null. Cannot set attacker data.");
+            Debug.LogWarning("Attacker data is null. Cannot attack.");
+            data = null;
             return;
         }
 
@@ -69,15 +70,22 @@ public class Attacker : MonoBehaviour
 
     public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
     {
-        if (attackRdy)
+        // Attack if attack is ready and if data is not null.
+        if (attackRdy && data != null)
         {
             Attack(keyCode, info);
-            StartCoroutine(AttackCooldown());
         }
     }
 
+    // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
+    // does nothing.
     public void Attack(KeyCode keyCode, AttackSpawnInfo info)
     {
+        if (data == null || data.attackObj == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < data.numAttacks; i++)
         {
             // i = 0, shoot torwards mouse.
@@ -99,6 +107,8 @@ public class Attacker : MonoBehaviour
             Attack newAttack = AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj);
             newAttack.attackerATKStat = statComponent.GetCurStat(Stat.ATK);
         }
+
+        StartCoroutine(AttackCooldown());
     }
 
     // Handles setting non-transform property of attacks..
