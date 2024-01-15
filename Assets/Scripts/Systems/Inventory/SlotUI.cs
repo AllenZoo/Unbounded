@@ -32,7 +32,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     [Header("Hover params")]
     [Tooltip("Delay before item description is shown.")]
-    [SerializeField] private float hoverDelay = 1.0f; // Adjust the delay time as needed
+    [SerializeField] private float hoverDelay = 0.5f; // Adjust the delay time as needed
     private bool isMouseOver = false;
     private Coroutine hoverCoroutine;
     #endregion
