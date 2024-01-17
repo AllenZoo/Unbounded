@@ -77,7 +77,8 @@ public class EnemyAIComponent : InputController
         } else
         {
             tracker.enabled = false;
-            Random_Move();
+            // TODO: undisable this eventually when we have a better way to handle this.
+            // Random_Move();
         }
         
     }

@@ -35,6 +35,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
         else
         {
+            // Teleport existing instance to this objects position
+            instance.transform.position = transform.position;
             Destroy(gameObject);
         }
     }
