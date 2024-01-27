@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum Stat
 {
-    HP, MP, SP, ATK, DEF, SPD
+    HP, MP, SP, ATK, DEF, SPD, MONEY
 }

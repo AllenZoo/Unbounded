@@ -16,6 +16,7 @@ public class StatComponent : MonoBehaviour
     public float attack { get; private set; }
     public float defense { get; private set; }
     public float speed { get; private set; }
+    public float money { get; private set; }
 
     private void Awake()
     {
@@ -49,6 +50,9 @@ public class StatComponent : MonoBehaviour
             case Stat.SPD:
                 speed += statModifier.Value;
                 break;
+            case Stat.MONEY:
+                money += statModifier.Value;
+                break;
         }
         OnStatChange?.Invoke(this, statModifier);
     }
@@ -69,6 +73,8 @@ public class StatComponent : MonoBehaviour
                 return defense;
             case Stat.SPD:
                 return speed;
+            case Stat.MONEY:
+                return money;
             default:
                 return 0;
         }
@@ -90,6 +96,8 @@ public class StatComponent : MonoBehaviour
                 return defense;
             case Stat.SPD:
                 return speed;
+            case Stat.MONEY:
+                return money;
             default:
                 return 0;
         }
@@ -104,6 +112,7 @@ public class StatComponent : MonoBehaviour
         attack = baseStats.attack;
         defense = baseStats.defense;
         speed = baseStats.speed;
+        money = 0;
         OnStatChange?.Invoke(this, null);
     }
 }
