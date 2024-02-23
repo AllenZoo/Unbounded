@@ -11,14 +11,10 @@ public class Inventory
     public event Action OnInventoryDataModified;
     [SerializeField] public SO_Inventory data;
 
-    //private List<SO_Item> items;
-    //private int numSlots;
-
     // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
     {
         data = inventory;
-        inventory.OnInventoryDataChange += InvokeOnInventoryDataModified;
     }
 
     // Init through other params
@@ -43,10 +39,7 @@ public class Inventory
 
     // When SO_Inventory invokes OnInventoryDataChange, invoke Inventory OnInventoryDataModified.
     // Modifications to data.items should only invoke data.OnInventoryChange.
-    public void InvokeOnInventoryDataModified()
-    {
-        OnInventoryDataModified?.Invoke();
-    }
+
 
     /// <summary>
     /// Attempts to add/stack an item to an index of the inventory. 
@@ -77,16 +70,14 @@ public class Inventory
             return -1;
         }
 
-        data.InvokeOnDataChange();
+        OnInventoryDataModified?.Invoke();
         return 1;
-        //  OnInventoryDataModified?.Invoke();
     }
 
     public void RemoveItem(int index)
     {
         data.items[index] = null;
-        data.InvokeOnDataChange();
-        // OnInventoryDataModified?.Invoke();
+        OnInventoryDataModified?.Invoke();
     }
 
     public Item GetItem(int index)
@@ -100,7 +91,7 @@ public class Inventory
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
         data.InvokeOnDataChange();
-        // OnInventoryDataModified?.Invoke();
+        OnInventoryDataModified?.Invoke();
     }
 
     /// <summary>
@@ -152,7 +143,7 @@ public class Inventory
         int secondHalfQuantity = Mathf.FloorToInt(totalQuantity / 2f);
 
         data.items[index] = new Item(originalItem.data, firstHalfQuantity);
-        data.InvokeOnDataChange();
+        OnInventoryDataModified?.Invoke();
 
         Item secondHalf = new Item(originalItem.data, secondHalfQuantity);
         return secondHalf;

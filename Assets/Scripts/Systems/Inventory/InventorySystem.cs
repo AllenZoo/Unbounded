@@ -67,6 +67,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         inventory.AddItem(emptySlot, item);
+        OnInventoryDataModified?.Invoke();
     }
 
     public void RemoveItem(Item item)
@@ -80,6 +81,7 @@ public class InventorySystem : MonoBehaviour
             return;
         }
         inventory.RemoveItem(itemIndex);
+        OnInventoryDataModified?.Invoke();
     }
 
     /// <summary>
@@ -101,6 +103,7 @@ public class InventorySystem : MonoBehaviour
         }
         // Conditions met, swap items.
         inventory.SwapItems(index1, index2);
+        OnInventoryDataModified?.Invoke();
     }
 
     /// <summary>
@@ -276,7 +279,7 @@ public class InventorySystem : MonoBehaviour
     }
 
     // Event linker.
-    private void Inventory_OnInventoryDataModified()
+    private void InvokeInventorySystemOnInventoryModified()
     {
         OnInventoryDataModified?.Invoke();
     }
@@ -284,7 +287,7 @@ public class InventorySystem : MonoBehaviour
     // Init
     private void Init()
     {
-        inventory.OnInventoryDataModified += Inventory_OnInventoryDataModified;
+        inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
     }
 
     #region Getters and Setters
