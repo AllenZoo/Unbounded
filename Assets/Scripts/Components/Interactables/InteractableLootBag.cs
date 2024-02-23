@@ -23,7 +23,7 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     [SerializeField] private GameObject parentObject;
 
     // [Tooltip("The inventory shared between loot bags, which is displayed on the UI.")]
-    private SO_Inventory lootBagDisplayInventory;
+    private Inventory lootBagDisplayInventory;
 
     private void Awake()
     {
@@ -33,11 +33,12 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        lootBagDisplayInventory = ScriptableObject.CreateInstance<SO_Inventory>();
-        lootBagDisplayInventory.items = lootHolder.GetLoot();
-        lootBagDisplayInventory.slots = lootHolder.GetNumSlots();
+        SO_Inventory inventoryData = ScriptableObject.CreateInstance<SO_Inventory>();
+        inventoryData.items = lootHolder.GetLoot();
+        inventoryData.slots = lootHolder.GetNumSlots();
+        inventoryData.OnInventoryDataChange += LootBagDisplayInventory_OnInventoryDataChange;
 
-        lootBagDisplayInventory.OnInventoryDataChange += LootBagDisplayInventory_OnInventoryDataChange;
+        lootBagDisplayInventory = new Inventory(inventoryData);
     }
 
 

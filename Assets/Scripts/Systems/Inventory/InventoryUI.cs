@@ -25,7 +25,7 @@ public class InventoryUI : MonoBehaviour
 
     private List<SlotUI> slots = new List<SlotUI>();
     private InventorySystem inventorySystem;
-    private SO_Inventory inventoryData;
+    //private Inventory inventory;
 
     private void Awake()
     {
@@ -39,9 +39,6 @@ public class InventoryUI : MonoBehaviour
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
         
         inventorySystem = GetComponent<InventorySystem>();
-        inventoryData = inventorySystem.GetInventoryData();
-
-        Assert.IsNotNull(inventoryData, "Need inventory data for UI to reflect the its state.");
 
         InitWhole();
     }
@@ -57,7 +54,7 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventorySystem.OnInventoryDataModified += Rerender;
-        inventorySystem.OnInventoryDataReset += SetInventoryData;
+        //inventorySystem.OnInventoryDataReset += SetInventoryData;
     }
 
     // For when Inventory UI is closed and reopened.
@@ -120,7 +117,7 @@ public class InventoryUI : MonoBehaviour
             } else
             {
                 // Split externally.
-                system.SplitBetweenSystems(
+                system.SplitIntoBetweenSystems(
                     InventorySwapperManager.Instance.selectedSlotInventorySystem,
                     InventorySwapperManager.Instance.selectedSlotIndex,
                     slot.GetSlotIndex());
@@ -138,11 +135,10 @@ public class InventoryUI : MonoBehaviour
             } else
             {
                 // Split internally.
-                system.Split(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+                system.SplitInto(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
             }
         }
     }
-
 
     private void InitWhole()
     {
@@ -193,7 +189,7 @@ public class InventoryUI : MonoBehaviour
         //}
 
         // Create inventory slots gameobjects.
-        while (inventorySlotParent.transform.childCount < inventoryData.slots)
+        while (inventorySlotParent.transform.childCount < inventorySystem.GetInventorySize())
         {
             Instantiate(inventorySlotPrefab, inventorySlotParent.transform);
         }
@@ -213,24 +209,20 @@ public class InventoryUI : MonoBehaviour
         int index = 0;
         foreach (SlotUI slot in slots)
         {
-            slot.SetItem(inventoryData.items[index]);
+            slot.SetItem(inventorySystem.GetItem(index));
             index++;
         }
 
         OnRerender?.Invoke();
     }
 
-
-    #region Getters and Setters
-    public SO_Inventory GetInventoryData()
+    private void Update()
     {
-        return inventoryData;
+        // For debugging.
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // Rerender
+            Rerender();
+        }
     }
-
-    public void SetInventoryData(SO_Inventory inventoryData)
-    {
-        this.inventoryData = inventoryData;
-        InitWhole();
-    }
-    #endregion
 }

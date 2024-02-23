@@ -18,7 +18,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     [Header("For debugging, don't set via inspector.")]
     [SerializeField] private int slotIndex;
-    [SerializeField] private SO_Item itemData;
+    [SerializeField] private Item item;
 
     [Header("Set via inspector.")]
     [Tooltip("Item icon element that displays item sprite of slot.")]
@@ -58,7 +58,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     private void Rerender()
     {
         // Check if slot holds an item.
-        if (itemData == null)
+        if (item == null || item.data == null)
         {
             // Slot is empty
             if (slotItemBackground != null)
@@ -83,13 +83,13 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         itemIconElement.SetActive(true);
         Image image = itemIconElement.GetComponentInParent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
-        image.sprite = itemData.itemSprite;
-        itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, itemData.spriteRot);
+        image.sprite = item.data.itemSprite;
+        itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, item.data.spriteRot);
 
         // Check if item is stackable and if quantity is greater than 1.
-        if (itemData.isStackable && itemData.quantity > 1)
+        if (item.data.isStackable && item.quantity > 1)
         {
-            quantityText.text = "x" + itemData.quantity.ToString();
+            quantityText.text = "x" + item.quantity.ToString();
             quantityText.gameObject.SetActive(true);
         }
         else
@@ -106,7 +106,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Debug.Log("Got into pointer drag event!");
-        if (itemData == null)
+        if (item == null || item.data == null)
         {
             return;
         }
@@ -132,7 +132,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isMouseOver && itemData != null)
+        if (!isMouseOver && item != null && item.data != null)
         {
             isMouseOver = true;
             hoverCoroutine = StartCoroutine(DelayedItemDescriptor());
@@ -157,7 +157,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     {
         yield return new WaitForSeconds(hoverDelay);
         // Show the item descriptor here (e.g., set it active)
-        ItemDescriptor.Instance.Toggle(true, itemData);
+        ItemDescriptor.Instance.Toggle(true, item);
     }
 
 
@@ -170,18 +170,18 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     {
         return slotIndex;
     }
-    public void SetItem(SO_Item item)
+    public void SetItem(Item item)
     {
-        itemData = item;
+        this.item = item;
         Rerender();
     }
     public Sprite GetItemSprite()
     {
-        return itemData.itemSprite;
+        return item.data.itemSprite;
     }
     public float GetItemSpriteRot()
     {
-        return itemData.spriteRot;
+        return item.data.spriteRot;
     }
     #endregion
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WeaponSlotCondition : IItemCondition
 {
-    public bool ConditionMet(SO_Item item)
+    public bool ConditionMet(Item item)
     {
-        return item.attacker != null;
+        return item.data.attacker != null;
     }
 }

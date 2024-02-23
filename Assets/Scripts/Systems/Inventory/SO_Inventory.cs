@@ -7,7 +7,8 @@ using UnityEngine;
 public class SO_Inventory : ScriptableObject
 {
     public int slots = 9;
-    public List<SO_Item> items = new List<SO_Item>();
+    //public List<SO_Item> items = new List<SO_Item>();
+    public List<Item> items = new List<Item>();
 
     public event Action OnInventoryDataChange;
 
@@ -36,7 +37,7 @@ public class SO_Inventory : ScriptableObject
     public bool IsEmpty()
     {
         // Check if all items are null.
-        foreach (SO_Item item in items)
+        foreach (Item item in items)
         {
             if (item != null)
             {

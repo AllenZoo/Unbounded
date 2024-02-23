@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 public class ItemDescriptor : Singleton<ItemDescriptor>
 {
-    public SO_Item item;
+    public Item item;
 
     [Header("UI elements")]
     [SerializeField] private TextMeshProUGUI itemTextName;
@@ -25,15 +25,15 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
             " stat modifiers of item.");
     }
 
-    public void Toggle(bool toggle, SO_Item item)
+    public void Toggle(bool toggle, Item item)
     {
         Toggle(toggle);
         this.item = item;
-        itemTextName.text = item.itemName;
-        itemTextDesc.text = item.description;
+        itemTextName.text = item.data.itemName;
+        itemTextDesc.text = item.data.description;
 
         itemTextStats.text = "";
-        foreach (IStatModifier statModifier in item.statModifiers)
+        foreach (IStatModifier statModifier in item.data.statModifiers)
         {
             itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
         }
