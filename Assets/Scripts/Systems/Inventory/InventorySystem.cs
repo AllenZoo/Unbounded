@@ -15,13 +15,9 @@ public class InventorySystem : MonoBehaviour
     // SO_Inventory.
     public event Action<Inventory> OnInventoryDataReset;
 
-    // [Header("Init through SO or manual. If SO takes precendence.")]
-    [Tooltip("Inventory Data to be used")]
+    //[Header("Init through SO.")]
+    //[SerializeField] private SO_Inventory initInventory;
     [SerializeField] private Inventory inventory;
-
-    //[Tooltip("Inventory Data to be used")]
-    //[SerializeField] private List<SO_Item> items;
-    //[SerializeField] private float numSlots = 9;
 
     // Maps each slot and their respective rules.
     // Implement interface ConditionMet(SO_Item item) for each condition

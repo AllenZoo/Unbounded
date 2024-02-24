@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -10,19 +11,21 @@ public class Inventory
 {
     public event Action OnInventoryDataModified;
 
-    // TODO: make this just the base init data.
-    [SerializeField] public SO_Inventory data;
+    //// TODO: make this just the base init data.
+    public SO_Inventory data;
 
-
+    [SerializeField] private List<Item> items = new List<Item>();
+    [SerializeField] private int numSlots;
 
     // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
     {
         data = inventory;
+        //items = inventory.items;
+        //numSlots = inventory.slots;
     }
 
-    // Init through other params
-    //public Inventory(List<SO_Item> items, int numSlots)
+    //public Inventory(List<Item> items, int numSlots)
     //{
     //    // Assert that items.Count <= numSlots.
     //    Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
@@ -31,18 +34,15 @@ public class Inventory
     //    this.numSlots = numSlots;
 
     //    // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
-    //    if (items.Count < numSlots)
+    //    if (this.items.Count < this.numSlots)
     //    {
-    //        int difference = numSlots - items.Count;
+    //        int difference = this.numSlots - this.items.Count;
     //        for (int i = 0; i < difference; i++)
     //        {
-    //            items.Add(null);
+    //            this.items.Add(null);
     //        }
     //    }
     //}
-
-    // When SO_Inventory invokes OnInventoryDataChange, invoke Inventory OnInventoryDataModified.
-    // Modifications to data.items should only invoke data.OnInventoryChange.
 
 
     /// <summary>
@@ -113,7 +113,7 @@ public class Inventory
         Item item2 = data.items[index2];
 
         // Check if items are stackable and have the same SO_Item data.
-        if (item2.data != null && 
+        if (item2 != null && item2.data != null && 
                        (( !item1.data.Equals(item2.data)
                        || !item1.data.isStackable
                        || !item2.data.isStackable) ))
