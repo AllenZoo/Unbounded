@@ -34,16 +34,4 @@ public class SO_Inventory : ScriptableObject
         OnInventoryDataChange?.Invoke();
     }
 
-    public bool IsEmpty()
-    {
-        // Check if all items are null.
-        foreach (Item item in items)
-        {
-            if (item != null)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 }

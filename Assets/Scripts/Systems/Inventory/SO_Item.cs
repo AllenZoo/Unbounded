@@ -29,8 +29,6 @@ public class SO_Item : ScriptableObject
 
         SO_Item otherObj = other as SO_Item;
         return itemName == otherObj.itemName && 
-            itemSprite == otherObj.itemSprite &&
-            spriteRot == otherObj.spriteRot &&
             isStackable == otherObj.isStackable &&
             description == otherObj.description;
     }
@@ -38,8 +36,6 @@ public class SO_Item : ScriptableObject
     public override int GetHashCode()
     {
         return HashCode.Combine(itemName.GetHashCode(), 
-            itemSprite.GetHashCode(), 
-            spriteRot.GetHashCode(), 
             isStackable.GetHashCode(), 
             description.GetHashCode());
     }

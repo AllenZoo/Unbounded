@@ -9,7 +9,11 @@ using UnityEngine.Assertions;
 public class Inventory
 {
     public event Action OnInventoryDataModified;
+
+    // TODO: make this just the base init data.
     [SerializeField] public SO_Inventory data;
+
+
 
     // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
@@ -105,13 +109,17 @@ public class Inventory
     /// <returns>1 if successful, -1 if failed</returns>
     public int StackItems(int index1, int index2)
     {
+        Item item1 = data.items[index1];
+        Item item2 = data.items[index2];
+
         // Check if items are stackable and have the same SO_Item data.
-        if (data.items[index1].data.Equals(data.items[index2].data)
-                       && !data.items[index1].data.isStackable
-                       && !data.items[index2].data.isStackable)
+        if (item2.data != null && 
+                       (( !item1.data.Equals(item2.data)
+                       || !item1.data.isStackable
+                       || !item2.data.isStackable) ))
         {
-            Debug.LogError("Cannot stack items. " +
-                "Items are not stackable or do not have the same SO_Item data.");
+            //Debug.Log("Cannot stack items. " +
+            //    "Items are not stackable or do not have the same SO_Item data.");
             return -1;
         }
 
@@ -134,8 +142,7 @@ public class Inventory
         if (totalQuantity <= 1 && originalItem.data.isStackable)
         {
             // Not splittable, return error!
-            Debug.LogError("Should not have requested to split an item with quantity <= 0." +
-                "Missing guard!");
+            Debug.Log("Attempted to split item. Failed.");
             return null;
         }
 
