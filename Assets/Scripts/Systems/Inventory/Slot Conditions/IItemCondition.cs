@@ -5,5 +5,5 @@ using UnityEngine;
 
 public interface IItemCondition
 {
-    public bool ConditionMet(SO_Item item);
+    public bool ConditionMet(Item item);
 }

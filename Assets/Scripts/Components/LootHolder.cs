@@ -6,15 +6,15 @@ public class LootHolder : MonoBehaviour
 {
     // TODO: remove serialization. Here currently for debugging
     [Header("Loot. Displayed for debugging.")]
-    [SerializeField] private List<SO_Item> loot = new List<SO_Item>();
+    [SerializeField] private List<Item> loot = new List<Item>();
     [SerializeField] private int numSlots = 3;
 
-    public void SetLoot(List<SO_Item> loot)
+    public void SetLoot(List<Item> loot)
     {
         this.loot = loot;
     }
 
-    public List<SO_Item> GetLoot()
+    public List<Item> GetLoot()
     {
         return loot;
     }

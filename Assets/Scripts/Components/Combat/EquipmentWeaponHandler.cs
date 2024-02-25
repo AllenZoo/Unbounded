@@ -35,9 +35,9 @@ public class EquipmentWeaponHandler : MonoBehaviour
     private void UpdateWeapon()
     {
         // Get weapon from inventory.
-        SO_Item weapon = inventory.items[weaponSlotIndex];
+        Item weapon = inventory.items[weaponSlotIndex];
         // If weapon is null, then we don't have a weapon equipped.
-        if (weapon == null)
+        if (weapon == null || weapon.data == null)
         {
             Debug.Log("No weapon found in slot " + weaponSlotIndex + ".");
             // Set attack object to null.
@@ -46,13 +46,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
         // Set attack object to weapon's attack object.
         // attacker.SetAttackObj(weapon.attacker.data.attackObj);
-        attacker.SetAttacker(weapon.attacker);
+        attacker.SetAttacker(weapon.data.attacker);
 
         // Clear all stat current stat modifiers.
         ClearStatModifiers();
 
         // Add all stat modifiers from weapon.
-        foreach (IStatModifier statMod in weapon.statModifiers)
+        foreach (IStatModifier statMod in weapon.data.statModifiers)
         {
             curAppliedStats.Add(statMod);
         }

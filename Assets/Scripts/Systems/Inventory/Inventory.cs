@@ -1,32 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // Handles logic of managing data of inventory.
+[System.Serializable]
 public class Inventory
 {
     public event Action OnInventoryDataModified;
-    private SO_Inventory data;
 
-    //private List<SO_Item> items;
-    //private int numSlots;
+    //// TODO: make this just the base init data.
+    public SO_Inventory data;
 
     // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
     {
-        // Passes by ref!
+        data = inventory;
         //items = inventory.items;
         //numSlots = inventory.slots;
-        data = inventory;
-
-        // Note: data.OnInventoryDataChange += OnInventoryDataModified does NOT work.
-        inventory.OnInventoryDataChange += InvokeOnInventoryDataModified;
     }
 
-    // Init through other params
-    //public Inventory(List<SO_Item> items, int numSlots)
+    //public Inventory(List<Item> items, int numSlots)
     //{
     //    // Assert that items.Count <= numSlots.
     //    Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
@@ -35,140 +31,174 @@ public class Inventory
     //    this.numSlots = numSlots;
 
     //    // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
-    //    if (items.Count < numSlots)
+    //    if (this.items.Count < this.numSlots)
     //    {
-    //        int difference = numSlots - items.Count;
+    //        int difference = this.numSlots - this.items.Count;
     //        for (int i = 0; i < difference; i++)
     //        {
-    //            items.Add(null);
+    //            this.items.Add(null);
     //        }
     //    }
     //}
 
-    // When SO_Inventory invokes OnInventoryDataChange, invoke Inventory OnInventoryDataModified.
-    // Modifications to data.items should only invoke data.OnInventoryChange.
-    public void InvokeOnInventoryDataModified()
-    {
-        OnInventoryDataModified?.Invoke();
-    }
 
-    public void AddItem(int index, Item item)
+    /// <summary>
+    /// Attempts to add/stack an item to an index of the inventory. 
+    /// </summary>
+    /// <param name="index">index to add item to.</param>
+    /// <param name="item">item to add/stack.</param>
+    /// <returns>1 if item was added/stacked, -1 if item was not added/stacked.</returns>
+    public int AddItem(int index, Item item)
     {
-        data.items[index] = item.data;
-        data.InvokeOnDataChange();
-        // OnInventoryDataModified?.Invoke();
-    }
+        Item item1 = data.items[index];
+        Item item2 = item;
 
-    // Attempts to add/stack an item to an index of the inventory. 
-    public void AddItem(int index, SO_Item item)
-    {
-        SO_Item item1 = data.items[index];
-        SO_Item item2 = item;
-
-        if (item1 == null)
+        if (item1 == null || item1.data == null)
         {
             data.items[index] = item;
-        } else if (item1.itemName == item2.itemName
-            && item1.isStackable && item2.isStackable)
+        }
+        else if (item1.data.Equals(item2.data)
+            && item1.data.isStackable && item2.data.isStackable)
         {
             // Stack items.
-
-            // Create new reference to item in inventory.
-            SO_Item copy = data.items[index].Copy();
-            copy.quantity += item.quantity;
-
-            data.items[index] = copy;
-        } else
-        {
-            Debug.LogError("Cannot add item to inventory. " +
-                "Item at index is not null and does not match item to add." +
-                "Failed to guard somewhere.");
+            Item stackedItem = new Item(item1.data, item1.quantity + item2.quantity);
+            data.items[index] = stackedItem;
         }
-        
-        data.InvokeOnDataChange();
-        // OnInventoryDataModified?.Invoke();
+        else
+        {
+            Debug.LogError("Cannot add/stack item to inventory. " +
+                "Item at index is not null and does not match item to add.");
+            return -1;
+        }
+
+        OnInventoryDataModified?.Invoke();
+        return 1;
     }
 
     public void RemoveItem(int index)
     {
         data.items[index] = null;
-        data.InvokeOnDataChange();
-        // OnInventoryDataModified?.Invoke();
+        OnInventoryDataModified?.Invoke();
     }
 
-    public SO_Item GetItem(int index)
+    public Item GetItem(int index)
     {
         return data.items[index];
     }
 
     public void SwapItems(int index1, int index2)
     {
-        SO_Item temp = data.items[index1];
+        Item temp = data.items[index1];
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
         data.InvokeOnDataChange();
-        // OnInventoryDataModified?.Invoke();
+        OnInventoryDataModified?.Invoke();
     }
 
     /// <summary>
+    /// Checks if index1 and index2 are stackable. If they are, stack them.
     /// Stack items in the same inventory system. 
     /// Move item from index1 into index2
-    /// Assumes index1 and index2 are stackable. TODO: add check here in case.
+    /// 
     /// </summary>
     /// <param name="index1"></param>
     /// <param name="index2"></param>
-    public void StackItems(int index1, int index2)
+    /// <returns>1 if successful, -1 if failed</returns>
+    public int StackItems(int index1, int index2)
     {
-        // Create a new object (so that we don't modify the original object by ref).
-        int newStackCount = data.items[index1].quantity + data.items[index2].quantity;
-        SO_Item newItem = data.items[index1].Copy();
-        newItem.quantity = newStackCount;
+        Item item1 = data.items[index1];
+        Item item2 = data.items[index2];
 
-        data.items[index2] = newItem;
-        data.items[index1] = null;
-        data.InvokeOnDataChange();
+        // Check if items are stackable and have the same SO_Item data.
+        if (item2 != null && item2.data != null && 
+                       (( !item1.data.Equals(item2.data)
+                       || !item1.data.isStackable
+                       || !item2.data.isStackable) ))
+        {
+            //Debug.Log("Cannot stack items. " +
+            //    "Items are not stackable or do not have the same SO_Item data.");
+            return -1;
+        }
+
+        AddItem(index2, data.items[index1]);
+        return 1;
     }
 
     /// <summary>
     /// Splits the item at index in half. If item quantity is odd, 
-    /// the remainder is placed in the first half (not the returned SO_Item).
-    /// Creates two new SO_Items.
+    /// the remainder is placed in the first half (not the returned Item).
+    /// Creates two new Item.
     /// </summary>
     /// <param name="index"></param>
-    /// <returns>The other half of the item</returns>
-    public SO_Item SplitIndex(int index)
+    /// <returns>The second half of the items. Returns null if item is not splittable.</returns>
+    public Item SplitIndex(int index)
     {
-        SO_Item firstHalf = data.items[index].Copy();
-        int totalQuantity = firstHalf.quantity;
-
-        if (totalQuantity <= 1)
+        Item originalItem = data.items[index];
+        int totalQuantity = originalItem.quantity;
+        // To be splittable, the item must be stackable and have a quantity > 1.
+        if (totalQuantity <= 1 && originalItem.data.isStackable)
         {
             // Not splittable, return error!
-            Debug.LogError("Should not have requested to split an item with quantity <= 0." +
-                "Missing guard!");
+            Debug.Log("Attempted to split item. Failed.");
             return null;
         }
 
-        firstHalf.quantity = Mathf.CeilToInt(totalQuantity / 2f);
-        data.items[index] = firstHalf;
+        int firstHalfQuantity = Mathf.CeilToInt(totalQuantity / 2f);
+        int secondHalfQuantity = Mathf.FloorToInt(totalQuantity / 2f);
 
-        SO_Item secondHalf = data.items[index].Copy();
-        secondHalf.quantity = Mathf.FloorToInt(totalQuantity / 2f);
+        data.items[index] = new Item(originalItem.data, firstHalfQuantity);
+        OnInventoryDataModified?.Invoke();
 
-        data.InvokeOnDataChange();
-
+        Item secondHalf = new Item(originalItem.data, secondHalfQuantity);
         return secondHalf;
+    }
+
+    /// <summary>
+    /// Returns the index of the last instance of the item in the inventory.
+    /// Returns -1 if the item is not in the inventory.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>index or -1</returns>
+    public int LastIndexOf(Item item)
+    {
+        for (int i = data.slots - 1; i >= 0; i--)
+        {
+            if (data.items[i] == item)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public int GetFirstEmptySlot()
     {
         for (int i = 0; i < data.slots; i++)
         {
-            if (data.items[i] == null)
+
+            // TODO: check logic. (Do we need to add .data or just items[i] == null?)
+            if (data.items[i].data == null)
             {
                 return i;
             }
         }
         return -1;
+    }
+
+    public bool IsEmpty()
+    {
+        for(int i = 0;i < data.slots;i++)
+        {
+            if (data.items[i] != null && data.items[i].data != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int GetInventorySize()
+    {
+        return data.slots;
     }
 }
