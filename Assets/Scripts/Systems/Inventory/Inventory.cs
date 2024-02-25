@@ -14,9 +14,6 @@ public class Inventory
     //// TODO: make this just the base init data.
     public SO_Inventory data;
 
-    [SerializeField] private List<Item> items = new List<Item>();
-    [SerializeField] private int numSlots;
-
     // Init through scriptable object.
     public Inventory(SO_Inventory inventory)
     {

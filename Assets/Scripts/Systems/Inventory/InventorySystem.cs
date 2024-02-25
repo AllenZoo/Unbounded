@@ -143,6 +143,17 @@ public class InventorySystem : MonoBehaviour
         {
             return;
         }
+        
+        // Check if General Conditions met for stacking/swapping.
+        Item item1 = inventory.GetItem(index1);
+        Item item2 = inventory.GetItem(index2);
+        if (!CheckConditionMet(this, index1, item2) || !CheckConditionMet(this, index2, item1))
+        {
+            // Condition not met!
+            Debug.Log("Condition not met to swap or stack items!");
+            return;
+        }
+
 
         // Attempt to Stack items.
         int stackResult = inventory.StackItems(index1, index2);
@@ -165,7 +176,16 @@ public class InventorySystem : MonoBehaviour
     /// <param name="thisIndex"> index item is dropped on. </param>
     public void AttemptStackThenSwapBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
     {
+        
+        // Check if General Conditions met for stacking/swapping.
+        Item thisItem = inventory.GetItem(thisIndex);
         Item otherItem = other.inventory.GetItem(otherIndex);
+        if (!CheckConditionMet(this, thisIndex, otherItem) || !CheckConditionMet(other, otherIndex, thisItem))
+        {
+            // Condition not met!
+            Debug.Log("Condition not met to swap or stack items!");
+            return;
+        }
 
         // Attempt to Stack items.
         if (inventory.AddItem(thisIndex, otherItem) == 1)
@@ -193,6 +213,14 @@ public class InventorySystem : MonoBehaviour
     {
         Item item1 = inventory.GetItem(index1);
         Item item2 = inventory.GetItem(index2);
+
+        // Check if items are swappable
+        if (!CheckConditionMet(this, index1, item2) || !CheckConditionMet(this, index2, item1))
+        {
+            // Condition not met!
+            Debug.Log("Condition not met to split items!");
+            return;
+        }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
         if (item2 != null && item2.data != null 
@@ -226,11 +254,20 @@ public class InventorySystem : MonoBehaviour
     /// <param name="thisIndex"> index of item that is dropped on. </param>
     public void SplitIntoBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
     {
-        Item item1 = inventory.GetItem(thisIndex);
-        Item item2 = other.inventory.GetItem(otherIndex);
+        Item thisItem = inventory.GetItem(thisIndex);
+        Item otherItem = other.inventory.GetItem(otherIndex);
+
+        // Check if items are swappable
+        if (!CheckConditionMet(this, thisIndex, otherItem) 
+            || !CheckConditionMet(other, otherIndex, thisItem))
+        {
+            // Condition not met!
+            Debug.Log("Condition not met to split items!");
+            return;
+        }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (item2 != null && item2.data != null && (!item2.data.isStackable || item2.data.Equals(item1.data)))
+        if (otherItem != null && otherItem.data != null && (!otherItem.data.isStackable || otherItem.data.Equals(thisItem.data)))
         {
             // item2 is not null and is not stackable with item1!
             Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
@@ -253,7 +290,13 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    // HELPER. Checks if an insert condition is met for a slot.
+    /// <summary>
+    /// HELPER. Checks if an insert condition is met for a slot. 
+    /// </summary>
+    /// <param name="system">system which slot belongs to</param>
+    /// <param name="slotIndex">slot to insert into</param>
+    /// <param name="itemToInsert">item to insert into system</param>
+    /// <returns>Returns false if item cannot be inserted into slot. Returns true if it can.</returns>
     private bool CheckConditionMet(InventorySystem system, int slotIndex, Item itemToInsert)
     {
         system.GetSlotRules().TryGetValue(slotIndex, out SO_Conditions conditions);
