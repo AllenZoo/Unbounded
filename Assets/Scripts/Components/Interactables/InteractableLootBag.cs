@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// TODO: refactor logic. Should not create SO_Inventory.
 public class InteractableLootBag : MonoBehaviour, IInteractable
 {
 

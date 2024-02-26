@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LootDropperOnDeath : MonoBehaviour, LootDropper
+{
+    [SerializeField] private Damageable damageable;
+    [SerializeField] private DropRates dropRates;
+    [Tooltip("The maximum number of items that can be dropped. Counts as attempts in running the drop lottery.")]
+    [SerializeField] private int maxItems;
+
+    private void Start()
+    {
+        damageable.OnDeath += DropLoot;
+    }
+
+    private void DropLoot()
+    {
+        // Get the loot to drop
+        List<Item> lootDrop = DropRateCalculator.GetItemsFromDropRate(dropRates, maxItems);
+
+        // Create new loot bag 
+    }
+}
