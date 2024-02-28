@@ -29,6 +29,12 @@ public class LootDropperOnDeath : MonoBehaviour, LootDropper
         // Get the loot to drop
         List<Item> lootDrop = DropRateCalculator.GetItemsFromDropRate(dropRates, maxItems);
 
+        // If lootdrop is empty, return.
+        if (lootDrop.Count == 0)
+        {
+            return;
+        }
+
         // Create new loot bag with loot drops inside.
         LootBagFactory.Instance.CreateLootBag(transform.position, lootDrop);
     }
