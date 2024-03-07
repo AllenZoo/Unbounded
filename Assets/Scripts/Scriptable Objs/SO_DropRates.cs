@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Drop Rates", menuName = "ScriptableObjs/Drop Rates")]
 public class SO_DropRates : ScriptableObject
 {
     public List<DropRate> dropRates = new List<DropRate>();

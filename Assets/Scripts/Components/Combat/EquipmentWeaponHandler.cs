@@ -10,7 +10,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 {
     // TODO: decide whether to have reference to SO_Inventory or InventorySystem.
     [Tooltip("Equipment inventory")]
-    [SerializeField] private SO_Inventory inventory;
+    [SerializeField] private InventorySystem inventory;
     [SerializeField] private int weaponSlotIndex;
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
@@ -27,7 +27,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     private void Start()
     {
-        inventory.OnInventoryDataChange += UpdateWeapon;
+        inventory.OnInventoryDataModified += UpdateWeapon;
         UpdateWeapon();
     }
 
@@ -35,7 +35,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
     private void UpdateWeapon()
     {
         // Get weapon from inventory.
-        Item weapon = inventory.items[weaponSlotIndex];
+        Item weapon = inventory.GetItem(weaponSlotIndex);
         // If weapon is null, then we don't have a weapon equipped.
         if (weapon == null || weapon.data == null)
         {

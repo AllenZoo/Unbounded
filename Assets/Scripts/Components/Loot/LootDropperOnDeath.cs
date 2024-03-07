@@ -8,7 +8,7 @@ public class LootDropperOnDeath : MonoBehaviour, LootDropper
     [SerializeField] private Damageable damageable;
     [SerializeField] private DropRates dropRates;
     [Tooltip("The maximum number of items that can be dropped. Counts as attempts in running the drop lottery.")]
-    [SerializeField] private int maxItems;
+    [SerializeField] private int maxItems = 3;
 
     private void Awake()
     {

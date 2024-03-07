@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTypes: 01000000020000000300000004000000
-  attackerDataInit: {fileID: 0}
+  attackerDataInit: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
   data:
     attackObj: {fileID: 0}
     numAttacks: 1
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4aa276add087e4dae7943d26d89c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: f7e77c9f6f100c74d99c203ef7e58243, type: 2}
+  inventory: {fileID: 0}
   weaponSlotIndex: 0
   stat: {fileID: 7405677662020513449}
 --- !u!1 &242522279
@@ -570,7 +570,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: f012e5a20fdb94444a68536a454134c2, type: 2}
-  attack: 0
 --- !u!114 &7405677662020513448
 MonoBehaviour:
   m_ObjectHideFlags: 0
