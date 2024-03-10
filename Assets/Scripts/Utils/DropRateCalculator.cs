@@ -23,6 +23,10 @@ public class DropRateCalculator
             currentRate += dropRate.rate;
             if (random <= currentRate)
             {
+                if (dropRate.item.data == null)
+                {
+                    return null;
+                }
                 return dropRate.item;
             }
         }

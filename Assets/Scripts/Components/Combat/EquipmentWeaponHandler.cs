@@ -19,7 +19,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     private void Awake()
     {
-        Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
+        // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attacker = GetComponent<Attacker>();
         curAppliedStats = new List<IStatModifier>();
@@ -27,6 +27,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     private void Start()
     {
+        inventory = InventorySystemStorage.Instance.GetSystem(InventoryType.Equipment);
         inventory.OnInventoryDataModified += UpdateWeapon;
         UpdateWeapon();
     }

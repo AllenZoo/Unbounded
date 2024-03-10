@@ -37,10 +37,10 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
         SO_Inventory inventoryData = ScriptableObject.CreateInstance<SO_Inventory>();
         inventoryData.items = lootHolder.GetLoot();
         inventoryData.slots = lootHolder.GetNumSlots();
-        inventoryData.OnInventoryDataChange += LootBagDisplayInventory_OnInventoryDataChange;
 
         lootBagDisplayInventory = new Inventory(inventoryData);
         lootBagSystem = InventorySystemStorage.Instance.GetSystem(InventoryType.Loot);
+        lootBagSystem.OnInventoryDataModified += LootBagDisplayInventory_OnInventoryDataChange;
     }
 
 
