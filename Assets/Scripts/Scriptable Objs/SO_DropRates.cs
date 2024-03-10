@@ -11,6 +11,7 @@ public class SO_DropRates : ScriptableObject
 [System.Serializable]
 public class DropRates
 {
+    [Tooltip("The rate at which the loot bag will drop nothing. Typical scale of item drop rates: [0 - 1].")]
     public float emptyDropRate;
     public SO_DropRates data;
 }
@@ -21,5 +22,6 @@ public class DropRate
     public Item item;
 
     // Ranges between: [0, 1]
+    [Tooltip("Ranges between: [0, 1]")]
     public float rate;
 }

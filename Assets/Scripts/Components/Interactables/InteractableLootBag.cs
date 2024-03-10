@@ -14,14 +14,14 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     public bool IsInteracting { get; set; } = false;
     #endregion\
 
-    // OPTIONAL: instead of reference to lootBagUI, we can reference the open button.
-    [Tooltip("The system in which we want to modify the inventory data of.")]
-    [SerializeField] private InventorySystem lootBagSystem;
 
     [Tooltip("Reference to the loot holder that contains information about the loot bag.")]
     [SerializeField] private LootHolder lootHolder;
 
     [SerializeField] private GameObject parentObject;
+
+    // The system in which we want to modify the inventory data of.
+    private InventorySystem lootBagSystem;
 
     // [Tooltip("The inventory shared between loot bags, which is displayed on the UI.")]
     private Inventory lootBagDisplayInventory;
@@ -40,6 +40,7 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
         inventoryData.OnInventoryDataChange += LootBagDisplayInventory_OnInventoryDataChange;
 
         lootBagDisplayInventory = new Inventory(inventoryData);
+        lootBagSystem = InventorySystemStorage.Instance.GetSystem(InventoryType.Loot);
     }
 
 
@@ -50,14 +51,17 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
 
         if (lootBagSystem == null)
         {
+            Debug.Log("Inventory System to display loot in loot bag is null.");
             return;
         }
 
+        // Set the UI of the inventory system to be active.
         if (!lootBagSystem.isActiveAndEnabled)
         {
             lootBagSystem.gameObject.SetActive(true);
         }
 
+        // Set the inventory data of the loot bag system to the loot bag's inventory data.
         lootBagSystem.SetInventoryData(lootBagDisplayInventory);
 
     }

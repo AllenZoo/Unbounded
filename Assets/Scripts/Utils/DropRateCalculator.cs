@@ -35,14 +35,26 @@ public class DropRateCalculator
     /// </summary>
     /// <param name="dropRates"></param>
     /// <param name="numItems"></param>
-    /// <returns></returns>
+    /// <returns>A list of size numItems containing all dropped items (could include null items).
+    /// The list will be sorted such that non null items are in the front of the list.</returns>
     public static List<Item> GetItemsFromDropRate(DropRates dropRates, int numItems)
     {
         List<Item> items = new List<Item>();
         for (int i = 0; i < numItems; i++)
         {
-            items.Add(GetItemFromDropRate(dropRates));
+            Item itemDrop = GetItemFromDropRate(dropRates);
+            items.Add(itemDrop);
         }
+
+        // Sort the list such that non null items are in the front of the list.
+        items.Sort((x, y) =>
+        {
+            if (x == null && y == null) return 0;
+            if (x == null) return 1;
+            if (y == null) return -1;
+            return 0;
+        });
+
         return items;
     }
 }

@@ -29,8 +29,18 @@ public class LootDropperOnDeath : MonoBehaviour, LootDropper
         // Get the loot to drop
         List<Item> lootDrop = DropRateCalculator.GetItemsFromDropRate(dropRates, maxItems);
 
-        // If lootdrop is empty, return.
-        if (lootDrop.Count == 0)
+        // Check if lootdrop is empty (all null items).
+        bool isEmpty = true;
+        foreach (Item item in lootDrop)
+        {
+            if (item != null)
+            {
+                isEmpty = false;
+                break;
+            }
+        }
+        // Loot drop is empty, return.
+        if (isEmpty)
         {
             return;
         }
