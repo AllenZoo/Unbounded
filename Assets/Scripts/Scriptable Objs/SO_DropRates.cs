@@ -12,7 +12,7 @@ public class SO_DropRates : ScriptableObject
 public class DropRates
 {
     [Tooltip("The rate at which the loot bag will drop nothing. Typical scale of item drop rates: [0 - 1].")]
-    public float emptyDropRate;
+    public float emptyDropRate = 0.5f;
     public SO_DropRates data;
 }
 

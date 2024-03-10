@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81024f624a1391546a658eb40271e04e, type: 3}
-  m_Name: ArcherGoblinDrops
+  m_Name: KatanDrops
   m_EditorClassIdentifier: 
   dropRates:
   - item:
-      data: {fileID: 11400000, guid: 079e61f376f1afc4c9d9a91e7e1f4ebe, type: 2}
+      data: {fileID: 11400000, guid: 9539592b884165849ad6e9c9d21b94f2, type: 2}
       quantity: 1
-    rate: 0.01
+    rate: 0.3
   - item:
       data: {fileID: 11400000, guid: 8f76610ec57599745b6db1b688d8d618, type: 2}
       quantity: 1
@@ -24,4 +24,4 @@ MonoBehaviour:
   - item:
       data: {fileID: 11400000, guid: 8f76610ec57599745b6db1b688d8d618, type: 2}
       quantity: 2
-    rate: 0.12
+    rate: 0.18
