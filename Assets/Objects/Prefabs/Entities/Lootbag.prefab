@@ -306,7 +306,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1789471847
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 6601e4f1a2938a240be51e97db4835e9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -331,7 +331,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loot:
-  - {fileID: 11400000, guid: 2b07bf4e8ad2bb94595ab613b5bc0261, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - data: {fileID: 0}
+    quantity: 0
+  - data: {fileID: 0}
+    quantity: 0
+  - data: {fileID: 0}
+    quantity: 0
   numSlots: 3

@@ -70,6 +70,11 @@ public class MouseHover : MonoBehaviour
         transform.position = clampedPosition;
     }
 
+    private void OnEnable()
+    {
+        mainCamera = Camera.main;
+    }
+
     private void OnDisable()
     {
         // Move to the bottom left corner of the screen.

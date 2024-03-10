@@ -863,6 +863,7 @@ GameObject:
   - component: {fileID: 4456538981051934084}
   - component: {fileID: 1547172781283259309}
   - component: {fileID: 3760987729111625420}
+  - component: {fileID: 8422610750524521920}
   m_Layer: 6
   m_Name: HitboxCollider
   m_TagString: Untagged
@@ -945,6 +946,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
   damageableRef: {fileID: 4456538981051934084}
+--- !u!114 &8422610750524521920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8633357040155893957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de38b8fb36a1b754e968d85a331f55e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageable: {fileID: 4456538981051934084}
+  dropRates:
+    emptyDropRate: 0.5
+    data: {fileID: 11400000, guid: 1ab1bd69905ceea4ba5d8927d78df6d0, type: 2}
+  maxItems: 3
 --- !u!1001 &1378911660151175224
 PrefabInstance:
   m_ObjectHideFlags: 0
