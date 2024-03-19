@@ -6,31 +6,62 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 {
     [SerializeField] private SpawnRates spawnRates;
 
+    [Tooltip("Max amount of enemies that can be spawned at once with this spawner.")]
+    [SerializeField] private float maxSpawns = 5;
+
+    [SerializeField] private float timeBetweenSpawns;
+    private List<GameObject> spawns;
+
+    private void Awake()
+    {
+        if (spawnRates == null)
+        {
+            Debug.LogError("No spawn rates set for spawner.");
+        }
+    }
+
+    private void Start()
+    {
+        spawns = new List<GameObject>();
+    }
+
     /// <summary>
     /// Spawn an enemy object at given position
     /// </summary>
     /// <param name="pos"></param>
-    public void Spawn(Vector2 pos, GameObject spawn)
+    /// <returns>Spawned enemy</returns>
+    public GameObject Spawn(Vector2 pos, GameObject spawn)
     {
-        Instantiate(spawn, pos, Quaternion.identity);
+        return Instantiate(spawn, pos, Quaternion.identity);
     }
 
     /// <summary>
-    /// Spawns multiple enemies around a given position
+    /// Spawns the given amount (capped at maxSpawns - curSpawn) of enemies to spawn around a given position.
     /// </summary>
     /// <param name="centerPos"> center of position of spawned enemies</param>
     /// <param name="amount"> amount of enemies to spawn </param>
-    public void Spawn(Vector2 centerPos, int amount)
+    /// <returns>List of spawned enemies</returns>
+    public List<GameObject> Spawn(Vector2 centerPos, float amount)
     {
+        float curMaxAmount = Mathf.Clamp(amount, 0, maxSpawns - spawns.Count);
+        List<GameObject> objsToSpawn = GetSpawnList(spawnRates, curMaxAmount);
+        foreach (GameObject obj in objsToSpawn)
+        {
+            Vector2 spawnPos = centerPos + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            GameObject spawn = Spawn(spawnPos, obj);
+            spawns.Add(spawn);
+        }
 
+        return spawns;
     }
 
     /// <summary>
-    /// Given a spawn rate, return list of enemies to spawn.
+    /// Given a spawn rate and number of enemies to spawn, return a list of enemies to spawn.
     /// </summary>
     /// <param name="spawnRates"></param>
+    /// <param name="amount"></param>
     /// <returns></returns>
-    public List<GameObject> GetSpawnList(SpawnRates spawnRates)
+    private List<GameObject> GetSpawnList(SpawnRates spawnRates, float amount)
     {
         List<GameObject> spawnList = new List<GameObject> ();
         foreach (SpawnRate spawnRate in spawnRates.data.spawnRates)
@@ -39,10 +70,59 @@ public class EnemySpawner : MonoBehaviour, ISpawner
             for (int i = 0; i < spawnRate.minSpawn; i++)
             {
                 // Add the spawn to the list.
+                spawnList.Add(spawnRate.prefab);
             }
         }
 
+        for (int i = 0; i < amount - spawnList.Count; i++)
+        {
+            // Draw a spawn from the spawn rates and add it to the list.
+            spawnList.Add(DrawSpawn(spawnRates));
+        }
+
+        return spawnList;
+    }
+
+    /// <summary>
+    /// Draw a spawn from the given spawn rates.
+    /// </summary>
+    /// <param name="spawnRates"></param>
+    /// <returns></returns>
+    private GameObject DrawSpawn(SpawnRates spawnRates)
+    {
+        float totalRate = 0;
+        // Calculate total rate
+        foreach (SpawnRate spawnRate in spawnRates.data.spawnRates)
+        {
+            totalRate += spawnRate.spawnRate;
+        }
+
+        // Random draw
+        float draw = Random.Range(0, totalRate);
+
+        // Iterate through spawn rates to find the spawn.
+        float currentRate = 0;
+        foreach (SpawnRate spawnRate in spawnRates.data.spawnRates)
+        {
+            currentRate += spawnRate.spawnRate;
+            if (draw <= currentRate)
+            {
+                return spawnRate.prefab;
+            }
+        }
+        
+        // Should not reach here.
+        Debug.LogError("Unreachable Error: No spawn drawn.");
         return null;
     }
-    
+
+
+    private void Update()
+    {
+        // TODO: for debugging purposes, remove later.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Spawn(transform.position, 5);
+        }
+    }
 }

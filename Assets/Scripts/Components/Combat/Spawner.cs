@@ -10,5 +10,5 @@ public interface ISpawner
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="spawn"></param>
-    public void Spawn(Vector2 pos, GameObject spawn);
+    public abstract GameObject Spawn(Vector2 pos, GameObject spawn);
 }
