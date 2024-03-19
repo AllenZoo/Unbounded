@@ -80,9 +80,15 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     /// <returns></returns>
     private List<GameObject> GetSpawnList(SpawnRates spawnRates, float amount)
     {
-        List<GameObject> spawnList = new List<GameObject> ();
+        List<GameObject> spawnList = new List<GameObject>();
         foreach (SpawnRate spawnRate in spawnRates.data.spawnRates)
         {
+            // Check if reached max spawn capacity.
+            if (spawnList.Count >= amount)
+            {
+                break;
+            }
+
             // Iterate through min spawn of each rate.
             for (int i = 0; i < spawnRate.minSpawn; i++)
             {
@@ -91,7 +97,8 @@ public class EnemySpawner : MonoBehaviour, ISpawner
             }
         }
 
-        for (int i = 0; i < amount - spawnList.Count; i++)
+        int curCount = spawnList.Count;
+        for (int i = 0; i < amount - curCount; i++)
         {
             // Draw a spawn from the spawn rates and add it to the list.
             spawnList.Add(DrawSpawn(spawnRates));
