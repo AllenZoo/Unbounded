@@ -6,6 +6,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 {
     [SerializeField] private SpawnRates spawnRates;
 
+    [Tooltip("Central Position to spawn enemies at.")]
+    [SerializeField] private Transform spawnPos;
+
     [Tooltip("Max amount of enemies that can be spawned at once with this spawner.")]
     [SerializeField] private float maxSpawns = 5;
 
@@ -18,11 +21,25 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         {
             Debug.LogError("No spawn rates set for spawner.");
         }
+
+        if (spawnPos == null)
+        {
+            Debug.LogError("No spawn position set for spawner. Set to default.");
+            spawnPos = transform;
+        }
     }
 
     private void Start()
     {
         spawns = new List<GameObject>();
+    }
+
+    /// <summary>
+    /// Spawns the max amount that the spawner can spawn.
+    /// </summary>
+    public void MaxSpawn()
+    {
+        Spawn(spawnPos.position, maxSpawns);
     }
 
     /// <summary>
@@ -47,8 +64,8 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         List<GameObject> objsToSpawn = GetSpawnList(spawnRates, curMaxAmount);
         foreach (GameObject obj in objsToSpawn)
         {
-            Vector2 spawnPos = centerPos + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            GameObject spawn = Spawn(spawnPos, obj);
+            Vector2 curSpawnPos = centerPos + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            GameObject spawn = Spawn(curSpawnPos, obj);
             spawns.Add(spawn);
         }
 
@@ -122,7 +139,7 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         // TODO: for debugging purposes, remove later.
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Spawn(transform.position, 5);
+            Spawn(spawnPos.position, 5);
         }
     }
 }
