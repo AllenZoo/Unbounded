@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,12 @@ using UnityEngine.Events;
 /// </summary>
 public class EventLinker : MonoBehaviour
 {
-    //public UnityEvent e;
+    public Action trigger;
+    public UnityEvent e;
     //public delegate
+
+    public void Trigger()
+    {
+        e?.Invoke();
+    }
 }

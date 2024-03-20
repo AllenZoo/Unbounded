@@ -15,6 +15,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     [SerializeField] private float timeBetweenSpawns;
     private List<GameObject> spawns;
 
+    // Controls whether spawner should spawn enemies.
+    // private bool shouldCurSpawn;
+
     private void Awake()
     {
         if (spawnRates == null)
