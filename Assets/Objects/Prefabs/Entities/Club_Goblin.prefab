@@ -64,6 +64,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeathUE:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 49921866521040996}
+        m_TargetAssemblyTypeName: Spawnable, Assembly-CSharp
+        m_MethodName: TriggerOnDespawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   entityType: 1
   stat: {fileID: 3820556010379128887}
   isDamageable: 1
@@ -378,6 +393,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAggro:
+    m_PersistentCalls:
+      m_Calls: []
   aggroRange: 7
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 7036063128276209899}
@@ -414,6 +432,7 @@ GameObject:
   - component: {fileID: 3820556010379128906}
   - component: {fileID: 3820556010379128884}
   - component: {fileID: 3820556010379128885}
+  - component: {fileID: 49921866521040996}
   m_Layer: 6
   m_Name: Club_Goblin
   m_TagString: Entity
@@ -511,6 +530,18 @@ MonoBehaviour:
   knockbackable: {fileID: 6305350193626298311}
   debuggingState: 0
   crowdControlStates: 05000000
+--- !u!114 &49921866521040996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820556010379128882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4189769826304818145
 GameObject:
   m_ObjectHideFlags: 0

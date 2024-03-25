@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
@@ -10,6 +11,7 @@ public class Damageable : MonoBehaviour
     // <Damage>
     public event Action<float> OnDamage;
     public event Action OnDeath;
+    public UnityEvent OnDeathUE;
     
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
@@ -60,6 +62,7 @@ public class Damageable : MonoBehaviour
         {
 
             OnDeath?.Invoke();
+            OnDeathUE?.Invoke();
             // Disable hittable so it can't be hit anymore.
             isHittable = false;
         } 

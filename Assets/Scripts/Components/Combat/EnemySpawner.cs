@@ -13,7 +13,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     [SerializeField] private float maxSpawns = 5;
 
     [SerializeField] private float timeBetweenSpawns;
-    private List<GameObject> spawns;
+    
+    // TODO: Temp public for debugging
+    public List<Spawnable> spawns;
 
     // Controls whether spawner should spawn enemies.
     // private bool shouldCurSpawn;
@@ -34,7 +36,7 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 
     private void Start()
     {
-        spawns = new List<GameObject>();
+        spawns = new List<Spawnable>();
     }
 
     /// <summary>
@@ -61,7 +63,7 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     /// <param name="centerPos"> center of position of spawned enemies</param>
     /// <param name="amount"> amount of enemies to spawn </param>
     /// <returns>List of spawned enemies</returns>
-    public List<GameObject> Spawn(Vector2 centerPos, float amount)
+    public List<Spawnable> Spawn(Vector2 centerPos, float amount)
     {
         float curMaxAmount = Mathf.Clamp(amount, 0, maxSpawns - spawns.Count);
         List<GameObject> objsToSpawn = GetSpawnList(spawnRates, curMaxAmount);
@@ -69,7 +71,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         {
             Vector2 curSpawnPos = centerPos + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             GameObject spawn = Spawn(curSpawnPos, obj);
-            spawns.Add(spawn);
+            Spawnable spawnComp = spawn.GetComponentOrInChildren<Spawnable>();
+            spawnComp.OnDespawn += RemoveContainedSpawnable;
+            spawns.Add(spawnComp);
         }
 
         return spawns;
@@ -143,6 +147,14 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         return null;
     }
 
+    /// <summary>
+    /// Remove the given spawnable from the list of current owned spawns.
+    /// </summary>
+    /// <param name="spawnable"></param>
+    private void RemoveContainedSpawnable(Spawnable spawnable)
+    {
+        spawns.Remove(spawnable);
+    }
 
     private void Update()
     {
@@ -151,5 +163,25 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         {
             Spawn(spawnPos.position, 5);
         }
+    }
+}
+
+
+public static class GameObjectExtensions
+{
+    /// <summary>
+    /// Get the component of type T from the game object or its children.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="gameObject"></param>
+    /// <returns></returns>
+    public static T GetComponentOrInChildren<T>(this GameObject gameObject) where T : Component
+    {
+        T component = gameObject.GetComponent<T>();
+        if (component == null)
+        {
+            component = gameObject.GetComponentInChildren<T>();
+        }
+        return component;
     }
 }
