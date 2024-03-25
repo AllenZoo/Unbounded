@@ -14,8 +14,8 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 
     [SerializeField] private float timeBetweenSpawns;
     
-    // TODO: Temp public for debugging
-    public List<Spawnable> spawns;
+    private float timeSinceLastSpawn;
+    private List<Spawnable> spawns;
 
     // Controls whether spawner should spawn enemies.
     // private bool shouldCurSpawn;

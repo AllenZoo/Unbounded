@@ -19,9 +19,9 @@ public class SpawnRates
 [System.Serializable]
 public class SpawnRate
 {
-    // TODO: add assertions to check pfb has Spawnable component
-    // [GameObjectWithSpawnable]
+    [GameObjectWithSpawnable]
     public GameObject prefab;
+
     public float minSpawn;
     // public float maxSpawn;
 
@@ -40,25 +40,21 @@ public class GameObjectWithSpawnableDrawer : PropertyDrawer
     {
         EditorGUI.BeginProperty(position, label, property);
 
-        SerializedProperty gameObjectProperty = property.FindPropertyRelative("prefab");
-        GameObject gameObject = null;
-        if (gameObjectProperty != null)
+        GameObject gameObject = (GameObject) property.objectReferenceValue;
+
+        float x_padding = 80;
+        float y_padding = -20;
+
+        if (gameObject != null &&
+            gameObject.GetComponentOrInChildren<Spawnable>() == null)
         {
-            gameObject = (GameObject) gameObjectProperty.objectReferenceValue;
+            Vector2 offset = new Vector2(x_padding, y_padding);
+            Rect errBoxPos = new Rect(position.position + offset, position.size - new Vector2(x_padding, 0));
+            EditorGUI.HelpBox(errBoxPos, "Prefab must contain a 'Spawnable' component.", MessageType.Error);
+            Debug.LogError("SpawnRate Prefab in \'" + gameObject.name + " GameObject\' does not contain a 'Spawnable' component.");
         }
 
-
-        if (gameObject != null && (
-            gameObject.GetComponent<Spawnable>() == null ||
-            gameObject.GetComponentInChildren<Spawnable>() == null))
-        {
-            EditorGUI.HelpBox(position, "Prefab must contain a 'Spawnable' component.", MessageType.Error);
-        }
-        else
-        {
-            EditorGUI.PropertyField(position, gameObjectProperty, label);
-        }
-
+        EditorGUI.PropertyField(position, property, label);
         EditorGUI.EndProperty();
     }
 }
