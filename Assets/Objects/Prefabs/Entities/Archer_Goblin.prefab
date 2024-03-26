@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 2927453995066883878}
   - component: {fileID: 2927453995066883928}
   - component: {fileID: 2927453995066883929}
+  - component: {fileID: 7521320403387670131}
   m_Layer: 6
   m_Name: Archer_Goblin
   m_TagString: Entity
@@ -307,6 +308,18 @@ MonoBehaviour:
   knockbackable: {fileID: 2040274624}
   debuggingState: 0
   crowdControlStates: 05000000
+--- !u!114 &7521320403387670131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927453995066883934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3630949904767705652
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAggro:
+    m_PersistentCalls:
+      m_Calls: []
   aggroRange: 7
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 8935193011353247623}
@@ -764,6 +780,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeathUE:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7521320403387670131}
+        m_TargetAssemblyTypeName: Spawnable, Assembly-CSharp
+        m_MethodName: TriggerOnDespawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   entityType: 1
   stat: {fileID: 2927453995066883931}
   isDamageable: 1

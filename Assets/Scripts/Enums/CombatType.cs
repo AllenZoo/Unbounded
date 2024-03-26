@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum CombatType
 {
-    MELEE, RANGED
+    MELEE, RANGED, SPAWNER
 }

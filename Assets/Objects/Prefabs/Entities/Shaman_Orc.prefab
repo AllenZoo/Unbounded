@@ -64,6 +64,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeathUE:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8075173542949937686}
+        m_TargetAssemblyTypeName: Spawnable, Assembly-CSharp
+        m_MethodName: TriggerOnDespawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   entityType: 1
   stat: {fileID: 1489280840202876662}
   isDamageable: 1
@@ -126,6 +141,7 @@ GameObject:
   - component: {fileID: 1489280840202876616}
   - component: {fileID: 1489280840202876623}
   - component: {fileID: 1489280840202876618}
+  - component: {fileID: 8075173542949937686}
   m_Layer: 6
   m_Name: Shaman_Orc
   m_TagString: Entity
@@ -223,6 +239,18 @@ MonoBehaviour:
   knockbackable: {fileID: 915452588}
   debuggingState: 0
   crowdControlStates: 05000000
+--- !u!114 &8075173542949937686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489280840202876609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1489280840952041258
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAggro:
+    m_PersistentCalls:
+      m_Calls: []
   aggroRange: 7
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 1489280840952041256}
@@ -807,7 +838,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8495038838216354382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.436, y: -3.3400004, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
