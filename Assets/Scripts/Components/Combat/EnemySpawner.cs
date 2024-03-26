@@ -14,11 +14,11 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 
     [SerializeField] private float timeBetweenSpawns;
     
-    private float timeSinceLastSpawn;
+    private float timeSinceLastSpawn = 0;
     private List<Spawnable> spawns;
 
-    // Controls whether spawner should spawn enemies.
-    // private bool shouldCurSpawn;
+    // Controls whether spawner can spawn enemies. Depends on lastTime the spawner spawned or whether it currrently has max spawns.
+    private bool canSpawn = true;
 
     private void Awake()
     {
@@ -40,11 +40,15 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     }
 
     /// <summary>
-    /// Spawns the max amount that the spawner can spawn.
+    /// Spawns the max amount that the spawner can spawn if it can spawn.
     /// </summary>
     public void MaxSpawn()
     {
-        Spawn(spawnPos.position, maxSpawns);
+        if (canSpawn)
+        {
+            Spawn(spawnPos.position, maxSpawns);
+            timeSinceLastSpawn = 0f;
+        }
     }
 
     /// <summary>
@@ -158,11 +162,15 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 
     private void Update()
     {
-        // TODO: for debugging purposes, remove later.
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (timeSinceLastSpawn < timeBetweenSpawns)
         {
-            Spawn(spawnPos.position, 5);
+            timeSinceLastSpawn += Time.deltaTime;
+            canSpawn = false;
         }
+        else
+        {
+            canSpawn = true;
+        } 
     }
 }
 
