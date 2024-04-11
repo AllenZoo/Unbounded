@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FloorPlanGenerator : MonoBehaviour
@@ -37,11 +39,13 @@ public class FloorPlanGenerator : MonoBehaviour
     ///         iv. Add room to floorplan.
     ///         v. If room doesn't add any neighbouring rooms, mark it as a dead end.
     /// </summary>
-    public Room[] Generate()
+    public void Generate()
     {
         InitStartRoom();
         GenerateFloorPlan();
-        return floorplan;
+        Debug.Log(floorplan.ToString());
+        int x = 0;
+        // return floorplan;
     }
 
     /// <summary>
@@ -50,6 +54,7 @@ public class FloorPlanGenerator : MonoBehaviour
     private void InitStartRoom()
     {
         ClearFloorPlan();
+        // 1. Create a start room somewhere in the floor plan and add it to the queue.
         Vector2 randomPos = new Vector2(Random.Range(0, 12), Random.Range(0, 12));
         Room startRoom = new Room(new Vector2(1, 1), randomPos, null);
         AddRoomToFloorPlan(startRoom);
@@ -61,8 +66,8 @@ public class FloorPlanGenerator : MonoBehaviour
     /// </summary>
     private void GenerateFloorPlan()
     {
-        // While we need to generate more rooms.
-        while (roomsToGenerate < roomsGenerated) {
+        // 2. While we need to generate more rooms:
+        while (roomsGenerated < roomsToGenerate) {
             // If no more rooms to visit, rerun.
             if (roomsToVisit.Count == 0)
             {
@@ -71,7 +76,7 @@ public class FloorPlanGenerator : MonoBehaviour
             }
 
             Room currentRoom = roomsToVisit.Dequeue();
-            List<Vector2> neighbours = GetNeighbouringCells(currentRoom);
+            HashSet<Vector2> neighbours = GetNeighbouringCells(currentRoom);
             foreach (Vector2 neighbour in neighbours)
             {
                 Room newRoom = GenerateRoom(neighbour, currentRoom);
@@ -179,25 +184,54 @@ public class FloorPlanGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Gets the neighbouring cells of a room.
     /// </summary>
     /// <param name="room"></param>
     /// <returns></returns>
-    private List<Vector2> GetNeighbouringCells(Room room)
+    private HashSet<Vector2> GetNeighbouringCells(Room room)
     {
-        List<Vector2> neighbours = new List<Vector2>();
+        HashSet<Vector2> neighbours = new HashSet<Vector2>();
+        // Stores the individual neighbours of each cell of room. AKA. as potential neighbours.
+        HashSet<Vector2> cellNeighbours = new HashSet<Vector2>();
 
-        for (int i = 0; i < room.size.x; i++)
+        for (int x = 0; x < room.size.x; x++)
         {
-            for (int j = 0; j < room.size.y; j++)
+            for (int y = 0; y < room.size.y; y++)
             {
                 // Get all valid neighbouring cells.
                 // Note room.position is the top left cell.
-                Vector2 cell = new Vector2(room.position.x + i, room.position.y + j);
-                if (isValidCellPos(cell))
-                {
-                    neighbours.Add(cell);
-                }
+                Vector2 cell = new Vector2(room.position.x + x, room.position.y + y);
+                cellNeighbours.AddRange(GetNeighbouringCells(cell));
+            }
+        }
+
+        // Process cellNeighbours to get valid neighbours of room.
+        foreach (Vector2 cell in cellNeighbours)
+        {
+            if (!isInRoom(room, cell) && isValidCellPos(cell))
+            {
+                neighbours.Add(cell);
+            }
+        }
+
+        return neighbours;
+    }
+
+    /// <summary>
+    /// Get the neighbouring cells of a cell. (four directions)
+    /// </summary>
+    /// <param name="cell"></param>
+    /// <returns></returns>
+    private List<Vector2> GetNeighbouringCells(Vector2 cell)
+    {
+        List<Vector2> neighbours = new List<Vector2>();
+        Vector2[] offsets = new Vector2[4] { new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0), new Vector2(0, -1)};
+
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            if (isValidCellPos(cell, offsets[i]))
+            {
+                neighbours.Add(cell + offsets[i]);
             }
         }
         return neighbours;
@@ -230,6 +264,27 @@ public class FloorPlanGenerator : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks whether cell pos is within given room.
+    /// </summary>
+    /// <param name="room"></param>
+    /// <param name="cell"></param>
+    /// <returns></returns>
+    private bool isInRoom(Room room, Vector2 cell)
+    {
+        Vector2[] roomCells = new Vector2[(int) (room.size.x * room.size.y)];
+        for (int x = 0; x < room.size.x; x++)
+        {
+            for (int y = 0; y < room.size.y; y++)
+            {
+                roomCells[(int) (x + y * room.size.x)] = new Vector2(room.position.x + x, room.position.y + y);
+            }
+        }
+
+
+        return roomCells.Contains(cell);
+    }
+
+    /// <summary>
     /// Adds a room to the floor plan.
     /// </summary>
     /// <param name="room"></param>
@@ -243,6 +298,9 @@ public class FloorPlanGenerator : MonoBehaviour
                 {
                     Debug.LogError("Room already exists at position: " + room.position);
                     return;
+                } else
+                {
+                    floorplan[(int) (room.position.x + i + (room.position.y + j) * floorplanSize.x)] = room;
                 }
             }
         }

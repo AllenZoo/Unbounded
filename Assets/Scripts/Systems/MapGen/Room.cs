@@ -27,6 +27,10 @@ public class Room
         this.parent = parent;
     }
 
+    public override string ToString()
+    {
+        return "{[Room] Size: " + size + ", Position: " + position + "}";
+    }
 
     /// <summary>
     /// Returns the position taken up by the room.
@@ -37,5 +41,5 @@ public class Room
 
     //// [Grid Pos, Door Pos Dir]
     //public Tuple<Vector2, Vector2> GetDoorPositions();
-    
+
 }
