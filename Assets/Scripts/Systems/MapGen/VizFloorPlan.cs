@@ -7,14 +7,21 @@ using UnityEngine;
 /// </summary>
 public class VizFloorPlan : MonoBehaviour
 {
-    public static void PrintFloorPlan(Room[] floorPlan)
+    public static void PrintFloorPlan(Room[,] floorPlan)
     {
         string floorPlanString = "";
         for (int i = 0; i < floorPlan.GetLength(0); i++)
         {
             for (int j = 0; j < floorPlan.GetLength(1); j++)
             {
-                floorPlanString += floorPlan[i, j] + " ";
+                if (floorPlan[i, j] == null)
+                    floorPlanString += "N";//floorPlan[i, j] + " ";
+                else if (floorPlan[i, j].parent == null)
+                    floorPlanString += "S";//floorPlan[i, j] + " ";
+                else if (floorPlan[i, j].parent != null)
+                    floorPlanString += "R";//floorPlan[i, j] + " ";
+
+                floorPlanString += ", ";
             }
             floorPlanString += "\n";
         }

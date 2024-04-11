@@ -10,8 +10,8 @@ public class FloorPlanGenerator : MonoBehaviour
     /// The floor plan is a 2D array of rooms. Each room has a position and a size.
     /// Origin is at the top left corner. (0, 0)
     /// </summary>
-    protected Room[] floorplan;
-    protected Vector2 floorplanSize = new Vector2(12, 12);
+    protected Room[,] floorplan;
+    protected Vector2 floorplanSize = new Vector2(8, 8);
     protected int roomsToGenerate = 12;
     protected int roomsGenerated = 0;
 
@@ -45,6 +45,7 @@ public class FloorPlanGenerator : MonoBehaviour
         GenerateFloorPlan();
         Debug.Log(floorplan.ToString());
         int x = 0;
+        VizFloorPlan.PrintFloorPlan(floorplan);
         // return floorplan;
     }
 
@@ -114,6 +115,8 @@ public class FloorPlanGenerator : MonoBehaviour
             return null;
         }
 
+
+        // TODO: change this. (after implementing GetPossibleRoomsToCreate)
         // ii. If we decide to create a room, check if a room can be created through that exit
         //     (randomly selecting from 1x1, 1x2, 2x1, 2x2 sized rooms)
         List<RoomSize> roomSizes = GetPossibleRoomSizes(pos);
@@ -139,6 +142,22 @@ public class FloorPlanGenerator : MonoBehaviour
         }
 
         return newRoom;
+    }
+
+    /// <summary>
+    /// Returns a list of possible rooms that covers the given position.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    private List<Room> GetPossibleRoomsToCreate(Vector2 position)
+    {
+        // 1 option for 1x1
+        // 2 options for 1x2
+        // 2 options for 2x1
+        // 4 options for 2x2
+        // TODO: Implement this. And then use this to replace current logic of selecting room to generate.
+
+        return null;
     }
 
     /// <summary>
@@ -260,7 +279,7 @@ public class FloorPlanGenerator : MonoBehaviour
     /// <returns></returns>
     private bool isEmptyCellPos(Vector2 cell)
     {
-        return floorplan[(int) (cell.x + cell.y * floorplanSize.x)] == null;
+        return floorplan[(int) cell.x, (int) cell.y] == null;
     }
 
     /// <summary>
@@ -294,13 +313,13 @@ public class FloorPlanGenerator : MonoBehaviour
         {
             for (int j = 0; j < room.size.y; j++)
             {
-                if (floorplan[(int) (room.position.x + i + (room.position.y + j) * floorplanSize.x)] != null)
+                if (floorplan[(int)(room.position.x + i), (int)(room.position.y + j)] != null)
                 {
                     Debug.LogError("Room already exists at position: " + room.position);
                     return;
                 } else
                 {
-                    floorplan[(int) (room.position.x + i + (room.position.y + j) * floorplanSize.x)] = room;
+                    floorplan[(int)(room.position.x + i), (int)(room.position.y + j)] = room;
                 }
             }
         }
@@ -311,6 +330,6 @@ public class FloorPlanGenerator : MonoBehaviour
     /// </summary>
     private void ClearFloorPlan()
     {
-        floorplan = new Room[(int)floorplanSize.x * (int)floorplanSize.y];
+        floorplan = new Room[(int)floorplanSize.x, (int)floorplanSize.y];
     }
 }
