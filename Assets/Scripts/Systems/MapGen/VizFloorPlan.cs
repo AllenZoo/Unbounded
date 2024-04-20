@@ -10,6 +10,8 @@ public class VizFloorPlan : MonoBehaviour
     public static void PrintFloorPlan(Room[,] floorPlan)
     {
         string floorPlanString = "";
+        Dictionary<Room, string> roomStrMap = new Dictionary<Room, string>();
+        int roomCount = 1;
         for (int i = 0; i < floorPlan.GetLength(0); i++)
         {
             for (int j = 0; j < floorPlan.GetLength(1); j++)
@@ -19,7 +21,16 @@ public class VizFloorPlan : MonoBehaviour
                 else if (floorPlan[i, j].parent == null)
                     floorPlanString += "S";//floorPlan[i, j] + " ";
                 else if (floorPlan[i, j].parent != null)
-                    floorPlanString += "R";//floorPlan[i, j] + " ";
+                {
+                    if (!roomStrMap.ContainsKey(floorPlan[i, j]))
+                    {
+                        roomStrMap.Add(floorPlan[i, j], "" + roomCount);
+                        roomCount++;
+                    }
+                        
+                    floorPlanString += roomStrMap[floorPlan[i, j]];
+                }
+                    
 
                 floorPlanString += ", ";
             }

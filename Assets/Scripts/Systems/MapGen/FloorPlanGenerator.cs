@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FloorPlanGenerator : MonoBehaviour
 {
@@ -16,13 +18,36 @@ public class FloorPlanGenerator : MonoBehaviour
     protected int roomsGenerated = 0;
 
     protected Queue<Room> roomsToVisit = new Queue<Room>();
+    protected HashSet<Room> deadEnds = new HashSet<Room>();
+
+    /// <summary>
+    /// Probability of generating a room of a certain size.
+    /// All probabilities start at 25% (25).
+    /// Whenever a room of a certain size is generated, its probability is halved, and split
+    /// between the other room sizes.
+    /// Total probability should always be 100% (100).
+    /// </summary>
+    protected Dictionary<RoomSize, double> roomSizeProbMap = new Dictionary<RoomSize, double>(); 
 
     protected enum RoomSize
     {
         OneByOne,
         OneByTwo,
         TwoByOne,
-        TwoByTwo
+        TwoByTwo,
+    }
+    private static RoomSize Vector2ToRoomSize(Vector2 size)
+    {
+        if (size == new Vector2(1, 1))
+            return RoomSize.OneByOne;
+        else if (size == new Vector2(1, 2))
+            return RoomSize.OneByTwo;
+        else if (size == new Vector2(2, 1))
+            return RoomSize.TwoByOne;
+        else if (size == new Vector2(2, 2))
+            return RoomSize.TwoByTwo;
+        else
+            return RoomSize.OneByOne;
     }
 
     /// <summary>
@@ -44,7 +69,6 @@ public class FloorPlanGenerator : MonoBehaviour
         InitStartRoom();
         GenerateFloorPlan();
         Debug.Log(floorplan.ToString());
-        int x = 0;
         VizFloorPlan.PrintFloorPlan(floorplan);
         // return floorplan;
     }
@@ -56,7 +80,9 @@ public class FloorPlanGenerator : MonoBehaviour
     {
         ClearFloorPlan();
         // 1. Create a start room somewhere in the floor plan and add it to the queue.
-        Vector2 randomPos = new Vector2(Random.Range(0, 12), Random.Range(0, 12));
+        Vector2 randomPos = new Vector2(
+            (int) Random.Range(0, floorplanSize.x - 1), 
+            (int) Random.Range(0, floorplanSize.y - 1));
         Room startRoom = new Room(new Vector2(1, 1), randomPos, null);
         AddRoomToFloorPlan(startRoom);
         roomsToVisit.Enqueue(startRoom);
@@ -78,16 +104,23 @@ public class FloorPlanGenerator : MonoBehaviour
 
             Room currentRoom = roomsToVisit.Dequeue();
             HashSet<Vector2> neighbours = GetNeighbouringCells(currentRoom);
+            bool hasNeighbours = false;
             foreach (Vector2 neighbour in neighbours)
             {
                 Room newRoom = GenerateRoom(neighbour, currentRoom);
                 if (newRoom != null)
                 {
+                    hasNeighbours = true;
                     roomsToVisit.Enqueue(newRoom);
                     AddRoomToFloorPlan(newRoom);
                     roomsGenerated++;
                 }
             }    
+
+            if (!hasNeighbours)
+            {
+                deadEnds.Add(currentRoom);
+            }
         }
     }
 
@@ -115,32 +148,30 @@ public class FloorPlanGenerator : MonoBehaviour
             return null;
         }
 
-
-        // TODO: change this. (after implementing GetPossibleRoomsToCreate)
-        // ii. If we decide to create a room, check if a room can be created through that exit
+        // ii. If we decide to create a room, get a list of possible rooms to create and pick one.
         //     (randomly selecting from 1x1, 1x2, 2x1, 2x2 sized rooms)
-        List<RoomSize> roomSizes = GetPossibleRoomSizes(pos);
 
-        // Randomly select a room size from possible room sizes.
-        RoomSize roomSizeToMake = roomSizes[Random.Range(0, roomSizes.Count)];
-        Room newRoom;
-        switch (roomSizeToMake)
+        List<Room> possibleRooms = GetPossibleRoomsToCreate(pos);
+        if (possibleRooms.Count == 0)
         {
-            default:
-            case RoomSize.OneByOne:
-                newRoom = new Room(new Vector2(1, 1), pos, parentRoom);
-                break;
-            case RoomSize.OneByTwo:
-                newRoom = new Room(new Vector2(1, 2), pos, parentRoom);
-                break;
-            case RoomSize.TwoByOne:
-                newRoom = new Room(new Vector2(2, 1), pos, parentRoom);
-                break;
-            case RoomSize.TwoByTwo:
-                newRoom = new Room(new Vector2(2, 2), pos, parentRoom);
-                break;
+            return null;
         }
 
+        // Draw a RoomSize until we get a room that is in the possibleRooms list.
+        Room newRoom = null;
+        RoomSize roomSizeType = RoomSize.OneByOne;
+        while (newRoom == null)
+        {
+            roomSizeType = DrawRoomSize(roomSizeProbMap);
+            newRoom = GetRoomOfRoomSize(roomSizeType, possibleRooms);
+        }
+        
+        // Update probability map.
+        UpdateProbMap(roomSizeType);
+
+        Debug.Log("RoomSize Type of: " + roomSizeType.ToString() + " generated!");
+
+        newRoom.parent = parentRoom;
         return newRoom;
     }
 
@@ -151,55 +182,82 @@ public class FloorPlanGenerator : MonoBehaviour
     /// <returns></returns>
     private List<Room> GetPossibleRoomsToCreate(Vector2 position)
     {
-        // 1 option for 1x1
-        // 2 options for 1x2
-        // 2 options for 2x1
-        // 4 options for 2x2
-        // TODO: Implement this. And then use this to replace current logic of selecting room to generate.
+        List<Room> possibleRooms = new List<Room>();
 
+        // 1 option for 1x1
+        possibleRooms.Add(new Room(new Vector2(1, 1), position, null));
+
+        // 2 options for 1x2
+        possibleRooms.Add(new Room(new Vector2(1, 2), position, null));
+        Vector2 posOffset = Vector2.left;
+        possibleRooms.Add(new Room(new Vector2(1, 2), position + posOffset, null));
+
+        // 2 options for 2x1
+        possibleRooms.Add(new Room(new Vector2(2, 1), position, null));
+        posOffset = Vector2.down;
+        possibleRooms.Add(new Room(new Vector2(2, 1), position + posOffset, null));
+
+        // 4 options for 2x2
+        possibleRooms.Add(new Room(new Vector2(2, 2), position, null));
+        posOffset = Vector2.left;
+        possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+        posOffset = Vector2.down;
+        possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+        posOffset = Vector2.left + Vector2.down;
+        possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+
+        // Validate and filter out unsuitable rooms.
+        possibleRooms = possibleRooms.FindAll(room => isEmptyRoomPos(room) && isValidRoomPos(room));
+        return possibleRooms;
+    }
+
+    /// <summary>
+    /// Pick out a random room of RoomSize from the prioList[ordered from high to low priority] or a singular
+    /// roomSize. 
+    /// If no possible rooms, return null.
+    /// </summary>
+    /// <returns>a random room</returns>
+    private Room GetRoomOfRoomSize(RoomSize roomSize, List<Room> rooms)
+    {
+        List<Room> roomsOfRoomSize = rooms.FindAll(room => Vector2ToRoomSize(room.size) == roomSize);
+        if (roomsOfRoomSize.Count > 0)
+        {
+            return roomsOfRoomSize[Random.Range(0, roomsOfRoomSize.Count)];
+        }
+        
         return null;
     }
 
     /// <summary>
-    /// Get possible room size to generate at given position.
+    /// Draws a room size based on the probability map.
     /// </summary>
-    /// <param name="position"></param>
+    /// <param name="probMap"></param>
     /// <returns></returns>
-    private List<RoomSize> GetPossibleRoomSizes(Vector2 position)
+    private RoomSize DrawRoomSize(Dictionary<RoomSize, double> probMap)
     {
-        List<RoomSize> roomSizes = new List<RoomSize>();
-
-        // 1x1
-        if (isValidCellPos(position) && isEmptyCellPos(position))
+        // Calculate the total probability sum
+        double totalProbability = 0;
+        foreach (var probability in probMap.Values)
         {
-            roomSizes.Add(RoomSize.OneByOne);
+            totalProbability += probability;
         }
 
-        // 1x2
-        Vector2 posDOffset = position + new Vector2(0, 1);
-        if (isValidCellPos(position) && isEmptyCellPos(position) 
-            && isValidCellPos(posDOffset) && isEmptyCellPos(posDOffset))
+        // Generate a random number between 0 and the total probability sum
+        double randomValue = Random.Range(0, (float) totalProbability + 1);
+
+        // Iterate through the dictionary and accumulate probabilities until the random value is exceeded
+        double cumulativeProbability = 0;
+        foreach (var kvp in probMap)
         {
-            roomSizes.Add(RoomSize.OneByTwo);
+            cumulativeProbability += kvp.Value;
+            if (randomValue < cumulativeProbability)
+            {
+                return kvp.Key; // Return the RoomSize corresponding to the current entry
+            }
         }
 
-        // 2x1
-        Vector2 posROffset = position + new Vector2(1, 0);
-        if (isValidCellPos(position) && isEmptyCellPos(position) 
-            && isValidCellPos(posROffset) && isEmptyCellPos(posROffset))
-        {
-            roomSizes.Add(RoomSize.TwoByOne);
-        }
-
-        // 2x2
-        if (isValidCellPos(position) && isEmptyCellPos(position) 
-            && isValidCellPos(posDOffset) && isEmptyCellPos(posDOffset)
-            && isValidCellPos(posROffset) && isEmptyCellPos(posROffset))
-        {
-            roomSizes.Add(RoomSize.TwoByTwo);
-        }
-
-        return roomSizes;
+        // This point should never be reached
+        throw new InvalidOperationException("No RoomSize selected");
     }
 
     /// <summary>
@@ -272,6 +330,21 @@ public class FloorPlanGenerator : MonoBehaviour
         return isValidCellPos(cell + offset);
     }
 
+    private bool isValidRoomPos(Room room)
+    {
+        for (int i = 0; i < room.size.x; i++)
+        {
+            for (int j = 0; j < room.size.y; j++)
+            {
+                if (!isValidCellPos(room.position + new Vector2(i, j)))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /// <summary>
     /// Helper to check if cell is empty at floor plan position cell.
     /// </summary>
@@ -279,7 +352,31 @@ public class FloorPlanGenerator : MonoBehaviour
     /// <returns></returns>
     private bool isEmptyCellPos(Vector2 cell)
     {
+        if (!isValidCellPos(cell))
+        {
+            return false;
+        }
         return floorplan[(int) cell.x, (int) cell.y] == null;
+    }
+
+    /// <summary>
+    /// Checks whether a given room position is empty on floor plan.
+    /// </summary>
+    /// <param name="room"></param>
+    /// <returns></returns>
+    private bool isEmptyRoomPos(Room room)
+    {
+        for (int x = 0; x < room.size.x; x++)
+        {
+            for (int y = 0; y < room.size.y; y++)
+            {
+                if (!isEmptyCellPos(new Vector2(room.position.x + x, room.position.y + y)))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /// <summary>
@@ -331,5 +428,38 @@ public class FloorPlanGenerator : MonoBehaviour
     private void ClearFloorPlan()
     {
         floorplan = new Room[(int)floorplanSize.x, (int)floorplanSize.y];
+        roomsGenerated = 0;
+        ResetProbMap();
+    }
+
+    private void ResetProbMap()
+    {
+        roomSizeProbMap.TryAdd(RoomSize.OneByOne, 25);
+        roomSizeProbMap.TryAdd(RoomSize.OneByTwo, 25);
+        roomSizeProbMap.TryAdd(RoomSize.TwoByOne, 25);
+        roomSizeProbMap.TryAdd(RoomSize.TwoByTwo, 25);
+    }
+
+    /// <summary>
+    /// In charge of updating the probability map.
+    /// Whenever a room of a certain size is generated, its probability is halved, and split
+    /// between the other room sizes.
+    /// Total probability should always be 1.
+    /// </summary>
+    /// <param name="roomSize"></param>
+    private void UpdateProbMap(RoomSize roomSize)
+    {
+        double probToDistributeTotal = roomSizeProbMap[roomSize] / 2;
+        roomSizeProbMap[roomSize] = probToDistributeTotal;
+        double probToDistributeToEach = probToDistributeTotal / (roomSizeProbMap.Count - 1);
+
+
+        foreach (RoomSize key in roomSizeProbMap.Keys.ToList())
+        {
+            if (key != roomSize)
+            {
+                roomSizeProbMap[key] += probToDistributeToEach;
+            }
+        }
     }
 }
