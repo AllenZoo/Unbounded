@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class FloorPlanGenerator : MonoBehaviour
+public class FloorPlanGenerator
 {
     /// <summary>
     /// The floor plan is a 2D array of rooms. Each room has a position and a size.
@@ -64,13 +64,13 @@ public class FloorPlanGenerator : MonoBehaviour
     ///         iv. Add room to floorplan.
     ///         v. If room doesn't add any neighbouring rooms, mark it as a dead end.
     /// </summary>
-    public void Generate()
+    public Room[,] Generate()
     {
         InitStartRoom();
         GenerateFloorPlan();
         Debug.Log(floorplan.ToString());
         VizFloorPlan.PrintFloorPlan(floorplan);
-        // return floorplan;
+        return floorplan;
     }
 
     /// <summary>
