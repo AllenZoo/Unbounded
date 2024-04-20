@@ -12,13 +12,13 @@ public class FloorPlanGenerator
     /// The floor plan is a 2D array of rooms. Each room has a position and a size.
     /// Origin is at the top left corner. (0, 0)
     /// </summary>
-    protected Room[,] floorplan;
+    protected FloorPlan floorplan;
+
     protected Vector2 floorplanSize = new Vector2(8, 8);
     protected int roomsToGenerate = 12;
     protected int roomsGenerated = 0;
 
     protected Queue<Room> roomsToVisit = new Queue<Room>();
-    protected HashSet<Room> deadEnds = new HashSet<Room>();
 
     /// <summary>
     /// Probability of generating a room of a certain size.
@@ -64,12 +64,12 @@ public class FloorPlanGenerator
     ///         iv. Add room to floorplan.
     ///         v. If room doesn't add any neighbouring rooms, mark it as a dead end.
     /// </summary>
-    public Room[,] Generate()
+    public FloorPlan Generate()
     {
         InitStartRoom();
         GenerateFloorPlan();
-        Debug.Log(floorplan.ToString());
-        VizFloorPlan.PrintFloorPlan(floorplan);
+
+        // VizFloorPlan.PrintFloorPlan(floorplan.rooms);
         return floorplan;
     }
 
@@ -119,7 +119,7 @@ public class FloorPlanGenerator
 
             if (!hasNeighbours)
             {
-                deadEnds.Add(currentRoom);
+                floorplan.deadEnds.Add(currentRoom);
             }
         }
     }
@@ -243,7 +243,7 @@ public class FloorPlanGenerator
         }
 
         // Generate a random number between 0 and the total probability sum
-        double randomValue = Random.Range(0, (float) totalProbability + 1);
+        double randomValue = Random.Range(0, (float) totalProbability);
 
         // Iterate through the dictionary and accumulate probabilities until the random value is exceeded
         double cumulativeProbability = 0;
@@ -257,7 +257,7 @@ public class FloorPlanGenerator
         }
 
         // This point should never be reached
-        throw new InvalidOperationException("No RoomSize selected");
+        throw new InvalidOperationException("No RoomSize selected. Current ProbMap: " + probMap.ToString());
     }
 
     /// <summary>
@@ -356,7 +356,7 @@ public class FloorPlanGenerator
         {
             return false;
         }
-        return floorplan[(int) cell.x, (int) cell.y] == null;
+        return floorplan.rooms[(int) cell.x, (int) cell.y] == null;
     }
 
     /// <summary>
@@ -410,13 +410,13 @@ public class FloorPlanGenerator
         {
             for (int j = 0; j < room.size.y; j++)
             {
-                if (floorplan[(int)(room.position.x + i), (int)(room.position.y + j)] != null)
+                if (floorplan.rooms[(int)(room.position.x + i), (int)(room.position.y + j)] != null)
                 {
                     Debug.LogError("Room already exists at position: " + room.position);
                     return;
                 } else
                 {
-                    floorplan[(int)(room.position.x + i), (int)(room.position.y + j)] = room;
+                    floorplan.rooms[(int)(room.position.x + i), (int)(room.position.y + j)] = room;
                 }
             }
         }
@@ -427,7 +427,7 @@ public class FloorPlanGenerator
     /// </summary>
     private void ClearFloorPlan()
     {
-        floorplan = new Room[(int)floorplanSize.x, (int)floorplanSize.y];
+        floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y);
         roomsGenerated = 0;
         ResetProbMap();
     }

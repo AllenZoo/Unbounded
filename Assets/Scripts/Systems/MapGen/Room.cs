@@ -31,15 +31,14 @@ public class Room
     {
         return "{[Room] Size: " + size + ", Position: " + position + "}";
     }
+}
 
-    /// <summary>
-    /// Returns the position taken up by the room.
-    /// </summary>
-    /// <returns></returns>
-    //public Vector2[] GetPositions();
-    //public void SetPosition(Vector2[] position);
-
-    //// [Grid Pos, Door Pos Dir]
-    //public Tuple<Vector2, Vector2> GetDoorPositions();
-
+/// <summary>
+/// For representation of boss rooms.
+/// </summary>
+public class BossRoom: Room
+{
+    public BossRoom(Vector2 size, Vector2 position, Room parent) : base(size, position, parent)
+    {
+    }
 }
