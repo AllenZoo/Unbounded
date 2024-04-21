@@ -7,11 +7,13 @@ using UnityEngine;
 /// </summary>
 public class VizFloorPlan : MonoBehaviour
 {
-    public static void PrintFloorPlan(Room[,] floorPlan)
+    public static void PrintFloorPlan(Room[,] floorPlan, FloorPlan fp)
     {
+        
         string floorPlanString = "";
         Dictionary<Room, string> roomStrMap = new Dictionary<Room, string>();
         int roomCount = 1;
+
         for (int i = 0; i < floorPlan.GetLength(0); i++)
         {
             for (int j = 0; j < floorPlan.GetLength(1); j++)
@@ -20,6 +22,10 @@ public class VizFloorPlan : MonoBehaviour
                     floorPlanString += "N";//floorPlan[i, j] + " ";
                 else if (floorPlan[i, j].parent == null)
                     floorPlanString += "S";//floorPlan[i, j] + " ";
+                else if (floorPlan[i, j].roomType == RoomType.Boss)
+                {
+                    floorPlanString += "B";
+                }
                 else if (floorPlan[i, j].parent != null)
                 {
                     if (!roomStrMap.ContainsKey(floorPlan[i, j]))

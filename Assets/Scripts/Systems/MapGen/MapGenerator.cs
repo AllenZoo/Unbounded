@@ -1,10 +1,30 @@
+using AYellowpaper.SerializedCollections;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGenerator
-{
-    FloorPlanGenerator floorPlanGenerator = new FloorPlanGenerator();
+public class MapGenerator: MonoBehaviour {
+
+    [SerializeField] private List<PfbRoomSizeTypeTuple> normalRoomPfbs = new List<PfbRoomSizeTypeTuple>();
+    [SerializeField] private List<PfbRoomSizeTypeTuple> startRoomPfbs = new List<PfbRoomSizeTypeTuple>();
+    [SerializeField] private List<PfbRoomSizeTypeTuple> bossRoomPfbs = new List<PfbRoomSizeTypeTuple>();
+    [SerializeField] private GameObject corridorPfb;
+
+    [SerializeField] private Vector2 roomPadding;
+
+    /// <summary>
+    /// For spacing between rooms.
+    /// </summary>
+    [SerializeField] private Vector2 roomSizeWorldUnits;
+
+    private FloorPlanGenerator floorPlanGenerator = new FloorPlanGenerator();
+    private GameObject baseMap;
+
+    private void Start()
+    {
+        baseMap = new GameObject("BaseMap");
+    }
 
     /// <summary>
     /// Generate a new floor plan.
@@ -12,22 +32,109 @@ public class MapGenerator
     /// </summary>
     public void GenerateMap()
     {
+        
         FloorPlan floorPlan = floorPlanGenerator.Generate();
+        VizFloorPlan.PrintFloorPlan(floorPlan.rooms, floorPlan);
+        InstantiateMap(floorPlan);
+
+        // Instantiate(baseMap);
     }
 
     /// <summary>
     /// Traverse through the floor plan and instantiate each room seperately.
     /// 
     /// </summary>
-    public void InstantiateMap()
+    public void InstantiateMap(FloorPlan floorPlan)
     {
+        InstantiateRooms(floorPlan.deadEnds);
+        InstantiateCorridors(floorPlan.deadEnds);
+    }
 
+    public void InstantiateRooms(HashSet<Room> deadEnds)
+    {
+        // TODO: essentially dupe of InstantiateCorridors. Could refactor for 
+        // optimal code. Split to keep modularity of room and corridor creation.
+        Queue<Room> toVisit = new Queue<Room>(deadEnds);
+        while (toVisit.Count > 0)
+        {
+            Room current = toVisit.Dequeue();
+
+            // TODO: handle start room being instantiated multiple times this way.
+            InstantiateRoom(current);
+            if (current.parent != null)
+            {
+                toVisit.Enqueue(current.parent);
+            }
+        }
     }
 
     // TODO:
+    /// <summary>
+    /// Pick a random suitable room prefab and instantiate it.
+    /// </summary>
+    /// <param name="room"></param>
     public void InstantiateRoom(Room room)
     {
+        GameObject roomPfb = GetSuitableRoomPfb(room.roomType, room.roomSize);
+        if (roomPfb != null)
+        {
+            Vector3 roomPos = new Vector3(room.position.x * roomSizeWorldUnits.x, room.position.y * roomSizeWorldUnits.y, 0);
 
+            // TODO: add padding between rooms
+            //roomPos += new Vector3(roomPadding.x, roomPadding.y, 0);
+            // GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
+            GameObject roomObj = Instantiate(roomPfb);
+            roomObj.transform.SetParent(baseMap.transform);
+
+            // Debug.Log("instantiated room");
+        } else
+        {
+            // Debug.LogError("Error generating Map: No suitable room found!");
+        }
+    }
+
+    public GameObject GetSuitableRoomPfb(RoomType roomType, RoomSize roomSize)
+    {
+        switch (roomType)
+        {
+            case RoomType.Normal:
+                return GetSuitableRoomPfb(roomSize, normalRoomPfbs);
+            case RoomType.Start:
+                return GetSuitableRoomPfb(roomSize, startRoomPfbs);
+            case RoomType.Boss:
+                return GetSuitableRoomPfb(roomSize, bossRoomPfbs);
+        }   
+        return null;
+    }
+
+    public GameObject GetSuitableRoomPfb(RoomSize roomSize, List<PfbRoomSizeTypeTuple> roomPfbs)
+    {
+        // Shuffle List for randomization
+        Shuffle(roomPfbs);
+        foreach (PfbRoomSizeTypeTuple tuple in roomPfbs)
+        {
+            if (tuple.size == roomSize)
+            {
+                return tuple.pfb;
+            }
+        }
+
+        // No suitable room found return null.
+        return null;
+    }
+
+    public void InstantiateCorridors(HashSet<Room> deadEnds)
+    {
+        Queue<Room> toVisit = new Queue<Room>(deadEnds);
+        while (toVisit.Count > 0)
+        {
+            Room current = toVisit.Dequeue();
+            if (current.parent != null)
+            {
+                InstantiateCorridor(current, current.parent);
+                toVisit.Enqueue(current.parent);
+            }
+        }
     }
 
     /// <summary>
@@ -39,4 +146,26 @@ public class MapGenerator
     {
 
     }
+
+    static void Shuffle<T>(List<T> list)
+    {
+        System.Random rng = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+}
+
+[Serializable]
+public class PfbRoomSizeTypeTuple
+{
+    public GameObject pfb;
+    public RoomSize size;
+    public RoomType type;
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public class FloorPlanGenerator
@@ -15,10 +16,15 @@ public class FloorPlanGenerator
     protected FloorPlan floorplan;
 
     protected Vector2 floorplanSize = new Vector2(8, 8);
-    protected int roomsToGenerate = 12;
+    protected int roomsToGenerate = 5;
     protected int roomsGenerated = 0;
 
     protected Queue<Room> roomsToVisit = new Queue<Room>();
+
+    /// <summary>
+    /// The minimum distance of a BOSS room from the start room.
+    /// </summary>
+    protected int minRoomsFromStart = 3;
 
     /// <summary>
     /// Probability of generating a room of a certain size.
@@ -29,26 +35,7 @@ public class FloorPlanGenerator
     /// </summary>
     protected Dictionary<RoomSize, double> roomSizeProbMap = new Dictionary<RoomSize, double>(); 
 
-    protected enum RoomSize
-    {
-        OneByOne,
-        OneByTwo,
-        TwoByOne,
-        TwoByTwo,
-    }
-    private static RoomSize Vector2ToRoomSize(Vector2 size)
-    {
-        if (size == new Vector2(1, 1))
-            return RoomSize.OneByOne;
-        else if (size == new Vector2(1, 2))
-            return RoomSize.OneByTwo;
-        else if (size == new Vector2(2, 1))
-            return RoomSize.TwoByOne;
-        else if (size == new Vector2(2, 2))
-            return RoomSize.TwoByTwo;
-        else
-            return RoomSize.OneByOne;
-    }
+    
 
     /// <summary>
     /// Generates a floor plan. Algorithm is as follows:
@@ -66,9 +53,16 @@ public class FloorPlanGenerator
     /// </summary>
     public FloorPlan Generate()
     {
-        InitStartRoom();
-        GenerateFloorPlan();
-
+        
+        // Generate until we get a valid floor plan.
+        bool validFloorPlan = false;
+        while (!validFloorPlan)
+        {
+            InitStartRoom();
+            GenerateFloorPlan();
+            validFloorPlan = AssignBossRoom();
+        }
+        
         // VizFloorPlan.PrintFloorPlan(floorplan.rooms);
         return floorplan;
     }
@@ -83,7 +77,7 @@ public class FloorPlanGenerator
         Vector2 randomPos = new Vector2(
             (int) Random.Range(0, floorplanSize.x - 1), 
             (int) Random.Range(0, floorplanSize.y - 1));
-        Room startRoom = new Room(new Vector2(1, 1), randomPos, null);
+        Room startRoom = new Room(new Vector2(1, 1), randomPos, null, RoomType.Start);
         AddRoomToFloorPlan(startRoom);
         roomsToVisit.Enqueue(startRoom);
     }
@@ -120,6 +114,7 @@ public class FloorPlanGenerator
             if (!hasNeighbours)
             {
                 floorplan.deadEnds.Add(currentRoom);
+                Debug.Log("Added dead end room with position: " + currentRoom.position);
             }
         }
     }
@@ -169,14 +164,38 @@ public class FloorPlanGenerator
         // Update probability map.
         UpdateProbMap(roomSizeType);
 
-        Debug.Log("RoomSize Type of: " + roomSizeType.ToString() + " generated!");
+        // Debug.Log("RoomSize Type of: " + roomSizeType.ToString() + " generated!");
 
         newRoom.parent = parentRoom;
         return newRoom;
     }
 
     /// <summary>
+    /// Gets random boss room from the list of dead ends.
+    /// </summary>
+    /// <returns>Whether Boss room was assigned properly</returns>
+    private bool AssignBossRoom()
+    {
+        // Shuffle deadEnds list. (Where the randomization happens)
+        floorplan.deadEnds = new HashSet<Room>(floorplan.deadEnds.OrderBy(x => Random.value));
+
+        // Pick the first room that matches Boss Room criteria.
+        foreach (Room deadEnd in floorplan.deadEnds)
+        {
+            if (deadEnd.GetDistFromStart() > minRoomsFromStart)
+            {
+                deadEnd.roomType = RoomType.Boss;
+                return true;
+            }
+        }
+
+        // No Suitable rooms found.
+        return false;
+    }
+
+    /// <summary>
     /// Returns a list of possible rooms that covers the given position.
+    /// Remember, the position of the room is the top left corner cell of the room.
     /// </summary>
     /// <param name="position"></param>
     /// <returns></returns>
@@ -194,16 +213,16 @@ public class FloorPlanGenerator
 
         // 2 options for 2x1
         possibleRooms.Add(new Room(new Vector2(2, 1), position, null));
-        posOffset = Vector2.down;
+        posOffset = Vector2.up;
         possibleRooms.Add(new Room(new Vector2(2, 1), position + posOffset, null));
 
         // 4 options for 2x2
         possibleRooms.Add(new Room(new Vector2(2, 2), position, null));
         posOffset = Vector2.left;
         possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
-        posOffset = Vector2.down;
+        posOffset = Vector2.up;
         possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
-        posOffset = Vector2.left + Vector2.down;
+        posOffset = Vector2.left + Vector2.up;
         possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
 
         // Validate and filter out unsuitable rooms.
@@ -219,7 +238,7 @@ public class FloorPlanGenerator
     /// <returns>a random room</returns>
     private Room GetRoomOfRoomSize(RoomSize roomSize, List<Room> rooms)
     {
-        List<Room> roomsOfRoomSize = rooms.FindAll(room => Vector2ToRoomSize(room.size) == roomSize);
+        List<Room> roomsOfRoomSize = rooms.FindAll(room => Room.Vector2ToRoomSize(room.size) == roomSize);
         if (roomsOfRoomSize.Count > 0)
         {
             return roomsOfRoomSize[Random.Range(0, roomsOfRoomSize.Count)];
