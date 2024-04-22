@@ -18,7 +18,6 @@ public class FloorPlanGenerator
     protected Vector2 floorplanSize = new Vector2(8, 8);
     protected int roomsToGenerate = 5;
     protected int roomsGenerated = 0;
-
     protected Queue<Room> roomsToVisit = new Queue<Room>();
 
     /// <summary>
@@ -36,7 +35,6 @@ public class FloorPlanGenerator
     protected Dictionary<RoomSize, double> roomSizeProbMap = new Dictionary<RoomSize, double>(); 
 
     
-
     /// <summary>
     /// Generates a floor plan. Algorithm is as follows:
     /// 1. Create a start room somewhere in the floor plan and add it to the queue.
@@ -53,7 +51,6 @@ public class FloorPlanGenerator
     /// </summary>
     public FloorPlan Generate()
     {
-        
         // Generate until we get a valid floor plan.
         bool validFloorPlan = false;
         while (!validFloorPlan)
@@ -109,6 +106,11 @@ public class FloorPlanGenerator
                     AddRoomToFloorPlan(newRoom);
                     roomsGenerated++;
                 }
+
+                if (roomsGenerated >= roomsToGenerate)
+                {
+                    break;
+                }
             }    
 
             if (!hasNeighbours)
@@ -117,6 +119,9 @@ public class FloorPlanGenerator
                 Debug.Log("Added dead end room with position: " + currentRoom.position);
             }
         }
+
+        // 3. Add all remaining rooms in the queue to the dead ends list.
+        floorplan.deadEnds.AddRange(roomsToVisit);
     }
 
     /// <summary>
@@ -448,6 +453,7 @@ public class FloorPlanGenerator
     {
         floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y);
         roomsGenerated = 0;
+        roomsToVisit.Clear();
         ResetProbMap();
     }
 

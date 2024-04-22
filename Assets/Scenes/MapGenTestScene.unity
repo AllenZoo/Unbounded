@@ -229,6 +229,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &382092082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6035573035518153257, guid: e2c8eb11bccfcf445a1e030203c2e973, type: 3}
+  m_PrefabInstance: {fileID: 6035573034873495894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &533838557
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,11 +775,14 @@ MonoBehaviour:
   - pfb: {fileID: 5830656271540740018, guid: 67d5d6342c0d5834e8759438e64f2daf, type: 3}
     size: 3
     type: 1
-  startRoomPfbs: []
+  startRoomPfbs:
+  - pfb: {fileID: 382092082}
+    size: 0
+    type: 0
   bossRoomPfbs: []
   corridorPfb: {fileID: 0}
   roomPadding: {x: 0, y: 0}
-  roomSizeWorldUnits: {x: 10, y: 10}
+  roomSizeWorldUnits: {x: 20, y: 20}
 --- !u!1001 &4984327667557044736
 PrefabInstance:
   m_ObjectHideFlags: 0

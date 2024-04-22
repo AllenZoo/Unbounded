@@ -82,8 +82,7 @@ public class MapGenerator: MonoBehaviour {
 
             // TODO: add padding between rooms
             //roomPos += new Vector3(roomPadding.x, roomPadding.y, 0);
-            // GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
-            GameObject roomObj = Instantiate(roomPfb);
+            GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
 
             // Debug.Log("instantiated room");
