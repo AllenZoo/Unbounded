@@ -67,6 +67,20 @@ public class Room
         }
     }
 
+    public List<Vector2> GetCellPositions()
+    {
+        List<Vector2> cellPositions = new List<Vector2>();
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                Vector2 cellPos = new Vector2(position.x + x, position.y + y);
+                cellPositions.Add(cellPos);
+            }
+        }
+        return cellPositions;
+    }
+
     public static RoomSize Vector2ToRoomSize(Vector2 size)
     {
         if (size == new Vector2(1, 1))
