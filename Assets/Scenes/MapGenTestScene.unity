@@ -778,8 +778,9 @@ MonoBehaviour:
     size: 3
     type: 2
   corridorPfb: {fileID: 0}
-  roomPadding: {x: 0, y: 0}
-  roomSizeWorldUnits: {x: 15, y: 15}
+  mapSize: {x: 8, y: 8}
+  roomsToGenerate: 12
+  roomSizeWorldUnits: {x: 8, y: 8}
 --- !u!1001 &3936526757570324350
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,14 +16,14 @@ public class FloorPlanGenerator
     protected FloorPlan floorplan;
 
     protected Vector2 floorplanSize = new Vector2(8, 8);
-    protected int roomsToGenerate = 2;
+    protected int roomsToGenerate;
     protected int roomsGenerated = 0;
     protected Queue<Room> roomsToVisit = new Queue<Room>();
 
     /// <summary>
     /// The minimum distance of a BOSS room from the start room.
     /// </summary>
-    protected int minRoomsFromStart = 3;
+    protected int minRoomsFromStart;
 
     /// <summary>
     /// Probability of generating a room of a certain size.
@@ -35,6 +35,20 @@ public class FloorPlanGenerator
     protected Dictionary<RoomSize, double> roomSizeProbMap = new Dictionary<RoomSize, double>(); 
 
     
+    public FloorPlanGenerator(Vector2 floorPlanSize, int roomsToGenerate)
+    {
+        this.floorplanSize = floorPlanSize;
+        this.roomsToGenerate = roomsToGenerate;
+        this.minRoomsFromStart = 3;
+    }
+
+    public FloorPlanGenerator(Vector2 floorPlanSize, int roomsToGenerate, int roomsBetweenStartAndBoss)
+    {
+        this.floorplanSize = floorPlanSize;
+        this.roomsToGenerate = roomsToGenerate;
+        this.minRoomsFromStart = roomsBetweenStartAndBoss;
+    }
+
     /// <summary>
     /// Generates a floor plan. Algorithm is as follows:
     /// 1. Create a start room somewhere in the floor plan and add it to the queue.
@@ -57,8 +71,7 @@ public class FloorPlanGenerator
         {
             InitStartRoom();
             GenerateFloorPlan();
-            validFloorPlan = true;
-            // validFloorPlan = AssignBossRoom();
+            validFloorPlan = AssignBossRoom();
         }
         
         // VizFloorPlan.PrintFloorPlan(floorplan.rooms);
@@ -215,21 +228,21 @@ public class FloorPlanGenerator
 
         // 2 options for 1x2
         possibleRooms.Add(new Room(new Vector2(1, 2), position, null));
-        Vector2 posOffset = Vector2.left;
+        Vector2 posOffset = new Vector2(0, -1); // Up with regards to our grid coordinate system.
         possibleRooms.Add(new Room(new Vector2(1, 2), position + posOffset, null));
 
         // 2 options for 2x1
         possibleRooms.Add(new Room(new Vector2(2, 1), position, null));
-        posOffset = Vector2.up;
+        posOffset = Vector2.left;
         possibleRooms.Add(new Room(new Vector2(2, 1), position + posOffset, null));
 
         // 4 options for 2x2
         possibleRooms.Add(new Room(new Vector2(2, 2), position, null));
         posOffset = Vector2.left;
         possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
-        posOffset = Vector2.up;
+        posOffset = new Vector2(0, -1); // Up with regards to our grid coordinate system.
         possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
-        posOffset = Vector2.left + Vector2.up;
+        posOffset = Vector2.left + new Vector2(0, -1); // + Up with regards to our grid coordinate system.
         possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
 
         // Validate and filter out unsuitable rooms.

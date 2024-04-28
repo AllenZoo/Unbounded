@@ -5,25 +5,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator: MonoBehaviour {
-
+    [Header("Room Prefabs")]
     [SerializeField] private List<PfbRoomSizeTypeTuple> normalRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> startRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> bossRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private GameObject corridorPfb;
 
-    [SerializeField] private Vector2 roomPadding;
+    [Header("Map Gen Settings")]
+    [SerializeField] private Vector2 mapSize = new Vector2(8, 8);
+    [Tooltip("Number of rooms to generate. (excluding start room)")]
+    [SerializeField] private int roomsToGenerate = 12;
+
+    
+    // [SerializeField] private Vector2 roomPadding;
 
     /// <summary>
-    /// For spacing between rooms.
+    /// For placing the rooms in the world.
     /// </summary>
     [SerializeField] private Vector2 roomSizeWorldUnits;
 
-    private FloorPlanGenerator floorPlanGenerator = new FloorPlanGenerator();
+    private FloorPlanGenerator floorPlanGenerator;
     private GameObject baseMap;
 
     private void Start()
     {
-        
+        floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate);
     }
 
     /// <summary>
@@ -88,17 +94,16 @@ public class MapGenerator: MonoBehaviour {
         GameObject roomPfb = GetSuitableRoomPfb(room.roomType, room.roomSize);
         if (roomPfb != null)
         {
-            Vector3 roomPos = new Vector3(room.position.x * roomSizeWorldUnits.x, room.position.y * roomSizeWorldUnits.y, 0);
+            // Note: Y is inverted in Unity Transform system compared to our grid system. Thus we flip the y coordinate.
+            Vector3 roomPos = new Vector3(room.position.x * roomSizeWorldUnits.x, -room.position.y * roomSizeWorldUnits.y, 0);
 
-            // TODO: add padding between rooms
-            //roomPos += new Vector3(roomPadding.x, roomPadding.y, 0);
             GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
-            Debug.Log("Instantiated room at " + room.position);
+            Debug.Log("Instantiated roomPfb at " + room.position);
             // Debug.Log("instantiated room");
         } else
         {
-            // Debug.LogError("Error generating Map: No suitable room found!");
+            Debug.LogError("Error generating Map: No suitable roomPfb found!");
         }
     }
 
