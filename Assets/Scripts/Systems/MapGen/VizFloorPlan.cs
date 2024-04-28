@@ -14,9 +14,9 @@ public class VizFloorPlan : MonoBehaviour
         Dictionary<Room, string> roomStrMap = new Dictionary<Room, string>();
         int roomCount = 1;
 
-        for (int i = 0; i < floorPlan.GetLength(0); i++)
+        for (int j = 0; j < floorPlan.GetLength(0); j++)
         {
-            for (int j = 0; j < floorPlan.GetLength(1); j++)
+            for (int i = 0; i < floorPlan.GetLength(1); i++)
             {
                 if (floorPlan[i, j] == null)
                     floorPlanString += "N";//floorPlan[i, j] + " ";

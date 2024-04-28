@@ -23,7 +23,7 @@ public class MapGenerator: MonoBehaviour {
 
     private void Start()
     {
-        baseMap = new GameObject("BaseMap");
+        
     }
 
     /// <summary>
@@ -32,7 +32,11 @@ public class MapGenerator: MonoBehaviour {
     /// </summary>
     public void GenerateMap()
     {
-        
+        if (baseMap != null)
+        {
+            Destroy(baseMap);
+        }
+        baseMap = new GameObject("BaseMap");
         FloorPlan floorPlan = floorPlanGenerator.Generate();
         VizFloorPlan.PrintFloorPlan(floorPlan.rooms, floorPlan);
         InstantiateMap(floorPlan);
@@ -55,9 +59,15 @@ public class MapGenerator: MonoBehaviour {
         // TODO: essentially dupe of InstantiateCorridors. Could refactor for 
         // optimal code. Split to keep modularity of room and corridor creation.
         Queue<Room> toVisit = new Queue<Room>(deadEnds);
+        HashSet<Room> visited = new HashSet<Room>();
         while (toVisit.Count > 0)
         {
             Room current = toVisit.Dequeue();
+            if (visited.Contains(current))
+            {
+                continue;
+            }
+            visited.Add(current);
 
             // TODO: handle start room being instantiated multiple times this way.
             InstantiateRoom(current);
@@ -84,7 +94,7 @@ public class MapGenerator: MonoBehaviour {
             //roomPos += new Vector3(roomPadding.x, roomPadding.y, 0);
             GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
-
+            Debug.Log("Instantiated room at " + room.position);
             // Debug.Log("instantiated room");
         } else
         {

@@ -16,7 +16,7 @@ public class FloorPlanGenerator
     protected FloorPlan floorplan;
 
     protected Vector2 floorplanSize = new Vector2(8, 8);
-    protected int roomsToGenerate = 5;
+    protected int roomsToGenerate = 2;
     protected int roomsGenerated = 0;
     protected Queue<Room> roomsToVisit = new Queue<Room>();
 
@@ -57,7 +57,8 @@ public class FloorPlanGenerator
         {
             InitStartRoom();
             GenerateFloorPlan();
-            validFloorPlan = AssignBossRoom();
+            validFloorPlan = true;
+            // validFloorPlan = AssignBossRoom();
         }
         
         // VizFloorPlan.PrintFloorPlan(floorplan.rooms);
@@ -104,6 +105,7 @@ public class FloorPlanGenerator
                     hasNeighbours = true;
                     roomsToVisit.Enqueue(newRoom);
                     AddRoomToFloorPlan(newRoom);
+                    //Debug.Log("Added room with position: " + newRoom.position);
                     roomsGenerated++;
                 }
 
@@ -116,7 +118,7 @@ public class FloorPlanGenerator
             if (!hasNeighbours)
             {
                 floorplan.deadEnds.Add(currentRoom);
-                Debug.Log("Added dead end room with position: " + currentRoom.position);
+                //Debug.Log("Added dead end room with position: " + currentRoom.position);
             }
         }
 
