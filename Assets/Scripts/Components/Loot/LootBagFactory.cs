@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// Script for creating loot bag pfbs into the world.
 public class LootBagFactory : Singleton<LootBagFactory>
 {
     // [Tooltip("The prefab of the loot bag. Should contain sprite rendering the loot bag.")]
