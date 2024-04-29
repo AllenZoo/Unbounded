@@ -58,13 +58,13 @@ public class MapGenerator: MonoBehaviour {
     /// Traverse through the floor plan and instantiate each room seperately.
     /// 
     /// </summary>
-    public void InstantiateMap(FloorPlan floorPlan)
+    protected void InstantiateMap(FloorPlan floorPlan)
     {
         InstantiateRooms(floorPlan.deadEnds);
         InstantiateCorridors(floorPlan.deadEnds);
     }
 
-    public void InstantiateRooms(HashSet<Room> deadEnds)
+    protected void InstantiateRooms(HashSet<Room> deadEnds)
     {
         // TODO-OPT: essentially dupe of InstantiateCorridors. Could refactor for 
         // optimal code. Split to keep modularity of room and corridor creation.
@@ -91,7 +91,7 @@ public class MapGenerator: MonoBehaviour {
     /// Pick a random suitable room prefab and instantiate it.
     /// </summary>
     /// <param name="room"></param>
-    public void InstantiateRoom(Room room)
+    protected void InstantiateRoom(Room room)
     {
         GameObject roomPfb = GetSuitableRoomPfb(room.roomType, room.roomSize);
         if (roomPfb != null)
@@ -111,7 +111,7 @@ public class MapGenerator: MonoBehaviour {
         }
     }
 
-    public GameObject GetSuitableRoomPfb(RoomType roomType, RoomSize roomSize)
+    protected GameObject GetSuitableRoomPfb(RoomType roomType, RoomSize roomSize)
     {
         switch (roomType)
         {
@@ -125,7 +125,7 @@ public class MapGenerator: MonoBehaviour {
         return null;
     }
 
-    public GameObject GetSuitableRoomPfb(RoomSize roomSize, List<PfbRoomSizeTypeTuple> roomPfbs)
+    protected GameObject GetSuitableRoomPfb(RoomSize roomSize, List<PfbRoomSizeTypeTuple> roomPfbs)
     {
         // Shuffle List for randomization
         Shuffle(roomPfbs);
@@ -141,7 +141,7 @@ public class MapGenerator: MonoBehaviour {
         return null;
     }
 
-    public void InstantiateCorridors(HashSet<Room> deadEnds)
+    protected void InstantiateCorridors(HashSet<Room> deadEnds)
     {
         Queue<Room> toVisit = new Queue<Room>(deadEnds);
         HashSet<Room> visited = new HashSet<Room>();
@@ -168,7 +168,7 @@ public class MapGenerator: MonoBehaviour {
     /// </summary>
     /// <param name="room1"></param>
     /// <param name="room2"></param>
-    public void InstantiateCorridor(Room room1, Room room2)
+    protected void InstantiateCorridor(Room room1, Room room2)
     {
         if (!roomToPfbMap.ContainsKey(room1) || !roomToPfbMap.ContainsKey(room2))
         {
@@ -221,7 +221,7 @@ public class MapGenerator: MonoBehaviour {
     /// <param name="room1"></param>
     /// <param name="room2"></param>
     /// <returns></returns>
-    public List<Tuple<RoomPosTuple, RoomPosTuple>> GetNeighbours(Room room1, Room room2)
+    protected List<Tuple<RoomPosTuple, RoomPosTuple>> GetNeighbours(Room room1, Room room2)
     {
         List<Tuple<RoomPosTuple, RoomPosTuple>> neighbours = new List<Tuple<RoomPosTuple, RoomPosTuple>>();
 
@@ -249,7 +249,7 @@ public class MapGenerator: MonoBehaviour {
     /// <param name="c1"></param>
     /// <param name="c2"></param>
     /// <returns></returns>
-    public bool AreNeighbours(Vector2 c1, Vector2 c2)
+    protected bool AreNeighbours(Vector2 c1, Vector2 c2)
     {
         // Checks if the two cells are neighbours.
         return Math.Abs((c1 - c2).magnitude) == 1;
@@ -261,7 +261,7 @@ public class MapGenerator: MonoBehaviour {
     /// <param name="c1"></param>
     /// <param name="c2"></param>
     /// <returns></returns>
-    public CellDir GetCellDir(Vector2 c1, Vector2 c2)
+    protected CellDir GetCellDir(Vector2 c1, Vector2 c2)
     {
         Vector2 diff = c2 - c1;
         if (diff.x == 1)
