@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MapGenerator: MonoBehaviour {
 
-    // TODO: Refactor these lists into a dictionary for easier access. (Refer to RoomDoorHandler.cs)
+    // TODO-OPT: Refactor these lists into a dictionary for easier access. (Refer to RoomDoorHandler.cs)
     [Header("Room Prefabs")]
     [SerializeField] private List<PfbRoomSizeTypeTuple> normalRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> startRoomPfbs = new List<PfbRoomSizeTypeTuple>();
