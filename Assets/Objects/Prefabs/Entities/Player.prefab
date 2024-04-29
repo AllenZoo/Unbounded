@@ -415,6 +415,7 @@ GameObject:
   - component: {fileID: 9215957315807670378}
   - component: {fileID: 7470423636725235223}
   - component: {fileID: 7007573682738182030}
+  - component: {fileID: 7126298450094782776}
   m_Layer: 3
   m_Name: MovementHandler
   m_TagString: Untagged
@@ -465,6 +466,19 @@ MonoBehaviour:
   movementEnabled: 1
   stat: {fileID: 7405677662020513449}
   rb: {fileID: 7405677662020512086}
+--- !u!114 &7126298450094782776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750164164373431974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f543c4bb5d84e458f3929095734bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 7405677662020513453}
 --- !u!1 &4802144860166641737
 GameObject:
   m_ObjectHideFlags: 0

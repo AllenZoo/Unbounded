@@ -13,7 +13,6 @@ public class MovementController : MonoBehaviour
 
     private MotionComponent motion;
     
-
     private void Awake()
     {
         motion = GetComponent<MotionComponent>();
@@ -67,5 +66,4 @@ public class MovementController : MonoBehaviour
         // 2. Apply translation
         rb.velocity = velocity;
     }    
-
 }

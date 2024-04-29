@@ -30,6 +30,9 @@ public class MapGenerator: MonoBehaviour {
     private FloorPlanGenerator floorPlanGenerator;
     private GameObject baseMap;
 
+    // Reference to be passed through the OnMapGenerated event.
+    private GameObject startRoomPfb;
+
     private void Start()
     {
         floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate, roomsBetweenStartAndBoss);
@@ -51,7 +54,9 @@ public class MapGenerator: MonoBehaviour {
         VizFloorPlan.PrintFloorPlan(floorPlan.rooms, floorPlan);
         InstantiateMap(floorPlan);
 
-        // Instantiate(baseMap);
+        EventBus<OnMapGeneratedEvent>.Call(new OnMapGeneratedEvent{
+            startRoomPfb = this.startRoomPfb
+        });
     }
 
     /// <summary>
@@ -101,8 +106,13 @@ public class MapGenerator: MonoBehaviour {
 
             GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
-
             roomToPfbMap.Add(room, roomObj);
+
+            // Check if is start room. If it is, store ref.
+            if (room.roomType == RoomType.Start)
+            {
+                startRoomPfb = roomObj;
+            }
 
             // Debug.Log("Instantiated roomPfb at " + room.position);
         } else

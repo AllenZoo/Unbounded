@@ -9,5 +9,5 @@ public interface IEvent
 
 public struct OnMapGeneratedEvent: IEvent
 {
-    public Room startRoom;
+    public GameObject startRoomPfb;
 }
