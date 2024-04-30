@@ -12,6 +12,9 @@ public class AggroPossessor : MonoBehaviour
     public event Action<bool> OnAggroStatusChange;
 
     // TODO: for testing
+    // OnAggro behaviour changes based on entity type.
+    // eg. For a spawner, we want to spawn entities
+    //     For an enemy, we want it to attack the target.
     public UnityEvent OnAggro;
 
     [SerializeField] private float aggroRange;

@@ -51,7 +51,7 @@ public static class EventBusUtil
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Initialize()
     {
-        EventTypes = PredefinedAssemblyUtil.GetTypes(typeof(IEvent));
+        EventTypes = PredefinedAssemblyUtil.GetTypes(typeof(IGlobalEvent));
         EventBusTypes = InitializeAllBuses();
     }
 

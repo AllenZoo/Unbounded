@@ -40,3 +40,10 @@ public class EventBinding<T> : IEventBinding<T> where T : IEvent
         onEventNoArgs = _event;
     }
 }
+
+public class LocalEventBinding<T> : EventBinding<T> where T: ILocalEvent
+{
+    public LocalEventBinding(Action<T> _event) : base(_event)
+    {
+    }
+}
