@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour, ISpawner
 {
+    [SerializeField] LocalEventHandler localEventHandler;
     [SerializeField] private SpawnRates spawnRates;
 
     [Tooltip("Central Position to spawn enemies at.")]
@@ -32,11 +33,24 @@ public class EnemySpawner : MonoBehaviour, ISpawner
             Debug.LogError("No spawn position set for spawner. Set to default.");
             spawnPos = transform;
         }
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                     "] with root object [" + gameObject.transform.root.name + "] for EnemySpawner.cs");
+            }
+        }
     }
 
     private void Start()
     {
         spawns = new List<Spawnable>();
+
+        LocalEventBinding<OnDespawnEvent> onDespawnBinding = new LocalEventBinding<OnDespawnEvent>(RemoveContainedSpawnable);
+        localEventHandler.Register(onDespawnBinding);
     }
 
     /// <summary>
@@ -76,7 +90,8 @@ public class EnemySpawner : MonoBehaviour, ISpawner
             Vector2 curSpawnPos = centerPos + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             GameObject spawn = Spawn(curSpawnPos, obj);
             Spawnable spawnComp = spawn.GetComponentOrInChildren<Spawnable>();
-            spawnComp.OnDespawn += RemoveContainedSpawnable;
+            spawnComp.SetSpawnerLocalEventHandler(localEventHandler);
+            spawnComp.TriggerOnSpawn();
             spawns.Add(spawnComp);
         }
 
@@ -155,9 +170,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     /// Remove the given spawnable from the list of current owned spawns.
     /// </summary>
     /// <param name="spawnable"></param>
-    private void RemoveContainedSpawnable(Spawnable spawnable)
+    private void RemoveContainedSpawnable(OnDespawnEvent e)
     {
-        spawns.Remove(spawnable);
+        spawns.Remove(e.spawn);
     }
 
     private void Update()

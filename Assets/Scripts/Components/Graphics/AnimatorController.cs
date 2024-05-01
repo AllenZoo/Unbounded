@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
+    [NotNull]
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     // For changing colour of the sprite (giving it a tint) based on state.
     [SerializeField] private SpriteRenderer sprite;
 
@@ -39,9 +43,6 @@ public class AnimatorController : MonoBehaviour
     #endregion
 
     // Components
-    [Header("Can be null.")]
-    [Tooltip("Can be null. Set if we want to control animations that change based on motion.")]
-    [SerializeField] private MotionComponent motionComponent;
     private Animator animator;
 
     // State in this case refers to animation states and not entity states.
@@ -55,12 +56,6 @@ public class AnimatorController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        if (motionComponent == null)
-        {
-            // Try seeing if motionComponent is on obj.
-            motionComponent = GetComponent<MotionComponent>();
-        }
-
         if (sprite == null)
         {
             sprite = GetComponent<SpriteRenderer>();
@@ -68,23 +63,38 @@ public class AnimatorController : MonoBehaviour
         Assert.IsNotNull(sprite, "SpriteRenderer null in animation controller for object: " + gameObject);
 
         defaultMaterial = sprite.material;
-
         Assert.IsNotNull(damageMaterial, "Need material for being damaged");
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject + 
+                    "] with root object [" + gameObject.transform.root.name + "] for AnimatorController.cs");
+            }
+        }
     }
 
     private void Start()
     {
         Debug.Assert(animator != null, "Animator null in animation controller for object: " + gameObject);
 
-        if (motionComponent != null)
-        {
-            motionComponent.OnMotionChange += Motion_OnMotionChange;
+        LocalEventBinding<OnMotionChangeEvent> motionEventBinding = new LocalEventBinding<OnMotionChangeEvent>(Motion_OnMotionChange);
+        localEventHandler.Register<OnMotionChangeEvent>(motionEventBinding);
 
-            // Check Parameters are present in animator controller
-            Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS,
-                "Animator parameters not set up correctly for object: " + gameObject);
-        }
-        
+        LocalEventBinding<OnStateChangeEvent> stateEventBinding = new LocalEventBinding<OnStateChangeEvent>(HandleOnStateChange);
+        localEventHandler.Register<OnStateChangeEvent>(stateEventBinding);
+
+        LocalEventBinding<OnDamagedEvent> damagedEventBinding = new LocalEventBinding<OnDamagedEvent>(HandleOnDamagedEvent);
+        localEventHandler.Register<OnDamagedEvent>(damagedEventBinding);
+
+
+        // TODO: take a look at this.
+        // Check Parameters are present in animator controller
+        // Debug.Assert(animator.parameters.Length >= NUMBER_OF_PARAMETERS,
+        //    "Animator parameters not set up correctly for object: " + gameObject);
+
         // Init Parameters in animator (TODO: once it gets large, move to helper)
         animator.SetFloat(DIRECTION_PARAMETER_X, 0);
         animator.SetFloat(DIRECTION_PARAMETER_Y, 0);
@@ -103,9 +113,34 @@ public class AnimatorController : MonoBehaviour
         Handle_Effects(state);
     }
 
-    private void Motion_OnMotionChange(Vector2 dir, Vector2 lastDir)
+    private void Motion_OnMotionChange(OnMotionChangeEvent e)
     {
-        SetMovementParameters(dir, lastDir);
+        SetMovementParameters(e.newDir, e.lastDir);
+    }
+
+    private void HandleOnStateChange(OnStateChangeEvent e)
+    {
+        // Do it in this order to ensure that we animation transition State.DEAD.
+        SetState(e.newState);
+        switch (e.newState)
+        {
+            case State.DEAD:
+                CanTransitionState = false;
+                break;
+            default:
+                CanTransitionState = true;
+                break;
+        }
+    }
+
+    private void HandleOnDamagedEvent(OnDamagedEvent e)
+    {
+        // TODO: could change state based on how much damage is taken. eg. more dmg = more damaged state.
+        //       for future enhancements.
+        if (curState != State.DEAD)
+        {
+            PlayDamagedEffect(e.damage);
+        }
     }
 
     private void SetMovementParameters(Vector2 dir, Vector2 lastDir)

@@ -185,9 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   sprite: {fileID: 1547172783033353881}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 2768012596061817983}
 --- !u!1 &1645832319290299256
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAggro:
+    m_PersistentCalls:
+      m_Calls: []
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 7599973659860923114}
@@ -400,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 916700090708789427}
+  localEventHandler: {fileID: 0}
 --- !u!114 &6475032671688007822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +432,7 @@ GameObject:
   - component: {fileID: 4456538979408597579}
   - component: {fileID: 4456538979408597556}
   - component: {fileID: 916700090708789427}
+  - component: {fileID: -3388595544745265729}
   m_Layer: 6
   m_Name: Katan
   m_TagString: Entity
@@ -520,6 +524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d024959419225b245b10ebb70a5487ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   inputEnabled: 1
   combatType: 0
   contextSteerer: {fileID: 5269506873474146853}
@@ -532,6 +537,18 @@ MonoBehaviour:
   maxDistAwayFromCenter: 5
   ringAttack: {fileID: 3504687662407887171}
   phaseManager: {fileID: 5518171965787360333}
+--- !u!114 &-3388595544745265729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5019623686023127502
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   TargetTypes: 00000000
   attackerDataInit: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
   data:
@@ -583,7 +601,6 @@ MonoBehaviour:
     numAttacks: 1
     angleOffset: 0
     cooldown: 0.5
-  inputController: {fileID: 916700090708789427}
   statComponent: {fileID: 4456538979408597558}
 --- !u!1 &5041681082339125450
 GameObject:
@@ -914,6 +931,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeathUE:
+    m_PersistentCalls:
+      m_Calls: []
   entityType: 1
   stat: {fileID: 4456538979408597558}
   isDamageable: 1

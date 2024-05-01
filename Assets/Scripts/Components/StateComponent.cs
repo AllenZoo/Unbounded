@@ -7,20 +7,8 @@ using UnityEngine;
 // some logic.
 public class StateComponent : MonoBehaviour
 {
-    // Old State, and New State.
-    public event Action<State, State> OnStateChanged;
+    [SerializeField] private LocalEventHandler localEventHandler;
     public State state { get; private set; } = State.IDLE;
-
-    // Can be null.
-    [Header("Can be null. Set if we want to control behaviours of animation, movement, and input based on state.")]
-    [SerializeField] private AnimatorController animatorController;
-    [SerializeField] private MovementController movementController;
-    [SerializeField] private InputController inputController;
-
-    [Header("Can be null. Set if we have components (Damageable/Knockbackable) that set state.")]
-    [SerializeField] private Damageable damageable;
-    [SerializeField] private Knockbackable knockbackable;
-
 
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField] State debuggingState = State.IDLE;
@@ -31,53 +19,33 @@ public class StateComponent : MonoBehaviour
 
     private void Awake()
     {
-        if (animatorController == null || movementController == null || inputController == null) {
-            Debug.LogWarning("Have not serialized animatorController or movementController or inputController." +
-                " This means that animations, movement, and input behaviour" +
-                "will not be affected by States for object: " + gameObject.name);
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "] for StateComponent.cs");
+            }
         }
     }
 
     private void Start()
     {
-        OnStateChanged += HandleStateChanged;
+        LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(HandleStateChanged);
+        localEventHandler.Register(stateChangeBinding);
 
-        if (knockbackable != null)
-        {
-            knockbackable.OnKnockBackBegin += (Vector2 dir, float force) =>
-            {
-                ReqStateChange(State.STUNNED);
-            };
+        LocalEventBinding<OnKnockBackBeginEvent> knockBackBeginBinding = new LocalEventBinding<OnKnockBackBeginEvent>(HandleKnockBackBeginEvent);
+        localEventHandler.Register(knockBackBeginBinding);
 
-            knockbackable.OnKnockBackEnd += () =>
-            {
-                ReqStateChange(State.CCFREE);
-            };
-        }
+        LocalEventBinding<OnKnockBackEndEvent> knockBackEndBinding = new LocalEventBinding<OnKnockBackEndEvent>(HandleKnockBackEndEvent);
+        localEventHandler.Register(knockBackEndBinding);
 
-        if (damageable != null)
-        {
-            damageable.OnDeath += () =>
-            {
-                ReqStateChange(State.DEAD);
-            };
+        LocalEventBinding<OnDeathEvent> onDeathBinding = new LocalEventBinding<OnDeathEvent>(HandleOnDeathEvent);
+        localEventHandler.Register(onDeathBinding);
 
-            // TODO: could change state based on how much damage is taken. eg. more dmg = more damaged state.
-            //       for future enhancements.
-            damageable.OnDamage += (float dmg) =>
-            {
-                // TODO: instead of changing state, just invoke an 'Damaged' effect in AnimatorController from here.
-                // ReqStateChange(State.DAMAGED);
-                if (state != State.DEAD)
-                {
-                    if (animatorController != null)
-                    {
-                        animatorController.PlayDamagedEffect(dmg);
-                    }
-                }
-                
-            };
-        }
+        LocalEventBinding<OnMovementInput> onMovementInputBinding = new LocalEventBinding<OnMovementInput>(HandleMovementInputEvent);
+        localEventHandler.Register(onMovementInputBinding);
     }
 
     // If current state is not part of a CC state (crowd controlled state), then change state.
@@ -113,71 +81,53 @@ public class StateComponent : MonoBehaviour
         get { return crowdControlStates; }
     }
 
+    private void HandleOnDeathEvent(OnDeathEvent e)
+    {
+        ReqStateChange(State.DEAD);
+    }
+    private void HandleMovementInputEvent(OnMovementInput i)
+    {
+        // Set state based on movement input.
+        // TODO: might want to seperate states of different categories:
+        //    MovementStates, CombatStates, InteractionStates, etc.
+        if (i.movementInput.x != 0 || i.movementInput.y != 0)
+        {
+            ReqStateChange(State.WALKING);
+        }
+        else
+        {
+            ReqStateChange(State.IDLE);
+        }
+    }
+    private void HandleStateChanged(OnStateChangeEvent e)
+    {
+        // TODO: handle destroying enemy somewhere else. Maybe even make a pool!
+        if (e.newState == State.DEAD)
+        {
+            // Destroy(gameObject, 1.0f);
+            StartCoroutine(WaitThenCall(DeactivateEntity, 1.0f));
+        }
+    }
+    private void HandleKnockBackBeginEvent(OnKnockBackBeginEvent e)
+    {
+        ReqStateChange(State.STUNNED);
+    }
+    private void HandleKnockBackEndEvent(OnKnockBackEndEvent e)
+    {
+        ReqStateChange(State.CCFREE);
+    }
+
     private void SetState(State state)
     {
         State oldState = this.state;
         this.state = state;
-        OnStateChanged?.Invoke(oldState, this.state);
+        localEventHandler.Call(new OnStateChangeEvent { newState = state, oldState = oldState });
 
         // Debugging
         debuggingState = state;
     }
 
-    private void HandleStateChanged(State oldState, State newState)
-    {
-        // TODO: handle destroying enemy somewhere else. Maybe even make a pool!
-        if (newState == State.DEAD)
-        {
-            // Destroy(gameObject, 1.0f);
-            StartCoroutine(WaitThenCall(DeactivateEntity, 1.0f));
-        }
-
-        if (animatorController != null)
-        {
-            animatorController.SetState(newState);
-            switch (newState)
-            {
-                case State.DEAD:
-                    animatorController.CanTransitionState = false;
-                    break;
-                default:
-                    animatorController.CanTransitionState = true;
-                    break;
-            }
-        }
-        if (movementController != null)
-        {
-            switch (newState)
-            {
-                case State.STUNNED:
-                    movementController.SetMovementEnabled(false);
-                    break;
-                case State.DEAD:
-                    movementController.SetMovementEnabled(false);
-                    movementController.ResetMovementVelocity();
-                    break;
-                default:
-                    movementController.SetMovementEnabled(true);
-                    break;
-            }
-        }
-
-        if (inputController != null)
-        {
-            switch (newState)
-            {
-                // fall through
-                case State.STUNNED:
-                case State.DEAD:
-                    inputController.inputEnabled = false;
-                    break;
-                default:
-                    inputController.inputEnabled = true;
-                    break;
-            }
-        }
-    }
-
+    
     private IEnumerator WaitForClipEnd(AnimationCoroutine coroutine, StateAction onEnd)
     {
         yield return StartCoroutine(coroutine());

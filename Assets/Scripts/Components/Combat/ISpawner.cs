@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface Spawner
+public interface ISpawner
+
 {
-    // Spawn an object at the given position.
-    public void Spawn(Vector2 pos);
+    /// <summary>
+    /// Spawn an object at given position
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="spawn"></param>
+    public abstract GameObject Spawn(Vector2 pos, GameObject spawn);
 }

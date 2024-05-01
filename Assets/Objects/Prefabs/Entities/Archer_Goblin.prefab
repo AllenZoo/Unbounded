@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 2927453995066883928}
   - component: {fileID: 2927453995066883929}
   - component: {fileID: 7521320403387670131}
+  - component: {fileID: 3549058051624952306}
   m_Layer: 6
   m_Name: Archer_Goblin
   m_TagString: Entity
@@ -281,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   inputEnabled: 1
   combatType: 1
   contextSteerer: {fileID: 6654532339964661576}
@@ -318,6 +320,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3549058051624952306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927453995066883934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3630949904767705652
@@ -474,9 +488,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   sprite: {fileID: 6845727606779087699}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 0}
 --- !u!1 &4160062725044798197
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,6 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   TargetTypes: 00000000
   attackerDataInit: {fileID: 0}
   data:
@@ -630,7 +645,6 @@ MonoBehaviour:
     numAttacks: 1
     angleOffset: 0
     cooldown: 1
-  inputController: {fileID: 2927453995066883928}
   statComponent: {fileID: 2927453995066883931}
 --- !u!1 &6871065025535921197
 GameObject:
@@ -947,7 +961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 2927453995066883928}
+  localEventHandler: {fileID: 3549058051624952306}
 --- !u!114 &1155392411236822954
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class EnemyAIComponent : InputController
     [SerializeField] protected float movementTimer = 3f; // Time interval to change movement direction for random movement
 
     protected float timer;
-    protected StateComponent state;
+
     protected GameObject aggroTarget;
 
     private delegate void AggroBehaviour(GameObject target);
@@ -37,12 +37,12 @@ public class EnemyAIComponent : InputController
 
     protected void Awake()
     {
+        base.Awake();
         Assert.IsNotNull(contextSteerer, "contextSteerer must be assigned in inspector for AI to perform context steering movement.");
         Assert.IsNotNull(feetTransform, "feetTransform must be assigned in inspector for AI to perform context steering movement.");
         Assert.IsNotNull(tracker, "tracker must be assigned in inspector for AI to perform context steering movement.");
 
         Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
-        state = GetComponent<StateComponent>();
 
         // Init behaviour map
         behaviourMap = new Dictionary<CombatType, AggroBehaviour>
@@ -58,7 +58,8 @@ public class EnemyAIComponent : InputController
         timer = movementTimer;
 
         // Subscribe to state change event
-        state.OnStateChanged += OnStateChange;
+        LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(OnStateChange);
+        localEventHandler.Register(stateChangeBinding);
     }
 
     protected void Update()
@@ -88,7 +89,7 @@ public class EnemyAIComponent : InputController
         this.aggroTarget = target;
     }
 
-    private void OnStateChange(State oldState, State newState)
+    private void OnStateChange(OnStateChangeEvent e)
     {
 
     }
@@ -110,16 +111,6 @@ public class EnemyAIComponent : InputController
             // Invoke the event to notify listeners about the new motion direction
             base.InvokeMovementInput(dir);
 
-            // Set state to WALKING (TODO: handle state in State component later)
-            if (randX != 0 || randY != 0)
-            {
-                state.ReqStateChange(State.WALKING);
-            }
-            else
-            {
-                state.ReqStateChange(State.IDLE);
-            }
-
             // Reset the timer
             timer = movementTimer;
         }
@@ -140,8 +131,6 @@ public class EnemyAIComponent : InputController
         {
             return;
         }
-
-        state.ReqStateChange(State.RUNNING);
 
         // Use context steering to determine movement direction to best reach target.
         Vector2 dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
@@ -171,7 +160,6 @@ public class EnemyAIComponent : InputController
             return;
         }
 
-        state.ReqStateChange(State.RUNNING);
         float dist = Vector2.Distance(transform.position, target.transform.position);
 
         // Initial direction to move torwards target
@@ -210,7 +198,6 @@ public class EnemyAIComponent : InputController
         // If the target is within attack range, attack
         if (dist < attackRange)
         {
-            state.ReqStateChange(State.ATTACKING);
             Attack(target);
         }
     }
@@ -222,7 +209,6 @@ public class EnemyAIComponent : InputController
     protected void Attack(GameObject target)
     {
         // Invoke the event to notify listeners about the attack input
-
         base.InvokeAttackInput(KeyCode.K, new AttackSpawnInfo(target.transform.position));
     }
 }

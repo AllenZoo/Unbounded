@@ -1,15 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class MotionComponent : MonoBehaviour
 {
-    [SerializeField] private InputController inputController;
+    [NotNull]
+    [SerializeField] private LocalEventHandler localEventHandler;
 
-    // Dir of motion. Last dir of motion.
-    public event Action<Vector2, Vector2> OnMotionChange;
     public Vector2 dir { get; private set; }
 
     // Last Direction of one of: (1,0), (1, 1), (1, -1), (0, 1), (0, -1), (-1, -1), (-1, 1)
@@ -19,33 +19,38 @@ public class MotionComponent : MonoBehaviour
 
     private void Awake()
     {
-        if (inputController == null)
-        {
-            inputController = GetComponent<InputController>();
-        }
-        
-        Assert.IsNotNull(inputController, "Motion Component requires a reference to an inputController.");
         dir = Vector2.zero;
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassgined and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "]");
+            }
+        }
     }
 
     private void Start()
     {
-        inputController.OnMovementInput += OnMovementInput;
+        LocalEventBinding<OnMovementInput> eventBinding = new LocalEventBinding<OnMovementInput>(OnMovementInput);
+        localEventHandler.Register<OnMovementInput>(eventBinding);
     }
 
-    private void OnMovementInput(Vector2 dir)
+    private void OnMovementInput(OnMovementInput input)
     {
         float offset = 0.1f;
-        this.dir = dir;
+        this.dir = input.movementInput;
 
-        float r_x = Mathf.Round(dir.x);
-        float r_y = Mathf.Round(dir.y);
+        float r_x = Mathf.Round(input.movementInput.x);
+        float r_y = Mathf.Round(input.movementInput.y);
 
-        float abs_x = Mathf.Abs(dir.x);
-        float abs_y = Mathf.Abs(dir.y);
+        float abs_x = Mathf.Abs(input.movementInput.x);
+        float abs_y = Mathf.Abs(input.movementInput.y);
 
 
-        if (dir.x == 0 && dir.y == 0)
+        if (input.movementInput.x == 0 && input.movementInput.y == 0)
         {
             wasDiaganol = false;
         }
@@ -68,6 +73,6 @@ public class MotionComponent : MonoBehaviour
             lastDir = new Vector2(r_x, r_y);
         }
 
-        OnMotionChange?.Invoke(dir, lastDir);
+        localEventHandler.Call(new OnMotionChangeEvent { newDir = dir, lastDir = lastDir });
     }
 }

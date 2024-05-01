@@ -1,41 +1,36 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Acts like an event bus for local events.
-/// </summary>
 public class LocalEventHandler : MonoBehaviour
 {
-    private Dictionary<ILocalEvent, HashSet<LocalEventBinding<ILocalEvent>>> eventMapping;
+    private Dictionary<Type, object> eventBuses = new Dictionary<Type, object>();
 
-    public void Register(ILocalEvent localEvent, LocalEventBinding<ILocalEvent> eventBinding)
+    public void Register<T>(LocalEventBinding<T> eventBinding) where T : ILocalEvent
     {
-        // Check if mapping exists, if not create it.
-        if (!eventMapping.ContainsKey(localEvent))
+        Type eventType = typeof(T);
+        if (!eventBuses.ContainsKey(eventType))
         {
-            eventMapping.Add(localEvent, new HashSet<LocalEventBinding<ILocalEvent>>());
+            eventBuses[eventType] = new LocalEventBus<T>();
         }
-        eventMapping[localEvent].Add(eventBinding);
+        ((LocalEventBus<T>)eventBuses[eventType]).Register(eventBinding);
     }
 
-    public void Unregister(ILocalEvent localEvent, LocalEventBinding<ILocalEvent> eventBinding)
+    public void Unregister<T>(LocalEventBinding<T> eventBinding) where T : ILocalEvent
     {
-        if (eventMapping.ContainsKey(localEvent))
+        Type eventType = typeof(T);
+        if (eventBuses.ContainsKey(eventType))
         {
-            eventMapping[localEvent].Remove(eventBinding);
+            ((LocalEventBus<T>)eventBuses[eventType]).Unregister(eventBinding);
         }
     }
 
     public void Call(ILocalEvent localEvent)
     {
-        if (eventMapping.ContainsKey(localEvent))
+        Type eventType = localEvent.GetType();
+        if (eventBuses.ContainsKey(eventType))
         {
-            foreach (var eventBinding in eventMapping[localEvent])
-            {
-                eventBinding.OnEvent?.Invoke(localEvent);
-                eventBinding.OnEventNoArgs?.Invoke();
-            }
+            eventBuses[eventType].GetType().GetMethod("Call").Invoke(eventBuses[eventType], new object[] { localEvent });
         }
     }
 }

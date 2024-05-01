@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Attacker : MonoBehaviour
 {
+    [NotNull]
+    [SerializeField] private LocalEventHandler localEventHandler;
+
+    [Tooltip("Types of entities this attacker can damage.")]
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     // Could be unecessary. But useful for quickly serializing values.
@@ -13,9 +18,6 @@ public class Attacker : MonoBehaviour
 
     [SerializeField] private AttackerData data;
 
-    [Tooltip("Input controller to receive inputs to attack from.")]
-    [SerializeField] private InputController inputController;
-
     [Tooltip("Component that holds stats for adding damage to attacks.")]
     [SerializeField] private StatComponent statComponent;
 
@@ -23,13 +25,6 @@ public class Attacker : MonoBehaviour
 
     private void Awake()
     {
-        if (inputController == null)
-        {
-            Debug.LogWarning("Attacker input controller is null. " +
-                "Attempting to get input controller from parent.");
-            inputController = GetComponentInParent<InputController>();
-        }
-
         // Check if target types has atleast one element.
         Assert.IsTrue(TargetTypes.Count > 0, "Attacker needs atleast one target type");
 
@@ -41,18 +36,22 @@ public class Attacker : MonoBehaviour
             // Init. Avoid pass by ref.
             SetAttacker(attackerDataInit);
         }
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassgined and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "]");
+            }
+        }
     }
 
     private void Start()
     {
-        if (inputController != null)
-        {
-            inputController.OnAttackInput += AttackReq;
-        } else
-        {
-            Debug.LogWarning("Attacker has no input controller! This means that attacker will never attack as there is no input" +
-                "for it to listen to that calls it to attack.");
-        }
+        LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
+        localEventHandler.Register<OnAttackInput>(eventBinding);
     }
 
     public void SetAttacker(SO_Attacker newData)
@@ -68,12 +67,12 @@ public class Attacker : MonoBehaviour
         data = newData.data.Copy();
     }
 
-    public void AttackReq(KeyCode keyCode, AttackSpawnInfo info)
+    public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
         if (attackRdy && data != null)
         {
-            Attack(keyCode, info);
+            Attack(input.keyCode, input.attackInfo);
         }
     }
 

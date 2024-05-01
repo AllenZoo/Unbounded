@@ -5,16 +5,55 @@ using UnityEngine;
 
 public class Spawnable : MonoBehaviour
 {
-    public event Action<Spawnable> OnSpawn;
-    public event Action<Spawnable> OnDespawn;
+    /// <summary>
+    /// LocalEventHandler for the spawnable.
+    /// </summary>
+    [SerializeField] private LocalEventHandler localEventHandler;
+
+    /// <summary>
+    /// LocalEventHandler for the spawner.
+    /// </summary>
+    private LocalEventHandler spawnerLocalEventHandler;
+
+    private void Awake()
+    {
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                        "] with root object [" + gameObject.transform.root.name + "] for Spawnable.cs");
+            }
+        }
+    }
+
+    private void Start()
+    {
+        LocalEventBinding<OnDeathEvent> onDeathBinding = new LocalEventBinding<OnDeathEvent>(TriggerOnDespawn);
+        localEventHandler.Register(onDeathBinding);
+    }
+
+    public void SetSpawnerLocalEventHandler(LocalEventHandler localEventHandler)
+    {
+        this.spawnerLocalEventHandler = localEventHandler;
+    }
 
     public void TriggerOnSpawn()
     {
-        OnSpawn?.Invoke(this);
+        if (spawnerLocalEventHandler != null)
+        {
+            spawnerLocalEventHandler.Call(new OnSpawnEvent { spawn = this });
+        }
     }
 
-    public void TriggerOnDespawn()
+    public void TriggerOnDespawn(OnDeathEvent e)
     {
-        OnDespawn?.Invoke(this);
+        // Checks to see if spawnable was spawned in or naturally there.
+        if (spawnerLocalEventHandler != null)
+        {
+            spawnerLocalEventHandler.Call(new OnDespawnEvent { spawn = this });
+        }
+       
     }
 }

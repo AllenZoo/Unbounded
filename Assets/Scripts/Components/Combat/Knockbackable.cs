@@ -6,9 +6,7 @@ using UnityEngine.Assertions;
 
 public class Knockbackable : MonoBehaviour
 {
-    // Direction and force
-    public event Action<Vector2, float> OnKnockBackBegin;
-    public event Action OnKnockBackEnd;
+    [SerializeField] private LocalEventHandler localEventHandler;
 
     [SerializeField] private Rigidbody2D rb;
 
@@ -28,6 +26,16 @@ public class Knockbackable : MonoBehaviour
 
         // Set mass of rb2 to 5
         rb.mass = 5;
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                       "] with root object [" + gameObject.transform.root.name + "] for Knockbackable.cs");
+            }
+        }
     }
 
     // Knockbacks the attached entity if currentlyKnockbackable is true.
@@ -49,12 +57,12 @@ public class Knockbackable : MonoBehaviour
     private IEnumerator ApplyKnockback(Vector2 direction, float force, float duration)
     {
         // Debug.Log("Knockback start!");
-        OnKnockBackBegin?.Invoke(direction, force);
+        localEventHandler.Call(new OnKnockBackBeginEvent { knockbackDir = direction, knockbackForce = force });
         rb.velocity = Vector2.zero;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
         yield return new WaitForSeconds(duration);
         rb.velocity = Vector2.zero;
         // Debug.Log("Knockback ended!");
-        OnKnockBackEnd?.Invoke();
+        localEventHandler.Call(new OnKnockBackEndEvent());
     }
 }
