@@ -21,6 +21,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     // Controls whether spawner can spawn enemies. Depends on lastTime the spawner spawned or whether it currrently has max spawns.
     private bool canSpawn = true;
 
+    // Controls whether to spawn or not. Usually depends on aggroStatus.
+    private bool shouldSpawn = false;
+
     private void Awake()
     {
         if (spawnRates == null)
@@ -51,6 +54,9 @@ public class EnemySpawner : MonoBehaviour, ISpawner
 
         LocalEventBinding<OnDespawnEvent> onDespawnBinding = new LocalEventBinding<OnDespawnEvent>(RemoveContainedSpawnable);
         localEventHandler.Register(onDespawnBinding);
+
+        LocalEventBinding<OnAggroStatusChangeEvent> onAggroStatusBinding = new LocalEventBinding<OnAggroStatusChangeEvent>(OnAggroStatusChangeEvent);
+        localEventHandler.Register(onAggroStatusBinding);
     }
 
     /// <summary>
@@ -175,8 +181,18 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         spawns.Remove(e.spawn);
     }
 
+    private void OnAggroStatusChangeEvent(OnAggroStatusChangeEvent e)
+    {
+        shouldSpawn = e.isAggroed;
+    }
+
     private void Update()
     {
+        if (shouldSpawn)
+        {
+            MaxSpawn();
+        }
+
         if (timeSinceLastSpawn < timeBetweenSpawns)
         {
             timeSinceLastSpawn += Time.deltaTime;

@@ -77,3 +77,8 @@ public struct OnDespawnEvent: ILocalEvent
 {
     public Spawnable spawn;
 }
+
+public struct OnAggroStatusChangeEvent: ILocalEvent
+{
+    public bool isAggroed;
+}

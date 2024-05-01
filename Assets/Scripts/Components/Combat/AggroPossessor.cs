@@ -8,14 +8,7 @@ using UnityEngine.Events;
 // Attached to targets that have a
 public class AggroPossessor : MonoBehaviour
 {
-    // isAggroed?
-    public event Action<bool> OnAggroStatusChange;
-
-    // TODO: for testing
-    // OnAggro behaviour changes based on entity type.
-    // eg. For a spawner, we want to spawn entities
-    //     For an enemy, we want it to attack the target.
-    public UnityEvent OnAggro;
+    [SerializeField] private LocalEventHandler localEventHandler;
 
     [SerializeField] private float aggroRange;
     [SerializeField] private float aggroReleaseRange;
@@ -30,9 +23,18 @@ public class AggroPossessor : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(aggroDetecter, "Aggro Possessor needs way to detect if entity enters aggro range.");
-        // Assert.IsNotNull(aggroBrain, "Aggro Posseessor needs AI Component");
         Assert.IsTrue(aggroReleaseRange > aggroRange, "Aggro release range must be greater than aggro range.");
         aggroDetecter.radius = aggroRange;
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                     "] with root object [" + gameObject.transform.root.name + "] for AggroPossessor.cs");
+            }
+        }
     }
 
     // Detects when AggroTarget is in range.
@@ -49,8 +51,7 @@ public class AggroPossessor : MonoBehaviour
             aggroTarget = collision.gameObject;
             StopAllCoroutines();
             isAggroed = true;
-            OnAggroStatusChange?.Invoke(true);
-            OnAggro.Invoke();
+            localEventHandler.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
             StartCoroutine(AggroCoroutine());
         }
     }
@@ -70,11 +71,7 @@ public class AggroPossessor : MonoBehaviour
                         aggroBrain.SetAggroTarget(null);
                     }
                     isAggroed = false;
-                    OnAggroStatusChange?.Invoke(false);
-                } else
-                {
-                    // Keep throwing Aggro Event
-                    OnAggro.Invoke();
+                    localEventHandler.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
                 }
             }
             yield return new WaitForSeconds(0.5f);
@@ -85,6 +82,6 @@ public class AggroPossessor : MonoBehaviour
     private void OnDisable()
     {
         isAggroed = false;
-        OnAggroStatusChange?.Invoke(false);
+        localEventHandler.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
     }
 }
