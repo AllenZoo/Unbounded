@@ -349,9 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDeathUE:
-    m_PersistentCalls:
-      m_Calls: []
+  localEventHandler: {fileID: 0}
   entityType: 0
   stat: {fileID: 7405677662020513449}
   isDamageable: 1
@@ -369,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
-  damageableRef: {fileID: 2123717542}
+  localEventHandler: {fileID: 0}
 --- !u!1 &1451898930483660366
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 7405677662020513449}
   rb: {fileID: 7405677662020512086}
@@ -698,11 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 2611898876193215710}
-  movementController: {fileID: 7007573682738182030}
-  inputController: {fileID: 7405677662020513448}
-  damageable: {fileID: 2123717542}
-  knockbackable: {fileID: 0}
+  localEventHandler: {fileID: 8924692159491181220}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &7405677661359215970
