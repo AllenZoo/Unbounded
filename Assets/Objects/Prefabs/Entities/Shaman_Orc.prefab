@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 1489280840202876623}
   - component: {fileID: 1489280840202876618}
   - component: {fileID: 8075173542949937686}
+  - component: {fileID: 7380168260825384525}
   m_Layer: 6
   m_Name: Shaman_Orc
   m_TagString: Entity
@@ -212,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   inputEnabled: 1
   combatType: 1
   contextSteerer: {fileID: 5464599447267608705}
@@ -249,6 +251,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7380168260825384525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489280840202876609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1489280840952041258
@@ -366,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   TargetTypes: 00000000
   attackerDataInit: {fileID: 0}
   data:
@@ -373,7 +388,6 @@ MonoBehaviour:
     numAttacks: 1
     angleOffset: 0
     cooldown: 1
-  inputController: {fileID: 1489280840202876623}
   statComponent: {fileID: 1489280840202876662}
 --- !u!1 &3434620844648344537
 GameObject:
@@ -643,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 1489280840202876623}
+  localEventHandler: {fileID: 0}
 --- !u!114 &4308626138120947935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,9 +793,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   sprite: {fileID: 4693658594238709340}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 8530315993108759053}
 --- !u!1 &8453840291651679978
 GameObject:
   m_ObjectHideFlags: 0

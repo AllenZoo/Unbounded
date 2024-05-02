@@ -6,11 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(StateComponent))]
 public class PlayerInput : InputController
 {
-    private StateComponent state;
-
     private void Awake()
     {
-        state = GetComponent<StateComponent>();
+        base.Awake();
     }
 
     // Handles all inputs
@@ -30,16 +28,6 @@ public class PlayerInput : InputController
         // Send movement input event
         Vector2 movementInput = new Vector2(horizontal, vertical);
         base.InvokeMovementInput(movementInput);
-
-        // TODO: move this logic into State class later.
-        // Set state to WALKING (handle state in helper later)
-        if (horizontal != 0 || vertical != 0)
-        {
-            state.ReqStateChange(State.WALKING);
-        } else
-        {
-            state.ReqStateChange(State.IDLE);
-        }
     }
 
     private void Handle_Attack_Input()

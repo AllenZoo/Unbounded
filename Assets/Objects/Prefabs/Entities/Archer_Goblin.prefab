@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 2927453995066883928}
   - component: {fileID: 2927453995066883929}
   - component: {fileID: 7521320403387670131}
+  - component: {fileID: 3549058051624952306}
   m_Layer: 6
   m_Name: Archer_Goblin
   m_TagString: Entity
@@ -281,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   inputEnabled: 1
   combatType: 1
   contextSteerer: {fileID: 6654532339964661576}
@@ -301,11 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 5077337878040611372}
-  movementController: {fileID: 1155392411236822954}
-  inputController: {fileID: 2927453995066883928}
-  damageable: {fileID: 2927453993558771945}
-  knockbackable: {fileID: 2040274624}
+  localEventHandler: {fileID: 0}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &7521320403387670131
@@ -318,6 +316,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
+--- !u!114 &3549058051624952306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2927453995066883934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3630949904767705652
@@ -474,9 +485,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   sprite: {fileID: 6845727606779087699}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 0}
 --- !u!1 &4160062725044798197
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   OnAggro:
     m_PersistentCalls:
       m_Calls: []
@@ -623,6 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 3549058051624952306}
   TargetTypes: 00000000
   attackerDataInit: {fileID: 0}
   data:
@@ -630,7 +643,6 @@ MonoBehaviour:
     numAttacks: 1
     angleOffset: 0
     cooldown: 1
-  inputController: {fileID: 2927453995066883928}
   statComponent: {fileID: 2927453995066883931}
 --- !u!1 &6871065025535921197
 GameObject:
@@ -780,21 +792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDeathUE:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7521320403387670131}
-        m_TargetAssemblyTypeName: Spawnable, Assembly-CSharp
-        m_MethodName: TriggerOnDespawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  localEventHandler: {fileID: 0}
   entityType: 1
   stat: {fileID: 2927453995066883931}
   isDamageable: 1
@@ -811,6 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943b4c603787f7a4e8b63501261d9674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   rb: {fileID: 2927453995066883878}
   currentlyKnockbackable: 1
 --- !u!114 &6815783774052751713
@@ -826,7 +825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
-  damageableRef: {fileID: 2927453993558771945}
+  localEventHandler: {fileID: 0}
 --- !u!114 &4178154493758556856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de38b8fb36a1b754e968d85a331f55e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageable: {fileID: 2927453993558771945}
+  localEventHandler: {fileID: 0}
   dropRates:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: beb0443d19f1e814e995b8faf8b38ff7, type: 2}
@@ -947,7 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 2927453995066883928}
+  localEventHandler: {fileID: 3549058051624952306}
 --- !u!114 &1155392411236822954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,6 +959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 2927453995066883931}
   rb: {fileID: 2927453995066883878}

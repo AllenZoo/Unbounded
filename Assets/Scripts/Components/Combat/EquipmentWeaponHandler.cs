@@ -28,8 +28,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
     private void Start()
     {
         inventory = InventorySystemStorage.Instance.GetSystem(InventoryType.Equipment);
-        inventory.OnInventoryDataModified += UpdateWeapon;
-        UpdateWeapon();
+
+        if (inventory != null)
+        {
+            inventory.OnInventoryDataModified += UpdateWeapon;
+            UpdateWeapon();
+        }
+        
     }
 
     // TODO: refactor SO_Weapon_Item to store SO_Attacker instead of attackObj.

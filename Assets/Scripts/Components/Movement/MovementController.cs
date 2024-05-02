@@ -7,13 +7,13 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(MotionComponent))]
 public class MovementController : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandler localEventHandler;
     [SerializeField] private bool movementEnabled = true;
     [SerializeField] private StatComponent stat;
     [SerializeField] private Rigidbody2D rb;
 
     private MotionComponent motion;
     
-
     private void Awake()
     {
         motion = GetComponent<MotionComponent>();
@@ -22,7 +22,6 @@ public class MovementController : MonoBehaviour
         {
             stat = GetComponent<StatComponent>();
         }
-
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -32,6 +31,22 @@ public class MovementController : MonoBehaviour
         Assert.IsNotNull(motion, "Class of type MotionComponent must exist on obj with MovementController");
         Assert.IsNotNull(stat, "Class of type StatComponent must exist on obj with MovementController");
         Assert.IsNotNull(rb, "Rigidbody2D must exist on obj with MovementController");
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                                  "] with root object [" + gameObject.transform.root.name + "] for MovementController.cs");
+            }
+        }
+    }
+
+    private void Start()
+    {
+        LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(HandleOnStateChange);
+        localEventHandler.Register(stateChangeBinding);
     }
 
     private void FixedUpdate()
@@ -39,6 +54,23 @@ public class MovementController : MonoBehaviour
         if (movementEnabled)
         {
             HandleMovement();
+        }
+    }
+
+    private void HandleOnStateChange(OnStateChangeEvent e)
+    {
+        switch (e.newState)
+        {
+            case State.STUNNED:
+                SetMovementEnabled(false);
+                break;
+            case State.DEAD:
+                SetMovementEnabled(false);
+                ResetMovementVelocity();
+                break;
+            default:
+                SetMovementEnabled(true);
+                break;
         }
     }
 
@@ -67,5 +99,4 @@ public class MovementController : MonoBehaviour
         // 2. Apply translation
         rb.velocity = velocity;
     }    
-
 }

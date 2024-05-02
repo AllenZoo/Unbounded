@@ -755,7 +755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1427456478
 Transform:
   m_ObjectHideFlags: 0
@@ -954,6 +954,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
+--- !u!1001 &1650174938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5497984988962810612, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_Name
+      value: GoblinHut (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497984988962810614, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2914ddf2bd619354f9952f14748202b1, type: 3}
 --- !u!1001 &1673867974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1869,6 +1926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer_Goblin
       objectReference: {fileID: 0}
+    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
 --- !u!4 &2927453994726665961 stripped
@@ -2175,11 +2236,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.08
+      value: -6.09
       objectReference: {fileID: 0}
     - target: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.7
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2252,6 +2313,22 @@ PrefabInstance:
     - target: {fileID: 7702156466669170460, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 12287
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702156466669170659, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.1108766
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702156466669170659, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9481063
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702156467215259482, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.1108766
+      objectReference: {fileID: 0}
+    - target: {fileID: 7702156467215259482, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9481063
       objectReference: {fileID: 0}
     - target: {fileID: 7702156467215259483, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
       propertyPath: m_Follow

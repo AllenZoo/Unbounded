@@ -8,11 +8,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
-    // <Damage>
-    public event Action<float> OnDamage;
-    public event Action OnDeath;
-    public UnityEvent OnDeathUE;
-    
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
     [SerializeField] private StatComponent stat;
@@ -37,6 +34,16 @@ public class Damageable : MonoBehaviour
         
         // Set collider2d to be a trigger.
         GetComponent<Collider2D>().isTrigger = true;
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "] for Damageable.cs");
+            }
+        }
     }
 
     // Damage needs to be > 0
@@ -60,14 +67,11 @@ public class Damageable : MonoBehaviour
 
         if (stat.GetCurStat(Stat.HP) <= 0)
         {
-
-            OnDeath?.Invoke();
-            OnDeathUE?.Invoke();
+            localEventHandler.Call(new OnDeathEvent { });
             // Disable hittable so it can't be hit anymore.
             isHittable = false;
-        } 
-        
-        OnDamage?.Invoke(calculatedDamage);
+        }
+        localEventHandler.Call(new OnDamagedEvent { damage = calculatedDamage });
     }
 
     public void TakeDamageOverTime(Attack attack, float damage)

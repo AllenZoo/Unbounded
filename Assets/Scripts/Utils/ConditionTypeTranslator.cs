@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Make this a singleton class.
+// Utility class for mapping an enum condition type to a concrete condition.
 public class ConditionTypeTranslator : MonoBehaviour
 {
     public static ConditionTypeTranslator Instance;

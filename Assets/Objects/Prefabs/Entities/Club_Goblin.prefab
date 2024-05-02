@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 3820556010379128884}
+  localEventHandler: {fileID: 0}
 --- !u!114 &2175254656103687012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,9 +309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   sprite: {fileID: 2149649214554389934}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 7922043184717930911}
 --- !u!1 &2109695295929156759
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 3820556010379128884}
   - component: {fileID: 3820556010379128885}
   - component: {fileID: 49921866521040996}
+  - component: {fileID: 7793221365435426079}
   m_Layer: 6
   m_Name: Club_Goblin
   m_TagString: Entity
@@ -503,6 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   inputEnabled: 1
   combatType: 0
   contextSteerer: {fileID: 8355083780083808532}
@@ -540,6 +542,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7793221365435426079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820556010379128882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4189769826304818145
@@ -741,6 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   TargetTypes: 00000000
   attackerDataInit: {fileID: 0}
   data:
@@ -748,7 +763,6 @@ MonoBehaviour:
     numAttacks: 1
     angleOffset: 0
     cooldown: 0.5
-  inputController: {fileID: 3820556010379128884}
   statComponent: {fileID: 3820556010379128887}
 --- !u!1 &6891599633615629445
 GameObject:

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 8924692159491181220}
   TargetTypes: 01000000020000000300000004000000
   attackerDataInit: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
   data:
@@ -52,7 +53,6 @@ MonoBehaviour:
     numAttacks: 1
     angleOffset: 0
     cooldown: 0.5
-  inputController: {fileID: 7405677662020513448}
   statComponent: {fileID: 7405677662020513449}
 --- !u!114 &1773246356
 MonoBehaviour:
@@ -349,6 +349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeathUE:
+    m_PersistentCalls:
+      m_Calls: []
   entityType: 0
   stat: {fileID: 7405677662020513449}
   isDamageable: 1
@@ -412,6 +415,7 @@ GameObject:
   - component: {fileID: 9215957315807670378}
   - component: {fileID: 7470423636725235223}
   - component: {fileID: 7007573682738182030}
+  - component: {fileID: 7126298450094782776}
   m_Layer: 3
   m_Name: MovementHandler
   m_TagString: Untagged
@@ -446,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 7405677662020513448}
+  localEventHandler: {fileID: 8924692159491181220}
 --- !u!114 &7007573682738182030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,6 +466,19 @@ MonoBehaviour:
   movementEnabled: 1
   stat: {fileID: 7405677662020513449}
   rb: {fileID: 7405677662020512086}
+--- !u!114 &7126298450094782776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750164164373431974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f543c4bb5d84e458f3929095734bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 7405677662020513453}
 --- !u!1 &4802144860166641737
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +613,7 @@ GameObject:
   - component: {fileID: 7405677662020512083}
   - component: {fileID: 7405677661359215970}
   - component: {fileID: 3185927748019698975}
+  - component: {fileID: 8924692159491181220}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -666,6 +684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6986ae1d2084546a54982d4570778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 8924692159491181220}
   inputEnabled: 1
 --- !u!114 &7405677662020512083
 MonoBehaviour:
@@ -708,6 +727,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b250a2c7bdf6a4459463b1076cf0cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8924692159491181220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7405677662020513453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7905380374370108712
@@ -830,6 +861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 8924692159491181220}
   sprite: {fileID: 2588634707587799474}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  motionComponent: {fileID: 7470423636725235223}

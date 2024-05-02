@@ -5,26 +5,33 @@ using UnityEngine.Assertions;
 
 public class LootDropperOnDeath : MonoBehaviour, LootDropper
 {
-    [SerializeField] private Damageable damageable;
+    [SerializeField] LocalEventHandler localEventHandler;
     [SerializeField] private DropRates dropRates;
     [Tooltip("The maximum number of items that can be dropped. Counts as attempts in running the drop lottery.")]
     [SerializeField] private int maxItems = 3;
 
     private void Awake()
     {
-        Assert.IsNotNull(damageable, "LootDropperOnDeath requires a Damageable reference.");
         Assert.IsNotNull(dropRates, "LootDropperOnDeath requires a DropRates reference.");
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                       "] with root object [" + gameObject.transform.root.name + "] for LootDropperOnDeath.cs");
+            }
+        }
     }
 
     private void Start()
     {
-        if (damageable != null)
-        {
-            damageable.OnDeath += DropLoot;
-        }
+        LocalEventBinding<OnDeathEvent> onDeathBinding = new LocalEventBinding<OnDeathEvent>(DropLoot);
+        localEventHandler.Register(onDeathBinding);
     }
 
-    private void DropLoot()
+    private void DropLoot(OnDeathEvent e)
     {
         // Get the loot to drop
         List<Item> lootDrop = DropRateCalculator.GetItemsFromDropRate(dropRates, maxItems);
