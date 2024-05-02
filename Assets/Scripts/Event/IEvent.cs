@@ -20,6 +20,25 @@ public struct OnMapGeneratedEvent : IGlobalEvent
     public GameObject startRoomPfb;
 }
 
+public struct OnPlayerEnterRoom : IGlobalEvent
+{
+    public GameObject roomPfb;
+    public Collider2D roomBoundary;
+}
+
+public struct OnPlayerStayRoom: IGlobalEvent
+{
+    public GameObject roomPfb;
+    public Collider2D roomBoundary;
+}
+
+public struct OnPlayerExitRoom: IGlobalEvent
+{
+    public GameObject roomPfb;
+    public Collider2D roomBoundary;
+}
+
+
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
 /// </summary>
