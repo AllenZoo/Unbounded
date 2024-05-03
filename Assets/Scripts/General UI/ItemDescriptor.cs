@@ -16,6 +16,7 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
     
     private new void Awake()
     {
+        Debug.Log("Run (ItemDescriptor)");
         base.Awake();
         Assert.IsNotNull(itemTextName, "Item descriptor needs a reference to a TextMeshProUGUI to display" +
             "item name.");
@@ -42,6 +43,12 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
     public void Toggle(bool toggle)
     {
         gameObject.SetActive(toggle);
+
+        // Toggle children objects
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(toggle);
+        }
     }
 
     private String StringifyStatModifier(IStatModifier statModifier)

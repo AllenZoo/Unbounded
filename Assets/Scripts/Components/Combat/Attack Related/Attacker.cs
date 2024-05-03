@@ -22,6 +22,7 @@ public class Attacker : MonoBehaviour
     [SerializeField] private StatComponent statComponent;
 
     private bool attackRdy = true;
+    private bool canAttack = true;
 
     private void Awake()
     {
@@ -52,6 +53,9 @@ public class Attacker : MonoBehaviour
     {
         LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
         localEventHandler.Register<OnAttackInput>(eventBinding);
+
+        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
+        localEventHandler.Register<OnDeathEvent>(deathEventBinding);
     }
 
     public void SetAttacker(SO_Attacker newData)
@@ -70,7 +74,7 @@ public class Attacker : MonoBehaviour
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && data != null)
+        if (attackRdy && canAttack && data != null)
         {
             Attack(input.keyCode, input.attackInfo);
         }
