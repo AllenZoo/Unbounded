@@ -44,11 +44,11 @@ public class PhaseAttackerManager : MonoBehaviour
         if (!attackerMap.ContainsKey(phaseManager.Phase))
         {
             // No active attack mode for this phase. Use default.
-            attacker.SetAttacker(defaultAttackMode);
+            attacker.SetAttackerData(defaultAttackMode);
             return;
         }
 
-        attacker.SetAttacker(attackerMap[phaseManager.Phase]);
+        attacker.SetAttackerData(attackerMap[phaseManager.Phase]);
     }
 
 }

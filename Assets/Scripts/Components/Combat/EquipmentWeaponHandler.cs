@@ -8,13 +8,20 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Attacker))]
 public class EquipmentWeaponHandler : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     // TODO: decide whether to have reference to SO_Inventory or InventorySystem.
+    // Probably better to have ref to SO_Inventory.
     [Tooltip("Equipment inventory")]
     [SerializeField] private InventorySystem inventory;
     [SerializeField] private int weaponSlotIndex;
+
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
+    
     private Attacker attacker;
+    private SO_Weapon_Item previousWeapon;
+
     private List<IStatModifier> curAppliedStats;
 
     private void Awake()
@@ -23,6 +30,16 @@ public class EquipmentWeaponHandler : MonoBehaviour
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attacker = GetComponent<Attacker>();
         curAppliedStats = new List<IStatModifier>();
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "] for EquipmentWeaponHandler.cs");
+            }
+        }
     }
 
     private void Start()
@@ -40,31 +57,40 @@ public class EquipmentWeaponHandler : MonoBehaviour
     // TODO: refactor SO_Weapon_Item to store SO_Attacker instead of attackObj.
     private void UpdateWeapon()
     {
-        // Get weapon from inventory.
-        Item weapon = inventory.GetItem(weaponSlotIndex);
-        // If weapon is null, then we don't have a weapon equipped.
-        if (weapon == null || weapon.data == null)
+        // Get item from inventory.
+        Item item = inventory.GetItem(weaponSlotIndex);
+
+        // If item is null, then we don't have a weapon equipped.
+        if (item == null || item.IsEmpty())
         {
-            Debug.Log("No weapon found in slot " + weaponSlotIndex + ".");
-            // Set attack object to null.
-            attacker.SetAttacker(null);
+            attacker.SetAttackerData((AttackerData) null);
             return;
         }
-        // Set attack object to weapon's attack object.
-        // attacker.SetAttackObj(weapon.attacker.data.attackObj);
-        attacker.SetAttacker(weapon.data.attacker);
 
-        // Clear all stat current stat modifiers.
-        ClearStatModifiers();
-
-        // Add all stat modifiers from weapon.
-        foreach (IStatModifier statMod in weapon.data.statModifiers)
+        // Check if item is an item of type weapon.
+        if (!(item.data is SO_Weapon_Item w))
         {
-            curAppliedStats.Add(statMod);
+            // It's not. (This should never happen)
+            Debug.LogError("Item in weapon slot is not a weapon item!");
         }
 
-        // Apply all stat modifiers.
-        ApplyStatModifiers();
+        SO_Weapon_Item weapon = item.data as SO_Weapon_Item;
+        attacker.SetAttackerData(weapon.itemAttackComponent.attackerData);
+
+        localEventHandler.Call(new OnWeaponEquipped { equipped = weapon, unequipped = previousWeapon });
+        previousWeapon = weapon;
+
+        //// Clear all stat current stat modifiers.
+        //ClearStatModifiers();
+
+        //// Add all stat modifiers from weapon.
+        //foreach (IStatModifier statMod in weapon.data.statModifiers)
+        //{
+        //    curAppliedStats.Add(statMod);
+        //}
+
+        //// Apply all stat modifiers.
+        //ApplyStatModifiers();
     }
 
     private void ClearStatModifiers()
@@ -92,6 +118,4 @@ public class EquipmentWeaponHandler : MonoBehaviour
             }
         }
     }
-
-
 }

@@ -3,6 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public interface IItemComponentContainer
+{
+    public abstract List<IItemComponent> GetItemComponents();
+}
+
+public interface IItemComponent
+{
+
+}
+
 [System.Serializable]
 public class Item
 {
@@ -13,6 +24,15 @@ public class Item
     {
         this.data = data;
         this.quantity = quantity;
+    }
+
+    /// <summary>
+    /// Check if the item is empty. If data is null or quantity is 0, the item is empty.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEmpty()
+    {
+        return data == null || quantity == 0;
     }
 
     /// <summary>

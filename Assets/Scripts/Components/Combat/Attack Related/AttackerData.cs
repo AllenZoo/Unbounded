@@ -18,6 +18,31 @@ public class AttackerData
     [Tooltip("Cooldown of attacker to launch attacks.")]
     public float cooldown = 0.5f;
 
+    public AttackerData(Attack attackObj, int numAttacks, float angleOffset, float cooldown)
+    {
+        this.attackObj = attackObj.gameObject;
+        this.numAttacks = numAttacks;
+        this.angleOffset = angleOffset;
+        this.cooldown = cooldown;
+    }
+
+    public AttackerData(GameObject attackObj, int numAttacks, float angleOffset, float cooldown)
+    {
+        this.attackObj = attackObj;
+        this.numAttacks = numAttacks;
+        this.angleOffset = angleOffset;
+        this.cooldown = cooldown;
+    }
+
+    public AttackerData()
+    {
+        this.attackObj = null;
+        this.numAttacks = 1;
+        this.angleOffset = 0f;
+        this.cooldown = 0.5f;
+    }
+
+
     // Copy function to create a deep copy of the attacker data.
     public AttackerData Copy()
     {

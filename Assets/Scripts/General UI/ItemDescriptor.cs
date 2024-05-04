@@ -34,10 +34,7 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         itemTextDesc.text = item.data.description;
 
         itemTextStats.text = "";
-        foreach (IStatModifier statModifier in item.data.statModifiers)
-        {
-            itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
-        }
+        HandleItemComponents(item.data.GetItemComponents());
     }
 
     public void Toggle(bool toggle)
@@ -56,5 +53,20 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         String statModifierString = "";
         statModifierString += statModifier.Stat.ToString() + ": +" + statModifier.Value.ToString();
         return statModifierString;
+    }
+
+    private void HandleItemComponents(List<IItemComponent> itemComponents)
+    {
+        foreach (var component in itemComponents)
+        {
+            if (component is ItemStatComponent)
+            {
+                ItemStatComponent itemStatComponent = (ItemStatComponent)component;
+                foreach (IStatModifier statModifier in itemStatComponent.statModifiers)
+                {
+                    itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
+                }
+            }
+        }
     }
 }

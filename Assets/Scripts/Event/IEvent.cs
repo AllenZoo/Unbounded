@@ -101,3 +101,9 @@ public struct OnAggroStatusChangeEvent: ILocalEvent
 {
     public bool isAggroed;
 }
+
+public struct OnWeaponEquipped : ILocalEvent
+{
+    public SO_Weapon_Item equipped;
+    public SO_Weapon_Item unequipped;
+}

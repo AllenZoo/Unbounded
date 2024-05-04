@@ -9,16 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac225974a231d0949a60d50773eaf327, type: 3}
+  m_Script: {fileID: 11500000, guid: 23b4fd1a5acb1744aa5ac95c6974daa4, type: 3}
   m_Name: WoodenSword
   m_EditorClassIdentifier: 
   itemName: Wooden Sword
   itemSprite: {fileID: -870168203, guid: a64d73120f737c2458025e8b118a7997, type: 3}
   spriteRot: 0
-  quantity: 1
   isStackable: 0
-  description: Wooden Sword? Who made this?!
-  statModifiers:
-  - value: 10
-    stat: 4
-  attacker: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}
+  description: Made from a very tough tree.
+  itemAttackComponent:
+    attackerData: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}
+  itemStatComponent:
+    statModifiers:
+    - value: 10
+      stat: 4

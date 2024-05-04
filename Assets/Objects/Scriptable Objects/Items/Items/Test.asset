@@ -10,7 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23b4fd1a5acb1744aa5ac95c6974daa4, type: 3}
-  m_Name: KatanWeaponAttack
+  m_Name: Test
   m_EditorClassIdentifier: 
-  attackObj: {fileID: 4672050705460870368, guid: fb7f2d9affe3fc34f85fe0afc9a5f431, type: 3}
+  itemName: 
+  itemSprite: {fileID: 0}
+  spriteRot: 0
+  isStackable: 0
+  description: 
   statModifiers: []
+  attacker: {fileID: 0}
+  itemAttackComponent:
+    attackObj: {fileID: 7405677662020513453, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+  test:
+    attackObj: {fileID: 0}
