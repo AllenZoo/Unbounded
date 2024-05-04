@@ -319,6 +319,8 @@ MonoBehaviour:
   itemIconElement: {fileID: 8899078560433977641}
   slotItemBackground: {fileID: 0}
   quantityText: {fileID: 877296610978980485}
+  isDraggable: 1
+  isDroppable: 1
   hoverDelay: 0.5
 --- !u!1 &6558672657473307832
 GameObject:
@@ -352,10 +354,10 @@ RectTransform:
   m_Father: {fileID: 7962551411744847206}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.7579, y: -29.578}
-  m_SizeDelta: {x: 36.0807, y: 20.0618}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -18.040352, y: 10.030899}
+  m_SizeDelta: {x: 36.080704, y: 20.061798}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8108267691765454328
 GameObject:

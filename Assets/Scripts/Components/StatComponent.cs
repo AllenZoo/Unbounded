@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class StatComponent : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     public event Action<StatComponent, IStatModifier> OnStatChange;
     [SerializeField] private SO_StatContainer baseStats;
     public float health { get; private set; }
@@ -25,6 +27,38 @@ public class StatComponent : MonoBehaviour
         if (baseStats != null)
         {
             InitStats();
+        }
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                       "] with root object [" + gameObject.transform.root.name + "] for StatComponent.cs");
+            }
+        }
+    }
+
+    private void Start()
+    {
+        LocalEventBinding<OnWeaponEquippedEvent> weaponEquippedBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
+        localEventHandler.Register(weaponEquippedBinding);
+    }
+
+    private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
+    {
+        // Get difference in stats (between equipped and unequipped) and then modify.
+        List<IStatModifier> diffStats = new List<IStatModifier>();
+
+        if (e.unequipped == null)
+        {
+            ModifyStats(e.equipped.itemStatComponent.statModifiers, true);
+        } else
+        {
+            // Unequip and then equip.
+            ModifyStats(e.unequipped.itemStatComponent.statModifiers, false);
+            ModifyStats(e.equipped.itemStatComponent.statModifiers, true);
         }
     }
 
@@ -55,6 +89,24 @@ public class StatComponent : MonoBehaviour
                 break;
         }
         OnStatChange?.Invoke(this, statModifier);
+    }
+
+    /// <summary>
+    /// Modify stats by adding or subtracting from the current stats.
+    /// </summary>
+    /// <param name="statModifiers"></param>
+    /// <param name="isAddition"> when true, stat modifiers are added. when false, stat modifiers are subtractd.</param>
+    public void ModifyStats(List<IStatModifier> statModifiers, bool isAddition)
+    {
+        foreach(IStatModifier statModifier in statModifiers)
+        {
+            IStatModifier statMod = statModifier;
+            if (!isAddition)
+            {
+                statMod = new IStatModifier(statMod.Stat, -statMod.Value);
+            }
+            ModifyStat(statMod);
+        }
     }
 
     public float GetCurStat(Stat stat)

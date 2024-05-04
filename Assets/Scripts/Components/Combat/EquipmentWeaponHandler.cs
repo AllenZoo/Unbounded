@@ -77,7 +77,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         SO_Weapon_Item weapon = item.data as SO_Weapon_Item;
         attacker.SetAttackerData(weapon.itemAttackComponent.attackerData);
 
-        localEventHandler.Call(new OnWeaponEquipped { equipped = weapon, unequipped = previousWeapon });
+        localEventHandler.Call(new OnWeaponEquippedEvent { equipped = weapon, unequipped = previousWeapon });
         previousWeapon = weapon;
 
         //// Clear all stat current stat modifiers.

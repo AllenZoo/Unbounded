@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ef4a92674145a545a5d2b7a3e243cc9, type: 3}
-  m_Name: Upgrade_System_Weapon
+  m_Script: {fileID: 11500000, guid: e11f5e94aaa69cc4495da169ccb7b635, type: 3}
+  m_Name: UpgradeSlotCondition
   m_EditorClassIdentifier: 
-  slots: 1
-  items:
-  - data: {fileID: 0}
-    quantity: 0
+  conditionTypes: 01000000

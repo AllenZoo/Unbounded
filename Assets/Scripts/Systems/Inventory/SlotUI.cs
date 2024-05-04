@@ -30,6 +30,13 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     [SerializeField] private TextMeshProUGUI quantityText;
 
+    [Header("Slot params")]
+    [Tooltip("Is this slot draggable?")]
+    [SerializeField] private bool isDraggable = true;
+
+    [Tooltip("Can we drop items onto this slot?")]
+    [SerializeField] private bool isDroppable = true;
+
     [Header("Hover params")]
     [Tooltip("Delay before item description is shown.")]
     [SerializeField] private float hoverDelay = 0.5f; // Adjust the delay time as needed
@@ -111,6 +118,11 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             return;
         }
 
+        if (!isDraggable)
+        {
+            return;
+        }
+
         OnDragItem?.Invoke(parentSystem, this, eventData.button);
     }
 
@@ -127,6 +139,10 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnDrop(PointerEventData eventData)
     {
         // Debug.Log("Mouse released over slot index: " + slotIndex);
+        if (!isDroppable)
+        {
+            return;
+        }
         OnDropItem?.Invoke(parentSystem, this);
     }
 
