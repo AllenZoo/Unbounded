@@ -57,12 +57,22 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
 
     private void HandleItemComponents(List<IItemComponent> itemComponents)
     {
+        // TODO: eventually refactor this behaviour
         foreach (var component in itemComponents)
         {
             if (component is ItemStatComponent)
             {
                 ItemStatComponent itemStatComponent = (ItemStatComponent)component;
                 foreach (IStatModifier statModifier in itemStatComponent.statModifiers)
+                {
+                    itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
+                }
+            }
+
+            if (component is ItemUpgradeComponent)
+            {
+                ItemUpgradeComponent itemUpgradeComponent = (ItemUpgradeComponent)component;
+                foreach (IStatModifier statModifier in itemUpgradeComponent.upgradeStatModifiers)
                 {
                     itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
                 }

@@ -9,14 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac225974a231d0949a60d50773eaf327, type: 3}
-  m_Name: SwordMat
+  m_Script: {fileID: 11500000, guid: ef24c242eeda72d4e867f620ca43dbd2, type: 3}
+  m_Name: AttackStoneT1
   m_EditorClassIdentifier: 
-  itemName: Sword Material T1
+  itemName: Attack Stone T1
   itemSprite: {fileID: -395730778, guid: 8f56a7b40f2572143b0b823b37fbb1cb, type: 3}
   spriteRot: 0
-  quantity: 8
   isStackable: 1
-  description: Used to upgrade your sword.
-  statModifiers: []
-  weaponItem: {fileID: 0}
+  description: Used to permanently enhance the stat of your weapon!
+  itemUpgradeComponent:
+    upgradeStatModifiers:
+    - value: 1
+      stat: 3
+  itemValueComponent:
+    goldValue: 3
