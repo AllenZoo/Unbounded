@@ -71,6 +71,7 @@ public class Inventory
             return -1;
         }
 
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
         return 1;
     }
@@ -78,6 +79,7 @@ public class Inventory
     public void RemoveItem(int index)
     {
         data.items[index] = null;
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
     }
 
@@ -92,6 +94,7 @@ public class Inventory
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
         data.InvokeOnDataChange();
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
     }
 
@@ -147,6 +150,7 @@ public class Inventory
         int secondHalfQuantity = Mathf.FloorToInt(totalQuantity / 2f);
 
         data.items[index] = new Item(originalItem.data, firstHalfQuantity);
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
 
         Item secondHalf = new Item(originalItem.data, secondHalfQuantity);

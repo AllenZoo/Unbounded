@@ -38,6 +38,11 @@ public struct OnPlayerExitRoom: IGlobalEvent
     public Collider2D roomBoundary;
 }
 
+public struct OnInventoryModifiedEvent : IGlobalEvent
+{
+    
+}
+
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)

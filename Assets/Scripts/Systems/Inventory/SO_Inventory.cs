@@ -30,7 +30,24 @@ public class SO_Inventory : ScriptableObject
 
     public void InvokeOnDataChange()
     {
+        //EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataChange?.Invoke();
+    }
+
+    /// <summary>
+    /// Returns the number of items (non null) in the inventory.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEmpty()
+    {
+        foreach (Item item in items)
+        {
+            if (!item.IsEmpty())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

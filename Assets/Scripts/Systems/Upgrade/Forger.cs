@@ -6,18 +6,24 @@ using UnityEngine;
 public interface IForger
 {
     /// <summary>
-    /// Forges upgrades on the given weapon using the given stones. Returns the upgraded weapon.
+    /// Forges upgrades on the given equipment using the given stones. Returns the upgraded equipment.
     /// </summary>
     /// <param name="stones"></param>
-    /// <param name="weapon"></param>
+    /// <param name="equipment"></param>
     /// <returns></returns>
-    public Item Forge(List<Item> stones, Item weapon);
+    public Item Forge(List<Item> stones, Item equipment);
 }
 public class Forger : IForger
 {
 
-    public Item Forge(List<Item> stones, Item weapon)
+    public Forger()
     {
-        return weapon;
+    }
+
+    public Item Forge(List<Item> stones, Item equipment)
+    {
+        
+
+        return equipment;
     }
 }
