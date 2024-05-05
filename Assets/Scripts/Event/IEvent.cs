@@ -89,7 +89,7 @@ public struct OnKnockBackEndEvent: ILocalEvent { }
 public struct OnStatChangeEvent: ILocalEvent
 {
     public StatComponent statComponent;
-    public IStatModifier statModifier;
+    public StatModifier statModifier;
 }
 
 public struct OnSpawnEvent: ILocalEvent

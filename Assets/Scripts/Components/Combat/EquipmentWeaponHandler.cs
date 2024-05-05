@@ -22,14 +22,14 @@ public class EquipmentWeaponHandler : MonoBehaviour
     private Attacker attacker;
     private SO_Weapon_Item previousWeapon;
 
-    private List<IStatModifier> curAppliedStats;
+    private List<StatModifier> curAppliedStats;
 
     private void Awake()
     {
         // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attacker = GetComponent<Attacker>();
-        curAppliedStats = new List<IStatModifier>();
+        curAppliedStats = new List<StatModifier>();
 
         if (localEventHandler == null)
         {
@@ -98,9 +98,9 @@ public class EquipmentWeaponHandler : MonoBehaviour
         if (curAppliedStats != null)
         {
             // Remove all applied stat modifiers.
-            foreach (IStatModifier statMod in curAppliedStats)
+            foreach (StatModifier statMod in curAppliedStats)
             {
-                IStatModifier clearStat = new IStatModifier(statMod.Stat, -statMod.Value);
+                StatModifier clearStat = new StatModifier(statMod.Stat, -statMod.Value);
                 stat.ModifyStat(clearStat);
             }
         }
@@ -112,7 +112,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         if (curAppliedStats != null)
         {
             // Remove all applied stat modifiers.
-            foreach (IStatModifier statMod in curAppliedStats)
+            foreach (StatModifier statMod in curAppliedStats)
             {
                 stat.ModifyStat(statMod);
             }

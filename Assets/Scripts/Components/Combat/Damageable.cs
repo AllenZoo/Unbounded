@@ -63,7 +63,7 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        stat.ModifyStat(new IStatModifier(Stat.HP, -calculatedDamage));
+        stat.ModifyStat(new StatModifier(Stat.HP, -calculatedDamage));
 
         if (stat.GetCurStat(Stat.HP) <= 0)
         {

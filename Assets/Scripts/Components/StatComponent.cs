@@ -7,7 +7,7 @@ public class StatComponent : MonoBehaviour
 {
     [SerializeField] private LocalEventHandler localEventHandler;
 
-    public event Action<StatComponent, IStatModifier> OnStatChange;
+    public event Action<StatComponent, StatModifier> OnStatChange;
     [SerializeField] private SO_StatContainer baseStats;
     public float health { get; private set; }
     public float maxHealth { get; private set; }
@@ -49,7 +49,7 @@ public class StatComponent : MonoBehaviour
     private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
     {
         // Get difference in stats (between equipped and unequipped) and then modify.
-        List<IStatModifier> diffStats = new List<IStatModifier>();
+        List<StatModifier> diffStats = new List<StatModifier>();
 
         if (e.unequipped == null)
         {
@@ -62,7 +62,7 @@ public class StatComponent : MonoBehaviour
         }
     }
 
-    public void ModifyStat(IStatModifier statModifier)
+    public void ModifyStat(StatModifier statModifier)
     {
         switch(statModifier.Stat)
         {
@@ -96,14 +96,14 @@ public class StatComponent : MonoBehaviour
     /// </summary>
     /// <param name="statModifiers"></param>
     /// <param name="isAddition"> when true, stat modifiers are added. when false, stat modifiers are subtractd.</param>
-    public void ModifyStats(List<IStatModifier> statModifiers, bool isAddition)
+    public void ModifyStats(List<StatModifier> statModifiers, bool isAddition)
     {
-        foreach(IStatModifier statModifier in statModifiers)
+        foreach(StatModifier statModifier in statModifiers)
         {
-            IStatModifier statMod = statModifier;
+            StatModifier statMod = statModifier;
             if (!isAddition)
             {
-                statMod = new IStatModifier(statMod.Stat, -statMod.Value);
+                statMod = new StatModifier(statMod.Stat, -statMod.Value);
             }
             ModifyStat(statMod);
         }

@@ -13,7 +13,7 @@ public class PhaseStatBuffer : MonoBehaviour
     [SerializeField] private PhaseManager phaseManager;
 
     [SerializedDictionary]
-    [SerializeField] private SerializedDictionary<int, List<IStatModifier>> phaseBuffsMapper;
+    [SerializeField] private SerializedDictionary<int, List<StatModifier>> phaseBuffsMapper;
 
     [SerializeField] private StatComponent stats;
 
@@ -48,7 +48,7 @@ public class PhaseStatBuffer : MonoBehaviour
     }
 
     // TODO: handle this logic somewhere else?
-    private void OnStatChange(StatComponent sc, IStatModifier stat)
+    private void OnStatChange(StatComponent sc, StatModifier stat)
     {
         // Debug.Log("Cur health: " + sc.GetCurStat(Stat.HP) + " max health: " + sc.GetMaxStat(Stat.HP));
         if (sc.GetCurStat(Stat.HP) <= hpThresholdForRagePhase)
@@ -66,8 +66,8 @@ public class PhaseStatBuffer : MonoBehaviour
             return;
         }
 
-        List<IStatModifier> buffs = phaseBuffsMapper[phase];
-        foreach (IStatModifier buff in buffs)
+        List<StatModifier> buffs = phaseBuffsMapper[phase];
+        foreach (StatModifier buff in buffs)
         {
             stats.ModifyStat(buff);
         }
@@ -81,10 +81,10 @@ public class PhaseStatBuffer : MonoBehaviour
             return;
         }
 
-        List<IStatModifier> buffs = phaseBuffsMapper[phase];
-        foreach (IStatModifier buff in buffs)
+        List<StatModifier> buffs = phaseBuffsMapper[phase];
+        foreach (StatModifier buff in buffs)
         {
-            stats.ModifyStat(new IStatModifier(buff.Stat, -buff.Value));
+            stats.ModifyStat(new StatModifier(buff.Stat, -buff.Value));
         }
     }
 }

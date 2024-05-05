@@ -29,7 +29,7 @@ public class BarController : MonoBehaviour
         statObject.OnStatChange += OnStatChange;
         Render();
     }
-    private void OnStatChange(StatComponent statComponent, IStatModifier statModifier)
+    private void OnStatChange(StatComponent statComponent, StatModifier statModifier)
     {
         // Update the bar to reflect the new stat
         Render();
