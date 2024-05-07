@@ -6,39 +6,72 @@ using UnityEngine.UI;
 
 public class BarController : MonoBehaviour
 {
+    [Tooltip("The local event handler belonging to the entity whose stats we are tracking")]
+    [SerializeField] public LocalEventHandler localEventHandler;
     [SerializeField] private StatComponent statObject;
-    [SerializeField] private Stat statToTrack;
+
+    [SerializeField] private BarTrackStat statToTrack;
     [SerializeField] private Image fillImage;
 
     private void Awake()
     {
         Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
         // Assert.IsNotNull(statObject, "Bar controller needs a stat object");
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = statObject.localEventHandler;
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                    "] with root object [" + gameObject.transform.root.name + "] for StatComponent.cs");
+            }
+        }
+
+        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
+        localEventHandler.Register(statModResBinding);
     }
 
     private void Start()
     {
-        statObject.OnStatChange += OnStatChange;
         Render();
     }
 
-    public void Set(StatComponent statObject, Stat statToTrack)
+    public void Set(LocalEventHandler eventHandler, StatComponent statObject, BarTrackStat statToTrack)
     {
         this.statObject = statObject;
         this.statToTrack = statToTrack;
-        statObject.OnStatChange += OnStatChange;
+        this.localEventHandler = eventHandler;
         Render();
     }
-    private void OnStatChange(StatComponent statComponent, StatModifier statModifier)
+    private void OnStatChange(OnStatChangeEvent e)
     {
         // Update the bar to reflect the new stat
+        statObject = e.statComponent;
         Render();
     }
 
     private void Render()
     {
-        fillImage.fillAmount = statObject.GetStatValue(statToTrack) / statObject.GetStatValue(statToTrack);
+        switch (statToTrack)
+        {
+            case BarTrackStat.HP:
+                fillImage.fillAmount = statObject.health / statObject.maxHealth;
+                break;
+            case BarTrackStat.MP:
+                fillImage.fillAmount = statObject.mana / statObject.maxMana;
+                break;
+            case BarTrackStat.Stamina:
+                fillImage.fillAmount = statObject.stamina / statObject.maxStamina;
+                break;
+        }
+        
     }
+}
 
-
+public enum BarTrackStat
+{
+    HP,
+    MP,
+    Stamina
 }

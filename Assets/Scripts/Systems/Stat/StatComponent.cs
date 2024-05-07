@@ -6,11 +6,10 @@ using UnityEngine;
 
 public class StatComponent : MonoBehaviour
 {
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [SerializeField] public LocalEventHandler localEventHandler;
 
     // TODO: eventually remove this.
-    public event Action<StatComponent, StatModifier> OnStatChange;
-
+    // public event Action<StatComponent, StatModifier> OnStatChange;
 
     [SerializeField] private SO_StatContainer baseStats;
 
@@ -112,10 +111,6 @@ public class StatComponent : MonoBehaviour
     {
         Debug.Assert(baseStats != null, 
             "Forgot to drag a scriptable stat container to object: " + gameObject.name);
-        if (baseStats != null)
-        {
-            InitStats();
-        }
 
         if (localEventHandler == null)
         {
@@ -126,11 +121,17 @@ public class StatComponent : MonoBehaviour
                                        "] with root object [" + gameObject.transform.root.name + "] for StatComponent.cs");
             }
         }
-        statMediator = new StatMediator(localEventHandler);
+        statMediator = new StatMediator(localEventHandler, this);
 
         // This binding is made in Awake, since a Call to OnWeaponEquippedEvent happens in Start in EquipmentWeaponHandler
         LocalEventBinding<OnWeaponEquippedEvent> weaponEquippedBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
         localEventHandler.Register(weaponEquippedBinding);
+
+        LocalEventBinding<OnDamagedEvent> damageBinding = new LocalEventBinding<OnDamagedEvent>(HandleDamage);
+        localEventHandler.Register(damageBinding);
+
+        LocalEventBinding<OnStatBuffEvent> buffBinding = new LocalEventBinding<OnStatBuffEvent>(HandleBuff);
+        localEventHandler.Register(buffBinding);
     }
 
     private void Start()
@@ -196,18 +197,16 @@ public class StatComponent : MonoBehaviour
             });
         }
     }
-
-    private void InitStats()
+    
+    private void HandleDamage(OnDamagedEvent e)
     {
-        health = baseStats.health;
-        maxHealth = baseStats.maxHealth;
-        mana = baseStats.mana;
-        maxMana = baseStats.maxMana;
-        attack = baseStats.attack;
-        defense = baseStats.defense;
-        speed = baseStats.speed;
-        gold = 0;
-        OnStatChange?.Invoke(this, null);
+        StatModifier damageModifier = new StatModifier(Stat.HP, new AddOperation(-e.damage), -1);
+        statMediator.AddModifier(damageModifier);
+    }
+
+    private void HandleBuff(OnStatBuffEvent e)
+    {
+        statMediator.AddModifier(e.buff);
     }
 
     private void Update()

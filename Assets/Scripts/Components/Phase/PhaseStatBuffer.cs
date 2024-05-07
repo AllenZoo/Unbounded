@@ -33,16 +33,19 @@ public class PhaseStatBuffer : MonoBehaviour
             {
                 Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
                                        "] with root object [" + gameObject.transform.root.name + "] for PhaseStatBuffer.cs");
+                return;
             }
         }
+
+        // Should be fine to register in Awake since localEventHandler will be guranteed to be not null at this point. (or throw error).
+        LocalEventBinding<OnStatChangeEvent> onStatBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
+        localEventHandler.Register(onStatBinding);
     }
 
     private void Start()
     {
         phaseManager.OnPhaseChange += OnPhaseChange;
-        ApplyPhaseBuff(phaseManager.Phase);
-
-        stats.OnStatChange += OnStatChange;
+        ApplyPhaseBuff(phaseManager.Phase);        
     }
 
     private void OnPhaseChange(int oldPhase, int phase)
@@ -60,10 +63,10 @@ public class PhaseStatBuffer : MonoBehaviour
     }
 
     // TODO: handle this logic somewhere else?
-    private void OnStatChange(StatComponent sc, StatModifier stat)
+    private void OnStatChange(OnStatChangeEvent e)
     {
         // Debug.Log("Cur health: " + sc.GetCurStat(Stat.HP) + " max health: " + sc.GetMaxStat(Stat.HP));
-        if (sc.health <= hpThresholdForRagePhase)
+        if (e.statComponent.health <= hpThresholdForRagePhase)
         {
             // Debug.Log("Triggering rage phase");
             phaseManager.TriggerRagePhase();
@@ -81,7 +84,7 @@ public class PhaseStatBuffer : MonoBehaviour
         foreach (IStatModifierContainer buff in phaseBuffsMapper[phase])
         {
             StatModifier statModifier = buff.GetModifier();
-            localEventHandler.Call(new AddStatModifierRequest { statModifier = statModifier });
+            localEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
         }
     }
 

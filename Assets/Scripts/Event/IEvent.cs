@@ -114,13 +114,7 @@ public struct OnWeaponEquippedEvent : ILocalEvent
     public SO_Weapon_Item unequipped;
 }
 
-public struct AddStatModifierRequest: ILocalEvent
+public struct OnStatBuffEvent: ILocalEvent
 {
-    public StatModifier statModifier;
-}
-
-public struct AddStatModifierResponse: ILocalEvent
-{
-    public StatModifier statModifier;
-    public bool success;
+    public StatModifier buff;
 }

@@ -9,10 +9,10 @@ using UnityEngine.Events;
 public class Damageable : MonoBehaviour
 {
     [SerializeField] private LocalEventHandler localEventHandler;
+    [SerializeField] private StatComponent stat;
 
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
-    [SerializeField] private StatComponent stat;
 
     // Refers to dot attacks that the Damageable is currently taking damage from.
     public EntityType EntityType { get { return entityType; } }
@@ -27,7 +27,7 @@ public class Damageable : MonoBehaviour
 
     private void Awake()
     {
-        Assert.IsNotNull(stat, "Damageable object needs a stat component to deal damage to");
+        Assert.IsNotNull(stat, "Damageable object needs a stat component to calculate final damage.");
         
         // Check that collider2d on object with this script is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
@@ -42,13 +42,11 @@ public class Damageable : MonoBehaviour
             {
                 Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
                     "] with root object [" + gameObject.transform.root.name + "] for Damageable.cs");
+                return;
             }
         }
-    }
 
-    private void Start()
-    {
-        LocalEventBinding<AddStatModifierResponse> statModResBinding = new LocalEventBinding<AddStatModifierResponse>(CheckDeath);
+        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(CheckDeath);
         localEventHandler.Register(statModResBinding);
     }
 
@@ -69,11 +67,6 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        StatModifier modifier = new StatModifier(Stat.HP, new AddOperation(-calculatedDamage), -1);
-
-        // TODO: instead of making an AddStatModifierRequest, simply make StatComponent subscribte to OnDamage and then add the modifier there.
-        // TODO: also need to make sure that this class subscribes to ONStatChange to check for death.
-        localEventHandler.Call(new AddStatModifierRequest { statModifier = modifier });
         localEventHandler.Call(new OnDamagedEvent { damage = calculatedDamage });
     }
 
@@ -118,10 +111,9 @@ public class Damageable : MonoBehaviour
         return damageTaken;
     }
 
-    private void CheckDeath(AddStatModifierResponse r)
+    private void CheckDeath(OnStatChangeEvent e)
     {
-        Debug.Log("Checking Death, HP: " + stat.health);
-        if (stat.health <= 0)
+        if (e.statComponent.health <= 0)
         {
             localEventHandler.Call(new OnDeathEvent { });
             // Disable hittable so it can't be hit anymore.

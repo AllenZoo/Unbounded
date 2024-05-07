@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 /// <summary>
@@ -10,16 +9,15 @@ using UnityEngine;
 public class StatMediator
 {
     private LocalEventHandler localEventHander;
+    private StatComponent stat;
     private List<StatModifier> modifiers = new List<StatModifier>();
     private Dictionary<Stat, IEnumerable<StatModifier>> modifiersCache = new Dictionary<Stat, IEnumerable<StatModifier>>();
     private IStatModifierApplicationOrder order = new NormalStatModifierOrder();
 
-    public StatMediator(LocalEventHandler localEventHander)
+    public StatMediator(LocalEventHandler localEventHander, StatComponent stat)
     {
         this.localEventHander = localEventHander;
-
-        LocalEventBinding<AddStatModifierRequest> reqBinding = new LocalEventBinding<AddStatModifierRequest>(OnAddStatModifierRequest);
-        localEventHander.Register(reqBinding);
+        this.stat = stat;
     }
 
     public void CalculateFinalStat(StatQuery query)
@@ -42,7 +40,7 @@ public class StatMediator
         modifier.OnDispose += (modifier) => InvalidateCache(modifier.Stat);
         modifier.OnDispose += (modifier) => modifiers.Remove(modifier);
 
-        localEventHander.Call(new AddStatModifierResponse { statModifier = modifier, success = true });
+        localEventHander.Call(new OnStatChangeEvent { statComponent = stat, statModifier = modifier });
     }
     public void RemoveModifier(StatModifier modifier)
     {
@@ -65,12 +63,6 @@ public class StatMediator
             modifier.Dispose();
         }
     }
-
-    private void OnAddStatModifierRequest(AddStatModifierRequest request)
-    {
-        AddModifier(request.statModifier);
-    }
-
 }
 
 /// <summary>

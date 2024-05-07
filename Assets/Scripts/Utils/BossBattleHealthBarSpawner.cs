@@ -26,10 +26,10 @@ public class BossBattleHealthBarSpawner : MonoBehaviour
 
     private void Start()
     {
+        bossHealthBarController = CanvasSingleton.Instance.bossBarController;
+
         LocalEventBinding<OnAggroStatusChangeEvent> aggroChangeBinding = new LocalEventBinding<OnAggroStatusChangeEvent>(OnAggroStatusChange);
         localEventHandler.Register(aggroChangeBinding);
-
-        bossHealthBarController = CanvasSingleton.Instance.bossBarController;
     }
 
     private void OnAggroStatusChange(OnAggroStatusChangeEvent e)
@@ -38,7 +38,7 @@ public class BossBattleHealthBarSpawner : MonoBehaviour
 
         if (bossHealthBarController.gameObject.activeSelf)
         {
-            bossHealthBarController.Set(stats, Stat.HP);
+            bossHealthBarController.Set(localEventHandler, stats, BarTrackStat.HP);
         }
     }
 }

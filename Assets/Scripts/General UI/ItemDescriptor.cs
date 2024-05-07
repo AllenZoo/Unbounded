@@ -16,7 +16,6 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
     
     private new void Awake()
     {
-        Debug.Log("Run (ItemDescriptor)");
         base.Awake();
         Assert.IsNotNull(itemTextName, "Item descriptor needs a reference to a TextMeshProUGUI to display" +
             "item name.");
