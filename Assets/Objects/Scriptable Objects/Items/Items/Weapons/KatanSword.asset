@@ -19,7 +19,5 @@ MonoBehaviour:
   description: Sword that belonged to a fierce warrior, no longer.
   itemAttackComponent:
     attackerData: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
-  itemStatComponent:
-    statModifiers:
-    - value: 3
-      stat: 3
+  baseStats:
+    statModifiers: []

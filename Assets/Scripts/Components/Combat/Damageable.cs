@@ -46,6 +46,12 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LocalEventBinding<AddStatModifierResponse> statModResBinding = new LocalEventBinding<AddStatModifierResponse>(CheckDeath);
+        localEventHandler.Register(statModResBinding);
+    }
+
     // Damage needs to be > 0
     public void TakeDamage(float damage)
     {
@@ -63,14 +69,11 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        stat.ModifyStat(new StatModifier(Stat.HP, -calculatedDamage));
+        StatModifier modifier = new StatModifier(Stat.HP, new AddOperation(-calculatedDamage), -1);
 
-        if (stat.GetCurStat(Stat.HP) <= 0)
-        {
-            localEventHandler.Call(new OnDeathEvent { });
-            // Disable hittable so it can't be hit anymore.
-            isHittable = false;
-        }
+        // TODO: instead of making an AddStatModifierRequest, simply make StatComponent subscribte to OnDamage and then add the modifier there.
+        // TODO: also need to make sure that this class subscribes to ONStatChange to check for death.
+        localEventHandler.Call(new AddStatModifierRequest { statModifier = modifier });
         localEventHandler.Call(new OnDamagedEvent { damage = calculatedDamage });
     }
 
@@ -105,7 +108,7 @@ public class Damageable : MonoBehaviour
         float growthScale = 8f;
 
         // Make damage reduction grow at a logarithmic rate. (This function looks good on desmos)
-        float damageReduction = Mathf.Log10(stat.GetCurStat(Stat.DEF)/growthScale + 1f) / 2f;
+        float damageReduction = Mathf.Log10(stat.defense/growthScale + 1f) / 2f;
 
         float damageTaken = damage * (1f - damageReduction);
 
@@ -113,5 +116,16 @@ public class Damageable : MonoBehaviour
         damageTaken = Mathf.Floor(damageTaken);
 
         return damageTaken;
+    }
+
+    private void CheckDeath(AddStatModifierResponse r)
+    {
+        Debug.Log("Checking Death, HP: " + stat.health);
+        if (stat.health <= 0)
+        {
+            localEventHandler.Call(new OnDeathEvent { });
+            // Disable hittable so it can't be hit anymore.
+            isHittable = false;
+        }
     }
 }

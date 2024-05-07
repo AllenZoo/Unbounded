@@ -120,7 +120,7 @@ public class Attacker : MonoBehaviour
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
 
             Attack newAttack = AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj.gameObject);
-            newAttack.attackerATKStat = statComponent.GetCurStat(Stat.ATK);
+            newAttack.attackerATKStat = statComponent.attack;
         }
 
         StartCoroutine(AttackCooldown());

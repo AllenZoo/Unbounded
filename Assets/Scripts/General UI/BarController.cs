@@ -37,7 +37,7 @@ public class BarController : MonoBehaviour
 
     private void Render()
     {
-        fillImage.fillAmount = statObject.GetCurStat(statToTrack) / statObject.GetMaxStat(statToTrack);
+        fillImage.fillAmount = statObject.GetStatValue(statToTrack) / statObject.GetStatValue(statToTrack);
     }
 
 

@@ -9,10 +9,15 @@ using UnityEngine;
 public class SO_Weapon_Item : SO_Item, IItemComponentContainer
 {
     public ItemAttackComponent itemAttackComponent;
+
+    [Tooltip("Stats from base item")]
     public ItemStatComponent itemStatComponent;
+
+    [Tooltip("Stats from upgrades")]
+    public ItemUpgradeComponent itemUpgradeComponent;
 
     public override List<IItemComponent> GetItemComponents()
     {
-        return new List<IItemComponent>() { itemAttackComponent, itemStatComponent};
+        return new List<IItemComponent>() { itemAttackComponent, itemStatComponent, itemUpgradeComponent};
     }
 }

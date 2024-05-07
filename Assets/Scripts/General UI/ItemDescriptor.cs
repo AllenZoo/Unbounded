@@ -51,7 +51,7 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
     private String StringifyStatModifier(StatModifier statModifier)
     {
         String statModifierString = "";
-        statModifierString += statModifier.Stat.ToString() + ": +" + statModifier.Value.ToString();
+        statModifierString += statModifier.Stat.ToString() + ": +" + statModifier.operation.GetValue().ToString();
         return statModifierString;
     }
 
@@ -63,18 +63,18 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
             if (component is ItemStatComponent)
             {
                 ItemStatComponent itemStatComponent = (ItemStatComponent)component;
-                foreach (StatModifier statModifier in itemStatComponent.statModifiers)
+                foreach (IStatModifierContainer container in itemStatComponent.statModifiers)
                 {
-                    itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
+                    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
                 }
             }
 
             if (component is ItemUpgradeComponent)
             {
                 ItemUpgradeComponent itemUpgradeComponent = (ItemUpgradeComponent)component;
-                foreach (StatModifier statModifier in itemUpgradeComponent.upgradeStatModifiers)
+                foreach (IStatModifierContainer container in itemUpgradeComponent.upgradeStatModifiers)
                 {
-                    itemTextStats.text += StringifyStatModifier(statModifier) + "\n";
+                    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
                 }
             }
         }

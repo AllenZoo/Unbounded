@@ -63,12 +63,14 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // If item is null, then we don't have a weapon equipped.
         if (item == null || item.IsEmpty())
         {
+            localEventHandler.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
+            previousWeapon = null;
             attacker.SetAttackerData((AttackerData) null);
             return;
         }
 
-        // Check if item is an item of type weapon.
-        if (!(item.data is SO_Weapon_Item w))
+        // Check if item is an item of type weapon. (if not null)
+        if (item != null && !(item.data is SO_Weapon_Item w))
         {
             // It's not. (This should never happen)
             Debug.LogError("Item in weapon slot is not a weapon item!");
@@ -79,43 +81,6 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
         localEventHandler.Call(new OnWeaponEquippedEvent { equipped = weapon, unequipped = previousWeapon });
         previousWeapon = weapon;
-
-        //// Clear all stat current stat modifiers.
-        //ClearStatModifiers();
-
-        //// Add all stat modifiers from weapon.
-        //foreach (IStatModifier statMod in weapon.data.statModifiers)
-        //{
-        //    curAppliedStats.Add(statMod);
-        //}
-
-        //// Apply all stat modifiers.
-        //ApplyStatModifiers();
     }
 
-    private void ClearStatModifiers()
-    {
-        if (curAppliedStats != null)
-        {
-            // Remove all applied stat modifiers.
-            foreach (StatModifier statMod in curAppliedStats)
-            {
-                StatModifier clearStat = new StatModifier(statMod.Stat, -statMod.Value);
-                stat.ModifyStat(clearStat);
-            }
-        }
-        curAppliedStats.Clear();
-    }
-
-    private void ApplyStatModifiers()
-    {
-        if (curAppliedStats != null)
-        {
-            // Remove all applied stat modifiers.
-            foreach (StatModifier statMod in curAppliedStats)
-            {
-                stat.ModifyStat(statMod);
-            }
-        }
-    }
 }

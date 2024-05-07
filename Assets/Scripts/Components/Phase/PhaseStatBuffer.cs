@@ -10,11 +10,14 @@ using UnityEngine.Assertions;
 // Meant to be modified with inspector.
 public class PhaseStatBuffer : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     [SerializeField] private PhaseManager phaseManager;
 
-    [SerializedDictionary]
-    [SerializeField] private SerializedDictionary<int, List<StatModifier>> phaseBuffsMapper;
+    [SerializedDictionary (keyName: "Phase #", valueName: "Buffs")]
+    [SerializeField] private SerializedDictionary<int, List<StatModifierContainer>> phaseBuffsMapper;
 
+    // TODO: eventually remove after refactoring StatComponent OnStatChange event.
     [SerializeField] private StatComponent stats;
 
     [SerializeField] private float hpThresholdForRagePhase = 100f;
@@ -23,6 +26,15 @@ public class PhaseStatBuffer : MonoBehaviour
     {
         Assert.IsNotNull(phaseManager, "Phase Stat Buffer requires Phase Manager");
 
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                       "] with root object [" + gameObject.transform.root.name + "] for PhaseStatBuffer.cs");
+            }
+        }
     }
 
     private void Start()
@@ -51,7 +63,7 @@ public class PhaseStatBuffer : MonoBehaviour
     private void OnStatChange(StatComponent sc, StatModifier stat)
     {
         // Debug.Log("Cur health: " + sc.GetCurStat(Stat.HP) + " max health: " + sc.GetMaxStat(Stat.HP));
-        if (sc.GetCurStat(Stat.HP) <= hpThresholdForRagePhase)
+        if (sc.health <= hpThresholdForRagePhase)
         {
             // Debug.Log("Triggering rage phase");
             phaseManager.TriggerRagePhase();
@@ -66,10 +78,10 @@ public class PhaseStatBuffer : MonoBehaviour
             return;
         }
 
-        List<StatModifier> buffs = phaseBuffsMapper[phase];
-        foreach (StatModifier buff in buffs)
+        foreach (IStatModifierContainer buff in phaseBuffsMapper[phase])
         {
-            stats.ModifyStat(buff);
+            StatModifier statModifier = buff.GetModifier();
+            localEventHandler.Call(new AddStatModifierRequest { statModifier = statModifier });
         }
     }
 
@@ -81,10 +93,10 @@ public class PhaseStatBuffer : MonoBehaviour
             return;
         }
 
-        List<StatModifier> buffs = phaseBuffsMapper[phase];
-        foreach (StatModifier buff in buffs)
+        foreach (IStatModifierContainer buff in phaseBuffsMapper[phase])
         {
-            stats.ModifyStat(new StatModifier(buff.Stat, -buff.Value));
+            StatModifier statModifier = buff.GetModifier();
+            statModifier.Dispose();
         }
     }
 }

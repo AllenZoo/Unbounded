@@ -89,7 +89,7 @@ public class ForgerSystem : MonoBehaviour
 
     public float GetCurMoney()
     {
-        return PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().GetCurStat(Stat.MONEY);
+        return PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold;
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class ForgerSystem : MonoBehaviour
     /// <returns>true if player has enough money.</returns>
     private bool CheckFunds(float cost)
     {
-        float curMoney = PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().GetCurStat(Stat.MONEY);
+        float curMoney = PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold;
         return curMoney >= cost;
     }
     

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public interface IEvent
@@ -111,4 +112,15 @@ public struct OnWeaponEquippedEvent : ILocalEvent
 {
     public SO_Weapon_Item equipped;
     public SO_Weapon_Item unequipped;
+}
+
+public struct AddStatModifierRequest: ILocalEvent
+{
+    public StatModifier statModifier;
+}
+
+public struct AddStatModifierResponse: ILocalEvent
+{
+    public StatModifier statModifier;
+    public bool success;
 }

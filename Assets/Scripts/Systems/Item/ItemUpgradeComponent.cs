@@ -6,5 +6,5 @@ using UnityEngine;
 [Serializable]
 public class ItemUpgradeComponent : IItemComponent
 {
-    public List<StatModifier> upgradeStatModifiers = new List<StatModifier>();
+    public List<StatModifierEquipment> upgradeStatModifiers = new List<StatModifierEquipment>();
 }

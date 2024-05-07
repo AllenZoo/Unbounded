@@ -21,5 +21,8 @@ MonoBehaviour:
     attackerData: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}
   itemStatComponent:
     statModifiers:
-    - value: 10
-      stat: 4
+    - OperationType: 0
+      Stat: 6
+      Value: 1
+  itemUpgradeComponent:
+    upgradeStatModifiers: []
