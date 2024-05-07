@@ -17,23 +17,14 @@ public class BarController : MonoBehaviour
     {
         Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
         // Assert.IsNotNull(statObject, "Bar controller needs a stat object");
-
-        if (localEventHandler == null)
-        {
-            localEventHandler = statObject.localEventHandler;
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                                    "] with root object [" + gameObject.transform.root.name + "] for StatComponent.cs");
-            }
-        }
-
-        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
-        localEventHandler.Register(statModResBinding);
     }
 
     private void Start()
     {
+        if (statObject != null)
+        {
+            Set(localEventHandler, statObject, statToTrack);
+        }
         Render();
     }
 
@@ -42,6 +33,10 @@ public class BarController : MonoBehaviour
         this.statObject = statObject;
         this.statToTrack = statToTrack;
         this.localEventHandler = eventHandler;
+
+        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
+        localEventHandler.Register(statModResBinding);
+
         Render();
     }
     private void OnStatChange(OnStatChangeEvent e)

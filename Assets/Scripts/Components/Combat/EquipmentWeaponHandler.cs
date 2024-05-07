@@ -69,16 +69,21 @@ public class EquipmentWeaponHandler : MonoBehaviour
             return;
         }
 
-        // Check if item is an item of type weapon. (if not null)
+        ItemAttackComponent attackComponent = item.data.GetItemComponents().Find(x => x is ItemAttackComponent) as ItemAttackComponent;
+        if (attackComponent != null)
+        {
+            attacker.SetAttackerData(attackComponent.attackerData);
+        }
+
+
+        // Redundant Check.
         if (item != null && !(item.data is SO_Weapon_Item w))
         {
             // It's not. (This should never happen)
             Debug.LogError("Item in weapon slot is not a weapon item!");
         }
-
         SO_Weapon_Item weapon = item.data as SO_Weapon_Item;
-        attacker.SetAttackerData(weapon.itemAttackComponent.attackerData);
-
+        
         localEventHandler.Call(new OnWeaponEquippedEvent { equipped = weapon, unequipped = previousWeapon });
         previousWeapon = weapon;
     }
