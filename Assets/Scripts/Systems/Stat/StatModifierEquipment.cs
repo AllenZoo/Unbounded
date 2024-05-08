@@ -24,6 +24,17 @@ public class StatModifierContainer : IStatModifierContainer
         }
         return modifier;
     }
+
+    public StatModifierContainer DeepCopy()
+    {
+        StatModifierContainer copy = new StatModifierContainer
+        {
+            OperationType = OperationType,
+            Stat = Stat,
+            Value = Value,
+        };
+        return copy;
+    }
 }
 
 [Serializable]
@@ -42,6 +53,17 @@ public class StatModifierEquipment : IStatModifierContainer
         }
 
         return modifier;
+    }
+
+    public StatModifierEquipment DeepCopy()
+    {
+        StatModifierEquipment copy = new StatModifierEquipment
+        {
+            OperationType = OperationType,
+            Stat = Stat,
+            Value = Value,
+        };
+        return copy;
     }
 }
 

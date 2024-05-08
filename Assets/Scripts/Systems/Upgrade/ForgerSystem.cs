@@ -17,12 +17,25 @@ public class ForgerSystem : MonoBehaviour
     private void Awake()
     {
         forger = new Forger();
+
+        EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(UpdatePreview);
     }
 
     /// <summary>
     /// Forges the equipment using the stones in the upgrade inventory. Consumes all stones in the upgrade inventory.
     /// </summary>
     public void Forge()
+    {
+        GetPreviewItem();
+
+        // Consume stones (set all items to be null)
+        upgradeInventory.items.ForEach(x => x = null);
+    }
+
+    /// <summary>
+    /// Creates the preview item and puts it in the preview inventory.
+    /// </summary>
+    private void GetPreviewItem()
     {
         // Components involved in forging
         List<Item> stones = upgradeInventory.items;
@@ -40,9 +53,7 @@ public class ForgerSystem : MonoBehaviour
 
         // Insert weapon into preview inventory.
         previewInventory.items[0] = forgedEquipment;
-
-        // Consume stones
-        upgradeInventory.items.Clear();
+        Debug.Log("Preview Inventory Item: " + previewInventory.items[0]);
     }
 
     /// <summary>
@@ -60,14 +71,8 @@ public class ForgerSystem : MonoBehaviour
                 continue;
             }
 
-            foreach (IItemComponent itemComp in item.data.GetItemComponents())
-            {
-                if (itemComp is ItemValueComponent)
-                {
-                    ItemValueComponent itemValueComponent = itemComp as ItemValueComponent;
-                    cost += itemValueComponent.goldValue * item.quantity;
-                }
-            }
+            ItemValueComponent itemValue = item.data.GetItemComponents().Find(x => x is ItemValueComponent) as ItemValueComponent;
+            cost += itemValue.goldValue * item.quantity;
         }
 
         return cost;
@@ -115,6 +120,13 @@ public class ForgerSystem : MonoBehaviour
     private bool CheckInventories()
     {
         return !upgradeInventory.IsEmpty() && !equipmentToForgeInventory.IsEmpty();
+    }
+
+    private void UpdatePreview(OnInventoryModifiedEvent e)
+    {
+        // Get forge item preview and insert preview item into preview inventory.
+        // Don't consume stones.
+        GetPreviewItem();
     }
 
 

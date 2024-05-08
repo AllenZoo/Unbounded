@@ -19,9 +19,11 @@ MonoBehaviour:
   description: Stone enhanced by a mighty warriors might.
   itemUpgradeComponent:
     upgradeStatModifiers:
-    - value: 10
-      stat: 0
-    - value: 1
-      stat: 3
+    - OperationType: 0
+      Stat: 6
+      Value: 1
+    - OperationType: 0
+      Stat: 8
+      Value: 1
   itemValueComponent:
     goldValue: 5

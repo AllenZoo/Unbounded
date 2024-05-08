@@ -7,5 +7,10 @@ using UnityEngine;
 public class ItemAttackComponent : IItemComponent
 {
     public SO_Attacker attackerData;
+
+    public ItemAttackComponent(SO_Attacker attackerData)
+    {
+        this.attackerData = attackerData;
+    }
 }
 
