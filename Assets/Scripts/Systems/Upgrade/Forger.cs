@@ -13,6 +13,8 @@ public interface IForger
     /// <param name="equipment"></param>
     /// <returns></returns>
     public Item Forge(List<Item> stones, Item equipment);
+
+    // TODO: change above function to have param of type List<UpgradeItem> and WeaponItem respectively.
 }
 public class Forger : IForger
 {

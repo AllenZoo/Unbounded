@@ -53,6 +53,4 @@ public abstract class SO_Item : ScriptableObject, IItemComponentContainer
             isStackable.GetHashCode(), 
             description.GetHashCode());
     }
-
-    
 }

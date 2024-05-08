@@ -13,7 +13,7 @@ public class StatComponent : MonoBehaviour
 
     [SerializeField] private SO_StatContainer baseStats;
 
-    private StatMediator statMediator;
+    public StatMediator statMediator;
 
     public float health
     {

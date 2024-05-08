@@ -14,18 +14,24 @@ public interface IItemComponent
 
 }
 
+
 [System.Serializable]
-public class Item
+public abstract class Item
 {
-    [SerializeField] public SO_Item data;
-    [SerializeField] public int quantity;
+    // SO_Item is persistent/init data.
+    // TODO: change logic here.
+    public SO_Item data;
+    public int quantity;
+    public IEquipItemBehaviour equipBehaviour;
+    public IUpgradeItemBehaviour upgradeBehaviour;
+    public IAttackItemBehaviour attackBehaviour;
 
-    public Item(SO_Item data, int quantity)
-    {
-        this.data = data;
-        this.quantity = quantity;
-    }
-
+    /// <summary>
+    /// Creates a deep copy of the item.
+    /// </summary>
+    /// <returns></returns>
+    public abstract Item Clone();
+    #region Utilities
     /// <summary>
     /// Check if the item is empty. If data is null or quantity is 0, the item is empty.
     /// </summary>
@@ -55,4 +61,18 @@ public class Item
     {
         return HashCode.Combine(data.GetHashCode(), quantity);
     }
+    #endregion
 }
+
+/// <summary>
+/// C# class that represents state of basic item data.
+/// </summary>
+public class BaseItemComponent
+{
+    public string itemName;
+    public Sprite itemSprite;
+    public float spriteRot;
+    public bool isStackable;
+    public string description;
+}
+
