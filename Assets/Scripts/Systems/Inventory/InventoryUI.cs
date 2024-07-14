@@ -44,6 +44,8 @@ public class InventoryUI : MonoBehaviour
         
         inventorySystem = GetComponent<InventorySystem>();
 
+        
+
         InitWhole();
     }
 
@@ -58,6 +60,9 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventorySystem.OnInventoryDataModified += Rerender;
+
+        EventBinding<OnInventoryModifiedEvent> inventoryChangeBinding = new EventBinding<OnInventoryModifiedEvent>(Rerender);
+        EventBus<OnInventoryModifiedEvent>.Register(inventoryChangeBinding);
         //inventorySystem.OnInventoryDataReset += SetInventoryData;
     }
 

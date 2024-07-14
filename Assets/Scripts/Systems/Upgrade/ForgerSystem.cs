@@ -19,6 +19,12 @@ public class ForgerSystem : MonoBehaviour
         forger = new Forger();
 
         EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(UpdatePreview);
+        EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
+    }
+
+    private void Start()
+    {
+        // upgradeInventory = InventorySystemStorage.Instance.GetSystem(InventoryType.)
     }
 
     /// <summary>
@@ -30,6 +36,9 @@ public class ForgerSystem : MonoBehaviour
 
         // Consume stones (set all items to be null)
         upgradeInventory.items.ForEach(x => x = null);
+
+        // Destroy equipment pre-forge
+        equipmentToForgeInventory.Set(0, null);
     }
 
     /// <summary>
@@ -40,6 +49,20 @@ public class ForgerSystem : MonoBehaviour
         // Components involved in forging
         List<Item> stones = upgradeInventory.items;
         Item equipment = equipmentToForgeInventory.items[0];
+        Item curPreviewItem = previewInventory.items[0];
+
+
+        bool equipmentIsNull = equipment == null || equipment.IsEmpty();
+        bool previewItemIsNull = curPreviewItem == null || curPreviewItem.IsEmpty();
+
+        if (equipmentIsNull && previewItemIsNull)
+        {
+            return;
+        } else if (equipmentIsNull)
+        {
+            previewInventory.Set(0, null);
+            return;
+        }
 
         //Check if we can forge
         if (!CheckForgeConditions(stones, equipment))
@@ -51,9 +74,20 @@ public class ForgerSystem : MonoBehaviour
         // Forge equipment
         Item forgedEquipment = forger.Forge(stones, equipment);
 
+        // TODO: fix
+        //forgedEquipment = equipment;
+         
+        curPreviewItem = previewInventory.items[0];
+        // Check if current preview item is the same. If it is, don't update.
+        if (curPreviewItem != null && curPreviewItem.Equals(forgedEquipment))
+        {
+            return;
+        }
+
         // Insert weapon into preview inventory.
-        previewInventory.items[0] = forgedEquipment;
-        Debug.Log("Preview Inventory Item: " + previewInventory.items[0]);
+        // This can cause stack overflow because we also subcribe to OnInventoryModifiedEvent which gets called here.
+        previewInventory.Set(0, forgedEquipment);
+        // Debug.Log("Preview Inventory Item: " + previewInventory.items[0].data);
     }
 
     /// <summary>
@@ -104,7 +138,8 @@ public class ForgerSystem : MonoBehaviour
     private bool CheckForgeConditions(List<Item> stones, Item equipment)
     {
         float cost = GetForgeCost(stones);
-        return CheckFunds(cost) && CheckInventories();
+        bool equipmentNotNull = equipment != null && !equipment.IsEmpty();
+        return CheckFunds(cost) && CheckInventories() && equipmentNotNull;
     }
 
     /// <summary>

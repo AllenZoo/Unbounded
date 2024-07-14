@@ -39,12 +39,16 @@ public class Forger : IForger
                 {
                     continue;
                 }
-
+                  
                 IItemComponent stoneUpgrade = stone.data.GetItemComponents().Find(x => x is ItemUpgradeComponent);
                 if (stoneUpgrade != null)
                 {
                     ItemUpgradeComponent stoneUpgradeComponent = stoneUpgrade as ItemUpgradeComponent;
-                    equipUpgrade.upgradeStatModifiers.AddRange(stoneUpgradeComponent.upgradeStatModifiers);
+
+                    for (int i = 0; i < stone.quantity; i++)
+                    {
+                        equipUpgrade.upgradeStatModifiers.AddRange(stoneUpgradeComponent.upgradeStatModifiers);
+                    }
                 }
             }
 

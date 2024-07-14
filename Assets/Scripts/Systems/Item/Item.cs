@@ -11,7 +11,7 @@ public interface IItemComponentContainer
 
 public interface IItemComponent
 {
-
+    
 }
 
 [System.Serializable]
@@ -48,7 +48,7 @@ public class Item
         }
 
         Item other = obj as Item;
-        return data == other.data && quantity == other.quantity;
+        return data.Equals(other.data) && quantity == other.quantity;
     }
 
     public override int GetHashCode()

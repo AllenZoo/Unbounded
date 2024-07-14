@@ -23,13 +23,34 @@ public class SO_Weapon_Item : SO_Item, IItemComponentContainer, IForgeable
 
     public override SO_Item Clone()
     {
-        var data = ScriptableObject.CreateInstance<SO_Weapon_Item>();
-        data.Init(itemName, itemSprite, spriteRot, isStackable, description);
-
+        SO_Weapon_Item data = ScriptableObject.CreateInstance<SO_Weapon_Item>();
+        data.InitBase(itemName, itemSprite, spriteRot, isStackable, description);
         data.itemAttackComponent = new ItemAttackComponent(itemAttackComponent.attackerData);
         data.itemStatComponent = new ItemStatComponent(itemStatComponent.statModifiers);
         data.itemUpgradeComponent = new ItemUpgradeComponent(itemUpgradeComponent.upgradeStatModifiers);
         return data;
+    }
+
+    public override bool Equals(object other)
+    {
+        Debug.Log("Called (SO_Weapon_Item) Equals");
+        if (other == null || GetType() != other.GetType())
+        {
+            return false;
+        }
+        SO_Weapon_Item o = other as SO_Weapon_Item;
+        return itemName == o.itemName &&
+            itemAttackComponent.Equals(o.itemAttackComponent) &&
+            itemStatComponent.Equals(o.itemStatComponent) &&
+            itemUpgradeComponent.Equals(o.itemUpgradeComponent);   
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(itemName.GetHashCode(),
+                       itemAttackComponent.GetHashCode(),
+                                  itemStatComponent.GetHashCode(),
+                                             itemUpgradeComponent.GetHashCode());
     }
 
     public override List<IItemComponent> GetItemComponents()

@@ -26,12 +26,27 @@ public class SO_Inventory : ScriptableObject
                 items.Add(null);
             }
         }
+
+        // Filter out any "missing" item slots
+        //foreach (var item in items)
+        //{
+        //    if (item.data == null)
+        //    {
+        //        item.data = null;
+        //    }
+        //}
     }
 
     public void InvokeOnDataChange()
     {
-        //EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataChange?.Invoke();
+    }
+
+    public void Set(int index, Item item)
+    {
+        items[index] = item;
+        InvokeOnDataChange();
     }
 
     /// <summary>
@@ -42,7 +57,7 @@ public class SO_Inventory : ScriptableObject
     {
         foreach (Item item in items)
         {
-            if (!item.IsEmpty())
+            if (item != null && !item.IsEmpty())
             {
                 return false;
             }

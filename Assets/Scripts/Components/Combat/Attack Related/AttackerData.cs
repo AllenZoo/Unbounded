@@ -53,4 +53,19 @@ public class AttackerData
         copy.cooldown = this.cooldown;
         return copy;
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+        AttackerData other = obj as AttackerData;
+        return attackObj == other.attackObj && numAttacks == other.numAttacks && angleOffset == other.angleOffset && cooldown == other.cooldown;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(attackObj, numAttacks, angleOffset, cooldown);
+    }
 }

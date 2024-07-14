@@ -65,6 +65,21 @@ public class StatModifierEquipment : IStatModifierContainer
         };
         return copy;
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+        StatModifierEquipment other = obj as StatModifierEquipment;
+        return OperationType == other.OperationType && Stat == other.Stat && Value == other.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(OperationType.GetHashCode(), Stat.GetHashCode(), Value.GetHashCode());
+    }
 }
 
 public enum OperationType

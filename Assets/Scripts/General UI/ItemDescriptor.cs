@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -47,12 +49,34 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         }
     }
 
-    private String StringifyStatModifier(StatModifier statModifier)
+    private String StringifyStatModifierList(List<StatModifierEquipment> list)
     {
+        HashSet<Stat> visitedStats = new HashSet<Stat>();
+        List<StatModifier> converted = list.Select(mod => mod.GetModifier()).ToList();
+        IStatModifierApplicationOrder order = new NormalStatModifierOrder();
+
         String statModifierString = "";
-        statModifierString += statModifier.Stat.ToString() + ": +" + statModifier.operation.GetValue().ToString();
+
+        while (converted.Count > 0)
+        {
+            Stat statToQuery = converted[0].Stat;
+            StatQuery statQuery = new StatQuery(statToQuery, 0);
+            StatMediator.CalculateFinalStat(converted, statQuery, order);
+
+            visitedStats.Add(statToQuery);
+            converted.RemoveAll(mod => (visitedStats.Contains(mod.Stat)));
+
+            if (statQuery.Value <= 0)
+            {
+                continue;
+            }
+
+            statModifierString += statQuery.Stat.ToString() + ": +" + statQuery.Value.ToString() + "\n";
+        }
+
         return statModifierString;
     }
+
 
     private void HandleItemComponents(List<IItemComponent> itemComponents)
     {
@@ -61,20 +85,23 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         {
             if (component is ItemStatComponent)
             {
-                ItemStatComponent itemStatComponent = (ItemStatComponent)component;
-                foreach (IStatModifierContainer container in itemStatComponent.statModifiers)
-                {
-                    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
-                }
+                ItemStatComponent itemStatComponent = (ItemStatComponent) component;
+                itemTextStats.text += StringifyStatModifierList(itemStatComponent.statModifiers);
+
+                //foreach (IStatModifierContainer container in itemStatComponent.statModifiers)
+                //{
+                //    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
+                //}
             }
 
             if (component is ItemUpgradeComponent)
             {
-                ItemUpgradeComponent itemUpgradeComponent = (ItemUpgradeComponent)component;
-                foreach (IStatModifierContainer container in itemUpgradeComponent.upgradeStatModifiers)
-                {
-                    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
-                }
+                ItemUpgradeComponent itemUpgradeComponent = (ItemUpgradeComponent) component;
+                itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
+                //foreach (IStatModifierContainer container in itemUpgradeComponent.upgradeStatModifiers)
+                //{
+                //    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
+                //}
             }
         }
     }

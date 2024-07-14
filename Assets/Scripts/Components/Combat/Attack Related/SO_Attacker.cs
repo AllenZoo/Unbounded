@@ -23,4 +23,19 @@ public class SO_Attacker : ScriptableObject
             Assert.IsNotNull(data.attackObj.GetComponent<Attack>(), "Attack Obj needs Attack component in " + data.attackObj.name);
         }
     }
+
+    public override bool Equals(object other)
+    {
+        if (other == null || GetType() != other.GetType())
+        {
+            return false;
+        }
+        SO_Attacker o = other as SO_Attacker;
+        return data.Equals(o.data);
+    }
+
+    public override int GetHashCode()
+    {
+        return data.GetHashCode();
+    }
 }

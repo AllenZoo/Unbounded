@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -20,5 +21,22 @@ public class ItemUpgradeComponent : IItemComponent
         {
             this.upgradeStatModifiers.Add(statModifier.DeepCopy());
         }
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+        // Check if lists match each other regardless of order.
+        ItemUpgradeComponent other = obj as ItemUpgradeComponent;
+        bool isEqual = upgradeStatModifiers.All(other.upgradeStatModifiers.Contains) && upgradeStatModifiers.Count == other.upgradeStatModifiers.Count;
+        return isEqual;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(upgradeStatModifiers.GetHashCode());
     }
 }

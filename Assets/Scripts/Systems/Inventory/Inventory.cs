@@ -66,7 +66,7 @@ public class Inventory
         }
         else
         {
-            Debug.LogError("Cannot add/stack item to inventory. " +
+            Debug.Log("Cannot add/stack item to inventory. " +
                 "Item at index is not null and does not match item to add.");
             return -1;
         }

@@ -20,6 +20,31 @@ public class StatMediator
         this.stat = stat;
     }
 
+    /// <summary>
+    /// Util for calculating aggregate value of a stat after applying all modifiers.
+    /// </summary>
+    /// <param name="stat"></param>
+    /// <param name="query"></param>
+    /// <param name="orderStrategy"></param>
+    public static void CalculateFinalStat(List<StatModifier> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy)
+    {
+        List<StatModifier> relModifiers = stat.FindAll(mod => mod.Stat == query.Stat);
+        query.Value = orderStrategy.Apply(relModifiers, query.Value);
+    }
+
+    /// <summary>
+    /// Util for calculating aggregate value of a stat after applying all modifiers.
+    /// </summary>
+    /// <param name="stat"></param>
+    /// <param name="query"></param>
+    /// <param name="orderStrategy"></param>
+    public static void CalculateFinalStat(List<IStatModifierContainer> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy)
+    {
+        // Convert List<IStatModifierContainer> to List<StatModifier>
+        List<StatModifier> relModifiers = stat.Select(container => container.GetModifier()).ToList();
+        CalculateFinalStat(relModifiers, query, orderStrategy);
+    }
+
     public void CalculateFinalStat(StatQuery query)
     {
         if (!modifiersCache.ContainsKey(query.Stat))
@@ -30,6 +55,7 @@ public class StatMediator
 
         query.Value = order.Apply(modifiersCache[query.Stat], query.Value);
     }
+
     public void AddModifier(StatModifier modifier)
     {
         modifiers.Add(modifier);
