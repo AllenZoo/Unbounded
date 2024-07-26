@@ -18,18 +18,15 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
-    
-    private Attacker attacker;
-    private SO_Weapon_Item previousWeapon;
 
-    private List<StatModifier> curAppliedStats;
+    private Attacker attacker;
+    private Item previousWeapon;
 
     private void Awake()
     {
         // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attacker = GetComponent<Attacker>();
-        curAppliedStats = new List<StatModifier>();
 
         if (localEventHandler == null)
         {
@@ -51,10 +48,8 @@ public class EquipmentWeaponHandler : MonoBehaviour
             inventory.OnInventoryDataModified += UpdateWeapon;
             UpdateWeapon();
         }
-        
     }
 
-    // TODO: refactor SO_Weapon_Item to store SO_Attacker instead of attackObj.
     private void UpdateWeapon()
     {
         // Get item from inventory.
@@ -69,23 +64,25 @@ public class EquipmentWeaponHandler : MonoBehaviour
             return;
         }
 
-        ItemAttackComponent attackComponent = item.data.GetItemComponents().Find(x => x is ItemAttackComponent) as ItemAttackComponent;
-        if (attackComponent != null)
+        // If item doesn't contain an ItemAttackContainerComponent, then throw an error since this shouldn't happen.
+        if (!item.HasComponent<ItemAttackContainerComponent>())
+        {
+            Debug.LogError("ERROR: Item in weapon slot does not contain an attack container component!");
+            return;
+        }
+
+        // Set attacker data to the attack data in the item.
+        ItemAttackContainerComponent attackComponent = item.GetComponent<ItemAttackContainerComponent>();
+        if (attackComponent != null && attackComponent.attackerData == null)
         {
             attacker.SetAttackerData(attackComponent.attackerData);
-        }
-
-
-        // Redundant Check.
-        if (item != null && !(item.data is SO_Weapon_Item w))
+        } else
         {
-            // It's not. (This should never happen)
-            Debug.LogError("Item in weapon slot is not a weapon item!");
+            Debug.LogError("ERROR: ItemAttackContainerComponent doesn't contain a proper AttackerData!");
         }
-        SO_Weapon_Item weapon = item.data as SO_Weapon_Item;
-        
-        localEventHandler.Call(new OnWeaponEquippedEvent { equipped = weapon, unequipped = previousWeapon });
-        previousWeapon = weapon;
+
+        localEventHandler.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
+        previousWeapon = item;
     }
 
 }

@@ -110,8 +110,8 @@ public struct OnAggroStatusChangeEvent: ILocalEvent
 
 public struct OnWeaponEquippedEvent : ILocalEvent
 {
-    public SO_Weapon_Item equipped;
-    public SO_Weapon_Item unequipped;
+    public Item equipped;
+    public Item unequipped;
 }
 
 public struct OnStatBuffEvent: ILocalEvent

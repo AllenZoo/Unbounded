@@ -35,7 +35,7 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         itemTextDesc.text = item.data.description;
 
         itemTextStats.text = "";
-        HandleItemComponents(item.data.GetItemComponents());
+        HandleItemDisplay(item);
     }
 
     public void Toggle(bool toggle)
@@ -77,32 +77,19 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         return statModifierString;
     }
 
-
-    private void HandleItemComponents(List<IItemComponent> itemComponents)
+    private void HandleItemDisplay(Item item)
     {
-        // TODO: eventually refactor this behaviour
-        foreach (var component in itemComponents)
+
+        if (item.HasComponent<ItemBaseStatComponent>())
         {
-            if (component is ItemStatComponent)
-            {
-                ItemStatComponent itemStatComponent = (ItemStatComponent) component;
-                itemTextStats.text += StringifyStatModifierList(itemStatComponent.statModifiers);
+            ItemBaseStatComponent itemBaseStatComponent = item.GetComponent<ItemBaseStatComponent>();
+            itemTextStats.text += StringifyStatModifierList(itemBaseStatComponent.statModifiers);
+        }
 
-                //foreach (IStatModifierContainer container in itemStatComponent.statModifiers)
-                //{
-                //    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
-                //}
-            }
-
-            if (component is ItemUpgradeComponent)
-            {
-                ItemUpgradeComponent itemUpgradeComponent = (ItemUpgradeComponent) component;
-                itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
-                //foreach (IStatModifierContainer container in itemUpgradeComponent.upgradeStatModifiers)
-                //{
-                //    itemTextStats.text += StringifyStatModifier(container.GetModifier()) + "\n";
-                //}
-            }
+        if (item.HasComponent<ItemUpgradeComponent>())
+        {
+            ItemUpgradeComponent itemUpgradeComponent = item.GetComponent<ItemUpgradeComponent>();
+            itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
         }
     }
 }
