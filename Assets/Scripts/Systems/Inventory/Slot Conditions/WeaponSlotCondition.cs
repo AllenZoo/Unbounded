@@ -14,6 +14,6 @@ public class WeaponSlotCondition : IItemCondition
         }
         
         // Check if Item data is type of SO_Weapon_Item.
-        return item.data is SO_Weapon_Item;
+        return item.HasComponent<ItemAttackContainerComponent>();
     }
 }

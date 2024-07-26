@@ -14,6 +14,6 @@ public class UpgradeSlotCondition : IItemCondition
         }
         
         // Check if Item data is type of SO_Upgrade_Item.
-        return item.data is SO_UpgradeItem;
+        return item.HasComponent<ItemUpgradeComponent>();
     }
 }

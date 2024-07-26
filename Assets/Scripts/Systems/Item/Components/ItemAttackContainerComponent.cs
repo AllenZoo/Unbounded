@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ItemAttackComponent : IItemComponent
+public class ItemAttackContainerComponent : IItemComponent
 {
     public SO_Attacker attackerData;
 
-    public ItemAttackComponent(SO_Attacker attackerData)
+    public ItemAttackContainerComponent(SO_Attacker attackerData)
     {
         this.attackerData = attackerData;
     }
@@ -19,7 +19,7 @@ public class ItemAttackComponent : IItemComponent
         {
             return false;
         }
-        ItemAttackComponent other = obj as ItemAttackComponent;
+        ItemAttackContainerComponent other = obj as ItemAttackContainerComponent;
         return attackerData.Equals(other.attackerData);
     }
 
