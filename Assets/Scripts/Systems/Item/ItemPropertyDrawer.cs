@@ -33,6 +33,13 @@ public class ItemPropertyDrawer : PropertyDrawer
         {
             AddComponent(componentsProperty, SerializableItemComponent.ComponentType.Upgrade);
         }
+        position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+        if (GUI.Button(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), "Add Base Stat Component"))
+        {
+            AddComponent(componentsProperty, SerializableItemComponent.ComponentType.BaseStat);
+        }
+
 
         EditorGUI.EndProperty();
     }

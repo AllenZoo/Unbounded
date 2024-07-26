@@ -98,16 +98,16 @@ public class ForgerSystem : MonoBehaviour
     public float GetForgeCost(List<Item> stones)
     {
         float cost = 0;
-        foreach (Item item in stones)
-        {
-            if (item == null || item.IsEmpty())
-            {
-                continue;
-            }
+        //foreach (Item item in stones)
+        //{
+        //    if (item == null || item.IsEmpty())
+        //    {
+        //        continue;
+        //    }
 
-            ItemValueComponent itemValue = item.data.GetItemComponents().Find(x => x is ItemValueComponent) as ItemValueComponent;
-            cost += itemValue.goldValue * item.quantity;
-        }
+        //    ItemValueComponent itemValue = item.data.GetItemComponents().Find(x => x is ItemValueComponent) as ItemValueComponent;
+        //    cost += itemValue.goldValue * item.quantity;
+        //}
 
         return cost;
     }

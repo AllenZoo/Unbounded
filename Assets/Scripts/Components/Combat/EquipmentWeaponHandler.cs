@@ -73,7 +73,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
         // Set attacker data to the attack data in the item.
         ItemAttackContainerComponent attackComponent = item.GetComponent<ItemAttackContainerComponent>();
-        if (attackComponent != null && attackComponent.attackerData == null)
+        if (attackComponent != null && attackComponent.attackerData != null)
         {
             attacker.SetAttackerData(attackComponent.attackerData);
         } else
