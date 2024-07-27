@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -32,5 +33,41 @@ public class SerializableItemComponent
         // Add other types as needed
 
         component = newComponent;
+    }
+
+    public SerializableItemComponent DeepCopy()
+    {
+        var newComponent = new SerializableItemComponent();
+        newComponent.SetComponent(DeepCopyComponent(component));
+        return newComponent;
+    }
+
+    private IItemComponent DeepCopyComponent(IItemComponent component)
+    {
+        if (component is ItemBaseStatComponent baseStatComponent)
+        {
+            List<StatModifierEquipment> copy = baseStatComponent.statModifiers.Select(s => s.DeepCopy()).ToList();
+            return new ItemBaseStatComponent(copy);
+        }
+        else if (component is ItemUpgradeComponent upgradeComponent)
+        {
+            List<StatModifierEquipment> copy = upgradeComponent.upgradeStatModifiers.Select(s => s.DeepCopy()).ToList();
+            return new ItemUpgradeComponent(copy);
+        }
+        else if (component is ItemAttackContainerComponent attackComponent)
+        {
+            return new ItemAttackContainerComponent(attackComponent.attackerData);
+        }
+        else if (component is ItemUpgraderComponent upgraderComponent)
+        {
+            List<StatModifierEquipment> copy = upgraderComponent.modifiers.Select(s => s.DeepCopy()).ToList();
+            return new ItemUpgraderComponent(copy, upgraderComponent.costPerItem);
+        }
+
+        // Add more component types as needed
+        Debug.LogError("Deep copy not implemented for component type: " + component.GetType());
+
+        // If the component type is not recognized, return a shallow copy
+        return component;
     }
 }

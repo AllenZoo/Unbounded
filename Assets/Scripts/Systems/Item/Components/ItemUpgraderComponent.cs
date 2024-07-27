@@ -12,4 +12,15 @@ public class ItemUpgraderComponent : IItemComponent
 
     [Tooltip("The cost per item to upgrade. Eg. # of upgrade attack stones * costPerItem = final cost.")]
     public float costPerItem;
+
+    public ItemUpgraderComponent()
+    {
+
+    }
+
+    public ItemUpgraderComponent(List<StatModifierEquipment> modifiers, float costPerItem)
+    {
+        this.modifiers = modifiers;
+        this.costPerItem = costPerItem;
+    }
 }

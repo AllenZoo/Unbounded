@@ -152,7 +152,8 @@ public class Inventory
         int firstHalfQuantity = Mathf.CeilToInt(totalQuantity / 2f);
         int secondHalfQuantity = Mathf.FloorToInt(totalQuantity / 2f);
 
-        data.items[index] = new Item(originalItem.data, firstHalfQuantity);
+        originalItem.quantity = firstHalfQuantity;
+
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
         data.InvokeOnDataChange();

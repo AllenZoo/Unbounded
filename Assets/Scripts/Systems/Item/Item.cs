@@ -57,10 +57,18 @@ public class Item
         return Components;
     }
 
+    /**
+     * Creates a deep copy of the item.
+     **/
     public Item Clone()
     {
-        // TODO: might need to deep copy the components.
-        return new Item(data, quantity, serializableComponents);
+        List<SerializableItemComponent> clonedComponents = new List<SerializableItemComponent>();
+        foreach (var component in serializableComponents)
+        {
+            clonedComponents.Add(component.DeepCopy());
+        }
+
+        return new Item(data, quantity, clonedComponents);
     }
 
     public bool IsEmpty() => data == null || quantity == 0;
