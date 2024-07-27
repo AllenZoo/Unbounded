@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,10 +15,48 @@ public interface IItemComponent
 [System.Serializable]
 public class Item
 {
-    [SerializeField] public SO_Item data;
-    [SerializeField] public int quantity;
-    [SerializeField] public List<SerializableItemComponent> serializableComponents = new List<SerializableItemComponent>();
+    [HorizontalGroup("Row1")]
+    [HideLabel]
+    [PreviewField(50)]
+    public SO_Item data;
+
+    [HorizontalGroup("Row1")]
+    [LabelWidth(60)]
+    [MinValue(0)]
+    public int quantity;
+
+    [PropertySpace(10)]
+    [ListDrawerSettings(ShowIndexLabels = true, AddCopiesLastElement = true)]
+    [HideReferenceObjectPicker]
+    public List<SerializableItemComponent> serializableComponents = new List<SerializableItemComponent>();
+
     private List<IItemComponent> Components => serializableComponents.Select(sc => sc.component).ToList();
+
+    #region Editor Buttons
+    [Button("Add Attack Component")]
+    private void AddAttackComponent()
+    {
+        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Attack, new ItemAttackContainerComponent(null)));
+    }
+
+    [Button("Add Base Stat Component")]
+    private void AddBaseStatComponent()
+    {
+        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.BaseStat, new ItemBaseStatComponent()));
+    }
+
+    [Button("Add Upgrade Component")]
+    private void AddUpgradeComponent()
+    {
+        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Upgrade, new ItemUpgradeComponent()));
+    }
+
+    [Button("Add Upgrader Component")]
+    private void AddUpgraderComponent()
+    {
+        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Upgrader, new ItemUpgraderComponent()));
+    }
+    #endregion
 
 
     // This method will help us recreate the SO_Item reference when loading

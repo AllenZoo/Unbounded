@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,26 @@ public class SerializableItemComponent
         BaseStat,
         Upgrade,
         Upgrader,
-        // Add other component types here
+        // Add other types as needed
     }
 
+    [HideLabel]
     public ComponentType type;
 
+    [InlineProperty]
+    [HideLabel]
     [SerializeReference]
     public IItemComponent component;
+
+    public SerializableItemComponent()
+    {
+    }
+
+    public SerializableItemComponent(ComponentType type, IItemComponent component)
+    {
+        this.type = type;
+        this.component = component;
+    }
 
     public void SetComponent(IItemComponent newComponent)
     {

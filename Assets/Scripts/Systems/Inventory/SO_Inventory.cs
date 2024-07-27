@@ -1,21 +1,72 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using System.IO;
+using Sirenix.OdinInspector;
+using UnityEditor;
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory/Inventory")]
-public class SO_Inventory : ScriptableObject
+public class SO_Inventory : SerializedScriptableObject
 {
+    [MinValue(1)]
     public int slots = 9;
+
+    [ListDrawerSettings(ShowIndexLabels = true, OnBeginListElementGUI = "DrawItemHeader")]
+    [HideReferenceObjectPicker]
+    [PropertySpace(10)]
     public List<Item> items = new List<Item>();
 
     public event Action OnInventoryDataChange;
 
-    private void OnValidate()
+    [Button("Add Item"), GUIColor(0.7f, 1f, 0.7f)]
+    private void AddItem()
     {
-        // Match size of items to slots
+        if (items.Count < slots)
+        {
+            items.Add(null);
+            InvokeOnDataChange();
+        }
+        else
+        {
+            Debug.LogWarning("Inventory is full. Cannot add more items.");
+        }
+    }
+
+    [Button("Remove Last Item"), GUIColor(1f, 0.7f, 0.7f)]
+    private void RemoveLastItem()
+    {
+        if (items.Count > 0)
+        {
+            items.RemoveAt(items.Count - 1);
+            InvokeOnDataChange();
+        }
+        else
+        {
+            Debug.LogWarning("Inventory is empty. Cannot remove items.");
+        }
+    }
+
+    private void DrawItemHeader(int index)
+    {
+        GUILayout.Space(5);
+        GUILayout.Label($"Item {index + 1}", EditorStyles.boldLabel);
+    }
+
+    [OnInspectorGUI]
+    private void OnInspectorGUI()
+    {
+        if (items.Count != slots)
+        {
+            EditorGUILayout.HelpBox($"Item count ({items.Count}) does not match slot count ({slots}). Click 'Adjust Items' to fix.", MessageType.Warning);
+            if (GUILayout.Button("Adjust Items"))
+            {
+                AdjustItemsToSlots();
+            }
+        }
+    }
+
+    private void AdjustItemsToSlots()
+    {
         if (items.Count > slots)
         {
             items.RemoveRange(slots, items.Count - slots);
@@ -28,15 +79,7 @@ public class SO_Inventory : ScriptableObject
                 items.Add(null);
             }
         }
-
-        // Filter out any "missing" item slots
-        //foreach (var item in items)
-        //{
-        //    if (item.data == null)
-        //    {
-        //        item.data = null;
-        //    }
-        //}
+        InvokeOnDataChange();
     }
 
     public void InvokeOnDataChange()
@@ -46,16 +89,21 @@ public class SO_Inventory : ScriptableObject
         OnInventoryDataChange?.Invoke();
     }
 
+    [Button("Set Item")]
     public void Set(int index, Item item)
     {
-        items[index] = item;
-        InvokeOnDataChange();
+        if (index >= 0 && index < items.Count)
+        {
+            items[index] = item;
+            InvokeOnDataChange();
+        }
+        else
+        {
+            Debug.LogError($"Invalid index: {index}. Must be between 0 and {items.Count - 1}.");
+        }
     }
 
-    /// <summary>
-    /// Returns the number of items (non null) in the inventory.
-    /// </summary>
-    /// <returns></returns>
+    [Button("Check If Empty")]
     public bool IsEmpty()
     {
         foreach (Item item in items)
@@ -68,7 +116,6 @@ public class SO_Inventory : ScriptableObject
         return true;
     }
 
-
     [System.Serializable]
     private class SerializableInventory
     {
@@ -76,6 +123,7 @@ public class SO_Inventory : ScriptableObject
         public List<Item> items;
     }
 
+    [Button("Save Inventory")]
     public void SaveInventory(string fileName)
     {
         SerializableInventory serializableInventory = new SerializableInventory
@@ -83,11 +131,12 @@ public class SO_Inventory : ScriptableObject
             slots = this.slots,
             items = this.items
         };
-
         string json = JsonUtility.ToJson(serializableInventory, true);
         File.WriteAllText(Application.persistentDataPath + "/" + fileName + ".json", json);
         Debug.Log("Inventory saved to " + Application.persistentDataPath + "/" + fileName + ".json");
     }
+
+    [Button("Load Inventory")]
     public void LoadInventory(string fileName)
     {
         string path = Application.persistentDataPath + "/" + fileName + ".json";
@@ -95,10 +144,8 @@ public class SO_Inventory : ScriptableObject
         {
             string json = File.ReadAllText(path);
             SerializableInventory serializableInventory = JsonUtility.FromJson<SerializableInventory>(json);
-
             this.slots = serializableInventory.slots;
             this.items = serializableInventory.items;
-
             // Restore SO_Item references
             for (int i = 0; i < this.items.Count; i++)
             {
@@ -112,8 +159,7 @@ public class SO_Inventory : ScriptableObject
                     }
                 }
             }
-
-            OnValidate();
+            AdjustItemsToSlots();
             InvokeOnDataChange();
             Debug.Log("Inventory loaded from " + path);
         }
