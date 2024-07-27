@@ -137,6 +137,10 @@ public class ForgerSystem : MonoBehaviour
 
     /// <summary>
     /// Returns true if we can forge.
+    /// Checks: 
+    ///     1. If player has enough money.
+    ///     2. If equipment is not null.
+    ///     3. If stones are not empty.
     /// </summary>
     /// <returns></returns>
     private bool CheckForgeConditions(List<Item> stones, Item equipment)
@@ -156,6 +160,10 @@ public class ForgerSystem : MonoBehaviour
         return curMoney >= cost;
     }
     
+    /// <summary>
+    /// Checks if the upgrade inventory and equipment to forge inventory are not empty.
+    /// </summary>
+    /// <returns></returns>
     private bool CheckInventories()
     {
         return !upgradeInventory.IsEmpty() && !equipmentToForgeInventory.IsEmpty();
@@ -174,6 +182,4 @@ public class ForgerSystem : MonoBehaviour
         // Don't consume stones.
         GetPreviewItem();
     }
-
-
 }

@@ -17,8 +17,8 @@ public class Item
     [SerializeField] public SO_Item data;
     [SerializeField] public int quantity;
     [SerializeField] public List<SerializableItemComponent> serializableComponents = new List<SerializableItemComponent>();
+    private List<IItemComponent> Components => serializableComponents.Select(sc => sc.component).ToList();
 
-    public List<IItemComponent> Components => serializableComponents.Select(sc => sc.component).ToList();
 
     // This method will help us recreate the SO_Item reference when loading
     public string dataGUID;
@@ -28,6 +28,11 @@ public class Item
         this.data = baseData;
         this.quantity = quantity;
         this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
+    }
+
+    public Item(SO_Item data, int quantity, List<SerializableItemComponent> serializableComponents) : this(data, quantity)
+    {
+        this.serializableComponents = serializableComponents;
     }
 
     public T GetComponent<T>() where T : IItemComponent
@@ -47,9 +52,18 @@ public class Item
         return Components.Exists(c => c is T);
     }
 
-    public bool IsEmpty() => data == null || quantity == 0;
+    public List<IItemComponent> GetItemComponents()
+    {
+        return Components;
+    }
 
-    
+    public Item Clone()
+    {
+        // TODO: might need to deep copy the components.
+        return new Item(data, quantity, serializableComponents);
+    }
+
+    public bool IsEmpty() => data == null || quantity == 0;
 
     // TODO: update equals and hash function.
     /// <summary>

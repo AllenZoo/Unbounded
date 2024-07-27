@@ -157,7 +157,8 @@ public class Inventory
         OnInventoryDataModified?.Invoke();
         data.InvokeOnDataChange();
 
-        Item secondHalf = new Item(originalItem.data, secondHalfQuantity);
+        Item secondHalf = originalItem.Clone();
+        secondHalf.quantity = secondHalfQuantity;
         return secondHalf;
     }
 
