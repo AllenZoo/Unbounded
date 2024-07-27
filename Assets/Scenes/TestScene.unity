@@ -1354,30 +1354,34 @@ MonoBehaviour:
     - type: 1
       component:
         rid: 4443694442900619272
+    dataGUID: 
   - data: {fileID: 11400000, guid: dc6b9aa09f024b9488176ec981a41c5e, type: 2}
     quantity: 1
     serializableComponents:
-    - type: 1
+    - type: 3
       component:
-        rid: 4443694442900619272
+        rid: 4443694442900619293
+    dataGUID: 
   - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
     quantity: 1
     serializableComponents:
-    - type: 1
+    - type: 3
       component:
-        rid: 4443694442900619272
+        rid: 4443694442900619294
+    dataGUID: 
   - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
     quantity: 1
     serializableComponents:
     - type: 0
       component:
         rid: 4443694442900619275
-    - type: 2
-      component:
-        rid: 4443694442900619276
     - type: 1
       component:
         rid: 4443694442900619277
+    - type: 2
+      component:
+        rid: 4443694442900619276
+    dataGUID: 
   - data: {fileID: 11400000, guid: e6bd3452e058b854493d1094b1efa511, type: 2}
     quantity: 1
     serializableComponents:
@@ -1390,6 +1394,7 @@ MonoBehaviour:
     - type: 1
       component:
         rid: 4443694442900619277
+    dataGUID: 
   - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
     quantity: 1
     serializableComponents:
@@ -1402,6 +1407,7 @@ MonoBehaviour:
     - type: 1
       component:
         rid: 4443694442900619277
+    dataGUID: 
   references:
     version: 2
     RefIds:
@@ -1441,6 +1447,25 @@ MonoBehaviour:
       type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
       data:
         upgradeStatModifiers: []
+    - rid: 4443694442900619293
+      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
+      data:
+        modifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+        costPerItem: 1
+    - rid: 4443694442900619294
+      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
+      data:
+        modifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 2
+        - OperationType: 0
+          Stat: 8
+          Value: 1
+        costPerItem: 1
 --- !u!1001 &2075390202
 PrefabInstance:
   m_ObjectHideFlags: 0

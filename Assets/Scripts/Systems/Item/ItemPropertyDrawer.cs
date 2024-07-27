@@ -75,16 +75,23 @@ public class ItemPropertyDrawer : PropertyDrawer
             }
             position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
+            if (GUI.Button(new Rect(position.x, position.y, position.width - 20, EditorGUIUtility.singleLineHeight), "Add Base Stat Component"))
+            {
+                AddComponent(componentsProperty, SerializableItemComponent.ComponentType.BaseStat);
+            }
+            position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
             if (GUI.Button(new Rect(position.x, position.y, position.width - 20, EditorGUIUtility.singleLineHeight), "Add Upgrade Component"))
             {
                 AddComponent(componentsProperty, SerializableItemComponent.ComponentType.Upgrade);
             }
             position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-            if (GUI.Button(new Rect(position.x, position.y, position.width - 20, EditorGUIUtility.singleLineHeight), "Add Base Stat Component"))
+            if (GUI.Button(new Rect(position.x, position.y, position.width - 20, EditorGUIUtility.singleLineHeight), "Add Upgrader Component"))
             {
-                AddComponent(componentsProperty, SerializableItemComponent.ComponentType.BaseStat);
+                AddComponent(componentsProperty, SerializableItemComponent.ComponentType.Upgrader);
             }
+            position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             EditorGUI.indentLevel--;
         }
 
@@ -108,6 +115,9 @@ public class ItemPropertyDrawer : PropertyDrawer
             case SerializableItemComponent.ComponentType.BaseStat:
                 newElement.FindPropertyRelative("component").managedReferenceValue = new ItemBaseStatComponent();
                 break;
+            case SerializableItemComponent.ComponentType.Upgrader:
+                newElement.FindPropertyRelative("component").managedReferenceValue = new ItemUpgraderComponent();
+                break;
         }
     }
 
@@ -125,7 +135,7 @@ public class ItemPropertyDrawer : PropertyDrawer
 
         if (showButtonsDict.ContainsKey(uniqueKey) && showButtonsDict[uniqueKey])
         {
-            height += EditorGUIUtility.singleLineHeight * 3; // Add component buttons
+            height += EditorGUIUtility.singleLineHeight * 4; // Add component buttons
         }
 
         height += EditorGUIUtility.standardVerticalSpacing * 3;

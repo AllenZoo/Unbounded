@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/**
+ * For items that have base stats.
+ */
 public class ItemBaseStatComponent : IItemComponent
 {
     public List<StatModifierEquipment> statModifiers = new List<StatModifierEquipment>();

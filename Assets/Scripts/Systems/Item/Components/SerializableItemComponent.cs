@@ -8,8 +8,9 @@ public class SerializableItemComponent
     public enum ComponentType
     {
         Attack,
-        Upgrade,
         BaseStat,
+        Upgrade,
+        Upgrader,
         // Add other component types here
     }
 
@@ -26,6 +27,8 @@ public class SerializableItemComponent
             type = ComponentType.Upgrade;
         else if (newComponent is ItemBaseStatComponent)
             type = ComponentType.BaseStat;
+        else if (newComponent is ItemUpgraderComponent)
+            type = ComponentType.Upgrader;
         // Add other types as needed
 
         component = newComponent;
