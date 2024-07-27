@@ -61,7 +61,8 @@ public class Inventory
             && item1.data.isStackable && item2.data.isStackable)
         {
             // Stack items.
-            Item stackedItem = new Item(item1.data, item1.quantity + item2.quantity);
+            Item stackedItem = item1.Clone();
+            stackedItem.quantity += item2.quantity;
             data.items[index] = stackedItem;
         }
         else

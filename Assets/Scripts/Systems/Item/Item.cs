@@ -16,11 +16,11 @@ public interface IItemComponent
 public class Item
 {
     [HorizontalGroup("Row1")]
-    [HideLabel]
-    [PreviewField(50)]
+    // [HideLabel]
+    // [PreviewField(50)]
     public SO_Item data;
 
-    [HorizontalGroup("Row1")]
+    [HorizontalGroup("Row2")]
     [LabelWidth(60)]
     [MinValue(0)]
     public int quantity;
