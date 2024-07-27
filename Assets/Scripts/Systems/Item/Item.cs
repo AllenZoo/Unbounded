@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -15,16 +16,18 @@ public class Item
 {
     [SerializeField] public SO_Item data;
     [SerializeField] public int quantity;
-    [SerializeField]
-    private List<SerializableItemComponent> serializableComponents = new List<SerializableItemComponent>();
+    [SerializeField] public List<SerializableItemComponent> serializableComponents = new List<SerializableItemComponent>();
 
     public List<IItemComponent> Components => serializableComponents.Select(sc => sc.component).ToList();
 
+    // This method will help us recreate the SO_Item reference when loading
+    public string dataGUID;
 
     public Item(SO_Item baseData, int quantity)
     {
         this.data = baseData;
         this.quantity = quantity;
+        this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
     }
 
     public T GetComponent<T>() where T : IItemComponent

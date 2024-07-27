@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Item/Item")]
+[Serializable]
 public class SO_Item : ScriptableObject
 {
     public string itemName;

@@ -1297,6 +1297,150 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a71a6ecb15ee6143af68f5af6070712, type: 3}
+--- !u!1 &1965832691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1965832692}
+  - component: {fileID: 1965832693}
+  m_Layer: 0
+  m_Name: ItemDatabase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1965832692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965832691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 220.27531, y: 122.695854, z: 0.4916642}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1965832693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965832691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34328777dff9f1045af5e82c6dafaa68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - data: {fileID: 11400000, guid: 93f274d1c7da9714aaca1bf1270bc278, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694442900619273
+    - type: 2
+      component:
+        rid: 4443694442900619274
+    - type: 1
+      component:
+        rid: 4443694442900619272
+  - data: {fileID: 11400000, guid: dc6b9aa09f024b9488176ec981a41c5e, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 1
+      component:
+        rid: 4443694442900619272
+  - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 1
+      component:
+        rid: 4443694442900619272
+  - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694442900619275
+    - type: 2
+      component:
+        rid: 4443694442900619276
+    - type: 1
+      component:
+        rid: 4443694442900619277
+  - data: {fileID: 11400000, guid: e6bd3452e058b854493d1094b1efa511, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694442900619275
+    - type: 2
+      component:
+        rid: 4443694442900619276
+    - type: 1
+      component:
+        rid: 4443694442900619277
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694442900619275
+    - type: 2
+      component:
+        rid: 4443694442900619276
+    - type: 1
+      component:
+        rid: 4443694442900619277
+  references:
+    version: 2
+    RefIds:
+    - rid: 4443694442900619272
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgradeStatModifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+    - rid: 4443694442900619273
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+      data:
+        attackerData: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}
+    - rid: 4443694442900619274
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        statModifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+    - rid: 4443694442900619275
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+      data:
+        attackerData: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
+    - rid: 4443694442900619276
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        statModifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+        - OperationType: 0
+          Stat: 8
+          Value: 2
+    - rid: 4443694442900619277
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgradeStatModifiers: []
 --- !u!1001 &2075390202
 PrefabInstance:
   m_ObjectHideFlags: 0

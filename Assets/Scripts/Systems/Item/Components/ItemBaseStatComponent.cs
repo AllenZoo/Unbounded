@@ -30,7 +30,7 @@ public class ItemBaseStatComponent : IItemComponent
         }
         // Check if lists match each other regardless of order.
 
-        ItemStatComponent other = obj as ItemStatComponent;
+        ItemBaseStatComponent other = obj as ItemBaseStatComponent;
         bool isEqual = statModifiers.All(other.statModifiers.Contains) && statModifiers.Count == other.statModifiers.Count;
         return isEqual;
     }
