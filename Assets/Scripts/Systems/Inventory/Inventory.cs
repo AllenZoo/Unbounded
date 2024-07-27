@@ -73,6 +73,7 @@ public class Inventory
 
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
         return 1;
     }
 
@@ -81,6 +82,7 @@ public class Inventory
         data.items[index] = null;
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
     }
 
     public Item GetItem(int index)
@@ -124,6 +126,7 @@ public class Inventory
         }
 
         AddItem(index2, data.items[index1]);
+        data.InvokeOnDataChange();
         return 1;
     }
 
@@ -152,6 +155,7 @@ public class Inventory
         data.items[index] = new Item(originalItem.data, firstHalfQuantity);
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
 
         Item secondHalf = new Item(originalItem.data, secondHalfQuantity);
         return secondHalf;

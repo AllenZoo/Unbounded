@@ -18,8 +18,11 @@ public class ForgerSystem : MonoBehaviour
     {
         forger = new Forger();
 
-        EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(UpdatePreview);
-        EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
+        //EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(UpdatePreview);
+        //EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
+
+        upgradeInventory.OnInventoryDataChange += UpdatePreview;
+        equipmentToForgeInventory.OnInventoryDataChange += UpdatePreview;
     }
 
     private void Start()
@@ -46,6 +49,7 @@ public class ForgerSystem : MonoBehaviour
     /// </summary>
     private void GetPreviewItem()
     {
+        Debug.Log("Getting preview item");
         // Components involved in forging
         List<Item> stones = upgradeInventory.items;
         Item equipment = equipmentToForgeInventory.items[0];
@@ -155,6 +159,13 @@ public class ForgerSystem : MonoBehaviour
     private bool CheckInventories()
     {
         return !upgradeInventory.IsEmpty() && !equipmentToForgeInventory.IsEmpty();
+    }
+
+    private void UpdatePreview()
+    {
+        // Get forge item preview and insert preview item into preview inventory.
+        // Don't consume stones.
+        GetPreviewItem();
     }
 
     private void UpdatePreview(OnInventoryModifiedEvent e)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeSlotCondition : IItemCondition
+public class UpgraderSlotCondition : IItemCondition
 {
     public bool ConditionMet(Item item)
     {
@@ -14,6 +14,6 @@ public class UpgradeSlotCondition : IItemCondition
         }
         
         // Check if Item data is type of SO_Upgrade_Item.
-        return item.HasComponent<ItemUpgradeComponent>();
+        return item.HasComponent<ItemUpgraderComponent>();
     }
 }

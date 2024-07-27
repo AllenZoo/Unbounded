@@ -14,11 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots: 4
   items:
-  - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
+  - data: {fileID: 0}
+    quantity: 0
+    serializableComponents: []
+    dataGUID: 
+  - data: {fileID: 0}
+    quantity: 0
+    serializableComponents: []
+    dataGUID: 
+  - data: {fileID: 11400000, guid: dc6b9aa09f024b9488176ec981a41c5e, type: 2}
     quantity: 1
-  - data: {fileID: 0}
-    quantity: 0
-  - data: {fileID: 0}
-    quantity: 0
-  - data: {fileID: 0}
-    quantity: 0
+    serializableComponents: []
+    dataGUID: dc6b9aa09f024b9488176ec981a41c5e
+  - data: {fileID: 11400000, guid: dc6b9aa09f024b9488176ec981a41c5e, type: 2}
+    quantity: 1
+    serializableComponents: []
+    dataGUID: dc6b9aa09f024b9488176ec981a41c5e
+  references:
+    version: 2
+    RefIds: []

@@ -41,6 +41,7 @@ public class SO_Inventory : ScriptableObject
 
     public void InvokeOnDataChange()
     {
+        Debug.Log("Inventory data changed. (SO) INVOKING");
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataChange?.Invoke();
     }
