@@ -222,6 +222,14 @@ public class InventorySystem : MonoBehaviour
             return;
         }
 
+        // Check if item1 is splittable
+        if (item1 == null || item1.data == null || !item1.data.isStackable)
+        {
+            // item1 is null or not splittable!
+            Debug.Log("Item at index1 is null or not splittable! Failed to split item.");
+            return;
+        }
+
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
         if (item2 != null && item2.data != null 
             && (!item2.data.isStackable || !item2.data.Equals(item1.data)))
