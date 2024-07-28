@@ -12,8 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef4a92674145a545a5d2b7a3e243cc9, type: 3}
   m_Name: Upgrade_Stones
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   slots: 4
   items:
+  - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
+    quantity: 2
+    serializableComponents:
+    - type: 3
+      component:
+        rid: 4443694464056688840
+    dataGUID: f973e5a82c08c8549a07ceafc11aa959
   - data: {fileID: 0}
     quantity: 0
     serializableComponents: []
@@ -22,14 +38,18 @@ MonoBehaviour:
     quantity: 0
     serializableComponents: []
     dataGUID: 
-  - data: {fileID: 11400000, guid: dc6b9aa09f024b9488176ec981a41c5e, type: 2}
-    quantity: 1
+  - data: {fileID: 0}
+    quantity: 0
     serializableComponents: []
-    dataGUID: dc6b9aa09f024b9488176ec981a41c5e
-  - data: {fileID: 11400000, guid: dc6b9aa09f024b9488176ec981a41c5e, type: 2}
-    quantity: 1
-    serializableComponents: []
-    dataGUID: dc6b9aa09f024b9488176ec981a41c5e
+    dataGUID: 
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4443694464056688840
+      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
+      data:
+        modifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+        costPerItem: 1

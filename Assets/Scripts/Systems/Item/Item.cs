@@ -96,9 +96,10 @@ public class Item
         return Components;
     }
 
-    /**
-     * Creates a deep copy of the item.
-     **/
+    /// <summary>
+    /// Creates a deep copy of the item.
+    /// </summary>
+    /// <returns></returns>
     public Item Clone()
     {
         List<SerializableItemComponent> clonedComponents = new List<SerializableItemComponent>();

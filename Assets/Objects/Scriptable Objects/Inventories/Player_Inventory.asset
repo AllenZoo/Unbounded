@@ -28,43 +28,79 @@ MonoBehaviour:
     serializableComponents:
     - type: 3
       component:
-        rid: 4443694464056688776
+        rid: 4443694464056688937
     dataGUID: f973e5a82c08c8549a07ceafc11aa959
   - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
     quantity: 2
     serializableComponents:
     - type: 3
       component:
-        rid: 4443694464056688777
+        rid: 4443694464056688938
     dataGUID: f973e5a82c08c8549a07ceafc11aa959
   - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
     quantity: 1
     serializableComponents:
     - type: 0
       component:
-        rid: 4443694464056688778
+        rid: 4443694464056688939
     - type: 1
       component:
-        rid: 4443694464056688779
+        rid: 4443694464056688940
     - type: 2
       component:
-        rid: 4443694464056688780
+        rid: 4443694464056688941
     dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694464056688942
+    - type: 1
+      component:
+        rid: 4443694464056688943
+    - type: 2
+      component:
+        rid: 4443694464056688944
     dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694464056688942
+    - type: 1
+      component:
+        rid: 4443694464056688943
+    - type: 2
+      component:
+        rid: 4443694464056688944
     dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694464056688942
+    - type: 1
+      component:
+        rid: 4443694464056688943
+    - type: 2
+      component:
+        rid: 4443694464056688944
     dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    serializableComponents:
+    - type: 0
+      component:
+        rid: 4443694464056688942
+    - type: 1
+      component:
+        rid: 4443694464056688943
+    - type: 2
+      component:
+        rid: 4443694464056688944
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
@@ -77,7 +113,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4443694464056688776
+    - rid: 4443694464056688937
+      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
+      data:
+        modifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+        - OperationType: 0
+          Stat: 8
+          Value: 1
+        costPerItem: 1
+    - rid: 4443694464056688938
       type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
       data:
         modifiers:
@@ -85,19 +132,11 @@ MonoBehaviour:
           Stat: 6
           Value: 1
         costPerItem: 1
-    - rid: 4443694464056688777
-      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
-      data:
-        modifiers:
-        - OperationType: 0
-          Stat: 6
-          Value: 1
-        costPerItem: 1
-    - rid: 4443694464056688778
+    - rid: 4443694464056688939
       type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
       data:
         attackerData: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
-    - rid: 4443694464056688779
+    - rid: 4443694464056688940
       type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:
         statModifiers:
@@ -107,7 +146,27 @@ MonoBehaviour:
         - OperationType: 0
           Stat: 8
           Value: 1
-    - rid: 4443694464056688780
+    - rid: 4443694464056688941
       type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
       data:
+        upgrades: []
+        upgradeStatModifiers: []
+    - rid: 4443694464056688942
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+      data:
+        attackerData: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
+    - rid: 4443694464056688943
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        statModifiers:
+        - OperationType: 0
+          Stat: 6
+          Value: 1
+        - OperationType: 0
+          Stat: 8
+          Value: 1
+    - rid: 4443694464056688944
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgrades: []
         upgradeStatModifiers: []

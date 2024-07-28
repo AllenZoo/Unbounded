@@ -22,48 +22,44 @@ public class Forger : IForger
 
     }
 
+    /// <summary>
+    /// 1. Clone the equipment.
+    /// 2. Modify the clone with the upgrade components of the stones.
+    /// 3. return it.
+    /// </summary>
+    /// <param name="stones"></param>
+    /// <param name="equipment"></param>
+    /// <returns>the preview item or null if invalid</returns>
     public Item Forge(List<Item> stones, Item equipment)
     {
-        // 1. Clone data SO.
-        // 2. Modify the upgrade component of that cloned SO.
-        // 3. Create a new item with that cloned SO and return it.
+        Item previewItem = equipment.Clone();
 
-        //if (equipment.data is SO_Weapon_Item)
-        //{
-        //    SO_Weapon_Item newData = equipment.data.Clone() as SO_Weapon_Item;
-        //    ItemUpgradeComponent equipUpgrade = newData.GetItemComponents().Find(x => x is ItemUpgradeComponent) as ItemUpgradeComponent;
+        if (!previewItem.HasComponent<ItemUpgradeComponent>())
+        {
+            Debug.LogError("Equipment does not have an upgrade component!");
+            return null;
+        }
 
-        //    foreach (Item stone in stones)
-        //    {
-        //        if (stone == null || stone.IsEmpty())
-        //        {
-        //            continue;
-        //        }
+        foreach (Item stone in stones)
+        {
+            if (stone == null || stone.IsEmpty()) continue;
 
-        //        IItemComponent stoneUpgrade = stone.data.GetItemComponents().Find(x => x is ItemUpgradeComponent);
-        //        if (stoneUpgrade != null)
-        //        {
-        //            ItemUpgradeComponent stoneUpgradeComponent = stoneUpgrade as ItemUpgradeComponent;
+            if (!stone.HasComponent<ItemUpgraderComponent>())
+            {
+                Debug.LogError("Stone does not have an upgrade component! This should never happen if the inventory slot conditions are correctly set!");
+                return null;
+            }
 
-        //            for (int i = 0; i < stone.quantity; i++)
-        //            {
-        //                equipUpgrade.upgradeStatModifiers.AddRange(stoneUpgradeComponent.upgradeStatModifiers);
-        //            }
-        //        }
-        //    }
+            for (int i = 0; i < stone.quantity; i++)
+            {
+                // Add stat modifiers to the previewItem
+                previewItem.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.AddRange(stone.GetComponent<ItemUpgraderComponent>().modifiers);
 
-        //    Item previewWeapon = new Item(newData, equipment.quantity);
-        //    return previewWeapon;
-        //}
+                // Add the stones themselves into the preview item for history purposes
+                previewItem.GetComponent<ItemUpgradeComponent>().upgrades.Add(stone);
+            }
+        }
 
-        //// Stub
-        //Debug.LogError("Should not get to here!");
-        //return equipment;
-        return null;
-    }
-
-    public Item Forge(Item stone, Item equipment)
-    {
-        return null; // stub
+        return previewItem;
     }
 }

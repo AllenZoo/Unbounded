@@ -149,6 +149,16 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    public void DisableSlot(int index)
+    {
+        slots[index].ToggleSlotInteractivity(false);
+    }
+
+    public void EnableSlot(int index)
+    {
+         slots[index].ToggleSlotInteractivity(true);
+    }
+
     private void InitWhole()
     {
         // Generates slot gameobjects.

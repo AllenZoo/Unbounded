@@ -84,7 +84,6 @@ public class SO_Inventory : SerializedScriptableObject
 
     public void InvokeOnDataChange()
     {
-        Debug.Log("Inventory data changed. (SO) INVOKING");
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataChange?.Invoke();
     }
@@ -167,5 +166,12 @@ public class SO_Inventory : SerializedScriptableObject
         {
             Debug.LogWarning("Save file not found: " + path);
         }
+    }
+
+    [Button("Clear Inventory")]
+    public void ClearInventory()
+    {
+        items.Clear();
+        AdjustItemsToSlots();
     }
 }

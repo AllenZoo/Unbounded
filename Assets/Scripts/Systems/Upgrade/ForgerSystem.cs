@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,18 +10,27 @@ using UnityEngine;
 public class ForgerSystem : MonoBehaviour
 {
     // TODO: maybe eventually think about some event: OnForgeRequest { playerMoney: int, equipment: Item, stones: List<Item> }
+    [Required]
     [SerializeField] private SO_Inventory upgradeInventory;
+
+    [Required]
     [SerializeField] private SO_Inventory equipmentToForgeInventory;
+
+    [Required]
     [SerializeField] private SO_Inventory previewInventory;
 
+    [Required]
+    [Tooltip("Used for enabling/disabling interactivity with the preview item.")]
+    [SerializeField] private InventoryUI previewInventoryUI;
+
     private IForger forger;
+
+    // Used to persist the preview item when the preview item after forging.
+    private bool persistPreviewItem = false;
 
     private void Awake()
     {
         forger = new Forger();
-
-        //EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(UpdatePreview);
-        //EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
 
         upgradeInventory.OnInventoryDataChange += UpdatePreview;
         equipmentToForgeInventory.OnInventoryDataChange += UpdatePreview;
@@ -37,11 +48,23 @@ public class ForgerSystem : MonoBehaviour
     {
         GetPreviewItem();
 
-        // Consume stones (set all items to be null)
-        upgradeInventory.items.ForEach(x => x = null);
+        Item curPreviewItem = previewInventory.items[0];
+        if (curPreviewItem != null && persistPreviewItem)
+        {
+            // Cannot forge if previous item has not be added to inventory.
+            return;
+        }
+
+        persistPreviewItem = true;
+
+        // Consume stones
+        upgradeInventory.ClearInventory();
 
         // Destroy equipment pre-forge
         equipmentToForgeInventory.Set(0, null);
+
+        // Enable interactivity with the preview item.
+        previewInventoryUI.EnableSlot(0);
     }
 
     /// <summary>
@@ -49,7 +72,11 @@ public class ForgerSystem : MonoBehaviour
     /// </summary>
     private void GetPreviewItem()
     {
-        Debug.Log("Getting preview item");
+        if (persistPreviewItem)
+        {
+            return;
+        }
+
         // Components involved in forging
         List<Item> stones = upgradeInventory.items;
         Item equipment = equipmentToForgeInventory.items[0];
@@ -58,7 +85,6 @@ public class ForgerSystem : MonoBehaviour
 
         bool equipmentIsNull = equipment == null || equipment.IsEmpty();
         bool previewItemIsNull = curPreviewItem == null || curPreviewItem.IsEmpty();
-
         if (equipmentIsNull && previewItemIsNull)
         {
             return;
@@ -69,29 +95,22 @@ public class ForgerSystem : MonoBehaviour
         }
 
         //Check if we can forge
+        // TODO-OPT: We can disable the forge button if we can't forge.
         if (!CheckForgeConditions(stones, equipment))
         {
             Debug.Log("Cannot forge weapon. Did not satisfy conditions!");
+            previewInventory.Set(0, null);
             return;
         }
 
         // Forge equipment
         Item forgedEquipment = forger.Forge(stones, equipment);
 
-        // TODO: fix
-        //forgedEquipment = equipment;
-         
-        curPreviewItem = previewInventory.items[0];
-        // Check if current preview item is the same. If it is, don't update.
-        if (curPreviewItem != null && curPreviewItem.Equals(forgedEquipment))
-        {
-            return;
-        }
-
         // Insert weapon into preview inventory.
-        // This can cause stack overflow because we also subcribe to OnInventoryModifiedEvent which gets called here.
         previewInventory.Set(0, forgedEquipment);
-        // Debug.Log("Preview Inventory Item: " + previewInventory.items[0].data);
+
+        // Disable interactivity with the preview item.
+        previewInventoryUI.DisableSlot(0);
     }
 
     /// <summary>
@@ -102,16 +121,16 @@ public class ForgerSystem : MonoBehaviour
     public float GetForgeCost(List<Item> stones)
     {
         float cost = 0;
-        //foreach (Item item in stones)
-        //{
-        //    if (item == null || item.IsEmpty())
-        //    {
-        //        continue;
-        //    }
+        foreach (Item item in stones)
+        {
+            if (item == null || item.IsEmpty())
+            {
+                continue;
+            }
 
-        //    ItemValueComponent itemValue = item.data.GetItemComponents().Find(x => x is ItemValueComponent) as ItemValueComponent;
-        //    cost += itemValue.goldValue * item.quantity;
-        //}
+            float goldNeededPerItem = item.GetComponent<ItemUpgraderComponent>().costPerItem;
+            cost += goldNeededPerItem * item.quantity;
+        }
 
         return cost;
     }
@@ -141,13 +160,21 @@ public class ForgerSystem : MonoBehaviour
     ///     1. If player has enough money.
     ///     2. If equipment is not null.
     ///     3. If stones are not empty.
+    ///     4. If upgraders have upgrader item components, and equipment has upgrade item components.
     /// </summary>
     /// <returns></returns>
     private bool CheckForgeConditions(List<Item> stones, Item equipment)
     {
+
+        foreach (Item item in stones)
+        {
+            if (item == null || item.IsEmpty()) continue;
+
+            if (!item.HasComponent<ItemUpgraderComponent>()) return false;
+        }
         float cost = GetForgeCost(stones);
         bool equipmentNotNull = equipment != null && !equipment.IsEmpty();
-        return CheckFunds(cost) && CheckInventories() && equipmentNotNull;
+        return equipmentNotNull && equipment.HasComponent<ItemUpgradeComponent>() && CheckFunds(cost) && CheckInventories();
     }
 
     /// <summary>
@@ -170,13 +197,6 @@ public class ForgerSystem : MonoBehaviour
     }
 
     private void UpdatePreview()
-    {
-        // Get forge item preview and insert preview item into preview inventory.
-        // Don't consume stones.
-        GetPreviewItem();
-    }
-
-    private void UpdatePreview(OnInventoryModifiedEvent e)
     {
         // Get forge item preview and insert preview item into preview inventory.
         // Don't consume stones.

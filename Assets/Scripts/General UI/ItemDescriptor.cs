@@ -82,14 +82,27 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
 
         if (item.HasComponent<ItemBaseStatComponent>())
         {
+            itemTextStats.text += "Base Stats:\n";
             ItemBaseStatComponent itemBaseStatComponent = item.GetComponent<ItemBaseStatComponent>();
             itemTextStats.text += StringifyStatModifierList(itemBaseStatComponent.statModifiers);
         }
 
         if (item.HasComponent<ItemUpgradeComponent>())
         {
+            if (item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Count > 0)
+            {
+                // Hide this text if no upgrades are present.
+                itemTextStats.text += "Upgrades:\n";
+            }
             ItemUpgradeComponent itemUpgradeComponent = item.GetComponent<ItemUpgradeComponent>();
             itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
+        }
+
+        if (item.HasComponent<ItemUpgraderComponent>())
+        {
+            itemTextStats.text += "Upgrader:\n";
+            ItemUpgraderComponent itemUpgraderComponent = item.GetComponent<ItemUpgraderComponent>();
+            itemTextStats.text += StringifyStatModifierList(itemUpgraderComponent.modifiers);
         }
     }
 }

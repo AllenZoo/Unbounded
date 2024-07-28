@@ -1291,9 +1291,14 @@ MonoBehaviour:
   item:
     data: {fileID: 0}
     quantity: 0
+    serializableComponents: []
+    dataGUID: 
   itemTextName: {fileID: 5340707550590874307}
   itemTextDesc: {fileID: 6361207332795949230}
   itemTextStats: {fileID: 5318460392832353246}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3808810850276148400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,6 +1838,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 635007146}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Forge
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ForgerSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469676660823200184, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2544244000185649831, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1974,6 +2007,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5712953885360128591 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 494725839849726316, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
+  m_PrefabInstance: {fileID: 5302394609973273379}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b49bcbde1630b1749b886960352f9ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6296853827434036645 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2231262020163116678, guid: 3ea3aa59ad756844581614e237f6bcfa, type: 3}
@@ -2005,6 +2049,7 @@ MonoBehaviour:
   upgradeInventory: {fileID: 11400000, guid: b88f83befe47c544a98071bd99538a71, type: 2}
   equipmentToForgeInventory: {fileID: 11400000, guid: a989ec9510b0d0e45890ccf322a71690, type: 2}
   previewInventory: {fileID: 11400000, guid: 76d0dd4d389dedd40b125c94f66441b2, type: 2}
+  previewInventoryUI: {fileID: 5712953885360128591}
 --- !u!114 &635007147
 MonoBehaviour:
   m_ObjectHideFlags: 0

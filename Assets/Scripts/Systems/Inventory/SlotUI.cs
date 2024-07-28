@@ -88,7 +88,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
         // Display item sprite.
         itemIconElement.SetActive(true);
-        Image image = itemIconElement.GetComponentInParent<Image>();
+        Image image = itemIconElement.GetComponent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
         image.sprite = item.data.itemSprite;
         itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, item.data.spriteRot);
@@ -102,6 +102,16 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         else
         {
             quantityText.gameObject.SetActive(false);
+        }
+
+        // Add gray tint to slot if slot is uninteractive
+        if (!isDraggable || !isDroppable)
+        {
+            image.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        }
+        else
+        {
+            image.color = Color.white;
         }
     }
 
@@ -167,6 +177,13 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             // Hide the item descriptor here (e.g., set it inactive)
             ItemDescriptor.Instance.Toggle(false);
         }
+    }
+
+    public void ToggleSlotInteractivity(bool isInteractive)
+    {
+        isDraggable = isInteractive;
+        isDroppable = isInteractive;
+        Rerender();
     }
 
     private IEnumerator DelayedItemDescriptor()
