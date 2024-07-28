@@ -23,10 +23,13 @@ public class ForgerSystem : MonoBehaviour
     [Tooltip("Used for enabling/disabling interactivity with the preview item.")]
     [SerializeField] private InventoryUI previewInventoryUI;
 
+
     private IForger forger;
 
     // Used to persist the preview item when the preview item after forging.
     private bool persistPreviewItem = false;
+
+    private bool canForge = false;
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class ForgerSystem : MonoBehaviour
 
         upgradeInventory.OnInventoryDataChange += UpdatePreview;
         equipmentToForgeInventory.OnInventoryDataChange += UpdatePreview;
+        previewInventory.OnInventoryDataChange += OnPreviewInventoryChange;
     }
 
     private void Start()
@@ -46,7 +50,13 @@ public class ForgerSystem : MonoBehaviour
     /// </summary>
     public void Forge()
     {
-        GetPreviewItem();
+        UpdatePreviewItem();
+        // Check forge conditions before consuming items.
+        if (!canForge)
+        {
+            Debug.Log("Attempted to forge without satisfying conditions.");
+            return;
+        }
 
         Item curPreviewItem = previewInventory.items[0];
         if (curPreviewItem != null && persistPreviewItem)
@@ -56,6 +66,9 @@ public class ForgerSystem : MonoBehaviour
         }
 
         persistPreviewItem = true;
+
+        // Spend gold from player (important to do this before consuming stones)
+        PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold -= GetForgeCost();
 
         // Consume stones
         upgradeInventory.ClearInventory();
@@ -70,8 +83,9 @@ public class ForgerSystem : MonoBehaviour
     /// <summary>
     /// Creates the preview item and puts it in the preview inventory.
     /// </summary>
-    private void GetPreviewItem()
+    private void UpdatePreviewItem()
     {
+        // If we are persisting the preview item, we don't want to update it.
         if (persistPreviewItem)
         {
             return;
@@ -80,19 +94,6 @@ public class ForgerSystem : MonoBehaviour
         // Components involved in forging
         List<Item> stones = upgradeInventory.items;
         Item equipment = equipmentToForgeInventory.items[0];
-        Item curPreviewItem = previewInventory.items[0];
-
-
-        bool equipmentIsNull = equipment == null || equipment.IsEmpty();
-        bool previewItemIsNull = curPreviewItem == null || curPreviewItem.IsEmpty();
-        if (equipmentIsNull && previewItemIsNull)
-        {
-            return;
-        } else if (equipmentIsNull)
-        {
-            previewInventory.Set(0, null);
-            return;
-        }
 
         //Check if we can forge
         // TODO-OPT: We can disable the forge button if we can't forge.
@@ -100,10 +101,13 @@ public class ForgerSystem : MonoBehaviour
         {
             Debug.Log("Cannot forge weapon. Did not satisfy conditions!");
             previewInventory.Set(0, null);
+            canForge = false;
             return;
         }
 
-        // Forge equipment
+        canForge = true;
+
+        // Forge preview equipment
         Item forgedEquipment = forger.Forge(stones, equipment);
 
         // Insert weapon into preview inventory.
@@ -111,6 +115,29 @@ public class ForgerSystem : MonoBehaviour
 
         // Disable interactivity with the preview item.
         previewInventoryUI.DisableSlot(0);
+    }
+
+
+    /// <summary>
+    /// Returns true if we can forge.
+    /// Checks: 
+    ///     1. If player has enough money.
+    ///     2. If equipment is not null.
+    ///     3. If stones are not empty.
+    ///     4. If upgraders have upgrader item components, and equipment has upgrade item components.
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckForgeConditions(List<Item> stones, Item equipment)
+    {
+        foreach (Item item in stones)
+        {
+            if (item == null || item.IsEmpty()) continue;
+
+            if (!item.HasComponent<ItemUpgraderComponent>()) return false;
+        }
+        float cost = GetForgeCost(stones);
+        bool equipmentNotNull = equipment != null && !equipment.IsEmpty();
+        return equipmentNotNull && equipment.HasComponent<ItemUpgradeComponent>() && CheckFunds(cost) && CheckInventories();
     }
 
     /// <summary>
@@ -155,29 +182,6 @@ public class ForgerSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns true if we can forge.
-    /// Checks: 
-    ///     1. If player has enough money.
-    ///     2. If equipment is not null.
-    ///     3. If stones are not empty.
-    ///     4. If upgraders have upgrader item components, and equipment has upgrade item components.
-    /// </summary>
-    /// <returns></returns>
-    private bool CheckForgeConditions(List<Item> stones, Item equipment)
-    {
-
-        foreach (Item item in stones)
-        {
-            if (item == null || item.IsEmpty()) continue;
-
-            if (!item.HasComponent<ItemUpgraderComponent>()) return false;
-        }
-        float cost = GetForgeCost(stones);
-        bool equipmentNotNull = equipment != null && !equipment.IsEmpty();
-        return equipmentNotNull && equipment.HasComponent<ItemUpgradeComponent>() && CheckFunds(cost) && CheckInventories();
-    }
-
-    /// <summary>
     /// Checks if the player has enough funds to forge the equipment.
     /// </summary>
     /// <returns>true if player has enough money.</returns>
@@ -200,6 +204,15 @@ public class ForgerSystem : MonoBehaviour
     {
         // Get forge item preview and insert preview item into preview inventory.
         // Don't consume stones.
-        GetPreviewItem();
+        UpdatePreviewItem();
+    }
+
+    private void OnPreviewInventoryChange()
+    {
+        if (previewInventory.IsEmpty())
+        {
+            persistPreviewItem = false;
+        }
+        
     }
 }

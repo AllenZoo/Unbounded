@@ -123,7 +123,7 @@ public class SO_Inventory : SerializedScriptableObject
     }
 
     [Button("Save Inventory")]
-    public void SaveInventory(string fileName)
+    public void SaveInventory(string fileName = "inventory")
     {
         SerializableInventory serializableInventory = new SerializableInventory
         {
@@ -136,7 +136,7 @@ public class SO_Inventory : SerializedScriptableObject
     }
 
     [Button("Load Inventory")]
-    public void LoadInventory(string fileName)
+    public void LoadInventory(string fileName = "inventory")
     {
         string path = Application.persistentDataPath + "/" + fileName + ".json";
         if (File.Exists(path))

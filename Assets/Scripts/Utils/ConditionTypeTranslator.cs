@@ -33,6 +33,7 @@ public class ConditionTypeTranslator : MonoBehaviour
         // Add more mapping of condition type to condition here.
         conditionTypeToCondition.Add(ConditionType.WEAPON_SLOT_CONDITION, new WeaponSlotCondition());
         conditionTypeToCondition.Add(ConditionType.UPGRADER_SLOT_CONDITION, new UpgraderSlotCondition());
+        conditionTypeToCondition.Add(ConditionType.NULL_SLOT_CONDITION, new NullSlotCondition());
     }
 
     public IItemCondition Translate(ConditionType conditionType)

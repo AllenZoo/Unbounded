@@ -100,11 +100,14 @@ public class StatComponent : MonoBehaviour
     }
     public float gold {
         get {
-            var q = new StatQuery(Stat.GOLD, baseStats.gold);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
+            //var q = new StatQuery(Stat.GOLD, baseStats.gold);
+            //statMediator.CalculateFinalStat(q);
+            //return q.Value;
+            return baseStats.gold;
         }
-        private set { }
+        set {
+            baseStats.gold = value;
+        }
     }
 
     private void Awake()
