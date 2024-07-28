@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public interface IEvent
@@ -36,6 +37,11 @@ public struct OnPlayerExitRoom: IGlobalEvent
 {
     public GameObject roomPfb;
     public Collider2D roomBoundary;
+}
+
+public struct OnInventoryModifiedEvent : IGlobalEvent
+{
+    
 }
 
 
@@ -84,7 +90,7 @@ public struct OnKnockBackEndEvent: ILocalEvent { }
 public struct OnStatChangeEvent: ILocalEvent
 {
     public StatComponent statComponent;
-    public IStatModifier statModifier;
+    public StatModifier statModifier;
 }
 
 public struct OnSpawnEvent: ILocalEvent
@@ -100,4 +106,15 @@ public struct OnDespawnEvent: ILocalEvent
 public struct OnAggroStatusChangeEvent: ILocalEvent
 {
     public bool isAggroed;
+}
+
+public struct OnWeaponEquippedEvent : ILocalEvent
+{
+    public Item equipped;
+    public Item unequipped;
+}
+
+public struct OnStatBuffEvent: ILocalEvent
+{
+    public StatModifier buff;
 }

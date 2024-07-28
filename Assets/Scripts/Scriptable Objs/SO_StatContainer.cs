@@ -14,4 +14,5 @@ public class SO_StatContainer : ScriptableObject
     public float attack;
     public float defense;
     public float speed;
+    public float gold;
 }

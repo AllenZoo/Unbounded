@@ -8,21 +8,35 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Attacker))]
 public class EquipmentWeaponHandler : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     // TODO: decide whether to have reference to SO_Inventory or InventorySystem.
+    // Probably better to have ref to SO_Inventory.
     [Tooltip("Equipment inventory")]
     [SerializeField] private InventorySystem inventory;
     [SerializeField] private int weaponSlotIndex;
+
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
+
     private Attacker attacker;
-    private List<IStatModifier> curAppliedStats;
+    private Item previousWeapon;
 
     private void Awake()
     {
         // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attacker = GetComponent<Attacker>();
-        curAppliedStats = new List<IStatModifier>();
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "] for EquipmentWeaponHandler.cs");
+            }
+        }
     }
 
     private void Start()
@@ -34,64 +48,41 @@ public class EquipmentWeaponHandler : MonoBehaviour
             inventory.OnInventoryDataModified += UpdateWeapon;
             UpdateWeapon();
         }
-        
     }
 
-    // TODO: refactor SO_Weapon_Item to store SO_Attacker instead of attackObj.
     private void UpdateWeapon()
     {
-        // Get weapon from inventory.
-        Item weapon = inventory.GetItem(weaponSlotIndex);
-        // If weapon is null, then we don't have a weapon equipped.
-        if (weapon == null || weapon.data == null)
+        // Get item from inventory.
+        Item item = inventory.GetItem(weaponSlotIndex);
+
+        // If item is null, then we don't have a weapon equipped.
+        if (item == null || item.IsEmpty())
         {
-            Debug.Log("No weapon found in slot " + weaponSlotIndex + ".");
-            // Set attack object to null.
-            attacker.SetAttacker(null);
+            localEventHandler.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
+            previousWeapon = null;
+            attacker.SetAttackerData((AttackerData) null);
             return;
         }
-        // Set attack object to weapon's attack object.
-        // attacker.SetAttackObj(weapon.attacker.data.attackObj);
-        attacker.SetAttacker(weapon.data.attacker);
 
-        // Clear all stat current stat modifiers.
-        ClearStatModifiers();
-
-        // Add all stat modifiers from weapon.
-        foreach (IStatModifier statMod in weapon.data.statModifiers)
+        // If item doesn't contain an ItemAttackContainerComponent, then throw an error since this shouldn't happen.
+        if (!item.HasComponent<ItemAttackContainerComponent>())
         {
-            curAppliedStats.Add(statMod);
+            Debug.LogError("ERROR: Item in weapon slot does not contain an attack container component!");
+            return;
         }
 
-        // Apply all stat modifiers.
-        ApplyStatModifiers();
-    }
-
-    private void ClearStatModifiers()
-    {
-        if (curAppliedStats != null)
+        // Set attacker data to the attack data in the item.
+        ItemAttackContainerComponent attackComponent = item.GetComponent<ItemAttackContainerComponent>();
+        if (attackComponent != null && attackComponent.attackerData != null)
         {
-            // Remove all applied stat modifiers.
-            foreach (IStatModifier statMod in curAppliedStats)
-            {
-                IStatModifier clearStat = new IStatModifier(statMod.Stat, -statMod.Value);
-                stat.ModifyStat(clearStat);
-            }
-        }
-        curAppliedStats.Clear();
-    }
-
-    private void ApplyStatModifiers()
-    {
-        if (curAppliedStats != null)
+            attacker.SetAttackerData(attackComponent.attackerData);
+        } else
         {
-            // Remove all applied stat modifiers.
-            foreach (IStatModifier statMod in curAppliedStats)
-            {
-                stat.ModifyStat(statMod);
-            }
+            Debug.LogError("ERROR: ItemAttackContainerComponent doesn't contain a proper AttackerData!");
         }
-    }
 
+        localEventHandler.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
+        previousWeapon = item;
+    }
 
 }

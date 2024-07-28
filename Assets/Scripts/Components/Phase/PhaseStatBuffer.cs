@@ -10,11 +10,14 @@ using UnityEngine.Assertions;
 // Meant to be modified with inspector.
 public class PhaseStatBuffer : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandler localEventHandler;
+
     [SerializeField] private PhaseManager phaseManager;
 
-    [SerializedDictionary]
-    [SerializeField] private SerializedDictionary<int, List<IStatModifier>> phaseBuffsMapper;
+    [SerializedDictionary (keyName: "Phase #", valueName: "Buffs")]
+    [SerializeField] private SerializedDictionary<int, List<StatModifierContainer>> phaseBuffsMapper;
 
+    // TODO: eventually remove after refactoring StatComponent OnStatChange event.
     [SerializeField] private StatComponent stats;
 
     [SerializeField] private float hpThresholdForRagePhase = 100f;
@@ -23,14 +26,26 @@ public class PhaseStatBuffer : MonoBehaviour
     {
         Assert.IsNotNull(phaseManager, "Phase Stat Buffer requires Phase Manager");
 
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
+                                       "] with root object [" + gameObject.transform.root.name + "] for PhaseStatBuffer.cs");
+                return;
+            }
+        }
+
+        // Should be fine to register in Awake since localEventHandler will be guranteed to be not null at this point. (or throw error).
+        LocalEventBinding<OnStatChangeEvent> onStatBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
+        localEventHandler.Register(onStatBinding);
     }
 
     private void Start()
     {
         phaseManager.OnPhaseChange += OnPhaseChange;
-        ApplyPhaseBuff(phaseManager.Phase);
-
-        stats.OnStatChange += OnStatChange;
+        ApplyPhaseBuff(phaseManager.Phase);        
     }
 
     private void OnPhaseChange(int oldPhase, int phase)
@@ -48,10 +63,10 @@ public class PhaseStatBuffer : MonoBehaviour
     }
 
     // TODO: handle this logic somewhere else?
-    private void OnStatChange(StatComponent sc, IStatModifier stat)
+    private void OnStatChange(OnStatChangeEvent e)
     {
         // Debug.Log("Cur health: " + sc.GetCurStat(Stat.HP) + " max health: " + sc.GetMaxStat(Stat.HP));
-        if (sc.GetCurStat(Stat.HP) <= hpThresholdForRagePhase)
+        if (e.statComponent.health <= hpThresholdForRagePhase)
         {
             // Debug.Log("Triggering rage phase");
             phaseManager.TriggerRagePhase();
@@ -66,10 +81,10 @@ public class PhaseStatBuffer : MonoBehaviour
             return;
         }
 
-        List<IStatModifier> buffs = phaseBuffsMapper[phase];
-        foreach (IStatModifier buff in buffs)
+        foreach (IStatModifierContainer buff in phaseBuffsMapper[phase])
         {
-            stats.ModifyStat(buff);
+            StatModifier statModifier = buff.GetModifier();
+            localEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
         }
     }
 
@@ -81,10 +96,10 @@ public class PhaseStatBuffer : MonoBehaviour
             return;
         }
 
-        List<IStatModifier> buffs = phaseBuffsMapper[phase];
-        foreach (IStatModifier buff in buffs)
+        foreach (IStatModifierContainer buff in phaseBuffsMapper[phase])
         {
-            stats.ModifyStat(new IStatModifier(buff.Stat, -buff.Value));
+            StatModifier statModifier = buff.GetModifier();
+            statModifier.Dispose();
         }
     }
 }

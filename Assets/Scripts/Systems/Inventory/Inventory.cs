@@ -61,24 +61,29 @@ public class Inventory
             && item1.data.isStackable && item2.data.isStackable)
         {
             // Stack items.
-            Item stackedItem = new Item(item1.data, item1.quantity + item2.quantity);
+            Item stackedItem = item1.Clone();
+            stackedItem.quantity += item2.quantity;
             data.items[index] = stackedItem;
         }
         else
         {
-            Debug.LogError("Cannot add/stack item to inventory. " +
+            Debug.Log("Cannot add/stack item to inventory. " +
                 "Item at index is not null and does not match item to add.");
             return -1;
         }
 
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
         return 1;
     }
 
     public void RemoveItem(int index)
     {
         data.items[index] = null;
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
     }
 
     public Item GetItem(int index)
@@ -92,6 +97,7 @@ public class Inventory
         data.items[index1] = data.items[index2];
         data.items[index2] = temp;
         data.InvokeOnDataChange();
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
     }
 
@@ -121,6 +127,7 @@ public class Inventory
         }
 
         AddItem(index2, data.items[index1]);
+        data.InvokeOnDataChange();
         return 1;
     }
 
@@ -146,10 +153,14 @@ public class Inventory
         int firstHalfQuantity = Mathf.CeilToInt(totalQuantity / 2f);
         int secondHalfQuantity = Mathf.FloorToInt(totalQuantity / 2f);
 
-        data.items[index] = new Item(originalItem.data, firstHalfQuantity);
-        OnInventoryDataModified?.Invoke();
+        originalItem.quantity = firstHalfQuantity;
 
-        Item secondHalf = new Item(originalItem.data, secondHalfQuantity);
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
+        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
+
+        Item secondHalf = originalItem.Clone();
+        secondHalf.quantity = secondHalfQuantity;
         return secondHalf;
     }
 

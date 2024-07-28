@@ -16,12 +16,14 @@ public class Attacker : MonoBehaviour
     [Tooltip("To init attacker data. Leave empty if we want to manually set attacker data values.")]
     [SerializeField] private SO_Attacker attackerDataInit;
 
+    // Serialized for debugging purposes.
     [SerializeField] private AttackerData data;
 
     [Tooltip("Component that holds stats for adding damage to attacks.")]
     [SerializeField] private StatComponent statComponent;
 
     private bool attackRdy = true;
+    private bool canAttack = true;
 
     private void Awake()
     {
@@ -34,7 +36,7 @@ public class Attacker : MonoBehaviour
         {
             // Debug.Log("Attacker data init is not null. Setting attacker data to attacker data init.");
             // Init. Avoid pass by ref.
-            SetAttacker(attackerDataInit);
+            SetAttackerData(attackerDataInit);
         }
 
         if (localEventHandler == null)
@@ -52,9 +54,12 @@ public class Attacker : MonoBehaviour
     {
         LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
         localEventHandler.Register<OnAttackInput>(eventBinding);
+
+        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
+        localEventHandler.Register<OnDeathEvent>(deathEventBinding);
     }
 
-    public void SetAttacker(SO_Attacker newData)
+    public void SetAttackerData(SO_Attacker newData)
     {
         // Debug.Log("Set Attacker: " + newData);
         if (newData == null)
@@ -67,10 +72,21 @@ public class Attacker : MonoBehaviour
         data = newData.data.Copy();
     }
 
+    public void SetAttackerData(AttackerData newData)
+    {
+        if (newData == null)
+        {
+            Debug.LogWarning("Attacker data is null. Cannot attack.");
+            data = null;
+            return;
+        }
+        data = newData.Copy();
+    }
+
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && data != null)
+        if (attackRdy && canAttack && data != null)
         {
             Attack(input.keyCode, input.attackInfo);
         }
@@ -103,8 +119,8 @@ public class Attacker : MonoBehaviour
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
 
-            Attack newAttack = AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj);
-            newAttack.attackerATKStat = statComponent.GetCurStat(Stat.ATK);
+            Attack newAttack = AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj.gameObject);
+            newAttack.attackerATKStat = statComponent.attack;
         }
 
         StartCoroutine(AttackCooldown());

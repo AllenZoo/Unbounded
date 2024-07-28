@@ -9,10 +9,10 @@ using UnityEngine.Events;
 public class Damageable : MonoBehaviour
 {
     [SerializeField] private LocalEventHandler localEventHandler;
+    [SerializeField] private StatComponent stat;
 
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
-    [SerializeField] private StatComponent stat;
 
     // Refers to dot attacks that the Damageable is currently taking damage from.
     public EntityType EntityType { get { return entityType; } }
@@ -27,7 +27,7 @@ public class Damageable : MonoBehaviour
 
     private void Awake()
     {
-        Assert.IsNotNull(stat, "Damageable object needs a stat component to deal damage to");
+        Assert.IsNotNull(stat, "Damageable object needs a stat component to calculate final damage.");
         
         // Check that collider2d on object with this script is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
@@ -42,8 +42,12 @@ public class Damageable : MonoBehaviour
             {
                 Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
                     "] with root object [" + gameObject.transform.root.name + "] for Damageable.cs");
+                return;
             }
         }
+
+        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(CheckDeath);
+        localEventHandler.Register(statModResBinding);
     }
 
     // Damage needs to be > 0
@@ -63,14 +67,6 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        stat.ModifyStat(new IStatModifier(Stat.HP, -calculatedDamage));
-
-        if (stat.GetCurStat(Stat.HP) <= 0)
-        {
-            localEventHandler.Call(new OnDeathEvent { });
-            // Disable hittable so it can't be hit anymore.
-            isHittable = false;
-        }
         localEventHandler.Call(new OnDamagedEvent { damage = calculatedDamage });
     }
 
@@ -105,7 +101,7 @@ public class Damageable : MonoBehaviour
         float growthScale = 8f;
 
         // Make damage reduction grow at a logarithmic rate. (This function looks good on desmos)
-        float damageReduction = Mathf.Log10(stat.GetCurStat(Stat.DEF)/growthScale + 1f) / 2f;
+        float damageReduction = Mathf.Log10(stat.defense/growthScale + 1f) / 2f;
 
         float damageTaken = damage * (1f - damageReduction);
 
@@ -113,5 +109,15 @@ public class Damageable : MonoBehaviour
         damageTaken = Mathf.Floor(damageTaken);
 
         return damageTaken;
+    }
+
+    private void CheckDeath(OnStatChangeEvent e)
+    {
+        if (e.statComponent.health <= 0)
+        {
+            localEventHandler.Call(new OnDeathEvent { });
+            // Disable hittable so it can't be hit anymore.
+            isHittable = false;
+        }
     }
 }

@@ -318,9 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAggro:
-    m_PersistentCalls:
-      m_Calls: []
+  localEventHandler: {fileID: 0}
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 7599973659860923114}
@@ -356,7 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccde9886d16d8ac4e80a69c1d3a689db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggro: {fileID: 1051176910154285482}
+  localEventHandler: {fileID: 0}
   stats: {fileID: 4456538979408597558}
 --- !u!1 &4062177657863964859
 GameObject:
@@ -416,6 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 4456538979408597558}
   rb: {fileID: 4456538979408597579}
@@ -471,6 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
 --- !u!50 &4456538979408597579
 Rigidbody2D:
@@ -505,11 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 4891969500134188528}
-  movementController: {fileID: 0}
-  inputController: {fileID: 916700090708789427}
-  damageable: {fileID: 4456538981051934084}
-  knockbackable: {fileID: 1547172781283259309}
+  localEventHandler: {fileID: 0}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &916700090708789427
@@ -643,8 +639,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1279681379548919737}
   - component: {fileID: 5518171965787360333}
-  - component: {fileID: 2242467778886982234}
   - component: {fileID: 1968539576}
+  - component: {fileID: 1391143629}
   m_Layer: 6
   m_Name: PhaseManager
   m_TagString: Untagged
@@ -685,37 +681,6 @@ MonoBehaviour:
     Item1: 5
     Item2: 10
   ragePhase: 3
---- !u!114 &2242467778886982234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e845f44d5570274da4ac7d84c9ebfe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phaseManager: {fileID: 5518171965787360333}
-  phaseBuffsMapper:
-    _serializedList:
-    - Key: 0
-      Value:
-      - value: 1.5
-        stat: 5
-    - Key: 2
-      Value:
-      - value: 1
-        stat: 5
-    - Key: 3
-      Value:
-      - value: 1.5
-        stat: 5
-      - value: 5
-        stat: 3
-  stats: {fileID: 4456538979408597558}
-  hpThresholdForRagePhase: 200
 --- !u!114 &1968539576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,6 +704,24 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 3cafe5e7c1c274543b71064fd9f9d694, type: 2}
   defaultAttackMode: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
   attacker: {fileID: 884867878710551529}
+--- !u!114 &1391143629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377583381993562378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e845f44d5570274da4ac7d84c9ebfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
+  phaseManager: {fileID: 5518171965787360333}
+  phaseBuffsMapper:
+    _serializedList: []
+  stats: {fileID: 4456538979408597558}
+  hpThresholdForRagePhase: 100
 --- !u!1 &8061349305055560249
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,9 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDeathUE:
-    m_PersistentCalls:
-      m_Calls: []
+  localEventHandler: {fileID: 0}
   entityType: 1
   stat: {fileID: 4456538979408597558}
   isDamageable: 1
@@ -950,6 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943b4c603787f7a4e8b63501261d9674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   rb: {fileID: 4456538979408597579}
   currentlyKnockbackable: 0
 --- !u!114 &3760987729111625420
@@ -965,7 +947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
-  damageableRef: {fileID: 4456538981051934084}
+  localEventHandler: {fileID: 0}
 --- !u!114 &8422610750524521920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,7 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de38b8fb36a1b754e968d85a331f55e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageable: {fileID: 4456538981051934084}
+  localEventHandler: {fileID: 0}
   dropRates:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: 1ab1bd69905ceea4ba5d8927d78df6d0, type: 2}

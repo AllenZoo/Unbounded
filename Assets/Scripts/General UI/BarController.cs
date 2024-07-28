@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class BarController : MonoBehaviour
 {
+    [Tooltip("The local event handler belonging to the entity whose stats we are tracking")]
+    [SerializeField] public LocalEventHandler localEventHandler;
     [SerializeField] private StatComponent statObject;
-    [SerializeField] private Stat statToTrack;
+
+    [SerializeField] private BarTrackStat statToTrack;
     [SerializeField] private Image fillImage;
 
     private void Awake()
@@ -18,27 +21,52 @@ public class BarController : MonoBehaviour
 
     private void Start()
     {
-        statObject.OnStatChange += OnStatChange;
+        if (statObject != null)
+        {
+            Set(localEventHandler, statObject, statToTrack);
+        }
         Render();
     }
 
-    public void Set(StatComponent statObject, Stat statToTrack)
+    public void Set(LocalEventHandler eventHandler, StatComponent statObject, BarTrackStat statToTrack)
     {
         this.statObject = statObject;
         this.statToTrack = statToTrack;
-        statObject.OnStatChange += OnStatChange;
+        this.localEventHandler = eventHandler;
+
+        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
+        localEventHandler.Register(statModResBinding);
+
         Render();
     }
-    private void OnStatChange(StatComponent statComponent, IStatModifier statModifier)
+    private void OnStatChange(OnStatChangeEvent e)
     {
         // Update the bar to reflect the new stat
+        statObject = e.statComponent;
         Render();
     }
 
     private void Render()
     {
-        fillImage.fillAmount = statObject.GetCurStat(statToTrack) / statObject.GetMaxStat(statToTrack);
+        switch (statToTrack)
+        {
+            case BarTrackStat.HP:
+                fillImage.fillAmount = statObject.health / statObject.maxHealth;
+                break;
+            case BarTrackStat.MP:
+                fillImage.fillAmount = statObject.mana / statObject.maxMana;
+                break;
+            case BarTrackStat.Stamina:
+                fillImage.fillAmount = statObject.stamina / statObject.maxStamina;
+                break;
+        }
+        
     }
+}
 
-
+public enum BarTrackStat
+{
+    HP,
+    MP,
+    Stamina
 }

@@ -8,4 +8,6 @@ using UnityEngine;
 public enum ConditionType
 {
     WEAPON_SLOT_CONDITION,
+    UPGRADER_SLOT_CONDITION,
+    NULL_SLOT_CONDITION
 }

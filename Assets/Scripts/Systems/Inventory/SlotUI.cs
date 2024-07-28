@@ -30,6 +30,13 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     [SerializeField] private TextMeshProUGUI quantityText;
 
+    [Header("Slot params")]
+    [Tooltip("Is this slot draggable?")]
+    [SerializeField] private bool isDraggable = true;
+
+    [Tooltip("Can we drop items onto this slot?")]
+    [SerializeField] private bool isDroppable = true;
+
     [Header("Hover params")]
     [Tooltip("Delay before item description is shown.")]
     [SerializeField] private float hoverDelay = 0.5f; // Adjust the delay time as needed
@@ -81,7 +88,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
         // Display item sprite.
         itemIconElement.SetActive(true);
-        Image image = itemIconElement.GetComponentInParent<Image>();
+        Image image = itemIconElement.GetComponent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
         image.sprite = item.data.itemSprite;
         itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, item.data.spriteRot);
@@ -96,6 +103,16 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         {
             quantityText.gameObject.SetActive(false);
         }
+
+        // Add gray tint to slot if slot is uninteractive
+        if (!isDraggable || !isDroppable)
+        {
+            image.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        }
+        else
+        {
+            image.color = Color.white;
+        }
     }
 
     // On Begin Drag
@@ -107,6 +124,11 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     {
         // Debug.Log("Got into pointer drag event!");
         if (item == null || item.data == null)
+        {
+            return;
+        }
+
+        if (!isDraggable)
         {
             return;
         }
@@ -127,6 +149,10 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnDrop(PointerEventData eventData)
     {
         // Debug.Log("Mouse released over slot index: " + slotIndex);
+        if (!isDroppable)
+        {
+            return;
+        }
         OnDropItem?.Invoke(parentSystem, this);
     }
 
@@ -151,6 +177,13 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             // Hide the item descriptor here (e.g., set it inactive)
             ItemDescriptor.Instance.Toggle(false);
         }
+    }
+
+    public void ToggleSlotInteractivity(bool isInteractive)
+    {
+        isDraggable = isInteractive;
+        isDroppable = isInteractive;
+        Rerender();
     }
 
     private IEnumerator DelayedItemDescriptor()

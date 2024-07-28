@@ -8,6 +8,10 @@ using UnityEngine.EventSystems;
 
 // Modifies state of UI based on inventory data. Also handles user input.
 // Needs inventory system to get data to display.
+// TODO-OPT(major change): decouple inventorySystem from ui and just refer to each other through the Inventory Data Scriptable Object.
+//                         this however would also require sharing a LocalEventHandler between the two scripts for event handling. 
+//                         This could potentially be handled by storing that reference in the SO_InventoryData by making LocalEventHandler
+//                         have a non-monobehaviour version.
 [RequireComponent(typeof(InventorySystem))]
 public class InventoryUI : MonoBehaviour
 {
@@ -40,6 +44,8 @@ public class InventoryUI : MonoBehaviour
         
         inventorySystem = GetComponent<InventorySystem>();
 
+        
+
         InitWhole();
     }
 
@@ -54,6 +60,9 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventorySystem.OnInventoryDataModified += Rerender;
+
+        EventBinding<OnInventoryModifiedEvent> inventoryChangeBinding = new EventBinding<OnInventoryModifiedEvent>(Rerender);
+        EventBus<OnInventoryModifiedEvent>.Register(inventoryChangeBinding);
         //inventorySystem.OnInventoryDataReset += SetInventoryData;
     }
 
@@ -138,6 +147,16 @@ public class InventoryUI : MonoBehaviour
                 system.SplitInto(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
             }
         }
+    }
+
+    public void DisableSlot(int index)
+    {
+        slots[index].ToggleSlotInteractivity(false);
+    }
+
+    public void EnableSlot(int index)
+    {
+         slots[index].ToggleSlotInteractivity(true);
     }
 
     private void InitWhole()
