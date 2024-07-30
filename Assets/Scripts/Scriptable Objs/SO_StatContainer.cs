@@ -13,6 +13,7 @@ public class SO_StatContainer : ScriptableObject
     public float maxStamina;
     public float attack;
     public float defense;
+    public float dexterity;
     public float speed;
     public float gold;
 }

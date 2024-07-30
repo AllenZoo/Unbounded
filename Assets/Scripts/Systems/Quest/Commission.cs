@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Comission : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+/// <summary>
+/// Data class that holds the information of a commission/quest.
+/// </summary>
+public class Commission
+{ 
+    public string title { get; private set; }
+    public string description { get; private set; }
+    public int reward { get; private set; }
+    public int difficulty { get; private set; }
+    public int timeLimit { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    public EquipmentType equipmentType { get; private set; }
+
+    public Dictionary<Stat, int> statRequirements { get; private set; }
+
+    public Commission(string title, string description, int reward, int difficulty, int timeLimit, EquipmentType equipmentType, Dictionary<Stat, int> statRequirements)
     {
-        
+        this.title = title;
+        this.description = description;
+        this.reward = reward;
+        this.difficulty = difficulty;
+        this.timeLimit = timeLimit;
+        this.equipmentType = equipmentType;
+        this.statRequirements = statRequirements;
     }
 }
