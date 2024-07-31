@@ -26,9 +26,13 @@ public class CommissionGenerator
         Dictionary<Stat, int> statRequirements = new Dictionary<Stat, int>();
         statRequirements.Add(Stat.ATK, 3);
         statRequirements.Add(Stat.DEX, 2);
-        return new Commission("Help Kullervo forge 'DEATH REAPER'", "Kullervo needs to kill things >:)", 10, 1, 10, EquipmentType.SWORD, statRequirements);
+        return new Commission("Help Kullervo forge 'DEATH REAPER'", "Kullervo needs to kill things >:)", 10, 1, 10, EquipmentType.SWORD, statRequirements, CommissionStatus.PENDING);
     }
 
+    /// <summary>
+    /// Generates a random PENDING commission.
+    /// </summary>
+    /// <returns></returns>
     public Commission GenerateCommission()
     {
         // Generate a random commission
