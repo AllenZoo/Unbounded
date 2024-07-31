@@ -34,6 +34,25 @@ public class CommissionBoardUI : MonoBehaviour
     private List<CommissionSlotUI> commissionSlotUIPool = new List<CommissionSlotUI>();
     private List<CommissionSlotUI> activeSlots = new List<CommissionSlotUI>();
 
+    private EventBinding<OnCommissionListModifiedEvent> commissionsModifiedBinding;
+
+    private void Awake()
+    {
+        commissionsModifiedBinding = new EventBinding<OnCommissionListModifiedEvent>(OnCommissionListModified);
+    }
+
+    private void OnEnable()
+    {
+        
+        EventBus<OnCommissionListModifiedEvent>.Register(commissionsModifiedBinding);
+    }
+
+    private void OnDisable()
+    {
+        EventBinding<OnCommissionListModifiedEvent> commissionsModifiedBinding = new EventBinding<OnCommissionListModifiedEvent>(OnCommissionListModified);
+        EventBus<OnCommissionListModifiedEvent>.Unregister(commissionsModifiedBinding);
+    }
+
     private void Start()
     {
         // For testing purposes, add some commissions.
@@ -54,23 +73,11 @@ public class CommissionBoardUI : MonoBehaviour
             {
                 CommissionSlotUI slot = child.GetComponent<CommissionSlotUI>();
                 commissionSlotUIPool.Add(slot);
-            } 
+            }
             child.gameObject.SetActive(false);
         }
 
         RenderCommissions();
-    }
-
-    private void OnEnable()
-    {
-        EventBinding<OnCommissionListModifiedEvent> commissionsModifiedBinding = new EventBinding<OnCommissionListModifiedEvent>(OnCommissionListModified);
-        EventBus<OnCommissionListModifiedEvent>.Register(commissionsModifiedBinding);
-    }
-
-    private void OnDisable()
-    {
-        EventBinding<OnCommissionListModifiedEvent> commissionsModifiedBinding = new EventBinding<OnCommissionListModifiedEvent>(OnCommissionListModified);
-        EventBus<OnCommissionListModifiedEvent>.Unregister(commissionsModifiedBinding);
     }
 
     #region For Unity Buttons
