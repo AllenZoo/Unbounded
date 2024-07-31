@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,10 @@ using UnityEngine;
 /// Data class that holds the information of a commission/quest.
 /// </summary>
 public class Commission
-{ 
+{
+    public Action<Commission> OnCommissionStart;
+    public Action<Commission> OnCommissionComplete;
+
     public string title { get; private set; }
     public string description { get; private set; }
     public int reward { get; private set; }
@@ -27,6 +31,34 @@ public class Commission
         this.statRequirements = statRequirements;
         this.commissionStatus = commissionStatus;
     }
+
+    /// <summary>
+    /// Attempts to start the commission. If the commission is not pending, it will not start.
+    /// </summary>
+    public void StartCommission()
+    {
+        if (commissionStatus != CommissionStatus.PENDING)
+        {
+            Debug.Log("Commission is not pending. Cannot start it.");
+            return;
+        }
+
+        OnCommissionStart?.Invoke(this);
+    }
+
+    /// <summary>
+    /// Attempts to complete the commission. If the commission is not active, it will not complete.
+    /// </summary>
+    public void CompleteCommission()
+    {
+        if (commissionStatus != CommissionStatus.ACTIVE)
+        {
+            Debug.Log("Commission is not active. Cannot complete it.");
+            return;
+        }
+        OnCommissionComplete?.Invoke(this);
+    }
+
 }
 
 public enum CommissionStatus

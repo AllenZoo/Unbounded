@@ -17,6 +17,9 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     [Required][SerializeField] private TextMeshProUGUI timeLimitText;
     [Required][SerializeField] private Image commissionImageDisplay;
 
+    [Tooltip("Scriptable Object that holds the current CommissionViewStatus. We modify the status in this class.")]
+    [Required][SerializeField] private CommissionViewStatus commissionViewStatus;
+
     // TODO: Add UI to display Required Stats
     [Required][SerializeField] private StatTagUI statTagPfb;
     [Required][SerializeField] private Transform statTagParent;
@@ -24,18 +27,17 @@ public class CommissionInfoDisplayUI : MonoBehaviour
 
     private Commission commission;
 
-
-    private EventBinding<OnCommissionViewRequestEvent> commissionViewReqBinding;
+    private EventBinding<OnCommissionViewInfoRequestEvent> commissionViewReqBinding;
 
     private void Awake()
     {
-        commissionViewReqBinding = new EventBinding<OnCommissionViewRequestEvent>(OnCommissionViewRequest);
+        commissionViewReqBinding = new EventBinding<OnCommissionViewInfoRequestEvent>(OnCommissionViewRequest);
         statTagUIPooler = new ConsistentOrderObjectPooler<StatTagUI>(statTagPfb, statTagParent);
     }
 
     private void OnEnable()
     {
-        EventBus<OnCommissionViewRequestEvent>.Register(commissionViewReqBinding);
+        EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
     }
 
     public void SetCommission(Commission commission)
@@ -44,6 +46,7 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         Render();
     }
 
+    #region Rendering main CommissionInfoDisplayUI
     private void Render()
     {
         ToggleCommissionInfoDisplayVisability(true);
@@ -53,6 +56,10 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         timeLimitText.text = "Time: " + commission.timeLimit;
         commissionImageDisplay.sprite = CommissionAssetGetter.Instance.GetEquipmentSprite(commission.equipmentType);
 
+        // TODO: refactor this eventually
+        if (commission.commissionStatus == CommissionStatus.ACTIVE) SetViewStatusActive();
+        else if (commission.commissionStatus == CommissionStatus.PENDING) SetViewStatusPending();
+
         statTagUIPooler.ResetObjects();
         foreach (var stat in commission.statRequirements)
         {
@@ -61,14 +68,28 @@ public class CommissionInfoDisplayUI : MonoBehaviour
             statTag.SetStat(statTuple);
         }
     }
-
-    public void ToggleCommissionInfoDisplayVisability(bool isVisible)
+    private void ToggleCommissionInfoDisplayVisability(bool isVisible)
     {
         this.gameObject.SetActive(isVisible);
     }
-
-    private void OnCommissionViewRequest(OnCommissionViewRequestEvent e)
+    private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)
     {
         SetCommission(e.commission);
     }
+    #endregion
+
+    #region For View Status + Commission Status Modification via Buttons
+    public void SetViewStatusActive() => commissionViewStatus.SetStatus(CommissionViewStatusType.ACTIVE);
+
+    public void SetViewStatusPending() => commissionViewStatus.SetStatus(CommissionViewStatusType.PENDING);
+
+    public void AcceptCommission()
+    {
+        commission.StartCommission();
+        ToggleCommissionInfoDisplayVisability(false);
+    }
+
+    public void RejectCommission() => ToggleCommissionInfoDisplayVisability(false);
+    #endregion
+
 }

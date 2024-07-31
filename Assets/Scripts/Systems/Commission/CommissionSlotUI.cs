@@ -44,6 +44,6 @@ public class CommissionSlotUI : MonoBehaviour, IPointerClickHandler
 
     private void HandleClick()
     {
-        EventBus<OnCommissionViewRequestEvent>.Call(new OnCommissionViewRequestEvent { commission = commission });
+        EventBus<OnCommissionViewInfoRequestEvent>.Call(new OnCommissionViewInfoRequestEvent { commission = commission });
     }
 }

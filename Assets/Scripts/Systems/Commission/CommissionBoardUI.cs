@@ -48,21 +48,21 @@ public class CommissionBoardUI : MonoBehaviour
 
     private void Start()
     {
-        Dictionary<Stat, int> stats = new Dictionary<Stat, int>();
-        stats.Add(Stat.ATK, 1);
-        stats.Add(Stat.DEF, 2);
-        stats.Add(Stat.SPD, 3);
+        //Dictionary<Stat, int> stats = new Dictionary<Stat, int>();
+        //stats.Add(Stat.ATK, 1);
+        //stats.Add(Stat.DEF, 2);
+        //stats.Add(Stat.SPD, 3);
 
-        // For testing purposes, add some commissions.
-        Commission commission1 = new Commission("Commission1", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
-        Commission commission2 = new Commission("Commission2", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
-        Commission commission3 = new Commission("Commission3", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
-        Commission commission4 = new Commission("Commission4", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
+        //// For testing purposes, add some commissions.
+        //Commission commission1 = new Commission("Commission1", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
+        //Commission commission2 = new Commission("Commission2", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
+        //Commission commission3 = new Commission("Commission3", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
+        //Commission commission4 = new Commission("Commission4", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
 
-        activeCommissions.Add(commission1);
-        activeCommissions.Add(commission2);
-        pendingCommissions.Add(commission3);
-        pendingCommissions.Add(commission4);
+        //activeCommissions.Add(commission1);
+        //activeCommissions.Add(commission2);
+        //pendingCommissions.Add(commission3);
+        //pendingCommissions.Add(commission4);
 
         // Add all children to the pool.
         foreach (Transform child in commissionSlotParent)

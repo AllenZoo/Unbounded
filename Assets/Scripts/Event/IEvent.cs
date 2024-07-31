@@ -50,7 +50,7 @@ public struct OnCommissionListModifiedEvent: IGlobalEvent
     public List<Commission> pendingCommissions;
 }
 
-public struct OnCommissionViewRequestEvent: IGlobalEvent
+public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
 {
     public Commission commission;
 }
