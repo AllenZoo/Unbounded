@@ -33,11 +33,6 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         EventBus<OnCommissionViewRequestEvent>.Register(commissionViewReqBinding);
     }
 
-    private void OnDisable()
-    {
-        EventBus<OnCommissionViewRequestEvent>.Unregister(commissionViewReqBinding);
-    }
-
     public void SetCommission(Commission commission)
     {
         this.commission = commission;

@@ -42,15 +42,8 @@ public class CommissionBoardUI : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        
+    {   
         EventBus<OnCommissionListModifiedEvent>.Register(commissionsModifiedBinding);
-    }
-
-    private void OnDisable()
-    {
-        EventBinding<OnCommissionListModifiedEvent> commissionsModifiedBinding = new EventBinding<OnCommissionListModifiedEvent>(OnCommissionListModified);
-        EventBus<OnCommissionListModifiedEvent>.Unregister(commissionsModifiedBinding);
     }
 
     private void Start()
