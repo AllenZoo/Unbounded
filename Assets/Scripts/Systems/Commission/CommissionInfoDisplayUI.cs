@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,9 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     [Required][SerializeField] private Image commissionImageDisplay;
 
     // TODO: Add UI to display Required Stats
+    [Required][SerializeField] private StatTagUI statTagPfb;
+    [Required][SerializeField] private Transform statTagParent;
+    private IObjectPooler<StatTagUI> statTagUIPooler;
 
     private Commission commission;
 
@@ -26,6 +30,7 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     private void Awake()
     {
         commissionViewReqBinding = new EventBinding<OnCommissionViewRequestEvent>(OnCommissionViewRequest);
+        statTagUIPooler = new ConsistentOrderObjectPooler<StatTagUI>(statTagPfb, statTagParent);
     }
 
     private void OnEnable()
@@ -47,6 +52,14 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         rewardText.text = "Reward: " + commission.reward;
         timeLimitText.text = "Time: " + commission.timeLimit;
         commissionImageDisplay.sprite = CommissionAssetGetter.Instance.GetEquipmentSprite(commission.equipmentType);
+
+        statTagUIPooler.ResetObjects();
+        foreach (var stat in commission.statRequirements)
+        {
+            var statTag = statTagUIPooler.GetObject();
+            var statTuple = new Tuple<Stat, int>(stat.Key, stat.Value);
+            statTag.SetStat(statTuple);
+        }
     }
 
     public void ToggleCommissionInfoDisplayVisability(bool isVisible)
