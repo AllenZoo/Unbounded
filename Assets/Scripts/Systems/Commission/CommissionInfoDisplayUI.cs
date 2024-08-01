@@ -90,6 +90,9 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     }
 
     public void RejectCommission() => ToggleCommissionInfoDisplayVisability(false);
+
+    // TODO: Get reference to inventory + item that is being submitted
+    public void SubmitCommission() => commission.SubmitCommission(null);
     #endregion
 
 }

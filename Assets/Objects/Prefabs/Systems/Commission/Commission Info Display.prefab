@@ -1176,7 +1176,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6690683816074896419}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3206727316559219292}
+        m_TargetAssemblyTypeName: CommissionInfoDisplayUI, Assembly-CSharp
+        m_MethodName: SubmitCommission
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2136057766518262971
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,9 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Handles managing commissions.
+/// Handles managing commissions on the commission board.
+/// TODO-OPT: refactor this responsibility somehwere else if this class gets too messy: 
+///     Also handles the validation of commission submissions.
 /// </summary>
 public class CommissionBoard : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class CommissionBoard : MonoBehaviour
     private float maxActiveCommissions = 1;
 
     private List<Commission> commissions = new List<Commission>();
+
+    private CommissionSubmissionValidator validator;
 
     private void Start()
     {
@@ -54,6 +58,7 @@ public class CommissionBoard : MonoBehaviour
         }
 
         commission.OnCommissionStart += AcceptCommission;
+        commission.OnCommissionSubmitted += SubmitCommission;
 
         commissions.Add(commission);
         EventBus<OnCommissionListModifiedEvent>.Call(
@@ -64,7 +69,7 @@ public class CommissionBoard : MonoBehaviour
         );
     }
 
-    public void AcceptCommission(Commission commission)
+    private void AcceptCommission(Commission commission)
     {
         // Redundent Check if the commission is in the list and also is
         // in pending status
@@ -91,7 +96,23 @@ public class CommissionBoard : MonoBehaviour
         );
     }
 
-    public void CompleteCommission(Commission commission)
+
+    /// <summary>
+    /// Validates the commission submission alongside the submitted item and then takes the appropriate action.
+    /// </summary>
+    /// <param name="commission"></param>
+    private void SubmitCommission(Commission commission, Item submittedItem)
+    {
+        if (!validator.ValidateSubmission(commission, submittedItem))
+        {
+            // CompleteCommission(commission);
+        }
+
+        // Valid Submission. Move the item to completed commissions inventory.
+        // Add money to Player's wallet.
+    }
+
+    private void HandleCommissionCompletion(Commission commission)
     {
         // Check if the commission is in list
         if (!commissions.Contains(commission))

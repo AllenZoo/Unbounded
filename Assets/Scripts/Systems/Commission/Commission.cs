@@ -9,6 +9,7 @@ using UnityEngine;
 public class Commission
 {
     public Action<Commission> OnCommissionStart;
+    public Action<Commission, Item> OnCommissionSubmitted;
     public Action<Commission> OnCommissionComplete;
 
     public string title { get; private set; }
@@ -49,16 +50,23 @@ public class Commission
     /// <summary>
     /// Attempts to complete the commission. If the commission is not active, it will not complete.
     /// </summary>
-    public void CompleteCommission()
+    public void SubmitCommission(Item item)
     {
         if (commissionStatus != CommissionStatus.ACTIVE)
         {
-            Debug.Log("Commission is not active. Cannot complete it.");
+            Debug.Log("Commission is not active. Cannot submit it.");
             return;
         }
-        OnCommissionComplete?.Invoke(this);
+        OnCommissionSubmitted?.Invoke(this, item);
     }
 
+    /// <summary>
+    /// Mark this commission as completed.
+    /// </summary>
+    public void CompleteCommission()
+    {
+
+    }
 }
 
 public enum CommissionStatus
