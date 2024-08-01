@@ -56,6 +56,12 @@ public class Item
     {
         serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Upgrader, new ItemUpgraderComponent()));
     }
+
+    [Button("Add Equipment Component")]
+    private void AddEquipmentComponent()
+    {
+        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Equipment, new ItemEquipmentComponent(EquipmentType.SWORD)));
+    }
     #endregion
 
 
