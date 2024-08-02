@@ -117,6 +117,11 @@ public class Item
         return new Item(data, quantity, clonedComponents);
     }
 
+    public void Erase()
+    {
+        
+    }
+
     public bool IsEmpty() => data == null || quantity == 0;
 
     // TODO: update equals and hash function.

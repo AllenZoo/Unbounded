@@ -20,7 +20,8 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     [Tooltip("Scriptable Object that holds the current CommissionViewStatus. We modify the status in this class.")]
     [Required][SerializeField] private CommissionViewStatus commissionViewStatus;
 
-    // TODO: Add UI to display Required Stats
+    [Required][SerializeField] private SO_Inventory submitInventory;
+
     [Required][SerializeField] private StatTagUI statTagPfb;
     [Required][SerializeField] private Transform statTagParent;
     private IObjectPooler<StatTagUI> statTagUIPooler;
@@ -38,6 +39,17 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     private void OnEnable()
     {
         EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
+    }
+    private void OnDisable()
+    {
+        // Figure out better way to do this later.
+        //Item submitItem = submitInventory.items[0];
+
+        //if (submitItem != null)
+        //{
+        //    InventorySystemStorage.Instance.GetSystem(InventoryType.Inventory).AddItem(submitItem);
+        //    submitInventory.items[0] = null;
+        //}
     }
 
     public void SetCommission(Commission commission)
@@ -70,6 +82,12 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     }
     private void ToggleCommissionInfoDisplayVisability(bool isVisible)
     {
+        // When we close the commission info, we want to move any item in the submitInventory back to the inventory.
+        //if (!isVisible)
+        //{
+        //    InventorySystemStorage.Instance.GetSystem(InventoryType.Inventory).AddItem(submitInventory.items[0]);
+        //    submitInventory.items[0] = null;
+        //}
         this.gameObject.SetActive(isVisible);
     }
     private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)
@@ -80,7 +98,6 @@ public class CommissionInfoDisplayUI : MonoBehaviour
 
     #region For View Status + Commission Status Modification via Buttons
     public void SetViewStatusActive() => commissionViewStatus.SetStatus(CommissionViewStatusType.ACTIVE);
-
     public void SetViewStatusPending() => commissionViewStatus.SetStatus(CommissionViewStatusType.PENDING);
 
     public void AcceptCommission()
@@ -88,11 +105,8 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         commission.StartCommission();
         ToggleCommissionInfoDisplayVisability(false);
     }
-
     public void RejectCommission() => ToggleCommissionInfoDisplayVisability(false);
-
-    // TODO: Get reference to inventory + item that is being submitted
-    public void SubmitCommission() => commission.SubmitCommission(null);
+    public void SubmitCommission() => commission.SubmitCommission(submitInventory.items[0]);
     #endregion
 
 }

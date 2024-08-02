@@ -1,8 +1,10 @@
+using Sirenix.OdinInspector;
 using Sirenix.Reflection.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Handles managing commissions on the commission board.
@@ -18,9 +20,20 @@ public class CommissionBoard : MonoBehaviour
     [SerializeField]
     private float maxActiveCommissions = 1;
 
+    [SerializeField]
+    [Required]
+    private SO_Inventory submitInventory;
+    
     private List<Commission> commissions = new List<Commission>();
-
     private CommissionSubmissionValidator validator;
+
+
+
+    private void Awake()
+    {
+        Assert.IsNotNull(submitInventory, "Submit Inventory is not set in the inspector.");
+        validator = new CommissionSubmissionValidator();
+    }
 
     private void Start()
     {
@@ -35,10 +48,16 @@ public class CommissionBoard : MonoBehaviour
         Commission commission3 = new Commission("Commission3", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
         Commission commission4 = new Commission("Commission4", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
 
+
+        Dictionary<Stat, int> stats2 = new Dictionary<Stat, int>();
+        stats2.Add(Stat.ATK, 5);
+        Commission commission5 = new Commission("Craft Sword", "Craft and Upgrade Katan's Sword!", 10, 1, 2, EquipmentType.SWORD, stats2, CommissionStatus.PENDING);
+
         //AddCommission(commission1);
         //AddCommission(commission2);
         AddCommission(commission3);
         AddCommission(commission4);
+        AddCommission(commission5);
     }
 
     public List<Commission> GetActiveCommissions() => commissions.Where(commission => commission.commissionStatus.Equals(CommissionStatus.ACTIVE)).ToList();
@@ -106,10 +125,14 @@ public class CommissionBoard : MonoBehaviour
         if (!validator.ValidateSubmission(commission, submittedItem))
         {
             // CompleteCommission(commission);
+            Debug.Log("Submitted item does not meet the commission requirements.");
+            return;
         }
 
         // Valid Submission. Move the item to completed commissions inventory.
         // Add money to Player's wallet.
+        submitInventory.ClearInventory();
+        PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold += commission.reward;
     }
 
     private void HandleCommissionCompletion(Commission commission)

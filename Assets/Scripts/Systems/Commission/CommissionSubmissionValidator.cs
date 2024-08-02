@@ -23,7 +23,7 @@ public class CommissionSubmissionValidator
     /// <returns>true if valid, and false otherwise.</returns>
     public bool ValidateSubmission(Commission commission, Item item)
     {
-        if (item == null) return false;
+        if (item == null || commission == null) return false;
 
         // Check if the item is the correct equipment type for the commission.
         // Also checks if the item contains a BaseStat and Upgrade component.
