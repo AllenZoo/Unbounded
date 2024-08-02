@@ -14,6 +14,7 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     [Required][SerializeField] private TextMeshProUGUI titleText;
     [Required][SerializeField] private TextMeshProUGUI descriptionText;
     [Required][SerializeField] private TextMeshProUGUI rewardText;
+    [Required][SerializeField] private TextMeshProUGUI difficultyText;
     [Required][SerializeField] private TextMeshProUGUI timeLimitText;
     [Required][SerializeField] private Image commissionImageDisplay;
 
@@ -81,8 +82,11 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         ToggleCommissionInfoDisplayVisability(true);
         titleText.text = commission.title;
         descriptionText.text = commission.description;
-        rewardText.text = "Reward: " + commission.reward;
-        timeLimitText.text = "Time: " + commission.timeLimit;
+
+        // Convert # to *s for difficulty.
+        difficultyText.text = "Difficulty: " +  new string('*', commission.difficulty);
+        rewardText.text = "Reward: " + commission.reward + " gold";
+        timeLimitText.text = "Time Limit: " + commission.timeLimit + " days";
         commissionImageDisplay.sprite = CommissionAssetGetter.Instance.GetEquipmentSprite(commission.equipmentType);
 
         // TODO: refactor this eventually

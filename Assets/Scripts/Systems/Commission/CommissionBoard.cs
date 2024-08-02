@@ -27,11 +27,14 @@ public class CommissionBoard : MonoBehaviour
     
     private List<Commission> commissions = new List<Commission>();
     private List<Tuple<Commission, Item>> completedCommissions = new List<Tuple<Commission, Item>>();
+
+    private CommissionGenerator commissionGenerator;
     private CommissionSubmissionValidator validator;
 
     private void Awake()
     {
         Assert.IsNotNull(submitInventory, "Submit Inventory is not set in the inspector.");
+        commissionGenerator = new CommissionGenerator(1, 1);
         validator = new CommissionSubmissionValidator();
     }
 
@@ -55,8 +58,8 @@ public class CommissionBoard : MonoBehaviour
 
         //AddCommission(commission1);
         //AddCommission(commission2);
-        AddCommission(commission3);
-        AddCommission(commission4);
+        //AddCommission(commission3);
+        //AddCommission(commission4);
         AddCommission(commission5);
     }
 
@@ -115,6 +118,11 @@ public class CommissionBoard : MonoBehaviour
         );
     }
 
+    // Used by Button for now.
+    public void GenerateRandomCommission()
+    {
+        AddCommission(commissionGenerator.GenerateCommission());
+    }
 
     /// <summary>
     /// Validates the commission submission alongside the submitted item and then takes the appropriate action.
