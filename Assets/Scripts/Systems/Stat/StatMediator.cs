@@ -3,6 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// Scrapped-TODO: split between EventfulStatMediator (has LocalEventHandler) and StatMediator (does not have LocalEventHandler)
+// Reason: There is a static function that handles cases where we just need the mediator to calculate the final stat value of a list of modifiers.
+public interface IStatMediator
+{
+    void CalculateFinalStat(List<StatModifier> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
+    void CalculateFinalStat(List<IStatModifierContainer> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
+    void CalculateFinalStat(StatQuery query);
+    void AddModifier(StatModifier modifier);
+    void RemoveModifier(StatModifier modifier);
+}
+
 /// <summary>
 /// Class that handles the final stat calculation after taking in modifiers.
 /// </summary>
@@ -55,7 +66,6 @@ public class StatMediator
 
         query.Value = order.Apply(modifiersCache[query.Stat], query.Value);
     }
-
     public void AddModifier(StatModifier modifier)
     {
         modifiers.Add(modifier);
@@ -73,6 +83,7 @@ public class StatMediator
         modifiers.Remove(modifier);
         InvalidateCache(modifier.Stat);
     }
+
     private void InvalidateCache(Stat stat)
     {
         modifiersCache.Remove(stat);
@@ -97,6 +108,10 @@ public class StatMediator
 public class StatQuery
 {
     public Stat Stat;
+
+    /// <summary>
+    /// The initial value of the stat. Eventually becomes final value after applying all modifiers.
+    /// </summary>
     public float Value;
 
     public StatQuery(Stat stat, float value)

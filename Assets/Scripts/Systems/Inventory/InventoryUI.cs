@@ -12,6 +12,9 @@ using UnityEngine.EventSystems;
 //                         this however would also require sharing a LocalEventHandler between the two scripts for event handling. 
 //                         This could potentially be handled by storing that reference in the SO_InventoryData by making LocalEventHandler
 //                         have a non-monobehaviour version.
+//                         
+//                         Another option to approach above is to have UI subscribe to some OnInventoryModified in Inventory_SO and have the system 
+//                        call that event when it modifies the data. This would require the system to have a reference to the Inventory_SO.
 [RequireComponent(typeof(InventorySystem))]
 public class InventoryUI : MonoBehaviour
 {
@@ -25,7 +28,6 @@ public class InventoryUI : MonoBehaviour
 
     [Tooltip("Should we clear all existing slots and generate using pfb?")]
     [SerializeField] private bool shouldGenerateSlots = true;
-    [SerializeField] private GameObject inventoryTitle;
 
     private List<SlotUI> slots = new List<SlotUI>();
     private InventorySystem inventorySystem;
@@ -187,7 +189,11 @@ public class InventoryUI : MonoBehaviour
         {
             GameObject slot = inventorySlotParent.transform.GetChild(i).gameObject;
             SlotUI slotUI = slot.GetComponent<SlotUI>();
-            Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
+
+            // Ignore slots without UI
+            if (slotUI == null) continue;
+            // Assert.IsNotNull(slotUI, "Slot UI component not found on slot game object.");
+
             slotUI.SetSlotIndex(i);
             slots.Add(slotUI);
         }

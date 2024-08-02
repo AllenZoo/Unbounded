@@ -34,6 +34,7 @@ public class ConditionTypeTranslator : MonoBehaviour
         conditionTypeToCondition.Add(ConditionType.WEAPON_SLOT_CONDITION, new WeaponSlotCondition());
         conditionTypeToCondition.Add(ConditionType.UPGRADER_SLOT_CONDITION, new UpgraderSlotCondition());
         conditionTypeToCondition.Add(ConditionType.NULL_SLOT_CONDITION, new NullSlotCondition());
+        conditionTypeToCondition.Add(ConditionType.EQUIPMENT_SLOT_CONDITION, new EquipmentSlotCondition());
     }
 
     public IItemCondition Translate(ConditionType conditionType)

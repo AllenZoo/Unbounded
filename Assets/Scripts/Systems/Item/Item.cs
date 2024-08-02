@@ -56,6 +56,12 @@ public class Item
     {
         serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Upgrader, new ItemUpgraderComponent()));
     }
+
+    [Button("Add Equipment Component")]
+    private void AddEquipmentComponent()
+    {
+        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Equipment, new ItemEquipmentComponent(EquipmentType.SWORD)));
+    }
     #endregion
 
 
@@ -109,6 +115,11 @@ public class Item
         }
 
         return new Item(data, quantity, clonedComponents);
+    }
+
+    public void Erase()
+    {
+        
     }
 
     public bool IsEmpty() => data == null || quantity == 0;

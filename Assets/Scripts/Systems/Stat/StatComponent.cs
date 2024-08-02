@@ -90,6 +90,16 @@ public class StatComponent : MonoBehaviour
         }
         private set { }
     }
+    public float dexterity
+    {
+        get
+        {
+            var q = new StatQuery(Stat.DEX, baseStats.dexterity);
+            statMediator.CalculateFinalStat(q);
+            return q.Value;
+        }
+        private set { }
+    }
     public float speed {
         get {
             var q = new StatQuery(Stat.SPD, baseStats.speed);

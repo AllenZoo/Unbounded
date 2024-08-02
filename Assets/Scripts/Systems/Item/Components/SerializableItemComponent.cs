@@ -13,6 +13,7 @@ public class SerializableItemComponent
         BaseStat,
         Upgrade,
         Upgrader,
+        Equipment,
         // Add other types as needed
     }
 
@@ -44,6 +45,9 @@ public class SerializableItemComponent
             type = ComponentType.BaseStat;
         else if (newComponent is ItemUpgraderComponent)
             type = ComponentType.Upgrader;
+        else if (newComponent is ItemEquipmentComponent)
+            type = ComponentType.Equipment;
+
         // Add other types as needed
 
         component = newComponent;
@@ -76,6 +80,10 @@ public class SerializableItemComponent
         {
             List<StatModifierEquipment> copy = upgraderComponent.modifiers.Select(s => s.DeepCopy()).ToList();
             return new ItemUpgraderComponent(copy, upgraderComponent.costPerItem);
+        } 
+        else if (component is ItemEquipmentComponent equipmentComponent)
+        {
+            return new ItemEquipmentComponent(equipmentComponent.equipmentType);
         }
 
         // Add more component types as needed
