@@ -54,8 +54,25 @@ public class CommissionInfoDisplayUI : MonoBehaviour
 
     public void SetCommission(Commission commission)
     {
+        if (this.commission != null)
+        {
+            // Unsubscribe to previous commission's events.
+            this.commission.OnCommissionComplete -= HandleCommissionCompletion;
+        }
         this.commission = commission;
+        this.commission.OnCommissionComplete += HandleCommissionCompletion;
+
         Render();
+    }
+
+    /// <summary>
+    /// A commission completes only when it's submitted through the CommissionInfoDisplayUI.
+    /// Thus, we close the CommissionInfoDisplayUI when a commission completes.
+    /// </summary>
+    /// <param name="commission"></param>
+    private void HandleCommissionCompletion(Commission commission)
+    {
+        ToggleCommissionInfoDisplayVisability(false);
     }
 
     #region Rendering main CommissionInfoDisplayUI

@@ -61,11 +61,17 @@ public class Commission
     }
 
     /// <summary>
-    /// Mark this commission as completed.
+    /// Callback for when the commission is completed.
     /// </summary>
     public void CompleteCommission()
     {
+        if (commissionStatus != CommissionStatus.COMPLETED)
+        {
+            Debug.Log("Commission is not complete.");
+            return;
+        }
 
+        OnCommissionComplete?.Invoke(this);
     }
 }
 

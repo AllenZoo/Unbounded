@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using Sirenix.Reflection.Editor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,8 @@ public class CommissionBoard : MonoBehaviour
     private SO_Inventory submitInventory;
     
     private List<Commission> commissions = new List<Commission>();
+    private List<Tuple<Commission, Item>> completedCommissions = new List<Tuple<Commission, Item>>();
     private CommissionSubmissionValidator validator;
-
-
 
     private void Awake()
     {
@@ -129,10 +129,14 @@ public class CommissionBoard : MonoBehaviour
             return;
         }
 
-        // Valid Submission. Move the item to completed commissions inventory.
+        // Valid Submission. Move the item to completed commissions list.
         // Add money to Player's wallet.
+        completedCommissions.Add(new Tuple<Commission, Item>(commission, submittedItem));
         submitInventory.ClearInventory();
+
         PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold += commission.reward;
+
+        HandleCommissionCompletion(commission);
     }
 
     private void HandleCommissionCompletion(Commission commission)
@@ -152,5 +156,7 @@ public class CommissionBoard : MonoBehaviour
                 pendingCommissions = GetPendingCommissions()
             }
         );
+
+        commission.CompleteCommission();
     }
 }
