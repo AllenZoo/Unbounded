@@ -53,7 +53,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
                     continue;
                 }
 
-                canvas.overrideSorting = true;
+                // canvas.overrideSorting = true;
                 canvas.sortingOrder = i;
             }
         }

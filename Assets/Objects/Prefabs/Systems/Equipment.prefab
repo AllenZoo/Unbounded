@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 6009033260288310312}
   - component: {fileID: 6009033260288310315}
   - component: {fileID: 2864501048915541323}
+  - component: {fileID: 3571654063033329167}
   m_Layer: 5
   m_Name: Equipment
   m_TagString: Untagged
@@ -236,7 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b49bcbde1630b1749b886960352f9ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 2864501048915541323}
   inventoryMouseFollower: {fileID: 0}
   OnRerender:
     m_PersistentCalls:
@@ -283,6 +283,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &3571654063033329167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6009033260288310317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df2bed863bd100419298ecc45bc78ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
 --- !u!1 &6009033260393703994
 GameObject:
   m_ObjectHideFlags: 0

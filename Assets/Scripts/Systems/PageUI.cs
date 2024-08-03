@@ -8,6 +8,8 @@ public class PageUI : MonoBehaviour, IUIPage
     [Required]
     [SerializeField] private Canvas canvas;
 
+
+
     private void Awake()
     {
         if (canvas == null)
@@ -23,12 +25,12 @@ public class PageUI : MonoBehaviour, IUIPage
 
     private void OnEnable()
     {
-        UIOverlayManager.Instance.BringToFront(this);
+        // UIOverlayManager.Instance.BringToFront(this);
     }
 
     private void Start()
     {
-        UIOverlayManager.Instance.AddUIPage(this);
+        // UIOverlayManager.Instance.AddUIPage(this);
     }
 
     public Canvas GetCanvas()
