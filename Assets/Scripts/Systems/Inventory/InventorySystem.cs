@@ -276,7 +276,7 @@ public class InventorySystem : MonoBehaviour
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
         if (otherItem != null && otherItem.data != null && 
-            (!otherItem.data.isStackable || otherItem.data.Equals(thisItem.data)))
+            (!otherItem.data.isStackable || (thisItem.data != null && !otherItem.data.Equals(thisItem.data))))
         {
             // item2 is not null and is not stackable with item1!
             Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
