@@ -171,7 +171,6 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 5708552752494018485}
   inventorySlotPrefab: {fileID: 6071097289829333637, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
   shouldGenerateSlots: 1
-  inventoryTitle: {fileID: 3471424396174156292}
 --- !u!1 &1347531663170766214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,6 +1078,7 @@ GameObject:
   - component: {fileID: 3471424397895414807}
   - component: {fileID: 635007146}
   - component: {fileID: 635007147}
+  - component: {fileID: 8613627172789169051}
   m_Layer: 5
   m_Name: Forge
   m_TagString: Untagged
@@ -1148,6 +1148,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previewUpgradeCostText: {fileID: 2231262020163116678}
   previewAfterText: {fileID: 5726390470562400943}
+--- !u!223 &8613627172789169051
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3471424397895414803}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 1
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 5
+  m_TargetDisplay: 0
 --- !u!1 &4528562537389430325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1220,7 @@ MonoBehaviour:
   slotRules:
     _serializedList:
     - Key: 0
-      Value: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
+      Value: {fileID: 11400000, guid: 47d2d76ccfb160c41acf7f933b278624, type: 2}
 --- !u!114 &494725839849726316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,7 +1240,6 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 967489724770204280}
   inventorySlotPrefab: {fileID: 707810123140005776}
   shouldGenerateSlots: 1
-  inventoryTitle: {fileID: 3471424396174156292}
 --- !u!1 &4749643242075252365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1811,6 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 2962623035873039303}
   inventorySlotPrefab: {fileID: 3173683868496737434}
   shouldGenerateSlots: 1
-  inventoryTitle: {fileID: 3471424396174156292}
 --- !u!1 &7022054901062306770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1863,7 +1882,6 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 8404498966924354837}
   inventorySlotPrefab: {fileID: 1300055465871642951}
   shouldGenerateSlots: 1
-  inventoryTitle: {fileID: 3471424396174156292}
 --- !u!1 &7517074171020965187
 GameObject:
   m_ObjectHideFlags: 0

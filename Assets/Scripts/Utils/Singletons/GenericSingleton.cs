@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBehaviour
 {
-    private static T instance;
+    protected static T instance;
 
     // Access the singleton instance through this property
     public static T Instance

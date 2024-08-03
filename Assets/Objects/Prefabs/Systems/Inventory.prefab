@@ -12,13 +12,14 @@ GameObject:
   - component: {fileID: 6390549700487428148}
   - component: {fileID: 6390549700487428150}
   - component: {fileID: 6390549700487428151}
+  - component: {fileID: 5858127598595799942}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6390549700487428146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -63,6 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b49bcbde1630b1749b886960352f9ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 5858127598595799942}
   inventoryMouseFollower: {fileID: 0}
   OnRerender:
     m_PersistentCalls:
@@ -70,7 +72,6 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 6390549700634469837}
   inventorySlotPrefab: {fileID: 6071097289829333637, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
   shouldGenerateSlots: 1
-  inventoryTitle: {fileID: 6390549700703523008}
 --- !u!114 &6390549700487428151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +88,27 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: eac6917f07cfcb94c9818c1e6537e34e, type: 2}
   slotRules:
     _serializedList: []
+--- !u!223 &5858127598595799942
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6390549700487428147}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 8
+  m_TargetDisplay: 0
 --- !u!1 &6390549700634469837
 GameObject:
   m_ObjectHideFlags: 0
