@@ -58,4 +58,17 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
             }
         }
     }
+
+    private void Update()
+    {
+        // Test, Check for input to bring last page to the first
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (uiPages.Count > 0)
+            {
+                Debug.Log("Number of pages added: " + uiPages.Count + " Bringing last page to front.");
+                BringToFront(uiPages[0]);
+            }
+        }
+    }
 }

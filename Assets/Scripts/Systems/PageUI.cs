@@ -25,12 +25,12 @@ public class PageUI : MonoBehaviour, IUIPage
 
     private void OnEnable()
     {
-        // UIOverlayManager.Instance.BringToFront(this);
+        //UIOverlayManager.Instance.BringToFront(this);
     }
 
     private void Start()
     {
-        // UIOverlayManager.Instance.AddUIPage(this);
+        UIOverlayManager.Instance.AddUIPage(this);
     }
 
     public Canvas GetCanvas()
