@@ -21,6 +21,9 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     [Tooltip("Scriptable Object that holds the current CommissionViewStatus. We modify the status in this class.")]
     [Required][SerializeField] private CommissionViewStatus commissionViewStatus;
 
+    [Tooltip("For toggling the visability of the CommissionInfoDisplayUI without disabling the GameObject running this script.")]
+    [Required][SerializeField] private GameObject wrapper;
+
     [Required][SerializeField] private SO_Inventory submitInventory;
 
     [Required][SerializeField] private StatTagUI statTagPfb;
@@ -39,6 +42,7 @@ public class CommissionInfoDisplayUI : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("Test");
         EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
     }
     private void OnDisable()
@@ -109,7 +113,8 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         //    InventorySystemStorage.Instance.GetSystem(InventoryType.Inventory).AddItem(submitInventory.items[0]);
         //    submitInventory.items[0] = null;
         //}
-        this.gameObject.SetActive(isVisible);
+        // this.gameObject.SetActive(isVisible);
+        wrapper.SetActive(isVisible);
     }
     private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)
     {

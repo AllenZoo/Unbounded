@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class StatComponent : MonoBehaviour
 {
+    // LocalEventHandler only handles event logic between systems on the same object
     [SerializeField] public LocalEventHandler localEventHandler;
 
-    // TODO: eventually remove this.
-    // public event Action<StatComponent, StatModifier> OnStatChange;
+    // This event allows for subscription between different objects. Eg. UI and StatComponent
+    public event Action OnStatChange;
 
     [SerializeField] private SO_StatContainer baseStats;
 
@@ -117,6 +119,7 @@ public class StatComponent : MonoBehaviour
         }
         set {
             baseStats.gold = value;
+            OnStatChange?.Invoke();
         }
     }
 
@@ -145,6 +148,9 @@ public class StatComponent : MonoBehaviour
 
         LocalEventBinding<OnStatBuffEvent> buffBinding = new LocalEventBinding<OnStatBuffEvent>(HandleBuff);
         localEventHandler.Register(buffBinding);
+
+        LocalEventBinding<OnStatChangeEvent> statChangeBinding = new LocalEventBinding<OnStatChangeEvent>(HandleStatChange);
+        localEventHandler.Register(statChangeBinding);
     }
 
     private void Start()
@@ -182,6 +188,10 @@ public class StatComponent : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Modifies stats based on weapon equipped and weapon unequipped.
+    /// </summary>
+    /// <param name="e"></param>
     private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
     {
         Item equipped = e.equipped;
@@ -227,26 +237,39 @@ public class StatComponent : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Modifies health by damage taken
+    /// </summary>
+    /// <param name="e"></param>
     private void HandleDamage(OnDamagedEvent e)
     {
         StatModifier damageModifier = new StatModifier(Stat.HP, new AddOperation(-e.damage), -1);
         statMediator.AddModifier(damageModifier);
     }
 
+    /// <summary>
+    /// Modifies stat by buff
+    /// </summary>
+    /// <param name="e"></param>
     private void HandleBuff(OnStatBuffEvent e)
     {
         statMediator.AddModifier(e.buff);
     }
 
+    /// <summary>
+    /// Invokes global event for stat change.
+    /// </summary>
+    /// <param name="e"></param>
+    private void HandleStatChange(OnStatChangeEvent e)
+    {
+        OnStatChange?.Invoke();
+    }
+
     private void Update()
     {
-        // For Debugging
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var q = new StatQuery(Stat.ATK, baseStats.attack);
-            statMediator.CalculateFinalStat(q);
-            Debug.Log(gameObject.name + " Attack: " + q.Value);
-            // statMediator.AddModifier(new StatModifier(Stat.SPD, new AddOperation(10), -1));
+            gold += 10;
         }
     }
 }
