@@ -10,7 +10,7 @@ public interface IUIPage
 
 public class UIOverlayManager : Singleton<UIOverlayManager>
 {
-    // public static event Action OnPageOrderModified;
+    public static event Action OnPageOrderModified;
 
     private List<IUIPage> uiPages = new List<IUIPage>();
 
@@ -25,6 +25,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
 
         // Bring the new UI page to the front
         BringToFront(uiPage);
+        OnPageOrderModified?.Invoke();
     }
 
     // Method to remove a UI page
@@ -34,6 +35,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         {
             uiPages.Remove(uiPage);
         }
+        OnPageOrderModified?.Invoke();
     }
 
     // Method to bring a UI page to the front
@@ -60,6 +62,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
                 canvas.sortingOrder = i;
             }
         }
+        OnPageOrderModified?.Invoke();
     }
 
     // Method to check if a UI page is in front
@@ -90,11 +93,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         // Test, Check for input to bring last page to the first
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (uiPages.Count > 0)
-            {
-                Debug.Log("Number of pages added: " + uiPages.Count + " Bringing last page to front.");
-                BringToFront(uiPages[0]);
-            }
+            // Print out last page
         }
     }
 }

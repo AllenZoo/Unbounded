@@ -11,13 +11,16 @@ using UnityEngine;
 /// Class that handles the visibility of a UI page as well as the sorting order of all UI pages.
 /// </summary>
 
-[RequireComponent(typeof(Collider2D))]
 public class PageUI : MonoBehaviour, IUIPage
 {
     [Tooltip("The canvas that contains the UI elements whose visibility will be controlled by this script.")]
     [Required][SerializeField] private Canvas canvas;
 
     [Required][SerializeField] private Collider2D uiCollider;
+
+    //[Tooltip("The UI elements of the page itself that we will control the toggling of.")]
+    //[Required][SerializeField] private GameObject displayUIWrapper;
+
 
     // Serialized for debugging
     [SerializeField] private bool isBlocked = false;
@@ -35,6 +38,7 @@ public class PageUI : MonoBehaviour, IUIPage
         }
 
         uiCollider.isTrigger = true;
+        canvas.overrideSorting = true;
     }
 
     private void OnEnable()
@@ -43,13 +47,34 @@ public class PageUI : MonoBehaviour, IUIPage
     }
     private void Start()
     {
+        Debug.Log("Added Page UI: " + gameObject.name);
+
         UIOverlayManager.Instance.AddUIPage(this);
+        UIOverlayManager.OnPageOrderModified += HandleBlockedStatus;
     }
 
     public Canvas GetCanvas()
     {
         return canvas;
     }
+
+    /// <summary>
+    /// If the page is blocked or invisible, display it move it to the top of the UI stack.
+    /// Otherwise, close the page.
+    /// </summary>
+    public void MoveToTopOrClose()
+    {
+        if (isBlocked || !canvas.enabled)
+        {
+            ToggleVisibility(true);
+            UIOverlayManager.Instance.BringToFront(this);
+        }
+        else
+        {
+            ToggleVisibility(false);
+        }
+    }
+
 
     /// <summary>
     /// Finds all colliders colliding with this page's collider and checks if this page is blocked by another page.
@@ -84,23 +109,6 @@ public class PageUI : MonoBehaviour, IUIPage
     private void OnTriggerStay2D(Collider2D collision)
     {
         HandleBlockedStatus();
-    }
-
-
-    /// <summary>
-    /// If the page is blocked, move it to the top of the UI stack.
-    /// Otherwise, close the page.
-    /// </summary>
-    private void MoveToTopOrClose()
-    {
-        if (isBlocked)
-        {
-            UIOverlayManager.Instance.BringToFront(this);
-        }
-        else
-        {
-            ToggleVisibility(false);
-        }
     }
 
     /// <summary>

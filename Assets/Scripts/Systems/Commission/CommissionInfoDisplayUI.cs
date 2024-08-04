@@ -9,23 +9,31 @@ using UnityEngine.UI;
 /// <summary>
 /// Class that handles rendering the proper info on the Commission Info Display UI.
 /// </summary>
-public class CommissionInfoDisplayUI : MonoBehaviour
+public class CommissionInfoDisplayUI : PageUI
 {
-    [Required][SerializeField] private TextMeshProUGUI titleText;
-    [Required][SerializeField] private TextMeshProUGUI descriptionText;
-    [Required][SerializeField] private TextMeshProUGUI rewardText;
-    [Required][SerializeField] private TextMeshProUGUI difficultyText;
-    [Required][SerializeField] private TextMeshProUGUI timeLimitText;
-    [Required][SerializeField] private Image commissionImageDisplay;
+    #region Properties
+    [Header("UI Elements")]
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI titleText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI descriptionText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI rewardText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI difficultyText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI timeLimitText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private Image commissionImageDisplay;
 
+
+    [FoldoutGroup("Data")]
+    [Header("Data")]
     [Tooltip("Scriptable Object that holds the current CommissionViewStatus. We modify the status in this class.")]
     [Required][SerializeField] private CommissionViewStatus commissionViewStatus;
 
+    [FoldoutGroup("Data")]
     [Tooltip("For toggling the visability of the CommissionInfoDisplayUI without disabling the GameObject running this script.")]
     [Required][SerializeField] private GameObject wrapper;
 
+    [FoldoutGroup("Data")]
     [Required][SerializeField] private SO_Inventory submitInventory;
 
+    [Header("Stat Tags")]
     [Required][SerializeField] private StatTagUI statTagPfb;
     [Required][SerializeField] private Transform statTagParent;
     private IObjectPooler<StatTagUI> statTagUIPooler;
@@ -33,6 +41,7 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     private Commission commission;
 
     private EventBinding<OnCommissionViewInfoRequestEvent> commissionViewReqBinding;
+    #endregion
 
     private void Awake()
     {
@@ -121,6 +130,12 @@ public class CommissionInfoDisplayUI : MonoBehaviour
         //}
         // this.gameObject.SetActive(isVisible);
         wrapper.SetActive(isVisible);
+        
+        if (isVisible)
+        {
+            Debug.Log("Bringing to front");
+            UIOverlayManager.Instance.BringToFront(this);
+        }
     }
     private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)
     {

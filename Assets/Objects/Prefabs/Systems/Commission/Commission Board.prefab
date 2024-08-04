@@ -808,6 +808,7 @@ GameObject:
   - component: {fileID: 395990331674827820}
   - component: {fileID: 5210558858543009087}
   - component: {fileID: 8451983389131288310}
+  - component: {fileID: 2193852124681466445}
   m_Layer: 5
   m_Name: Commission Board
   m_TagString: Untagged
@@ -940,6 +941,23 @@ MonoBehaviour:
   canvas: {fileID: 395990331674827820}
   uiCollider: {fileID: 5210558858543009087}
   isBlocked: 0
+--- !u!114 &2193852124681466445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328770640988526222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 16383
 --- !u!1 &2486194752549555387
 GameObject:
   m_ObjectHideFlags: 0
