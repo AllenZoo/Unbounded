@@ -42,12 +42,18 @@ public class CommissionInfoDisplayUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Test");
         EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
     }
+
+    private void Start()
+    {
+        // Test this later to see if it breaks anything.
+        // EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
+    }
+
     private void OnDisable()
     {
-        // Figure out better way to do this later.
+        // TODO: Figure out better way to do this later.
         //Item submitItem = submitInventory.items[0];
 
         //if (submitItem != null)

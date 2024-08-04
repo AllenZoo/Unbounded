@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public interface IUIPage
 
 public class UIOverlayManager : Singleton<UIOverlayManager>
 {
+    // public static event Action OnPageOrderModified;
+
     private List<IUIPage> uiPages = new List<IUIPage>();
 
     // Method to add a new UI page
@@ -58,6 +61,29 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
             }
         }
     }
+
+    // Method to check if a UI page is in front
+    public bool IsPageInFrontOfAll(IUIPage uiPage)
+    {
+        if (uiPages.Count > 0)
+        {
+            return uiPages[uiPages.Count - 1] == uiPage;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Check if a UI page is in front of another UI page
+    /// </summary>
+    /// <param name="uiPage"></param>
+    /// <param name="uiPage2"></param>
+    /// <returns>true if uiPage is in front of uiPage2</returns>
+    public bool IsPageInFrontOfOther(IUIPage uiPage, IUIPage uiPage2)
+    {
+        return uiPages.IndexOf(uiPage) > uiPages.IndexOf(uiPage2);
+    }
+
+
 
     private void Update()
     {
