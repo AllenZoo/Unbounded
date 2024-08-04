@@ -43,19 +43,22 @@ public class CommissionInfoDisplayUI : PageUI
     private EventBinding<OnCommissionViewInfoRequestEvent> commissionViewReqBinding;
     #endregion
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         commissionViewReqBinding = new EventBinding<OnCommissionViewInfoRequestEvent>(OnCommissionViewRequest);
         statTagUIPooler = new ConsistentOrderObjectPooler<StatTagUI>(statTagPfb, statTagParent);
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         // Test this later to see if it breaks anything.
         // EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
     }
@@ -98,6 +101,7 @@ public class CommissionInfoDisplayUI : PageUI
     #region Rendering main CommissionInfoDisplayUI
     private void Render()
     {
+        MoveToTop();
         titleText.text = commission.title;
         descriptionText.text = commission.description;
 
@@ -118,8 +122,6 @@ public class CommissionInfoDisplayUI : PageUI
             var statTuple = new Tuple<Stat, int>(stat.Key, stat.Value);
             statTag.SetStat(statTuple);
         }
-
-        MoveToTopOrClose();
     }
 
     private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)

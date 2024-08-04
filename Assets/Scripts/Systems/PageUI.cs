@@ -20,7 +20,7 @@ public class PageUI : MonoBehaviour, IUIPage
 
     private bool isBlocked = false;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (canvas == null)
         {
@@ -36,11 +36,11 @@ public class PageUI : MonoBehaviour, IUIPage
         canvas.overrideSorting = true;
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         UIOverlayManager.Instance.BringToFront(this);
     }
-    private void Start()
+    protected virtual void Start()
     {
         Debug.Log("Added Page UI: " + gameObject.name);
 
@@ -72,6 +72,15 @@ public class PageUI : MonoBehaviour, IUIPage
             ToggleVisibility(false);
             // UIOverlayManager.Instance.BringToBack(this);
         }
+    }
+
+    /// <summary>
+    /// Enables the canvas and moves the page to the top of the UI stack.
+    /// </summary>
+    public void MoveToTop()
+    {
+        UIOverlayManager.Instance.BringToFront(this);
+        ToggleVisibility(true);
     }
 
     public void ClosePage()
