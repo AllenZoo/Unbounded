@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 4008282567835349132}
   m_Layer: 5
   m_Name: Inventory
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +97,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6390549700487428147}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -125,7 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 5858127598595799942}
   uiCollider: {fileID: 4008282567835349132}
-  isBlocked: 0
 --- !u!114 &5095489944071842797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +646,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276503581235310530, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1307575274715809071}
+    - target: {fileID: 7276503581235310530, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClosePage
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276503581235310530, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PageUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7835769771733533562, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
       propertyPath: uiElementToClose
       value: 
@@ -655,7 +666,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloseButtonBrown
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7835769771733533562, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
 --- !u!224 &3238651879803080604 stripped
 RectTransform:

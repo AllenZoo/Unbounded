@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 2193852124681466445}
   m_Layer: 5
   m_Name: Commission Board
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -886,14 +886,14 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2328770640988526222}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
@@ -940,7 +940,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 395990331674827820}
   uiCollider: {fileID: 5210558858543009087}
-  isBlocked: 0
 --- !u!114 &2193852124681466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1606,7 +1605,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4085468798499074901}
   - component: {fileID: 4947804503324230005}
-  - component: {fileID: 5543732782677667277}
   m_Layer: 5
   m_Name: CloseButtonGray
   m_TagString: Untagged
@@ -1680,9 +1678,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5543732782677667277}
-        m_TargetAssemblyTypeName: CloseButton, Assembly-CSharp
-        m_MethodName: CloseUIElement
+      - m_Target: {fileID: 8451983389131288310}
+        m_TargetAssemblyTypeName: PageUI, Assembly-CSharp
+        m_MethodName: ClosePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1692,19 +1690,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5543732782677667277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6361134035066550251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a23989ac5e3f149851d02ee50a619e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElementToClose: {fileID: 2328770640988526222}
 --- !u!1 &6634852956302705429
 GameObject:
   m_ObjectHideFlags: 0

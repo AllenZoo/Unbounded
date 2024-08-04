@@ -74,6 +74,11 @@ public class PageUI : MonoBehaviour, IUIPage
         }
     }
 
+    public void ClosePage()
+    {
+        ToggleVisibility(false);
+        // UIOverlayManager.Instance.BringToBack(this);
+    }
 
     /// <summary>
     /// Finds all colliders colliding with this page's collider and checks if this page is blocked by another page.

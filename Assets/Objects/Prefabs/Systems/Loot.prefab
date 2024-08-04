@@ -86,7 +86,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5917780726582837539}
   - component: {fileID: 3330570208067531523}
-  - component: {fileID: 2773625379562561467}
   m_Layer: 5
   m_Name: CloseButtonGray
   m_TagString: Untagged
@@ -160,9 +159,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2773625379562561467}
-        m_TargetAssemblyTypeName: CloseButton, Assembly-CSharp
-        m_MethodName: CloseUIElement
+      - m_Target: {fileID: 6788113221797995414}
+        m_TargetAssemblyTypeName: PageUI, Assembly-CSharp
+        m_MethodName: ClosePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -172,19 +171,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2773625379562561467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3663088673708885405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a23989ac5e3f149851d02ee50a619e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElementToClose: {fileID: 5387389827566003448}
 --- !u!1 &5387389827566003448
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +189,7 @@ GameObject:
   - component: {fileID: 8954565832427952595}
   m_Layer: 5
   m_Name: Loot
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -282,7 +268,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5387389827566003448}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -310,7 +296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1866542274989916704}
   uiCollider: {fileID: 8954565832427952595}
-  isBlocked: 0
 --- !u!114 &5901641194415995895
 MonoBehaviour:
   m_ObjectHideFlags: 0
