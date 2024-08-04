@@ -92,13 +92,12 @@ public class CommissionInfoDisplayUI : PageUI
     /// <param name="commission"></param>
     private void HandleCommissionCompletion(Commission commission)
     {
-        ToggleCommissionInfoDisplayVisability(false);
+        ToggleVisibility(false);
     }
 
     #region Rendering main CommissionInfoDisplayUI
     private void Render()
     {
-        ToggleCommissionInfoDisplayVisability(true);
         titleText.text = commission.title;
         descriptionText.text = commission.description;
 
@@ -119,24 +118,10 @@ public class CommissionInfoDisplayUI : PageUI
             var statTuple = new Tuple<Stat, int>(stat.Key, stat.Value);
             statTag.SetStat(statTuple);
         }
+
+        MoveToTopOrClose();
     }
-    private void ToggleCommissionInfoDisplayVisability(bool isVisible)
-    {
-        // When we close the commission info, we want to move any item in the submitInventory back to the inventory.
-        //if (!isVisible)
-        //{
-        //    InventorySystemStorage.Instance.GetSystem(InventoryType.Inventory).AddItem(submitInventory.items[0]);
-        //    submitInventory.items[0] = null;
-        //}
-        // this.gameObject.SetActive(isVisible);
-        wrapper.SetActive(isVisible);
-        
-        if (isVisible)
-        {
-            Debug.Log("Bringing to front");
-            UIOverlayManager.Instance.BringToFront(this);
-        }
-    }
+
     private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)
     {
         SetCommission(e.commission);
@@ -150,9 +135,9 @@ public class CommissionInfoDisplayUI : PageUI
     public void AcceptCommission()
     {
         commission.StartCommission();
-        ToggleCommissionInfoDisplayVisability(false);
+        ToggleVisibility(false);
     }
-    public void RejectCommission() => ToggleCommissionInfoDisplayVisability(false);
+    public void RejectCommission() => ToggleVisibility(false);
     public void SubmitCommission() => commission.SubmitCommission(submitInventory.items[0]);
     #endregion
 

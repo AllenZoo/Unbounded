@@ -108,25 +108,15 @@ public class PageUI : MonoBehaviour, IUIPage
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        HandleBlockedStatus();
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        HandleBlockedStatus();
-    }
-
     /// <summary>
     /// Toggles the visibility of the page.
     /// </summary>
     /// <param name="isVisible"></param>
-    private void ToggleVisibility(bool isVisible)
+    protected void ToggleVisibility(bool isVisible)
     {
         canvas.enabled = isVisible;
     }
-    private void ToggleVisibility()
+    protected void ToggleVisibility()
     {
         canvas.enabled = !canvas.enabled;
     }
