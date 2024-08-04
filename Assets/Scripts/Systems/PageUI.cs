@@ -18,12 +18,7 @@ public class PageUI : MonoBehaviour, IUIPage
 
     [Required][SerializeField] private Collider2D uiCollider;
 
-    //[Tooltip("The UI elements of the page itself that we will control the toggling of.")]
-    //[Required][SerializeField] private GameObject displayUIWrapper;
-
-
-    // Serialized for debugging
-    [SerializeField] private bool isBlocked = false;
+    private bool isBlocked = false;
 
     private void Awake()
     {
@@ -50,7 +45,9 @@ public class PageUI : MonoBehaviour, IUIPage
         Debug.Log("Added Page UI: " + gameObject.name);
 
         UIOverlayManager.Instance.AddUIPage(this);
-        UIOverlayManager.OnPageOrderModified += HandleBlockedStatus;
+        
+        // Note: not necessary for since we call HandleBlockedStatus in MoveToTopOrClose.
+        // UIOverlayManager.OnPageOrderModified += HandleBlockedStatus;
     }
 
     public Canvas GetCanvas()
@@ -73,6 +70,7 @@ public class PageUI : MonoBehaviour, IUIPage
         else
         {
             ToggleVisibility(false);
+            // UIOverlayManager.Instance.BringToBack(this);
         }
     }
 
@@ -100,7 +98,8 @@ public class PageUI : MonoBehaviour, IUIPage
             if (collision != null && collision.CompareTag("UI"))
             {
                 PageUI pageUI = collision.GetComponent<PageUI>();
-                if (pageUI != null && !UIOverlayManager.Instance.IsPageInFrontOfOther(this, pageUI))
+                if (pageUI != null && !UIOverlayManager.Instance.IsPageInFrontOfOther(this, pageUI)
+                    && pageUI.GetCanvas().enabled)
                 {
                     isBlocked = true;
                     return;

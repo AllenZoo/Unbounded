@@ -65,6 +65,30 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         OnPageOrderModified?.Invoke();
     }
 
+    // Method to bring a UI page to the back
+    public void BringToBack(IUIPage uIPage)
+    {
+        if (uiPages.Contains(uIPage))
+        {
+            // Remove and re-add the page to the end of the list
+            uiPages.Remove(uIPage);
+            uiPages.Insert(0, uIPage);
+            // Update the sorting order of all pages
+            for (int i = 0; i < uiPages.Count; i++)
+            {
+                Canvas canvas = uiPages[i].GetCanvas();
+                if (canvas == null)
+                {
+                    Debug.LogError("Canvas is null for UI page: " + uiPages[i]);
+                    continue;
+                }
+                // canvas.overrideSorting = true;
+                canvas.sortingOrder = i;
+            }
+        }
+        OnPageOrderModified?.Invoke();
+    }
+
     // Method to check if a UI page is in front
     public bool IsPageInFrontOfAll(IUIPage uiPage)
     {
@@ -84,17 +108,5 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
     public bool IsPageInFrontOfOther(IUIPage uiPage, IUIPage uiPage2)
     {
         return uiPages.IndexOf(uiPage) > uiPages.IndexOf(uiPage2);
-    }
-
-
-
-    private void Update()
-    {
-        // Test, Check for input to bring last page to the first
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // Print out last page
-            Debug.Log("Last page: " + uiPages[uiPages.Count - 1].GetCanvas().gameObject);
-        }
     }
 }
