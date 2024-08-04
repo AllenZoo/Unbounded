@@ -94,6 +94,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // Print out last page
+            Debug.Log("Last page: " + uiPages[uiPages.Count - 1].GetCanvas().gameObject);
         }
     }
 }

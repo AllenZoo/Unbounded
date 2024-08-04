@@ -64,6 +64,7 @@ public class PageUI : MonoBehaviour, IUIPage
     /// </summary>
     public void MoveToTopOrClose()
     {
+        HandleBlockedStatus();
         if (isBlocked || !canvas.enabled)
         {
             ToggleVisibility(true);
@@ -84,15 +85,22 @@ public class PageUI : MonoBehaviour, IUIPage
     {
         // Check if this page is blocked by another page
         List<Collider2D> collisions = new List<Collider2D>();
-        uiCollider.OverlapCollider(new ContactFilter2D(), collisions);
+
+        // Set up the ContactFilter2D to only include the "UI" layer (or whatever layer UI elements are on)
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(LayerMask.GetMask("UI"));
+        filter.useLayerMask = true;
+        filter.useTriggers = true; // Assuming UI elements might be triggers
+
+        uiCollider.OverlapCollider(filter, collisions);
 
         isBlocked = false;
         foreach (Collider2D collision in collisions)
         {
-            PageUI pageUI = collision.GetComponent<PageUI>();
-            if (collision.tag == "UI" && collision != null)
+            if (collision != null && collision.CompareTag("UI"))
             {
-                if (!UIOverlayManager.Instance.IsPageInFrontOfOther(this, pageUI))
+                PageUI pageUI = collision.GetComponent<PageUI>();
+                if (pageUI != null && !UIOverlayManager.Instance.IsPageInFrontOfOther(this, pageUI))
                 {
                     isBlocked = true;
                     return;
