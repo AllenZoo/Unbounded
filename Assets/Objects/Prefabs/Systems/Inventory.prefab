@@ -12,13 +12,17 @@ GameObject:
   - component: {fileID: 6390549700487428148}
   - component: {fileID: 6390549700487428150}
   - component: {fileID: 6390549700487428151}
+  - component: {fileID: 5858127598595799942}
+  - component: {fileID: 1307575274715809071}
+  - component: {fileID: 5095489944071842797}
+  - component: {fileID: 4008282567835349132}
   m_Layer: 5
   m_Name: Inventory
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6390549700487428146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -70,7 +74,6 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 6390549700634469837}
   inventorySlotPrefab: {fileID: 6071097289829333637, guid: 00344581cfe692845b3e75bf43082b74, type: 3}
   shouldGenerateSlots: 1
-  inventoryTitle: {fileID: 6390549700703523008}
 --- !u!114 &6390549700487428151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +90,84 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: eac6917f07cfcb94c9818c1e6537e34e, type: 2}
   slotRules:
     _serializedList: []
+--- !u!223 &5858127598595799942
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6390549700487428147}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 8
+  m_TargetDisplay: 0
+--- !u!114 &1307575274715809071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6390549700487428147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df2bed863bd100419298ecc45bc78ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 5858127598595799942}
+  uiCollider: {fileID: 4008282567835349132}
+--- !u!114 &5095489944071842797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6390549700487428147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 16383
+--- !u!61 &4008282567835349132
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6390549700487428147}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -168.82466, y: -183.4697}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 338.64932, y: 367.9394}
+  m_EdgeRadius: 0
 --- !u!1 &6390549700634469837
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +646,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276503581235310530, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1307575274715809071}
+    - target: {fileID: 7276503581235310530, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClosePage
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276503581235310530, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PageUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7835769771733533562, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
       propertyPath: uiElementToClose
       value: 
@@ -573,7 +666,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloseButtonBrown
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7835769771733533562, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bd96f1fbc20a4bd43a8e1418cf7b2703, type: 3}
 --- !u!224 &3238651879803080604 stripped
 RectTransform:

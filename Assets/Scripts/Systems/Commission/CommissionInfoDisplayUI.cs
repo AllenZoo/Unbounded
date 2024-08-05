@@ -9,23 +9,31 @@ using UnityEngine.UI;
 /// <summary>
 /// Class that handles rendering the proper info on the Commission Info Display UI.
 /// </summary>
-public class CommissionInfoDisplayUI : MonoBehaviour
+public class CommissionInfoDisplayUI : PageUI
 {
-    [Required][SerializeField] private TextMeshProUGUI titleText;
-    [Required][SerializeField] private TextMeshProUGUI descriptionText;
-    [Required][SerializeField] private TextMeshProUGUI rewardText;
-    [Required][SerializeField] private TextMeshProUGUI difficultyText;
-    [Required][SerializeField] private TextMeshProUGUI timeLimitText;
-    [Required][SerializeField] private Image commissionImageDisplay;
+    #region Properties
+    [Header("UI Elements")]
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI titleText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI descriptionText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI rewardText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI difficultyText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private TextMeshProUGUI timeLimitText;
+    [FoldoutGroup("UI Elements")][Required][SerializeField] private Image commissionImageDisplay;
 
+
+    [FoldoutGroup("Data")]
+    [Header("Data")]
     [Tooltip("Scriptable Object that holds the current CommissionViewStatus. We modify the status in this class.")]
     [Required][SerializeField] private CommissionViewStatus commissionViewStatus;
 
+    [FoldoutGroup("Data")]
     [Tooltip("For toggling the visability of the CommissionInfoDisplayUI without disabling the GameObject running this script.")]
     [Required][SerializeField] private GameObject wrapper;
 
+    [FoldoutGroup("Data")]
     [Required][SerializeField] private SO_Inventory submitInventory;
 
+    [Header("Stat Tags")]
     [Required][SerializeField] private StatTagUI statTagPfb;
     [Required][SerializeField] private Transform statTagParent;
     private IObjectPooler<StatTagUI> statTagUIPooler;
@@ -33,21 +41,31 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     private Commission commission;
 
     private EventBinding<OnCommissionViewInfoRequestEvent> commissionViewReqBinding;
+    #endregion
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         commissionViewReqBinding = new EventBinding<OnCommissionViewInfoRequestEvent>(OnCommissionViewRequest);
         statTagUIPooler = new ConsistentOrderObjectPooler<StatTagUI>(statTagPfb, statTagParent);
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
-        Debug.Log("Test");
+        base.OnEnable();
         EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
     }
+
+    protected override void Start()
+    {
+        base.Start();
+        // Test this later to see if it breaks anything.
+        // EventBus<OnCommissionViewInfoRequestEvent>.Register(commissionViewReqBinding);
+    }
+
     private void OnDisable()
     {
-        // Figure out better way to do this later.
+        // TODO: Figure out better way to do this later.
         //Item submitItem = submitInventory.items[0];
 
         //if (submitItem != null)
@@ -77,13 +95,13 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     /// <param name="commission"></param>
     private void HandleCommissionCompletion(Commission commission)
     {
-        ToggleCommissionInfoDisplayVisability(false);
+        ToggleVisibility(false);
     }
 
     #region Rendering main CommissionInfoDisplayUI
     private void Render()
     {
-        ToggleCommissionInfoDisplayVisability(true);
+        MoveToTop();
         titleText.text = commission.title;
         descriptionText.text = commission.description;
 
@@ -105,17 +123,7 @@ public class CommissionInfoDisplayUI : MonoBehaviour
             statTag.SetStat(statTuple);
         }
     }
-    private void ToggleCommissionInfoDisplayVisability(bool isVisible)
-    {
-        // When we close the commission info, we want to move any item in the submitInventory back to the inventory.
-        //if (!isVisible)
-        //{
-        //    InventorySystemStorage.Instance.GetSystem(InventoryType.Inventory).AddItem(submitInventory.items[0]);
-        //    submitInventory.items[0] = null;
-        //}
-        // this.gameObject.SetActive(isVisible);
-        wrapper.SetActive(isVisible);
-    }
+
     private void OnCommissionViewRequest(OnCommissionViewInfoRequestEvent e)
     {
         SetCommission(e.commission);
@@ -129,9 +137,9 @@ public class CommissionInfoDisplayUI : MonoBehaviour
     public void AcceptCommission()
     {
         commission.StartCommission();
-        ToggleCommissionInfoDisplayVisability(false);
+        ToggleVisibility(false);
     }
-    public void RejectCommission() => ToggleCommissionInfoDisplayVisability(false);
+    public void RejectCommission() => ToggleVisibility(false);
     public void SubmitCommission() => commission.SubmitCommission(submitInventory.items[0]);
     #endregion
 

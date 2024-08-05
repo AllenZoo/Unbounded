@@ -311,7 +311,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8480072424954078235}
   - component: {fileID: 2000475687395221216}
-  - component: {fileID: 7491755345757742803}
   m_Layer: 5
   m_Name: CloseButtonGray
   m_TagString: Untagged
@@ -385,9 +384,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7491755345757742803}
-        m_TargetAssemblyTypeName: CloseButton, Assembly-CSharp
-        m_MethodName: CloseUIElement
+      - m_Target: {fileID: 3206727316559219292}
+        m_TargetAssemblyTypeName: PageUI, Assembly-CSharp
+        m_MethodName: ClosePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -397,19 +396,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7491755345757742803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 274367894759891997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a23989ac5e3f149851d02ee50a619e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElementToClose: {fileID: 6521729290177077285}
 --- !u!1 &410061702646626791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,7 +2309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4634476799476208225}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2634,7 +2620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7504717607325489308}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: slotParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3196,9 +3182,12 @@ GameObject:
   - component: {fileID: 6194930487559415420}
   - component: {fileID: 1494947946275107489}
   - component: {fileID: 5625526849166692615}
+  - component: {fileID: 7316961600710816546}
+  - component: {fileID: 5222364492334887162}
+  - component: {fileID: 8006851385308197379}
   m_Layer: 5
   m_Name: Commission Info Display
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3236,6 +3225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb99ae3e6d2d44b4ab32cbc96ffe1933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 7316961600710816546}
+  uiCollider: {fileID: 8006851385308197379}
   titleText: {fileID: 4182881574812487772}
   descriptionText: {fileID: 7621567349872415840}
   rewardText: {fileID: 8404707604900209303}
@@ -3393,6 +3384,70 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 7396818103767149910}
   inventorySlotPrefab: {fileID: 1510596497607433521}
   shouldGenerateSlots: 0
+--- !u!223 &7316961600710816546
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9111014506082758161}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 2
+  m_TargetDisplay: 0
+--- !u!114 &5222364492334887162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9111014506082758161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 16383
+--- !u!61 &8006851385308197379
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9111014506082758161}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &3792730495117471319
 PrefabInstance:
   m_ObjectHideFlags: 0
