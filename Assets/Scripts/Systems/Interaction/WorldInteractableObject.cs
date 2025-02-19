@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObject, IInteractionKeyPressBehaviour, IInteractionMessageDisplayBehaviour
+public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObject
 {
 
     public float Priority
@@ -14,37 +14,28 @@ public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObje
         private set { priority = value; }
     }
 
+    public KeyCode RequiredKeyPress { get { return requiredKeyPress; } }
+
     [Required]
     [SerializeField]
-    protected SO_InteractablePromptData promptData;
+    protected SO_InteractablePromptData soPromptData;
 
     [SerializeField]
-    protected float priority;
+    protected float priority = 5;
 
-    // Default behaviours
-    protected IInteractionKeyPressBehaviour interactionKeyPressBehaviour = new NoPressTrigger();
-    protected IInteractionMessageDisplayBehaviour messagedisplayBehaviour = new NoMessageDisplay();
+    [SerializeField]
+    protected KeyCode requiredKeyPress = KeyCode.None;
+
+    protected IInteractionMessageDisplayBehaviour messageDisplayBehaviour = new NoMessageDisplay();
 
     public abstract void Interact();
     public abstract void UnInteract();
 
-    /// <summary>
-    /// Validation Trigger
-    /// </summary>
-    /// <param name="keycode"></param>
-    /// <returns></returns>
-    public bool ValidateTrigger(KeyCode keycode)
-    {
-        return interactionKeyPressBehaviour.ValidateTrigger(keycode);
-    }
 
     /// <summary>
     /// Displays Prompt via filling the shared scriptable object with data.
     /// If it doesn't work, maybe check if UI object has correct reference to SO?
     /// </summary>
     /// <param name="prompt"></param>
-    public void DisplayPrompt(InteractablePromptData prompt)
-    {
-        messagedisplayBehaviour.DisplayPrompt(prompt); 
-    }
+    public abstract void DisplayPrompt();
 }

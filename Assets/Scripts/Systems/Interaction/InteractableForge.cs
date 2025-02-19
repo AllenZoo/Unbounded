@@ -1,14 +1,18 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableForge : WorldInteractableObject
 {
+    [Required]
+    [SerializeField]
+    private InteractablePromptData displayMessage;
+
 
     private void Awake()
     {
-        interactionKeyPressBehaviour = new KeyPressTrigger(KeyCode.F);
-        messagedisplayBehaviour = new MessageDisplay(promptData);
+        messageDisplayBehaviour = new MessageDisplay(soPromptData, displayMessage);
     }
 
     public override void Interact()
@@ -23,5 +27,10 @@ public class InteractableForge : WorldInteractableObject
         // TODO: close forgeUI
         Debug.Log("Closing Forge UI!");
         throw new System.NotImplementedException();
+    }
+
+    public override void DisplayPrompt()
+    {
+        messageDisplayBehaviour.DisplayPrompt();
     }
 }

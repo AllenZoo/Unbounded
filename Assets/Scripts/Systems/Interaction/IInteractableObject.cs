@@ -6,6 +6,7 @@ public interface IInteractableObject
 {
     void Interact();
     void UnInteract();
+    void DisplayPrompt();
     // think about maybe
     // void Interact(KeyCode. key) or like void Interact(InteractTrigger t)
 }

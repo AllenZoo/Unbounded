@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NoMessageDisplay : IInteractionMessageDisplayBehaviour
 {
-    public void DisplayPrompt(InteractablePromptData prompt)
+    public void DisplayPrompt()
     {
         return;
     }

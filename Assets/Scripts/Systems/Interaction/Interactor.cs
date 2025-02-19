@@ -7,13 +7,12 @@ using UnityEngine;
 /// </summary>
 public class Interactor : MonoBehaviour
 {
+    // Keeps track of whether Interactor itself is active
     private bool isActive;
 
-    // Keeps track of whether there is a interactable that Interactor is interacting with.
-    // This prevents the interaction by being overwritten by another by accident.
-    // For now, this is true and bound to first interactable object the Interactor collides with.
-    private bool isActivelyInteracting;
+    // Reference to current active Interactable
     private WorldInteractableObject activeInteractable;
+    private bool isActivelyInteracting;
 
     private void Awake()
     {
@@ -26,17 +25,17 @@ public class Interactor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        WorldInteractableObject interactable = collision.GetComponent<WorldInteractableObject>();
+        WorldInteractableObject interactable = collision.GetComponentInParent<WorldInteractableObject>();
         if (interactable == null)
         {
             return;
         }
 
         // Check if interactable is triggerable just by walking over/near it.
-        bool triggered = interactable.ValidateTrigger(KeyCode.None);
-        if (triggered)
+        if (activeInteractable == null)
         {
             activeInteractable = interactable;
+            Debug.Log("active Interactable after being set is null? " + activeInteractable == null);
         }
 
         interactables.Add(interactable);
@@ -44,12 +43,18 @@ public class Interactor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        WorldInteractableObject interactable = collision.GetComponent<WorldInteractableObject>();
+        WorldInteractableObject interactable = collision.GetComponentInParent<WorldInteractableObject>();
         if (interactable == null)
         {
             return;
         }
 
+        if (activeInteractable.Equals(interactable))
+        {
+            activeInteractable = GetNextActiveInteractable();
+        }
+
+        isActivelyInteracting = false;
         interactables.Remove(interactable);
     }
 
@@ -58,20 +63,46 @@ public class Interactor : MonoBehaviour
     /// </summary>
     private void SortListByPriority()
     {
+        // TODO
         //interactables.Sort()
     }
 
-    private void HandleActiveInteractable()
+    /// <summary>
+    /// Get the top of the list interactable to set as active interactable
+    /// </summary>
+    /// <returns></returns>
+    private WorldInteractableObject GetNextActiveInteractable()
     {
-        if (activeInteractable != null)
-        {
+        // TODO
+        return null;
+    }
+
+    private void HandleActiveInteractableKeyPress()
+    {
+        if (activeInteractable == null || isActivelyInteracting) { return; }
+        Debug.Log("Actively listening for input!");
+
+        activeInteractable.DisplayPrompt();
+        KeyCode reqKey = activeInteractable.RequiredKeyPress;
+
+        // If no reqKey, object is interactable
+        if (reqKey == KeyCode.None) {
             activeInteractable.Interact();
+            isActivelyInteracting = true;
 
-            if (Input.GetKeyDown(KeyCode.F))
+        } else
+        {
+            if (Input.GetKeyDown(reqKey))
             {
-
+                activeInteractable.Interact();
+                isActivelyInteracting = true;
             }
         }
+    }
+
+    private void Update()
+    {
+        HandleActiveInteractableKeyPress();
     }
 
 }

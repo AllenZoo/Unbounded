@@ -5,15 +5,17 @@ using UnityEngine;
 public class MessageDisplay : IInteractionMessageDisplayBehaviour
 {
     // The reference we use to set the prompt.
-    private SO_InteractablePromptData interactablePromptData { get; set; }
+    private SO_InteractablePromptData soPromptDataRef { get; set; }
+    private InteractablePromptData promptData;
 
-    public MessageDisplay(SO_InteractablePromptData interactablePromptData)
+    public MessageDisplay(SO_InteractablePromptData soPromptDataRef, InteractablePromptData promptData)
     {
-        this.interactablePromptData = interactablePromptData;
+        this.soPromptDataRef = soPromptDataRef;
+        this.promptData = promptData;
     }
 
-    public void DisplayPrompt(InteractablePromptData prompt)
+    public void DisplayPrompt()
     {
-        interactablePromptData.SetData(prompt);
+        soPromptDataRef.SetData(promptData);
     }
 }

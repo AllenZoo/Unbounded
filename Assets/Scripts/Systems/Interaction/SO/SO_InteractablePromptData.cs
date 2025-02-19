@@ -1,21 +1,29 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Class based on SOAP architecture. Whenever type of InteractblePromptData is modified, we fire event.
+/// ScriptableObject that holds InteractablePromptData. Fires an event whenever the data is changed.
 /// </summary>
-// TODO: create this properly
-[CreateAssetMenu()]
+[CreateAssetMenu(fileName = "NewInteractablePromptData", menuName = "System/Interaction/InteractablePromptData")]
 public class SO_InteractablePromptData : ScriptableObject
 {
-    public InteractablePromptData Data { get; private set; }
-    public Action OnDataChanged;
+    public event Action OnDataChanged = delegate { };
 
-    public void SetData(InteractablePromptData data)
+
+    [SerializeField]
+    private InteractablePromptData data;
+
+    public InteractablePromptData Data
     {
-        Data = data;
-        OnDataChanged?.Invoke();
+        get => data;
+        private set => data = value;
+    }
+
+    public void SetData(InteractablePromptData newData)
+    {
+        if (data.Equals(newData)) return; // Structs use value equality, so this prevents redundant updates
+
+        Data = newData;
+        OnDataChanged.Invoke();
     }
 }

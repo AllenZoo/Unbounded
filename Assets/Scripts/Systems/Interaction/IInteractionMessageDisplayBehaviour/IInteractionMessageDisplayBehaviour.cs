@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IInteractionMessageDisplayBehaviour 
 {
-    void DisplayPrompt(InteractablePromptData prompt);
+    void DisplayPrompt();
 }
