@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Collider2D))]
-// Attached to every view collider of every entity.
+// Should be Attached to every view collider of every entity.
+// Helps manage sprite layering.
 public class ViewColliderCollisionManager : MonoBehaviour
 {
     [SerializeField] private Transform parentTransform;
