@@ -18,4 +18,10 @@ public class MessageDisplay : IInteractionMessageDisplayBehaviour
     {
         soPromptDataRef.SetData(promptData);
     }
+
+    public void HidePrompt()
+    {
+        InteractablePromptData empty = new InteractablePromptData("", KeyCode.None, false);
+        soPromptDataRef.SetData(empty);
+    }
 }

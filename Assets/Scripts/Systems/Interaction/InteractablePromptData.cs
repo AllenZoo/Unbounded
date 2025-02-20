@@ -7,7 +7,16 @@ using UnityEngine;
 public struct InteractablePromptData
 {
     [SerializeField]
-    string message;
+    public string message;
     [SerializeField]
-    KeyCode reqKey; // Used in message for like (Press 'K' to interact)
+    public KeyCode reqKey; // Used in message for like (Press 'K' to interact)
+    [SerializeField]
+    public bool shouldDisplayPrompt;
+
+    public InteractablePromptData(string message, KeyCode reqKey, bool display)
+    {
+        this.message = message;
+        this.reqKey = reqKey;
+        this.shouldDisplayPrompt = display;
+    }
 }

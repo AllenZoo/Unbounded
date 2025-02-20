@@ -7,7 +7,6 @@ using UnityEngine;
 
 public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObject
 {
-
     public float Priority
     {
         get { return priority; }
@@ -37,5 +36,13 @@ public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObje
     /// If it doesn't work, maybe check if UI object has correct reference to SO?
     /// </summary>
     /// <param name="prompt"></param>
-    public abstract void DisplayPrompt();
+    public void DisplayPrompt()
+    {
+        messageDisplayBehaviour.DisplayPrompt();
+    }
+
+    public void HidePrompt()
+    {
+        messageDisplayBehaviour.HidePrompt();
+    }
 }

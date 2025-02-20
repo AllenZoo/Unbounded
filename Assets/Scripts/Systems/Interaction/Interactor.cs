@@ -14,13 +14,16 @@ public class Interactor : MonoBehaviour
     private WorldInteractableObject activeInteractable;
     private bool isActivelyInteracting;
 
+    // Kees track of all interactable objects within range.
+    private List<WorldInteractableObject> interactables;
+
     private void Awake()
     {
         isActive = true;
+        isActivelyInteracting = false;
+        activeInteractable = null;
+        interactables = new List<WorldInteractableObject>();
     }
-
-    // Kees track of all interactable objects within range.
-    private List<WorldInteractableObject> interactables;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,11 +34,12 @@ public class Interactor : MonoBehaviour
             return;
         }
 
+        Debug.Log("Triggered interaction with: " + collision.gameObject.transform.parent.name);
         // Check if interactable is triggerable just by walking over/near it.
         if (activeInteractable == null)
         {
             activeInteractable = interactable;
-            Debug.Log("active Interactable after being set is null? " + activeInteractable == null);
+            activeInteractable.DisplayPrompt();
         }
 
         interactables.Add(interactable);
@@ -49,9 +53,12 @@ public class Interactor : MonoBehaviour
             return;
         }
 
+        Debug.Log("Exit Triggered interaction with: " + collision.gameObject.transform.parent.name);
         if (activeInteractable.Equals(interactable))
         {
-            activeInteractable = GetNextActiveInteractable();
+            activeInteractable.HidePrompt();
+            activeInteractable.UnInteract();
+            activeInteractable = null; //GetNextActiveInteractable();
         }
 
         isActivelyInteracting = false;
@@ -77,32 +84,44 @@ public class Interactor : MonoBehaviour
         return null;
     }
 
-    private void HandleActiveInteractableKeyPress()
+    private void HandleInteractableKeyPress()
     {
-        if (activeInteractable == null || isActivelyInteracting) { return; }
-        Debug.Log("Actively listening for input!");
+        if (activeInteractable == null) { return; }
 
-        activeInteractable.DisplayPrompt();
         KeyCode reqKey = activeInteractable.RequiredKeyPress;
 
         // If no reqKey, object is interactable
-        if (reqKey == KeyCode.None) {
-            activeInteractable.Interact();
-            isActivelyInteracting = true;
-
-        } else
+        if (reqKey == KeyCode.None)
         {
-            if (Input.GetKeyDown(reqKey))
+            if (!isActivelyInteracting)
             {
                 activeInteractable.Interact();
                 isActivelyInteracting = true;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(reqKey))
+            {
+                // Toggle between Interact and UnInteract based on current state
+                if (!isActivelyInteracting)
+                {
+                    activeInteractable.Interact();
+                    isActivelyInteracting = true;
+                }
+                else
+                {
+                    activeInteractable.UnInteract();
+                    isActivelyInteracting = false;
+                }
             }
         }
     }
 
     private void Update()
     {
-        HandleActiveInteractableKeyPress();
+        HandleInteractableKeyPress();
+        
     }
 
 }

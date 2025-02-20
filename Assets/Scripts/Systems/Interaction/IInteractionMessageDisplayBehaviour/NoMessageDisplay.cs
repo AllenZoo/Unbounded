@@ -8,4 +8,9 @@ public class NoMessageDisplay : IInteractionMessageDisplayBehaviour
     {
         return;
     }
+
+    public void HidePrompt()
+    {
+        return;
+    }
 }

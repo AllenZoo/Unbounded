@@ -6,6 +6,8 @@ using UnityEngine;
 public interface IUIPage
 {
     Canvas GetCanvas();
+    void ClosePage();
+    void MoveToTopOrClose();
 }
 
 public class UIOverlayManager : Singleton<UIOverlayManager>

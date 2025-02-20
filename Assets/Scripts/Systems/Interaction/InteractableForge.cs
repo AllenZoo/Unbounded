@@ -9,28 +9,27 @@ public class InteractableForge : WorldInteractableObject
     [SerializeField]
     private InteractablePromptData displayMessage;
 
+    [Required]
+    [SerializeField]
+    [Tooltip("Reference to page that will be toggled on and off by interacting with forge.")]
+    private PageUI pageUI;
 
     private void Awake()
     {
-        messageDisplayBehaviour = new MessageDisplay(soPromptData, displayMessage);
+        // Make default display prompt = true
+        InteractablePromptData newPrompt = new InteractablePromptData(displayMessage.message, displayMessage.reqKey, true);
+        messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
     }
 
     public override void Interact()
     {
-        // TODO: open forgeUI
-        Debug.Log("Opening Forge UI!");
-        throw new System.NotImplementedException();
+        Debug.Log("Interacting with Forge!");
+        pageUI.MoveToTopOrClose();
     }
 
     public override void UnInteract()
     {
-        // TODO: close forgeUI
-        Debug.Log("Closing Forge UI!");
-        throw new System.NotImplementedException();
-    }
-
-    public override void DisplayPrompt()
-    {
-        messageDisplayBehaviour.DisplayPrompt();
+        Debug.Log("Uninteracting with Forge!");
+        pageUI.ClosePage();
     }
 }
