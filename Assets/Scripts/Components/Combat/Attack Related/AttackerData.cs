@@ -20,4 +20,9 @@ public class AttackerData: ScriptableObject
 
     [Tooltip("time it takes to charge up attack.")]
     public float chargeUp = 0f;
+
+    [SerializeField]
+    [TextArea(3, 10)]
+    [Tooltip("description for designer use")]
+    private string description;
 }

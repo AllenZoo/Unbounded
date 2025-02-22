@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5066251419482662048}
   - component: {fileID: 5066251419482662055}
-  - component: {fileID: 5066251419482662053}
   - component: {fileID: 5066251419482662052}
   - component: {fileID: 6547185466665653391}
+  - component: {fileID: 2919661910651980171}
   m_Layer: 0
   m_Name: PiercingFireballAttackKatan
   m_TagString: Untagged
@@ -56,21 +56,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5066251419482662053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5066251419482662075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b0fe1e785318749a07853fd5d3661e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetTypes: 00000000
-  hitTargets: []
-  data: {fileID: 11400000, guid: bb72b18b3a55750499d5eef8061ac6cd, type: 2}
 --- !u!212 &5066251419482662052
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -149,3 +134,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.53347206, y: 0.5082538}
   m_EdgeRadius: 0
+--- !u!114 &2919661910651980171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5066251419482662075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce88e87acd960d4abf50d641bfb36cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack:
+    attackData: {fileID: 11400000, guid: e67204b63746e534ea151260213621eb, type: 2}

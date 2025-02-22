@@ -18,6 +18,7 @@ public class AttackComponent : MonoBehaviour
     public Attack Attack { get { return attack; } private set { } }
     public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
 
+    [Tooltip("The projectile data associated with Attack")]
     [SerializeField] private Attack attack;
 
     private List<EntityType> targetTypes = new List<EntityType>();
