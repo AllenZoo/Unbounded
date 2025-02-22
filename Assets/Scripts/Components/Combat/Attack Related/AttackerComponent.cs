@@ -19,6 +19,7 @@ public class AttackerComponent : MonoBehaviour
 
     [Tooltip("Types of entities this attacker can damage.")]
     [Required]
+    [ValidateInput("ValidateList", "List cannot be empty!")]
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     [Tooltip("Component that holds stats for adding damage to attacks.")]
@@ -87,5 +88,10 @@ public class AttackerComponent : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         // attackObj.GetComponent<Attack>().ResetAttack();
+    }
+
+    private bool ValidateList(List<EntityType> value)
+    {
+        return value != null && value.Count > 0;
     }
 }
