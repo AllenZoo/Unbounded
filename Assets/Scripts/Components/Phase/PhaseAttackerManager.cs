@@ -12,6 +12,8 @@ public class PhaseAttackerManager : MonoBehaviour
     [SerializedDictionary("Phase", "SO_Attacker Data of Phase")]
     [SerializeField] private SerializedDictionary<int, Attacker> attackerMap;
 
+    [SerializeField] private AttackerComponent attackerComponent;
+
     [SerializeField] private Attacker defaultAttacker;
 
     [SerializeField] private Attacker attacker;
@@ -41,15 +43,22 @@ public class PhaseAttackerManager : MonoBehaviour
 
     private void ChangeAttackerData()
     {
-        if (!attackerMap.ContainsKey(phaseManager.Phase))
+        // Check if there is even an attacker component to modify. If not, do nothing.
+        if (attackerComponent==null)
         {
-            // TODO: rethink whole logic 
-            // No active attack mode for this phase. Use default.
-            //attacker.SetAttackerData(defaultAttackMode);
+            Debug.Log("Trying to change attacker data of non existing attacker component!");
             return;
         }
 
-        //attacker.SetAttackerData(attackerMap[phaseManager.Phase]);
+        if (!attackerMap.ContainsKey(phaseManager.Phase))
+        {
+
+            // No active attack mode for this phase. Use default.
+            attackerComponent.SetAttacker(defaultAttacker);
+            return;
+        }
+
+        attackerComponent.SetAttacker(attackerMap[phaseManager.Phase]);
     }
 
 }

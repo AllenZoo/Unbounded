@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: KatanSlash
   m_EditorClassIdentifier: 
-  attackName: Attack
+  attackName: KatanSlash|
   attackPfb: {fileID: 4672050705460870368, guid: fb7f2d9affe3fc34f85fe0afc9a5f431, type: 3}
-  baseDamagee: 5
-  duration: 0.5
-  initialSpeed: 0
+  baseDamagee: 10
+  duration: 2
+  initialSpeed: 8
   baseKnockback: 0
   baseStunDuration: 1
-  isAOE: 0
+  isAOE: 1
   canRepeat: 0
   isDOT: 0
   dotDuration: 5
-  isPiercing: 0
-  lastsUntilDuration: 0
+  isPiercing: 1
+  lastsUntilDuration: 1
   rotOffset: 0

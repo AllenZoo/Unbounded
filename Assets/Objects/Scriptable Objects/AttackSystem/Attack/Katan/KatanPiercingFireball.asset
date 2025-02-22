@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: KatanPiercingFireball
   m_EditorClassIdentifier: 
-  attackName: Attack
+  attackName: KatanPiercingFireball|
   attackPfb: {fileID: 5066251419482662075, guid: c3d70c087a950a74ba88ac7e9b4ed7cb, type: 3}
   baseDamagee: 5
-  duration: 0.5
-  initialSpeed: 0
-  baseKnockback: 0
-  baseStunDuration: 1
+  duration: 5
+  initialSpeed: 8
+  baseKnockback: 18
+  baseStunDuration: 0.5
   isAOE: 0
-  canRepeat: 0
+  canRepeat: 1
   isDOT: 0
   dotDuration: 5
   isPiercing: 1

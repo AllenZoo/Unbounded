@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,19 +13,18 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AttackComponent : MonoBehaviour
 {
-
-
     public event Action<Damageable> OnHit;
     public Attack Attack { get { return attack; } private set { } }
     public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
 
     [Tooltip("The projectile data associated with Attack")]
+    [Required]
     [SerializeField] private Attack attack;
 
     private List<EntityType> targetTypes = new List<EntityType>();
     private List<Damageable> hitTargets = new List<Damageable>();
 
- 
+    private StatComponent attackerStats = new StatComponent();
 
     private void Awake()
     {
@@ -35,9 +35,6 @@ public class AttackComponent : MonoBehaviour
 
         // Check if Collider2D is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
-
-        // Check that data is not null.
-        // Assert.IsNotNull(data, "Attack needs data to function");
     }
 
     /// <summary>
