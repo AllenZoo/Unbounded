@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   baseStats: {fileID: 11400000, guid: fb348a21130fa4b41a21ea5fd223d8ea, type: 2}
 --- !u!50 &2927453995066883878
 Rigidbody2D:
@@ -534,9 +535,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 3549058051624952306}
-  OnAggro:
-    m_PersistentCalls:
-      m_Calls: []
   aggroRange: 7
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 8935193011353247623}
@@ -600,7 +598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5943380441519516068}
-  - component: {fileID: 1819181395631967876}
+  - component: {fileID: 3631612378210233766}
   m_Layer: 0
   m_Name: AttackHandler
   m_TagString: Untagged
@@ -623,7 +621,7 @@ Transform:
   m_Father: {fileID: 4519198123008247907}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1819181395631967876
+--- !u!114 &3631612378210233766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -632,17 +630,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5823682458718899363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attacker:
+    attackerData: {fileID: 11400000, guid: 32627311928e31f4daf9483d8f35a602, type: 2}
+    attackData: {fileID: 11400000, guid: 4f2d5575795fbe44a8bf77ac52db3a96, type: 2}
   localEventHandler: {fileID: 3549058051624952306}
-  TargetTypes: 00000000
-  attackerDataInit: {fileID: 0}
-  data:
-    attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
-    numAttacks: 1
-    angleOffset: 0
-    cooldown: 1
+  TargetTypes: 
   statComponent: {fileID: 2927453995066883931}
 --- !u!1 &6871065025535921197
 GameObject:
@@ -793,8 +788,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 0}
-  entityType: 1
   stat: {fileID: 2927453995066883931}
+  entityType: 1
   isDamageable: 1
   isHittable: 1
 --- !u!114 &2040274624

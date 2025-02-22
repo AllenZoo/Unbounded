@@ -1,20 +1,33 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class AttackData
+[CreateAssetMenu(fileName = "AttackerData", menuName = "System/Combat/Attack", order = 1)]
+public class AttackData:ScriptableObject
 {
     public string attackName = "Attack";
-    public float damage = 5f;
+
+    [Required]
+    [Tooltip("Gameobject representation of attack")]
+    public GameObject attackPfb;
+
+    [Tooltip("Base damage number of attack")]
+    public float baseDamagee = 5f;
+
+    [Tooltip("Base duration in seconds until attack disappears")]
     public float duration = 0.5f;
+
+    [Tooltip("Initial Speed of Attack.")]
     public float initialSpeed = 0f;
 
-    [Tooltip("time it takes to charge up attack.")]
-    public float chargeUp = 0f;
-    public float knockback = 0f;
-    public float stunDuration = 1f;
+    [Tooltip("Base nockback value of attack")]
+    public float baseKnockback = 0f;
+
+    [Tooltip("Base stun duration")]
+    public float baseStunDuration = 1f;
 
     [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
     public bool isAOE = false;
@@ -25,6 +38,8 @@ public class AttackData
     [Header("For DOT")]
     [Tooltip("If true, the attack will deal damage over time.")]
     public bool isDOT = false;
+
+    [Tooltip("Duration of DOT effect in seconds.")]
     public float dotDuration = 5f;
 
     [Tooltip("If true, the attack will pierce through targets.")]
@@ -33,34 +48,6 @@ public class AttackData
     [Tooltip("If true, the attack will last until duration is over.")]
     public bool lastsUntilDuration = false;
 
-    [Header("For rendering")]
-    [Tooltip("Data for rendering the attack.")]
-    public float rotOffset;
-    public Sprite attackSprite;
-
-    [Header("Dynamic Data that set by Attacker")]
-    public float attackerAtkStat;
-
-    // Copy function to create a deep copy of the attack data.
-    public AttackData Copy()
-    {
-        AttackData copy = new AttackData();
-        copy.attackName = this.attackName;
-        copy.damage = this.damage;
-        copy.duration = this.duration;
-        copy.initialSpeed = this.initialSpeed;
-        copy.chargeUp = this.chargeUp;
-        copy.knockback = this.knockback;
-        copy.stunDuration = this.stunDuration;
-        copy.isAOE = this.isAOE;
-        copy.canRepeat = this.canRepeat;
-        copy.isDOT = this.isDOT;
-        copy.dotDuration = this.dotDuration;
-        copy.isPiercing = this.isPiercing;
-        copy.lastsUntilDuration = this.lastsUntilDuration;
-        copy.rotOffset = this.rotOffset;
-        copy.attackSprite = this.attackSprite;
-        copy.attackerAtkStat = this.attackerAtkStat;
-        return copy;
-    }
+    [Tooltip("Rotational offset for rotating attack on spawn")]
+    public float rotOffset = 0f;
 }

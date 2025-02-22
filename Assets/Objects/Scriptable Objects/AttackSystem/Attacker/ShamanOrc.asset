@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0716e7bce4c660d45b4ab8fb3969ef9b, type: 3}
-  m_Name: FireballWeapon
+  m_Script: {fileID: 11500000, guid: fed33bdece081a84cb6c333c9758ded3, type: 3}
+  m_Name: ShamanOrc
   m_EditorClassIdentifier: 
-  data:
-    attackObj: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
-    numAttacks: 1
-    angleOffset: 0
-    cooldown: 0.5
+  numAttacks: 1
+  angleOffset: 0
+  cooldown: 0.5
+  chargeUp: 0

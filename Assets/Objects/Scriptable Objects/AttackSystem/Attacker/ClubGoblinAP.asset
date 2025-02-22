@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0716e7bce4c660d45b4ab8fb3969ef9b, type: 3}
-  m_Name: ArrowWeapon
+  m_Script: {fileID: 11500000, guid: fed33bdece081a84cb6c333c9758ded3, type: 3}
+  m_Name: ClubGoblinAP
   m_EditorClassIdentifier: 
-  data:
-    attackObj: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
-    numAttacks: 1
-    angleOffset: 0
-    cooldown: 0.5
+  numAttacks: 1
+  angleOffset: 0
+  cooldown: 0.5
+  chargeUp: 0

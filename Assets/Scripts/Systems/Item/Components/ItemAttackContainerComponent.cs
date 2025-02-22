@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class ItemAttackContainerComponent : IItemComponent
 {
-    public SO_Attacker attackerData;
+    public Attacker attackerData;
 
-    public ItemAttackContainerComponent(SO_Attacker attackerData)
+    public ItemAttackContainerComponent(Attacker attackerData)
     {
         this.attackerData = attackerData;
     }

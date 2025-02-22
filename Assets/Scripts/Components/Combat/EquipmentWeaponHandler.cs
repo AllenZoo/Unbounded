@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.Assertions;
 
 // Attach to Attack Handler (with Attacker)
 // Handles modifying the attacker object with item equipped.
-[RequireComponent(typeof(Attacker))]
+[RequireComponent(typeof(AttackerComponent))]
 public class EquipmentWeaponHandler : MonoBehaviour
 {
     [SerializeField] private LocalEventHandler localEventHandler;
@@ -19,6 +20,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
 
+    // TODO: REFACTOR!! Consider adding some SetAttacker to AttackerComponent
     private Attacker attacker;
     private Item previousWeapon;
 
@@ -60,7 +62,8 @@ public class EquipmentWeaponHandler : MonoBehaviour
         {
             localEventHandler.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
             previousWeapon = null;
-            attacker.SetAttackerData((AttackerData) null);
+            throw new NotImplementedException("TODO: reimplement setting attacker data");
+            // attacker.SetAttackerData((AttackerData) null);
             return;
         }
 
@@ -75,7 +78,8 @@ public class EquipmentWeaponHandler : MonoBehaviour
         ItemAttackContainerComponent attackComponent = item.GetComponent<ItemAttackContainerComponent>();
         if (attackComponent != null && attackComponent.attackerData != null)
         {
-            attacker.SetAttackerData(attackComponent.attackerData);
+            throw new NotImplementedException("TODO: reimplement setting attacker data");
+            // attacker.SetAttackerData(attackComponent.attackerData);
         } else
         {
             Debug.LogError("ERROR: ItemAttackContainerComponent doesn't contain a proper AttackerData!");

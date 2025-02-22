@@ -15,45 +15,47 @@ public class AttackSpawner
     /// <param name="targetTypes"></param>
     /// <param name="attackObj"></param>
     /// <returns>The newly created Attack.</returns>
-    public static Attack SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    public static AttackComponent SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
     {
-        Attack attack = attackObj.GetComponent<Attack>();
-        Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
+        // TODO: clean up later.
+        return null;
+        //Attack attack = attackObj.GetComponent<AttackComponent>();
+        //Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
 
-        if (attack == null)
-        {
-            Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
-            return null;
-        }
+        //if (attack == null)
+        //{
+        //    Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
+        //    return null;
+        //}
 
-        // Offset from attacker. TODO: make this a better calculation.
-        float offset = 0.5f;
+        //// Offset from attacker. TODO: make this a better calculation.
+        //float offset = 0.5f;
 
-        Vector3 direction = info.mousePosition - spawnerPos.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
-        Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
+        //Vector3 direction = info.mousePosition - spawnerPos.position;
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
+        //Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
-        // Check if attackObj is in pool, use it. else, instantiate new one.
-        // Spawn attack object a certain distance from attacker, rotated towards mouse.
-        GameObject newAttackObj = AttackPool.Instance.GetAttack(attackObj);
-        newAttackObj.transform.position = spawnPos;
-        newAttackObj.transform.rotation = rotation;
-        newAttackObj.SetActive(true);
+        //// Check if attackObj is in pool, use it. else, instantiate new one.
+        //// Spawn attack object a certain distance from attacker, rotated towards mouse.
+        //GameObject newAttackObj = AttackPool.Instance.GetAttack(attackObj);
+        //newAttackObj.transform.position = spawnPos;
+        //newAttackObj.transform.rotation = rotation;
+        //newAttackObj.SetActive(true);
 
-        Attack newAttack = newAttackObj.GetComponent<Attack>();
-        newAttack.ResetAttackAfterTime(newAttack.Data.duration);
+        //Attack newAttack = newAttackObj.GetComponent<Attack>();
+        //newAttack.ResetAttackAfterTime(newAttack.Data.duration);
 
-        // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
+        //// Set velocity of attack (get from Attack in attackObj)
+        //newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
 
-        // Set valid EntityType targets for attack.
-        newAttack.TargetTypes = targetTypes;
+        //// Set valid EntityType targets for attack.
+        //newAttack.TargetTypes = targetTypes;
 
-        // Set sprite of attack.
-        //newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
+        //// Set sprite of attack.
+        ////newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
 
-        return newAttack;
+        //return newAttack;
     }
 
     /// <summary>
@@ -64,22 +66,26 @@ public class AttackSpawner
     /// <param name="targetTypes"></param>
     /// <param name="attackObj"></param>
     /// <returns>The newly created Attack.</returns>
-    public static Attack SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
     {
-        Attack attack = attackObj.GetComponent<Attack>();
-        Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
+        AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
 
-        if (attack == null)
+        Assert.IsNotNull(attackComponent, "To spawn attack obj, it must have an attack component!");
+
+        if (attackComponent == null)
         {
             Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
             return null;
         }
 
+        // Dereference a bit to make things less messy.
+        Attack attack = attackComponent.attack;
+        AttackData attackData = attack.AttackData;
+
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 0.5f;
-
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackData.rotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -89,17 +95,14 @@ public class AttackSpawner
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
-        Attack newAttack = newAttackObj.GetComponent<Attack>();
-        newAttack.ResetAttackAfterTime(newAttack.Data.duration);
+        AttackComponent newAttack = newAttackObj.GetComponent<AttackComponent>();
+        newAttack.ResetAttackAfterTime(attackData.duration);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.AttackData.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
-
-        // Set sprite of attack.
-        //newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
 
         return newAttack;
     }

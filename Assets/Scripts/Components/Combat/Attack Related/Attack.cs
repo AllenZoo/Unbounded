@@ -4,134 +4,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-// Script attached to attack objects that contain info about the attack.
-[RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
-public class Attack : MonoBehaviour
+/// <summary>
+/// Behavioural class that encapsulate attack hit. (TODO: use chatGpt to think of better way to describe this)
+/// </summary>
+[Serializable]
+public class Attack 
 {
     public event Action<Damageable> OnHit;
-    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
-    [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
-
-    [SerializeField] private SO_Attack data;
-
-    public AttackData Data
+    public AttackData AttackData
     {
-        get { return data.data; }
-        set { data.data = value; }
+        get { return attackData; }
+        private set { }
     }
 
-    public float attackerATKStat { private get; set; } = 0;
-
-    private void Awake()
-    {
-        // Checks to see RB2 and Collider2D components properties are correct.
-        
-        // Check if RB2 is kinematic.
-        Assert.IsTrue(GetComponent<Rigidbody2D>().isKinematic, "RB2D needs to be kinematic");
-
-        // Check if Collider2D is a trigger.
-        Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
-
-        // Check that data is not null.
-        Assert.IsNotNull(data, "Attack needs data to function");
-    }
-
-    private void Start()
-    {
-        OnHit += Hit;
-
-        if (data != null)
-        {
-            // Init Avoid pass by ref.
-            Data = data.data.Copy();   
-        }
-    }
+    [SerializeField]
+    private AttackData attackData;
 
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-
-        // All Damageable objects have a collider2d and Damageable component.
-        Damageable target = collision.GetComponent<Damageable>();
-        if (target != null && target.isHittable)
-        {
-            OnHit?.Invoke(target);
-        }
-    }
-
-    // For resetting the attack when it is disabled.
-    //   - Clears hitTargets list.
-    //   - Sets attack object to inactive.
-    public void ResetAttack()
-    {
-        StopAllCoroutines();
-        hitTargets.Clear();
-        this.gameObject.SetActive(false);
-    }
-
-    public void ResetAttackAfterTime(float time)
-    {
-        StartCoroutine(ResetAttackAfterTimeCoroutine(time));
-    }
-
-    private IEnumerator ResetAttackAfterTimeCoroutine(float time)
-    {
-        yield return new WaitForSeconds(time);
-        ResetAttack();
-    }
 
     // Logic to determine what happens when the attack hits a target.
-    private void Hit(Damageable hit)
+    // TODO: maybe refactor what passes througuh Hit (probably thing that got hit --> Hittable?)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="hit"></param>
+    /// <param name="hitObject"></param>
+
+    public void Hit(Damageable hit, Transform hitMaker)
     {
-        // Check if hit target EntityType matches what the attack can hit.
-        if (!TargetTypes.Contains(hit.EntityType))
-        {
-            // Attack can't hit this target.
-            return;
-        }
 
-        // Checks if hit already has been processed by this attack on this target.
-        if (!Data.canRepeat && hitTargets.Contains(hit))
-        {
-            // Attack doesn't repeat damage, and already has hit this target.
-            return;
-        }
+        // TODO: reimplement
+        //float calculatedDamage = CalculateDamage(attackData.baseDamagee, attackerATKStat);
+        float calculatedDamage = CalculateDamage(attackData.baseDamagee, 1);
 
-        float calculatedDamage = CalculateDamage(Data.damage, attackerATKStat);
 
         // Damage the target.
-        if (Data.isDOT)
+        if (attackData.isDOT)
         {
             hit.TakeDamageOverTime(this, calculatedDamage);
             return;
         }
 
         hit.TakeDamage(calculatedDamage);
-        hitTargets.Add(hit);
         
         // Knockback the target if:
         //      - attack has knockback
         //      - target is knockbackable
-        if (Data.knockback > 0)
+        if (attackData.baseKnockback > 0)
         {
             Knockbackable kb = hit.GetComponent<Knockbackable>();
             if (kb != null)
             {
-                kb.Knockback(hit.transform.position - this.transform.position, Data.knockback, Data.stunDuration);
+                kb.Knockback(hit.transform.position - hitMaker.position, attackData.baseKnockback, attackData.baseStunDuration);
             }
         }
 
 
         // Resets the attack if conditions are met.
-        if (!Data.isAOE && !Data.isPiercing && !Data.lastsUntilDuration)
+        if (!attackData.isAOE && !attackData.isPiercing && !attackData.lastsUntilDuration)
         {
+            // TODO: movee this logic into the component.
             // Destroy the attack object. (or set inactive if we want to reuse it)
-            ResetAttack();
             return;
         }
+
     }
 
     // Calculates the damage of the attack while also taking into account the attacker's stats.

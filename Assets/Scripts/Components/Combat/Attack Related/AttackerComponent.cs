@@ -1,0 +1,85 @@
+using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
+using UnityEngine.Assertions;
+
+/// <summary>
+/// Component attached to entities that attack!
+/// </summary>
+public class AttackerComponent : MonoBehaviour
+{
+    [Required]
+    [SerializeField]
+    private Attacker attacker;
+
+    [NotNull]
+    [SerializeField] private LocalEventHandler localEventHandler;
+
+    [Tooltip("Types of entities this attacker can damage.")]
+    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+
+    [Tooltip("Component that holds stats for adding damage to attacks.")]
+    [SerializeField] private StatComponent statComponent;
+
+    private bool attackRdy = true;
+    private bool canAttack = true;
+
+    private void Awake()
+    {
+        // Check if target types has atleast one element.
+        Assert.IsTrue(TargetTypes.Count > 0, "Attacker needs atleast one target type");
+
+        Assert.IsNotNull(statComponent, "Attacker needs stat component to get ATK value.");
+
+        if (localEventHandler == null)
+        {
+            localEventHandler = GetComponentInParent<LocalEventHandler>();
+            if (localEventHandler == null)
+            {
+                Debug.LogError("LocalEventHandler unassgined and not found in parent for object [" + gameObject +
+                    "] with root object [" + gameObject.transform.root.name + "]");
+            }
+        }
+    }
+
+    private void Start()
+    {
+        LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
+        localEventHandler.Register<OnAttackInput>(eventBinding);
+
+        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
+        localEventHandler.Register<OnDeathEvent>(deathEventBinding);
+    }
+
+    public void AttackReq(OnAttackInput input)
+    {
+        // Attack if attack is ready and if data is not null.
+        if (attackRdy && canAttack && attacker != null)
+        {
+            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes);
+            StartCoroutine(AttackCooldown());
+        }
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        attackRdy = false;
+        yield return new WaitForSeconds(attacker.AttackerData.cooldown);
+        attackRdy = true;
+    }
+
+    // Handles setting non-transform property of attacks..
+    private IEnumerator ChargeUpAttack(Attack attack)
+    {
+        // Charge up attack
+        yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
+    }
+
+    private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        // attackObj.GetComponent<Attack>().ResetAttack();
+    }
+}

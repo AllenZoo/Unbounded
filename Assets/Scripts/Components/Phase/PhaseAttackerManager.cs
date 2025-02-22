@@ -10,16 +10,16 @@ public class PhaseAttackerManager : MonoBehaviour
     [SerializeField] private PhaseManager phaseManager;
 
     [SerializedDictionary("Phase", "SO_Attacker Data of Phase")]
-    [SerializeField] private SerializedDictionary<int, SO_Attacker> attackerMap;
+    [SerializeField] private SerializedDictionary<int, Attacker> attackerMap;
 
-    [SerializeField] private SO_Attacker defaultAttackMode;
+    [SerializeField] private Attacker defaultAttacker;
 
     [SerializeField] private Attacker attacker;
 
     private void Awake()
     {
         Assert.IsNotNull(phaseManager, "Phase manager is required for this component!");
-        Assert.IsNotNull(defaultAttackMode, "Default attack mode is required for this component!");
+        Assert.IsNotNull(defaultAttacker, "Default attack mode is required for this component!");
         Assert.IsNotNull(attacker, "Attacker is required for this component!");
     }
 
@@ -43,12 +43,13 @@ public class PhaseAttackerManager : MonoBehaviour
     {
         if (!attackerMap.ContainsKey(phaseManager.Phase))
         {
+            // TODO: rethink whole logic 
             // No active attack mode for this phase. Use default.
-            attacker.SetAttackerData(defaultAttackMode);
+            //attacker.SetAttackerData(defaultAttackMode);
             return;
         }
 
-        attacker.SetAttackerData(attackerMap[phaseManager.Phase]);
+        //attacker.SetAttackerData(attackerMap[phaseManager.Phase]);
     }
 
 }
