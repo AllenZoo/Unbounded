@@ -79,7 +79,7 @@ public class AttackSpawner
         }
 
         // Dereference a bit to make things less messy.
-        Attack attack = attackComponent.attack;
+        Attack attack = attackComponent.Attack;
         AttackData attackData = attack.AttackData;
 
         // Offset from attacker. TODO: make this a better calculation.

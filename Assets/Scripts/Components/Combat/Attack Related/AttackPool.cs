@@ -51,7 +51,7 @@ public class AttackPool : MonoBehaviour
     // If it doesn't exist, it will create a new one.
     private GameObject FindSubPool(GameObject attack)
     {
-        string groupName = attack.GetComponent<AttackComponent>().attack.AttackData.attackName;
+        string groupName = attack.GetComponent<AttackComponent>().Attack.AttackData.attackName;
         Assert.IsTrue(groupName.EndsWith("|"), "It is required convention that attack names need to end with |." +
             "Cur attack name: " + groupName);
 

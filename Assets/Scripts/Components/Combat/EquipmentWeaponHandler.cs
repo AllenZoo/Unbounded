@@ -20,15 +20,14 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
 
-    // TODO: REFACTOR!! Consider adding some SetAttacker to AttackerComponent
-    private Attacker attacker;
+    private AttackerComponent attackerComponeent;
     private Item previousWeapon;
 
     private void Awake()
     {
         // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
-        attacker = GetComponent<Attacker>();
+        attackerComponeent = GetComponent<AttackerComponent>();
 
         if (localEventHandler == null)
         {
@@ -62,8 +61,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         {
             localEventHandler.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
             previousWeapon = null;
-            throw new NotImplementedException("TODO: reimplement setting attacker data");
-            // attacker.SetAttackerData((AttackerData) null);
+            attackerComponeent.SetAttacker(null);
             return;
         }
 
@@ -78,8 +76,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         ItemAttackContainerComponent attackComponent = item.GetComponent<ItemAttackContainerComponent>();
         if (attackComponent != null && attackComponent.attackerData != null)
         {
-            throw new NotImplementedException("TODO: reimplement setting attacker data");
-            // attacker.SetAttackerData(attackComponent.attackerData);
+            attackerComponeent.SetAttacker(attackComponent.attackerData);
         } else
         {
             Debug.LogError("ERROR: ItemAttackContainerComponent doesn't contain a proper AttackerData!");

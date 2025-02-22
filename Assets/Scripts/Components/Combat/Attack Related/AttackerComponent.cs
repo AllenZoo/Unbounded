@@ -14,10 +14,11 @@ public class AttackerComponent : MonoBehaviour
     [SerializeField]
     private Attacker attacker;
 
-    [NotNull]
+    [Required]
     [SerializeField] private LocalEventHandler localEventHandler;
 
     [Tooltip("Types of entities this attacker can damage.")]
+    [Required]
     [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     [Tooltip("Component that holds stats for adding damage to attacks.")]
@@ -61,6 +62,11 @@ public class AttackerComponent : MonoBehaviour
             attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes);
             StartCoroutine(AttackCooldown());
         }
+    }
+
+    public void SetAttacker(Attacker attacker)
+    {
+        this.attacker = attacker;
     }
 
     private IEnumerator AttackCooldown()

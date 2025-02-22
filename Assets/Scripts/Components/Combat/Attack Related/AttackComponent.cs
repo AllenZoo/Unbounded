@@ -12,14 +12,18 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AttackComponent : MonoBehaviour
 {
+
+
     public event Action<Damageable> OnHit;
-    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+    public Attack Attack { get { return attack; } private set { } }
+    public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
 
-    [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
+    [SerializeField] private Attack attack;
 
-    public Attack attack;
+    private List<EntityType> targetTypes = new List<EntityType>();
+    private List<Damageable> hitTargets = new List<Damageable>();
 
-    public float attackerATKStat { private get; set; } = 0;
+ 
 
     private void Awake()
     {
@@ -63,7 +67,7 @@ public class AttackComponent : MonoBehaviour
     private bool ValidateHit(Damageable hit)
     {
         // Check if hit target EntityType matches what the attack can hit.
-        if (!TargetTypes.Contains(hit.EntityType))
+        if (!targetTypes.Contains(hit.EntityType))
         {
             // Attack can't hit this target.
             return false;

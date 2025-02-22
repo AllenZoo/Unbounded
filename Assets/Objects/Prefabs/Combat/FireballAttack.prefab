@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4638254998750714032}
   - component: {fileID: 4638254998750714039}
-  - component: {fileID: 4638254998750714037}
   - component: {fileID: 4638254998750714036}
   - component: {fileID: 6686951494032730271}
+  - component: {fileID: 2695185249665497985}
   m_Layer: 0
   m_Name: FireballAttack
   m_TagString: Untagged
@@ -56,21 +56,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4638254998750714037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4638254998750714027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b0fe1e785318749a07853fd5d3661e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetTypes: 
-  hitTargets: []
-  data: {fileID: 11400000, guid: b4d2ef10b4f3e304e9aea1baf328975a, type: 2}
 --- !u!212 &4638254998750714036
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -149,3 +134,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.53347206, y: 0.5082538}
   m_EdgeRadius: 0
+--- !u!114 &2695185249665497985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638254998750714027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce88e87acd960d4abf50d641bfb36cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetTypes: 
+  hitTargets: []
+  attack:
+    attackData: {fileID: 11400000, guid: f54b8787811940b4dac1b1abbd7eea1c, type: 2}
