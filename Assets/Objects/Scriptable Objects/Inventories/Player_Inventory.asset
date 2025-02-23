@@ -28,10 +28,7 @@ MonoBehaviour:
     serializableComponents:
     - type: 0
       component:
-        rid: 4511599094373548055
-    - type: 1
-      component:
-        rid: 4511599094373548056
+        rid: 4511599094373548225
     dataGUID: 
   - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
     quantity: 6
@@ -44,24 +41,24 @@ MonoBehaviour:
     quantity: 0
     serializableComponents: []
     dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
-    dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
-    dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
-    dataGUID: 
   - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
     quantity: 1
     serializableComponents:
     - type: 0
       component:
-        rid: 4511599094373548058
+        rid: 4511599094373548181
+    dataGUID: 
+  - data: {fileID: 0}
+    quantity: 0
+    serializableComponents: []
+    dataGUID: 
+  - data: {fileID: 0}
+    quantity: 0
+    serializableComponents: []
+    dataGUID: 
+  - data: {fileID: 0}
+    quantity: 0
+    serializableComponents: []
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
@@ -74,12 +71,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4511599094373548055
-      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
-    - rid: 4511599094373548056
-      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
-      data:
-        statModifiers: []
     - rid: 4511599094373548057
       type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
       data:
@@ -91,5 +82,7 @@ MonoBehaviour:
           Stat: 8
           Value: 1
         costPerItem: 1
-    - rid: 4511599094373548058
+    - rid: 4511599094373548181
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 4511599094373548225
       type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
