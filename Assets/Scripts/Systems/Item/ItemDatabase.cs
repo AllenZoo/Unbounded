@@ -73,7 +73,7 @@ public class ItemDatabase : MonoBehaviour
             items.Clear();
             foreach (SerializableItem serializableItem in serializableList.items)
             {
-                SO_Item itemData = AssetDatabase.LoadAssetAtPath<SO_Item>(serializableItem.itemDataPath);
+                ItemData itemData = AssetDatabase.LoadAssetAtPath<ItemData>(serializableItem.itemDataPath);
                 if (itemData != null)
                 {
                     Item item = new Item(itemData, serializableItem.quantity);

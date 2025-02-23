@@ -18,7 +18,7 @@ public class Item
     [HorizontalGroup("Row1")]
     // [HideLabel]
     // [PreviewField(50)]
-    public SO_Item data;
+    public ItemData data;
 
     [HorizontalGroup("Row2")]
     [LabelWidth(60)]
@@ -68,14 +68,14 @@ public class Item
     // This method will help us recreate the SO_Item reference when loading
     public string dataGUID;
 
-    public Item(SO_Item baseData, int quantity)
+    public Item(ItemData baseData, int quantity)
     {
         this.data = baseData;
         this.quantity = quantity;
         this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
     }
 
-    public Item(SO_Item data, int quantity, List<SerializableItemComponent> serializableComponents) : this(data, quantity)
+    public Item(ItemData data, int quantity, List<SerializableItemComponent> serializableComponents) : this(data, quantity)
     {
         this.serializableComponents = serializableComponents;
     }
@@ -122,6 +122,10 @@ public class Item
         
     }
 
+    /// <summary>
+    /// Checks if data is null or quantity = 0.
+    /// </summary>
+    /// <returns></returns>
     public bool IsEmpty() => data == null || quantity == 0;
 
     // TODO: update equals and hash function.

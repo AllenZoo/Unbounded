@@ -151,7 +151,7 @@ public class SO_Inventory : SerializedScriptableObject
                 if (this.items[i] != null && !string.IsNullOrEmpty(this.items[i].dataGUID))
                 {
                     string assetPath = AssetDatabase.GUIDToAssetPath(this.items[i].dataGUID);
-                    this.items[i].data = AssetDatabase.LoadAssetAtPath<SO_Item>(assetPath);
+                    this.items[i].data = AssetDatabase.LoadAssetAtPath<ItemData>(assetPath);
                     if (this.items[i].data == null)
                     {
                         Debug.LogWarning($"Failed to load SO_Item for item at index {i}");

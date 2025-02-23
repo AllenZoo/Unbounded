@@ -6,11 +6,13 @@ using UnityEngine;
 [Serializable]
 public class ItemAttackContainerComponent : IItemComponent
 {
-    public Attacker attackerData;
+    // TODO: privated since we won't be using this other than for verifying item conditions.? Probably remove this class entirely at some point since
+    //       Items will now always have an Attacker component but set it to null if it can't attack. or doesn't do anything.
+    private Attacker attackerData;
 
     public ItemAttackContainerComponent(Attacker attackerData)
     {
-        this.attackerData = attackerData;
+        // this.attackerData = attackerData;
     }
 
     public override bool Equals(object obj)
