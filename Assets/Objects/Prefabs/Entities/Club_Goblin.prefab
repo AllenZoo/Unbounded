@@ -64,23 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDeathUE:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 49921866521040996}
-        m_TargetAssemblyTypeName: Spawnable, Assembly-CSharp
-        m_MethodName: TriggerOnDespawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  entityType: 1
+  localEventHandler: {fileID: 0}
   stat: {fileID: 3820556010379128887}
+  entityType: 1
   isDamageable: 1
   isHittable: 1
 --- !u!114 &6305350193626298311
@@ -95,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943b4c603787f7a4e8b63501261d9674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   rb: {fileID: 3820556010379128906}
   currentlyKnockbackable: 1
 --- !u!114 &407429357252095847
@@ -110,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
-  damageableRef: {fileID: 7694019108583975917}
+  localEventHandler: {fileID: 0}
 --- !u!114 &3604524097942873687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de38b8fb36a1b754e968d85a331f55e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageable: {fileID: 7694019108583975917}
+  localEventHandler: {fileID: 0}
   dropRates:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: 955c59cadb623cb458abb37d39b5d41e, type: 2}
@@ -186,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 3820556010379128887}
   rb: {fileID: 3820556010379128906}
@@ -393,9 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAggro:
-    m_PersistentCalls:
-      m_Calls: []
+  localEventHandler: {fileID: 0}
   aggroRange: 7
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 7036063128276209899}
@@ -470,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   baseStats: {fileID: 11400000, guid: 23674f35256ae2446bba61a22c395e80, type: 2}
 --- !u!50 &3820556010379128906
 Rigidbody2D:
@@ -525,11 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 147259377866537169}
-  movementController: {fileID: 2175254656103687012}
-  inputController: {fileID: 3820556010379128884}
-  damageable: {fileID: 7694019108583975917}
-  knockbackable: {fileID: 6305350193626298311}
+  localEventHandler: {fileID: 0}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &49921866521040996
@@ -544,6 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0750440776d2b4194fd4445ac5bbc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
 --- !u!114 &7793221365435426079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,7 +704,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5755056698471851720}
-  - component: {fileID: 331638277960843752}
+  - component: {fileID: 198685473965127629}
   m_Layer: 0
   m_Name: AttackHandler
   m_TagString: Untagged
@@ -743,7 +727,7 @@ Transform:
   m_Father: {fileID: 747540243195573065}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &331638277960843752
+--- !u!114 &198685473965127629
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -752,17 +736,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5581315368787297231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  attacker:
+    attackerData: {fileID: 11400000, guid: cc273666c08634249ba81c5808d345f2, type: 2}
+    attackData: {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}
+  localEventHandler: {fileID: 7793221365435426079}
   TargetTypes: 00000000
-  attackerDataInit: {fileID: 0}
-  data:
-    attackObj: {fileID: 2714405999033833521, guid: d47c921aea80c3f49bd9c8220c1ca6d1, type: 3}
-    numAttacks: 1
-    angleOffset: 0
-    cooldown: 0.5
   statComponent: {fileID: 3820556010379128887}
 --- !u!1 &6891599633615629445
 GameObject:

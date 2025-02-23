@@ -1,113 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Attacker : MonoBehaviour
+/// <summary>
+/// Class that encapsulates the Attacker process (TODO: use chatGpt to think of better way to describe this)
+/// Similar to a blueprint for creating attack patterns
+/// </summary>
+[Serializable]
+public class Attacker
 {
-    [NotNull]
-    [SerializeField] private LocalEventHandler localEventHandler;
+    public AttackerData AttackerData { get { return attackerData; } private set { } }
+    public AttackData AttackData { get { return attackData; } private set { } }
 
-    [Tooltip("Types of entities this attacker can damage.")]
-    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+    [SerializeField] private AttackerData attackerData;
+    [SerializeField] private AttackData attackData;
 
-    // Could be unecessary. But useful for quickly serializing values.
-    [Tooltip("To init attacker data. Leave empty if we want to manually set attacker data values.")]
-    [SerializeField] private SO_Attacker attackerDataInit;
-
-    // Serialized for debugging purposes.
-    [SerializeField] private AttackerData data;
-
-    [Tooltip("Component that holds stats for adding damage to attacks.")]
-    [SerializeField] private StatComponent statComponent;
-
-    private bool attackRdy = true;
-    private bool canAttack = true;
-
-    private void Awake()
-    {
-        // Check if target types has atleast one element.
-        Assert.IsTrue(TargetTypes.Count > 0, "Attacker needs atleast one target type");
-
-        Assert.IsNotNull(statComponent, "Attacker needs stat component to get ATK value.");
-
-        if (attackerDataInit != null)
-        {
-            // Debug.Log("Attacker data init is not null. Setting attacker data to attacker data init.");
-            // Init. Avoid pass by ref.
-            SetAttackerData(attackerDataInit);
-        }
-
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassgined and not found in parent for object [" + gameObject +
-                    "] with root object [" + gameObject.transform.root.name + "]");
-            }
-        }
-    }
-
-    private void Start()
-    {
-        LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
-        localEventHandler.Register<OnAttackInput>(eventBinding);
-
-        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
-        localEventHandler.Register<OnDeathEvent>(deathEventBinding);
-    }
-
-    public void SetAttackerData(SO_Attacker newData)
-    {
-        // Debug.Log("Set Attacker: " + newData);
-        if (newData == null)
-        {
-            Debug.LogWarning("Attacker data is null. Cannot attack.");
-            data = null;
-            return;
-        }
-
-        data = newData.data.Copy();
-    }
-
-    public void SetAttackerData(AttackerData newData)
-    {
-        if (newData == null)
-        {
-            Debug.LogWarning("Attacker data is null. Cannot attack.");
-            data = null;
-            return;
-        }
-        data = newData.Copy();
-    }
-
-    public void AttackReq(OnAttackInput input)
-    {
-        // Attack if attack is ready and if data is not null.
-        if (attackRdy && canAttack && data != null)
-        {
-            Attack(input.keyCode, input.attackInfo);
-        }
-    }
 
     // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
     // does nothing.
-    public void Attack(KeyCode keyCode, AttackSpawnInfo info)
+    public void Attack(KeyCode keyCode, AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes)
     {
-        if (data == null || data.attackObj == null)
+        if (attackerData == null || attackData == null)
         {
             return;
         }
 
-        for (int i = 0; i < data.numAttacks; i++)
+        for (int i = 0; i < attackerData.numAttacks; i++)
         {
             // i = 0, shoot torwards mouse.
             // i = 1, shoot to the right of mouse with angleOffset * 1 away from attack 0.
             // i = 2, shoot to the left of mouse with angleOffset * 1 away from attack 0.
             //float angle = (i+1)/2 * angleOffset;
-            float angle = (int) ((i+1)/2) * data.angleOffset;
+            float angle = (int) ((i+1)/2) * attackerData.angleOffset;
 
             // Odd's offset to the right.
             // Even's offset to the left
@@ -117,32 +44,12 @@ public class Attacker : MonoBehaviour
                 angle *= -1;
             }
 
-            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - transform.position);
+            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - attackerTransform.position);
 
-            Attack newAttack = AttackSpawner.SpawnAttack(attackDir, transform, TargetTypes, data.attackObj.gameObject);
-            newAttack.attackerATKStat = statComponent.attack;
+            AttackComponent newAttack = AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb);
+
+            // TODO: figure out way to modify stat. newAttack.attackerATKStat = statComponent.attack;
         }
-
-        StartCoroutine(AttackCooldown());
     }
 
-    // Handles setting non-transform property of attacks..
-    public IEnumerator ChargeUpAttack(Attack attack)
-    {
-        // Charge up attack
-        yield return new WaitForSeconds(attack.Data.chargeUp);
-    }
-
-    public IEnumerator AttackCooldown()
-    {
-        attackRdy = false;
-        yield return new WaitForSeconds(data.cooldown);
-        attackRdy = true;
-    }
-
-    public IEnumerator DeactivateAttack(GameObject attackObj, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        attackObj.GetComponent<Attack>().ResetAttack();
-    }
 }

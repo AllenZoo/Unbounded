@@ -554,7 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5117083647762023625}
-  - component: {fileID: 884867878710551529}
+  - component: {fileID: 7449954481719588691}
   m_Layer: 0
   m_Name: AttackHandler
   m_TagString: Untagged
@@ -577,7 +577,7 @@ Transform:
   m_Father: {fileID: 8480080919862873298}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &884867878710551529
+--- !u!114 &7449954481719588691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -586,17 +586,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5019623686023127502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  attacker:
+    attackerData: {fileID: 0}
+    attackData: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   TargetTypes: 00000000
-  attackerDataInit: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
-  data:
-    attackObj: {fileID: 0}
-    numAttacks: 1
-    angleOffset: 0
-    cooldown: 0.5
   statComponent: {fileID: 4456538979408597558}
 --- !u!1 &5041681082339125450
 GameObject:
@@ -697,13 +694,23 @@ MonoBehaviour:
   attackerMap:
     _serializedList:
     - Key: 1
-      Value: {fileID: 11400000, guid: 9b714c7fb130abe49a2d3db7296183bb, type: 2}
+      Value:
+        attackerData: {fileID: 0}
+        attackData: {fileID: 0}
     - Key: 2
-      Value: {fileID: 11400000, guid: f5c2d8cc17810ee40960ddfab380cda3, type: 2}
+      Value:
+        attackerData: {fileID: 0}
+        attackData: {fileID: 0}
     - Key: 3
-      Value: {fileID: 11400000, guid: 3cafe5e7c1c274543b71064fd9f9d694, type: 2}
-  defaultAttackMode: {fileID: 11400000, guid: 1632ebe8a0c265d43b5226d13456b6f9, type: 2}
-  attacker: {fileID: 884867878710551529}
+      Value:
+        attackerData: {fileID: 0}
+        attackData: {fileID: 0}
+  defaultAttacker:
+    attackerData: {fileID: 0}
+    attackData: {fileID: 0}
+  attacker:
+    attackerData: {fileID: 0}
+    attackData: {fileID: 0}
 --- !u!114 &1391143629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e845f44d5570274da4ac7d84c9ebfe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   phaseManager: {fileID: 5518171965787360333}
   phaseBuffsMapper:
     _serializedList: []
@@ -915,8 +922,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 0}
-  entityType: 1
   stat: {fileID: 4456538979408597558}
+  entityType: 1
   isDamageable: 1
   isHittable: 1
 --- !u!114 &1547172781283259309

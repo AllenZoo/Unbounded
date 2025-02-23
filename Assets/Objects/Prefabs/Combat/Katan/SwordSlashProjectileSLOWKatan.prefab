@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5941095962020261755}
-  - component: {fileID: 5941095962020261754}
   - component: {fileID: 5941095962020261753}
   - component: {fileID: 5941095962020261752}
   - component: {fileID: 5985041908712668948}
+  - component: {fileID: 8401099001454782870}
   m_Layer: 0
   m_Name: SwordSlashProjectileSLOWKatan
   m_TagString: Untagged
@@ -35,21 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5941095962020261754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5941095962020261751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b0fe1e785318749a07853fd5d3661e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetTypes: 00000000
-  hitTargets: []
-  data: {fileID: 11400000, guid: ac5bf7fe0d3d90d46bafd29e434658e5, type: 2}
 --- !u!212 &5941095962020261753
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -149,3 +134,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8401099001454782870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5941095962020261751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce88e87acd960d4abf50d641bfb36cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack:
+    attackData: {fileID: 11400000, guid: 125f69fc999498243a3b2a1f7ffdf218, type: 2}

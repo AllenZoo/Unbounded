@@ -1549,7 +1549,9 @@ MonoBehaviour:
     - rid: 4443694442900619273
       type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
       data:
-        attackerData: {fileID: 11400000, guid: 0bdc78cbfe7dbde489a052641f6cc0ee, type: 2}
+        attackerData:
+          attackerData: {fileID: 0}
+          attackData: {fileID: 0}
     - rid: 4443694442900619274
       type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:
@@ -1560,7 +1562,9 @@ MonoBehaviour:
     - rid: 4443694442900619275
       type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
       data:
-        attackerData: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
+        attackerData:
+          attackerData: {fileID: 0}
+          attackData: {fileID: 0}
     - rid: 4443694442900619276
       type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:

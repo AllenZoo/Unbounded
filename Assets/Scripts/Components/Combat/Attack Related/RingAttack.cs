@@ -19,7 +19,7 @@ public class RingAttack : MonoBehaviour
         Assert.IsNotNull(attackObj, "RingAttack needs an attack object to spawn.");
 
         // Check if attackObj has an Attack component.
-        Assert.IsNotNull(attackObj.GetComponent<Attack>(), "RingAttack needs an attack object with an Attack component.");
+        Assert.IsNotNull(attackObj.GetComponent<AttackComponent>(), "RingAttack needs an attack object with an Attack component.");
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class RingAttack : MonoBehaviour
             // Spawn the attack in a circle around the location point.
             Vector2 offsetLoc = new Vector2(location.position.x + radius / 2, location.position.y);
             GameObject attack = Instantiate(attackObj, offsetLoc, Quaternion.identity, this.transform);
-            attack.GetComponent<Attack>().TargetTypes = targetTypes;
+            attack.GetComponent<AttackComponent>().TargetTypes = targetTypes;
             attack.transform.RotateAround(location.position, Vector3.forward, angleIncrement * i);
         }
     }

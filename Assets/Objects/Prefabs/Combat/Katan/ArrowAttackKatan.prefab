@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6538108593564167319}
-  - component: {fileID: 6538108593564167318}
   - component: {fileID: 6538108593564167317}
   - component: {fileID: 6538108593564167316}
   - component: {fileID: 6611327731475905784}
   - component: {fileID: 2481142721670247110}
+  - component: {fileID: 3067897469948204827}
   m_Layer: 0
   m_Name: ArrowAttackKatan
   m_TagString: Untagged
@@ -36,21 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6538108593564167318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6538108593564167323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18b0fe1e785318749a07853fd5d3661e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetTypes: 00000000
-  hitTargets: []
-  data: {fileID: 11400000, guid: bcd0790d6e706004aadbb9b8f8e4099e, type: 2}
 --- !u!212 &6538108593564167317
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -258,3 +243,17 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &3067897469948204827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6538108593564167323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce88e87acd960d4abf50d641bfb36cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack:
+    attackData: {fileID: 11400000, guid: 23aeb44820d2bb3408772bf1f5d48e08, type: 2}

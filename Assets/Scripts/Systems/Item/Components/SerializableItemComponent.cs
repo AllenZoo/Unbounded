@@ -72,10 +72,6 @@ public class SerializableItemComponent
             List<StatModifierEquipment> copy = upgradeComponent.upgradeStatModifiers.Select(s => s.DeepCopy()).ToList();
             return new ItemUpgradeComponent(copy);
         }
-        else if (component is ItemAttackContainerComponent attackComponent)
-        {
-            return new ItemAttackContainerComponent(attackComponent.attackerData);
-        }
         else if (component is ItemUpgraderComponent upgraderComponent)
         {
             List<StatModifierEquipment> copy = upgraderComponent.modifiers.Select(s => s.DeepCopy()).ToList();

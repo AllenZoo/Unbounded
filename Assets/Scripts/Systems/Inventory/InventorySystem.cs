@@ -321,7 +321,7 @@ public class InventorySystem : MonoBehaviour
             if (!condition.ConditionMet(itemToInsert))
             {
                 // Condition not met!
-                Debug.Log("Condition not met!");
+                Debug.Log("Condition not met! Condition was: " + condition.ToString());
                 return false;
             }
         }

@@ -10,16 +10,18 @@ public class PhaseAttackerManager : MonoBehaviour
     [SerializeField] private PhaseManager phaseManager;
 
     [SerializedDictionary("Phase", "SO_Attacker Data of Phase")]
-    [SerializeField] private SerializedDictionary<int, SO_Attacker> attackerMap;
+    [SerializeField] private SerializedDictionary<int, Attacker> attackerMap;
 
-    [SerializeField] private SO_Attacker defaultAttackMode;
+    [SerializeField] private AttackerComponent attackerComponent;
+
+    [SerializeField] private Attacker defaultAttacker;
 
     [SerializeField] private Attacker attacker;
 
     private void Awake()
     {
         Assert.IsNotNull(phaseManager, "Phase manager is required for this component!");
-        Assert.IsNotNull(defaultAttackMode, "Default attack mode is required for this component!");
+        Assert.IsNotNull(defaultAttacker, "Default attack mode is required for this component!");
         Assert.IsNotNull(attacker, "Attacker is required for this component!");
     }
 
@@ -41,14 +43,22 @@ public class PhaseAttackerManager : MonoBehaviour
 
     private void ChangeAttackerData()
     {
-        if (!attackerMap.ContainsKey(phaseManager.Phase))
+        // Check if there is even an attacker component to modify. If not, do nothing.
+        if (attackerComponent==null)
         {
-            // No active attack mode for this phase. Use default.
-            attacker.SetAttackerData(defaultAttackMode);
+            Debug.Log("Trying to change attacker data of non existing attacker component!");
             return;
         }
 
-        attacker.SetAttackerData(attackerMap[phaseManager.Phase]);
+        if (!attackerMap.ContainsKey(phaseManager.Phase))
+        {
+
+            // No active attack mode for this phase. Use default.
+            attackerComponent.SetAttacker(defaultAttacker);
+            return;
+        }
+
+        attackerComponent.SetAttacker(attackerMap[phaseManager.Phase]);
     }
 
 }

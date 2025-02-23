@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 230558453}
-  - component: {fileID: 230558454}
   - component: {fileID: 1773246356}
+  - component: {fileID: 2251975519570500716}
   m_Layer: 0
   m_Name: AttackHandler
   m_TagString: Untagged
@@ -33,27 +33,6 @@ Transform:
   m_Father: {fileID: 8773124299229573158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &230558454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230558452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1c6b0c1c6d58c47b3a040d944da97d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 8924692159491181220}
-  TargetTypes: 01000000020000000300000004000000
-  attackerDataInit: {fileID: 11400000, guid: cf17cc016917faa459c009990db739ef, type: 2}
-  data:
-    attackObj: {fileID: 0}
-    numAttacks: 1
-    angleOffset: 0
-    cooldown: 0.5
-  statComponent: {fileID: 7405677662020513449}
 --- !u!114 &1773246356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +49,24 @@ MonoBehaviour:
   inventory: {fileID: 0}
   weaponSlotIndex: 0
   stat: {fileID: 7405677662020513449}
+--- !u!114 &2251975519570500716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230558452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacker:
+    attackerData: {fileID: 0}
+    attackData: {fileID: 0}
+  localEventHandler: {fileID: 8924692159491181220}
+  TargetTypes: 0100000003000000
+  statComponent: {fileID: 7405677662020513449}
 --- !u!1 &242522279
 GameObject:
   m_ObjectHideFlags: 0

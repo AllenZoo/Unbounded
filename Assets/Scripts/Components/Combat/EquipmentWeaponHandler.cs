@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +7,12 @@ using UnityEngine.Assertions;
 
 // Attach to Attack Handler (with Attacker)
 // Handles modifying the attacker object with item equipped.
-[RequireComponent(typeof(Attacker))]
+[RequireComponent(typeof(AttackerComponent))]
 public class EquipmentWeaponHandler : MonoBehaviour
 {
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [Required]
+    [SerializeField] 
+    private LocalEventHandler localEventHandler;
 
     // TODO: decide whether to have reference to SO_Inventory or InventorySystem.
     // Probably better to have ref to SO_Inventory.
@@ -19,23 +23,18 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [Tooltip("Stat component to modify when equipping weapon items.")]
     [SerializeField] private StatComponent stat;
 
-    private Attacker attacker;
+    private AttackerComponent attackerComponent;
     private Item previousWeapon;
 
     private void Awake()
     {
         // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
-        attacker = GetComponent<Attacker>();
+        attackerComponent = GetComponent<AttackerComponent>();
 
         if (localEventHandler == null)
         {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                    "] with root object [" + gameObject.transform.root.name + "] for EquipmentWeaponHandler.cs");
-            }
+            localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
         }
     }
 
@@ -50,39 +49,34 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets weapon from inventory and then updates the corresponding Attacker Component reference to use 
+    /// the attack behaviour specified by item.
+    /// </summary>
     private void UpdateWeapon()
     {
         // Get item from inventory.
         Item item = inventory.GetItem(weaponSlotIndex);
 
         // If item is null, then we don't have a weapon equipped.
+        // Note: isEmpty() checks if item.data is null.
         if (item == null || item.IsEmpty())
         {
             localEventHandler.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
             previousWeapon = null;
-            attacker.SetAttackerData((AttackerData) null);
+            attackerComponent.SetAttacker(null);
             return;
         }
 
         // If item doesn't contain an ItemAttackContainerComponent, then throw an error since this shouldn't happen.
-        if (!item.HasComponent<ItemAttackContainerComponent>())
+        Attacker attackerToSet = item.data.attacker;
+        if (attackerToSet == null)
         {
-            Debug.LogError("ERROR: Item in weapon slot does not contain an attack container component!");
+            Debug.LogError("ERROR: Item in weapon slot does not contain an attack component! Did we equip an item that cannot attack?");
             return;
         }
-
-        // Set attacker data to the attack data in the item.
-        ItemAttackContainerComponent attackComponent = item.GetComponent<ItemAttackContainerComponent>();
-        if (attackComponent != null && attackComponent.attackerData != null)
-        {
-            attacker.SetAttackerData(attackComponent.attackerData);
-        } else
-        {
-            Debug.LogError("ERROR: ItemAttackContainerComponent doesn't contain a proper AttackerData!");
-        }
-
+        attackerComponent.SetAttacker(attackerToSet);
         localEventHandler.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
         previousWeapon = item;
     }
-
 }

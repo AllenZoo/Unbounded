@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 
+/// <summary>
+/// TODO: split logic betweeen DamageableComponent and Damageable. Refer to how AttackComponent and Attack work.
+/// </summary>
+
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
@@ -81,7 +85,7 @@ public class Damageable : MonoBehaviour
         float total_duration = 0;
         while (dotAttacks.Contains(attack))
         {
-            if (total_duration >= attack.Data.dotDuration)
+            if (total_duration >= attack.AttackData.dotDuration)
             {
                 dotAttacks.Remove(attack);
                 yield break;
