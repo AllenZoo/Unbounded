@@ -401,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
 --- !u!114 &6475032671688007822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   movementEnabled: 1
   stat: {fileID: 4456538979408597558}
   rb: {fileID: 4456538979408597579}
@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d024959419225b245b10ebb70a5487ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   inputEnabled: 1
   combatType: 0
   contextSteerer: {fileID: 5269506873474146853}
@@ -705,6 +705,7 @@ MonoBehaviour:
       Value:
         attackerData: {fileID: 0}
         attackData: {fileID: 0}
+  attackerComponent: {fileID: 0}
   defaultAttacker:
     attackerData: {fileID: 0}
     attackData: {fileID: 0}

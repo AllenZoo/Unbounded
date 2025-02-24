@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,16 +9,20 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(StateComponent))]
 public class EnemyAIComponent : InputController
 {
+
     [SerializeField] protected CombatType combatType;
     
     #region Context Steering Related Variables
     [Tooltip("Used for calculating the best direction to move in to get to target.")]
+    [Required]
     [SerializeField] protected ContextSteerer contextSteerer;
 
     [Tooltip("Position to spawn raycasts for detecting obstacles.")]
+    [Required]
     [SerializeField] protected Transform feetTransform;
 
     [Tooltip("Used for keeping track of where to follow target.")]
+    [Required]
     [SerializeField] protected ObjectTracker tracker;
     #endregion
 
@@ -35,14 +40,44 @@ public class EnemyAIComponent : InputController
     // Maps a combat type to a behaviour function.
     private Dictionary<CombatType, AggroBehaviour> behaviourMap;
 
+    #region State Machine Variables
+    public EnemyStateMachine StateMachine { get; set; }
+    public EnemyIdleState EnemyIdleState { get; set; }
+    public EnemyChaseState EnemyChaseState { get; set; }
+    public EnemyAttackState EnemyAttackState { get; set; }
+
+    [Required]
+    [SerializeField] private EnemyIdleSOBase enemyIdleBase;
+
+    [Required]
+    [SerializeField] private EnemyChaseSOBase enemyChaseBase;
+
+    [Required]
+    [SerializeField] private EnemyAttackSOBase enemyAttackBase;
+
+    public EnemyIdleSOBase EnemyIdleBaseInstance { get;  set; }
+    public EnemyChaseSOBase EnemyChaseBaseInstance { get; set; }
+    public EnemyAttackSOBase EnemyAttackBaseInstance { get;  set; }
+    #endregion
+
+
     protected void Awake()
     {
         base.Awake();
         Assert.IsNotNull(contextSteerer, "contextSteerer must be assigned in inspector for AI to perform context steering movement.");
         Assert.IsNotNull(feetTransform, "feetTransform must be assigned in inspector for AI to perform context steering movement.");
         Assert.IsNotNull(tracker, "tracker must be assigned in inspector for AI to perform context steering movement.");
-
         Assert.IsTrue(minDist <= attackRange, "minDist must be less than or equal to attackRange");
+
+        // Init State Machine Vars
+        StateMachine = new EnemyStateMachine();
+        EnemyIdleState = new EnemyIdleState(this, StateMachine);
+        EnemyChaseState = new EnemyChaseState(this, StateMachine);
+        EnemyAttackState = new EnemyAttackState(this, StateMachine);
+
+        EnemyIdleBaseInstance = Instantiate(enemyIdleBase);
+        EnemyChaseBaseInstance = Instantiate(enemyChaseBase);
+        EnemyAttackBaseInstance = Instantiate(enemyAttackBase);
 
         // Init behaviour map
         behaviourMap = new Dictionary<CombatType, AggroBehaviour>
@@ -54,6 +89,11 @@ public class EnemyAIComponent : InputController
 
     protected void Start()
     {
+        // Init State Machine SO Variables
+        EnemyIdleBaseInstance.Initialize(this);
+        EnemyChaseBaseInstance.Initialize(this);
+        EnemyAttackBaseInstance.Initialize(this);
+
         // Set the initial timer value
         timer = movementTimer;
 
