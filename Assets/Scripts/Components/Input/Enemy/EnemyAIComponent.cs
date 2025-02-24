@@ -27,7 +27,8 @@ public class EnemyAIComponent : InputController
     #endregion
 
     [Tooltip("Minimum distance to keep from target")]
-    [SerializeField] protected float minDist = 0f;
+    [SerializeField] protected float minDist = 0f; // Variable for kiting behaviour.
+
     [SerializeField] protected float attackRange = 2f;
     [SerializeField] protected float movementTimer = 3f; // Time interval to change movement direction for random movement
 
@@ -90,7 +91,7 @@ public class EnemyAIComponent : InputController
     protected void Start()
     {
         // Init State Machine SO Variables
-        EnemyIdleBaseInstance.Initialize(this);
+        EnemyIdleBaseInstance.Initialize(this, gameObject);
         EnemyChaseBaseInstance.Initialize(this);
         EnemyAttackBaseInstance.Initialize(this);
 
@@ -104,6 +105,9 @@ public class EnemyAIComponent : InputController
 
     protected void Update()
     {
+        // TODO: uncomment once all logic done
+        // StateMachine.CurrentEnemyState.FrameUpdate();
+
         // Count down the timer
         timer -= Time.deltaTime;
 
@@ -124,6 +128,12 @@ public class EnemyAIComponent : InputController
         
     }
 
+    protected void FixedUpdate()
+    {
+        // TODO: uncomment once all logic done
+        // StateMachine.CurrentEnemyState.PhysicsUpdate();
+    }
+
     public void SetAggroTarget(GameObject target)
     {
         this.aggroTarget = target;
@@ -135,7 +145,7 @@ public class EnemyAIComponent : InputController
     }
 
     /// <summary>
-    /// Randomly move around
+    /// Randomly move around. TODO: currently logic extracted to EnemyIdleRandomWalk.cs
     /// </summary>
     protected void Random_Move()
     {

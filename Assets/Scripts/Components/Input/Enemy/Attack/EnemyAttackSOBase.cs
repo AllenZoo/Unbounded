@@ -6,7 +6,7 @@ public class EnemyAttackSOBase : ScriptableObject
 {
     // Context
     protected EnemyAIComponent enemyAIComponent;
-    public void Initialize(EnemyAIComponent enemyAIComponent)
+    public virtual void Initialize(EnemyAIComponent enemyAIComponent)
     {
         this.enemyAIComponent = enemyAIComponent;
     }

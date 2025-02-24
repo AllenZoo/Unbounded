@@ -292,6 +292,9 @@ MonoBehaviour:
   minDist: 5
   attackRange: 6
   movementTimer: 0.5
+  enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
+  enemyChaseBase: {fileID: 0}
+  enemyAttackBase: {fileID: 0}
 --- !u!114 &2927453995066883929
 MonoBehaviour:
   m_ObjectHideFlags: 0

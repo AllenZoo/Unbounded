@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStateMachine
 {
-    private EnemyStateBase currentState;
+    public EnemyStateBase CurrentEnemyState { get; set; }
     
     /// <summary>
     /// Initializes the State Machine to given state
@@ -12,7 +12,7 @@ public class EnemyStateMachine
     /// <param name="initState"></param>
     public void Initialize(EnemyStateBase initState)
     {
-        currentState = initState;
+        CurrentEnemyState = initState;
         initState.EnterState();
     }
 
@@ -22,8 +22,9 @@ public class EnemyStateMachine
     /// <param name="newState"></param>
     public void ChangeState(EnemyStateBase newState)
     {
-        currentState.ExitState();
-        currentState = newState;
-        currentState.EnterState();
+        CurrentEnemyState.ExitState();
+        CurrentEnemyState = newState;
+        CurrentEnemyState.EnterState();
     }
+
 }
