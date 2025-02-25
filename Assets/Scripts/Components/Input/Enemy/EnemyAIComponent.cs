@@ -34,6 +34,8 @@ public class EnemyAIComponent : InputController
 
     protected float timer;
 
+
+    public GameObject AggroTarget { get { return aggroTarget; } private set { } }
     protected GameObject aggroTarget;
 
     private delegate void AggroBehaviour(GameObject target);
@@ -92,7 +94,7 @@ public class EnemyAIComponent : InputController
     {
         // Init State Machine SO Variables
         EnemyIdleBaseInstance.Initialize(this, gameObject);
-        EnemyChaseBaseInstance.Initialize(this);
+        EnemyChaseBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
         EnemyAttackBaseInstance.Initialize(this);
 
         // Set the initial timer value

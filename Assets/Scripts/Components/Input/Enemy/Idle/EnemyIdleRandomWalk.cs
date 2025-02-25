@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new EnemyIdleRandomWalk", menuName = "System/Enemy/State/Idle")]
+[CreateAssetMenu(fileName = "new EnemyIdleRandomWalk", menuName = "System/Enemy/State/Idle/RandomWalk")]
 public class EnemyIdleRandomWalk : EnemyIdleSOBase
 {
 
     [SerializeField]
     [Tooltip("Time interval to change movement direction during random movement.")]
-    protected float movementTimer = 3f;
-    protected float timer;
+    protected float movementTimeStagger = 3f;
+    private float timer;
 
     public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject)
     {
@@ -36,6 +36,7 @@ public class EnemyIdleRandomWalk : EnemyIdleSOBase
         base.DoFrameUpdateLogic();
 
         // If the timer reaches or goes below 0, change movement direction
+        timer -= Time.deltaTime;
         if (timer <= 0f)
         {
             // Randomly move (randX = -1/0/1, randY = -1/0/1)
@@ -48,7 +49,7 @@ public class EnemyIdleRandomWalk : EnemyIdleSOBase
             enemyAIComponent.InvokeMovementInput(dir);
 
             // Reset the timer
-            timer = movementTimer;
+            timer = movementTimeStagger;
         }
         
     }

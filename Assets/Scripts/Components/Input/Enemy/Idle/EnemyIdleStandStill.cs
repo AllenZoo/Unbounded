@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new EnemyIdleRandomWalk", menuName = "System/Enemy/State/Idle/StandStill")]
+[CreateAssetMenu(fileName = "new EnemyIdle StandStill", menuName = "System/Enemy/State/Idle/StandStill")]
 public class EnemyIdleStandStill : EnemyIdleSOBase
 {
     public override void DoAnimationTriggerEventLogic()
