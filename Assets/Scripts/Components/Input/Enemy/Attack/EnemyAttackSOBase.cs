@@ -6,9 +6,18 @@ public class EnemyAttackSOBase : ScriptableObject
 {
     // Context
     protected EnemyAIComponent enemyAIComponent;
-    public virtual void Initialize(EnemyAIComponent enemyAIComponent)
+    protected GameObject enemyObject;
+    protected ContextSteerer contextSteerer;
+    protected ObjectTracker tracker;
+    protected Transform feetTransform;
+
+    public virtual void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
     {
         this.enemyAIComponent = enemyAIComponent;
+        this.enemyObject = enemyObject;
+        this.contextSteerer = contextSteerer;
+        this.tracker = tracker;
+        this.feetTransform = feetTransform;
     }
 
     public virtual void DoEnterLogic() { }

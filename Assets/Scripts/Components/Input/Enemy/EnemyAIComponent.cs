@@ -95,7 +95,7 @@ public class EnemyAIComponent : InputController
         // Init State Machine SO Variables
         EnemyIdleBaseInstance.Initialize(this, gameObject);
         EnemyChaseBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
-        EnemyAttackBaseInstance.Initialize(this);
+        EnemyAttackBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
 
         // Set the initial timer value
         timer = movementTimer;
