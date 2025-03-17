@@ -75,4 +75,11 @@ public class ObjectTracker : MonoBehaviour
             currentAngle += angleStep;
         }
     }
+
+    #region Getters and Setters
+    public void SetSightRange(float sightRange)
+    {
+        this.sightRange = sightRange;
+    }
+    #endregion
 }

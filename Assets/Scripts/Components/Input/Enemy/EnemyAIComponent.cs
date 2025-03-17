@@ -77,6 +77,7 @@ public class EnemyAIComponent : InputController
         EnemyIdleState = new EnemyIdleState(this, StateMachine);
         EnemyChaseState = new EnemyChaseState(this, StateMachine);
         EnemyAttackState = new EnemyAttackState(this, StateMachine);
+        
 
         EnemyIdleBaseInstance = Instantiate(enemyIdleBase);
         EnemyChaseBaseInstance = Instantiate(enemyChaseBase);
@@ -97,6 +98,8 @@ public class EnemyAIComponent : InputController
         EnemyChaseBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
         EnemyAttackBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
 
+        StateMachine.Initialize(EnemyIdleState);
+
         // Set the initial timer value
         timer = movementTimer;
 
@@ -108,32 +111,32 @@ public class EnemyAIComponent : InputController
     protected void Update()
     {
         // TODO: uncomment once all logic done
-        // StateMachine.CurrentEnemyState.FrameUpdate();
+        StateMachine.CurrentEnemyState.FrameUpdate();
 
         // Count down the timer
-        timer -= Time.deltaTime;
+        //timer -= Time.deltaTime;
 
-        // Check if enemy is aggroed to a target.
-        if (aggroTarget != null)
-        {
-            // Aggroed. Perform behaviour based on combat type.
-            behaviourMap[combatType](aggroTarget);
+        //// Check if enemy is aggroed to a target.
+        //if (aggroTarget != null)
+        //{
+        //    // Aggroed. Perform behaviour based on combat type.
+        //    behaviourMap[combatType](aggroTarget);
             
-            // Attack if target is in range.
-            ReadyAttack(aggroTarget, attackRange);
-        } else
-        {
-            tracker.enabled = false;
-            // TODO: undisable this eventually when we have a better way to handle this.
-            // Random_Move();
-        }
+        //    // Attack if target is in range.
+        //    ReadyAttack(aggroTarget, attackRange);
+        //} else
+        //{
+        //    tracker.enabled = false;
+        //    // TODO: undisable this eventually when we have a better way to handle this.
+        //    // Random_Move();
+        //}
         
     }
 
     protected void FixedUpdate()
     {
         // TODO: uncomment once all logic done
-        // StateMachine.CurrentEnemyState.PhysicsUpdate();
+        StateMachine.CurrentEnemyState.PhysicsUpdate();
     }
 
     public void SetAggroTarget(GameObject target)

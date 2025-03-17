@@ -31,8 +31,12 @@ public class EnemyChaseFollowTarget : EnemyChaseSOBase
     public override void DoFrameUpdateLogic()
     {
         base.DoFrameUpdateLogic();
-        tracker.enabled = true;
-        tracker.Track(enemyAIComponent.AggroTarget);
+
+        if (enemyAIComponent.AggroTarget != null)
+        {
+            tracker.enabled = true;
+            tracker.Track(enemyAIComponent.AggroTarget);
+        }
 
         // This is to prevent the enemy from stuttering and updating it's movement direction
         // too frequently
