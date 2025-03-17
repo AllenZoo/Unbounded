@@ -17,6 +17,12 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
 
     [SerializeField] private bool debugMode = false;
 
+
+
+    #region Class Variables
+    private bool movingTorwards = false; // to toggle and used with idealDistBuffer to keep track of whether enemy should move torward or away from the player.
+    #endregion
+
     public override void DoAnimationTriggerEventLogic()
     {
         base.DoAnimationTriggerEventLogic();
@@ -36,20 +42,16 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
     {
         base.DoFrameUpdateLogic();
 
-        if (enemyAIComponent.AggroTarget != null)
-        {
-            tracker.enabled = true;
-            tracker.Track(enemyAIComponent.AggroTarget);
-        }
+        if (enemyAIComponent.AggroTarget == null) return;
+
+        // Track the target
+        tracker.enabled = true;
+        tracker.Track(enemyAIComponent.AggroTarget);
 
         Transform targetTransform = enemyAIComponent.AggroTarget.transform;
         Transform thisTransform = enemyObject.transform;
 
-        float dist = Vector2.Distance(thisTransform.position, targetTransform.position);
-
-        // Initial direction to move torwards target
-        Vector2 dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
-
+        // If debug mode is on, we display raycasts. Blue lines mean out of ideal dist. Yellow line means in ideal dist.
         if (debugMode)
         {
             // Draw lines in a full circle (360 degrees)
@@ -68,12 +70,13 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
 
                 // Draw the ray from the object's position in the calculated direction
                 Debug.DrawRay(thisTransform.position, direction.normalized * (idealDist + idealDistBuffer), Color.yellow);
-                Debug.DrawRay(thisTransform.position, direction.normalized * idealDist, Color.blue);
+                Debug.DrawRay(thisTransform.position, direction.normalized * (idealDist - idealDistBuffer), Color.blue);
             }
 
+            Vector3 dirDebug = contextSteerer.GetDirTorwards(targetTransform.position, feetTransform.position);
             // Draws lines for visualizing the ideal dist. More direct.
-            Debug.DrawRay(thisTransform.position, dir.normalized * (idealDist + idealDistBuffer), Color.yellow);
-            Debug.DrawRay(thisTransform.position, dir.normalized * idealDist, Color.blue);
+            Debug.DrawRay(thisTransform.position, dirDebug.normalized * (idealDist + idealDistBuffer), Color.yellow);
+            Debug.DrawRay(thisTransform.position, dirDebug.normalized * (idealDist - idealDistBuffer), Color.blue);
         }
 
         // This is to prevent the enemy from stuttering and updating it's movement direction
@@ -83,8 +86,28 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
         {
             return;
         }
-        
-        if (dist < idealDist)
+
+        float dist = Vector2.Distance(thisTransform.position, targetTransform.position);
+
+
+        // Check if we are too CLOSE.
+        if (dist < idealDist - idealDistBuffer)
+        {
+            // We should move away.
+            movingTorwards = false;
+        }
+
+        // Check if we are too FAR.
+        else if (dist > idealDist + idealDistBuffer)
+        {
+            // We should move closer.
+            movingTorwards = true;
+        }
+
+        // If we are not too CLOSE or too FAR keep going same direction. AKA. don't change 'movingTorwards' var.
+        // Fetch Direction based on movingTorwards.
+        Vector2 dir = contextSteerer.GetDirTorwards(tracker.GetLastSeenTargetPos(), feetTransform.position);
+        if (!movingTorwards)
         {
             // Move away from the target
             dir = contextSteerer.GetDirAway(tracker.GetLastSeenTargetPos(), feetTransform.position);
@@ -111,6 +134,7 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
     {
         base.ResetValues();
         timer = 0;
+        movingTorwards = false;
     }
 
 }

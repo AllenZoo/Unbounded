@@ -21,16 +21,16 @@ public class EnemyChaseSOBase : ScriptableObject
 
     public virtual void DoEnterLogic() { }
     public virtual void DoExitLogic() { ResetValues(); }
-    public virtual void DoFrameUpdateLogic() { }
-    public virtual void DoPhysicsUpdateLogic() {
-        // TODO: remove. Here is just sample state changing code!
-        bool cond = false;
-        if (cond)
+    public virtual void DoFrameUpdateLogic() {
+        if (enemyAIComponent.AggroTarget == null) return;
+
+        float dist = Vector2.Distance(feetTransform.position, enemyAIComponent.AggroTarget.transform.position);
+        if (dist < enemyAIComponent.AttackRange)
         {
             enemyAIComponent.StateMachine.ChangeState(enemyAIComponent.EnemyAttackState);
         }
-
     }
+    public virtual void DoPhysicsUpdateLogic() { }
     public virtual void DoAnimationTriggerEventLogic() { }
     public virtual void ResetValues() { }
 

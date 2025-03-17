@@ -29,6 +29,8 @@ public class EnemyAIComponent : InputController
     [Tooltip("Minimum distance to keep from target")]
     [SerializeField] protected float minDist = 0f; // Variable for kiting behaviour.
 
+
+    public float AttackRange { get { return minDist; } private set { } }
     [SerializeField] protected float attackRange = 2f;
     [SerializeField] protected float movementTimer = 3f; // Time interval to change movement direction for random movement
 

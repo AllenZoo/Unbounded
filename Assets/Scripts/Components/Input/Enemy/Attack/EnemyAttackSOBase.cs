@@ -22,7 +22,17 @@ public class EnemyAttackSOBase : ScriptableObject
 
     public virtual void DoEnterLogic() { }
     public virtual void DoExitLogic() { ResetValues(); }
-    public virtual void DoFrameUpdateLogic() { }
+    public virtual void DoFrameUpdateLogic() {
+
+        // If out of attack range, transition back into chase state.
+        if (enemyAIComponent.AggroTarget == null) return;
+
+        float dist = Vector2.Distance(feetTransform.position, enemyAIComponent.AggroTarget.transform.position);
+        if (dist > enemyAIComponent.AttackRange)
+        {
+            enemyAIComponent.StateMachine.ChangeState(enemyAIComponent.EnemyChaseState);
+        }
+    }
     public virtual void DoPhysicsUpdateLogic() { }
     public virtual void DoAnimationTriggerEventLogic() { }
     public virtual void ResetValues() { }
