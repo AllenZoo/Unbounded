@@ -285,13 +285,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 3549058051624952306}
   inputEnabled: 1
-  combatType: 1
   contextSteerer: {fileID: 6654532339964661576}
   feetTransform: {fileID: 7876661830799427504}
   tracker: {fileID: 4903432893556685013}
-  minDist: 5
+  attackerComponent: {fileID: 3631612378210233766}
   attackRange: 6
-  movementTimer: 0.5
   enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
   enemyChaseBase: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
   enemyAttackBase: {fileID: 11400000, guid: 3857be47a64dfe04a9244dc66f130162, type: 2}

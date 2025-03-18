@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19a297cc6c5a6345a79240cc23137b5, type: 3}
-  m_Name: IdleRandomWalk
+  m_Script: {fileID: 11500000, guid: d0bdb20ee1c134449b9968e8ced459ba, type: 3}
+  m_Name: KatanAttackRotations
   m_EditorClassIdentifier: 
-  movementTimeStagger: 2
+  attackers: []
+  attackerComponent: {fileID: 0}

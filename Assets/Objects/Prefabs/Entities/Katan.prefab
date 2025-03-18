@@ -522,13 +522,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: -3388595544745265729}
   inputEnabled: 1
-  combatType: 0
   contextSteerer: {fileID: 5269506873474146853}
   feetTransform: {fileID: 8662444364820851421}
   tracker: {fileID: 5869552945510471096}
-  minDist: 5
+  attackerComponent: {fileID: 7449954481719588691}
   attackRange: 18
-  movementTimer: 0
+  enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
+  enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+  enemyAttackBase: {fileID: 11400000, guid: 83eba0a654af7fc458c12211e45373d9, type: 2}
   centerTransform: {fileID: 4456538979408597553}
   maxDistAwayFromCenter: 5
   ringAttack: {fileID: 3504687662407887171}
