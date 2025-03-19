@@ -15,12 +15,6 @@ public class KatanInput : EnemyAIComponent
 
     [SerializeField] private RingAttack ringAttack;
 
-    // Needed as Katan has phases.
-    [SerializeField] private PhaseManager phaseManager;
-
-    private delegate void PhaseAction();
-    private Dictionary<int, PhaseAction> phaseMap;
-
     private new void Awake()
     {
         base.Awake();

@@ -208,6 +208,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         {
             var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
             enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
+            appliedStatModifiers.Add(statModifier);
         }
 
         // 2. Set Attacker

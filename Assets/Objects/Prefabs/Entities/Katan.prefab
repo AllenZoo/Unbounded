@@ -454,7 +454,6 @@ Transform:
   - {fileID: 4777148175330572395}
   - {fileID: 8480080919862873298}
   - {fileID: 3504687662407887172}
-  - {fileID: 1279681379548919737}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -533,7 +532,7 @@ MonoBehaviour:
   centerTransform: {fileID: 4456538979408597553}
   maxDistAwayFromCenter: 5
   ringAttack: {fileID: 3504687662407887171}
-  phaseManager: {fileID: 5518171965787360333}
+  phaseManager: {fileID: 0}
 --- !u!114 &-3388595544745265729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,110 +626,6 @@ Transform:
   m_Father: {fileID: 4675881851095978640}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7377583381993562378
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1279681379548919737}
-  - component: {fileID: 5518171965787360333}
-  - component: {fileID: 1968539576}
-  - component: {fileID: 1391143629}
-  m_Layer: 6
-  m_Name: PhaseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1279681379548919737
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4456538979408597553}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5518171965787360333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170d21e6972694045b7e6e3e56faba24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phase: 2
-  rotatedPhaseList: 000000000100000002000000
-  rotationTimeRange:
-    Item1: 5
-    Item2: 10
-  ragePhase: 3
---- !u!114 &1968539576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5108d1a4ad29d464699cf0e9e85ed43c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phaseManager: {fileID: 5518171965787360333}
-  attackerMap:
-    _serializedList:
-    - Key: 1
-      Value:
-        attackerData: {fileID: 0}
-        attackData: {fileID: 0}
-    - Key: 2
-      Value:
-        attackerData: {fileID: 0}
-        attackData: {fileID: 0}
-    - Key: 3
-      Value:
-        attackerData: {fileID: 0}
-        attackData: {fileID: 0}
-  attackerComponent: {fileID: 0}
-  defaultAttacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
-  attacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
---- !u!114 &1391143629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e845f44d5570274da4ac7d84c9ebfe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localEventHandler: {fileID: -3388595544745265729}
-  phaseManager: {fileID: 5518171965787360333}
-  phaseBuffsMapper:
-    _serializedList: []
-  stats: {fileID: 4456538979408597558}
-  hpThresholdForRagePhase: 100
 --- !u!1 &8061349305055560249
 GameObject:
   m_ObjectHideFlags: 0
