@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public class InputController : MonoBehaviour
 {
+    public LocalEventHandler LocalEventHandler { get { return localEventHandler; } private set { } }
     [NotNull]
     [SerializeField] protected LocalEventHandler localEventHandler;
 

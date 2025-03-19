@@ -23,7 +23,7 @@ public class EnemyAIComponent : InputController
     [SerializeField] protected ObjectTracker tracker;
     #endregion
 
-    public AttackerComponent Attacker { get; private set; }
+    public AttackerComponent AttackerComponent { get; private set; }
     [Required][SerializeField] protected AttackerComponent attackerComponent;
     public float AttackRange { get { return attackRange; } private set { } }
     [SerializeField] protected float attackRange = 2f;
