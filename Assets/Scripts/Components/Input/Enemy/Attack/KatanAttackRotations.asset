@@ -15,7 +15,7 @@ MonoBehaviour:
   behaviours:
   - attacker:
       attackerData: {fileID: 11400000, guid: ef80664d98832994ea229f99bb09718a, type: 2}
-      attackData: {fileID: 11400000, guid: 4f2d5575795fbe44a8bf77ac52db3a96, type: 2}
+      attackData: {fileID: 11400000, guid: 23aeb44820d2bb3408772bf1f5d48e08, type: 2}
     chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
     addStatModifiers:
     - stat: 9
@@ -27,6 +27,18 @@ MonoBehaviour:
     addStatModifiers:
     - stat: 9
       amount: 0
+  - attacker:
+      attackerData: {fileID: 11400000, guid: 6bdebdd4c64cb4045a3ae28d55ae71d3, type: 2}
+      attackData: {fileID: 11400000, guid: ed19a21536c25294593ac18d79cc59d4, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    addStatModifiers:
+    - stat: 9
+      amount: 2
+  - attacker:
+      attackerData: {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
+      attackData: {fileID: 11400000, guid: 125f69fc999498243a3b2a1f7ffdf218, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    addStatModifiers: []
   transitionTimeRange:
     min: 5
     max: 10

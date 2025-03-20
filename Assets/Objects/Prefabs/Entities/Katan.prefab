@@ -504,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &916700090708789427
@@ -532,7 +532,6 @@ MonoBehaviour:
   centerTransform: {fileID: 4456538979408597553}
   maxDistAwayFromCenter: 5
   ringAttack: {fileID: 3504687662407887171}
-  phaseManager: {fileID: 0}
 --- !u!114 &-3388595544745265729
 MonoBehaviour:
   m_ObjectHideFlags: 0
