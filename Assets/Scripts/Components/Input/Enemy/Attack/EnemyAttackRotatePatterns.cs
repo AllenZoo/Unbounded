@@ -11,17 +11,27 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 {
     [Tooltip("Defines the movement and attack pattern behaviour of entity.")]
     [SerializeField]
-    [OdinSerialize]
     private List<BehaviourDefinition> behaviours = new();
+
+    [SerializeField]
+    private BehaviourDefinition rageBehaviour;
+
+    [SerializeField]
+    [Tooltip("HP threshold percentage to trigger rage mode. For example, if you want enemy to trigger rage at 20% hp, set this field to 0.2. If no rage mode, set to -1.")]
+    private double rageModeHPThreshold = -1;
+    private double curHPThreshold = 1; // keeps track of current enemy hp threshold.
 
     // Time range for how long a rotation should be active before being changed.
     [Tooltip("Time between each behaviour rotation in seconds.")]
     [SerializeField]
-    [OdinSerialize]
     private FloatRange transitionTimeRange;
     private float timer = 0f;
 
+    [SerializeField]
+    private bool debug = false;
+
     private BehaviourDefinition currentBehaviour;
+    private BehaviourDefinition emptyBehaviour = new BehaviourDefinition();
 
     // Local variable to help keep track of the likelihood of a behaviour being selected as the 'next' behaviour
     // Simple algorithm right now = assign a value of 1 to every behaviour. +1 if behaviour wasn't selected and reset 0 if it was.
@@ -58,6 +68,11 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             var nextBehaviour = GetNextBehaviour();
             TransitionBehaviour(nextBehaviour);
             timer = UnityEngine.Random.Range(transitionTimeRange.min, transitionTimeRange.max);
+
+            if (debug)
+            {
+                Debug.Log($"Behaviour Transition Timer Set to: {timer} seconds.");
+            }
         }
 
         // Attack
@@ -66,12 +81,25 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             enemyAIComponent.InvokeAttackInput(KeyCode.K, new AttackSpawnInfo(targetTransform.position));
         }
 
+        if (currentBehaviour.Equals(emptyBehaviour))
+        {
+            // If not initialized we return.
+            // NOTE: do not put this above the logic where we actually get and set the next behaviour since
+            //       if we do, enemy will be permanently stuck in empty behaviour, and be empty forver :(
+            return;
+        }
         currentBehaviour.chaseBehaviour.DoFrameUpdateLogic();
     }
 
     public override void DoPhysicsUpdateLogic()
     {
         base.DoPhysicsUpdateLogic();
+
+        if (currentBehaviour.Equals(emptyBehaviour))
+        {
+            // If not initialized we return.
+            return;
+        }
         currentBehaviour.chaseBehaviour.DoPhysicsUpdateLogic();
     }
 
@@ -86,8 +114,10 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
 
         ResetBehaviourSelectionWeightMap();
-        // Temporary fix for currentBehaviour being null when initialized.
-        currentBehaviour = behaviours[0];
+        currentBehaviour = emptyBehaviour;
+
+        LocalEventBinding<OnStatChangeEvent> statChangeBinding = new LocalEventBinding<OnStatChangeEvent>(HandleHPThreshold);
+        enemyAIComponent.LocalEventHandler.Register<OnStatChangeEvent>(statChangeBinding);
     }
 
     public override void ResetValues()
@@ -116,13 +146,20 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     /// <summary>
     /// Selects the next behaviour based on selection weight. The higher the weight, the higher the likelihood of selecting that behaviour. 
     /// When a behaviour is selected, reset its weight to zero.
-    /// For every other behaviour not selected, add one to the weight. Max weight will be set to 3.
+    /// For every other behaviour not selected, add one to the weight. Max weight will be set to 5.
+    /// 
+    /// NOTE: If HP is below rage threshold, next behaviour will always be rage behaviour.
     /// 
     /// If any error occurs, returns currentBehaviour
     /// </summary>
     /// <returns>The selected BehaviourDefinition based on weights</returns>
     private BehaviourDefinition GetNextBehaviour()
     {
+        if (curHPThreshold <= rageModeHPThreshold)
+        {
+            return rageBehaviour;
+        }
+
         // Ensure the weight map is initialized
         if (behaviourSelectionWeightMap == null || behaviourSelectionWeightMap.Count == 0)
         {
@@ -176,8 +213,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             }
             else
             {
-                // Increment weight of non-selected behaviors, up to max of 3
-                behaviourSelectionWeightMap[behaviour] = Math.Min(behaviourSelectionWeightMap[behaviour] + 1, 3);
+                // Increment weight of non-selected behaviors, up to max of 5
+                behaviourSelectionWeightMap[behaviour] = Math.Min(behaviourSelectionWeightMap[behaviour] + 1, 5);
             }
         }
 
@@ -191,11 +228,23 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     ///     1. Stat related changes (resets buffs, applies them, etc.)
     ///     2. New Attacker or Attack pattern
     ///     3. New movement behaviour. (currently this is automatically done once we set currentBehavior = newBehaviour, refer to where we call currentBehaviour.chaseBehaviour.DoFrameUpdateLogic() etc.)
+    ///    
+    /// NOTE: If we are transitioning into same behaviour, simply returns. Good for handling repeated rage phase behaviour.
     /// </summary>
     /// <param name="newBehaviour"></param>
     private void TransitionBehaviour(BehaviourDefinition newBehaviour) {
         var prevBehaviour = currentBehaviour;
         currentBehaviour = newBehaviour;
+
+        if (prevBehaviour.Equals(currentBehaviour))
+        {
+            return;
+        }
+
+        if (debug)
+        {
+            Debug.Log($"Transitioning to behaviour: {newBehaviour}");
+        }
 
         // 1a. Revert previous stat changes
         foreach (StatModifier statModifier in appliedStatModifiers)
@@ -215,6 +264,30 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         if (enemyAIComponent.AttackerComponent != null)
         {
             enemyAIComponent.AttackerComponent.SetAttacker(currentBehaviour.attacker);
+        }
+    }
+
+    /// <summary>
+    /// Helper to calculate the current HP threshold. Called whenever OnStatChangeEvent is called.
+    /// </summary>
+    /// <param name="statChangeEvent"></param>
+    private void HandleHPThreshold(OnStatChangeEvent statChangeEvent)
+    {
+        StatComponent statComponent = statChangeEvent.statComponent;
+
+        if (statComponent != null)
+        {
+            // Calculate HP threshold percentage
+            float maxHP = statComponent.maxHealth;
+            float curHP = statComponent.health;
+
+            double percentage = curHP / maxHP;
+            curHPThreshold = percentage;
+            
+            if (debug)
+            {
+                Debug.Log($"Current HP Threshold: {curHPThreshold}");
+            }
         }
     }
     #endregion

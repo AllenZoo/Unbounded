@@ -1,8 +1,9 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyChaseSOBase : ScriptableObject
+public class EnemyChaseSOBase : SerializedScriptableObject
 {
     // Context
     protected EnemyAIComponent enemyAIComponent;

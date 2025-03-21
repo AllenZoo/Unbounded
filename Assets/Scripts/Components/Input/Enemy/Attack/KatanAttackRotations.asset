@@ -34,11 +34,14 @@ MonoBehaviour:
     addStatModifiers:
     - stat: 9
       amount: 2
-  - attacker:
+  rageBehaviour:
+    attacker:
       attackerData: {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
       attackData: {fileID: 11400000, guid: 125f69fc999498243a3b2a1f7ffdf218, type: 2}
     chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
     addStatModifiers: []
+  rageModeHPThreshold: 0.2
   transitionTimeRange:
     min: 5
     max: 10
+  debug: 1
