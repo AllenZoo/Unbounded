@@ -37,7 +37,7 @@ public class EnemyAttackAttackMove : EnemyAttackSOBase
     public override void DoFrameUpdateLogic()
     {
         base.DoFrameUpdateLogic();
-        chase.DoFrameUpdateLogic();
+        chase.DoFrameUpdateLogic(false);
 
         if (enemyAIComponent.AggroTarget == null) return;
 

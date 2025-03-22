@@ -38,9 +38,9 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
         base.DoExitLogic();
     }
 
-    public override void DoFrameUpdateLogic()
+    public override void DoFrameUpdateLogic(bool stateChange)
     {
-        base.DoFrameUpdateLogic();
+        base.DoFrameUpdateLogic(stateChange);
 
         if (enemyAIComponent.AggroTarget == null) return;
 

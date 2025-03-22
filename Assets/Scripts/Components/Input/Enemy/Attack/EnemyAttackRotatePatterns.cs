@@ -31,11 +31,12 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     private bool debug = false;
 
     private BehaviourDefinition currentBehaviour;
-    private BehaviourDefinition emptyBehaviour = new BehaviourDefinition();
+    private BehaviourDefinition emptyBehaviour = new BehaviourDefinition() { name="empty"};
 
     // Local variable to help keep track of the likelihood of a behaviour being selected as the 'next' behaviour
     // Simple algorithm right now = assign a value of 1 to every behaviour. +1 if behaviour wasn't selected and reset 0 if it was.
-    private Dictionary<BehaviourDefinition, double> behaviourSelectionWeightMap;
+    // TODO: figure out why Katan likes the trident sword slash so much???? The stats dont add up.
+    private Dictionary<BehaviourDefinition, double> behaviourSelectionWeightMap = new Dictionary<BehaviourDefinition, double>();
 
     // To keep track of all the stat modifier references that we applied. Useful when we want to revert their effects.
     private List<StatModifier> appliedStatModifiers = new List<StatModifier>();
@@ -88,7 +89,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             //       if we do, enemy will be permanently stuck in empty behaviour, and be empty forver :(
             return;
         }
-        currentBehaviour.chaseBehaviour.DoFrameUpdateLogic();
+        currentBehaviour.chaseBehaviour.DoFrameUpdateLogic(false);
     }
 
     public override void DoPhysicsUpdateLogic()
@@ -124,8 +125,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     {
         base.ResetValues();
         ResetBehaviourSelectionWeightMap();
-        // Temporary fix for currentBehaviour being null when initialized.
-        currentBehaviour = behaviours[0];
+        currentBehaviour = emptyBehaviour;
     }
     #endregion
 
@@ -136,7 +136,12 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     /// </summary>
     private void ResetBehaviourSelectionWeightMap()
     {
-        behaviourSelectionWeightMap = new Dictionary<BehaviourDefinition, double>();
+        if (debug)
+        {
+            Debug.Log("Resetting Behaviour Selection Weight Map.");
+        }
+
+        behaviourSelectionWeightMap.Clear();
         foreach(BehaviourDefinition behaviour in behaviours)
         {
             behaviourSelectionWeightMap.Add(behaviour, 1.0);
@@ -198,7 +203,12 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             cumulativeWeight += kvp.Value;
             if (randomValue <= cumulativeWeight)
             {
+                
                 selectedBehaviour = kvp.Key;
+                if (debug)
+                {
+                    Debug.Log($"Selected Behaviour is: {selectedBehaviour.name}");
+                }
                 break;
             }
         }
@@ -218,6 +228,18 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             }
         }
 
+        // Debug Updated Weights. Print out corresponding behaviour weight key value pair.
+        if (debug)
+        {
+            string debugMsg = "Updated Behaviour Selection Weight Map \n";
+            foreach (var kvp in behaviourSelectionWeightMap)
+            {
+                debugMsg += $"Behaviour [{kvp.Key.name}] has a weight of [{kvp.Value}] \n";
+            }
+            Debug.Log(debugMsg);
+        }
+       
+
         return selectedBehaviour;
     }
 
@@ -234,16 +256,16 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     /// <param name="newBehaviour"></param>
     private void TransitionBehaviour(BehaviourDefinition newBehaviour) {
         var prevBehaviour = currentBehaviour;
-        currentBehaviour = newBehaviour;
-
-        if (prevBehaviour.Equals(currentBehaviour))
+        
+        if (prevBehaviour.name.Equals(newBehaviour.name))
         {
             return;
         }
+        currentBehaviour = newBehaviour;
 
         if (debug)
         {
-            Debug.Log($"Transitioning to behaviour: {newBehaviour}");
+            Debug.Log($"Transitioning to new behaviour: [{newBehaviour.name}]");
         }
 
         // 1a. Revert previous stat changes
@@ -297,6 +319,9 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 [Serializable]
 public struct BehaviourDefinition
 {
+    [Required]
+    [Tooltip("This is the main identifier and differentiator between behaviours. Should be unique. NOTE: shouldn't be 'empty'.")]
+    public string name; // For debugging purposes
     public Attacker attacker;
     public EnemyChaseSOBase chaseBehaviour;
     public List<AddStatModifier> addStatModifiers;
