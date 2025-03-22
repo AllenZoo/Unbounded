@@ -15,12 +15,6 @@ public class KatanInput : EnemyAIComponent
 
     [SerializeField] private RingAttack ringAttack;
 
-    // Needed as Katan has phases.
-    [SerializeField] private PhaseManager phaseManager;
-
-    private delegate void PhaseAction();
-    private Dictionary<int, PhaseAction> phaseMap;
-
     private new void Awake()
     {
         base.Awake();
@@ -29,15 +23,6 @@ public class KatanInput : EnemyAIComponent
             ringAttack = GetComponentInChildren<RingAttack>();
         }
         Assert.IsNotNull(ringAttack, "Katan needs a ring attack obj!");
-
-        // Init Phases
-        phaseMap = new Dictionary<int, PhaseAction>
-        {
-            { 0, Phase0 },
-            { 1, Phase1 },
-            { 2, Phase2 },
-            { 3, RagePhase }
-        };
     }
 
     private new void Start()
@@ -51,89 +36,6 @@ public class KatanInput : EnemyAIComponent
 
     protected new void Update()
     {
-        // Count down the timer
-        base.timer -= Time.deltaTime;
-
-        if (aggroTarget != null)
-        {
-            // Aggroed
-            tracker.enabled = true;
-            tracker.Track(aggroTarget);
-
-            // Check if phase behaviour is in dictionary
-            if (phaseMap.ContainsKey(phaseManager.Phase))
-            {
-                // Run phase
-                phaseMap[phaseManager.Phase]();
-            }
-        }
-        else
-        {
-            tracker.enabled = false;
-            Random_Move();
-        }
+        base.Update();
     }
-
-    // Ring rush.
-    private void Phase0()
-    {
-        // Follow + Kite so that player just gets hit by ring attack.
-        base.KiteTarget(aggroTarget, ringAttack.Radius/2);
-
-        ringAttack.Toggle(true);
-    }
-
-    // Sword slash trident.
-    private void Phase1()
-    {
-        // Kite
-        base.KiteTarget(aggroTarget, minDist);
-
-        // Attack if in range.
-        base.ReadyAttack(aggroTarget, attackRange);
-
-        ringAttack.Toggle(false);
-    }
-
-    // Arrow rain circle attack.
-    private void Phase2()
-    {
-        // Follow
-        base.Follow(aggroTarget);
-
-        // Attack if in range
-        base.ReadyAttack(aggroTarget, attackRange);
-
-        ringAttack.Toggle(false);
-    }
-
-    // Phase 3: Rage mode. (triggered only when low.)
-    private void RagePhase()
-    {
-        base.Follow(aggroTarget);
-        base.ReadyAttack(aggroTarget, attackRange);
-        ringAttack.Toggle(true);
-    }
-
-    // Previous centering movement.
-    //private void Phase2()
-    //{
-    //    float centerDist = Vector2.Distance(transform.position, centerTransform.position);
-
-    //    // If Katan is too far away from the center, move closer to the center.
-    //    if (centerDist > maxDistAwayFromCenter)
-    //    {
-    //        // Move closer to the center.
-    //        base.Follow(centerTransform.gameObject);
-    //    }
-    //    else
-    //    {
-    //        // Move closer to the player.
-    //        base.Follow(aggroTarget);
-    //    }
-
-    //    base.ReadyAttack(aggroTarget, attackRange);
-
-    //    ringAttack.Toggle(true);
-    //}
 }

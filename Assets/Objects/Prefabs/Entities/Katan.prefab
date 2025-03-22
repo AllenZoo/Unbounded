@@ -401,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
 --- !u!114 &6475032671688007822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   movementEnabled: 1
   stat: {fileID: 4456538979408597558}
   rb: {fileID: 4456538979408597579}
@@ -454,7 +454,6 @@ Transform:
   - {fileID: 4777148175330572395}
   - {fileID: 8480080919862873298}
   - {fileID: 3504687662407887172}
-  - {fileID: 1279681379548919737}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -505,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &916700090708789427
@@ -520,19 +519,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d024959419225b245b10ebb70a5487ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: -3388595544745265729}
   inputEnabled: 1
-  combatType: 0
   contextSteerer: {fileID: 5269506873474146853}
   feetTransform: {fileID: 8662444364820851421}
   tracker: {fileID: 5869552945510471096}
-  minDist: 5
+  attackerComponent: {fileID: 7449954481719588691}
   attackRange: 18
-  movementTimer: 0
+  enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
+  enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+  enemyAttackBase: {fileID: 11400000, guid: 83eba0a654af7fc458c12211e45373d9, type: 2}
   centerTransform: {fileID: 4456538979408597553}
   maxDistAwayFromCenter: 5
   ringAttack: {fileID: 3504687662407887171}
-  phaseManager: {fileID: 5518171965787360333}
 --- !u!114 &-3388595544745265729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,109 +625,6 @@ Transform:
   m_Father: {fileID: 4675881851095978640}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7377583381993562378
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1279681379548919737}
-  - component: {fileID: 5518171965787360333}
-  - component: {fileID: 1968539576}
-  - component: {fileID: 1391143629}
-  m_Layer: 6
-  m_Name: PhaseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1279681379548919737
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4456538979408597553}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5518171965787360333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170d21e6972694045b7e6e3e56faba24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phase: 2
-  rotatedPhaseList: 000000000100000002000000
-  rotationTimeRange:
-    Item1: 5
-    Item2: 10
-  ragePhase: 3
---- !u!114 &1968539576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5108d1a4ad29d464699cf0e9e85ed43c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phaseManager: {fileID: 5518171965787360333}
-  attackerMap:
-    _serializedList:
-    - Key: 1
-      Value:
-        attackerData: {fileID: 0}
-        attackData: {fileID: 0}
-    - Key: 2
-      Value:
-        attackerData: {fileID: 0}
-        attackData: {fileID: 0}
-    - Key: 3
-      Value:
-        attackerData: {fileID: 0}
-        attackData: {fileID: 0}
-  defaultAttacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
-  attacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
---- !u!114 &1391143629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7377583381993562378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e845f44d5570274da4ac7d84c9ebfe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localEventHandler: {fileID: -3388595544745265729}
-  phaseManager: {fileID: 5518171965787360333}
-  phaseBuffsMapper:
-    _serializedList: []
-  stats: {fileID: 4456538979408597558}
-  hpThresholdForRagePhase: 100
 --- !u!1 &8061349305055560249
 GameObject:
   m_ObjectHideFlags: 0

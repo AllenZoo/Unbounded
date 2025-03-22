@@ -898,7 +898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1427456478
 Transform:
   m_ObjectHideFlags: 0
@@ -1548,10 +1548,6 @@ MonoBehaviour:
           Value: 1
     - rid: 4443694442900619273
       type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
-      data:
-        attackerData:
-          attackerData: {fileID: 0}
-          attackData: {fileID: 0}
     - rid: 4443694442900619274
       type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:
@@ -1561,10 +1557,6 @@ MonoBehaviour:
           Value: 1
     - rid: 4443694442900619275
       type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
-      data:
-        attackerData:
-          attackerData: {fileID: 0}
-          attackData: {fileID: 0}
     - rid: 4443694442900619276
       type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:
@@ -2966,11 +2958,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.13
+      value: 10.87
       objectReference: {fileID: 0}
     - target: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.18
+      value: -10.83
       objectReference: {fileID: 0}
     - target: {fileID: 2927453995066883932, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3007,10 +2999,6 @@ PrefabInstance:
     - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
       propertyPath: m_Name
       value: Archer_Goblin
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927453995066883934, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f0ad4bb53fdd646a705b42853a026d, type: 3}

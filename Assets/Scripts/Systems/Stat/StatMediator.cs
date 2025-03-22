@@ -15,7 +15,7 @@ public interface IStatMediator
 }
 
 /// <summary>
-/// Class that handles the final stat calculation after taking in modifiers.
+/// Class that handles the final stat calculation after taking in modifiers. Also class that is in charge of adding new stat modifiers.
 /// </summary>
 public class StatMediator
 {

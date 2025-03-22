@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bdb20ee1c134449b9968e8ced459ba, type: 3}
+  m_Name: KatanAttackRotations
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  behaviours:
+  - name: Phase1 [Arrow Attack]
+    attacker:
+      attackerData: {fileID: 11400000, guid: ef80664d98832994ea229f99bb09718a, type: 2}
+      attackData: {fileID: 11400000, guid: 23aeb44820d2bb3408772bf1f5d48e08, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    addStatModifiers:
+    - stat: 9
+      amount: 1
+  - name: Phase2 [Trident Sword Slash]
+    attacker:
+      attackerData: {fileID: 11400000, guid: edf05fe669b3d04438dfb19b003864e8, type: 2}
+      attackData: {fileID: 11400000, guid: 8f6a6b03f19446d4cb449bec78a82e2a, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
+    addStatModifiers:
+    - stat: 9
+      amount: 0
+  - name: Phase3 [Rush]
+    attacker:
+      attackerData: {fileID: 11400000, guid: 6bdebdd4c64cb4045a3ae28d55ae71d3, type: 2}
+      attackData: {fileID: 11400000, guid: ed19a21536c25294593ac18d79cc59d4, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    addStatModifiers:
+    - stat: 9
+      amount: 2
+  rageBehaviour:
+    name: Rage
+    attacker:
+      attackerData: {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
+      attackData: {fileID: 11400000, guid: 125f69fc999498243a3b2a1f7ffdf218, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    addStatModifiers: []
+  rageModeHPThreshold: 0.2
+  transitionTimeRange:
+    min: 5
+    max: 10
+  debug: 1
