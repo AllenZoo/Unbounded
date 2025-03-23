@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,16 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] public GameObject inventoryMouseFollower;
 
+    /// <summary>
+    /// The context shared by Inventory UI systems that exist in the same system. Useful for keeping track of selected objects, and inventories in the middle of
+    /// the dragging phase, to allow for swapping items between different Inventory UI.
+    /// 
+    /// A global variable encapsulated by SO. UI's that share the same system, will share the same scriptable object.
+    /// </summary>
+    [Required]
+    [SerializeField] 
+    private InventorySelectionContext InventorySelectionContext;
+
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
    
@@ -41,13 +52,13 @@ public class InventoryUI : MonoBehaviour
             Assert.IsNotNull(inventorySlotPrefab, "Need inventory slot prefab to instantiate slots.");
         }
 
+        Assert.IsNotNull(InventorySelectionContext, "Warning: Inventory Selection Context is null!");
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<ItemHoverer>(), "Inventory mouse follower needs ItemHoverer component.");
         Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
         
         inventorySystem = GetComponent<InventorySystem>();
 
         
-
         InitWhole();
     }
 
@@ -78,9 +89,7 @@ public class InventoryUI : MonoBehaviour
     // Modify selected slot index to slot that is being dragged.
     public void OnSlotDrag(InventorySystem system, SlotUI slot, PointerEventData.InputButton input)
     {
-        InventorySwapperManager.Instance.selectedSlotIndex  = slot.GetSlotIndex();
-        InventorySwapperManager.Instance.selectedSlotInventorySystem = system;
-        InventorySwapperManager.Instance.inputButton = input;
+        InventorySelectionContext?.SetContext(slot.GetSlotIndex(), system, input);
 
         // Set mouse follower active. Assign sprite to mouse follower.
         inventoryMouseFollower.SetActive(true);
@@ -91,7 +100,7 @@ public class InventoryUI : MonoBehaviour
     // Reset selected slot index.
     public void OnSlotEndDrag(InventorySystem system, SlotUI slot)
     {
-        InventorySwapperManager.Instance.ResetSelection();
+        InventorySelectionContext?.ResetSelection();
 
         // Deactivate mouse follower.
         inventoryMouseFollower.SetActive(false);
@@ -101,7 +110,7 @@ public class InventoryUI : MonoBehaviour
     public void OnSlotDrop(InventorySystem system, SlotUI slot)
     {
         // Check if selected slot index is valid.
-        if (InventorySwapperManager.Instance.selectedSlotIndex == -1)
+        if (InventorySelectionContext?.SelectedSlotIndex == -1)
         {
             return;
         }
@@ -110,30 +119,30 @@ public class InventoryUI : MonoBehaviour
         // left click = swap
         // right click = split
 
-        bool shouldSwap = InventorySwapperManager.Instance.inputButton == PointerEventData.InputButton.Left;
+        bool shouldSwap = InventorySelectionContext?.InputButton == PointerEventData.InputButton.Left;
 
 
-        Assert.IsNotNull(InventorySwapperManager.Instance.selectedSlotInventorySystem, "Selected slot inventory system is null.");
+        Assert.IsNotNull(InventorySelectionContext?.SelectedInventorySystem, "Selected slot inventory system is null.");
         // Check if item dropped on same system or different system.
-        if (system != InventorySwapperManager.Instance.selectedSlotInventorySystem)
+        if (system != InventorySelectionContext?.SelectedInventorySystem)
         {
             // Different system
             if (shouldSwap)
             {
                 // Swap externally.
                 system.AttemptStackThenSwapBetweenSystems(
-                    InventorySwapperManager.Instance.selectedSlotInventorySystem,
-                    InventorySwapperManager.Instance.selectedSlotIndex,
+                    InventorySelectionContext?.SelectedInventorySystem,
+                    InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1,
                     slot.GetSlotIndex());
             } else
             {
                 // Split externally.
                 system.SplitIntoBetweenSystems(
-                    InventorySwapperManager.Instance.selectedSlotInventorySystem,
-                    InventorySwapperManager.Instance.selectedSlotIndex,
+                    InventorySelectionContext?.SelectedInventorySystem,
+                    InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1,
                     slot.GetSlotIndex());
             }
-            InventorySwapperManager.Instance.ResetSelection();
+            InventorySelectionContext?.ResetSelection();
         } 
         else
         {
@@ -141,12 +150,12 @@ public class InventoryUI : MonoBehaviour
             if (shouldSwap)
             {
                 // Swap internally.
-                system.AttemptStackThenSwap(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
-                InventorySwapperManager.Instance.ResetSelection();
+                system.AttemptStackThenSwap(InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1, slot.GetSlotIndex());
+                InventorySelectionContext?.ResetSelection();
             } else
             {
                 // Split internally.
-                system.SplitInto(InventorySwapperManager.Instance.selectedSlotIndex, slot.GetSlotIndex());
+                system.SplitInto(InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1, slot.GetSlotIndex());
             }
         }
     }
