@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// Class that replaces singleton logic for holding relevant global data needed during moving items between different inventory systems.
 /// </summary>
-[CreateAssetMenu(fileName ="new inventory swapper context", menuName = "System/Inventory/SwapperContext")]
+[CreateAssetMenu(fileName ="new inventory selection context", menuName = "System/Inventory/InventorySelectionContext")]
 public class InventorySelectionContext : ScriptableObject
 {
     public event Action<InventorySelectionContext> OnSelect;

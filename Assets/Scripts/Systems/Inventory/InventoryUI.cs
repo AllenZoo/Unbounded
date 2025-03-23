@@ -19,17 +19,20 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(InventorySystem))]
 public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] public GameObject inventoryMouseFollower;
-
     /// <summary>
     /// The context shared by Inventory UI systems that exist in the same system. Useful for keeping track of selected objects, and inventories in the middle of
     /// the dragging phase, to allow for swapping items between different Inventory UI.
     /// 
     /// A global variable encapsulated by SO. UI's that share the same system, will share the same scriptable object.
     /// </summary>
-    [Required]
-    [SerializeField] 
+    [Required, SerializeField] 
     private InventorySelectionContext InventorySelectionContext;
+
+    /// <summary>
+    /// Shared context for displaying the proper item sprite onto relevant UI. eg. Mouse follower UI.
+    /// </summary>
+    [Required, SerializeField]
+    private ItemSelectionContext ItemSelectionContext;
 
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
@@ -53,12 +56,10 @@ public class InventoryUI : MonoBehaviour
         }
 
         Assert.IsNotNull(InventorySelectionContext, "Warning: Inventory Selection Context is null!");
-        Assert.IsNotNull(inventoryMouseFollower.GetComponent<ItemHoverer>(), "Inventory mouse follower needs ItemHoverer component.");
-        Assert.IsNotNull(inventoryMouseFollower.GetComponent<MouseHover>(), "Inventory mouse follower needs MouseHover component.");
-        
+        Assert.IsNotNull(ItemSelectionContext, "Warning: Item Selection Context is null!");
+
         inventorySystem = GetComponent<InventorySystem>();
 
-        
         InitWhole();
     }
 
@@ -92,9 +93,7 @@ public class InventoryUI : MonoBehaviour
         InventorySelectionContext?.SetContext(slot.GetSlotIndex(), system, input);
 
         // Set mouse follower active. Assign sprite to mouse follower.
-        inventoryMouseFollower.SetActive(true);
-        inventoryMouseFollower.GetComponent<ItemHoverer>()
-            .SetItemSprite(slot.GetItemSprite(), slot.GetItemSpriteRot());
+        ItemSelectionContext?.SetItemSelectionContext(slot.GetItemSprite(), slot.GetItemSpriteRot(), true);
     }
 
     // Reset selected slot index.
@@ -103,7 +102,7 @@ public class InventoryUI : MonoBehaviour
         InventorySelectionContext?.ResetSelection();
 
         // Deactivate mouse follower.
-        inventoryMouseFollower.SetActive(false);
+        ItemSelectionContext.ShouldDisplay = false;
     }
 
     // Swap items in slot

@@ -1,27 +1,57 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-// Class that holds data for inventory mouse hoverers.
+/// <summary>
+/// Class that sets an image when item is selected.
+/// </summary>
 public class ItemHoverer : MonoBehaviour
 {
-    [SerializeField] private Image displayImage;
+    [Required, SerializeField] private ItemSelectionContext context;
+    [Required, SerializeField] private GameObject displayUI; // The actual object we toggle on and off, depending on the selection context.
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayImage), "displayImage must be a child of displayUI.")] 
+    private Image displayImage; // The image reference we modify the sprite of. Should be found in displayUI.
 
     private void Awake()
     {
-        Assert.IsNotNull(displayImage, "ItemHoverer needs image reference to display item.");
+        Assert.IsNotNull(context, "Warning Item Selection Context is null!");
 
-        // Check that image is not a raycast target and also has perserve aspect ratio.
+        Assert.IsNotNull(displayImage, "ItemHoverer needs an image reference to display item sprites.");
         Assert.IsFalse(displayImage.raycastTarget, "ItemHoverer image should not be a raycast target.");
         Assert.IsTrue(displayImage.preserveAspect, "ItemHoverer image should preserve aspect ratio.");
     }
 
-    // RotOffset for rotating the transform of the object
-    public void SetItemSprite(Sprite sprite, float rotOffset)
+    private void Start()
     {
-        displayImage.sprite = sprite;
-        transform.rotation = Quaternion.Euler(0, 0, rotOffset);
+        context.OnItemSelection += OnItemSelectionEvent;
     }
+
+    public void OnItemSelectionEvent(ItemSelectionContext context)
+    {
+        Rerender();
+    }
+
+    public void Rerender()
+    {
+        if (context == null)
+        {
+            Debug.LogWarning("Item selection context is null!");
+            return;
+        }
+
+        displayUI.gameObject.SetActive(context.ShouldDisplay);
+        displayImage.sprite = context.ItemSprite;
+        transform.rotation = Quaternion.Euler(0, 0, context.RotOffset);
+    }
+
+    #region Validators
+    private bool ValidateDisplayImage(Image img)
+    {
+        if (img == null || displayUI == null) return false; // Ensures both fields are assigned
+        return img.transform.IsChildOf(displayUI.transform); // Checks if displayImage is a child of displayUI
+    }
+    #endregion
 }
