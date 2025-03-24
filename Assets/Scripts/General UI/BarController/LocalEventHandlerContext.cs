@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// </summary>
+[CreateAssetMenu(fileName = "new LEH Context", menuName = "System/General UI/LEH Context")]
 public class LocalEventHandlerContext : ScriptableObject
 {
     //TODO: check if we go with this design or another one I thought of. REMOVE IF NOT USED.

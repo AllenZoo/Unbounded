@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,43 +8,41 @@ using UnityEngine.UI;
 public class BarController : MonoBehaviour
 {
     [Tooltip("The local event handler belonging to the entity whose stats we are tracking")]
-    [SerializeField] public LocalEventHandler localEventHandler;
-    [SerializeField] private StatComponent statObject;
+    [SerializeField, Required] public LocalEventHandlerContext localEventHandlerContext;
+    [SerializeField, Required] private BarTrackStat statToTrack;
+    [SerializeField, Required] private Image fillImage;
 
-    [SerializeField] private BarTrackStat statToTrack;
-    [SerializeField] private Image fillImage;
+    private StatComponent statObject;
 
     private void Awake()
     {
+        Assert.IsNotNull(localEventHandlerContext, "Bar Controller needs a local event handler context!");
         Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
-        // Assert.IsNotNull(statObject, "Bar controller needs a stat object");
     }
 
     private void Start()
     {
-        if (statObject != null)
-        {
-            Set(localEventHandler, statObject, statToTrack);
-        }
+        localEventHandlerContext.OnInitialized += OnLEHInit;
         Render();
     }
 
-    public void Set(LocalEventHandler eventHandler, StatComponent statObject, BarTrackStat statToTrack)
-    {
-        this.statObject = statObject;
-        this.statToTrack = statToTrack;
-        this.localEventHandler = eventHandler;
-
-        LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
-        localEventHandler.Register(statModResBinding);
-
-        Render();
-    }
     private void OnStatChange(OnStatChangeEvent e)
     {
         // Update the bar to reflect the new stat
         statObject = e.statComponent;
         Render();
+    }
+
+    private void OnLEHInit()
+    {
+        // Redundant check but just to make sure.
+        if (localEventHandlerContext.Initialized)
+        {
+            // Subscribe Stat Change to OnStatChange()
+            LocalEventHandler handler = localEventHandlerContext.LocalEventHandler;
+            LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
+            handler.Register(statModResBinding);
+        }
     }
 
     private void Render()

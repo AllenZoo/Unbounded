@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 // Class that spawns (or sets active) a boss health bar when the boss is aggroed to player.
+// TODO: REFACTOR
 public class BossBattleHealthBarSpawner : MonoBehaviour
 {
     [SerializeField] private LocalEventHandler localEventHandler;
@@ -39,7 +40,8 @@ public class BossBattleHealthBarSpawner : MonoBehaviour
 
         if (bossHealthBarController.gameObject.activeSelf)
         {
-            bossHealthBarController.Set(localEventHandler, stats, BarTrackStat.HP);
+            // TODO: REFACTOR
+            //bossHealthBarController.Set(localEventHandler, stats, BarTrackStat.HP);
         }
     }
 }
