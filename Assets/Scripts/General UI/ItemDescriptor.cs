@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,18 +8,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class ItemDescriptor : Singleton<ItemDescriptor>
+public class ItemDescriptor : MonoBehaviour
 {
-    public Item item;
+    [Header("Context")]
+    [SerializeField, Required] private ItemDescriptorContext context;
+    [Required, SerializeField] private GameObject displayUI; // The actual object we toggle on and off, depending on the selection context.
 
     [Header("UI elements")]
-    [SerializeField] private TextMeshProUGUI itemTextName;
-    [SerializeField] private TextMeshProUGUI itemTextDesc;
-    [SerializeField] private TextMeshProUGUI itemTextStats;
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextName must be a child of displayUI.")] 
+    private TextMeshProUGUI itemTextName;
+
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextDesc must be a child of displayUI.")]
+    private TextMeshProUGUI itemTextDesc;
+
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextStats must be a child of displayUI.")]
+    private TextMeshProUGUI itemTextStats;
     
-    private new void Awake()
+    private void Awake()
     {
-        base.Awake();
+        Assert.IsNotNull(context, "Item Descriptor context is null! This will make it unable to display any relevant info needed.");
         Assert.IsNotNull(itemTextName, "Item descriptor needs a reference to a TextMeshProUGUI to display" +
             "item name.");
         Assert.IsNotNull(itemTextDesc, "Item descriptor needs a reference to a TextMeshProUGUI to display" +
@@ -27,28 +35,34 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
             " stat modifiers of item.");
     }
 
-    public void Toggle(bool toggle, Item item)
+    private void Start()
     {
-        Toggle(toggle);
-        this.item = item;
-        itemTextName.text = item.data.itemName;
-        itemTextDesc.text = item.data.description;
+        context.OnItemDescriptorChange += OnItemDescriptorChangeEvent;
+        Rerender();
+    }
 
+    private void OnItemDescriptorChangeEvent(ItemDescriptorContext context)
+    {
+        Rerender();
+    }
+
+    private void Rerender()
+    {
+        displayUI.SetActive(context.ShouldDisplay);
+
+        itemTextName.text = context.Item.data.itemName;
+        itemTextDesc.text = context.Item.data.description;
         itemTextStats.text = "";
-        HandleItemDisplay(item);
+        HandleItemDisplay(context.Item);
     }
 
-    public void Toggle(bool toggle)
-    {
-        gameObject.SetActive(toggle);
+    #region Helpers
 
-        // Toggle children objects
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(toggle);
-        }
-    }
-
+    /// <summary>
+    /// Converts a list of StatModifierEquipment into a more readable string format.
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
     private String StringifyStatModifierList(List<StatModifierEquipment> list)
     {
         HashSet<Stat> visitedStats = new HashSet<Stat>();
@@ -77,6 +91,10 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
         return statModifierString;
     }
 
+    /// <summary>
+    /// Handles the logic for generating what text to put on descriptor for the STAT text.
+    /// </summary>
+    /// <param name="item"></param>
     private void HandleItemDisplay(Item item)
     {
 
@@ -105,4 +123,13 @@ public class ItemDescriptor : Singleton<ItemDescriptor>
             itemTextStats.text += StringifyStatModifierList(itemUpgraderComponent.modifiers);
         }
     }
+    #endregion
+
+    #region Validators
+    private bool ValidateDisplayText(GameObject obj)
+    {
+        if (obj == null || displayUI == null) return false; // Ensures both fields are assigned
+        return obj.transform.IsChildOf(displayUI.transform); // Checks if displayImage is a child of displayUI
+    }
+    #endregion
 }

@@ -34,6 +34,12 @@ public class InventoryUI : MonoBehaviour
     [Required, SerializeField]
     private ItemSelectionContext ItemSelectionContext;
 
+    /// <summary>
+    /// Shared context for displaying item descriptor UI.
+    /// </summary>
+    [Required, SerializeField]
+    private ItemDescriptorContext ItemDescriptorContext;
+
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
    
@@ -57,6 +63,7 @@ public class InventoryUI : MonoBehaviour
 
         Assert.IsNotNull(InventorySelectionContext, "Warning: Inventory Selection Context is null!");
         Assert.IsNotNull(ItemSelectionContext, "Warning: Item Selection Context is null!");
+        Assert.IsNotNull(ItemDescriptorContext, "Warning: Item Descriptor Context is null!");
 
         inventorySystem = GetComponent<InventorySystem>();
 
@@ -167,6 +174,19 @@ public class InventoryUI : MonoBehaviour
     public void EnableSlot(int index)
     {
          slots[index].ToggleSlotInteractivity(true);
+    }
+
+    /// <summary>
+    /// Helper to set the item descriptor. The most ideal design pattern however would be to 
+    /// make InventoryUI handle the base call of setting the item descriptor and have SlotUI
+    /// simply invoke events like OnPointerHover, etc. But this is a simple fix and since 
+    /// the two classes are coupled due to other code, no point in making it less coupled for now.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="shouldDisplay"></param>
+    public void SetItemDescriptor(Item item, bool shouldDisplay)
+    {
+        ItemDescriptorContext.SetItemDescriptorContext(item, shouldDisplay);
     }
 
     private void InitWhole()

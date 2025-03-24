@@ -27,6 +27,7 @@ public class ItemHoverer : MonoBehaviour
     private void Start()
     {
         context.OnItemSelection += OnItemSelectionEvent;
+        Rerender();
     }
 
     public void OnItemSelectionEvent(ItemSelectionContext context)

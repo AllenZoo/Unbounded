@@ -48,6 +48,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     {
         Assert.IsNotNull(itemIconElement, "Need item data sprite gameobject.");
         inventoryUI = GetComponentInParent<InventoryUI>();
+        Assert.IsNotNull(inventoryUI, "ERROR: Slot UI existing without parent Inventory UI reference!");
 
         parentSystem = GetComponentInParent<InventorySystem>();
         Assert.IsNotNull(parentSystem, "SlotUI needs reference to parent inventory system.");
@@ -175,7 +176,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
                 StopCoroutine(hoverCoroutine);
             }
             // Hide the item descriptor here (e.g., set it inactive)
-            ItemDescriptor.Instance.Toggle(false);
+            inventoryUI.SetItemDescriptor(null, false);
         }
     }
 
@@ -190,7 +191,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     {
         yield return new WaitForSeconds(hoverDelay);
         // Show the item descriptor here (e.g., set it active)
-        ItemDescriptor.Instance.Toggle(true, item);
+        inventoryUI.SetItemDescriptor(item, true);
     }
 
 
