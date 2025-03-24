@@ -12,6 +12,8 @@ public class ItemDescriptor : MonoBehaviour
 {
     [Header("Context")]
     [SerializeField, Required] private ItemDescriptorContext context;
+
+    [Tooltip("The UI object we toggle on and off depending on context visibility.")]
     [Required, SerializeField] private GameObject displayUI; // The actual object we toggle on and off, depending on the selection context.
 
     [Header("UI elements")]
@@ -49,6 +51,8 @@ public class ItemDescriptor : MonoBehaviour
     private void Rerender()
     {
         displayUI.SetActive(context.ShouldDisplay);
+
+        if (context.Item == null || context.Item.IsEmpty()) return;
 
         itemTextName.text = context.Item.data.itemName;
         itemTextDesc.text = context.Item.data.description;
