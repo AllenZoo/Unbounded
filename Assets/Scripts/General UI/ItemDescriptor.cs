@@ -8,8 +8,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// Attach to UI that should display relevant info of ItemDescriptorContext.
+/// </summary>
 public class ItemDescriptor : MonoBehaviour
 {
+    // TODO: Fix the slight jerking motion when ItemDescriptor is toggled on. 
+    //      The issue may be caused by only disabling the display and then re-enabling it, which could affect formatting. 
+    //      Previously, this wasn't a problem because the entire ItemDescriptor object was disabled, ensuring the display was always enabled when ItemDescriptor was active.
+
+
     [Header("Context")]
     [SerializeField, Required] private ItemDescriptorContext context;
 
