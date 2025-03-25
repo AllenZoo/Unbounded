@@ -21,6 +21,6 @@ public class LocalEventHandlerContext : ScriptableObject
     {
         this.localEventHandler = localEventHandler;
         initialized = true;
-        OnInitialized();
+        OnInitialized?.Invoke();
     }
 }

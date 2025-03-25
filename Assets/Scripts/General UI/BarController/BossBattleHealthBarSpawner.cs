@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,11 @@ using UnityEngine.Assertions;
 // TODO: REFACTOR
 public class BossBattleHealthBarSpawner : MonoBehaviour
 {
-    [SerializeField] private LocalEventHandler localEventHandler;
-    [SerializeField] private StatComponent stats;
-    private BarController bossHealthBarController;
+    [SerializeField, Required] private LocalEventHandler localEventHandler;
+    [SerializeField, Required] private BarContext barContext;
+
     private void Awake()
     {
-        Assert.IsNotNull(stats);
 
         if (localEventHandler == null)
         {
@@ -23,25 +23,17 @@ public class BossBattleHealthBarSpawner : MonoBehaviour
                                         "] with root object [" + gameObject.transform.root.name + "] for BossBattleHealthBarSpawner.cs");
             }
         }
-        bossHealthBarController = CanvasSingleton.Instance.bossBarController;
     }
 
     private void Start()
     {
-        
-
         LocalEventBinding<OnAggroStatusChangeEvent> aggroChangeBinding = new LocalEventBinding<OnAggroStatusChangeEvent>(OnAggroStatusChange);
         localEventHandler.Register(aggroChangeBinding);
     }
 
     private void OnAggroStatusChange(OnAggroStatusChangeEvent e)
     {
-        bossHealthBarController.gameObject.SetActive(e.isAggroed);
-
-        if (bossHealthBarController.gameObject.activeSelf)
-        {
-            // TODO: REFACTOR
-            //bossHealthBarController.Set(localEventHandler, stats, BarTrackStat.HP);
-        }
+        barContext.IsVisible = e.isAggroed;
+        barContext.LEH = localEventHandler;
     }
 }

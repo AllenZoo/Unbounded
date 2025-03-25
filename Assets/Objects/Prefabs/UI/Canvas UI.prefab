@@ -1741,6 +1741,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2150143409281040134}
     m_Modifications:
     - target: {fileID: 2374064986989360090, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
+      propertyPath: useBarContext
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374064986989360090, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
       propertyPath: localEventHandlerContext
       value: 
       objectReference: {fileID: 11400000, guid: 49a9d171d5230ef438badc91170b93d2, type: 2}
@@ -1756,6 +1760,14 @@ PrefabInstance:
       propertyPath: m_text
       value: 9999
       objectReference: {fileID: 0}
+    - target: {fileID: 3866036480953863761, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
+      propertyPath: barContext
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dd02839f48c8df488988d546897bb2f, type: 2}
+    - target: {fileID: 3866036480953863761, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
+      propertyPath: localEventHandlerContext
+      value: 
+      objectReference: {fileID: 11400000, guid: 69041c0e0ac2e7f498830792ebc87653, type: 2}
     - target: {fileID: 4230466525783723932, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

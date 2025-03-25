@@ -17,16 +17,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="new Bar Context", menuName ="System/General UI/BarContext")]
 public class BarContext : ScriptableObject
 {
-    //TODO: check if we go with this design or another one I thought of. REMOVE IF NOT USED.
-    public Action OnInitialized;
+    public Action OnBarContextChange;
 
-    [SerializeField, ReadOnly] private LocalEventHandler localEventHandler;
-    [SerializeField, ReadOnly] private StatComponent statObject;
-    [SerializeField, ReadOnly] private bool initialized;
+    public LocalEventHandler LEH { get { return leh; } set { leh = value; OnBarContextChange?.Invoke(); } }
+    [SerializeField, ReadOnly] private LocalEventHandler leh;
 
-    public void Init()
-    {
-        initialized = true;
-        OnInitialized();
-    }
+    public bool IsVisible { get { return isVisible; } set { isVisible = value; OnBarContextChange?.Invoke(); } }
+    [SerializeField, ReadOnly] private bool isVisible;
 }
