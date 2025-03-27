@@ -41,8 +41,11 @@ public class BarController : MonoBehaviour
     private void Start()
     {
         localEventHandlerContext.OnInitialized += OnLEHInit;
-        barContext.OnBarContextChange += Render;
-        barContext.OnBarContextChange += OnBarContextChange;
+        OnLEHInit(); // this call is in case we don't subscribe before OnInitialized gets called in LEH.
+        if (useBarContext) { 
+            barContext.OnBarContextChange += Render;
+            barContext.OnBarContextChange += OnBarContextChange;
+        }
         Render();
     }
 

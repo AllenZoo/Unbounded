@@ -13,6 +13,8 @@ public class BossBattleHealthBarSpawner : MonoBehaviour
 
     private void Awake()
     {
+        Assert.IsNotNull(localEventHandler);
+        Assert.IsNotNull(barContext);
 
         if (localEventHandler == null)
         {
