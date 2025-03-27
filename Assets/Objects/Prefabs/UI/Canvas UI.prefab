@@ -181,7 +181,6 @@ GameObject:
   - component: {fileID: 2150143409281040135}
   - component: {fileID: 2150143409281040128}
   - component: {fileID: 2150143409281040129}
-  - component: {fileID: 3112912400209112505}
   m_Layer: 5
   m_Name: Canvas UI
   m_TagString: Untagged
@@ -285,28 +284,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 16351
---- !u!114 &3112912400209112505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2150143409281040130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 879d02f7fe4066d4480b92e424b903a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  bossBarController: {fileID: 8924199016486710872}
 --- !u!1 &2793485716413520026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,17 +1876,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5115412110512948277, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
   m_PrefabInstance: {fileID: 6569415124629970306}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8924199016486710872 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2374064986989360090, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
-  m_PrefabInstance: {fileID: 6569415124629970306}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 968fbbe594099b34a8cc982308f4402d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6886800498358240729
 PrefabInstance:
   m_ObjectHideFlags: 0
