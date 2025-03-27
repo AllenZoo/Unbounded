@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class LocalEventHandler : MonoBehaviour
 {
+    [SerializeField] private LocalEventHandlerContext context;
     private Dictionary<Type, object> eventBuses = new Dictionary<Type, object>();
+
+    public void Start()
+    {
+        context?.Init(this);
+    }
 
     public void Register<T>(LocalEventBinding<T> eventBinding) where T : ILocalEvent
     {

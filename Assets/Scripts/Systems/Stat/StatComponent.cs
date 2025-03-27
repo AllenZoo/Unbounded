@@ -270,6 +270,7 @@ public class StatComponent : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gold += 10;
+            HandleDamage(new OnDamagedEvent{ damage=10});
         }
     }
 }

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// Singleton class is useful to make sure that we don't destory canvas object on load, and that we don't duplicate the objects.
+/// </summary>
 public class CanvasSingleton : Singleton<CanvasSingleton>
 {
-    [Tooltip("For displaying health bar of bosses during fights.")]
-    public BarController bossBarController;
-
     private new void Awake()
     {
         base.Awake();
-        Assert.IsNotNull(bossBarController);
     }
 }
