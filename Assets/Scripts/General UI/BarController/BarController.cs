@@ -73,7 +73,7 @@ public class BarController : MonoBehaviour
 
     private void OnBarContextChange()
     {
-        if (leh.Equals(barContext.LEH)) return;
+        if (leh != null && leh.Equals(barContext.LEH)) return;           
         SetLEH(barContext.LEH);
     }
 
