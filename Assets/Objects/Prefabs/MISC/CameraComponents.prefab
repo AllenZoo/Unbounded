@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 7702156468014214344}
   - component: {fileID: 7790140294724477625}
   - component: {fileID: 2288566256805275872}
+  - component: {fileID: 3464466136066050057}
   m_Layer: 0
   m_Name: CameraComponents
   m_TagString: Untagged
@@ -476,3 +477,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confiner: {fileID: 7702156467215259481}
+--- !u!114 &3464466136066050057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7702156468014214345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf73ce9d311a68441b9628420a62755b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []

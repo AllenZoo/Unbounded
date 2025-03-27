@@ -82,6 +82,6 @@ public class AggroPossessor : MonoBehaviour
     private void OnDisable()
     {
         isAggroed = false;
-        localEventHandler.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
+        localEventHandler?.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
     }
 }

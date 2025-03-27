@@ -60,7 +60,7 @@ public class BarController : MonoBehaviour
     {
         ClearSubscriptions();
         this.leh = leh;
-        OnLEHInit();
+        Register();
         Render();
     }
 
@@ -82,16 +82,19 @@ public class BarController : MonoBehaviour
     /// </summary>
     private void OnLEHInit()
     {
-        // Redundant check but just to make sure.
-        // Update: not redundant anymore hehe.
-        // Update2: added extra check to see that lehc.leh is not null since the way we call this function, it could be.
         if (localEventHandlerContext.Initialized && localEventHandlerContext.LocalEventHandler != null)
         {
+            SetLEH(localEventHandlerContext.LocalEventHandler);
+        }
+    }
 
+    private void Register()
+    {
+        if (leh != null)
+        {
             // Subscribe Stat Change to OnStatChange()
-            LocalEventHandler handler = localEventHandlerContext.LocalEventHandler;
             statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
-            handler.Register(statModResBinding);
+            leh.Register(statModResBinding);
         }
     }
 
