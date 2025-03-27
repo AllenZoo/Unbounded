@@ -84,8 +84,10 @@ public class BarController : MonoBehaviour
     {
         // Redundant check but just to make sure.
         // Update: not redundant anymore hehe.
-        if (localEventHandlerContext.Initialized)
+        // Update2: added extra check to see that lehc.leh is not null since the way we call this function, it could be.
+        if (localEventHandlerContext.Initialized && localEventHandlerContext.LocalEventHandler != null)
         {
+
             // Subscribe Stat Change to OnStatChange()
             LocalEventHandler handler = localEventHandlerContext.LocalEventHandler;
             statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
