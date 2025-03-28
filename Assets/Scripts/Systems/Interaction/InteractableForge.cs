@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // TODO: rename this.
 public class InteractableForge : WorldInteractableObject
@@ -13,11 +14,12 @@ public class InteractableForge : WorldInteractableObject
     [Required]
     [SerializeField]
     [Tooltip("Reference to page that will be toggled on and off by interacting with forge.")]
-    // TODO: make this a scriptable object reference.
-    private PageUI pageUI;
+    private PageUIContext pageUIContext;
 
     private void Awake()
     {
+        Assert.IsNotNull(pageUIContext);
+
         // Make default display prompt = true
         InteractablePromptData newPrompt = new InteractablePromptData(displayMessage.message, displayMessage.reqKey, true);
         messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
@@ -25,13 +27,14 @@ public class InteractableForge : WorldInteractableObject
 
     public override void Interact()
     {
+        // Note: if interaction doesn't do anything, check that the relevant PageUI references the same PageUIContext SO on this object!
         Debug.Log("Interacting with Forge!");
-        pageUI.MoveToTopOrClose();
+        pageUIContext.PageUI?.MoveToTopOrClose();
     }
 
     public override void UnInteract()
     {
         Debug.Log("Uninteracting with Forge!");
-        pageUI.ClosePage();
+        pageUIContext.PageUI?.ClosePage();
     }
 }

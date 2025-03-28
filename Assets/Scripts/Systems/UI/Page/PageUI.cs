@@ -18,6 +18,10 @@ public class PageUI : MonoBehaviour, IUIPage
 
     [Required][SerializeField] private Collider2D uiCollider;
 
+
+    [Tooltip("For allowing a connecting reference indirectly.")]
+    [SerializeField] private PageUIContext pageUIContext;
+
     private bool isBlocked = false;
 
     protected virtual void Awake()
@@ -45,7 +49,9 @@ public class PageUI : MonoBehaviour, IUIPage
         Debug.Log("Added Page UI: " + gameObject.name);
 
         UIOverlayManager.Instance.AddUIPage(this);
-        
+
+        pageUIContext?.Init(this);
+
         // Note: not necessary for since we call HandleBlockedStatus in MoveToTopOrClose.
         // UIOverlayManager.OnPageOrderModified += HandleBlockedStatus;
     }
