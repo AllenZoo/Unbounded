@@ -6,12 +6,20 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.Events;
+//using UnityEngine.InputSystem;
 
 public class MenuEventSystemHandler : MonoBehaviour
 {
     [Header("References")]
     public List<Selectable> Selectables = new List<Selectable>();
     [SerializeField] protected Selectable firstSelected;
+
+    // NOTE: original script includes using UnityEngine.InputSystem making our script more flexible
+    //       and work with other inputs (not just mouse). Uncomment and watch this video to redo (just need to uncomment navigate code tbh):
+    //       https://www.youtube.com/watch?v=0EsrYNAAEEY&t=691s&ab_channel=SasquatchBStudios
+    //       Need Unity 6.
+    //[Header("Controls")]
+    //[SerializeField] protected InputActionReference navigateReference;
 
     [Header("Animations")]
     [SerializeField] protected float selectedAnimationScale = 1.1f;
@@ -39,15 +47,24 @@ public class MenuEventSystemHandler : MonoBehaviour
 
     public virtual void OnEnable()
     {
+        //navigateReference.action.performed += OnNavigate;
         // Ensure all selectables are reset back to original size
         for (int i = 0; i < Selectables.Count; i++)
         {
             Selectables[i].transform.localScale = scales[Selectables[i]];
         }
+        StartCoroutine(SelectAfterDelay());
+    }
+
+    protected  virtual IEnumerator SelectAfterDelay()
+    {
+        yield return null;
+        EventSystem.current.SetSelectedGameObject(firstSelected.gameObject);
     }
 
     public virtual void OnDisable()
     {
+        //navigateReference.action.performed -= OnNavigate;
         scaleUpTween.Kill(true);
         scaleDownTween.Kill(true);
     }
@@ -124,4 +141,12 @@ public class MenuEventSystemHandler : MonoBehaviour
             pointerEventData.selectedObject = null;
         }
     }
+
+    //protected virtual void OnNavigate(InputAction.CallbackContext context)
+    //{
+    //    if (EventSystem.current.currentSelectedGameObject == null && lastSelected != null)
+    //    {
+    //        EventSystem.current.SetSelectedGameObject(lastSelected.gameObject);
+    //    }
+    //}
 }
