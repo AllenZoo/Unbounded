@@ -53,7 +53,11 @@ public class MenuEventSystemHandler : MonoBehaviour
         {
             Selectables[i].transform.localScale = scales[Selectables[i]];
         }
-        StartCoroutine(SelectAfterDelay());
+
+        if (firstSelected != null)
+        {
+            StartCoroutine(SelectAfterDelay());
+        }
     }
 
     protected  virtual IEnumerator SelectAfterDelay()
