@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class SO_InteractablePromptData : ScriptableObject
     public event Action OnDataChanged = delegate { };
 
 
-    [SerializeField]
+    [SerializeField, ReadOnly]
     private InteractablePromptData data;
 
     public InteractablePromptData Data

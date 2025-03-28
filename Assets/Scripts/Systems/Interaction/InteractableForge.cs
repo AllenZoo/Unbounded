@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: rename this.
 public class InteractableForge : WorldInteractableObject
 {
     [Required]
@@ -12,6 +13,7 @@ public class InteractableForge : WorldInteractableObject
     [Required]
     [SerializeField]
     [Tooltip("Reference to page that will be toggled on and off by interacting with forge.")]
+    // TODO: make this a scriptable object reference.
     private PageUI pageUI;
 
     private void Awake()
