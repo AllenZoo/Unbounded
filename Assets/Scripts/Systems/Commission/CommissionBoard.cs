@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// TODO: remove this class or rename it. It does too much stuff rn. Violates SRP.
 /// <summary>
 /// Handles managing commissions on the commission board.
 /// TODO-OPT: refactor this responsibility somehwere else if this class gets too messy: 

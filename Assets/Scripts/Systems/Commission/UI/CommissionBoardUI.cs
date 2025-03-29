@@ -26,6 +26,7 @@ public class CommissionBoardUI : MonoBehaviour
     private GameObject pendingView;
 
     // The data we are displaying in the UI.
+    // TODO: move this a scriptable object so that we can modify and init the List of commissions in another script.
     private List<Commission> activeCommissions = new List<Commission>();
     private List<Commission> pendingCommissions = new List<Commission>();
     private CommissionBoardViewStatus viewStatus = CommissionBoardViewStatus.ACTIVE;
