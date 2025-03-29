@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,22 +7,26 @@ using UnityEngine;
 /// <summary>
 /// Data class that holds the information of a commission/quest.
 /// </summary>
+[Serializable]
 public class Commission
 {
     public Action<Commission> OnCommissionStart;
     public Action<Commission, Item> OnCommissionSubmitted;
     public Action<Commission> OnCommissionComplete;
 
-    public string title { get; private set; }
-    public string description { get; private set; }
-    public int reward { get; private set; }
-    public int difficulty { get; private set; }
-    public int timeLimit { get; private set; }
-    public EquipmentType equipmentType { get; private set; }
-    public Dictionary<Stat, int> statRequirements { get; private set; }
-    public CommissionStatus commissionStatus;
+    [ShowInInspector] public string title { get; private set; }
+    [ShowInInspector] public string description { get; private set; }
+    [ShowInInspector] public int reward { get; private set; }
+    [ShowInInspector] public int difficulty { get; private set; }
+    [ShowInInspector] public int timeLimit { get; private set; }
+    [ShowInInspector] public EquipmentType equipmentType { get; private set; }
+    [ShowInInspector] public Dictionary<Stat, int> statRequirements { get; private set; }
+    [ShowInInspector] public CommissionStatus commissionStatus;
+    [ShowInInspector] public Sprite itemImage { get; private set; }
+    [ShowInInspector] public float rotOffset { get; private set; }
+    
 
-    public Commission(string title, string description, int reward, int difficulty, int timeLimit, EquipmentType equipmentType, Dictionary<Stat, int> statRequirements, CommissionStatus commissionStatus)
+    public Commission(string title, string description, int reward, int difficulty, int timeLimit, EquipmentType equipmentType, Dictionary<Stat, int> statRequirements, CommissionStatus commissionStatus, Sprite itemImage, float rotOffset)
     {
         this.title = title;
         this.description = description;
@@ -31,6 +36,8 @@ public class Commission
         this.equipmentType = equipmentType;
         this.statRequirements = statRequirements;
         this.commissionStatus = commissionStatus;
+        this.itemImage = itemImage;
+        this.rotOffset = rotOffset;
     }
 
     /// <summary>

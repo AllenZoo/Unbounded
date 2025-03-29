@@ -8,13 +8,50 @@ using UnityEngine;
 /// </summary>
 public class CommissionGenerator
 {
+    public static readonly List<string> COOL_WEAPON_NAMES = new List<string>
+{
+    "Shadowfang",
+    "Doombringer",
+    "Nightfall",
+    "Bloodbane",
+    "Stormreaver",
+    "Oblivion Edge",
+    "Frostfang",
+    "Soulrender",
+    "Dragonfang",
+    "Abyssal Wrath",
+    "Thunderstrike",
+    "Eclipse Scythe",
+    "Venomfang",
+    "Demonhowl",
+    "Celestial Cleaver",
+    "Chaos Reaver",
+    "Hellfire Saber",
+    "Phantom Dagger",
+    "Voidpiercer",
+    "Ruinblade",
+    "Inferno Pike",
+    "Lightningfang",
+    "Deathwhisper",
+    "Onyx Slayer",
+    "Warbringer",
+    "Seraphic Edge",
+    "Darkstar Halberd",
+    "Runeblade of Eternity",
+    "Echo of the Fallen",
+    "Skybreaker"
+};
+
     public float commissionDifficultyMultiplier = 1.0f;
     public float commissionRewardMultiplier = 1.0f;
 
-    public CommissionGenerator(float commissionDifficultyMultiplier, float commissionRewardMultiplier)
+    private CommissionAssetDictionary assetDict;
+
+    public CommissionGenerator(float commissionDifficultyMultiplier, float commissionRewardMultiplier, CommissionAssetDictionary assetDict)
     {
         this.commissionDifficultyMultiplier = commissionDifficultyMultiplier;
         this.commissionRewardMultiplier = commissionRewardMultiplier;
+        this.assetDict = assetDict;
     }
 
     /// <summary>
@@ -26,7 +63,18 @@ public class CommissionGenerator
         Dictionary<Stat, int> statRequirements = new Dictionary<Stat, int>();
         statRequirements.Add(Stat.ATK, 3);
         statRequirements.Add(Stat.DEX, 2);
-        return new Commission("Help Kullervo forge 'DEATH REAPER'", "Kullervo needs to kill things >:)", 10, 1, 10, EquipmentType.SWORD, statRequirements, CommissionStatus.PENDING);
+        var asset = assetDict.GetEquipmentSprite(EquipmentType.SWORD);
+        return new Commission(
+            "Help Kullervo forge 'DEATH REAPER'", 
+            "Kullervo needs to kill things >:)", 
+            10,
+            1,
+            10, 
+            EquipmentType.SWORD, 
+            statRequirements, 
+            CommissionStatus.PENDING, 
+            asset.sprite, 
+            asset.rotOffset);
     }
 
     /// <summary>
@@ -41,9 +89,22 @@ public class CommissionGenerator
         return GenerateCommission(equipmentType, difficulty);
     }
 
+    public List<Commission> GenerateCommissions(int num)
+    {
+        List<Commission> commissions = new List<Commission>();
+        if (num <= 0) return commissions;
+
+        for (int i = 0; i < num; i++)
+        {
+            commissions.Add(GenerateCommission());
+        }
+        return commissions;
+    }
+
     public Commission GenerateCommission(EquipmentType equipmentType, int difficulty)
     {
         // Generate a commission based on the equipment type and difficulty
+        var asset = assetDict.GetEquipmentSprite(equipmentType);
         Commission commission = new Commission(
                        GenerateTitle(equipmentType, difficulty),
                        GenerateDescription(equipmentType, difficulty),
@@ -52,7 +113,9 @@ public class CommissionGenerator
                        GenerateTimeLimit(difficulty),
                        equipmentType,
                        GenerateRequiredStats(difficulty),
-                       CommissionStatus.PENDING);
+                       CommissionStatus.PENDING,
+                       asset.sprite,
+                       asset.rotOffset);
         return commission;
     }
 
@@ -214,7 +277,8 @@ public class CommissionGenerator
     private String GenerateTitle(EquipmentType equipmentType, int difficulty)
     {
         // Generate a title based on the equipment type and difficulty
-        return "Forge a cool weapon!";
+        int random = UnityEngine.Random.Range(0, COOL_WEAPON_NAMES.Count - 1);
+        return COOL_WEAPON_NAMES[random];
     }
 
     private String GenerateDescription(EquipmentType equipmentType, int difficulty)

@@ -44,11 +44,6 @@ public struct OnInventoryModifiedEvent : IGlobalEvent
     
 }
 
-public struct OnCommissionListModifiedEvent: IGlobalEvent
-{
-    public List<Commission> activeCommissions;
-    public List<Commission> pendingCommissions;
-}
 
 public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
 {

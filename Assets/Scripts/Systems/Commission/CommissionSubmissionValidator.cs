@@ -53,6 +53,7 @@ public class CommissionSubmissionValidator
     }
 
     /// <summary>
+    /// HELPER
     /// Checks if the item has the required stats given the required stat requirements.
     /// </summary>
     /// <param name="requirement"></param>
