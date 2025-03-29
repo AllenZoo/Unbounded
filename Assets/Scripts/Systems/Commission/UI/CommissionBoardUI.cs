@@ -2,69 +2,57 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Handles rendering the UI of the commission board.
 /// </summary>
 public class CommissionBoardUI : MonoBehaviour
 {
-    [SerializeField]
-    [Required] 
+    [SerializeField, Required]
     private CommissionSlotUI commissionSlotUIPfb;
 
-    [SerializeField]
-    [Required]
+    [SerializeField, Required]
     private Transform commissionSlotParent;
 
     // TODO-OPT: eventually refactor this (along with pendingView) although not a big deal for now.
-    [SerializeField]
-    [Required]
+    [SerializeField, Required]
     private GameObject activeView;
 
-    [SerializeField]
-    [Required]
+    [SerializeField, Required]
     private GameObject pendingView;
 
     // The data we are displaying in the UI.
-    // TODO: move this a scriptable object so that we can modify and init the List of commissions in another script.
-    private List<Commission> activeCommissions = new List<Commission>();
-    private List<Commission> pendingCommissions = new List<Commission>();
-    private CommissionBoardViewStatus viewStatus = CommissionBoardViewStatus.ACTIVE;
+    [SerializeField, Required]private CommissionsContext commissionsContext;
+ 
+    private CommissionBoardViewStatus viewStatus = CommissionBoardViewStatus.ACTIVE; // Toggles between ACTIVE = commissions we accepted and PENDING = commissions that we have not accepted.
 
     // Handle pooling in here for now, but eventually when this class becomes to big refactor this logic somewhere else.
     private List<CommissionSlotUI> commissionSlotUIPool = new List<CommissionSlotUI>();
     private List<CommissionSlotUI> activeSlots = new List<CommissionSlotUI>();
 
-    private EventBinding<OnCommissionListModifiedEvent> commissionsModifiedBinding;
-
+    #region Lifecycle Methods
     private void Awake()
     {
-        commissionsModifiedBinding = new EventBinding<OnCommissionListModifiedEvent>(OnCommissionListModified);
+        Assert.IsNotNull(commissionSlotUIPfb);
+        Assert.IsNotNull(commissionSlotParent);
+        Assert.IsNotNull(activeView);
+        Assert.IsNotNull(pendingView);
+        Assert.IsNotNull(commissionsContext);
     }
 
     private void OnEnable()
-    {   
-        EventBus<OnCommissionListModifiedEvent>.Register(commissionsModifiedBinding);
+    {
+        commissionsContext.OnCommissionContextChange += RenderCommissions;
+    }
+
+    private void OnDisable()
+    {
+        commissionsContext.OnCommissionContextChange -= RenderCommissions;
     }
 
     private void Start()
     {
-        //Dictionary<Stat, int> stats = new Dictionary<Stat, int>();
-        //stats.Add(Stat.ATK, 1);
-        //stats.Add(Stat.DEF, 2);
-        //stats.Add(Stat.SPD, 3);
-
-        //// For testing purposes, add some commissions.
-        //Commission commission1 = new Commission("Commission1", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
-        //Commission commission2 = new Commission("Commission2", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
-        //Commission commission3 = new Commission("Commission3", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
-        //Commission commission4 = new Commission("Commission4", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
-
-        //activeCommissions.Add(commission1);
-        //activeCommissions.Add(commission2);
-        //pendingCommissions.Add(commission3);
-        //pendingCommissions.Add(commission4);
-
         // Add all children to the pool.
         foreach (Transform child in commissionSlotParent)
         {
@@ -78,8 +66,10 @@ public class CommissionBoardUI : MonoBehaviour
 
         RenderCommissions();
     }
+    #endregion
 
-    #region For Unity Buttons
+
+    #region Unity Button Helpers
     public void ToggleView(CommissionBoardViewStatus status)
     {
         viewStatus = status;
@@ -99,12 +89,8 @@ public class CommissionBoardUI : MonoBehaviour
     }
     #endregion
 
-    private void OnCommissionListModified(OnCommissionListModifiedEvent e)
-    {
-        activeCommissions = e.activeCommissions;
-        pendingCommissions = e.pendingCommissions;
-        RenderCommissions();
-    }
+
+    #region Rendering
 
     /// <summary>
     /// Toggles the view between active and pending commissions.
@@ -124,14 +110,14 @@ public class CommissionBoardUI : MonoBehaviour
         if (viewStatus == CommissionBoardViewStatus.ACTIVE)
         {
             DisplayActiveCommissions();
-        } else
+        }
+        else
         {
             // Render Pending Commissions
             DisplayPendingCommissions();
         }
     }
 
-    #region Helpers for RenderComissions
     private void HandleViewDisplay()
     {
         if (viewStatus == CommissionBoardViewStatus.ACTIVE) {
@@ -143,6 +129,36 @@ public class CommissionBoardUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Helper that instantiates or enables commission slots from pool to display active commissions.
+    /// </summary>
+    private void DisplayActiveCommissions()
+    {
+        Commission activeCommission = commissionsContext.ActiveCommission;
+
+        if (activeCommission == null)
+        {
+            // If no active commission don't display anything.
+            //DisplayCommissions(new List<Commission>());
+            return;
+        }
+
+        DisplayCommissions(new List<Commission>() { activeCommission });
+    }
+
+    /// <summary>
+    /// Helper that instantiates or enables commission slots from pool to display pending commissions.
+    /// </summary>
+    private void DisplayPendingCommissions()
+    {
+        List<Commission> commissions = commissionsContext.Commissions;
+        DisplayCommissions(commissions);
+    }
+
+    /// <summary>
+    /// Function that displays given commissions onto UI.
+    /// </summary>
+    /// <param name="commissions"></param>
     private void DisplayCommissions(List<Commission> commissions)
     {
         foreach (Commission commission in commissions)
@@ -160,26 +176,10 @@ public class CommissionBoardUI : MonoBehaviour
                 commissionSlotUIPool.Remove(slot);
                 slot.gameObject.SetActive(true);
             }
-            
+
             activeSlots.Add(slot);
             slot.SetCommission(commission);
         }
-    }
-
-    /// <summary>
-    /// Helper that instantiates or enables commission slots from pool to display active commissions.
-    /// </summary>
-    private void DisplayActiveCommissions()
-    {
-        DisplayCommissions(activeCommissions);
-    }
-
-    /// <summary>
-    /// Helper that instantiates or enables commission slots from pool to display pending commissions.
-    /// </summary>
-    private void DisplayPendingCommissions()
-    {
-        DisplayCommissions(pendingCommissions);
     }
     #endregion
 

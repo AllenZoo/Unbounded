@@ -8,6 +8,40 @@ using UnityEngine;
 /// </summary>
 public class CommissionGenerator
 {
+    public static readonly List<string> COOL_WEAPON_NAMES = new List<string>
+{
+    "Shadowfang",
+    "Doombringer",
+    "Nightfall",
+    "Bloodbane",
+    "Stormreaver",
+    "Oblivion Edge",
+    "Frostfang",
+    "Soulrender",
+    "Dragonfang",
+    "Abyssal Wrath",
+    "Thunderstrike",
+    "Eclipse Scythe",
+    "Venomfang",
+    "Demonhowl",
+    "Celestial Cleaver",
+    "Chaos Reaver",
+    "Hellfire Saber",
+    "Phantom Dagger",
+    "Voidpiercer",
+    "Ruinblade",
+    "Inferno Pike",
+    "Lightningfang",
+    "Deathwhisper",
+    "Onyx Slayer",
+    "Warbringer",
+    "Seraphic Edge",
+    "Darkstar Halberd",
+    "Runeblade of Eternity",
+    "Echo of the Fallen",
+    "Skybreaker"
+};
+
     public float commissionDifficultyMultiplier = 1.0f;
     public float commissionRewardMultiplier = 1.0f;
 
@@ -226,7 +260,8 @@ public class CommissionGenerator
     private String GenerateTitle(EquipmentType equipmentType, int difficulty)
     {
         // Generate a title based on the equipment type and difficulty
-        return "Forge a cool weapon!";
+        int random = UnityEngine.Random.Range(0, COOL_WEAPON_NAMES.Count - 1);
+        return COOL_WEAPON_NAMES[random];
     }
 
     private String GenerateDescription(EquipmentType equipmentType, int difficulty)
