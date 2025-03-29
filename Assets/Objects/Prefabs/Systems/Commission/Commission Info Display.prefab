@@ -3185,6 +3185,7 @@ GameObject:
   - component: {fileID: 7316961600710816546}
   - component: {fileID: 5222364492334887162}
   - component: {fileID: 8006851385308197379}
+  - component: {fileID: 6617568419407083380}
   m_Layer: 5
   m_Name: Commission Info Display
   m_TagString: UI
@@ -3227,6 +3228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7316961600710816546}
   uiCollider: {fileID: 8006851385308197379}
+  pageUIContext: {fileID: 0}
   titleText: {fileID: 4182881574812487772}
   descriptionText: {fileID: 7621567349872415840}
   rewardText: {fileID: 8404707604900209303}
@@ -3364,7 +3366,7 @@ MonoBehaviour:
   slotRules:
     _serializedList:
     - Key: 0
-      Value: {fileID: 11400000, guid: 52ea07350fd651a4bb43261b52e89daa, type: 2}
+      Value: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
 --- !u!114 &5625526849166692615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3450,6 +3452,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6617568419407083380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9111014506082758161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c42d02edab5a334b822096a66a24538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Selectables:
+  - {fileID: 8327358801116486169}
+  - {fileID: 4649041823966503838}
+  - {fileID: 2000475687395221216}
+  - {fileID: 2072485204017762773}
+  - {fileID: 8427076088812716637}
+  firstSelected: {fileID: 0}
+  selectedAnimationScale: 1.1
+  scaleDuration: 0.25
+  animationExclusions: []
+  SoundEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &3792730495117471319
 PrefabInstance:
   m_ObjectHideFlags: 0
