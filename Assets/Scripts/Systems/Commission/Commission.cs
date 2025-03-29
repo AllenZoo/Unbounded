@@ -22,8 +22,11 @@ public class Commission
     [ShowInInspector] public EquipmentType equipmentType { get; private set; }
     [ShowInInspector] public Dictionary<Stat, int> statRequirements { get; private set; }
     [ShowInInspector] public CommissionStatus commissionStatus;
+    [ShowInInspector] public Sprite itemImage { get; private set; }
+    [ShowInInspector] public float rotOffset { get; private set; }
+    
 
-    public Commission(string title, string description, int reward, int difficulty, int timeLimit, EquipmentType equipmentType, Dictionary<Stat, int> statRequirements, CommissionStatus commissionStatus)
+    public Commission(string title, string description, int reward, int difficulty, int timeLimit, EquipmentType equipmentType, Dictionary<Stat, int> statRequirements, CommissionStatus commissionStatus, Sprite itemImage, float rotOffset)
     {
         this.title = title;
         this.description = description;
@@ -33,6 +36,8 @@ public class Commission
         this.equipmentType = equipmentType;
         this.statRequirements = statRequirements;
         this.commissionStatus = commissionStatus;
+        this.itemImage = itemImage;
+        this.rotOffset = rotOffset;
     }
 
     /// <summary>

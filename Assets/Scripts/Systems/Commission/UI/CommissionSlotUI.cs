@@ -30,7 +30,9 @@ public class CommissionSlotUI : MonoBehaviour, IPointerClickHandler
     private void RenderCommssion()
     {
         titleText.text = commission.title;
-        commissionImageDisplay.sprite = CommissionAssetGetter.Instance.GetEquipmentSprite(commission.equipmentType);
+        commissionImageDisplay.sprite = commission.itemImage;
+        commissionImageDisplay.transform.rotation = Quaternion.identity;
+        commissionImageDisplay.transform.Rotate(new Vector3(0, 0, commission.rotOffset));
     }
 
     public void OnPointerClick(PointerEventData eventData)

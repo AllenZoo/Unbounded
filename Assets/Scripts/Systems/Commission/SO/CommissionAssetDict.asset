@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b3aedda2b101040a0cece9739d58cf, type: 3}
+  m_Name: CommissionAssetDict
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: -870168203, guid: a64d73120f737c2458025e8b118a7997, type: 3}
+    - {fileID: 202112491, guid: a64d73120f737c2458025e8b118a7997, type: 3}
+    - {fileID: 134640067, guid: a64d73120f737c2458025e8b118a7997, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: equipmentSpriteMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[EquipmentType, Assembly-CSharp],[CommissionAssetDictionary+CommissionAsset,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[EquipmentType, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: CommissionAssetDictionary+CommissionAsset, Assembly-CSharp
+    - Name: sprite
+      Entry: 10
+      Data: 0
+    - Name: rotOffset
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: CommissionAssetDictionary+CommissionAsset, Assembly-CSharp
+    - Name: sprite
+      Entry: 10
+      Data: 1
+    - Name: rotOffset
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: CommissionAssetDictionary+CommissionAsset, Assembly-CSharp
+    - Name: sprite
+      Entry: 10
+      Data: 2
+    - Name: rotOffset
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  placeHolderNullSprite: {fileID: 21300000, guid: 580112ad3892f7e46bfb79071a078ba1, type: 3}

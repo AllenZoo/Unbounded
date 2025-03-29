@@ -36,13 +36,17 @@ public class CommissionBoard : MonoBehaviour
     /// </summary>
     private List<Tuple<Commission, Item>> completedCommissions = new List<Tuple<Commission, Item>>();
 
+    [SerializeField, Required] private CommissionAssetDictionary commmissionAssetDictionary;
     private CommissionGenerator commissionGenerator;
     private CommissionSubmissionValidator validator;
 
     private void Awake()
     {
         Assert.IsNotNull(submitInventory, "Submit Inventory is not set in the inspector.");
-        commissionGenerator = new CommissionGenerator(1, 1);
+        Assert.IsNotNull(commmissionAssetDictionary);
+        Assert.IsNotNull(commissionsContext);
+
+        commissionGenerator = new CommissionGenerator(1, 1, commmissionAssetDictionary);
         validator = new CommissionSubmissionValidator();
     }
 

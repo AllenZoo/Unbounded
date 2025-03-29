@@ -109,7 +109,10 @@ public class CommissionInfoDisplayUI : PageUI
         difficultyText.text = "Difficulty: " +  new string('*', commission.difficulty);
         rewardText.text = "Reward: " + commission.reward + " gold";
         timeLimitText.text = "Time Limit: " + commission.timeLimit + " days";
-        commissionImageDisplay.sprite = CommissionAssetGetter.Instance.GetEquipmentSprite(commission.equipmentType);
+
+        commissionImageDisplay.sprite = commission.itemImage;
+        commissionImageDisplay.transform.rotation = Quaternion.identity; // Reset rotation before applying rotate. Otherwise rotations cumulate.
+        commissionImageDisplay.transform.Rotate(new Vector3(0, 0, commission.rotOffset));
 
         // TODO: refactor this eventually
         if (commission.commissionStatus == CommissionStatus.ACTIVE) SetViewStatusActive();
