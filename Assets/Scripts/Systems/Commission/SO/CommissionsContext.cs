@@ -14,6 +14,22 @@ using UnityEngine;
 public class CommissionsContext : ScriptableObject
 {
     public Action OnCommissionContextChange;
-    [SerializeField, ReadOnly] public List<Commission> Commissions { get { return Commissions; } set { Commissions = value; OnCommissionContextChange?.Invoke(); } }
-    [SerializeField, ReadOnly] public Commission AcceptedCommission { get { return AcceptedCommission; } set { AcceptedCommission = value; OnCommissionContextChange?.Invoke(); } }
+    public List<Commission> Commissions { get { return commissions; } set { commissions = value; OnCommissionContextChange?.Invoke(); } }
+    public Commission ActiveCommission { get { return activeCommission; } set { activeCommission = value; OnCommissionContextChange?.Invoke(); } }
+
+    [SerializeField, ReadOnly] private List<Commission> commissions = new List<Commission>();
+    [SerializeField, ReadOnly] private Commission activeCommission;
+
+    public void ResetContext()
+    {
+        commissions = new List<Commission>();
+        activeCommission = null;
+        OnCommissionContextChange?.Invoke();
+    }
+
+    public void OnDisable()
+    {
+        Debug.Log("Resetting Commission Context!");
+        ResetContext();
+    }
 }

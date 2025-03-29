@@ -41,6 +41,18 @@ public class CommissionGenerator
         return GenerateCommission(equipmentType, difficulty);
     }
 
+    public List<Commission> GenerateCommissions(int num)
+    {
+        List<Commission> commissions = new List<Commission>();
+        if (num <= 0) return commissions;
+
+        for (int i = 0; i < num; i++)
+        {
+            commissions.Add(GenerateCommission());
+        }
+        return commissions;
+    }
+
     public Commission GenerateCommission(EquipmentType equipmentType, int difficulty)
     {
         // Generate a commission based on the equipment type and difficulty

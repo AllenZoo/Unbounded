@@ -12,20 +12,28 @@ using UnityEngine.Assertions;
 /// TODO-OPT: refactor this responsibility somehwere else if this class gets too messy: 
 ///     Also handles the validation of commission submissions.
 /// </summary>
+/// 
 public class CommissionBoard : MonoBehaviour
 {
+    // CommissionBoard AKA CommissionStateHandler. In charge of 
+    //    1. Generating commission sets (3 commissions for player to choose from)
+    //    2. Validating commission submissions.
 
-    [SerializeField]
-    private float maxPendingCommissions = 3;
+    [Tooltip("Context to populate Commissions with.")]
+    [SerializeField, Required] private CommissionsContext commissionsContext;
 
-    [SerializeField]
-    private float maxActiveCommissions = 1;
+    [SerializeField, Tooltip("Number of commissions we can select from per 'round'.")]
+    private int commissionSetSize = 3;
 
-    [SerializeField]
-    [Required]
+    /// <summary>
+    /// The shared reference to the submit inventory where player will put an item into.
+    /// </summary>
+    [SerializeField, Required]
     private SO_Inventory submitInventory;
     
-    private List<Commission> commissions = new List<Commission>();
+    /// <summary>
+    /// History of completed commissions and related items to look back on.
+    /// </summary>
     private List<Tuple<Commission, Item>> completedCommissions = new List<Tuple<Commission, Item>>();
 
     private CommissionGenerator commissionGenerator;
@@ -40,88 +48,47 @@ public class CommissionBoard : MonoBehaviour
 
     private void Start()
     {
-        Dictionary<Stat, int> stats = new Dictionary<Stat, int>();
-        stats.Add(Stat.ATK, 1);
-        stats.Add(Stat.DEF, 2);
-        stats.Add(Stat.SPD, 3);
-
-        // For testing purposes, add some commissions.
-        Commission commission1 = new Commission("Commission1", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
-        Commission commission2 = new Commission("Commission2", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.ACTIVE);
-        Commission commission3 = new Commission("Commission3", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
-        Commission commission4 = new Commission("Commission4", "description", 1, 2, 2, EquipmentType.BOW, stats, CommissionStatus.PENDING);
-
-
-        Dictionary<Stat, int> stats2 = new Dictionary<Stat, int>();
-        stats2.Add(Stat.ATK, 5);
-        Commission commission5 = new Commission("Craft Sword", "Craft and Upgrade Katan's Sword!", 10, 1, 2, EquipmentType.SWORD, stats2, CommissionStatus.PENDING);
-
-        //AddCommission(commission1);
-        //AddCommission(commission2);
-        //AddCommission(commission3);
-        //AddCommission(commission4);
-        AddCommission(commission5);
+        // Reset everything and generate commissions.
+        commissionsContext.ResetContext();
+        FillCommissions();
     }
 
-    public List<Commission> GetActiveCommissions() => commissions.Where(commission => commission.commissionStatus.Equals(CommissionStatus.ACTIVE)).ToList();
-
-    public List<Commission> GetPendingCommissions() => commissions.Where(commission => commission.commissionStatus.Equals(CommissionStatus.PENDING)).ToList();
-
-    public void AddCommission(Commission commission)
+    /// <summary>
+    /// Helper to fill the commission context to the max pending commissions field.
+    /// </summary>
+    public void FillCommissions()
     {
-        if (commission.commissionStatus.Equals(CommissionStatus.ACTIVE) && GetActiveCommissions().Count >= maxActiveCommissions)
-        {
-            Debug.Log("Max active commissions reached.");
-            return;
-        } else if (commission.commissionStatus.Equals(CommissionStatus.PENDING) && commissions.Count >= maxPendingCommissions)
-        {
-            Debug.Log("Max pending commissions reached.");
-            return;
-        }
+        List<Commission> commissions = commissionGenerator.GenerateCommissions(commissionSetSize);
 
-        commission.OnCommissionStart += AcceptCommission;
-        commission.OnCommissionSubmitted += SubmitCommission;
+        commissions.ForEach((commission) =>
+        {
+            commission.OnCommissionStart += AcceptCommission;
+            commission.OnCommissionSubmitted += SubmitCommission;
+        });
 
-        commissions.Add(commission);
-        EventBus<OnCommissionListModifiedEvent>.Call(
-            new OnCommissionListModifiedEvent { 
-                activeCommissions = GetActiveCommissions(),
-                pendingCommissions = GetPendingCommissions()
-            }
-        );
+        commissionsContext.Commissions = commissions; // Triggers OnCommissionContextChange event.
     }
 
+    #region Private Helpers Subscribed to Commission Events
     private void AcceptCommission(Commission commission)
     {
         // Redundent Check if the commission is in the list and also is
         // in pending status
-        if (!commissions.Contains(commission) || commission.commissionStatus != CommissionStatus.PENDING)
+        if (!commissionsContext.Commissions.Contains(commission) || commission.commissionStatus != CommissionStatus.PENDING)
         {
             Debug.LogError("Commission not found in list or not in pending status.");
             return;
         }
 
-        // Check if max active commissions is reached
-        if (GetActiveCommissions().Count >= maxActiveCommissions)
+        // Check if we have already accepted a quest
+        if (commissionsContext.ActiveCommission != null)
         {
             Debug.Log("Max active commissions reached.");
             return;
         }
 
         commission.commissionStatus = CommissionStatus.ACTIVE;
-        EventBus<OnCommissionListModifiedEvent>.Call(
-            new OnCommissionListModifiedEvent
-            {
-                activeCommissions = GetActiveCommissions(),
-                pendingCommissions = GetPendingCommissions()
-            }
-        );
-    }
-
-    // Used by Button for now.
-    public void GenerateRandomCommission()
-    {
-        AddCommission(commissionGenerator.GenerateCommission());
+        commissionsContext.ActiveCommission = commission; // Triggers OnCommissionContextChange event.
     }
 
     /// <summary>
@@ -137,6 +104,31 @@ public class CommissionBoard : MonoBehaviour
             return;
         }
 
+        // Check if the submitted commission is the active one.
+        if (!commissionsContext.ActiveCommission.Equals(commission))
+        {
+            Debug.Log("Commission completed is not he active one!");
+            return;
+        }
+        
+        HandleCommissionCompletion(commission, submittedItem);
+    }
+
+    /// <summary>
+    /// Handle Commission Completion. At this point we have validated that the submitted Item is valid!
+    /// 
+    /// (Note: not in this order lmao)
+    /// 
+    /// 1. Resets commission context and refills it.
+    /// 2. Gives player reward.
+    /// 3. Clear submitted item inventory.
+    /// 4. Adds to log
+    /// 
+    /// </summary>
+    /// <param name="commission"></param>
+    /// <param name="submittedItem"></param>
+    private void HandleCommissionCompletion(Commission commission, Item submittedItem)
+    {
         // Valid Submission. Move the item to completed commissions list.
         // Add money to Player's wallet.
         completedCommissions.Add(new Tuple<Commission, Item>(commission, submittedItem));
@@ -144,27 +136,13 @@ public class CommissionBoard : MonoBehaviour
 
         PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold += commission.reward;
 
-        HandleCommissionCompletion(commission);
-    }
+        // Reset Active and generate new commission set
+        commissionsContext.ResetContext();
+        FillCommissions();
 
-    private void HandleCommissionCompletion(Commission commission)
-    {
-        // Check if the commission is in list
-        if (!commissions.Contains(commission))
-        {
-            Debug.Log("Commission not found in list.");
-            return;
-        }
 
         commission.commissionStatus = CommissionStatus.COMPLETED;
-        EventBus<OnCommissionListModifiedEvent>.Call(
-            new OnCommissionListModifiedEvent
-            {
-                activeCommissions = GetActiveCommissions(),
-                pendingCommissions = GetPendingCommissions()
-            }
-        );
-
         commission.CompleteCommission();
     }
+    #endregion
 }

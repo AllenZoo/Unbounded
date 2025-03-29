@@ -860,8 +860,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c631409d21cdf4cbaae7e9ea3e9e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPendingCommissions: 3
-  maxActiveCommissions: 1
+  commissionsContext: {fileID: 11400000, guid: 2c214a93128b11b42b10b132a1c0368c, type: 2}
+  commissionSetSize: 3
   submitInventory: {fileID: 11400000, guid: fe8df5b9334be1d40979328300186051, type: 2}
 --- !u!114 &6851947101557257672
 MonoBehaviour:
