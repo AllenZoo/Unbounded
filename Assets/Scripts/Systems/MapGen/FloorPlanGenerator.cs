@@ -62,6 +62,10 @@ public class FloorPlanGenerator
     ///         iii. If we have enough rooms generated, break.
     ///         iv. Add room to floorplan.
     ///         v. If room doesn't add any neighbouring rooms, mark it as a dead end.
+    /// 3. Once we generated enough rooms, sift through dead-end rooms to find/assign a boss room
+    ///     a. a dead-end room is a valid boss room if it is:
+    ///         i. a 2x2 room
+    ///         ii. some non-2x2 room that has enough space to turn into a 2x2 room.
     /// </summary>
     public FloorPlan Generate()
     {
@@ -89,7 +93,7 @@ public class FloorPlanGenerator
             (int) Random.Range(0, floorplanSize.x - 1), 
             (int) Random.Range(0, floorplanSize.y - 1));
         Room startRoom = new Room(new Vector2(1, 1), randomPos, null, RoomType.Start);
-        AddRoomToFloorPlan(startRoom);
+        floorplan.AddRoom(startRoom);
         roomsToVisit.Enqueue(startRoom);
     }
 
@@ -117,7 +121,7 @@ public class FloorPlanGenerator
                 {
                     hasNeighbours = true;
                     roomsToVisit.Enqueue(newRoom);
-                    AddRoomToFloorPlan(newRoom);
+                    floorplan.AddRoom(newRoom);
                     //Debug.Log("Added room with position: " + newRoom.position);
                     roomsGenerated++;
                 }
@@ -166,7 +170,7 @@ public class FloorPlanGenerator
         // ii. If we decide to create a room, get a list of possible rooms to create and pick one.
         //     (randomly selecting from 1x1, 1x2, 2x1, 2x2 sized rooms)
 
-        List<Room> possibleRooms = GetPossibleRoomsToCreate(pos);
+        List<Room> possibleRooms = GetPossibleRoomsToCreate(pos, new List<RoomSize>() { RoomSize.OneByOne, RoomSize.TwoByTwo, RoomSize.TwoByOne, RoomSize.OneByTwo});
         if (possibleRooms.Count == 0)
         {
             return null;
@@ -214,36 +218,73 @@ public class FloorPlanGenerator
     }
 
     /// <summary>
-    /// Returns a list of possible rooms that covers the given position.
+    /// Given a room and desired room size to transform into, return a list of new rooms that would fit in map and not overlap with other rooms.
+    /// 
+    /// If provided room has a roomSize equal to given roomSize, returns a list containing given room.
+    /// </summary>
+    /// <param name="room"></param>
+    /// <returns></returns>
+    private List<Room> GetRoomTransformOptions(Room room, RoomSize roomSize)
+    {
+        List<Room> rooms = new List<Room> ();
+        // TODO: apparently room.roomSize has some bug? idk check if this if statement works. CTRL + F Room.cs and search for "roomSize" to see what I mean.
+        if (room.roomSize == roomSize) return new List<Room>() { room };
+
+        // floorplan.rooms[]
+        //
+
+        return rooms; //TODO: STUB
+    }
+ 
+
+    /// <summary>
+    /// Returns a list of possible rooms that covers the given position, and is one of the provided room sizes requested..
     /// Remember, the position of the room is the top left corner cell of the room.
     /// </summary>
     /// <param name="position"></param>
-    /// <returns></returns>
-    private List<Room> GetPossibleRoomsToCreate(Vector2 position)
+    /// <returns>a list of possible rooms that cover given position.</returns>
+    private List<Room> GetPossibleRoomsToCreate(Vector2 position, List<RoomSize> roomSizes)
     {
         List<Room> possibleRooms = new List<Room>();
+        Vector2 posOffset;
 
         // 1 option for 1x1
-        possibleRooms.Add(new Room(new Vector2(1, 1), position, null));
+        if (roomSizes.Contains(RoomSize.OneByOne))
+        {
+            possibleRooms.Add(new Room(new Vector2(1, 1), position, null));
+        }
+
 
         // 2 options for 1x2
-        possibleRooms.Add(new Room(new Vector2(1, 2), position, null));
-        Vector2 posOffset = new Vector2(0, -1); // Up with regards to our grid coordinate system.
-        possibleRooms.Add(new Room(new Vector2(1, 2), position + posOffset, null));
+        if (roomSizes.Contains(RoomSize.OneByTwo))
+        {
+            possibleRooms.Add(new Room(new Vector2(1, 2), position, null));
+            posOffset = new Vector2(0, -1); // Up with regards to our grid coordinate system.
+            possibleRooms.Add(new Room(new Vector2(1, 2), position + posOffset, null));
+        }
+
 
         // 2 options for 2x1
-        possibleRooms.Add(new Room(new Vector2(2, 1), position, null));
-        posOffset = Vector2.left;
-        possibleRooms.Add(new Room(new Vector2(2, 1), position + posOffset, null));
+        if (roomSizes.Contains(RoomSize.TwoByOne))
+        {
+            possibleRooms.Add(new Room(new Vector2(2, 1), position, null));
+            posOffset = Vector2.left;
+            possibleRooms.Add(new Room(new Vector2(2, 1), position + posOffset, null));
+        }
+
 
         // 4 options for 2x2
-        possibleRooms.Add(new Room(new Vector2(2, 2), position, null));
-        posOffset = Vector2.left;
-        possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
-        posOffset = new Vector2(0, -1); // Up with regards to our grid coordinate system.
-        possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
-        posOffset = Vector2.left + new Vector2(0, -1); // + Up with regards to our grid coordinate system.
-        possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+        if (roomSizes.Contains(RoomSize.TwoByTwo))
+        {
+            possibleRooms.Add(new Room(new Vector2(2, 2), position, null));
+            posOffset = Vector2.left;
+            possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+            posOffset = new Vector2(0, -1); // Up with regards to our grid coordinate system.
+            possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+            posOffset = Vector2.left + new Vector2(0, -1); // + Up with regards to our grid coordinate system.
+            possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
+        }
+            
 
         // Validate and filter out unsuitable rooms.
         possibleRooms = possibleRooms.FindAll(room => isEmptyRoomPos(room) && isValidRoomPos(room));
@@ -271,7 +312,7 @@ public class FloorPlanGenerator
     /// Draws a room size based on the probability map.
     /// </summary>
     /// <param name="probMap"></param>
-    /// <returns></returns>
+    /// <returns>a randomly drawn room size.</returns>
     private RoomSize DrawRoomSize(Dictionary<RoomSize, double> probMap)
     {
         // Calculate the total probability sum
@@ -303,7 +344,7 @@ public class FloorPlanGenerator
     /// Gets the neighbouring cells of a room.
     /// </summary>
     /// <param name="room"></param>
-    /// <returns></returns>
+    /// <returns>a set of neighbouring cells</returns>
     private HashSet<Vector2> GetNeighbouringCells(Room room)
     {
         HashSet<Vector2> neighbours = new HashSet<Vector2>();
@@ -439,27 +480,6 @@ public class FloorPlanGenerator
         return roomCells.Contains(cell);
     }
 
-    /// <summary>
-    /// Adds a room to the floor plan.
-    /// </summary>
-    /// <param name="room"></param>
-    private void AddRoomToFloorPlan(Room room)
-    {
-        for (int i = 0; i < room.size.x; i++)
-        {
-            for (int j = 0; j < room.size.y; j++)
-            {
-                if (floorplan.rooms[(int)(room.position.x + i), (int)(room.position.y + j)] != null)
-                {
-                    Debug.LogError("Room already exists at position: " + room.position);
-                    return;
-                } else
-                {
-                    floorplan.rooms[(int)(room.position.x + i), (int)(room.position.y + j)] = room;
-                }
-            }
-        }
-    }
 
     /// <summary>
     /// Resets floor plan back to empty state. As a sideeffect also initializes the array.

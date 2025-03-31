@@ -6,11 +6,18 @@ using UnityEngine;
 
 public class MapGenerator: MonoBehaviour {
 
+    [Tooltip("Whether the map generator should generate a map on scene load!")]
+    [SerializeField] private bool shouldGenerateOnSceneLoad = false;
+
     // TODO-OPT: Refactor these lists into a dictionary for easier access. (Refer to RoomDoorHandler.cs)
     [Header("Room Prefabs")]
     [SerializeField] private List<PfbRoomSizeTypeTuple> normalRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> startRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> bossRoomPfbs = new List<PfbRoomSizeTypeTuple>();
+
+    // TODO: implement this. used for filling empty rooms or unaccessible rooms.
+    [SerializeField] private List<PfbRoomSizeTypeTuple> emptyRoomPfbs = new List<PfbRoomSizeTypeTuple>();
+
 
     [Header("Map Gen Settings")]
     [SerializeField] private Vector2 mapSize = new Vector2(8, 8);
@@ -295,7 +302,11 @@ public class MapGenerator: MonoBehaviour {
         return CellDir.Up;
     }
 
-
+    /// <summary>
+    /// Shuffles a given list of type T
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
     static void Shuffle<T>(List<T> list)
     {
         System.Random rng = new System.Random();
