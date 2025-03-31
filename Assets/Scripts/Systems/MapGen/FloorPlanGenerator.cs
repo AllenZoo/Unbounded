@@ -113,13 +113,11 @@ public class FloorPlanGenerator
 
             Room currentRoom = roomsToVisit.Dequeue();
             HashSet<Vector2> neighbours = GetNeighbouringCells(currentRoom);
-            bool hasNeighbours = false;
             foreach (Vector2 neighbour in neighbours)
             {
                 Room newRoom = GenerateRoom(neighbour, currentRoom);
                 if (newRoom != null)
                 {
-                    hasNeighbours = true;
                     roomsToVisit.Enqueue(newRoom);
                     floorplan.AddRoom(newRoom);
                     //Debug.Log("Added room with position: " + newRoom.position);
@@ -131,16 +129,7 @@ public class FloorPlanGenerator
                     break;
                 }
             }    
-
-            if (!hasNeighbours)
-            {
-                floorplan.deadEnds.Add(currentRoom);
-                //Debug.Log("Added dead end room with position: " + currentRoom.position);
-            }
         }
-
-        // 3. Add all remaining rooms in the queue to the dead ends list.
-        floorplan.deadEnds.AddRange(roomsToVisit);
     }
 
     /// <summary>
@@ -195,20 +184,32 @@ public class FloorPlanGenerator
     }
 
     /// <summary>
-    /// Gets random boss room from the list of dead ends.
+    /// Gets random boss room from the list of dead ends. Boss room has to be 2x2.
     /// </summary>
     /// <returns>Whether Boss room was assigned properly</returns>
     private bool AssignBossRoom()
     {
         // Shuffle deadEnds list. (Where the randomization happens)
-        floorplan.deadEnds = new HashSet<Room>(floorplan.deadEnds.OrderBy(x => Random.value));
+        // Note: We create a new set, since we might modify the deadEnds set below during the loop.
+        HashSet<Room> deadEnds = new HashSet<Room>(floorplan.DeadEnds.OrderBy(x => Random.value)); 
 
         // Pick the first room that matches Boss Room criteria.
-        foreach (Room deadEnd in floorplan.deadEnds)
+        foreach (Room deadEnd in deadEnds)
         {
             if (deadEnd.GetDistFromStart() > minRoomsFromStart)
             {
-                deadEnd.roomType = RoomType.Boss;
+                // Check if deadEnd is 2x2 or can transform into 2x2 room.
+                // If it's not 2x2 but can transform randomly pick the an option.
+
+                List<Room> possible2x2 = GetRoomTransformOptions(deadEnd, RoomSize.TwoByTwo);
+                if (possible2x2.Count == 0) continue;
+
+                int index = Random.Range(0, possible2x2.Count);
+                Room newRoom = possible2x2[index];
+                newRoom.roomType = RoomType.Boss;
+
+                floorplan.SwapRoom(deadEnd, newRoom);
+
                 return true;
             }
         }
@@ -216,6 +217,7 @@ public class FloorPlanGenerator
         // No Suitable rooms found.
         return false;
     }
+
 
     /// <summary>
     /// Given a room and desired room size to transform into, return a list of new rooms that would fit in map and not overlap with other rooms.
@@ -226,14 +228,16 @@ public class FloorPlanGenerator
     /// <returns></returns>
     private List<Room> GetRoomTransformOptions(Room room, RoomSize roomSize)
     {
-        List<Room> rooms = new List<Room> ();
+        List<Room> rooms;
         // TODO: apparently room.roomSize has some bug? idk check if this if statement works. CTRL + F Room.cs and search for "roomSize" to see what I mean.
         if (room.roomSize == roomSize) return new List<Room>() { room };
 
-        // floorplan.rooms[]
-        //
+        // Temporarily remove room so that it is temporarily not *exsisting* for algo that checks if cell empty, etc.
+        floorplan.RemoveRoom(room);
+        rooms = GetPossibleRoomsToCreate(room.position, new List<RoomSize>() { roomSize });
+        floorplan.AddRoom(room); // Add room back.
 
-        return rooms; //TODO: STUB
+        return rooms;
     }
  
 

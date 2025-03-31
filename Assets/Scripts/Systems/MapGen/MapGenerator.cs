@@ -72,8 +72,8 @@ public class MapGenerator: MonoBehaviour {
     /// </summary>
     protected void InstantiateMap(FloorPlan floorPlan)
     {
-        InstantiateRooms(floorPlan.deadEnds);
-        InstantiateCorridors(floorPlan.deadEnds);
+        InstantiateRooms(floorPlan.DeadEnds);
+        InstantiateCorridors(floorPlan.DeadEnds);
     }
 
     protected void InstantiateRooms(HashSet<Room> deadEnds)
