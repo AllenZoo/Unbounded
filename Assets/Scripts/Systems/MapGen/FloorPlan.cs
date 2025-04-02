@@ -8,11 +8,12 @@ public class FloorPlan
     public HashSet<Room> DeadEnds { get { return GetAllDeadEnds(); } private set { } }
 
     // Contains a list of refs to all rooms included in floor plan so far.
-    private HashSet<Room> roomList = new HashSet<Room>();
+    public HashSet<Room> roomList { get; private set; }
 
     public FloorPlan(int width, int height)
     {
         rooms = new Room[width, height];
+        roomList= new HashSet<Room>();
     }
 
     /// <summary>
@@ -80,5 +81,23 @@ public class FloorPlan
             result.Remove(room.parent);
         }
         return result;
+    }
+
+    public void Reset()
+    {
+        if (rooms == null) return; // Ensure rooms array is initialized
+
+        int rows = rooms.GetLength(0);
+        int cols = rooms.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                rooms[i, j] = null;
+            }
+        }
+
+        roomList.Clear();
     }
 }

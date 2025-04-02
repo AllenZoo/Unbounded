@@ -40,6 +40,7 @@ public class FloorPlanGenerator
         this.floorplanSize = floorPlanSize;
         this.roomsToGenerate = roomsToGenerate;
         this.minRoomsFromStart = 3;
+        this.floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y);
     }
 
     public FloorPlanGenerator(Vector2 floorPlanSize, int roomsToGenerate, int roomsBetweenStartAndBoss)
@@ -47,6 +48,7 @@ public class FloorPlanGenerator
         this.floorplanSize = floorPlanSize;
         this.roomsToGenerate = roomsToGenerate;
         this.minRoomsFromStart = roomsBetweenStartAndBoss;
+        this.floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y); 
     }
 
     /// <summary>
@@ -75,10 +77,18 @@ public class FloorPlanGenerator
         {
             InitStartRoom();
             GenerateFloorPlan();
-            validFloorPlan = AssignBossRoom();
+            AssignBossRoom();
+
+            var floorPlanValidator = new FloorPlanValidator(floorplan);
+            validFloorPlan = floorPlanValidator.ValidateFloorPlan();
+
+            if (!validFloorPlan)
+            {
+                Debug.Log("Got invalid floorplan. Need to regen floorplan!");
+                ClearFloorPlan();
+            }
         }
-        
-        // VizFloorPlan.PrintFloorPlan(floorplan.rooms);
+
         return floorplan;
     }
 
@@ -191,7 +201,8 @@ public class FloorPlanGenerator
     {
         // Shuffle deadEnds list. (Where the randomization happens)
         // Note: We create a new set, since we might modify the deadEnds set below during the loop.
-        HashSet<Room> deadEnds = new HashSet<Room>(floorplan.DeadEnds.OrderBy(x => Random.value)); 
+        HashSet<Room> deadEnds = new HashSet<Room>(floorplan.DeadEnds.OrderBy(x => Random.value));
+        Debug.Log("Assigning Boss Room!");
 
         // Pick the first room that matches Boss Room criteria.
         foreach (Room deadEnd in deadEnds)
@@ -490,7 +501,9 @@ public class FloorPlanGenerator
     /// </summary>
     private void ClearFloorPlan()
     {
-        floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y);
+        Debug.Log("Resetting Floor Plan!");
+
+        floorplan.Reset();
         roomsGenerated = 0;
         roomsToVisit.Clear();
         ResetProbMap();
