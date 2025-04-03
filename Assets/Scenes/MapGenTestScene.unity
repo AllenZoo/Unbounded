@@ -767,10 +767,13 @@ MonoBehaviour:
   - pfb: {fileID: 2289356740475294013, guid: 36176738674225f44ac71b43999ba9c6, type: 3}
     size: 2
     type: 2
-  - pfb: {fileID: 558757927294103620, guid: 52215d2141341c14e860feefc968e05f, type: 3}
+  - pfb: {fileID: 1511299336741608345, guid: 2bfdde7ae7936c54a87898d0643dd52d, type: 3}
     size: 3
     type: 2
-  emptyRoomPfbs: []
+  emptyRoomPfbs:
+  - pfb: {fileID: 1666224477552922223, guid: 8b3eecaf4b6c86f4798044cffe67568d, type: 3}
+    size: 0
+    type: 3
   mapSize: {x: 8, y: 8}
   roomsToGenerate: 28
   roomsBetweenStartAndBoss: 3
@@ -1379,7 +1382,10 @@ MonoBehaviour:
   - pfb: {fileID: 7441599354527152533, guid: 07d6017e54a01424faa24e5f461bcf83, type: 3}
     size: 3
     type: 2
-  emptyRoomPfbs: []
+  emptyRoomPfbs:
+  - pfb: {fileID: 7305950786135769736, guid: bbac1e5d383735a458d394008d26b01f, type: 3}
+    size: 0
+    type: 0
   mapSize: {x: 8, y: 8}
   roomsToGenerate: 12
   roomsBetweenStartAndBoss: 3

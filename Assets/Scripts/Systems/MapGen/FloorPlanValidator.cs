@@ -58,7 +58,7 @@ public class FloorPlanValidator
         }
 
         // iii. The rooms are connected properly (no diagonal linkage)
-        if (!AreRoomsProperlyConnected())
+        if (!IsBossRoomProperlyConnected())
         {
             if (verbose) Debug.LogError("FloorPlanValidator: Rooms are not properly connected!");
             return false;
@@ -124,19 +124,24 @@ public class FloorPlanValidator
     }
 
     /// <summary>
-    /// Checks if all rooms are properly connected (no diagonal connections)
-    /// A room is properly connected if it has an adjacent room, and that adjacent room has a parent-child relationship
+    /// Checks if all boss room is properly connected (no diagonal connections).
+    /// 
+    /// Needed since sometimes we transform a room into a 2x2 that misaligns it from the parent room.
+    /// 
+    /// A room is properly connected if it adjacent to its parent room.
     /// </summary>
-    private bool AreRoomsProperlyConnected()
+    private bool IsBossRoomProperlyConnected()
     {
         // Check if boss room is properly connected to at least one other room
         Room bossRoom = FindBossRoom();
         if (bossRoom == null)
             return false;
 
+        Room parentRoom = bossRoom.parent;
+
         Vector2 position = bossRoom.position;
         Room[,] rooms = floorPlan.rooms;
-        bool hasNeighbours = false;
+        bool properlyConnected = false;
 
         // Since boss room is assumed to be 2x2, we need to check the perimeter
         // around it for neighboring rooms
@@ -147,44 +152,44 @@ public class FloorPlanValidator
         // Check left side (two cells)
         if (bossX > 0)
         {
-            if (rooms[bossX - 1, bossY] != null ||
-                rooms[bossX - 1, bossY + 1] != null)
+            if (rooms[bossX - 1, bossY] == parentRoom ||
+                rooms[bossX - 1, bossY + 1] == parentRoom)
             {
-                hasNeighbours = true;
+                properlyConnected = true;
             }
         }
 
         // Check right side (two cells)
         if (bossX + 2 < rooms.GetLength(0))
         {
-            if (rooms[bossX + 2, bossY] != null ||
-                rooms[bossX + 2, bossY + 1] != null)
+            if (rooms[bossX + 2, bossY] == parentRoom ||
+                rooms[bossX + 2, bossY + 1] == parentRoom)
             {
-                hasNeighbours = true;
+                properlyConnected = true;
             }
         }
 
         // Check top side (two cells)
         if (bossY > 0)
         {
-            if (rooms[bossX, bossY - 1] != null ||
-                rooms[bossX + 1, bossY - 1] != null)
+            if (rooms[bossX, bossY - 1] == parentRoom ||
+                rooms[bossX + 1, bossY - 1] == parentRoom)
             {
-                hasNeighbours = true;
+                properlyConnected = true;
             }
         }
 
         // Check bottom side (two cells)
         if (bossY + 2 < rooms.GetLength(1))
         {
-            if (rooms[bossX, bossY + 2] != null ||
-                rooms[bossX + 1, bossY + 2] != null)
+            if (rooms[bossX, bossY + 2] == parentRoom ||
+                rooms[bossX + 1, bossY + 2] == parentRoom)
             {
-                hasNeighbours = true;
+                properlyConnected = true;
             }
         }
 
-        return hasNeighbours;
+        return properlyConnected;
     }
 
     /// <summary>

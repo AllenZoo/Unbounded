@@ -112,7 +112,8 @@ public enum RoomType
 {
     Start,
     Normal,
-    Boss
+    Boss,
+    Empty, // for filling empty rooms. eg rooms that player cant get to, but there for visual appeal (so we don't have random holes in map).
 }
 
 public enum RoomSize

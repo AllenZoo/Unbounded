@@ -14,8 +14,6 @@ public class MapGenerator: MonoBehaviour {
     [SerializeField] private List<PfbRoomSizeTypeTuple> normalRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> startRoomPfbs = new List<PfbRoomSizeTypeTuple>();
     [SerializeField] private List<PfbRoomSizeTypeTuple> bossRoomPfbs = new List<PfbRoomSizeTypeTuple>();
-
-    // TODO: implement this. used for filling empty rooms or unaccessible rooms.
     [SerializeField] private List<PfbRoomSizeTypeTuple> emptyRoomPfbs = new List<PfbRoomSizeTypeTuple>();
 
 
@@ -60,6 +58,7 @@ public class MapGenerator: MonoBehaviour {
         FloorPlan floorPlan = floorPlanGenerator.Generate();
         VizFloorPlan.PrintFloorPlan(floorPlan.rooms, floorPlan);
         InstantiateMap(floorPlan);
+        InitEmptyRooms(floorPlan);
 
         EventBus<OnMapGeneratedEvent>.Call(new OnMapGeneratedEvent{
             startRoomPfb = this.startRoomPfb
@@ -113,8 +112,12 @@ public class MapGenerator: MonoBehaviour {
 
             GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
-            roomToPfbMap.Add(room, roomObj);
 
+            if (room.roomType != RoomType.Empty)
+            {
+                roomToPfbMap.Add(room, roomObj);
+            }
+            
             // Check if is start room. If it is, store ref.
             if (room.roomType == RoomType.Start)
             {
@@ -124,7 +127,7 @@ public class MapGenerator: MonoBehaviour {
             // Debug.Log("Instantiated roomPfb at " + room.position);
         } else
         {
-            Debug.LogError("Error generating Map: No suitable roomPfb found!");
+            Debug.LogError($"Error generating Map: No suitable roomPfb found for roomtype [{room.roomSize} {room.roomType}]!");
         }
     }
 
@@ -138,6 +141,8 @@ public class MapGenerator: MonoBehaviour {
                 return GetSuitableRoomPfb(roomSize, startRoomPfbs);
             case RoomType.Boss:
                 return GetSuitableRoomPfb(roomSize, bossRoomPfbs);
+            case RoomType.Empty:
+                return GetSuitableRoomPfb(roomSize, emptyRoomPfbs);
         }   
         return null;
     }
@@ -208,6 +213,14 @@ public class MapGenerator: MonoBehaviour {
 
         // 1. Find possible door creations
         List<Tuple<RoomPosTuple, RoomPosTuple>> neighbourPairs = GetNeighbours(room1, room2);
+
+        // Check if any possible:
+        if (neighbourPairs == null || neighbourPairs.Count == 0)
+        {
+            Debug.LogError($"No valid neighbor pairs found, skipping door creation between rooms at ({room1.position.x}, {room1.position.y}) and ({room2.position.x}, {room2.position.y}).");
+            return;
+        }
+            
 
         // 2. Pick one.
         Tuple<RoomPosTuple, RoomPosTuple> doorPair = neighbourPairs[UnityEngine.Random.Range(0, neighbourPairs.Count)];
@@ -300,6 +313,30 @@ public class MapGenerator: MonoBehaviour {
 
         Debug.LogError("Should not have gotten here!");
         return CellDir.Up;
+    }
+
+    protected void InitEmptyRooms(FloorPlan floorPlan)
+    {
+        Room[,] rooms = floorPlan.rooms;
+        int rows = rooms.GetLength(0); // Get the number of rows
+        int cols = rooms.GetLength(1); // Get the number of columns
+
+        Vector2 roomSize = new Vector2(1, 1);
+        Room emptyRoom = new Room(roomSize, Vector2.zero, null, RoomType.Empty);
+        
+
+        for (int x = 0; x < rows; x++)
+        {
+            for (int y = 0; y < cols; y++)
+            {
+                if (rooms[x, y] ==null)
+                {
+                    //Debug.Log($"Instantiating Empty room at ({x}, {y})");
+                    emptyRoom.position = new Vector2(x, y);
+                    InstantiateRoom(emptyRoom);
+                }
+            }
+        }
     }
 
     /// <summary>
