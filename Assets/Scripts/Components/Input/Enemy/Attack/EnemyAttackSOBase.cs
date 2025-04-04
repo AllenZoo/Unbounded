@@ -24,9 +24,12 @@ public class EnemyAttackSOBase : SerializedScriptableObject
     public virtual void DoEnterLogic() { }
     public virtual void DoExitLogic() { ResetValues(); }
     public virtual void DoFrameUpdateLogic() {
-
-        // If out of attack range, transition back into chase state.
-        if (enemyAIComponent.AggroTarget == null) return;
+        if (enemyAIComponent.AggroTarget == null)
+        {
+            // Back to idle if no more aggro
+            enemyAIComponent.StateMachine.ChangeState(enemyAIComponent.EnemyIdleState);
+            return;
+        };
 
         float dist = Vector2.Distance(feetTransform.position, enemyAIComponent.AggroTarget.transform.position);
         if (dist > enemyAIComponent.AttackRange)
