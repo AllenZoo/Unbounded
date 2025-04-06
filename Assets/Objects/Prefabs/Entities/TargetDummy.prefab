@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2244688094978757875}
   - component: {fileID: 1560816459029558861}
   - component: {fileID: 6697286031536079732}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Hitbox Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,11 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDeathUE:
-    m_PersistentCalls:
-      m_Calls: []
-  entityType: 1
+  localEventHandler: {fileID: 0}
   stat: {fileID: 6697286029762107671}
+  entityType: 1
   isDamageable: 1
   isHittable: 1
 --- !u!114 &6697286031536079732
@@ -105,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumberPfb: {fileID: 7414379500443394492, guid: 9c3aa618a173f374485bab825643866a, type: 3}
-  damageableRef: {fileID: 1560816459029558861}
+  localEventHandler: {fileID: 0}
 --- !u!1 &6697286029762107666
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   baseStats: {fileID: 11400000, guid: d6bc19e80a62e6943bdfcf00b71b5cb1, type: 2}
 --- !u!50 &6697286029762107668
 Rigidbody2D:
@@ -247,7 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transparency: 0.5
-  fadeSpeed: 0.5
+  fadeDuration: 0.5
+  easeType: 1
   doFade: 0
 --- !u!95 &1204669177
 Animator:
@@ -282,11 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorController: {fileID: 1204669176}
-  movementController: {fileID: 0}
-  inputController: {fileID: 0}
-  damageable: {fileID: 1560816459029558861}
-  knockbackable: {fileID: 0}
+  localEventHandler: {fileID: 0}
   debuggingState: 0
   crowdControlStates: 05000000
 --- !u!114 &1204669176
@@ -304,6 +300,7 @@ MonoBehaviour:
   localEventHandler: {fileID: 0}
   sprite: {fileID: 6697286029762107664}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  defaultMaterial: {fileID: 0}
 --- !u!114 &5568533047378888733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  context: {fileID: 0}
 --- !u!1 &6786908791844954289
 GameObject:
   m_ObjectHideFlags: 0

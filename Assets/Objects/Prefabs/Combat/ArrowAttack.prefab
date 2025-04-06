@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1403582844052442420}
   - component: {fileID: 1146220555598691615}
   - component: {fileID: 1302079877879193297}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ArrowAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce88e87acd960d4abf50d641bfb36cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetTypes: 
-  hitTargets: []
   attack:
     attackData: {fileID: 11400000, guid: 4f2d5575795fbe44a8bf77ac52db3a96, type: 2}

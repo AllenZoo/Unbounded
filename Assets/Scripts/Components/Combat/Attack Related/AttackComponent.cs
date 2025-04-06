@@ -35,6 +35,10 @@ public class AttackComponent : MonoBehaviour
 
         // Check if Collider2D is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
+
+        // Checks if layer is on 'AttackCollider'
+        // Used to optimize collision detections
+        //Assert.IsTrue(gameObject.layer.Equals("AttackCollider"));
     }
 
     /// <summary>

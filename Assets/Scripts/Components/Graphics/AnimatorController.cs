@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
@@ -15,8 +16,7 @@ public class AnimatorController : MonoBehaviour
 
     // For making the sprite flash white. 
     [SerializeField] private Material damageMaterial;
-
-    private Material defaultMaterial;
+    [SerializeField] private Material defaultMaterial;
     private bool runningDamageEffect = false;
 
     #region Animator Parameters
@@ -62,18 +62,14 @@ public class AnimatorController : MonoBehaviour
         }
         Assert.IsNotNull(sprite, "SpriteRenderer null in animation controller for object: " + gameObject);
 
-        defaultMaterial = sprite.material;
+        if (defaultMaterial == null)
+        {
+            defaultMaterial = sprite.sharedMaterial;
+        }
+        
         Assert.IsNotNull(damageMaterial, "Need material for being damaged");
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject + 
-                    "] with root object [" + gameObject.transform.root.name + "] for AnimatorController.cs");
-            }
-        }
+        localEventHandler= InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
     private void Start()
@@ -211,9 +207,9 @@ public class AnimatorController : MonoBehaviour
         runningDamageEffect = true;
         Handle_Effects(curState);
 
-        sprite.material = new Material(damageMaterial);
+        sprite.material = damageMaterial;
         yield return new WaitForSeconds(0.2f);
-        sprite.material = new Material(defaultMaterial);
+        sprite.material = defaultMaterial;
 
         runningDamageEffect = false;
         Handle_Effects(curState);
