@@ -38,10 +38,25 @@ public class MapGenerator: MonoBehaviour {
     // Reference to be passed through the OnMapGenerated event.
     private GameObject startRoomPfb;
 
+    private bool init = false;
+
     private void Start()
     {
         floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate, roomsBetweenStartAndBoss);
         roomToPfbMap = new Dictionary<Room, GameObject>();
+        init = true;
+        if (shouldGenerateOnSceneLoad)
+        {
+            GenerateMap();
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (init && shouldGenerateOnSceneLoad)
+        {
+            GenerateMap();
+        }
     }
 
     /// <summary>
