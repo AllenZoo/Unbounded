@@ -12,11 +12,13 @@ public class EnemyAttackAttackMove : EnemyAttackSOBase
 
     [SerializeField] private EnemyChaseSOBase chase;
 
+    private EnemyChaseSOBase chaseInstance;
 
     public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
     {
+        chaseInstance = Instantiate(chase);
         base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
-        chase.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+        chaseInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
     }
 
     public override void DoAnimationTriggerEventLogic()
@@ -37,7 +39,7 @@ public class EnemyAttackAttackMove : EnemyAttackSOBase
     public override void DoFrameUpdateLogic()
     {
         base.DoFrameUpdateLogic();
-        chase.DoFrameUpdateLogic(false);
+        chaseInstance.DoFrameUpdateLogic(false);
 
         if (enemyAIComponent.AggroTarget == null) return;
 

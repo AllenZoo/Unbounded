@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening; // Import DOTween namespace
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class ObjectFader : MonoBehaviour
@@ -11,18 +13,23 @@ public class ObjectFader : MonoBehaviour
     // The desired transparency value
     [SerializeField] private float transparency = 0.5f;
 
-    [SerializeField] private float fadeSpeed = 0.5f;
+    // Duration of the fade animation
+    [SerializeField] private float fadeDuration = 0.5f;
+
+    // Optional ease type for the animation
+    [SerializeField] private Ease easeType = Ease.Linear;
+
+    // Current active tween
+    private Tween currentTween;
 
     // This value will be set to true when the object should start fading
-    [Header("For debugging, don't modify")]
-    [SerializeField] private bool doFade = false;
+    [SerializeField, ReadOnly] private bool doFade = false;
 
-    // Start is called before the first frame update
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    
+
     public bool setDoFade(bool shouldFade)
     {
         doFade = shouldFade;
@@ -32,39 +39,43 @@ public class ObjectFader : MonoBehaviour
 
     private void OnDoFade()
     {
-        if (doFade) {
-            StartCoroutine(FadeOut());
-        }
-        else {
-            StartCoroutine(FadeIn());
-        }
-    }
-
-    private IEnumerator FadeOut()
-    {
-        while (spriteRenderer.color.a > transparency)
+        // Kill any active tween to prevent conflicts
+        if (currentTween != null && currentTween.IsActive())
         {
-            Color color = spriteRenderer.color;
-            color.a -= fadeSpeed * Time.deltaTime;
-            spriteRenderer.color = color;
-            yield return null;
+            currentTween.Kill();
         }
-    }
 
-    private IEnumerator FadeIn()
-    {
-        while (spriteRenderer.color.a < 1)
+        // Create a new tween based on the fade direction
+        if (doFade)
         {
-            Color color = spriteRenderer.color;
-            color.a += fadeSpeed * Time.deltaTime;
-            spriteRenderer.color = color;
-            yield return null;
+            FadeOut();
+        }
+        else
+        {
+            FadeIn();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FadeOut()
     {
-        OnDoFade();
+        // Use DOTween to animate the alpha value to transparency
+        currentTween = spriteRenderer.DOFade(transparency, fadeDuration)
+            .SetEase(easeType);
+    }
+
+    private void FadeIn()
+    {
+        // Use DOTween to animate the alpha value back to 1
+        currentTween = spriteRenderer.DOFade(1f, fadeDuration)
+            .SetEase(easeType);
+    }
+
+    private void OnDestroy()
+    {
+        // Clean up any active tweens when the object is destroyed
+        if (currentTween != null && currentTween.IsActive())
+        {
+            currentTween.Kill();
+        }
     }
 }

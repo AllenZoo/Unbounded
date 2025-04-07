@@ -28,7 +28,12 @@ public class EnemyChaseSOBase : SerializedScriptableObject
     /// </summary>
     /// <param name="stateChange"></param>
     public virtual void DoFrameUpdateLogic(bool stateChange=true) {
-        if (enemyAIComponent.AggroTarget == null) return;
+        if (stateChange && enemyAIComponent.AggroTarget == null)
+        {
+            // Back to idle if no more aggro
+            enemyAIComponent.StateMachine.ChangeState(enemyAIComponent.EnemyIdleState);
+            return;
+        };
 
         float dist = Vector2.Distance(feetTransform.position, enemyAIComponent.AggroTarget.transform.position);
         if (stateChange && dist < enemyAIComponent.AttackRange)
@@ -38,7 +43,10 @@ public class EnemyChaseSOBase : SerializedScriptableObject
     }
     public virtual void DoPhysicsUpdateLogic() { }
     public virtual void DoAnimationTriggerEventLogic() { }
-    public virtual void ResetValues() { }
+    public virtual void ResetValues() {
+        // Disable tracker on state change.
+        tracker.enabled = false;
+    }
 
     
 }

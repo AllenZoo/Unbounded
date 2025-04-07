@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ public class AggroPossessor : MonoBehaviour
     [SerializeField] private EnemyAIComponent aggroBrain;
 
     [Header("For Debugging (Don't set values)")]
-    [SerializeField] private GameObject aggroTarget;
-    [SerializeField] private float distFromTarget = -1f;
-    [SerializeField] private bool isAggroed = false;
+    [SerializeField, ReadOnly] private GameObject aggroTarget;
+    [SerializeField, ReadOnly] private float distFromTarget = -1f;
+    [SerializeField, ReadOnly] private bool isAggroed = false;
 
     private void Awake()
     {

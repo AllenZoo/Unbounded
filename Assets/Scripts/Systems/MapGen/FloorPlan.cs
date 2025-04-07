@@ -5,10 +5,99 @@ using UnityEngine;
 public class FloorPlan
 {
     public Room[,] rooms;
-    public HashSet<Room> deadEnds = new HashSet<Room>();
+    public HashSet<Room> DeadEnds { get { return GetAllDeadEnds(); } private set { } }
+
+    // Contains a list of refs to all rooms included in floor plan so far.
+    public HashSet<Room> roomList { get; private set; }
 
     public FloorPlan(int width, int height)
     {
         rooms = new Room[width, height];
+        roomList= new HashSet<Room>();
+    }
+
+    /// <summary>
+    /// Adds a room to the floor plan.
+    /// </summary>
+    /// <param name="room"></param>
+    public void AddRoom(Room room)
+    {
+        for (int i = 0; i < room.size.x; i++)
+        {
+            for (int j = 0; j < room.size.y; j++)
+            {
+                if (rooms[(int)(room.position.x + i), (int)(room.position.y + j)] != null)
+                {
+                    Debug.LogError("Room already exists at position: " + room.position);
+                    return;
+                }
+                else
+                {
+                    rooms[(int)(room.position.x + i), (int)(room.position.y + j)] = room;
+                }
+            }
+        }
+        roomList.Add(room);
+    }
+
+    public void RemoveRoom(Room room)
+    {
+        if (room == null)
+            return;
+
+        for (int i = 0; i < room.size.x; i++)
+        {
+            for (int j = 0; j < room.size.y; j++)
+            {
+                if (rooms[(int)(room.position.x + i), (int)(room.position.y + j)] == room)
+                {
+                    rooms[(int)(room.position.x + i), (int)(room.position.y + j)] = null;
+                }
+            }
+        }
+
+        roomList.Remove(room);
+    }
+
+    public void SwapRoom(Room oldRoom, Room newRoom)
+    {
+        if (oldRoom == null || newRoom == null) return;
+
+        RemoveRoom(oldRoom);  // Remove the old room from the grid
+
+        newRoom.parent = oldRoom.parent; // Make sure the new room has same parent as old room.
+
+        AddRoom(newRoom);     // Add the new room to the grid
+    }
+
+    public HashSet<Room> GetAllDeadEnds()
+    {
+        // For every room, find all the dead ends.
+        // A room is a deadend, if it is not a parent of any other room!
+        HashSet<Room> result = new HashSet<Room>(roomList);
+
+        foreach (Room room in roomList)
+        {
+            result.Remove(room.parent);
+        }
+        return result;
+    }
+
+    public void Reset()
+    {
+        if (rooms == null) return; // Ensure rooms array is initialized
+
+        int rows = rooms.GetLength(0);
+        int cols = rooms.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                rooms[i, j] = null;
+            }
+        }
+
+        roomList.Clear();
     }
 }

@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneTeleporter : MonoBehaviour
 {
-    [SerializeField] private string sceneToTeleportTo;
+    [SerializeField] private SceneField sceneToTeleportTo;
 
     public void TeleportToScene()
     {
         if (!string.IsNullOrEmpty(sceneToTeleportTo))
         {
-            SceneManager.LoadScene(sceneToTeleportTo);
+            // TODO: fix up how we load and unload scenes (OUT OF SCOPE FOR CURRENT ISSUE)
+            SceneManager.LoadScene(sceneToTeleportTo, LoadSceneMode.Additive);
         }
         else
         {

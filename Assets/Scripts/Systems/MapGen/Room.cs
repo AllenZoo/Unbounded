@@ -94,13 +94,26 @@ public class Room
         else
             return RoomSize.OneByOne;
     }
+
+    public static Vector2 RoomSizeToVector2(RoomSize roomSize)
+    {
+        return roomSize switch
+        {
+            RoomSize.OneByOne => new Vector2(1, 1),
+            RoomSize.OneByTwo => new Vector2(1, 2),
+            RoomSize.TwoByOne => new Vector2(2, 1),
+            RoomSize.TwoByTwo => new Vector2(2, 2),
+            _ => new Vector2(1, 1) // Default case
+        };
+    }
 }
 
 public enum RoomType
 {
     Start,
     Normal,
-    Boss
+    Boss,
+    Empty, // for filling empty rooms. eg rooms that player cant get to, but there for visual appeal (so we don't have random holes in map).
 }
 
 public enum RoomSize

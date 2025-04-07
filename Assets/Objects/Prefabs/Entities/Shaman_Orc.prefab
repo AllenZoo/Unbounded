@@ -207,7 +207,7 @@ MonoBehaviour:
   feetTransform: {fileID: 3853201387853733064}
   tracker: {fileID: 7041898984588062514}
   attackerComponent: {fileID: 5491464486393620900}
-  attackRange: 8
+  attackRange: 10
   enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
   enemyChaseBase: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
   enemyAttackBase: {fileID: 11400000, guid: 3857be47a64dfe04a9244dc66f130162, type: 2}
@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  context: {fileID: 0}
 --- !u!1 &1489280840952041258
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 0}
   aggroRange: 7
-  aggroReleaseRange: 8
+  aggroReleaseRange: 12
   aggroDetecter: {fileID: 1489280840952041256}
   aggroBrain: {fileID: 1489280840202876623}
   aggroTarget: {fileID: 0}

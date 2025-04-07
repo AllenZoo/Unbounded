@@ -19,18 +19,18 @@ public class VizFloorPlan : MonoBehaviour
             for (int i = 0; i < floorPlan.GetLength(1); i++)
             {
                 if (floorPlan[i, j] == null)
-                    floorPlanString += "N";//floorPlan[i, j] + " ";
+                    floorPlanString += " N";//floorPlan[i, j] + " ";
                 else if (floorPlan[i, j].parent == null)
-                    floorPlanString += "S";//floorPlan[i, j] + " ";
+                    floorPlanString += " S";//floorPlan[i, j] + " ";
                 else if (floorPlan[i, j].roomType == RoomType.Boss)
                 {
-                    floorPlanString += "B";
+                    floorPlanString += " B";
                 }
                 else if (floorPlan[i, j].parent != null)
                 {
                     if (!roomStrMap.ContainsKey(floorPlan[i, j]))
                     {
-                        roomStrMap.Add(floorPlan[i, j], "" + roomCount);
+                        roomStrMap.Add(floorPlan[i, j], (roomCount < 10 ? " " : "") + roomCount);
                         roomCount++;
                     }
                         

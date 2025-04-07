@@ -41,6 +41,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     // To keep track of all the stat modifier references that we applied. Useful when we want to revert their effects.
     private List<StatModifier> appliedStatModifiers = new List<StatModifier>();
 
+    
+
     #region SO Base functions
     public override void DoAnimationTriggerEventLogic()
     {
@@ -89,7 +91,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             //       if we do, enemy will be permanently stuck in empty behaviour, and be empty forver :(
             return;
         }
-        currentBehaviour.chaseBehaviour.DoFrameUpdateLogic(false);
+        currentBehaviour.chaseBehaviourInstance.DoFrameUpdateLogic(false);
     }
 
     public override void DoPhysicsUpdateLogic()
@@ -101,7 +103,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             // If not initialized we return.
             return;
         }
-        currentBehaviour.chaseBehaviour.DoPhysicsUpdateLogic();
+        currentBehaviour.chaseBehaviourInstance.DoPhysicsUpdateLogic();
     }
 
     public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
@@ -111,7 +113,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         // Initalize all possible ChaseSOBase Behaviours
         foreach(var behaviour in behaviours)
         {
-            behaviour.chaseBehaviour.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+            behaviour.chaseBehaviourInstance = Instantiate(behaviour.chaseBehaviour);
+            behaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
         }
 
         ResetBehaviourSelectionWeightMap();
@@ -249,7 +252,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     /// Applies
     ///     1. Stat related changes (resets buffs, applies them, etc.)
     ///     2. New Attacker or Attack pattern
-    ///     3. New movement behaviour. (currently this is automatically done once we set currentBehavior = newBehaviour, refer to where we call currentBehaviour.chaseBehaviour.DoFrameUpdateLogic() etc.)
+    ///     3. New movement behaviour. (currently this is automatically done once we set currentBehavior = newBehaviour, refer to where we call currentBehaviour.chaseBehaviourInstance.DoFrameUpdateLogic() etc.)
     ///    
     /// NOTE: If we are transitioning into same behaviour, simply returns. Good for handling repeated rage phase behaviour.
     /// </summary>
@@ -315,15 +318,16 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     #endregion
 }
 
-#region Structs for Serialization
+#region Classes/Structs for Serialization
 [Serializable]
-public struct BehaviourDefinition
+public class BehaviourDefinition
 {
     [Required]
     [Tooltip("This is the main identifier and differentiator between behaviours. Should be unique. NOTE: shouldn't be 'empty'.")]
     public string name; // For debugging purposes
     public Attacker attacker;
     public EnemyChaseSOBase chaseBehaviour;
+    [ReadOnly] public EnemyChaseSOBase chaseBehaviourInstance; // We should initialize this ref and not the above, since SO are shared. We need to create new ref using Instantiate.
     public List<AddStatModifier> addStatModifiers;
 }
 

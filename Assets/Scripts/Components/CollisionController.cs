@@ -4,6 +4,7 @@ using UnityEngine;
 
 // Currently handles collision between Player and interactables
 // TODO: rename?
+// TODO: check if this is even used, if not remove.
 public class CollisionController : MonoBehaviour
 {
     private List<IInteractable> triggeredInteractables = new List<IInteractable>();

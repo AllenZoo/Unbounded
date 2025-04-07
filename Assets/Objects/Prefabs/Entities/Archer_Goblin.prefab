@@ -289,7 +289,7 @@ MonoBehaviour:
   feetTransform: {fileID: 7876661830799427504}
   tracker: {fileID: 4903432893556685013}
   attackerComponent: {fileID: 3631612378210233766}
-  attackRange: 6
+  attackRange: 10
   enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
   enemyChaseBase: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
   enemyAttackBase: {fileID: 11400000, guid: 3857be47a64dfe04a9244dc66f130162, type: 2}
@@ -333,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  context: {fileID: 0}
 --- !u!1 &3630949904767705652
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,8 +537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 3549058051624952306}
-  aggroRange: 7
-  aggroReleaseRange: 8
+  aggroRange: 8
+  aggroReleaseRange: 12
   aggroDetecter: {fileID: 8935193011353247623}
   aggroBrain: {fileID: 2927453995066883928}
   aggroTarget: {fileID: 0}
@@ -558,7 +559,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 7
+  m_Radius: 8
 --- !u!1 &5804875253137524135
 GameObject:
   m_ObjectHideFlags: 0
