@@ -29,8 +29,10 @@ public class SceneLoader : MonoBehaviour
     }
     private IEnumerator OnSceneLoadRequestEventCoroutine(OnSceneLoadRequest e)
     {
-        // TODO: show loading bar only if e.showLoadingBar = true.
-        ShowLoadingScreen();
+        if (e.showLoadingBar)
+        {
+            ShowLoadingScreen();
+        }
         yield return StartCoroutine(LoadScenes(e.scenesToLoad));
         yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
         HideLoadingScreen();
@@ -53,8 +55,14 @@ public class SceneLoader : MonoBehaviour
 
         for (int i = 0; i < scenesToLoad.Count; i++)
         {
-            // TODO: check if scene to be added is loaded already. if it is, dont load it.
-            scenesLoading.Add(SceneManager.LoadSceneAsync(scenesToLoad[i], LoadSceneMode.Additive));
+            var scene = scenesToLoad[i];
+            if (scene == "") continue;
+
+            // Check if Scene to load is already loaded. If it is, don't add it to list.
+            if (!SceneManager.GetSceneByName(scene).IsValid())
+            {
+                scenesLoading.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
+            }
         }
         float totalProgress = 0;
         bool tweenComplete = false;
@@ -86,12 +94,12 @@ public class SceneLoader : MonoBehaviour
         // Start all scene unloading operations
         foreach (var scene in scenesToUnload)
         {
-            // TODO: Check if scene is loaded before attempting to unload
-            //if (SceneManager.GetSceneByPath(SceneUtility.GetScenePathByBuildIndex(scene)).isLoaded)
-            //{
-            //    scenesUnloading.Add(SceneManager.UnloadSceneAsync(scene));
-            //}
-            scenesUnloading.Add(SceneManager.UnloadSceneAsync(scene));
+            // Check if there is a scene to unload.
+            if (SceneManager.GetSceneByName(scene).IsValid())
+            {
+                scenesUnloading.Add(SceneManager.UnloadSceneAsync(scene));
+            }
+            
         }
 
         // Wait for all unloading operations to complete
