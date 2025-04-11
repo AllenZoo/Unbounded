@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,9 @@ public class SceneLoadRequester : MonoBehaviour
     [Tooltip("Whether this object requests a scene load at Start.")]
     [SerializeField] private bool requestOnStart = false;
 
-    public void Start()
+    public IEnumerator Start()
     {
+        yield return StartCoroutine(LoadBootstrapScene());
         if (requestOnStart)
         {
             RequestSceneLoad();
@@ -35,5 +37,15 @@ public class SceneLoadRequester : MonoBehaviour
             scenesToUnload = this.scenesToUnload,
             showLoadingBar = this.showLoadingBar
         });
+    }
+
+    private IEnumerator LoadBootstrapScene()
+    {
+        if (!SceneManager.GetSceneByName("Bootstrap").IsValid())
+        {
+            // If no current Bootstrap Scene Actively Loaded. Load it.
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Additive);
+        }
+        yield return null;
     }
 }

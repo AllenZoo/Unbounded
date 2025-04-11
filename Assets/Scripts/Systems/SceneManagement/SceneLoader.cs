@@ -10,19 +10,30 @@ using UnityEngine.UI;
 // TODO: add a tweening effect to make loading bar progress smoother
 public class SceneLoader : MonoBehaviour
 {
-    //[SerializeField] private GameObject cameraMain;
+
+    [Tooltip("Temporary Camera to capture the loading screen if other cameras don't exist.")]
+    [SerializeField] private GameObject cameraMain;
+
     [Tooltip("Canvas loading screen that is used to hide old screen during loading process.")]
     [SerializeField] private GameObject loadingCanvasPfb;
     [Tooltip("The image of the loading bar in the loading canvas pfb")]
     [SerializeField] private Image bar;
+
     private void Awake()
     {
+        Assert.IsNotNull(cameraMain);
         Assert.IsNotNull(loadingCanvasPfb);
         Assert.IsNotNull(bar);
 
         EventBinding<OnSceneLoadRequest> onSceneLoadBinding = new EventBinding<OnSceneLoadRequest>(OnSceneLoadRequestEvent);
         EventBus<OnSceneLoadRequest>.Register(onSceneLoadBinding);
     }
+
+    private void OnEnable()
+    {
+        HideLoadingScreen();
+    }
+
     private void OnSceneLoadRequestEvent(OnSceneLoadRequest e)
     {
         StartCoroutine(OnSceneLoadRequestEventCoroutine(e));
@@ -37,17 +48,6 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
         HideLoadingScreen();
         yield return null;
-    }
-    public void ShowLoadingScreen()
-    {
-        if (loadingCanvasPfb != null) { 
-            loadingCanvasPfb.SetActive(true);
-            bar.fillAmount = 0;
-        }
-    }
-    public void HideLoadingScreen()
-    {
-        if (loadingCanvasPfb != null) { loadingCanvasPfb.SetActive(false); }
     }
     private IEnumerator LoadScenes(List<SceneField> scenesToLoad)
     {
@@ -106,6 +106,23 @@ public class SceneLoader : MonoBehaviour
         foreach (var operation in scenesUnloading)
         {
             yield return new WaitUntil(() => operation.isDone);
+        }
+    }
+
+    public void ShowLoadingScreen()
+    {
+        if (loadingCanvasPfb != null)
+        {
+            cameraMain.SetActive(true);
+            loadingCanvasPfb.SetActive(true);
+            bar.fillAmount = 0;
+        }
+    }
+    public void HideLoadingScreen()
+    {
+        if (loadingCanvasPfb != null) { 
+            loadingCanvasPfb.SetActive(false); 
+            cameraMain.SetActive(false); 
         }
     }
 }

@@ -56,6 +56,11 @@ public struct OnSceneLoadRequest: IGlobalEvent
     public bool showLoadingBar;
 }
 
+public struct OnCameraBoundChangeRequest: IGlobalEvent
+{
+    public Collider2D newBoundary;
+}
+
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)

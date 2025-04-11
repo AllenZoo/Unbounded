@@ -209,12 +209,12 @@ GameObject:
   - component: {fileID: 2006707438}
   - component: {fileID: 2006707439}
   m_Layer: 0
-  m_Name: MainMenuSceneLoadRequest
+  m_Name: SceneLoadRequest (Load MM)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2006707438
 Transform:
   m_ObjectHideFlags: 0
@@ -392,6 +392,10 @@ PrefabInstance:
       propertyPath: bar
       value: 
       objectReference: {fileID: 586095027173130625}
+    - target: {fileID: 2988297626815143022, guid: b16f302c4780e5d4aaefddee966ffbb5, type: 3}
+      propertyPath: cameraMain
+      value: 
+      objectReference: {fileID: 1049334091}
     - target: {fileID: 2988297626815143022, guid: b16f302c4780e5d4aaefddee966ffbb5, type: 3}
       propertyPath: loadingCanvasPfb
       value: 

@@ -2,7 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Assertions;
 
 public class CameraBoundaryHandler : MonoBehaviour
 {
@@ -11,10 +11,10 @@ public class CameraBoundaryHandler : MonoBehaviour
 
     private void Awake()
     {
-        if (confiner == null)
-        {
-            Debug.LogError("No CinemachineConfiner2D assigned to CameraBoundaryHandler.");
-        }
+        Assert.IsNotNull(confiner, "No CinemachineConfiner2D assigned to CameraBoundaryHandler.");
+
+        EventBinding<OnCameraBoundChangeRequest> boundChangeBinding = new EventBinding<OnCameraBoundChangeRequest>(OnCameraBoundChangeRequestEvent);
+        EventBus<OnCameraBoundChangeRequest>.Register(boundChangeBinding);
     }
 
     private void Start()
@@ -36,5 +36,9 @@ public class CameraBoundaryHandler : MonoBehaviour
         confiner.m_BoundingShape2D = e.roomBoundary;
     }
 
-
+    private void OnCameraBoundChangeRequestEvent(OnCameraBoundChangeRequest e)
+    {
+        Debug.Log("Set new camera boundary!");
+        confiner.m_BoundingShape2D = e.newBoundary;
+    }
 }
