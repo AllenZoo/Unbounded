@@ -245,10 +245,12 @@ MonoBehaviour:
   persistentGameplay:
     m_SceneAsset: {fileID: 102900000, guid: d4d20a7b1dccc3e4f9dd8b241e38351d, type: 3}
     m_SceneName: PersistentGameplay
-  loadPersistentGameplay: 0
+  loadPersistentGameplay: 1
   scenesToLoad:
   - m_SceneAsset: {fileID: 102900000, guid: 5469d90789f7bcd4ba131984db34abce, type: 3}
     m_SceneName: MenuScene
+  - m_SceneAsset: {fileID: 102900000, guid: fe9ef73dd685ceb42b51d754f023816e, type: 3}
+    m_SceneName: Goblin Forest
   scenesToUnload:
   - m_SceneAsset: {fileID: 0}
     m_SceneName: 
@@ -307,29 +309,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 586095026140063949, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 586095026140063949, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 586095026140063949, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 586095026140063949, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.000015258789
-      objectReference: {fileID: 0}
     - target: {fileID: 586095026266063046, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
       propertyPath: m_Name
       value: LoadSceneCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 586095026266063046, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 586095026266063050, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
       propertyPath: m_Pivot.x
@@ -415,19 +397,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 586095026324269366, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 586095026324269366, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 2.5
+    - target: {fileID: 7140015110860755031, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
 --- !u!114 &586095027173130625 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 586095026140063950, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7140015110860755031, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
   m_PrefabInstance: {fileID: 586095027173130624}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

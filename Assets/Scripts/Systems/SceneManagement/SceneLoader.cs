@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] private GameObject camera;
+    //[SerializeField] private GameObject cameraMain;
 
     [Tooltip("Canvas loading screen that is used to hide old screen during loading process.")]
     [SerializeField] private GameObject loadingCanvasPfb;
@@ -46,21 +46,24 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator LoadScenesCoroutine(List<SceneField> scenesToLoad)
     {
-        float totalProgress = 0;
-        for (int i = 0; i < scenesToLoad.Count; ++i)
+        List<AsyncOperation> scenesLoading = new List<AsyncOperation> ();
+        
+        for (int i = 0; i < scenesToLoad.Count; i++)
         {
-            var scene = scenesToLoad[i];
+            scenesLoading.Add(SceneManager.LoadSceneAsync(scenesToLoad[i], LoadSceneMode.Additive));
+        }
 
-            AsyncOperation op = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-
-            while (!op.isDone)
+        float totalProgress = 0;
+        for (int i = 0; i < scenesLoading.Count; ++i)
+        {
+            var sceneLoading = scenesLoading[i];
+            while (!sceneLoading.isDone)
             {
-                // Display progress
-                Debug.Log($"Percentage Loaded {op.progress}");
-                bar.fillAmount = op.progress;
+                totalProgress += sceneLoading.progress;
+                bar.fillAmount = totalProgress / scenesLoading.Count;
+                Debug.Log($"Percentage Loaded {totalProgress / scenesLoading.Count * 100} %");
                 yield return null;
             }
-
         }
     }
 
