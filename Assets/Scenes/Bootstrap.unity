@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 2006707438}
   - component: {fileID: 2006707439}
   m_Layer: 0
-  m_Name: SceneLoadRequest
+  m_Name: MainMenuSceneLoadRequest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,15 +245,11 @@ MonoBehaviour:
   persistentGameplay:
     m_SceneAsset: {fileID: 102900000, guid: d4d20a7b1dccc3e4f9dd8b241e38351d, type: 3}
     m_SceneName: PersistentGameplay
-  loadPersistentGameplay: 1
+  loadPersistentGameplay: 0
   scenesToLoad:
   - m_SceneAsset: {fileID: 102900000, guid: 5469d90789f7bcd4ba131984db34abce, type: 3}
     m_SceneName: MenuScene
-  - m_SceneAsset: {fileID: 102900000, guid: fe9ef73dd685ceb42b51d754f023816e, type: 3}
-    m_SceneName: Goblin Forest
-  scenesToUnload:
-  - m_SceneAsset: {fileID: 0}
-    m_SceneName: 
+  scenesToUnload: []
   showLoadingBar: 1
   requestOnStart: 1
 --- !u!1 &2010056105
