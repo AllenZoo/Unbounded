@@ -7,6 +7,12 @@ public class CameraBoundarySetter : MonoBehaviour
     [SerializeField] private Collider2D boundaryToSet;
     [SerializeField] private bool setOnEnable = true;
 
+    private void Awake()
+    {
+        EventBinding<OnSceneLoadRequestFinish> sceneFinishBinding = new EventBinding<OnSceneLoadRequestFinish>(RequestCameraBoundChange);
+        EventBus<OnSceneLoadRequestFinish>.Register(sceneFinishBinding);
+    }
+
     private void Start()
     {
         RequestCameraBoundChange();

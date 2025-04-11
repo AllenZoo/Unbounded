@@ -56,6 +56,11 @@ public struct OnSceneLoadRequest: IGlobalEvent
     public bool showLoadingBar;
 }
 
+public struct OnSceneLoadRequestFinish: IGlobalEvent
+{
+
+}
+
 public struct OnCameraBoundChangeRequest: IGlobalEvent
 {
     public Collider2D newBoundary;
