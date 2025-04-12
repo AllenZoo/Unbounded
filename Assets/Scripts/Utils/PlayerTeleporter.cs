@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerTeleporter : MonoBehaviour
 {
     EventBinding<OnSceneLoadRequestFinish> sceneLoadFinishBinding;
+    private bool hasTeleported = false;
 
     private void Awake()
     {
@@ -19,20 +20,17 @@ public class PlayerTeleporter : MonoBehaviour
         TeleportPlayer();
     }
 
-    private void OnDisable()
-    {
-        EventBus<OnSceneLoadRequestFinish>.Unregister(sceneLoadFinishBinding);
-    }
-
     private void TeleportPlayer()
     {
         GameObject player = PlayerSingleton.Instance?.gameObject;
-        if (player != null)
+        if (player != null && !hasTeleported)
         {
             player.transform.position = transform.position;
             player.transform.rotation = transform.rotation;
 
-            EventBus<OnSceneLoadRequestFinish>.Unregister(sceneLoadFinishBinding);
+            // Shouldn't modify collection in middle of the event calling everywhere else.
+            // Causes issues.
+            //EventBus<OnSceneLoadRequestFinish>.Unregister(sceneLoadFinishBinding);
             this.gameObject.SetActive(false);
         }
     }
