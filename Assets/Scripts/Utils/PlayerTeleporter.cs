@@ -32,6 +32,7 @@ public class PlayerTeleporter : MonoBehaviour
             // Causes issues.
             //EventBus<OnSceneLoadRequestFinish>.Unregister(sceneLoadFinishBinding);
             this.gameObject.SetActive(false);
+            hasTeleported = true;
         }
     }
 }
