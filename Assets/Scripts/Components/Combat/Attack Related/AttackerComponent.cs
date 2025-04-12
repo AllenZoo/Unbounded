@@ -35,15 +35,7 @@ public class AttackerComponent : MonoBehaviour
 
         Assert.IsNotNull(statComponent, "Attacker needs stat component to get ATK value.");
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassgined and not found in parent for object [" + gameObject +
-                    "] with root object [" + gameObject.transform.root.name + "]");
-            }
-        }
+        localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
     private void Start()
