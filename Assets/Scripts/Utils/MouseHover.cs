@@ -17,11 +17,16 @@ public class MouseHover : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = rectTransform.root.GetComponent<Canvas>();
-        mainCamera = Camera.main;
+        UpdateCameraRef();
+
+        EventBinding<OnSceneLoadRequestFinish> sceneLoadFinishBinding = new EventBinding<OnSceneLoadRequestFinish>(UpdateCameraRef);
+        EventBus<OnSceneLoadRequestFinish>.Register(sceneLoadFinishBinding);
     }
 
     private void Update()
     {
+        if (mainCamera == null) return;
+
         Vector2 position;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
@@ -72,7 +77,7 @@ public class MouseHover : MonoBehaviour
 
     private void OnEnable()
     {
-        mainCamera = Camera.main;
+        UpdateCameraRef();
     }
 
     private void OnDisable()
@@ -89,6 +94,8 @@ public class MouseHover : MonoBehaviour
     // Clamp the position to be within the Canvas or Camera boundaries
     private Vector3 ClampPositionToCanvas(Vector3 targetPosition)
     {
+        if (mainCamera == null) return targetPosition; // Note: redundant guard and shouldn't be triggered since we guard this case in Update().
+
         if (canvas.renderMode == RenderMode.WorldSpace)
         {
             // Canvas is in World Space
@@ -107,6 +114,14 @@ public class MouseHover : MonoBehaviour
             clampedPosition.y = Mathf.Clamp(clampedPosition.y, minPosition.y, maxPosition.y);
 
             return clampedPosition;
+        }
+    }
+
+    private void UpdateCameraRef()
+    {
+        if (Camera.main != null)
+        {
+            mainCamera = Camera.main;
         }
     }
 }

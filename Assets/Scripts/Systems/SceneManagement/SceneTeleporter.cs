@@ -1,23 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class SceneTeleporter : MonoBehaviour
 {
-    [SerializeField] private SceneField sceneToTeleportTo;
+    public UnityEvent OnTeleportRequest;
 
     public void TeleportToScene()
     {
-        if (!string.IsNullOrEmpty(sceneToTeleportTo))
-        {
-            // TODO: fix up how we load and unload scenes (OUT OF SCOPE FOR CURRENT ISSUE)
-            SceneManager.LoadScene(sceneToTeleportTo, LoadSceneMode.Additive);
-        }
-        else
-        {
-            Debug.LogError("Scene to teleport to is not set!");
-        }
+        OnTeleportRequest?.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -1,9 +1,11 @@
 using Mono.Cecil.Cil;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[Serializable]
 public class SceneLoadRequester : MonoBehaviour
 {
     [SerializeField] private SceneField persistentGameplay;

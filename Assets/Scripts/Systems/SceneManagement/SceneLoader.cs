@@ -54,11 +54,6 @@ public class SceneLoader : MonoBehaviour
     {
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
 
-        // TODO: test if loading persistent gameplay before everything else will fix gameplay.
-        // UPDATE: it does, but maybe it's a code smell...
-        //AsyncOperation pgLoad = SceneManager.LoadSceneAsync("PersistentGameplay", LoadSceneMode.Additive);
-        //yield return new WaitUntil(()=>pgLoad.isDone);
-
         for (int i = 0; i < scenesToLoad.Count; i++)
         {
             var scene = scenesToLoad[i];

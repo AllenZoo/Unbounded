@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class CameraBoundarySetter : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CameraBoundarySetter : MonoBehaviour
 
     private void Awake()
     {
+        Assert.IsNotNull(boundaryToSet);
         EventBinding<OnSceneLoadRequestFinish> sceneFinishBinding = new EventBinding<OnSceneLoadRequestFinish>(RequestCameraBoundChange);
         EventBus<OnSceneLoadRequestFinish>.Register(sceneFinishBinding);
     }
