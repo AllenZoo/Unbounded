@@ -44,10 +44,26 @@ public struct OnInventoryModifiedEvent : IGlobalEvent
     
 }
 
-
 public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
 {
     public Commission commission;
+}
+
+public struct OnSceneLoadRequest: IGlobalEvent
+{
+    public List<SceneField> scenesToLoad;
+    public List<SceneField> scenesToUnload;
+    public bool showLoadingBar;
+}
+
+public struct OnSceneLoadRequestFinish: IGlobalEvent
+{
+
+}
+
+public struct OnCameraBoundChangeRequest: IGlobalEvent
+{
+    public Collider2D newBoundary;
 }
 
 

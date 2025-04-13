@@ -18,7 +18,7 @@ public class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBeha
 
                 if (instance == null)
                 {
-                    Debug.LogError($"Singleton<{typeof(T)}>: Instance not found in the scene.");
+                    Debug.LogWarning($"Singleton<{typeof(T)}>: Instance not found in the scene.");
                 }
             }
 

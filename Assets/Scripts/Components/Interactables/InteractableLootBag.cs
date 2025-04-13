@@ -39,8 +39,10 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
         inventoryData.slots = lootHolder.GetNumSlots();
 
         lootBagDisplayInventory = new Inventory(inventoryData);
-        lootBagSystem = InventorySystemStorage.Instance.GetSystem(InventoryType.Loot);
-        lootBagSystem.OnInventoryDataModified += LootBagDisplayInventory_OnInventoryDataChange;
+
+        // Commented out old code for scenarios where when transitioning scene, singleton is not active yet, and the code below will cause error log.
+        //lootBagSystem = InventorySystemStorage.Instance.GetSystem(InventoryType.Loot);
+        //lootBagSystem.OnInventoryDataModified += LootBagDisplayInventory_OnInventoryDataChange;
     }
 
 
@@ -48,6 +50,7 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Debug.Log("Interacted with Loot Bag: " + gameObject.transform.parent.name);
+        lootBagSystem = InventorySystemStorage.Instance.GetSystem(InventoryType.Loot);
 
         if (lootBagSystem == null)
         {
