@@ -1854,101 +1854,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976816151}
   m_CullTransparentMesh: 1
---- !u!1 &1000372001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1000372003}
-  - component: {fileID: 1000372002}
-  m_Layer: 0
-  m_Name: MapGen(test_gf)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1000372002
+--- !u!114 &1000372002 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1435584723932975928, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+  m_PrefabInstance: {fileID: 1435584724564239386}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000372001}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7df4497d67ba5e04f9a062a27407ad5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shouldGenerateOnSceneLoad: 1
-  normalRoomPfbs:
-  - pfb: {fileID: 1666224477552922223, guid: 18a08b762881bec4b926905bfbf851e6, type: 3}
-    size: 0
-    type: 1
-  - pfb: {fileID: 7086357396529055782, guid: 2ac964ae082f7cc44aad3a10a49b221a, type: 3}
-    size: 1
-    type: 1
-  - pfb: {fileID: 2289356740475294013, guid: 36176738674225f44ac71b43999ba9c6, type: 3}
-    size: 2
-    type: 1
-  - pfb: {fileID: 558757927294103620, guid: 52215d2141341c14e860feefc968e05f, type: 3}
-    size: 3
-    type: 1
-  - pfb: {fileID: 6377368593976832483, guid: 2a4b77151138bba4e9dd9832b427d8d9, type: 3}
-    size: 0
-    type: 1
-  - pfb: {fileID: 122689570623017867, guid: 7fd64598db9583b45b671707807f5d63, type: 3}
-    size: 2
-    type: 1
-  - pfb: {fileID: 6017502108124996358, guid: f8a225f8aaba555438de40c611168e77, type: 3}
-    size: 1
-    type: 1
-  - pfb: {fileID: 49340982570951212, guid: 123722d0b9196484083ae8d14a9138d9, type: 3}
-    size: 3
-    type: 1
-  startRoomPfbs:
-  - pfb: {fileID: 3851413685746368828, guid: d85338123cb6b7b4ba8edbfad013c15b, type: 3}
-    size: 0
-    type: 0
-  bossRoomPfbs:
-  - pfb: {fileID: 1666224477552922223, guid: 18a08b762881bec4b926905bfbf851e6, type: 3}
-    size: 0
-    type: 2
-  - pfb: {fileID: 7086357396529055782, guid: 2ac964ae082f7cc44aad3a10a49b221a, type: 3}
-    size: 1
-    type: 2
-  - pfb: {fileID: 2289356740475294013, guid: 36176738674225f44ac71b43999ba9c6, type: 3}
-    size: 2
-    type: 2
-  - pfb: {fileID: 1511299336741608345, guid: 2bfdde7ae7936c54a87898d0643dd52d, type: 3}
-    size: 3
-    type: 2
-  emptyRoomPfbs:
-  - pfb: {fileID: 1666224477552922223, guid: 8b3eecaf4b6c86f4798044cffe67568d, type: 3}
-    size: 0
-    type: 3
-  mapSize: {x: 12, y: 12}
-  roomsToGenerate: 28
-  roomsBetweenStartAndBoss: 3
-  roomSizeWorldUnits: {x: 18, y: 18}
---- !u!4 &1000372003
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000372001}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2032514, y: 15.659549, z: 0.59923}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1606277432 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2150143408244548150, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
@@ -2684,6 +2600,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ac964ae082f7cc44aad3a10a49b221a, type: 3}
+--- !u!1001 &1435584724564239386
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.2032514
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.659549
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.59923
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975929, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1435584723932975931, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
+      propertyPath: m_Name
+      value: MapGen (Goblin Forest)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d50f4a583a0dd634f84e0770a64352b7, type: 3}
 --- !u!1001 &1465497137467877435
 PrefabInstance:
   m_ObjectHideFlags: 0

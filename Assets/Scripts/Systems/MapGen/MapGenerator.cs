@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapGenerator: MonoBehaviour {
 
@@ -42,6 +43,11 @@ public class MapGenerator: MonoBehaviour {
 
     private void Start()
     {
+        // Set the scene that this generator belongs to as the Active Scene.
+        // This ensures that the generated content will be in the right scene.
+        Scene scene = gameObject.scene;
+        SceneManager.SetActiveScene(scene);
+
         floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate, roomsBetweenStartAndBoss);
         roomToPfbMap = new Dictionary<Room, GameObject>();
         init = true;

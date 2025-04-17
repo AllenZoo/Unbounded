@@ -28,12 +28,12 @@ public class CameraBoundaryHandler : MonoBehaviour
 
     private void HandlePlayerEnterRoom(OnPlayerEnterRoom e)
     {
-        confiner.m_BoundingShape2D = e.roomBoundary;
+        //confiner.m_BoundingShape2D = e.roomBoundary;
     }
 
     private void HandlePlayerStayRoom(OnPlayerStayRoom e)
     {
-        confiner.m_BoundingShape2D = e.roomBoundary;
+        //confiner.m_BoundingShape2D = e.roomBoundary;
     }
 
     private void OnCameraBoundChangeRequestEvent(OnCameraBoundChangeRequest e)

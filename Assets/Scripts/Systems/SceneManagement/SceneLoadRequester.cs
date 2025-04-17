@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 [Serializable]
 public class SceneLoadRequester : MonoBehaviour
 {
+    [SerializeField] private SceneField activeSceneAfterLoad;
+
     [SerializeField] private SceneField persistentGameplay;
     [SerializeField] private bool loadPersistentGameplay = true;
 
@@ -33,11 +35,14 @@ public class SceneLoadRequester : MonoBehaviour
         List<SceneField> _scenesToLoad = new List<SceneField>(scenesToLoad);
         if (loadPersistentGameplay && persistentGameplay != null) _scenesToLoad.Add(persistentGameplay);
 
+        _scenesToLoad.Add(activeSceneAfterLoad);
+
         EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
         {
             scenesToLoad = _scenesToLoad,
             scenesToUnload = this.scenesToUnload,
-            showLoadingBar = this.showLoadingBar
+            showLoadingBar = this.showLoadingBar,
+            activeSceneToSet = this.activeSceneAfterLoad,
         });
     }
 
