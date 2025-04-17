@@ -22,7 +22,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
     private int bestSortingOrder;
 
     // TODO: use this to unfade, and reset sorting order when collidedWith.Count is empty.
-    private HashSet<ViewColliderCollisionManager> collidedWith;
+    private HashSet<ViewColliderCollisionManager> collidedWith = new HashSet<ViewColliderCollisionManager>();
     private bool isMovingObject = false;
 
     private void Awake()
@@ -56,7 +56,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
         // Make Collider a trigger.
         GetComponent<Collider2D>().isTrigger = true;
 
-        collidedWith = new HashSet<ViewColliderCollisionManager>();
+        //collidedWith = new HashSet<ViewColliderCollisionManager>(); --> Moved this to initialize at runtime, since sometimes, it is possible that OnTriggerEnter2D gets called before this set is initialized.
         isMovingObject = parentTransform.CompareTag("Player") || parentTransform.CompareTag("Entity");
     }
 
