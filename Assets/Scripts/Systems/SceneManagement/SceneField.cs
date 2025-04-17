@@ -22,6 +22,20 @@ public class SceneField
     {
         return sceneField.SceneName;
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is SceneField other)
+        {
+            return string.Equals(this.SceneName, other.SceneName);
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return (SceneName != null ? SceneName.GetHashCode() : 0);
+    }
 }
 
 #if UNITY_EDITOR

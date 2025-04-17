@@ -154,7 +154,7 @@ MonoBehaviour:
   spawnRates:
     data: {fileID: 11400000, guid: cafa52edc5d85244295004db2fa102e0, type: 2}
   spawnPos: {fileID: 7649102563277072506}
-  maxSpawns: 5
+  maxSpawns: 2
   timeBetweenSpawns: 8
 --- !u!1 &3775050697397719053
 GameObject:
@@ -320,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localEventHandler: {fileID: 0}
   baseStats: {fileID: 11400000, guid: fb348a21130fa4b41a21ea5fd223d8ea, type: 2}
 --- !u!50 &5497984988962810508
 Rigidbody2D:
@@ -369,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  context: {fileID: 0}
 --- !u!1 &6237233014207051678
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,21 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAggro:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2817908554806843418}
-        m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: MaxSpawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  localEventHandler: {fileID: 0}
   aggroRange: 7
   aggroReleaseRange: 8
   aggroDetecter: {fileID: 1795965821555558957}
@@ -611,6 +599,7 @@ MonoBehaviour:
   localEventHandler: {fileID: 0}
   sprite: {fileID: 4317908806918708985}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  defaultMaterial: {fileID: 0}
 --- !u!114 &4317908806918708986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +613,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transparency: 0.5
-  fadeSpeed: 0.5
+  fadeDuration: 0.5
+  easeType: 1
   doFade: 0
 --- !u!1 &7440827735410076607
 GameObject:

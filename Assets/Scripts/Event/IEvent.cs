@@ -53,6 +53,7 @@ public struct OnSceneLoadRequest: IGlobalEvent
 {
     public List<SceneField> scenesToLoad;
     public List<SceneField> scenesToUnload;
+    public SceneField activeSceneToSet;
     public bool showLoadingBar;
 }
 

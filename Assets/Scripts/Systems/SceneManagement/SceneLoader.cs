@@ -1,5 +1,4 @@
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// TODO: add a tweening effect to make loading bar progress smoother
+
 public class SceneLoader : MonoBehaviour
 {
 
@@ -44,27 +43,22 @@ public class SceneLoader : MonoBehaviour
         {
             ShowLoadingScreen();
         }
-        yield return StartCoroutine(LoadScenes(e.scenesToLoad));
+        yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet));
         yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
         HideLoadingScreen();
         EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish());
         yield return null;
     }
-    private IEnumerator LoadScenes(List<SceneField> scenesToLoad)
+    private IEnumerator LoadScenes(List<SceneField> rawScenesToLoad, SceneField activeSceneToSet)
     {
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
-
-        for (int i = 0; i < scenesToLoad.Count; i++)
+        HashSet<SceneField> scenesToLoad = FilterScenesToLoad(rawScenesToLoad);
+        foreach(SceneField scene in scenesToLoad)
         {
-            var scene = scenesToLoad[i];
-            if (scene == "") continue;
-
-            // Check if Scene to load is already loaded. If it is, don't add it to list.
-            if (!SceneManager.GetSceneByName(scene).IsValid())
-            {
-                scenesLoading.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
-            }
+            scenesLoading.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
         }
+
+
         float totalProgress = 0;
         bool tweenComplete = false;
         for (int i = 0; i < scenesLoading.Count; ++i)
@@ -80,10 +74,18 @@ public class SceneLoader : MonoBehaviour
             }
         }
         bar.DOFillAmount(1f, 0.6f).OnComplete(()=>tweenComplete = true);
+
+        // Set active scene if there is one.
+        if (activeSceneToSet != "")
+        {
+            Scene activeScene = SceneManager.GetSceneByName(activeSceneToSet);
+            SceneManager.SetActiveScene(activeScene);
+        }
+        
         yield return new WaitUntil(() => tweenComplete);
         yield return new WaitForSeconds(0.5f);
     }
-    public IEnumerator UnloadScenes(List<SceneField> scenesToUnload)
+    private IEnumerator UnloadScenes(List<SceneField> scenesToUnload)
     {
         if (scenesToUnload == null || scenesToUnload.Count == 0)
         {
@@ -108,6 +110,27 @@ public class SceneLoader : MonoBehaviour
         {
             yield return new WaitUntil(() => operation.isDone);
         }
+    }
+
+    /// <summary>
+    /// Given a list of scenes, filters out any invalid or already loaded scenes. Should also remove duplicates.
+    /// </summary>
+    /// <param name="rawScenesToLoad"></param>
+    /// <returns></returns>
+    private HashSet<SceneField> FilterScenesToLoad(List<SceneField> rawScenesToLoad)
+    {
+        HashSet<SceneField> filteredScenes = new HashSet<SceneField>();
+        foreach (var rawScene in rawScenesToLoad)
+        {
+            if (rawScene == "") continue;
+
+            // Check if Scene to load is already loaded. If it is, don't add it to list.
+            if (!SceneManager.GetSceneByName(rawScene).IsValid())
+            {
+                filteredScenes.Add(rawScene);
+            }
+        }
+        return filteredScenes;
     }
 
     public void ShowLoadingScreen()
