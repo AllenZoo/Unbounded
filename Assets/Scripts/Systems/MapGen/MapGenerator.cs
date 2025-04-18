@@ -33,6 +33,8 @@ public class MapGenerator: MonoBehaviour {
     [SerializeField] private Vector2 roomSizeWorldUnits;
 
     private Dictionary<Room, GameObject> roomToPfbMap;
+    private Dictionary<GameObject, Room> pfbToRoomMap;
+
     private FloorPlanGenerator floorPlanGenerator;
     private GameObject baseMap;
 
@@ -50,11 +52,15 @@ public class MapGenerator: MonoBehaviour {
 
         floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate, roomsBetweenStartAndBoss);
         roomToPfbMap = new Dictionary<Room, GameObject>();
+        pfbToRoomMap = new Dictionary<GameObject, Room>();
+
         init = true;
         if (shouldGenerateOnSceneLoad)
         {
             GenerateMap();
         }
+
+        MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, pfbToRoomMap[startRoomPfb]);
     }
 
     private void OnEnable()
@@ -137,6 +143,7 @@ public class MapGenerator: MonoBehaviour {
             if (room.roomType != RoomType.Empty)
             {
                 roomToPfbMap.Add(room, roomObj);
+                pfbToRoomMap.Add(roomObj, room);
             }
             
             // Check if is start room. If it is, store ref.
