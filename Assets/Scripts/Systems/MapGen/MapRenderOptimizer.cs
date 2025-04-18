@@ -9,9 +9,7 @@ public class MapRenderOptimizer
 {
     private Dictionary<Room, GameObject> roomToPfbMap;
     private Dictionary<GameObject, Room> pfbToRoomMap;
-
-    // TODO:
-    private Dictionary<Vector2, GameObject> worldToRoomMap;
+    private Dictionary<Vector2, Room> worldToRoomMap;
 
     private Room startRoom;
     private FloorPlan floorPlan;
@@ -19,10 +17,11 @@ public class MapRenderOptimizer
 
     private HashSet<Room> activeRooms;
 
-    public MapRenderOptimizer(Dictionary<Room, GameObject> roomToPfbMap, Dictionary<GameObject, Room> pfbToRoomMap, Room startRoom, FloorPlan floorPlan)
+    public MapRenderOptimizer(Dictionary<Room, GameObject> roomToPfbMap, Dictionary<GameObject, Room> pfbToRoomMap, Dictionary<Vector2, Room> worldToRoomMap, Room startRoom, FloorPlan floorPlan)
     {
         this.roomToPfbMap = roomToPfbMap;
         this.pfbToRoomMap = pfbToRoomMap;
+        this.worldToRoomMap = worldToRoomMap;
         this.startRoom = startRoom;
         this.floorPlan = floorPlan;
 
@@ -36,13 +35,17 @@ public class MapRenderOptimizer
     {
         Debug.Log("Player entered room!");
         Room enteredRoom = pfbToRoomMap[room.roomPfb];
+        HashSet<Room> roomsToLoad = GetRoomsToLoad(enteredRoom, borderLayer);
+        LoadRooms(roomsToLoad);
+        DisableAllButProvided(roomsToLoad);
     }
 
     private void Init()
     {
         // TODO: disable any active rooms not within range of player.
-        GetRoomsToLoad(startRoom);
-
+        HashSet<Room> roomsToLoad = GetRoomsToLoad(startRoom, borderLayer);
+        LoadRooms(roomsToLoad);
+        DisableAllButProvided(roomsToLoad);
     }
 
     /// <summary>
@@ -91,20 +94,43 @@ public class MapRenderOptimizer
 
                 var roomToCheck = rooms[xPos, yPos];
 
-                if (roomToCheck == null || roomsToLoad.Contains(roomToCheck)) continue;
+                if (roomsToLoad.Contains(roomToCheck)) continue;
 
-                // TODO: if roomToCheck == null, that means we found empty room. Should add. Get PFB/Room via worldToRoomPfb.
-
+                if (roomToCheck == null)
+                {
+                    // Found empty room to check. Assumes the rooms are 1x1, so position always exists. (eg. if 2x2 might be missing 3 cells in map)
+                    roomToCheck = worldToRoomMap[new Vector2(xPos, yPos)];
+                }
                 roomsToLoad.Add(roomToCheck);
             }
         }
 
+        // Debug.Log($"Found {roomsToLoad.Count} rooms to load.");
      
         return roomsToLoad;
     }
 
-    private void LoadRooms(List<Room> rooms)
+    private void LoadRooms(HashSet<Room> rooms)
     {
+        foreach (Room room in rooms)
+        {
+            roomToPfbMap[room].SetActive(true);
+        }
+    }
 
+    /// <summary>
+    /// Given a list of rooms, disable any other corresponding roomPfb not in list.
+    /// </summary>
+    /// <param name="rooms">lists to not disable</param>
+    private void DisableAllButProvided(HashSet<Room> rooms)
+    {
+        foreach (var roomPair in roomToPfbMap)
+        {
+            if (!rooms.Contains(roomPair.Key))
+            {
+                // Should be disabled
+                roomPair.Value.SetActive(false);
+            }
+        }
     }
 }

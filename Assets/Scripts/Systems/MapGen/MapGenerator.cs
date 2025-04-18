@@ -34,6 +34,10 @@ public class MapGenerator: MonoBehaviour {
 
     private Dictionary<Room, GameObject> roomToPfbMap;
     private Dictionary<GameObject, Room> pfbToRoomMap;
+    /// <summary>
+    /// Maps top left room corners to respective Room instances.
+    /// </summary>
+    private Dictionary<Vector2, Room> worldToRoomMap;
 
     private FloorPlanGenerator floorPlanGenerator;
     private FloorPlan floorPlan;
@@ -54,6 +58,7 @@ public class MapGenerator: MonoBehaviour {
         floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate, roomsBetweenStartAndBoss);
         roomToPfbMap = new Dictionary<Room, GameObject>();
         pfbToRoomMap = new Dictionary<GameObject, Room>();
+        worldToRoomMap = new Dictionary<Vector2, Room>();
 
         init = true;
         if (shouldGenerateOnSceneLoad)
@@ -68,7 +73,7 @@ public class MapGenerator: MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, pfbToRoomMap[startRoomPfb], floorPlan);
+            MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, worldToRoomMap, pfbToRoomMap[startRoomPfb], floorPlan);
         }
     }
 
@@ -144,18 +149,15 @@ public class MapGenerator: MonoBehaviour {
         if (roomPfb != null)
         {
             // Note: Y is inverted in Unity Transform system compared to our grid system. Thus we flip the y coordinate.
-            Vector3 roomPos = new Vector3(room.position.x * roomSizeWorldUnits.x, -room.position.y * roomSizeWorldUnits.y, 0);
+            Vector3 roomPosWorld = new Vector3(room.position.x * roomSizeWorldUnits.x, -room.position.y * roomSizeWorldUnits.y, 0);
 
-            GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
+            GameObject roomObj = Instantiate(roomPfb, roomPosWorld, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
 
-            // TODO: we should add empty rooms too.
-            if (room.roomType != RoomType.Empty)
-            {
-                roomToPfbMap.Add(room, roomObj);
-                pfbToRoomMap.Add(roomObj, room);
-            }
-            
+            roomToPfbMap.Add(room, roomObj);
+            pfbToRoomMap.Add(roomObj, room);
+            worldToRoomMap.Add(room.position, room);
+
             // Check if is start room. If it is, store ref.
             if (room.roomType == RoomType.Start)
             {
@@ -360,8 +362,6 @@ public class MapGenerator: MonoBehaviour {
         int cols = rooms.GetLength(1); // Get the number of columns
 
         Vector2 roomSize = new Vector2(1, 1);
-        Room emptyRoom = new Room(roomSize, Vector2.zero, null, RoomType.Empty);
-        
 
         for (int x = 0; x < rows; x++)
         {
@@ -370,7 +370,7 @@ public class MapGenerator: MonoBehaviour {
                 if (rooms[x, y] ==null)
                 {
                     //Debug.Log($"Instantiating Empty room at ({x}, {y})");
-                    emptyRoom.position = new Vector2(x, y);
+                    Room emptyRoom = new Room(roomSize, new Vector2(x, y), null, RoomType.Empty);
                     InstantiateRoom(emptyRoom);
                 }
             }
