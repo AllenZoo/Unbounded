@@ -36,6 +36,7 @@ public class MapGenerator: MonoBehaviour {
     private Dictionary<GameObject, Room> pfbToRoomMap;
 
     private FloorPlanGenerator floorPlanGenerator;
+    private FloorPlan floorPlan;
     private GameObject baseMap;
 
     // Reference to be passed through the OnMapGenerated event.
@@ -60,7 +61,15 @@ public class MapGenerator: MonoBehaviour {
             GenerateMap();
         }
 
-        MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, pfbToRoomMap[startRoomPfb]);
+        //MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, pfbToRoomMap[startRoomPfb]);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, pfbToRoomMap[startRoomPfb], floorPlan);
+        }
     }
 
     private void OnEnable()
@@ -82,7 +91,7 @@ public class MapGenerator: MonoBehaviour {
             Destroy(baseMap);
         }
         baseMap = new GameObject("BaseMap");
-        FloorPlan floorPlan = floorPlanGenerator.Generate();
+        floorPlan = floorPlanGenerator.Generate();
         VizFloorPlan.PrintFloorPlan(floorPlan.rooms, floorPlan);
         InstantiateMap(floorPlan);
         InitEmptyRooms(floorPlan);
@@ -140,6 +149,7 @@ public class MapGenerator: MonoBehaviour {
             GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
 
+            // TODO: we should add empty rooms too.
             if (room.roomType != RoomType.Empty)
             {
                 roomToPfbMap.Add(room, roomObj);
