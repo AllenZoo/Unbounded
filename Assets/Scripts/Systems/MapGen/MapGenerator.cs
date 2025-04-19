@@ -24,7 +24,6 @@ public class MapGenerator: MonoBehaviour {
     [SerializeField] private int roomsToGenerate = 12;
     [Tooltip("Number of rooms between start and boss room. (excluding the start and boss room)")]
     [SerializeField] private int roomsBetweenStartAndBoss = 3;
-
     /// <summary>
     /// For placing the rooms in the world.
     /// </summary>
@@ -32,9 +31,19 @@ public class MapGenerator: MonoBehaviour {
     [Tooltip("Size of the room in world units. (width, height)")]
     [SerializeField] private Vector2 roomSizeWorldUnits;
 
+    [Tooltip("Determines what rooms to load. Load rooms <= borderLayer away from room that player currently in.")]
+    [SerializeField] private int borderLayer = 1;
+
     private Dictionary<Room, GameObject> roomToPfbMap;
+    private Dictionary<GameObject, Room> pfbToRoomMap;
+    /// <summary>
+    /// Maps top left room corners to respective Room instances.
+    /// </summary>
+    private Dictionary<Vector2, Room> worldToRoomMap;
     private FloorPlanGenerator floorPlanGenerator;
+    private FloorPlan floorPlan;
     private GameObject baseMap;
+    private MapRenderOptimizer optimizer;
 
     // Reference to be passed through the OnMapGenerated event.
     private GameObject startRoomPfb;
@@ -50,11 +59,16 @@ public class MapGenerator: MonoBehaviour {
 
         floorPlanGenerator = new FloorPlanGenerator(mapSize, roomsToGenerate, roomsBetweenStartAndBoss);
         roomToPfbMap = new Dictionary<Room, GameObject>();
+        pfbToRoomMap = new Dictionary<GameObject, Room>();
+        worldToRoomMap = new Dictionary<Vector2, Room>();
+
         init = true;
         if (shouldGenerateOnSceneLoad)
         {
             GenerateMap();
         }
+
+        optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, worldToRoomMap, pfbToRoomMap[startRoomPfb], floorPlan, borderLayer);
     }
 
     private void OnEnable()
@@ -76,7 +90,7 @@ public class MapGenerator: MonoBehaviour {
             Destroy(baseMap);
         }
         baseMap = new GameObject("BaseMap");
-        FloorPlan floorPlan = floorPlanGenerator.Generate();
+        floorPlan = floorPlanGenerator.Generate();
         VizFloorPlan.PrintFloorPlan(floorPlan.rooms, floorPlan);
         InstantiateMap(floorPlan);
         InitEmptyRooms(floorPlan);
@@ -129,16 +143,15 @@ public class MapGenerator: MonoBehaviour {
         if (roomPfb != null)
         {
             // Note: Y is inverted in Unity Transform system compared to our grid system. Thus we flip the y coordinate.
-            Vector3 roomPos = new Vector3(room.position.x * roomSizeWorldUnits.x, -room.position.y * roomSizeWorldUnits.y, 0);
+            Vector3 roomPosWorld = new Vector3(room.position.x * roomSizeWorldUnits.x, -room.position.y * roomSizeWorldUnits.y, 0);
 
-            GameObject roomObj = Instantiate(roomPfb, roomPos, Quaternion.identity);
+            GameObject roomObj = Instantiate(roomPfb, roomPosWorld, Quaternion.identity);
             roomObj.transform.SetParent(baseMap.transform);
 
-            if (room.roomType != RoomType.Empty)
-            {
-                roomToPfbMap.Add(room, roomObj);
-            }
-            
+            roomToPfbMap.Add(room, roomObj);
+            pfbToRoomMap.Add(roomObj, room);
+            worldToRoomMap.Add(room.position, room);
+
             // Check if is start room. If it is, store ref.
             if (room.roomType == RoomType.Start)
             {
@@ -343,8 +356,6 @@ public class MapGenerator: MonoBehaviour {
         int cols = rooms.GetLength(1); // Get the number of columns
 
         Vector2 roomSize = new Vector2(1, 1);
-        Room emptyRoom = new Room(roomSize, Vector2.zero, null, RoomType.Empty);
-        
 
         for (int x = 0; x < rows; x++)
         {
@@ -353,7 +364,7 @@ public class MapGenerator: MonoBehaviour {
                 if (rooms[x, y] ==null)
                 {
                     //Debug.Log($"Instantiating Empty room at ({x}, {y})");
-                    emptyRoom.position = new Vector2(x, y);
+                    Room emptyRoom = new Room(roomSize, new Vector2(x, y), null, RoomType.Empty);
                     InstantiateRoom(emptyRoom);
                 }
             }
