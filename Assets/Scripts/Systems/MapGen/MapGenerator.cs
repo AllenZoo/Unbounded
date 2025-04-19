@@ -24,7 +24,6 @@ public class MapGenerator: MonoBehaviour {
     [SerializeField] private int roomsToGenerate = 12;
     [Tooltip("Number of rooms between start and boss room. (excluding the start and boss room)")]
     [SerializeField] private int roomsBetweenStartAndBoss = 3;
-
     /// <summary>
     /// For placing the rooms in the world.
     /// </summary>
@@ -32,16 +31,19 @@ public class MapGenerator: MonoBehaviour {
     [Tooltip("Size of the room in world units. (width, height)")]
     [SerializeField] private Vector2 roomSizeWorldUnits;
 
+    [Tooltip("Determines what rooms to load. Load rooms <= borderLayer away from room that player currently in.")]
+    [SerializeField] private int borderLayer = 1;
+
     private Dictionary<Room, GameObject> roomToPfbMap;
     private Dictionary<GameObject, Room> pfbToRoomMap;
     /// <summary>
     /// Maps top left room corners to respective Room instances.
     /// </summary>
     private Dictionary<Vector2, Room> worldToRoomMap;
-
     private FloorPlanGenerator floorPlanGenerator;
     private FloorPlan floorPlan;
     private GameObject baseMap;
+    private MapRenderOptimizer optimizer;
 
     // Reference to be passed through the OnMapGenerated event.
     private GameObject startRoomPfb;
@@ -66,15 +68,7 @@ public class MapGenerator: MonoBehaviour {
             GenerateMap();
         }
 
-        //MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, pfbToRoomMap[startRoomPfb]);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            MapRenderOptimizer optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, worldToRoomMap, pfbToRoomMap[startRoomPfb], floorPlan);
-        }
+        optimizer = new MapRenderOptimizer(roomToPfbMap, pfbToRoomMap, worldToRoomMap, pfbToRoomMap[startRoomPfb], floorPlan, borderLayer);
     }
 
     private void OnEnable()

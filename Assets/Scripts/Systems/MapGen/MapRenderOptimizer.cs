@@ -15,15 +15,15 @@ public class MapRenderOptimizer
     private FloorPlan floorPlan;
     private int borderLayer = 2;
 
-    private HashSet<Room> activeRooms;
 
-    public MapRenderOptimizer(Dictionary<Room, GameObject> roomToPfbMap, Dictionary<GameObject, Room> pfbToRoomMap, Dictionary<Vector2, Room> worldToRoomMap, Room startRoom, FloorPlan floorPlan)
+    public MapRenderOptimizer(Dictionary<Room, GameObject> roomToPfbMap, Dictionary<GameObject, Room> pfbToRoomMap, Dictionary<Vector2, Room> worldToRoomMap, Room startRoom, FloorPlan floorPlan, int borderLayer)
     {
         this.roomToPfbMap = roomToPfbMap;
         this.pfbToRoomMap = pfbToRoomMap;
         this.worldToRoomMap = worldToRoomMap;
         this.startRoom = startRoom;
         this.floorPlan = floorPlan;
+        this.borderLayer = borderLayer;
 
         Init();
 
