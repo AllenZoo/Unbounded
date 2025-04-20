@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-
     [Tooltip("Temporary Camera to capture the loading screen if other cameras don't exist.")]
     [SerializeField] private GameObject cameraMain;
 
@@ -43,13 +42,17 @@ public class SceneLoader : MonoBehaviour
         {
             ShowLoadingScreen();
         }
-        yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet));
+        EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = true });
+        yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
         yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
-        HideLoadingScreen();
         EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish());
+        yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
+        EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = false });
+        HideLoadingScreen();
+
         yield return null;
     }
-    private IEnumerator LoadScenes(List<SceneField> rawScenesToLoad, SceneField activeSceneToSet)
+    private IEnumerator LoadScenes(List<SceneField> rawScenesToLoad, SceneField activeSceneToSet, bool showingLoadingBar)
     {
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
         HashSet<SceneField> scenesToLoad = FilterScenesToLoad(rawScenesToLoad);
@@ -68,12 +71,25 @@ public class SceneLoader : MonoBehaviour
             {
                 totalProgress += sceneLoading.progress;
                 float targetFill = totalProgress / scenesLoading.Count;
-                bar.DOFillAmount(targetFill, 0.5f);
+
+                if (showingLoadingBar) bar.DOFillAmount(targetFill, 0.5f).SetUpdate(true);
+
                 //Debug.Log($"Percentage Loaded {totalProgress / scenesLoading.Count * 100} %");
                 yield return null; // NOTE: IMPORTANT DO NOT REMOVE THIS LINE OR IT WILL INFINITE LOOP.
             }
         }
-        bar.DOFillAmount(1f, 0.6f).OnComplete(()=>tweenComplete = true);
+
+        if (showingLoadingBar) {
+            bar.DOFillAmount(1f, 0.6f)
+               .SetUpdate(true) // uses unscaled time
+               .OnComplete(() => {
+                   tweenComplete = true;
+#if UNITY_EDITOR
+                   Debug.Log("Tween completed");
+#endif
+               });
+        }
+       
 
         // Set active scene if there is one.
         if (activeSceneToSet != "")
@@ -82,8 +98,9 @@ public class SceneLoader : MonoBehaviour
             SceneManager.SetActiveScene(activeScene);
         }
         
-        yield return new WaitUntil(() => tweenComplete);
-        yield return new WaitForSeconds(0.5f);
+        if (showingLoadingBar) yield return new WaitUntil(() => tweenComplete);
+
+        yield return new WaitForSecondsRealtime(0.5f);
     }
     private IEnumerator UnloadScenes(List<SceneField> scenesToUnload)
     {
