@@ -67,6 +67,10 @@ public struct OnCameraBoundChangeRequest: IGlobalEvent
     public Collider2D newBoundary;
 }
 
+public struct OnPauseChangeRequest: IGlobalEvent {
+    public bool shouldPause;
+}
+
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
