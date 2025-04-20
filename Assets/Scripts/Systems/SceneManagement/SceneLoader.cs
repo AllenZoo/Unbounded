@@ -84,7 +84,9 @@ public class SceneLoader : MonoBehaviour
                .SetUpdate(true) // uses unscaled time
                .OnComplete(() => {
                    tweenComplete = true;
+#if UNITY_EDITOR
                    Debug.Log("Tween completed");
+#endif
                });
         }
        
