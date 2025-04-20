@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-
     [Tooltip("Temporary Camera to capture the loading screen if other cameras don't exist.")]
     [SerializeField] private GameObject cameraMain;
 
@@ -47,9 +46,10 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
         yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
         EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish());
-        yield return new WaitForSecondsRealtime(0.8f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
+        yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
         EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = false });
         HideLoadingScreen();
+
         yield return null;
     }
     private IEnumerator LoadScenes(List<SceneField> rawScenesToLoad, SceneField activeSceneToSet, bool showingLoadingBar)

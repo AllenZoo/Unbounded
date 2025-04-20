@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(StateComponent))]
 public class PlayerInput : InputController
 {
+    [SerializeField] public bool InputEnabled { get; set; } = true;
+
     private void Awake()
     {
         base.Awake();
@@ -14,6 +16,11 @@ public class PlayerInput : InputController
     // Handles all inputs
     private void Handle_Input()
     {
+        if (!InputEnabled) {
+            Debug.Log("Player input is currently disabled!");
+            base.InvokeMovementInput(Vector2.zero); // To set the movement to nothing, incase previous input not reset.
+            return;
+        }
         Handle_Movement_Input();
         Handle_Attack_Input();
     }
