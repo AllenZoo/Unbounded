@@ -7,8 +7,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="new upgrade card", menuName ="System/Upgrade/UpgradeCard")]
 public class UpgradeCardData : ScriptableObject
 {
+    // TODO: extract these fields into some CardTemplate scriptable object class.
     public string title;
     public Sprite icon;
+    public Color cardColor; 
 
     [TableList]
     public List<UpgradeModifierEntry> mods = new List<UpgradeModifierEntry>();
@@ -24,8 +26,12 @@ public class UpgradeModifierEntry
     [SerializeReference, ValueDropdown(nameof(GetOperationTypes)), InlineEditor]
     public IUpgradeModifier modifier;
 
+    public string modifierDescription = "";
+
     private static IEnumerable<object> GetOperationTypes()
     {
         yield return new StatModifier(Stat.ATK, new AddOperation(1f), -1);
+        yield return new DamageModifier();
+        yield return new TraitModifier();
     }
 }

@@ -15,30 +15,35 @@ MonoBehaviour:
   title: Katan's Rage
   icon: {fileID: -1249753505, guid: 5cf26ef5b8c0ccd468f42e83ee4b6fd1, type: 3}
   mods:
-  - rid: 3587002021781700666
-  - rid: 3587002021781700668
+  - modifier:
+      rid: 3587002021781700671
+    modifierDescription: +1 ATK to weapon permanently
+  - modifier:
+      rid: 3587002021781700675
+    modifierDescription: +10% Damage
+  - modifier:
+      rid: 3587002021781700676
+    modifierDescription: Add piercing to weapon
   references:
     version: 2
     RefIds:
-    - rid: 3587002021781700666
+    - rid: 3587002021781700671
       type: {class: StatModifier, ns: , asm: Assembly-CSharp}
       data:
         Stat: 6
         operation:
-          rid: 3587002021781700667
+          rid: 3587002021781700672
         MarkedForRemoval: 0
-    - rid: 3587002021781700667
+    - rid: 3587002021781700672
       type: {class: AddOperation, ns: , asm: Assembly-CSharp}
       data:
         value: 1
-    - rid: 3587002021781700668
-      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+    - rid: 3587002021781700675
+      type: {class: DamageModifier, ns: , asm: Assembly-CSharp}
       data:
-        Stat: 0
-        operation:
-          rid: 3587002021781700670
-        MarkedForRemoval: 0
-    - rid: 3587002021781700670
-      type: {class: MultiplyOperation, ns: , asm: Assembly-CSharp}
+        percentageIncrease: 10
+    - rid: 3587002021781700676
+      type: {class: TraitModifier, ns: , asm: Assembly-CSharp}
       data:
-        value: 2
+        addPiercing: 1
+        numAtksToAdd: 0
