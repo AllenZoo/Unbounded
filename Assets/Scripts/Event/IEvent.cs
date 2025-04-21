@@ -71,6 +71,16 @@ public struct OnPauseChangeRequest: IGlobalEvent {
     public bool shouldPause;
 }
 
+public struct OnUpgradeCardViewClicked: IGlobalEvent
+{
+
+}
+
+public struct OnUpgradeCardApplyEffect: IGlobalEvent
+{
+
+}
+
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
