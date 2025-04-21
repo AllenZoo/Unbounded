@@ -10,22 +10,26 @@ public class UpgradeCardView : MonoBehaviour
     [SerializeField] private Transform modifierListParent;
     [SerializeField] private ModifierView modifierViewPrefab;
 
-    public void SetData(UpgradeCardData data)
+    public void Render(UpgradeCardData data)
     {
+        if (data == null)
+        {
+            Debug.LogError("Tried rendering null upgrade card data!");
+            return;
+        }
+
         titleText.text = data.title;
         iconImage.sprite = data.icon;
         backgroundImage.color = data.cardColor;
 
-        // Clear old children
         foreach (Transform child in modifierListParent)
             Destroy(child.gameObject);
 
-        // Instantiate modifier views
         foreach (var entry in data.mods)
         {
-            // TODO-OPT: look into object pooling.
             var modView = Instantiate(modifierViewPrefab, modifierListParent);
             modView.SetModifier(entry.modifier, entry.modifierDescription);
         }
     }
 }
+
