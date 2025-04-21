@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,5 +9,23 @@ public class UpgradeCardData : ScriptableObject
 {
     public string title;
     public Sprite icon;
-    public StatModifier modifier; // testing serialiation
+
+    [TableList]
+    public List<UpgradeModifierEntry> mods = new List<UpgradeModifierEntry>();
+
+}
+
+/// <summary>
+/// Single object class for serializing IUpgradeModifiers. Generally don't want to Serializereference a list, so that's why we create a separate class here for UpgradeCardData.
+/// </summary>
+[Serializable]
+public class UpgradeModifierEntry
+{
+    [SerializeReference, ValueDropdown(nameof(GetOperationTypes)), InlineEditor]
+    public IUpgradeModifier modifier;
+
+    private static IEnumerable<object> GetOperationTypes()
+    {
+        yield return new StatModifier(Stat.ATK, new AddOperation(1f), -1);
+    }
 }

@@ -12,12 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
   m_Name: Katan's Rage
   m_EditorClassIdentifier: 
-  title: 
-  icon: {fileID: 0}
-  modifier:
-    rid: -2
+  title: Katan's Rage
+  icon: {fileID: -1249753505, guid: 5cf26ef5b8c0ccd468f42e83ee4b6fd1, type: 3}
+  mods:
+  - rid: 3587002021781700666
+  - rid: 3587002021781700668
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 3587002021781700666
+      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        Stat: 6
+        operation:
+          rid: 3587002021781700667
+        MarkedForRemoval: 0
+    - rid: 3587002021781700667
+      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
+      data:
+        value: 1
+    - rid: 3587002021781700668
+      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        Stat: 0
+        operation:
+          rid: 3587002021781700670
+        MarkedForRemoval: 0
+    - rid: 3587002021781700670
+      type: {class: MultiplyOperation, ns: , asm: Assembly-CSharp}
+      data:
+        value: 2
