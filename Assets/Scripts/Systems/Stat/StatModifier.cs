@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,9 @@ public class StatModifier : IDisposable
 {
     [SerializeField] public Stat Stat;
 
+    [SerializeReference, InlineEditor, HideReferenceObjectPicker, ValueDropdown(nameof(GetOperationTypes))]
     public IOperation operation;
+
     public bool MarkedForRemoval = false;
 
     public event Action<StatModifier> OnDispose = delegate { };
@@ -56,5 +59,11 @@ public class StatModifier : IDisposable
     public override string ToString()
     {
         return $"{Stat} {operation.GetValue()}";
+    }
+
+    private static IEnumerable<object> GetOperationTypes()
+    {
+        yield return new AddOperation(1);
+        yield return new MultiplyOperation(2);
     }
 }
