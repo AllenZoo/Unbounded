@@ -11,6 +11,17 @@ public class UpgradeCardData : ScriptableObject
     public string title;
     public Sprite icon;
     public Color cardColor; 
+    //
+
+    public CardRarity rarity;
+
+    public enum CardRarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Legendary
+    }
 
     [TableList]
     public List<UpgradeModifierEntry> mods = new List<UpgradeModifierEntry>();

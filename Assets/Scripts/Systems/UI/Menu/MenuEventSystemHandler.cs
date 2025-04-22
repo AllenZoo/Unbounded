@@ -73,6 +73,17 @@ public class MenuEventSystemHandler : MonoBehaviour
         scaleDownTween.Kill(true);
     }
 
+    public void RegisterSelectable(Selectable selectable)
+    {
+        if (!Selectables.Contains(selectable))
+        {
+            Selectables.Add(selectable);
+            AddSelectionListeners(selectable);
+            scales[selectable] = selectable.transform.localScale;
+        }
+    }
+
+
     protected virtual void AddSelectionListeners(Selectable selectable)
     {
         // Add Listener

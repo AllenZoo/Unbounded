@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Main entrypoint of setting the UpgradeCardView data.
+/// </summary>
+[RequireComponent(typeof(UpgradeCardView))]
 public class UpgradeCardViewInitializer : MonoBehaviour
 {
     [SerializeField] private UpgradeCardData upgradeCardData;
@@ -9,6 +13,8 @@ public class UpgradeCardViewInitializer : MonoBehaviour
 
     private void Start()
     {
+        cardView = GetComponent<UpgradeCardView>();
+
         if (upgradeCardData != null && cardView != null)
         {
             cardView.Render(upgradeCardData);

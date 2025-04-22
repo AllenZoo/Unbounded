@@ -81,6 +81,10 @@ public struct OnUpgradeCardApplyEffect: IGlobalEvent
 
 }
 
+public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
+{
+    public List<UpgradeCardData> upgradeCards;
+}
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
