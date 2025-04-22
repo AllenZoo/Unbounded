@@ -18,12 +18,12 @@ public class PageUI : MonoBehaviour, IUIPage
 
     [Required][SerializeField] private Collider2D uiCollider;
 
-
     [Tooltip("For allowing a connecting reference indirectly.")]
     [SerializeField] private PageUIContext pageUIContext;
 
     private bool isBlocked = false;
 
+    #region Unity LifeCycles
     protected virtual void Awake()
     {
         if (canvas == null)
@@ -39,22 +39,22 @@ public class PageUI : MonoBehaviour, IUIPage
         uiCollider.isTrigger = true;
         canvas.overrideSorting = true;
     }
-
     protected virtual void OnEnable()
     {
-        UIOverlayManager.Instance.BringToFront(this);
+        UIOverlayManager.Instance?.BringToFront(this);
     }
     protected virtual void Start()
     {
         Debug.Log("Added Page UI: " + gameObject.name);
 
-        UIOverlayManager.Instance.AddUIPage(this);
+        UIOverlayManager.Instance?.AddUIPage(this);
 
         pageUIContext?.Init(this);
 
-        // Note: not necessary for since we call HandleBlockedStatus in MoveToTopOrClose.
+        // Note: not necessary for this below since we call HandleBlockedStatus in MoveToTopOrClose.
         // UIOverlayManager.OnPageOrderModified += HandleBlockedStatus;
     }
+    #endregion
 
     public Canvas GetCanvas()
     {
@@ -62,7 +62,7 @@ public class PageUI : MonoBehaviour, IUIPage
     }
 
     /// <summary>
-    /// If the page is blocked or invisible, display it move it to the top of the UI stack.
+    /// If the page is blocked or invisible, display it and move it to the top of the UI stack.
     /// Otherwise, close the page.
     /// </summary>
     public void MoveToTopOrClose()
@@ -71,7 +71,7 @@ public class PageUI : MonoBehaviour, IUIPage
         if (isBlocked || !canvas.enabled)
         {
             ToggleVisibility(true);
-            UIOverlayManager.Instance.BringToFront(this);
+            UIOverlayManager.Instance?.BringToFront(this);
         }
         else
         {
@@ -85,7 +85,7 @@ public class PageUI : MonoBehaviour, IUIPage
     /// </summary>
     public void MoveToTop()
     {
-        UIOverlayManager.Instance.BringToFront(this);
+        UIOverlayManager.Instance?.BringToFront(this);
         ToggleVisibility(true);
     }
 

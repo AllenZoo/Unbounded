@@ -8,23 +8,20 @@ using UnityEngine.UI;
 /// Handles instantiating Upgrade Card Views, and handling its events.
 /// </summary>
 [RequireComponent(typeof(MenuEventSystemHandler))]
-public class UpgradeCardViewSystem : MonoBehaviour
+public class UpgradeCardViewSystem : PageUI
 {
     [SerializeField] private MenuEventSystemHandler menuEventSystemHandler;
-    [Tooltip("The object we will toggle on and off depending on active state.")]
-    [SerializeField] private GameObject displayUI;
+    //[Tooltip("The object we will toggle on and off depending on active state.")]
+    //[SerializeField] private GameObject displayUI;
     [SerializeField] private Transform cardParent;
     [SerializeField] private UpgradeCardViewInitializer pfb;
 
     private Dictionary<GameObject, UpgradeCardData> pfbToDataMap = new();
-
-    // TODO: use this
-    [SerializeField, ReadOnly] private bool active = false;
-
     private EventBinding<OnDisplayUpgradeCardsRequest> onUpgradeCardRequestBinding;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         menuEventSystemHandler = GetComponent<MenuEventSystemHandler>();
 
         Assert.IsNotNull(pfb);
@@ -45,11 +42,12 @@ public class UpgradeCardViewSystem : MonoBehaviour
 
     private void OnDisplayUpgradeCardsRequestEvent(OnDisplayUpgradeCardsRequest e) {
         ClearChildren();
-
         foreach (var cardData in e.upgradeCards)
         {
             CreateCard(cardData);
+            
         }
+        ToggleVisibility(true);
     }
 
     private void CreateCard(UpgradeCardData cardData)
@@ -84,6 +82,7 @@ public class UpgradeCardViewSystem : MonoBehaviour
             
         pfbToDataMap.Clear();
         menuEventSystemHandler.Selectables.Clear();
+        ClosePage();
     }
 
     private void OnUpgradeCardClicked(UpgradeCardView cardView)
@@ -97,5 +96,9 @@ public class UpgradeCardViewSystem : MonoBehaviour
         {
             Debug.LogError("UpgradeCardView reference object does not exist in map.");
         }
+        
+        // Close page after selection
+        ClosePage();
     }
+
 }

@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 2564021054752580031}
   - component: {fileID: 2564021054752580025}
   - component: {fileID: 2564021054752580024}
+  - component: {fileID: 1888187302}
+  - component: {fileID: 1888187304}
+  - component: {fileID: 1888187303}
   m_Layer: 5
   m_Name: UpgradeCardViewSystem
   m_TagString: Untagged
@@ -74,11 +77,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4742e448b814f7439156d3b303baef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1888187304}
+  uiCollider: {fileID: 1888187302}
+  pageUIContext: {fileID: 11400000, guid: 69f0e0cf07bab3b40954d4fc5052d4e2, type: 2}
   menuEventSystemHandler: {fileID: 2564021054752580025}
   displayUI: {fileID: 2564021055307474793}
   cardParent: {fileID: 2564021055307474792}
   pfb: {fileID: 8326982865558992919, guid: e08ddd44d23151d448e310e89860d0aa, type: 3}
-  active: 0
+--- !u!61 &1888187302
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2564021054752580028}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!223 &1888187304
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2564021054752580028}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &1888187303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2564021054752580028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 32767
 --- !u!1 &2564021055307474793
 GameObject:
   m_ObjectHideFlags: 0
