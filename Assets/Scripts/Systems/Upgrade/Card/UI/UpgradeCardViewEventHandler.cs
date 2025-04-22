@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,17 +16,21 @@ public class UpgradeCardViewEventHandler : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler
 {
-    [SerializeField] private UpgradeCardView view;
+
+    public Action<UpgradeCardView> OnUpgradeCardClicked;
+
+    private UpgradeCardView cardView;
 
     private void Awake()
     {
-        view = GetComponent<UpgradeCardView>();
+        cardView = GetComponent<UpgradeCardView>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         // Debug.Log($"Clicked on upgrade card: {view.name}");
         // Example: Trigger selection, animation, or callback
+        OnUpgradeCardClicked?.Invoke(cardView);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

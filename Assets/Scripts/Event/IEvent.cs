@@ -78,7 +78,7 @@ public struct OnUpgradeCardViewClicked: IGlobalEvent
 
 public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
-
+    public UpgradeCardData cardData;
 }
 
 public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
