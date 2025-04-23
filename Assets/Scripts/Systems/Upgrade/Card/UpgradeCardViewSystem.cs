@@ -48,6 +48,8 @@ public class UpgradeCardViewSystem : PageUI
             
         }
         ToggleVisibility(true);
+
+        // TODO: pause player input/pause game. (send request)
     }
 
     private void CreateCard(UpgradeCardData cardData)

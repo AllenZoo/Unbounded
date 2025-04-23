@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
-// TODO: rename this.
-public class InteractableForge : WorldInteractableObject
+public class InteractablePrompter : WorldInteractableObject
 {
-    [Required]
-    [SerializeField]
-    private InteractablePromptData displayMessage;
 
-    [Required]
-    [SerializeField]
+    [SerializeField] private string displayMessage = "";
+    [SerializeField] private UnityEvent OnInteract;
+    [SerializeField] private UnityEvent OnUninteract;
+
+    [Required, SerializeField]
     [Tooltip("Reference to page that will be toggled on and off by interacting with forge.")]
     private PageUIContext pageUIContext;
 
@@ -21,20 +21,30 @@ public class InteractableForge : WorldInteractableObject
         Assert.IsNotNull(pageUIContext);
 
         // Make default display prompt = true
-        InteractablePromptData newPrompt = new InteractablePromptData(displayMessage.message, displayMessage.reqKey, true);
+        InteractablePromptData newPrompt = new InteractablePromptData(displayMessage, requiredKeyPress, true);
         messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
     }
 
     public override void Interact()
     {
         // Note: if interaction doesn't do anything, check that the relevant PageUI references the same PageUIContext SO on this object!
-        Debug.Log("Interacting with Forge!");
+        if (Debug.isDebugBuild)
+        {
+            Debug.Log("Interacting with Prompter!");
+        }
+        
         pageUIContext.PageUI?.MoveToTopOrClose();
+        OnInteract?.Invoke();
     }
 
     public override void UnInteract()
     {
-        Debug.Log("Uninteracting with Forge!");
+        if (Debug.isDebugBuild)
+        {
+            Debug.Log("Uninteracting with Prompter!");
+        }
+            
         pageUIContext.PageUI?.ClosePage();
+        OnUninteract?.Invoke();
     }
 }
