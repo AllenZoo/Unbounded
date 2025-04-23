@@ -216,8 +216,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8892982430432078833}
   - component: {fileID: 6428701841868124147}
+  - component: {fileID: 6023583095845778480}
   m_Layer: 0
-  m_Name: UpgradeInteractable
+  m_Name: UpgradeCardPack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,4 +257,56 @@ MonoBehaviour:
   priority: 5
   requiredKeyPress: 102
   displayMessage: Press F to receive Upgrade!
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6023583095845778480}
+        m_TargetAssemblyTypeName: UpgradeCardPack, Assembly-CSharp
+        m_MethodName: DisplayCards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnUninteract:
+    m_PersistentCalls:
+      m_Calls: []
   pageUIContext: {fileID: 11400000, guid: 69f0e0cf07bab3b40954d4fc5052d4e2, type: 2}
+--- !u!114 &6023583095845778480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8892982430432078834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8047b3c28c346f4893018612f73735d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: cardsInPack
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[UpgradeCardData, Assembly-CSharp]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

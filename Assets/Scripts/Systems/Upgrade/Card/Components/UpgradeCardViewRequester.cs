@@ -1,10 +1,12 @@
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeCardViewRequester : MonoBehaviour
+public class UpgradeCardViewRequester : SerializedMonoBehaviour
 {
-    [SerializeField] private List<UpgradeCardData> cardsToRequestDisplay = new List<UpgradeCardData>();
+    [OdinSerialize, SerializeField] private HashSet<UpgradeCardData> cardsToRequestDisplay = new HashSet<UpgradeCardData>();
     [SerializeField] private bool requestOnStart = false;
 
     private void Start()

@@ -83,7 +83,7 @@ public struct OnUpgradeCardApplyEffect: IGlobalEvent
 
 public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
 {
-    public List<UpgradeCardData> upgradeCards;
+    public HashSet<UpgradeCardData> upgradeCards;
 }
 
 /// <summary>
