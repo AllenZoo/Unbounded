@@ -103,17 +103,22 @@ public class Interactor : MonoBehaviour
         {
             if (Input.GetKeyDown(reqKey))
             {
+                // For now, pressing key will always interact with object.
+                // Moving away will trigger UnInteract.
+                activeInteractable.Interact();
+                isActivelyInteracting = true;
+
                 // Toggle between Interact and UnInteract based on current state
-                if (!isActivelyInteracting)
-                {
-                    activeInteractable.Interact();
-                    isActivelyInteracting = true;
-                }
-                else
-                {
-                    activeInteractable.UnInteract();
-                    isActivelyInteracting = false;
-                }
+                //if (!isActivelyInteracting)
+                //{
+                //    activeInteractable.Interact();
+                //    isActivelyInteracting = true;
+                //}
+                //else
+                //{
+                //    activeInteractable.UnInteract();
+                //    isActivelyInteracting = false;
+                //}
             }
         }
     }

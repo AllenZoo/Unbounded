@@ -19,7 +19,7 @@ public class UpgradeCardPack : SerializedMonoBehaviour
         if (cardsInPack.Count <= 0 && Debug.isDebugBuild)
         {
             Debug.LogError("Requesting to display cards with no cards in pack.");
-            return;
+            //return;
         }
 
         EventBus<OnDisplayUpgradeCardsRequest>.Call(new OnDisplayUpgradeCardsRequest() { upgradeCards = cardsInPack });

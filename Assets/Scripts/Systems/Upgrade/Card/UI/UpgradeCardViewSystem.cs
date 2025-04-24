@@ -32,7 +32,11 @@ public class UpgradeCardViewSystem : PageUI
         EventBus<OnDisplayUpgradeCardsRequest>.Register(onUpgradeCardRequestBinding);
 
         ClearChildren();
+    }
 
+    protected override void Start()
+    {
+        base.Start();
     }
 
     private void OnDestroy()
@@ -47,7 +51,10 @@ public class UpgradeCardViewSystem : PageUI
             CreateCard(cardData);
             
         }
-        ToggleVisibility(true);
+        // Canvas visibility handled in InteractablePrompter.
+        
+        // ?? doesn't show if this line isn't here v
+        // ToggleVisibility();
 
         // TODO: pause player input/pause game. (send request)
     }
@@ -84,7 +91,7 @@ public class UpgradeCardViewSystem : PageUI
             
         pfbToDataMap.Clear();
         menuEventSystemHandler.Selectables.Clear();
-        ClosePage();
+        //ClosePage();
     }
 
     private void OnUpgradeCardClicked(UpgradeCardView cardView)

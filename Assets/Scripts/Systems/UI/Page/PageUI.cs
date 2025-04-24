@@ -75,7 +75,7 @@ public class PageUI : MonoBehaviour, IUIPage
         }
         else
         {
-            ToggleVisibility(false);
+            ClosePage();
             // UIOverlayManager.Instance.BringToBack(this);
         }
     }
@@ -93,6 +93,19 @@ public class PageUI : MonoBehaviour, IUIPage
     {
         ToggleVisibility(false);
         // UIOverlayManager.Instance.BringToBack(this);
+    }
+
+    /// <summary>
+    /// Toggles the visibility of the page.
+    /// </summary>
+    /// <param name="isVisible"></param>
+    public void ToggleVisibility(bool isVisible)
+    {
+        canvas.enabled = isVisible;
+    }
+    public void ToggleVisibility()
+    {
+        canvas.enabled = !canvas.enabled;
     }
 
     /// <summary>
@@ -126,19 +139,6 @@ public class PageUI : MonoBehaviour, IUIPage
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Toggles the visibility of the page.
-    /// </summary>
-    /// <param name="isVisible"></param>
-    protected void ToggleVisibility(bool isVisible)
-    {
-        canvas.enabled = isVisible;
-    }
-    protected void ToggleVisibility()
-    {
-        canvas.enabled = !canvas.enabled;
     }
 }
 
