@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,7 +22,7 @@ public class RequiredComponentsDrawer : PropertyDrawer
 
         EditorGUI.PropertyField(position, property, label, true);
 
-        var attributeP = (RequiredComponentsAttribute) attribute;
+        var attributeP = (RequiredComponentsAttribute)attribute;
 
         var gameObject = property.objectReferenceValue as GameObject;
 

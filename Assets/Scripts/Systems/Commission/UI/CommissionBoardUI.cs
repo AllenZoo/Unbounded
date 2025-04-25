@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -23,8 +22,8 @@ public class CommissionBoardUI : MonoBehaviour
     private GameObject pendingView;
 
     // The data we are displaying in the UI.
-    [SerializeField, Required]private CommissionsContext commissionsContext;
- 
+    [SerializeField, Required] private CommissionsContext commissionsContext;
+
     private CommissionBoardViewStatus viewStatus = CommissionBoardViewStatus.ACTIVE; // Toggles between ACTIVE = commissions we accepted and PENDING = commissions that we have not accepted.
 
     // Handle pooling in here for now, but eventually when this class becomes to big refactor this logic somewhere else.
@@ -120,10 +119,13 @@ public class CommissionBoardUI : MonoBehaviour
 
     private void HandleViewDisplay()
     {
-        if (viewStatus == CommissionBoardViewStatus.ACTIVE) {
+        if (viewStatus == CommissionBoardViewStatus.ACTIVE)
+        {
             activeView.SetActive(true);
             pendingView.SetActive(false);
-        } else {
+        }
+        else
+        {
             activeView.SetActive(false);
             pendingView.SetActive(true);
         }

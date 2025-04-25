@@ -56,7 +56,7 @@ public class SceneLoader : MonoBehaviour
     {
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
         HashSet<SceneField> scenesToLoad = FilterScenesToLoad(rawScenesToLoad);
-        foreach(SceneField scene in scenesToLoad)
+        foreach (SceneField scene in scenesToLoad)
         {
             scenesLoading.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
         }
@@ -79,17 +79,19 @@ public class SceneLoader : MonoBehaviour
             }
         }
 
-        if (showingLoadingBar) {
+        if (showingLoadingBar)
+        {
             bar.DOFillAmount(1f, 0.6f)
                .SetUpdate(true) // uses unscaled time
-               .OnComplete(() => {
+               .OnComplete(() =>
+               {
                    tweenComplete = true;
 #if UNITY_EDITOR
                    Debug.Log("Tween completed");
 #endif
                });
         }
-       
+
 
         // Set active scene if there is one.
         if (activeSceneToSet != "")
@@ -97,7 +99,7 @@ public class SceneLoader : MonoBehaviour
             Scene activeScene = SceneManager.GetSceneByName(activeSceneToSet);
             SceneManager.SetActiveScene(activeScene);
         }
-        
+
         if (showingLoadingBar) yield return new WaitUntil(() => tweenComplete);
 
         yield return new WaitForSecondsRealtime(0.5f);
@@ -119,7 +121,7 @@ public class SceneLoader : MonoBehaviour
             {
                 scenesUnloading.Add(SceneManager.UnloadSceneAsync(scene));
             }
-            
+
         }
 
         // Wait for all unloading operations to complete
@@ -161,9 +163,10 @@ public class SceneLoader : MonoBehaviour
     }
     public void HideLoadingScreen()
     {
-        if (loadingCanvasPfb != null) { 
-            loadingCanvasPfb.SetActive(false); 
-            cameraMain.SetActive(false); 
+        if (loadingCanvasPfb != null)
+        {
+            loadingCanvasPfb.SetActive(false);
+            cameraMain.SetActive(false);
         }
     }
 }

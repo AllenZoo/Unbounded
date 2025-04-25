@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +11,7 @@ public class StateComponent : MonoBehaviour
 
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField] State debuggingState = State.IDLE;
-    [SerializeField] private List<State> crowdControlStates = new List<State>() {State.STUNNED };
+    [SerializeField] private List<State> crowdControlStates = new List<State>() { State.STUNNED };
 
     private delegate IEnumerator AnimationCoroutine();
     private delegate void StateAction();
@@ -125,16 +124,29 @@ public class StateComponent : MonoBehaviour
 
         // Debugging
         debuggingState = state;
+
+        /* Unmerged change from project 'Assembly-CSharp.Player'
+        Before:
+            }
+
+
+            private IEnumerator WaitForClipEnd(AnimationCoroutine coroutine, StateAction onEnd)
+        After:
+            }
+
+
+            private IEnumerator WaitForClipEnd(AnimationCoroutine coroutine, StateAction onEnd)
+        */
     }
 
-    
+
     private IEnumerator WaitForClipEnd(AnimationCoroutine coroutine, StateAction onEnd)
     {
         yield return StartCoroutine(coroutine());
         onEnd();
         // ReqStateChange(State.CCFREE);
     }
-    private IEnumerator WaitThenCall (StateAction onEnd, float time)
+    private IEnumerator WaitThenCall(StateAction onEnd, float time)
     {
         yield return new WaitForSeconds(time);
         onEnd();

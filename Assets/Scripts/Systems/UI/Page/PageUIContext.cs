@@ -1,9 +1,7 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="new pageUI context", menuName="System/General UI/PageUIContext")]
+[CreateAssetMenu(fileName = "new pageUI context", menuName = "System/General UI/PageUIContext")]
 public class PageUIContext : ScriptableObject
 {
     public PageUI PageUI { get { return initialized ? pageUI : null; } }

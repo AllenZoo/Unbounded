@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
 
 
 // Script that handles the logic of closing the UI element assigned to the close button.

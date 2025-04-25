@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawnable : MonoBehaviour
@@ -54,6 +51,6 @@ public class Spawnable : MonoBehaviour
         {
             spawnerLocalEventHandler.Call(new OnDespawnEvent { spawn = this });
         }
-       
+
     }
 }

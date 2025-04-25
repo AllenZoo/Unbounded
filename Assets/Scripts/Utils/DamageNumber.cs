@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,7 +18,7 @@ public class DamageNumber : MonoBehaviour
 
     public void SetDamageNumber(float number)
     {
-        damageNumberText.text = "- " +number.ToString();
+        damageNumberText.text = "- " + number.ToString();
         damageNumberText.color = damageNumberColor;
         damageNumber = number;
     }

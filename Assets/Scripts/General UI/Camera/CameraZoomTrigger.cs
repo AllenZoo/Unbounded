@@ -1,7 +1,14 @@
+
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+After:
 using Cinemachine;
+using System.Collections;
+*/
+using Cinemachine;
+using System.Collections;
+using UnityEngine;
 
 
 [RequireComponent(typeof(Collision2D))]
@@ -39,7 +46,7 @@ public class CameraZoomTrigger : MonoBehaviour
         {
             float elapsedTime = 0f;
             LensSettings lensSettings = virtualCamera.m_Lens;
-            
+
             while (elapsedTime < zoomDuration)
             {
                 lensSettings.OrthographicSize = Mathf.Lerp(defaultSize, zoomedInSize, elapsedTime / zoomDuration);

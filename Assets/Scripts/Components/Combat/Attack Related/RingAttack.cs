@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -61,8 +60,10 @@ public class RingAttack : MonoBehaviour
         if (shouldBeActive)
         {
             this.gameObject.SetActive(true);
-        } else { 
-            this.gameObject.SetActive(false); 
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
         }
     }
 

@@ -1,92 +1,94 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
-using System.Linq;
+// TODO: eventually reimplement this.
 
-public class ItemDatabase : MonoBehaviour
-{
-    public List<Item> items = new List<Item>();
-    private string savePath;
+//using UnityEngine;
+//using System.Collections.Generic;
+//using System.IO;
+//using UnityEditor;
+//using System.Linq;
 
-    [System.Serializable]
-    private class SerializableItem
-    {
-        public string itemDataPath;
-        public int quantity;
-        public List<SerializableItemComponent> components;
-    }
+//public class ItemDatabase : MonoBehaviour
+//{
+//    public List<Item> items = new List<Item>();
+//    private string savePath;
 
-    [System.Serializable]
-    private class SerializableItemList
-    {
-        public List<SerializableItem> items = new List<SerializableItem>();
-    }
+//    [System.Serializable]
+//    private class SerializableItem
+//    {
+//        public string itemDataPath;
+//        public int quantity;
+//        public List<SerializableItemComponent> components;
+//    }
 
-    void Awake()
-    {
-        InitializeSavePath();
-    }
+//    [System.Serializable]
+//    private class SerializableItemList
+//    {
+//        public List<SerializableItem> items = new List<SerializableItem>();
+//    }
 
-    private void InitializeSavePath()
-    {
-        if (string.IsNullOrEmpty(savePath))
-        {
-            savePath = Path.Combine(Application.persistentDataPath, "itemDatabase.json");
-        }
-    }
+//    void Awake()
+//    {
+//        InitializeSavePath();
+//    }
 
-    public void SaveDatabase()
-    {
-        InitializeSavePath();
+//    private void InitializeSavePath()
+//    {
+//        if (string.IsNullOrEmpty(savePath))
+//        {
+//            savePath = Path.Combine(Application.persistentDataPath, "itemDatabase.json");
+//        }
+//    }
 
-        SerializableItemList serializableList = new SerializableItemList();
-        foreach (Item item in items)
-        {
-            if (item != null && item.data != null)
-            {
-                SerializableItem serializableItem = new SerializableItem
-                {
-                    itemDataPath = AssetDatabase.GetAssetPath(item.data),
-                    quantity = item.quantity,
-                    components = item.serializableComponents
-                };
-                serializableList.items.Add(serializableItem);
-            }
-        }
+//    public void SaveDatabase()
+//    {
+//        InitializeSavePath();
 
-        string json = JsonUtility.ToJson(serializableList, true);
-        File.WriteAllText(savePath, json);
+//        SerializableItemList serializableList = new SerializableItemList();
+//        foreach (Item item in items)
+//        {
+//            if (item != null && item.data != null)
+//            {
+//                SerializableItem serializableItem = new SerializableItem
+//                {
+//                    itemDataPath = AssetDatabase.GetAssetPath(item.data),
+//                    quantity = item.quantity,
+//                    components = item.serializableComponents
+//                };
+//                serializableList.items.Add(serializableItem);
+//            }
+//        }
 
-        Debug.Log("Database saved to " + savePath);
-    }
+//        string json = JsonUtility.ToJson(serializableList, true);
+//        File.WriteAllText(savePath, json);
 
-    public void LoadDatabase()
-    {
-        InitializeSavePath();
+//        Debug.Log("Database saved to " + savePath);
+//    }
 
-        if (File.Exists(savePath))
-        {
-            string json = File.ReadAllText(savePath);
-            SerializableItemList serializableList = JsonUtility.FromJson<SerializableItemList>(json);
+//    public void LoadDatabase()
+//    {
+//        InitializeSavePath();
 
-            items.Clear();
-            foreach (SerializableItem serializableItem in serializableList.items)
-            {
-                ItemData itemData = AssetDatabase.LoadAssetAtPath<ItemData>(serializableItem.itemDataPath);
-                if (itemData != null)
-                {
-                    Item item = new Item(itemData, serializableItem.quantity);
-                    item.serializableComponents = serializableItem.components;
-                    items.Add(item);
-                }
-            }
+//        if (File.Exists(savePath))
+//        {
+//            string json = File.ReadAllText(savePath);
+//            SerializableItemList serializableList = JsonUtility.FromJson<SerializableItemList>(json);
 
-            Debug.Log("Database loaded from " + savePath);
-        }
-        else
-        {
-            Debug.LogWarning("Save file not found in " + savePath);
-        }
-    }
-}
+//            items.Clear();
+//            foreach (SerializableItem serializableItem in serializableList.items)
+//            {
+//                ItemData itemData = AssetDatabase.LoadAssetAtPath<ItemData>(serializableItem.itemDataPath);
+//                if (itemData != null)
+//                {
+//                    Item item = new Item(itemData, serializableItem.quantity);
+//                    item.serializableComponents = serializableItem.components;
+//                    items.Add(item);
+//                }
+//            }
+
+//            Debug.Log("Database loaded from " + savePath);
+//        }
+//        else
+//        {
+//            Debug.LogWarning("Save file not found in " + savePath);
+//        }
+//    }
+//}

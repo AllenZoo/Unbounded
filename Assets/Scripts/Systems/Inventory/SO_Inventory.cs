@@ -1,9 +1,22 @@
+
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
 using System;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
+After:
 using Sirenix.OdinInspector;
+using System;
+*/
+using Sirenix.OdinInspector;
+using System;
+using System.
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
+using Sirenix.OdinInspector;
+After:
 using UnityEditor;
+*/
+Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory/Inventory")]
 public class SO_Inventory : SerializedScriptableObject
@@ -46,24 +59,24 @@ public class SO_Inventory : SerializedScriptableObject
         }
     }
 
-    private void DrawItemHeader(int index)
-    {
-        GUILayout.Space(5);
-        GUILayout.Label($"Item {index + 1}", EditorStyles.boldLabel);
-    }
+    //private void DrawItemHeader(int index)
+    //{
+    //    GUILayout.Space(5);
+    //    GUILayout.Label($"Item {index + 1}", EditorStyles.boldLabel);
+    //}
 
-    [OnInspectorGUI]
-    private void OnInspectorGUI()
-    {
-        if (items.Count != slots)
-        {
-            EditorGUILayout.HelpBox($"Item count ({items.Count}) does not match slot count ({slots}). Click 'Adjust Items' to fix.", MessageType.Warning);
-            if (GUILayout.Button("Adjust Items"))
-            {
-                AdjustItemsToSlots();
-            }
-        }
-    }
+    //[OnInspectorGUI]
+    //private void OnInspectorGUI()
+    //{
+    //    if (items.Count != slots)
+    //    {
+    //        EditorGUILayout.HelpBox($"Item count ({items.Count}) does not match slot count ({slots}). Click 'Adjust Items' to fix.", MessageType.Warning);
+    //        if (GUILayout.Button("Adjust Items"))
+    //        {
+    //            AdjustItemsToSlots();
+    //        }
+    //    }
+    //}
 
     private void AdjustItemsToSlots()
     {
@@ -122,51 +135,52 @@ public class SO_Inventory : SerializedScriptableObject
         public List<Item> items;
     }
 
-    [Button("Save Inventory")]
-    public void SaveInventory(string fileName = "inventory")
-    {
-        SerializableInventory serializableInventory = new SerializableInventory
-        {
-            slots = this.slots,
-            items = this.items
-        };
-        string json = JsonUtility.ToJson(serializableInventory, true);
-        File.WriteAllText(Application.persistentDataPath + "/" + fileName + ".json", json);
-        Debug.Log("Inventory saved to " + Application.persistentDataPath + "/" + fileName + ".json");
-    }
+    // TODO: reimplement this database logic later.
+    //[Button("Save Inventory")]
+    //public void SaveInventory(string fileName = "inventory")
+    //{
+    //    SerializableInventory serializableInventory = new SerializableInventory
+    //    {
+    //        slots = this.slots,
+    //        items = this.items
+    //    };
+    //    string json = JsonUtility.ToJson(serializableInventory, true);
+    //    File.WriteAllText(Application.persistentDataPath + "/" + fileName + ".json", json);
+    //    Debug.Log("Inventory saved to " + Application.persistentDataPath + "/" + fileName + ".json");
+    //}
 
-    [Button("Load Inventory")]
-    public void LoadInventory(string fileName = "inventory")
-    {
-        string path = Application.persistentDataPath + "/" + fileName + ".json";
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            SerializableInventory serializableInventory = JsonUtility.FromJson<SerializableInventory>(json);
-            this.slots = serializableInventory.slots;
-            this.items = serializableInventory.items;
-            // Restore SO_Item references
-            for (int i = 0; i < this.items.Count; i++)
-            {
-                if (this.items[i] != null && !string.IsNullOrEmpty(this.items[i].dataGUID))
-                {
-                    string assetPath = AssetDatabase.GUIDToAssetPath(this.items[i].dataGUID);
-                    this.items[i].data = AssetDatabase.LoadAssetAtPath<ItemData>(assetPath);
-                    if (this.items[i].data == null)
-                    {
-                        Debug.LogWarning($"Failed to load SO_Item for item at index {i}");
-                    }
-                }
-            }
-            AdjustItemsToSlots();
-            InvokeOnDataChange();
-            Debug.Log("Inventory loaded from " + path);
-        }
-        else
-        {
-            Debug.LogWarning("Save file not found: " + path);
-        }
-    }
+    //[Button("Load Inventory")]
+    //public void LoadInventory(string fileName = "inventory")
+    //{
+    //    string path = Application.persistentDataPath + "/" + fileName + ".json";
+    //    if (File.Exists(path))
+    //    {
+    //        string json = File.ReadAllText(path);
+    //        SerializableInventory serializableInventory = JsonUtility.FromJson<SerializableInventory>(json);
+    //        this.slots = serializableInventory.slots;
+    //        this.items = serializableInventory.items;
+    //        // Restore SO_Item references
+    //        for (int i = 0; i < this.items.Count; i++)
+    //        {
+    //            if (this.items[i] != null && !string.IsNullOrEmpty(this.items[i].dataGUID))
+    //            {
+    //                string assetPath = AssetDatabase.GUIDToAssetPath(this.items[i].dataGUID);
+    //                this.items[i].data = AssetDatabase.LoadAssetAtPath<ItemData>(assetPath);
+    //                if (this.items[i].data == null)
+    //                {
+    //                    Debug.LogWarning($"Failed to load SO_Item for item at index {i}");
+    //                }
+    //            }
+    //        }
+    //        AdjustItemsToSlots();
+    //        InvokeOnDataChange();
+    //        Debug.Log("Inventory loaded from " + path);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("Save file not found: " + path);
+    //    }
+    //}
 
     [Button("Clear Inventory")]
     public void ClearInventory()

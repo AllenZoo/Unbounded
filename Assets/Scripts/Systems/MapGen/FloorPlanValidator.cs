@@ -1,7 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
+using System.Linq;
+After:
+using UnityEngine;
+*/
+
 
 public class FloorPlanValidator
 {
@@ -9,7 +14,7 @@ public class FloorPlanValidator
     /// Floor plan to validate.
     /// </summary>
     protected FloorPlan floorPlan;
-    
+
     /// <summary>
     /// Whether to log out error statements if validation fails
     /// </summary>

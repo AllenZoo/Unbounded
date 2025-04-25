@@ -1,11 +1,22 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Unity.VisualScripting;
+
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
+After:
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+*/
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 //using UnityEngine.InputSystem;
 
 public class MenuEventSystemHandler : MonoBehaviour
@@ -60,7 +71,7 @@ public class MenuEventSystemHandler : MonoBehaviour
         }
     }
 
-    protected  virtual IEnumerator SelectAfterDelay()
+    protected virtual IEnumerator SelectAfterDelay()
     {
         yield return null;
         EventSystem.current.SetSelectedGameObject(firstSelected.gameObject);
@@ -136,7 +147,7 @@ public class MenuEventSystemHandler : MonoBehaviour
     public void OnPointerEnter(BaseEventData eventData)
     {
         PointerEventData pointerEventData = eventData as PointerEventData;
-        if (pointerEventData !=  null)
+        if (pointerEventData != null)
         {
             Selectable sel = pointerEventData.pointerEnter.GetComponentInParent<Selectable>();
             if (sel == null)

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StateComponent))]
@@ -16,7 +13,8 @@ public class PlayerInput : InputController
     // Handles all inputs
     private void Handle_Input()
     {
-        if (!InputEnabled) {
+        if (!InputEnabled)
+        {
             Debug.Log("Player input is currently disabled!");
             base.InvokeMovementInput(Vector2.zero); // To set the movement to nothing, incase previous input not reset.
             return;
@@ -24,7 +22,7 @@ public class PlayerInput : InputController
         Handle_Movement_Input();
         Handle_Attack_Input();
     }
-    
+
     // Handles AWSD, arrow key movement
     private void Handle_Movement_Input()
     {

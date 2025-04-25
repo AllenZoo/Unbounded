@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 // Sub-trees of attacks
 // Check sub-tree if any attack is not active. return that attack to reuse.
@@ -18,7 +15,8 @@ public class AttackPool : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-        } else if (Instance != this)
+        }
+        else if (Instance != this)
         {
             Debug.LogError($"Destroying duplicate attack pool instance! This shouldn't happen if scene management is done properly." +
                 $" Make sure that AttackPool obj isn't in anything but an object in PersistentGameplay scene.");

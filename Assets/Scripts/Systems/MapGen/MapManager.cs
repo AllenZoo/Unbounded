@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface IMapManager
@@ -12,8 +10,8 @@ public class MapManager : MonoBehaviour, IMapManager
 {
     private void Awake()
     {
-        
+
     }
 
-    
+
 }

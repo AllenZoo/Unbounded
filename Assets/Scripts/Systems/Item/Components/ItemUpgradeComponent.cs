@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +11,9 @@ public class ItemUpgradeComponent : IItemComponent
 
     [Tooltip("The list of modifiers added to the item via upgrades.")]
     public List<StatModifierEquipment> upgradeStatModifiers = new List<StatModifierEquipment>();
+
+    // Serialize using odin
+    public List<IUpgradeModifier> mods = new List<IUpgradeModifier>();
 
     public ItemUpgradeComponent()
     {

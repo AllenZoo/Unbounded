@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public class FloorPlan
     public FloorPlan(int width, int height)
     {
         rooms = new Room[width, height];
-        roomList= new HashSet<Room>();
+        roomList = new HashSet<Room>();
     }
 
     /// <summary>

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 // For closing UI elements on game start.
 public class CloseOnGameStart : MonoBehaviour

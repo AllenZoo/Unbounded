@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 // Handles logic of managing data of inventory.
 [System.Serializable]
@@ -116,10 +112,10 @@ public class Inventory
         Item item2 = data.items[index2];
 
         // Check if items are stackable and have the same SO_Item data.
-        if (item2 != null && item2.data != null && 
-                       (( !item1.data.Equals(item2.data)
+        if (item2 != null && item2.data != null &&
+                       ((!item1.data.Equals(item2.data)
                        || !item1.data.isStackable
-                       || !item2.data.isStackable) ))
+                       || !item2.data.isStackable)))
         {
             //Debug.Log("Cannot stack items. " +
             //    "Items are not stackable or do not have the same SO_Item data.");
@@ -198,7 +194,7 @@ public class Inventory
 
     public bool IsEmpty()
     {
-        for(int i = 0;i < data.slots;i++)
+        for (int i = 0; i < data.slots; i++)
         {
             if (data.items[i] != null && data.items[i].data != null)
             {

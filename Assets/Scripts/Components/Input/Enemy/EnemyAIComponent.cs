@@ -1,14 +1,11 @@
 using Sirenix.OdinInspector;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // Handles enemy inputs such as movement and attacking.
 [RequireComponent(typeof(StateComponent))]
 public class EnemyAIComponent : InputController
-{   
+{
     #region Context Steering Related Variables
     [Tooltip("Used for calculating the best direction to move in to get to target.")]
     [Required]
@@ -47,9 +44,9 @@ public class EnemyAIComponent : InputController
     [Required]
     [SerializeField] private EnemyAttackSOBase enemyAttackBase;
 
-    public EnemyIdleSOBase EnemyIdleBaseInstance { get;  set; }
+    public EnemyIdleSOBase EnemyIdleBaseInstance { get; set; }
     public EnemyChaseSOBase EnemyChaseBaseInstance { get; set; }
-    public EnemyAttackSOBase EnemyAttackBaseInstance { get;  set; }
+    public EnemyAttackSOBase EnemyAttackBaseInstance { get; set; }
     #endregion
 
 
@@ -65,7 +62,7 @@ public class EnemyAIComponent : InputController
         EnemyIdleState = new EnemyIdleState(this, StateMachine);
         EnemyChaseState = new EnemyChaseState(this, StateMachine);
         EnemyAttackState = new EnemyAttackState(this, StateMachine);
-        
+
 
         EnemyIdleBaseInstance = Instantiate(enemyIdleBase);
         EnemyChaseBaseInstance = Instantiate(enemyChaseBase);

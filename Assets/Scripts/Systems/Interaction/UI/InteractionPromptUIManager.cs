@@ -1,6 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,7 +13,7 @@ public class InteractionPromptUIManager : MonoBehaviour
     private InteractablePromptData onInitData;
 
     [Required]
-    [SerializeField] 
+    [SerializeField]
     private GameObject displayObject;
 
     [Required]
@@ -31,7 +29,8 @@ public class InteractionPromptUIManager : MonoBehaviour
 
     private void Rerender()
     {
-        if (!interactablePromptData.Data.shouldDisplayPrompt) {
+        if (!interactablePromptData.Data.shouldDisplayPrompt)
+        {
             displayObject.SetActive(false);
             return;
         }

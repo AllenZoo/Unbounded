@@ -1,8 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
+using System.Collections;
+After:
 using System;
+using System.Collections;
+*/
+using System
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
+using System;
+
+public abstract class Timer
+After:
+public abstract class Timer
+*/
+;
 
 public abstract class Timer
 {

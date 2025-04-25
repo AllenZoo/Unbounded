@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public interface IStatModifierApplicationOrder
 {
@@ -24,7 +22,7 @@ public class NormalStatModifierOrder : IStatModifierApplicationOrder
     public float Apply(IEnumerable<StatModifier> statMods, float baseValue)
     {
         var allModifiers = statMods.ToList();
-        
+
         foreach (StatModifier statMod in allModifiers.Where(statMod => statMod.operation is AddOperation))
         {
             baseValue = statMod.operation.Calculate(baseValue);

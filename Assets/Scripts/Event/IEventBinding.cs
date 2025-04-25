@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public interface IEventBinding<T>
 {
@@ -15,7 +12,7 @@ public interface IEventBinding<T>
 /// <typeparam name="T"></typeparam>
 public class EventBinding<T> : IEventBinding<T> where T : IEvent
 {
-    public Action<T> onEvent = delegate(T t) { };
+    public Action<T> onEvent = delegate (T t) { };
     public Action onEventNoArgs = delegate { };
 
     public Action<T> OnEvent
@@ -41,7 +38,7 @@ public class EventBinding<T> : IEventBinding<T> where T : IEvent
     }
 }
 
-public class LocalEventBinding<T> : EventBinding<T> where T: ILocalEvent
+public class LocalEventBinding<T> : EventBinding<T> where T : ILocalEvent
 {
     public LocalEventBinding(Action<T> _event) : base(_event)
     {

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public interface IStatModifierContainer
 {
@@ -14,8 +11,19 @@ public class StatModifierContainer : IStatModifierContainer
     public OperationType OperationType;
     public Stat Stat;
     public int Value;
+
+    /* Unmerged change from project 'Assembly-CSharp.Player'
+    Before:
+        private StatModifier modifier;
+
+        public StatModifier GetModifier()
+    After:
+        private StatModifier modifier;
+
+        public StatModifier GetModifier()
+    */
     private StatModifier modifier;
-    
+
     public StatModifier GetModifier()
     {
         if (modifier == null)
@@ -44,7 +52,7 @@ public class StatModifierEquipment : IStatModifierContainer
     public Stat Stat;
     public int Value;
     private StatModifier modifier;
-    
+
     public StatModifier GetModifier()
     {
         if (modifier == null)

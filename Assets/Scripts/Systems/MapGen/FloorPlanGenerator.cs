@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public class FloorPlanGenerator
@@ -32,9 +30,9 @@ public class FloorPlanGenerator
     /// between the other room sizes.
     /// Total probability should always be 100% (100).
     /// </summary>
-    protected Dictionary<RoomSize, double> roomSizeProbMap = new Dictionary<RoomSize, double>(); 
+    protected Dictionary<RoomSize, double> roomSizeProbMap = new Dictionary<RoomSize, double>();
 
-    
+
     public FloorPlanGenerator(Vector2 floorPlanSize, int roomsToGenerate)
     {
         this.floorplanSize = floorPlanSize;
@@ -48,7 +46,7 @@ public class FloorPlanGenerator
         this.floorplanSize = floorPlanSize;
         this.roomsToGenerate = roomsToGenerate;
         this.minRoomsFromStart = roomsBetweenStartAndBoss;
-        this.floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y); 
+        this.floorplan = new FloorPlan((int)floorplanSize.x, (int)floorplanSize.y);
     }
 
     /// <summary>
@@ -100,8 +98,8 @@ public class FloorPlanGenerator
         ClearFloorPlan();
         // 1. Create a start room somewhere in the floor plan and add it to the queue.
         Vector2 randomPos = new Vector2(
-            (int) Random.Range(0, floorplanSize.x - 1), 
-            (int) Random.Range(0, floorplanSize.y - 1));
+            (int)Random.Range(0, floorplanSize.x - 1),
+            (int)Random.Range(0, floorplanSize.y - 1));
         Room startRoom = new Room(new Vector2(1, 1), randomPos, null, RoomType.Start);
         floorplan.AddRoom(startRoom);
         roomsToVisit.Enqueue(startRoom);
@@ -113,7 +111,8 @@ public class FloorPlanGenerator
     private void GenerateFloorPlan()
     {
         // 2. While we need to generate more rooms:
-        while (roomsGenerated < roomsToGenerate) {
+        while (roomsGenerated < roomsToGenerate)
+        {
             // If no more rooms to visit, rerun.
             if (roomsToVisit.Count == 0)
             {
@@ -138,7 +137,7 @@ public class FloorPlanGenerator
                 {
                     break;
                 }
-            }    
+            }
         }
     }
 
@@ -169,7 +168,7 @@ public class FloorPlanGenerator
         // ii. If we decide to create a room, get a list of possible rooms to create and pick one.
         //     (randomly selecting from 1x1, 1x2, 2x1, 2x2 sized rooms)
 
-        List<Room> possibleRooms = GetPossibleRoomsToCreate(pos, new List<RoomSize>() { RoomSize.OneByOne, RoomSize.TwoByTwo, RoomSize.TwoByOne, RoomSize.OneByTwo});
+        List<Room> possibleRooms = GetPossibleRoomsToCreate(pos, new List<RoomSize>() { RoomSize.OneByOne, RoomSize.TwoByTwo, RoomSize.TwoByOne, RoomSize.OneByTwo });
         if (possibleRooms.Count == 0)
         {
             return null;
@@ -182,8 +181,19 @@ public class FloorPlanGenerator
         {
             roomSizeType = DrawRoomSize(roomSizeProbMap);
             newRoom = GetRoomOfRoomSize(roomSizeType, possibleRooms);
+
+            /* Unmerged change from project 'Assembly-CSharp.Player'
+            Before:
+                    }
+
+                    // Update probability map.
+            After:
+                    }
+
+                    // Update probability map.
+            */
         }
-        
+
         // Update probability map.
         UpdateProbMap(roomSizeType);
 
@@ -250,7 +260,7 @@ public class FloorPlanGenerator
 
         return rooms;
     }
- 
+
 
     /// <summary>
     /// Returns a list of possible rooms that covers the given position, and is one of the provided room sizes requested..
@@ -299,7 +309,7 @@ public class FloorPlanGenerator
             posOffset = Vector2.left + new Vector2(0, -1); // + Up with regards to our grid coordinate system.
             possibleRooms.Add(new Room(new Vector2(2, 2), position + posOffset, null));
         }
-            
+
 
         // Validate and filter out unsuitable rooms.
         possibleRooms = possibleRooms.FindAll(room => isEmptyRoomPos(room) && isValidRoomPos(room));
@@ -319,7 +329,7 @@ public class FloorPlanGenerator
         {
             return roomsOfRoomSize[Random.Range(0, roomsOfRoomSize.Count)];
         }
-        
+
         return null;
     }
 
@@ -338,7 +348,7 @@ public class FloorPlanGenerator
         }
 
         // Generate a random number between 0 and the total probability sum
-        double randomValue = Random.Range(0, (float) totalProbability);
+        double randomValue = Random.Range(0, (float)totalProbability);
 
         // Iterate through the dictionary and accumulate probabilities until the random value is exceeded
         double cumulativeProbability = 0;
@@ -397,7 +407,7 @@ public class FloorPlanGenerator
     private List<Vector2> GetNeighbouringCells(Vector2 cell)
     {
         List<Vector2> neighbours = new List<Vector2>();
-        Vector2[] offsets = new Vector2[4] { new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0), new Vector2(0, -1)};
+        Vector2[] offsets = new Vector2[4] { new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0), new Vector2(0, -1) };
 
         for (int i = 0; i < offsets.Length; i++)
         {
@@ -451,7 +461,7 @@ public class FloorPlanGenerator
         {
             return false;
         }
-        return floorplan.rooms[(int) cell.x, (int) cell.y] == null;
+        return floorplan.rooms[(int)cell.x, (int)cell.y] == null;
     }
 
     /// <summary>
@@ -482,12 +492,12 @@ public class FloorPlanGenerator
     /// <returns></returns>
     private bool isInRoom(Room room, Vector2 cell)
     {
-        Vector2[] roomCells = new Vector2[(int) (room.size.x * room.size.y)];
+        Vector2[] roomCells = new Vector2[(int)(room.size.x * room.size.y)];
         for (int x = 0; x < room.size.x; x++)
         {
             for (int y = 0; y < room.size.y; y++)
             {
-                roomCells[(int) (x + y * room.size.x)] = new Vector2(room.position.x + x, room.position.y + y);
+                roomCells[(int)(x + y * room.size.x)] = new Vector2(room.position.x + x, room.position.y + y);
             }
         }
 

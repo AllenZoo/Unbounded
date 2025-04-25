@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Events;
 
 /// <summary>
 /// TODO: split logic betweeen DamageableComponent and Damageable. Refer to how AttackComponent and Attack work.
@@ -32,10 +30,10 @@ public class Damageable : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(stat, "Damageable object needs a stat component to calculate final damage.");
-        
+
         // Check that collider2d on object with this script is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
-        
+
         // Set collider2d to be a trigger.
         GetComponent<Collider2D>().isTrigger = true;
 
@@ -105,7 +103,7 @@ public class Damageable : MonoBehaviour
         float growthScale = 8f;
 
         // Make damage reduction grow at a logarithmic rate. (This function looks good on desmos)
-        float damageReduction = Mathf.Log10(stat.defense/growthScale + 1f) / 2f;
+        float damageReduction = Mathf.Log10(stat.defense / growthScale + 1f) / 2f;
 
         float damageTaken = damage * (1f - damageReduction);
 

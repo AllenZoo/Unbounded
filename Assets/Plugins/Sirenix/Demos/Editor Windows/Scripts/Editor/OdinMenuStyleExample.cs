@@ -2,12 +2,11 @@
 namespace Sirenix.OdinInspector.Demos
 {
     using Sirenix.OdinInspector.Editor;
-    using UnityEngine;
-    using UnityEditor;
-    using System.Linq;
     using Sirenix.Utilities;
-    using System.Collections.Generic;
     using Sirenix.Utilities.Editor;
+    using System.Linq;
+    using UnityEditor;
+    using UnityEngine;
 
     public class OdinMenuStyleExample : OdinMenuEditorWindow
     {

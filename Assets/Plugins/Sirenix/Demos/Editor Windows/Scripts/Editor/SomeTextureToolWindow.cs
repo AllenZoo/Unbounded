@@ -1,12 +1,12 @@
 #if UNITY_EDITOR
 namespace Sirenix.OdinInspector.Demos
 {
-    using UnityEngine;
-    using UnityEditor;
-    using Sirenix.OdinInspector.Editor;
     using Sirenix.OdinInspector;
-    using Sirenix.Utilities.Editor;
+    using Sirenix.OdinInspector.Editor;
     using Sirenix.Utilities;
+    using Sirenix.Utilities.Editor;
+    using UnityEditor;
+    using UnityEngine;
 
     public class SomeTextureToolWindow : OdinEditorWindow
     {

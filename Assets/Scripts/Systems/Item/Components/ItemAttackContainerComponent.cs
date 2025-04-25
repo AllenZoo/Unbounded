@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class ItemAttackContainerComponent : IItemComponent
@@ -22,6 +19,12 @@ public class ItemAttackContainerComponent : IItemComponent
             return false;
         }
         ItemAttackContainerComponent other = obj as ItemAttackContainerComponent;
+
+        if (attackerData == null)
+        {
+            return other.attackerData == null;
+        }
+
         return attackerData.Equals(other.attackerData);
     }
 
@@ -30,9 +33,9 @@ public class ItemAttackContainerComponent : IItemComponent
         return HashCode.Combine(attackerData.GetHashCode());
     }
 
-    public override string ToString()
-    {
-        return string.Format("[Item Attack Component: {0}]", attackerData);
-    }
+    //public override string ToString()
+    //{
+    //    return string.Format("[Item Attack Component: {0}]", attackerData);
+    //}
 }
 

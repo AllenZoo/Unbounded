@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Handles pausing the game, while listening for OnPauseStateChange requests.
@@ -19,7 +16,8 @@ public class PauseManager : MonoBehaviour
         EventBus<OnPauseChangeRequest>.Register(pauseChangeRequestBinding);
     }
 
-    private void OnPauseChangeRequestEvent(OnPauseChangeRequest pauseRequest) {
+    private void OnPauseChangeRequestEvent(OnPauseChangeRequest pauseRequest)
+    {
         Debug.Log($"Received pause request. Should pause: {pauseRequest.shouldPause}");
 
         if (pauseRequest.shouldPause)
@@ -27,7 +25,8 @@ public class PauseManager : MonoBehaviour
             //Pause();
             PausePlayerInput();
         }
-        else {
+        else
+        {
             //Resume();
             ResumePlayerInput();
         }

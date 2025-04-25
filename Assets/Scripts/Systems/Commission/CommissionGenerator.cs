@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,15 +64,15 @@ public class CommissionGenerator
         statRequirements.Add(Stat.DEX, 2);
         var asset = assetDict.GetEquipmentSprite(EquipmentType.SWORD);
         return new Commission(
-            "Help Kullervo forge 'DEATH REAPER'", 
-            "Kullervo needs to kill things >:)", 
+            "Help Kullervo forge 'DEATH REAPER'",
+            "Kullervo needs to kill things >:)",
             10,
             1,
-            10, 
-            EquipmentType.SWORD, 
-            statRequirements, 
-            CommissionStatus.PENDING, 
-            asset.sprite, 
+            10,
+            EquipmentType.SWORD,
+            statRequirements,
+            CommissionStatus.PENDING,
+            asset.sprite,
             asset.rotOffset);
     }
 
@@ -125,7 +124,7 @@ public class CommissionGenerator
     {
         Array values = Enum.GetValues(typeof(EquipmentType));
         System.Random random = new System.Random();
-        EquipmentType randomEquipmentType = (EquipmentType) values.GetValue(random.Next(values.Length));
+        EquipmentType randomEquipmentType = (EquipmentType)values.GetValue(random.Next(values.Length));
         return randomEquipmentType;
     }
 
@@ -269,7 +268,7 @@ public class CommissionGenerator
         }
 
         double unroundedReward = reward * commissionRewardMultiplier;
-        reward = (int) Math.Round(unroundedReward);
+        reward = (int)Math.Round(unroundedReward);
         return reward;
     }
 

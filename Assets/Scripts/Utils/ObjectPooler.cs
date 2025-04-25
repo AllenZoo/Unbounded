@@ -1,10 +1,9 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public interface IObjectPooler<T> where T: MonoBehaviour
+public interface IObjectPooler<T> where T : MonoBehaviour
 {
     T GetObject();
     void ResetObjects();
@@ -13,7 +12,7 @@ public interface IObjectPooler<T> where T: MonoBehaviour
 /// <summary>
 /// Handles the pooling of objects to reduce the overhead of creating and destroying objects.
 /// </summary>
-public class ObjectPooler<T>: SerializedMonoBehaviour, IObjectPooler<T> where T : MonoBehaviour
+public class ObjectPooler<T> : SerializedMonoBehaviour, IObjectPooler<T> where T : MonoBehaviour
 {
     private Transform poolParent;
     private T pfb;

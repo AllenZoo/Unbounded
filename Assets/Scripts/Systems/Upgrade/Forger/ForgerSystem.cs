@@ -1,6 +1,4 @@
 using Sirenix.OdinInspector;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -166,7 +164,7 @@ public class ForgerSystem : MonoBehaviour
     {
         return GetForgeCost(upgradeInventory.items);
     }
-    
+
     /// <summary>
     /// Returns the money of player after forging.
     /// </summary>
@@ -189,8 +187,19 @@ public class ForgerSystem : MonoBehaviour
     {
         float curMoney = PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold;
         return curMoney >= cost;
+
+        /* Unmerged change from project 'Assembly-CSharp.Player'
+        Before:
+            }
+
+            /// <summary>
+        After:
+            }
+
+            /// <summary>
+        */
     }
-    
+
     /// <summary>
     /// Checks if the upgrade inventory and equipment to forge inventory are not empty.
     /// </summary>
@@ -213,6 +222,6 @@ public class ForgerSystem : MonoBehaviour
         {
             persistPreviewItem = false;
         }
-        
+
     }
 }

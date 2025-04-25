@@ -1,10 +1,5 @@
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
-using Sirenix.Utilities.Editor;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>

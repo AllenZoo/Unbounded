@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -43,7 +41,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
         // Check if this object is on the ViewCollider layer.
         Assert.IsTrue(gameObject.layer == LayerMask.NameToLayer("ViewCollider"), "ViewColliderCollisionManager should be on the ViewCollider layer.");
-    
+
         // Check if collider is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "ViewColliderCollisionManager should have a trigger collider.");
     }
@@ -190,7 +188,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
         {
             float thisYPos = objFeet.position.y;
             float otherYPos = vccm.objFeet.position.y;
-            
+
             if (vccm.isMovingObject && otherYPos > thisYPos)
             {
                 // Found a collider still colliding and in front. So should fade.

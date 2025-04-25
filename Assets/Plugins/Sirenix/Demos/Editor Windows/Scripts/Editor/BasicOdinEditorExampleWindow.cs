@@ -1,11 +1,11 @@
 #if UNITY_EDITOR
 namespace Sirenix.OdinInspector.Demos
 {
-    using UnityEditor;
-    using Sirenix.OdinInspector.Editor;
     using Sirenix.OdinInspector;
-    using Sirenix.Utilities.Editor;
+    using Sirenix.OdinInspector.Editor;
     using Sirenix.Utilities;
+    using Sirenix.Utilities.Editor;
+    using UnityEditor;
 
     public class BasicOdinEditorExampleWindow : OdinEditorWindow
     {

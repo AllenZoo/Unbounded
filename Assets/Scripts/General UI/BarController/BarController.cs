@@ -1,6 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -24,7 +22,7 @@ public class BarController : MonoBehaviour
 
     [SerializeField, Required] public GameObject displayUI;
     [SerializeField, Required] private BarTrackStat statToTrack;
-    [SerializeField, Required, ValidateInput(nameof(ValidateIsChild), "fillImage must be a child of displayUI!")] 
+    [SerializeField, Required, ValidateInput(nameof(ValidateIsChild), "fillImage must be a child of displayUI!")]
     private Image fillImage;
 
     private StatComponent statObject;
@@ -42,7 +40,8 @@ public class BarController : MonoBehaviour
     {
         localEventHandlerContext.OnInitialized += OnLEHInit;
         OnLEHInit(); // this call is in case we don't subscribe before OnInitialized gets called in LEH.
-        if (useBarContext) { 
+        if (useBarContext)
+        {
             barContext.OnBarContextChange += Render;
             barContext.OnBarContextChange += OnBarContextChange;
         }
@@ -73,7 +72,7 @@ public class BarController : MonoBehaviour
 
     private void OnBarContextChange()
     {
-        if (leh != null && leh.Equals(barContext.LEH)) return;           
+        if (leh != null && leh.Equals(barContext.LEH)) return;
         SetLEH(barContext.LEH);
     }
 
@@ -129,7 +128,7 @@ public class BarController : MonoBehaviour
                 fillImage.fillAmount = statObject.stamina / statObject.maxStamina;
                 break;
         }
-        
+
     }
     #endregion
 

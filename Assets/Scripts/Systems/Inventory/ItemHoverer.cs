@@ -1,6 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -12,7 +10,7 @@ public class ItemHoverer : MonoBehaviour
 {
     [Required, SerializeField] private ItemSelectionContext context;
     [Required, SerializeField] private GameObject displayUI; // The actual object we toggle on and off, depending on the selection context.
-    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayImage), "displayImage must be a child of displayUI.")] 
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayImage), "displayImage must be a child of displayUI.")]
     private Image displayImage; // The image reference we modify the sprite of. Should be found in displayUI.
 
     private void Awake()

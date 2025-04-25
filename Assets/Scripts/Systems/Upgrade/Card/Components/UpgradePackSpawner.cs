@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 /// <summary>
 /// Class attached to objects that want to spawn an upgrade pack on some local event.

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new EnemyChase Kite Target", menuName = "System/Enemy/State/Chase/KiteTarget")]
@@ -111,7 +109,7 @@ public class EnemyChaseKiteTarget : EnemyChaseSOBase
         {
             // Move away from the target
             dir = contextSteerer.GetDirAway(tracker.GetLastSeenTargetPos(), feetTransform.position);
-        } 
+        }
 
         enemyAIComponent.InvokeMovementInput(dir);
 

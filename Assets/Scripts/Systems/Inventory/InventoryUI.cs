@@ -1,6 +1,4 @@
 using Sirenix.OdinInspector;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -25,7 +23,7 @@ public class InventoryUI : MonoBehaviour
     /// 
     /// A global variable encapsulated by SO. UI's that share the same system, will share the same scriptable object.
     /// </summary>
-    [Required, SerializeField] 
+    [Required, SerializeField]
     private InventorySelectionContext InventorySelectionContext;
 
     /// <summary>
@@ -42,7 +40,7 @@ public class InventoryUI : MonoBehaviour
 
     // Only invoked in Rerender().
     public UnityEvent OnRerender;
-   
+
     [SerializeField] private GameObject inventorySlotParent;
     [SerializeField] private GameObject inventorySlotPrefab;
 
@@ -140,7 +138,8 @@ public class InventoryUI : MonoBehaviour
                     InventorySelectionContext?.SelectedInventorySystem,
                     InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1,
                     slot.GetSlotIndex());
-            } else
+            }
+            else
             {
                 // Split externally.
                 system.SplitIntoBetweenSystems(
@@ -149,7 +148,7 @@ public class InventoryUI : MonoBehaviour
                     slot.GetSlotIndex());
             }
             InventorySelectionContext?.ResetSelection();
-        } 
+        }
         else
         {
             // Same system
@@ -158,7 +157,8 @@ public class InventoryUI : MonoBehaviour
                 // Swap internally.
                 system.AttemptStackThenSwap(InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1, slot.GetSlotIndex());
                 InventorySelectionContext?.ResetSelection();
-            } else
+            }
+            else
             {
                 // Split internally.
                 system.SplitInto(InventorySelectionContext != null ? InventorySelectionContext.SelectedSlotIndex : -1, slot.GetSlotIndex());
@@ -173,7 +173,7 @@ public class InventoryUI : MonoBehaviour
 
     public void EnableSlot(int index)
     {
-         slots[index].ToggleSlotInteractivity(true);
+        slots[index].ToggleSlotInteractivity(true);
     }
 
     /// <summary>

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Tracks the position of a target object via raycasts, and stores the lastSeenPos of the target.
@@ -16,8 +14,19 @@ public class ObjectTracker : MonoBehaviour
 
     private GameObject target;
     private Vector2 lastSeenTargetPos;
+
+    /* Unmerged change from project 'Assembly-CSharp.Player'
+    Before:
+        private LayerMask targetLayerMask;
+
+        public void Track(GameObject target)
+    After:
+        private LayerMask targetLayerMask;
+
+        public void Track(GameObject target)
+    */
     private LayerMask targetLayerMask;
-    
+
     public void Track(GameObject target)
     {
         this.target = target;
@@ -52,11 +61,11 @@ public class ObjectTracker : MonoBehaviour
             // Cast a ray
             RaycastHit2D targetHit = Physics2D.Raycast(transform.position, rayDirection, sightRange, targetLayerMask);
             // 
-           
+
             // Debug draw to visualize the cone rays (optional)
             Debug.DrawRay(transform.position, rayDirection.normalized * sightRange, Color.green);
 
-            
+
             if (targetHit.collider != null)
             {
                 // Hit the target! Check if there are any obstacles in the way.
@@ -68,7 +77,7 @@ public class ObjectTracker : MonoBehaviour
                     lastSeenTargetPos = target.transform.position;
                     break; // Break the loop if any ray hits the target
                 }
-                
+
             }
 
             // Increment the angle for the next ray

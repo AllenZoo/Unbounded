@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new EnemyIdleRandomWalk", menuName = "System/Enemy/State/Idle/RandomWalk")]
@@ -17,7 +15,8 @@ public class EnemyIdleSOBase : ScriptableObject
 
     public virtual void DoEnterLogic() { }
     public virtual void DoExitLogic() { ResetValues(); }
-    public virtual void DoFrameUpdateLogic() {
+    public virtual void DoFrameUpdateLogic()
+    {
         // Change to Chase State if enemy AggroTarget is not null.
         if (enemyAIComponent.AggroTarget != null)
         {

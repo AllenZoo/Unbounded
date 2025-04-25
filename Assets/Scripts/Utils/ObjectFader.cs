@@ -1,8 +1,17 @@
+
+/* Unmerged change from project 'Assembly-CSharp.Player'
+Before:
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening; // Import DOTween namespace
+After:
+using DG.Tweening; // Import DOTween namespace
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Tweening; // Import DOTween namespace
+*/
+using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class ObjectFader : MonoBehaviour

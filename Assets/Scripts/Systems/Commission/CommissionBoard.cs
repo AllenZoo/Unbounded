@@ -1,8 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -30,7 +28,7 @@ public class CommissionBoard : MonoBehaviour
     /// </summary>
     [SerializeField, Required]
     private SO_Inventory submitInventory;
-    
+
     /// <summary>
     /// History of completed commissions and related items to look back on.
     /// </summary>
@@ -114,7 +112,7 @@ public class CommissionBoard : MonoBehaviour
             Debug.Log("Commission completed is not he active one!");
             return;
         }
-        
+
         HandleCommissionCompletion(commission, submittedItem);
     }
 

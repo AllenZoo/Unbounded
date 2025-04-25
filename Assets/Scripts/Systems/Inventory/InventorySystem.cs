@@ -1,6 +1,5 @@
 using AYellowpaper.SerializedCollections;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -143,7 +142,7 @@ public class InventorySystem : MonoBehaviour
         {
             return;
         }
-        
+
         // Check if General Conditions met for stacking/swapping.
         Item item1 = inventory.GetItem(index1);
         Item item2 = inventory.GetItem(index2);
@@ -161,7 +160,8 @@ public class InventorySystem : MonoBehaviour
         {
             // Stack successful, remove item from other inventory.
             inventory.RemoveItem(index1);
-        } else
+        }
+        else
         {
             // Attempt Swap items. (Stacking not possible)
             SwapItems(index1, index2);
@@ -175,8 +175,19 @@ public class InventorySystem : MonoBehaviour
     /// <param name="otherIndex"> index that belongs to 'other' </param>
     /// <param name="thisIndex"> index item is dropped on. </param>
     public void AttemptStackThenSwapBetweenSystems(InventorySystem other, int otherIndex, int thisIndex)
+
+    /* Unmerged change from project 'Assembly-CSharp.Player'
+    Before:
+        {
+
+            // Check if General Conditions met for stacking/swapping.
+    After:
+        {
+
+            // Check if General Conditions met for stacking/swapping.
+    */
     {
-        
+
         // Check if General Conditions met for stacking/swapping.
         Item thisItem = inventory.GetItem(thisIndex);
         Item otherItem = other.inventory.GetItem(otherIndex);
@@ -231,7 +242,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (item2 != null && item2.data != null 
+        if (item2 != null && item2.data != null
             && (!item2.data.isStackable || !item2.data.Equals(item1.data)))
         {
             // item2 is not null and is not stackable with item1!
@@ -247,7 +258,8 @@ public class InventorySystem : MonoBehaviour
             // Split failed!
             Debug.Log("Split failed! Failed to split item.");
             return;
-        } else
+        }
+        else
         {
             // Split successful, add second half to index2.
             inventory.AddItem(index2, secondHalf);
@@ -266,7 +278,7 @@ public class InventorySystem : MonoBehaviour
         Item otherItem = other.inventory.GetItem(otherIndex);
 
         // Check if items are swappable
-        if (!CheckConditionMet(this, thisIndex, otherItem) 
+        if (!CheckConditionMet(this, thisIndex, otherItem)
             || !CheckConditionMet(other, otherIndex, thisItem))
         {
             // Condition not met!
@@ -275,7 +287,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (otherItem != null && otherItem.data != null && 
+        if (otherItem != null && otherItem.data != null &&
             (!otherItem.data.isStackable || (thisItem.data != null && !otherItem.data.Equals(thisItem.data))))
         {
             // item2 is not null and is not stackable with item1!
@@ -308,9 +320,21 @@ public class InventorySystem : MonoBehaviour
     /// <returns>Returns false if item cannot be inserted into slot. Returns true if it can.</returns>
     private bool CheckConditionMet(InventorySystem system, int slotIndex, Item itemToInsert)
     {
+
+        /* Unmerged change from project 'Assembly-CSharp.Player'
+        Before:
+                system.GetSlotRules().TryGetValue(slotIndex, out SO_Conditions conditions);
+
+                if (conditions == null || itemToInsert == null) {
+        After:
+                system.GetSlotRules().TryGetValue(slotIndex, out SO_Conditions conditions);
+
+                if (conditions == null || itemToInsert == null) {
+        */
         system.GetSlotRules().TryGetValue(slotIndex, out SO_Conditions conditions);
-        
-        if (conditions == null || itemToInsert == null) {
+
+        if (conditions == null || itemToInsert == null)
+        {
             // No conditions or no item to insert.
             return true;
         }
@@ -364,7 +388,7 @@ public class InventorySystem : MonoBehaviour
     public void SetInventoryData(Inventory inventory)
     {
         this.inventory = inventory;
-        
+
         // Recreate inventory object with new inventoryData.
         Init();
         OnInventoryDataModified?.Invoke();

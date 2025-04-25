@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Used to calculate the best direction for object to move in to get to a target pos. (Doesn't handle where the target is last seen, etc.)
@@ -86,8 +84,19 @@ public class ContextSteerer : MonoBehaviour
         foreach (Vector2 dir in directions)
         {
             // Calculate angle between targetDir and dir
+
+            /* Unmerged change from project 'Assembly-CSharp.Player'
+            Before:
+                        float angle = Vector2.Angle(targetDir, dir);
+
+                        // If angle > 90, then assign a weight of 0 (or maybe add some randomization to get out of sticky situations)
+            After:
+                        float angle = Vector2.Angle(targetDir, dir);
+
+                        // If angle > 90, then assign a weight of 0 (or maybe add some randomization to get out of sticky situations)
+            */
             float angle = Vector2.Angle(targetDir, dir);
-            
+
             // If angle > 90, then assign a weight of 0 (or maybe add some randomization to get out of sticky situations)
             if (angle > 90)
             {
@@ -142,9 +151,9 @@ public class ContextSteerer : MonoBehaviour
             if (hit.collider != null)
             {
                 // Adjust the danger weight based on the distance to the obstacle
-                
 
-                double distanceFactor = rayLength -  (hit.distance);
+
+                double distanceFactor = rayLength - (hit.distance);
 
                 // ReLU (play around with threshold to achieve better behaviour)
                 double weight = ReLU(distanceFactor, 4.65);
@@ -172,7 +181,7 @@ public class ContextSteerer : MonoBehaviour
         Vector2 avgDir = Vector2.zero;
         for (int i = 0; i < weights.Length; i++)
         {
-            avgDir += (float) weights[i] * directions[i];
+            avgDir += (float)weights[i] * directions[i];
         }
 
         // Draw ray pointing in direction of avgDir for debugging

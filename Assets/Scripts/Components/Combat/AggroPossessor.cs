@@ -1,10 +1,7 @@
 using Sirenix.OdinInspector;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Events;
 
 // Attached to targets that have a
 public class AggroPossessor : MonoBehaviour
@@ -47,7 +44,7 @@ public class AggroPossessor : MonoBehaviour
             {
                 aggroBrain.SetAggroTarget(collision.gameObject);
             }
-            
+
 
             aggroTarget = collision.gameObject;
             StopAllCoroutines();

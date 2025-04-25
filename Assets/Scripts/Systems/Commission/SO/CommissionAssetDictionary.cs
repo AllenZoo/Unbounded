@@ -1,6 +1,5 @@
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// The intention of this class is to return the proper asset based on the commission EquipmentType.
 /// </summary>
-[CreateAssetMenu(fileName ="new Commission Asset Dictionary", menuName ="System/Commission/CommissionAssetDictionary")]
+[CreateAssetMenu(fileName = "new Commission Asset Dictionary", menuName = "System/Commission/CommissionAssetDictionary")]
 public class CommissionAssetDictionary : SerializedScriptableObject
 {
     [SerializeField] private Dictionary<EquipmentType, CommissionAsset> equipmentSpriteMap;
@@ -27,7 +26,7 @@ public class CommissionAssetDictionary : SerializedScriptableObject
     #endregion
 
     public CommissionAsset GetEquipmentSprite(EquipmentType equipmentType)
-    { 
+    {
         if (equipmentSpriteMap.ContainsKey(equipmentType))
         {
             return equipmentSpriteMap[equipmentType];
