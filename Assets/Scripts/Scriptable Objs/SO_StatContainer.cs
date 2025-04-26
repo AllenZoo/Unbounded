@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjs/Stat Container", fileName = "new stat container")]
+[CreateAssetMenu(menuName = "ScriptableObjs/Stat Container", fileName ="new stat container")]
 public class SO_StatContainer : ScriptableObject
 {
     public float health;

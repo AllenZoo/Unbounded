@@ -1,10 +1,11 @@
+using AYellowpaper.SerializedCollections;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapGenerator : MonoBehaviour
-{
+public class MapGenerator: MonoBehaviour {
 
     [Tooltip("Whether the map generator should generate a map on scene load!")]
     [SerializeField] private bool shouldGenerateOnSceneLoad = false;
@@ -94,8 +95,7 @@ public class MapGenerator : MonoBehaviour
         InstantiateMap(floorPlan);
         InitEmptyRooms(floorPlan);
 
-        EventBus<OnMapGeneratedEvent>.Call(new OnMapGeneratedEvent
-        {
+        EventBus<OnMapGeneratedEvent>.Call(new OnMapGeneratedEvent{
             startRoomPfb = this.startRoomPfb
         });
     }
@@ -159,8 +159,7 @@ public class MapGenerator : MonoBehaviour
             }
 
             // Debug.Log("Instantiated roomPfb at " + room.position);
-        }
-        else
+        } else
         {
             Debug.LogError($"Error generating Map: No suitable roomPfb found for roomtype [{room.roomSize} {room.roomType}]!");
         }
@@ -178,7 +177,7 @@ public class MapGenerator : MonoBehaviour
                 return GetSuitableRoomPfb(roomSize, bossRoomPfbs);
             case RoomType.Empty:
                 return GetSuitableRoomPfb(roomSize, emptyRoomPfbs);
-        }
+        }   
         return null;
     }
 
@@ -255,7 +254,7 @@ public class MapGenerator : MonoBehaviour
             Debug.LogError($"No valid neighbor pairs found, skipping door creation between rooms at ({room1.position.x}, {room1.position.y}) and ({room2.position.x}, {room2.position.y}).");
             return;
         }
-
+            
 
         // 2. Pick one.
         Tuple<RoomPosTuple, RoomPosTuple> doorPair = neighbourPairs[UnityEngine.Random.Range(0, neighbourPairs.Count)];
@@ -362,7 +361,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < cols; y++)
             {
-                if (rooms[x, y] == null)
+                if (rooms[x, y] ==null)
                 {
                     //Debug.Log($"Instantiating Empty room at ({x}, {y})");
                     Room emptyRoom = new Room(roomSize, new Vector2(x, y), null, RoomType.Empty);

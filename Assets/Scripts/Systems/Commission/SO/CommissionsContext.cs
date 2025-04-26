@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ using UnityEngine;
 /// With how current commission system is going to work, we allow the player to select 1 commission from 3 generated choices,
 /// and then after they complete that commission, we repeat.
 /// </summary>
-[CreateAssetMenu(fileName = "new commission context", menuName = "System/Commission/CommissionContext")]
+[CreateAssetMenu(fileName ="new commission context", menuName = "System/Commission/CommissionContext")]
 public class CommissionsContext : ScriptableObject
 {
     public Action OnCommissionContextChange;

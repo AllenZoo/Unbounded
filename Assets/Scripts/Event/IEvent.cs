@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public interface IEvent
@@ -9,7 +11,7 @@ public interface IEvent
 /// <summary>
 /// For events that act globally. (Global Bus that can connect multiple entities)
 /// </summary>
-public interface IGlobalEvent : IEvent
+public interface IGlobalEvent: IEvent
 {
 
 }
@@ -25,13 +27,13 @@ public struct OnPlayerEnterRoom : IGlobalEvent
     public Collider2D roomBoundary;
 }
 
-public struct OnPlayerStayRoom : IGlobalEvent
+public struct OnPlayerStayRoom: IGlobalEvent
 {
     public GameObject roomPfb;
     public Collider2D roomBoundary;
 }
 
-public struct OnPlayerExitRoom : IGlobalEvent
+public struct OnPlayerExitRoom: IGlobalEvent
 {
     public GameObject roomPfb;
     public Collider2D roomBoundary;
@@ -39,15 +41,15 @@ public struct OnPlayerExitRoom : IGlobalEvent
 
 public struct OnInventoryModifiedEvent : IGlobalEvent
 {
-
+    
 }
 
-public struct OnCommissionViewInfoRequestEvent : IGlobalEvent
+public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
 {
     public Commission commission;
 }
 
-public struct OnSceneLoadRequest : IGlobalEvent
+public struct OnSceneLoadRequest: IGlobalEvent
 {
     public List<SceneField> scenesToLoad;
     public List<SceneField> scenesToUnload;
@@ -55,38 +57,31 @@ public struct OnSceneLoadRequest : IGlobalEvent
     public bool showLoadingBar;
 }
 
-public struct OnSceneLoadRequestFinish : IGlobalEvent
+public struct OnSceneLoadRequestFinish: IGlobalEvent
 {
 
 }
 
-public struct OnCameraBoundChangeRequest : IGlobalEvent
+public struct OnCameraBoundChangeRequest: IGlobalEvent
 {
     public Collider2D newBoundary;
 }
 
-public struct OnPauseChangeRequest : IGlobalEvent
-{
+public struct OnPauseChangeRequest: IGlobalEvent {
     public bool shouldPause;
 }
 
-public struct OnUpgradeCardViewClicked : IGlobalEvent
+public struct OnUpgradeCardViewClicked: IGlobalEvent
 {
 
 }
 
-public struct OnUpgradeCardApplyEffect : IGlobalEvent
+public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
-    public enum TargetType
-    {
-        PLAYER,
-        WEAPON,
-    }
     public UpgradeCardData cardData;
-    //public TargetType targetType;
 }
 
-public struct OnDisplayUpgradeCardsRequest : IGlobalEvent
+public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
 {
     public HashSet<UpgradeCardData> upgradeCards;
 }
@@ -96,61 +91,60 @@ public struct OnDisplayUpgradeCardsRequest : IGlobalEvent
 /// </summary>
 public interface ILocalEvent : IEvent { }
 
-public struct OnMotionChangeEvent : ILocalEvent
+public struct OnMotionChangeEvent: ILocalEvent
 {
     public Vector2 lastDir;
     public Vector2 newDir;
 }
 
-public struct OnMovementInput : ILocalEvent
+public struct OnMovementInput: ILocalEvent
 {
     public Vector2 movementInput;
 }
 
-public struct OnAttackInput : ILocalEvent
+public struct OnAttackInput: ILocalEvent
 {
     public KeyCode keyCode;
     public AttackSpawnInfo attackInfo;
 }
 
-public struct OnDamagedEvent : ILocalEvent
+public struct OnDamagedEvent: ILocalEvent
 {
     public float damage;
 }
 
 public struct OnDeathEvent : ILocalEvent { }
 
-public struct OnStateChangeEvent : ILocalEvent
-{
+public struct OnStateChangeEvent: ILocalEvent {
     public State newState;
     public State oldState;
 }
 
-public struct OnKnockBackBeginEvent : ILocalEvent
+public struct OnKnockBackBeginEvent: ILocalEvent
 {
     public Vector2 knockbackDir;
     public float knockbackForce;
 }
 
-public struct OnKnockBackEndEvent : ILocalEvent { }
+public struct OnKnockBackEndEvent: ILocalEvent { }
 
-public struct OnStatChangeEvent : ILocalEvent
+public struct OnStatChangeEvent: ILocalEvent
 {
     public StatComponent statComponent;
     public StatModifier statModifier;
 }
 
-public struct OnSpawnEvent : ILocalEvent
+public struct OnSpawnEvent: ILocalEvent
 {
     public Spawnable spawn;
 }
 
-public struct OnDespawnEvent : ILocalEvent
+public struct OnDespawnEvent: ILocalEvent
 {
     public Spawnable spawn;
 }
 
-public struct OnAggroStatusChangeEvent : ILocalEvent
+public struct OnAggroStatusChangeEvent: ILocalEvent
 {
     public bool isAggroed;
 }
@@ -161,7 +155,7 @@ public struct OnWeaponEquippedEvent : ILocalEvent
     public Item unequipped;
 }
 
-public struct OnStatBuffEvent : ILocalEvent
+public struct OnStatBuffEvent: ILocalEvent
 {
     public StatModifier buff;
 }

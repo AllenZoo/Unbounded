@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ public class Commission
     [ShowInInspector] public CommissionStatus commissionStatus;
     [ShowInInspector] public Sprite itemImage { get; private set; }
     [ShowInInspector] public float rotOffset { get; private set; }
-
+    
 
     public Commission(string title, string description, int reward, int difficulty, int timeLimit, EquipmentType equipmentType, Dictionary<Stat, int> statRequirements, CommissionStatus commissionStatus, Sprite itemImage, float rotOffset)
     {

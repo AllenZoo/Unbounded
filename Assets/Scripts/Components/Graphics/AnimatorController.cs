@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
@@ -63,22 +65,11 @@ public class AnimatorController : MonoBehaviour
         if (defaultMaterial == null)
         {
             defaultMaterial = sprite.sharedMaterial;
-
-            /* Unmerged change from project 'Assembly-CSharp.Player'
-            Before:
-                    }
-
-                    Assert.IsNotNull(damageMaterial, "Need material for being damaged");
-            After:
-                    }
-
-                    Assert.IsNotNull(damageMaterial, "Need material for being damaged");
-            */
         }
-
+        
         Assert.IsNotNull(damageMaterial, "Need material for being damaged");
 
-        localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        localEventHandler= InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
     private void Start()
@@ -223,7 +214,7 @@ public class AnimatorController : MonoBehaviour
         runningDamageEffect = false;
         Handle_Effects(curState);
     }
-
+    
     #region Getters and Setters
 
     public bool CanTransitionState

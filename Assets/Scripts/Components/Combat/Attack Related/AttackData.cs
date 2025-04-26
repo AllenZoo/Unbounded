@@ -1,10 +1,12 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "AttackerData", menuName = "System/Combat/Attack", order = 1)]
-public class AttackData : ScriptableObject
+public class AttackData:ScriptableObject
 {
     public string attackName = "Attack";
 

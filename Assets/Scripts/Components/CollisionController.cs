@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class CollisionController : MonoBehaviour
     private List<IInteractable> triggeredInteractables = new List<IInteractable>();
 
     // List of interactables waiting for KeyPress.
-    private List<IInteractable> untriggerdInteractables = new List<IInteractable>();
+    private List<IInteractable> untriggerdInteractables = new List<IInteractable> ();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,7 +20,7 @@ public class CollisionController : MonoBehaviour
         {
             // TODO: account for priority before adding to list.
             // High priority interactables should be added to the back of the list. ie. interacted with first.
-
+            
             // TODO: account for RequiresKeyPress. If true, then only add to list if key is pressed.
 
             triggeredInteractables.Add(interactable);

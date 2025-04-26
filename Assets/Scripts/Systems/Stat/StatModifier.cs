@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,5 +71,5 @@ public class StatModifier : IDisposable, IUpgradeModifier
         yield return new MultiplyOperation(2);
     }
 
-
+    
 }

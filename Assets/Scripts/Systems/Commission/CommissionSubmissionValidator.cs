@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,8 +12,7 @@ using UnityEngine;
 public class CommissionSubmissionValidator
 {
 
-    public CommissionSubmissionValidator()
-    {
+    public CommissionSubmissionValidator() { 
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public class CommissionSubmissionValidator
         }
 
         // Check if the item has enough required stats for the commission.
-        foreach (KeyValuePair<Stat, int> requirement in commission.statRequirements)
+        foreach(KeyValuePair<Stat, int> requirement in commission.statRequirements)
         {
             // Convert keyvaluepair to tuple
             Tuple<Stat, int> requirementTuple = new Tuple<Stat, int>(requirement.Key, requirement.Value);

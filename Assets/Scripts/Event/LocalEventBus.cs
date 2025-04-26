@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LocalEventBus<T> where T : ILocalEvent
 {
@@ -19,24 +21,13 @@ public class LocalEventBus<T> where T : ILocalEvent
             eventBinding.OnEvent?.Invoke(@event);
             eventBinding.OnEventNoArgs?.Invoke();
         }
-
-        /* Unmerged change from project 'Assembly-CSharp.Player'
-        Before:
-            }
-
-            public void Clear()
-        After:
-            }
-
-            public void Clear()
-        */
     }
-
+    
     public void Clear()
     {
         eventBindings.Clear();
     }
-
+    
     public void UnregisterAll()
     {
         eventBindings.Clear();

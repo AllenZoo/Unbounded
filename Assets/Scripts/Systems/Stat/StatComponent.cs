@@ -1,5 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class StatComponent : MonoBehaviour
 {
@@ -25,8 +29,7 @@ public class StatComponent : MonoBehaviour
     }
     public float maxHealth
     {
-        get
-        {
+        get {
             var q = new StatQuery(Stat.MAX_HP, baseStats.maxHealth);
             statMediator.CalculateFinalStat(q);
             return q.Value;
@@ -73,20 +76,16 @@ public class StatComponent : MonoBehaviour
         }
         private set { }
     }
-    public float attack
-    {
-        get
-        {
+    public float attack {
+        get {
             var q = new StatQuery(Stat.ATK, baseStats.attack);
             statMediator.CalculateFinalStat(q);
             return q.Value;
         }
-        private set { }
+        private set { } 
     }
-    public float defense
-    {
-        get
-        {
+    public float defense {
+        get {
             var q = new StatQuery(Stat.DEF, baseStats.defense);
             statMediator.CalculateFinalStat(q);
             return q.Value;
@@ -103,27 +102,22 @@ public class StatComponent : MonoBehaviour
         }
         private set { }
     }
-    public float speed
-    {
-        get
-        {
+    public float speed {
+        get {
             var q = new StatQuery(Stat.SPD, baseStats.speed);
             statMediator.CalculateFinalStat(q);
             return q.Value;
         }
         private set { }
     }
-    public float gold
-    {
-        get
-        {
+    public float gold {
+        get {
             //var q = new StatQuery(Stat.GOLD, baseStats.gold);
             //statMediator.CalculateFinalStat(q);
             //return q.Value;
             return baseStats.gold;
         }
-        set
-        {
+        set {
             baseStats.gold = value;
             OnStatChange?.Invoke();
         }
@@ -131,7 +125,7 @@ public class StatComponent : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Assert(baseStats != null,
+        Debug.Assert(baseStats != null, 
             "Forgot to drag a scriptable stat container to object: " + gameObject.name);
 
         if (localEventHandler == null)
@@ -161,13 +155,13 @@ public class StatComponent : MonoBehaviour
 
     private void Start()
     {
-
+        
 
     }
 
     public float GetStatValue(Stat stat)
     {
-        switch (stat)
+        switch(stat)
         {
             case Stat.HP:
                 return health;
@@ -226,7 +220,7 @@ public class StatComponent : MonoBehaviour
         // Dispose unequipped equipment stat modifiers
         if (unequipped != null)
         {
-            if (unequipped.HasComponent<ItemBaseStatComponent>())
+           if (unequipped.HasComponent<ItemBaseStatComponent>())
             {
                 unequipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
                 {
@@ -242,7 +236,7 @@ public class StatComponent : MonoBehaviour
             }
         }
     }
-
+    
     /// <summary>
     /// Modifies health by damage taken
     /// </summary>
@@ -276,7 +270,7 @@ public class StatComponent : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gold += 10;
-            HandleDamage(new OnDamagedEvent { damage = 10 });
+            HandleDamage(new OnDamagedEvent{ damage=10});
         }
     }
 }

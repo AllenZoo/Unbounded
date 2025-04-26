@@ -1,11 +1,14 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Behavioural class that encapsulate attack hit. (TODO: use chatGpt to think of better way to describe this)
 /// </summary>
 [Serializable]
-public class Attack
+public class Attack 
 {
     public event Action<Damageable> OnHit;
 
@@ -44,7 +47,7 @@ public class Attack
         }
 
         hit.TakeDamage(calculatedDamage);
-
+        
         // Knockback the target if:
         //      - attack has knockback
         //      - target is knockbackable

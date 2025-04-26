@@ -1,32 +1,8 @@
-
-/* Unmerged change from project 'Assembly-CSharp.Player'
-Before:
 using System;
-After:
-using Sirenix.OdinInspector;
-*/
-using Sirenix.OdinInspector;
-/* Unmerged change from project 'Assembly-CSharp.Player'
-Before:
-using Sirenix.Serialization;
-using System;
-
-/* Unmerged change from project 'Assembly-CSharp.Player'
-After:
-using System;
-using System;
-/* Unmerged change from project 'Assembly-CSharp.Player'
-*/
-
-
-/* Unmerged change from project 'Assembly-CSharp.Player'
-Before:
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
-After:
 using System.Collections.Generic;
 using System.Linq;
-*/
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 [Serializable]
@@ -55,7 +31,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     private bool debug = false;
 
     private BehaviourDefinition currentBehaviour;
-    private BehaviourDefinition emptyBehaviour = new BehaviourDefinition() { name = "empty" };
+    private BehaviourDefinition emptyBehaviour = new BehaviourDefinition() { name="empty"};
 
     // Local variable to help keep track of the likelihood of a behaviour being selected as the 'next' behaviour
     // Simple algorithm right now = assign a value of 1 to every behaviour. +1 if behaviour wasn't selected and reset 0 if it was.
@@ -65,7 +41,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     // To keep track of all the stat modifier references that we applied. Useful when we want to revert their effects.
     private List<StatModifier> appliedStatModifiers = new List<StatModifier>();
 
-
+    
 
     #region SO Base functions
     public override void DoAnimationTriggerEventLogic()
@@ -103,8 +79,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
 
         // Attack
-        if (enemyAIComponent.AggroTarget != null)
-        {
+        if (enemyAIComponent.AggroTarget != null) { 
             Transform targetTransform = enemyAIComponent.AggroTarget.transform;
             enemyAIComponent.InvokeAttackInput(KeyCode.K, new AttackSpawnInfo(targetTransform.position));
         }
@@ -136,7 +111,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
 
         // Initalize all possible ChaseSOBase Behaviours
-        foreach (var behaviour in behaviours)
+        foreach(var behaviour in behaviours)
         {
             behaviour.chaseBehaviourInstance = Instantiate(behaviour.chaseBehaviour);
             behaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
@@ -170,7 +145,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
 
         behaviourSelectionWeightMap.Clear();
-        foreach (BehaviourDefinition behaviour in behaviours)
+        foreach(BehaviourDefinition behaviour in behaviours)
         {
             behaviourSelectionWeightMap.Add(behaviour, 1.0);
         }
@@ -224,15 +199,14 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         foreach (var kvp in behaviourSelectionWeightMap)
         {
             // If weight is zero, skip behaviour
-            if (kvp.Value == 0)
-            {
+            if (kvp.Value == 0) {
                 continue;
             }
 
             cumulativeWeight += kvp.Value;
             if (randomValue <= cumulativeWeight)
             {
-
+                
                 selectedBehaviour = kvp.Key;
                 if (debug)
                 {
@@ -267,7 +241,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             }
             Debug.Log(debugMsg);
         }
-
+       
 
         return selectedBehaviour;
     }
@@ -283,10 +257,9 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     /// NOTE: If we are transitioning into same behaviour, simply returns. Good for handling repeated rage phase behaviour.
     /// </summary>
     /// <param name="newBehaviour"></param>
-    private void TransitionBehaviour(BehaviourDefinition newBehaviour)
-    {
+    private void TransitionBehaviour(BehaviourDefinition newBehaviour) {
         var prevBehaviour = currentBehaviour;
-
+        
         if (prevBehaviour.name.Equals(newBehaviour.name))
         {
             return;
@@ -303,7 +276,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         {
             statModifier.Dispose();
         }
-
+        
         // 1b. Apply new stat changes
         foreach (AddStatModifier addStatModifier in currentBehaviour.addStatModifiers)
         {
@@ -335,7 +308,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 
             double percentage = curHP / maxHP;
             curHPThreshold = percentage;
-
+            
             if (debug)
             {
                 Debug.Log($"Current HP Threshold: {curHPThreshold}");

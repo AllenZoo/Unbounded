@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -81,7 +82,7 @@ public class InteractableLootBag : MonoBehaviour, IInteractable
     // Check if inventory is empty. If so, destroy the loot bag.
     private void LootBagDisplayInventory_OnInventoryDataChange()
     {
-
+        
         if (lootBagDisplayInventory.IsEmpty())
         {
             if (parentObject.activeSelf == false)

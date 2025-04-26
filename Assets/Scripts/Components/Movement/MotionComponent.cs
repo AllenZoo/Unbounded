@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class MotionComponent : MonoBehaviour
 {
@@ -60,8 +63,7 @@ public class MotionComponent : MonoBehaviour
         if (Math.Abs(r_x) == 1 && Math.Abs(r_y) == 1)
         {
             wasDiaganol = true;
-        }
-        else
+        } else
         {
             wasDiaganol = false;
         }

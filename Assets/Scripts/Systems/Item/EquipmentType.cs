@@ -1,10 +1,7 @@
-
-/* Unmerged change from project 'Assembly-CSharp.Player'
-Before:
     using System.Collections;
-After:
-using System.Collections;
-*/
+using System.Collections.Generic;
+using UnityEngine;
+
 /// <summary>
 /// Enum that holds list of the equipment types.
 /// </summary>

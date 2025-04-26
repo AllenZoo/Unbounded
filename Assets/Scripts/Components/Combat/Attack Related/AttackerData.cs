@@ -1,10 +1,13 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Class that holds AttackerData. It is essentially an attack pattern.
 /// </summary>
 [CreateAssetMenu(fileName = "AttackerData", menuName = "System/Combat/Attacker", order = 1)]
-public class AttackerData : ScriptableObject
+public class AttackerData: ScriptableObject
 {
     [Tooltip("Number of attacks to spawn when attacking.")]
     public int numAttacks = 1;

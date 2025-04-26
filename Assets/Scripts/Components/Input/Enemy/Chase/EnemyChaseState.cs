@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class EnemyChaseState : EnemyStateBase
 {
     public EnemyChaseState(EnemyAIComponent enemyAIComponent, EnemyStateMachine stateMachine) : base(enemyAIComponent, stateMachine)

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Conditions", menuName = "Inventory/Slot Conditions")]
 public class SO_Conditions : ScriptableObject
 {
-    public List<ConditionType> conditionTypes = new List<ConditionType>();
+   public List<ConditionType> conditionTypes = new List<ConditionType>();
 
     private void OnValidate()
     {

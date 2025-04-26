@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,8 +18,7 @@ public class HoverColour : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             try
             {
                 hoverButton = GetComponent<Button>();
-            }
-            catch
+            } catch
             {
                 Debug.LogError("HoverColour.cs: No button found");
             }

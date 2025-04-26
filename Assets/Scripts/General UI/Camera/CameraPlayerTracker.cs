@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 // For tracking the player between scenes.
@@ -13,7 +15,7 @@ public class CameraPlayerTracker : MonoBehaviour
         {
             _virtualCamera = FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
         }
-
+        
         // If there is still no virtual camera, then log an error.
         if (_virtualCamera == null)
         {

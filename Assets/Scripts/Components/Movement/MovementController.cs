@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(MotionComponent))]
 public class MovementController : MonoBehaviour
@@ -9,19 +12,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] private StatComponent stat;
     [SerializeField] private Rigidbody2D rb;
 
-
-    /* Unmerged change from project 'Assembly-CSharp.Player'
-    Before:
-        private MotionComponent motion;
-
-        private void Awake()
-    After:
-        private MotionComponent motion;
-
-        private void Awake()
-    */
     private MotionComponent motion;
-
+    
     private void Awake()
     {
         motion = GetComponent<MotionComponent>();
@@ -34,7 +26,7 @@ public class MovementController : MonoBehaviour
         {
             rb = GetComponent<Rigidbody2D>();
         }
-
+        
 
         Assert.IsNotNull(motion, "Class of type MotionComponent must exist on obj with MovementController");
         Assert.IsNotNull(stat, "Class of type StatComponent must exist on obj with MovementController");
@@ -106,5 +98,5 @@ public class MovementController : MonoBehaviour
 
         // 2. Apply translation
         rb.velocity = velocity;
-    }
+    }    
 }

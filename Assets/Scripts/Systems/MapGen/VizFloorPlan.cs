@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class VizFloorPlan : MonoBehaviour
 {
     public static void PrintFloorPlan(Room[,] floorPlan, FloorPlan fp)
     {
-
+        
         string floorPlanString = "";
         Dictionary<Room, string> roomStrMap = new Dictionary<Room, string>();
         int roomCount = 1;
@@ -32,10 +33,10 @@ public class VizFloorPlan : MonoBehaviour
                         roomStrMap.Add(floorPlan[i, j], (roomCount < 10 ? " " : "") + roomCount);
                         roomCount++;
                     }
-
+                        
                     floorPlanString += roomStrMap[floorPlan[i, j]];
                 }
-
+                    
 
                 floorPlanString += ", ";
             }

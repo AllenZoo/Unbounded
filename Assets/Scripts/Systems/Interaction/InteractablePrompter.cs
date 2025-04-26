@@ -1,4 +1,6 @@
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -44,7 +46,7 @@ public class InteractablePrompter : WorldInteractableObject
         {
             Debug.Log("Uninteracting with Prompter!");
         }
-
+        
         pageUIContext.PageUI?.ClosePage();
         OnUninteract?.Invoke();
     }

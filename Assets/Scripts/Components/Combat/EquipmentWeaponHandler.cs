@@ -1,4 +1,7 @@
 using Sirenix.OdinInspector;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,7 +11,7 @@ using UnityEngine.Assertions;
 public class EquipmentWeaponHandler : MonoBehaviour
 {
     [Required]
-    [SerializeField]
+    [SerializeField] 
     private LocalEventHandler localEventHandler;
 
     // TODO: decide whether to have reference to SO_Inventory or InventorySystem.

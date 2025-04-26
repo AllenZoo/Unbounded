@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class WeaponSlotCondition : IItemCondition
 {
     public bool ConditionMet(Item item)
@@ -8,7 +12,7 @@ public class WeaponSlotCondition : IItemCondition
             // (We can have an empty weapon slot)
             return true;
         }
-
+        
         // Check if Item data is type of SO_Weapon_Item.
         return item.HasComponent<ItemAttackContainerComponent>();
     }

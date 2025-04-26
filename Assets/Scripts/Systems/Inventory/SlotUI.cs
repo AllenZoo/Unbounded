@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,7 +11,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 {
     #region Properties
     public event Action<InventorySystem, SlotUI, PointerEventData.InputButton> OnDragItem;
-    public event Action<InventorySystem, SlotUI> OnEndDragItem, OnDropItem;
+    public event Action<InventorySystem, SlotUI>  OnEndDragItem, OnDropItem;
 
     private InventoryUI inventoryUI;
     private InventorySystem parentSystem;
@@ -91,7 +92,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         Image image = itemIconElement.GetComponent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
         image.sprite = item.data.itemSprite;
-        itemIconElement.transform.rotation = Quaternion.Euler(0f, 0f, item.data.spriteRot);
+        itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, item.data.spriteRot);
 
         // Check if item is stackable and if quantity is greater than 1.
         if (item.data.isStackable && item.quantity > 1)

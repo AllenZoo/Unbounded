@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class EnemyIdleState : EnemyStateBase
 {
     public EnemyIdleState(EnemyAIComponent enemyAIComponent, EnemyStateMachine stateMachine) : base(enemyAIComponent, stateMachine)
@@ -29,7 +33,7 @@ public class EnemyIdleState : EnemyStateBase
         enemyAIComponent.EnemyIdleBaseInstance.DoFrameUpdateLogic();
     }
 
-
+    
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();

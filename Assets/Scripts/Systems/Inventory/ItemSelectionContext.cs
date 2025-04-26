@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Shared context of item being selected. Useful for displaying item that follows mouse, imitating an item being dragged.
 /// </summary>
-[CreateAssetMenu(fileName = "new Item Selection Context", menuName = "System/Inventory/ItemSelectionContext")]
+[CreateAssetMenu(fileName ="new Item Selection Context", menuName ="System/Inventory/ItemSelectionContext")]
 public class ItemSelectionContext : ScriptableObject
 {
     public Action<ItemSelectionContext> OnItemSelection;
@@ -17,7 +17,7 @@ public class ItemSelectionContext : ScriptableObject
     /// <summary>
     /// Item sprite we will display on Item Hoverer.
     /// </summary>
-    [SerializeField, ReadOnly]
+    [SerializeField, ReadOnly] 
     private Sprite itemSprite = null;
 
     /// <summary>

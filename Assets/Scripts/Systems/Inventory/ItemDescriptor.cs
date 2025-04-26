@@ -1,6 +1,8 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -23,7 +25,7 @@ public class ItemDescriptor : MonoBehaviour
     [Required, SerializeField] private GameObject displayUI; // The actual object we toggle on and off, depending on the selection context.
 
     [Header("UI elements")]
-    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextName must be a child of displayUI.")]
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextName must be a child of displayUI.")] 
     private TextMeshProUGUI itemTextName;
 
     [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextDesc must be a child of displayUI.")]
@@ -31,7 +33,7 @@ public class ItemDescriptor : MonoBehaviour
 
     [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextStats must be a child of displayUI.")]
     private TextMeshProUGUI itemTextStats;
-
+    
     private void Awake()
     {
         Assert.IsNotNull(context, "Item Descriptor context is null! This will make it unable to display any relevant info needed.");

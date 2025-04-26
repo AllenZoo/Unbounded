@@ -1,5 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -104,7 +106,7 @@ public class CommissionInfoDisplayUI : PageUI
         descriptionText.text = commission.description;
 
         // Convert # to *s for difficulty.
-        difficultyText.text = "Difficulty: " + new string('*', commission.difficulty);
+        difficultyText.text = "Difficulty: " +  new string('*', commission.difficulty);
         rewardText.text = "Reward: " + commission.reward + " gold";
         timeLimitText.text = "Time Limit: " + commission.timeLimit + " days";
 

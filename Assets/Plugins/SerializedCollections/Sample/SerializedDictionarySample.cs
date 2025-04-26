@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AYellowpaper.SerializedCollections
@@ -6,7 +8,7 @@ namespace AYellowpaper.SerializedCollections
     {
         [SerializedDictionary("Element Type", "Description")]
         public SerializedDictionary<ElementType, string> ElementDescriptions;
-
+        
         public enum ElementType
         {
             Fire,

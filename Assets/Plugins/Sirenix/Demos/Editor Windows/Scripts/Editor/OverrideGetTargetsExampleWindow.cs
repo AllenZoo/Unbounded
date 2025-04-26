@@ -1,13 +1,13 @@
 #if UNITY_EDITOR
 namespace Sirenix.OdinInspector.Demos
 {
-    using Sirenix.OdinInspector;
-    using Sirenix.OdinInspector.Editor;
-    using Sirenix.Utilities;
-    using Sirenix.Utilities.Editor;
-    using System.Collections.Generic;
     using UnityEditor;
     using UnityEngine;
+    using System.Collections.Generic;
+    using Sirenix.OdinInspector.Editor;
+    using Sirenix.Utilities.Editor;
+    using Sirenix.OdinInspector;
+    using Sirenix.Utilities;
 
     public class OverrideGetTargetsExampleWindow : OdinEditorWindow
     {

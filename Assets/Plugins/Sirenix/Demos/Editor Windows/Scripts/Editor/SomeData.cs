@@ -1,8 +1,8 @@
 #if UNITY_EDITOR
 namespace Sirenix.OdinInspector.Demos
 {
-    using System;
     using UnityEditor;
+    using System;
 
     [HideLabel]
     [Serializable]

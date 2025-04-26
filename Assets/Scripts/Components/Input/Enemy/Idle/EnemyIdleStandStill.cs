@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new EnemyIdle StandStill", menuName = "System/Enemy/State/Idle/StandStill")]

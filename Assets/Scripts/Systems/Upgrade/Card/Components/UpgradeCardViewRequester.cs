@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +11,7 @@ public class UpgradeCardViewRequester : SerializedMonoBehaviour
 
     private void Start()
     {
-        if (requestOnStart)
-        {
+        if (requestOnStart) { 
             RequestDisplay();
         }
     }

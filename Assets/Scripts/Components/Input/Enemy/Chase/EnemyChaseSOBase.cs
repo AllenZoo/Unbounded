@@ -1,4 +1,6 @@
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyChaseSOBase : SerializedScriptableObject
@@ -25,8 +27,7 @@ public class EnemyChaseSOBase : SerializedScriptableObject
     /// Disabling stateChange is useful if we want to reuse some EnemyChaseSOBase logic but aren't actually in the state.
     /// </summary>
     /// <param name="stateChange"></param>
-    public virtual void DoFrameUpdateLogic(bool stateChange = true)
-    {
+    public virtual void DoFrameUpdateLogic(bool stateChange=true) {
         if (stateChange && enemyAIComponent.AggroTarget == null)
         {
             // Back to idle if no more aggro
@@ -42,11 +43,10 @@ public class EnemyChaseSOBase : SerializedScriptableObject
     }
     public virtual void DoPhysicsUpdateLogic() { }
     public virtual void DoAnimationTriggerEventLogic() { }
-    public virtual void ResetValues()
-    {
+    public virtual void ResetValues() {
         // Disable tracker on state change.
         tracker.enabled = false;
     }
 
-
+    
 }

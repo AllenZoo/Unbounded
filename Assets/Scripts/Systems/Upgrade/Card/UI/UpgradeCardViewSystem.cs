@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -43,16 +44,15 @@ public class UpgradeCardViewSystem : PageUI
         EventBus<OnDisplayUpgradeCardsRequest>.Unregister(onUpgradeCardRequestBinding);
     }
 
-    private void OnDisplayUpgradeCardsRequestEvent(OnDisplayUpgradeCardsRequest e)
-    {
+    private void OnDisplayUpgradeCardsRequestEvent(OnDisplayUpgradeCardsRequest e) {
         ClearChildren();
         foreach (var cardData in e.upgradeCards)
         {
             CreateCard(cardData);
-
+            
         }
         // Canvas visibility handled in InteractablePrompter.
-
+        
         // ?? doesn't show if this line isn't here v
         // ToggleVisibility();
 
@@ -69,8 +69,7 @@ public class UpgradeCardViewSystem : PageUI
         if (selectable != null)
         {
             menuEventSystemHandler.RegisterSelectable(selectable);
-        }
-        else
+        } else
         {
             Debug.LogError("Upgrade Card View is missing a Selectable component! (eg. missing Button component)");
         }
@@ -89,7 +88,7 @@ public class UpgradeCardViewSystem : PageUI
         {
             Destroy(child.gameObject);
         }
-
+            
         pfbToDataMap.Clear();
         menuEventSystemHandler.Selectables.Clear();
         //ClosePage();
@@ -102,12 +101,11 @@ public class UpgradeCardViewSystem : PageUI
         if (cardData != null)
         {
             EventBus<OnUpgradeCardApplyEffect>.Call(new OnUpgradeCardApplyEffect() { cardData = cardData });
-        }
-        else
+        } else
         {
             Debug.LogError("UpgradeCardView reference object does not exist in map.");
         }
-
+        
         // Close page after selection
         ClosePage();
     }

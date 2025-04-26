@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Class that encapsulates the Attacker process (TODO: use chatGpt to think of better way to describe this)
@@ -31,7 +34,7 @@ public class Attacker
             // i = 1, shoot to the right of mouse with angleOffset * 1 away from attack 0.
             // i = 2, shoot to the left of mouse with angleOffset * 1 away from attack 0.
             //float angle = (i+1)/2 * angleOffset;
-            float angle = (int)((i + 1) / 2) * attackerData.angleOffset;
+            float angle = (int) ((i+1)/2) * attackerData.angleOffset;
 
             // Odd's offset to the right.
             // Even's offset to the left

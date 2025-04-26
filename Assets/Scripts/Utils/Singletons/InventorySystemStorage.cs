@@ -1,4 +1,6 @@
 using AYellowpaper.SerializedCollections;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Singleton that stores all inventory systems for access in other scripts.

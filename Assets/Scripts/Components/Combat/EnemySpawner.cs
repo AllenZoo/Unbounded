@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,19 +13,8 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     [Tooltip("Max amount of enemies that can be spawned at once with this spawner.")]
     [SerializeField] private float maxSpawns = 5;
 
-
-    /* Unmerged change from project 'Assembly-CSharp.Player'
-    Before:
-        [SerializeField] private float timeBetweenSpawns;
-
-        private float timeSinceLastSpawn = 0;
-    After:
-        [SerializeField] private float timeBetweenSpawns;
-
-        private float timeSinceLastSpawn = 0;
-    */
     [SerializeField] private float timeBetweenSpawns;
-
+    
     private float timeSinceLastSpawn = 0;
     private List<Spawnable> spawns;
 
@@ -176,7 +166,7 @@ public class EnemySpawner : MonoBehaviour, ISpawner
                 return spawnRate.prefab;
             }
         }
-
+        
         // Should not reach here.
         Debug.LogError("Unreachable Error: No spawn drawn.");
         return null;
@@ -211,7 +201,7 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         else
         {
             canSpawn = true;
-        }
+        } 
     }
 }
 

@@ -2,12 +2,12 @@
 namespace Sirenix.OdinInspector.Demos
 {
     using Sirenix.OdinInspector.Editor;
-    using Sirenix.Serialization;
-    using Sirenix.Utilities;
-    using Sirenix.Utilities.Editor;
     using System.Linq;
-    using UnityEditor;
     using UnityEngine;
+    using Sirenix.Utilities.Editor;
+    using Sirenix.Serialization;
+    using UnityEditor;
+    using Sirenix.Utilities;
 
     // 
     // Be sure to check out OdinMenuStyleExample.cs as well. It shows you various ways to customize the look and behaviour of OdinMenuTrees.

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,7 +40,7 @@ public class GameObjectWithSpawnableDrawer : PropertyDrawer
     {
         EditorGUI.BeginProperty(position, label, property);
 
-        GameObject gameObject = (GameObject)property.objectReferenceValue;
+        GameObject gameObject = (GameObject) property.objectReferenceValue;
 
         float x_padding = 80;
         float y_padding = -20;

@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 // Scrapped-TODO: split between EventfulStatMediator (has LocalEventHandler) and StatMediator (does not have LocalEventHandler)
 // Reason: There is a static function that handles cases where we just need the mediator to calculate the final stat value of a list of modifiers.
@@ -59,7 +61,7 @@ public class StatMediator
         if (!modifiersCache.ContainsKey(query.Stat))
         {
             modifiersCache.Add(query.Stat, modifiers.FindAll(mod => mod.Stat == query.Stat));
-
+            
         }
 
         query.Value = order.Apply(modifiersCache[query.Stat], query.Value);
@@ -102,7 +104,6 @@ public class StatMediator
 
 /// <summary>
 /// Class that gets passed through StatMediator to each StatModifier to calculate the final stat.
-/// Essentially an accumulator class/variable.
 /// </summary>
 public class StatQuery
 {

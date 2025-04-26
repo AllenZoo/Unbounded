@@ -1,4 +1,7 @@
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ItemEquipmentComponent : IItemComponent
 {
@@ -6,8 +9,7 @@ public class ItemEquipmentComponent : IItemComponent
     public EquipmentType equipmentType;
 
 
-    public ItemEquipmentComponent(EquipmentType equipmentType)
-    {
+    public ItemEquipmentComponent(EquipmentType equipmentType) {
         this.equipmentType = equipmentType;
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -51,7 +53,7 @@ public class EnemyAttackAttackMove : EnemyAttackSOBase
         base.DoPhysicsUpdateLogic();
     }
 
-
+    
 
     public override void ResetValues()
     {

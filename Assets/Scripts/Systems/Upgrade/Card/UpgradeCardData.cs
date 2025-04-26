@@ -1,15 +1,16 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new upgrade card", menuName = "System/Upgrade/UpgradeCard")]
+[CreateAssetMenu(fileName ="new upgrade card", menuName ="System/Upgrade/UpgradeCard")]
 public class UpgradeCardData : ScriptableObject
 {
     // TODO: extract these fields into some CardTemplate scriptable object class.
     public string title;
     public Sprite icon;
-    public Color cardColor;
+    public Color cardColor; 
     //
 
     public CardRarity rarity;

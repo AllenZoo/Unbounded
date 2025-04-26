@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new EnemyIdleRandomWalk", menuName = "System/Enemy/State/Idle/RandomWalk")]
@@ -46,8 +48,7 @@ public class EnemyIdleRandomWalk : EnemyIdleSOBase
             {
                 dir = Vector2.zero;
                 shouldPause = false;
-            }
-            else
+            } else
             {
                 // Randomly move (randX = -1/0/1, randY = -1/0/1)
                 int randX = UnityEngine.Random.Range(-1, 2); // Include 2 to generate numbers from -1 to 1
@@ -63,7 +64,7 @@ public class EnemyIdleRandomWalk : EnemyIdleSOBase
             // Reset the timer
             timer = movementTimeStagger;
         }
-
+        
     }
 
     public override void DoPhysicsUpdateLogic()

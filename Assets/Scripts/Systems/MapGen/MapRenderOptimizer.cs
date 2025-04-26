@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ public class MapRenderOptimizer
         // Add the current room first
         roomsToLoad.Add(curRoom);
 
-        Vector2 borderLeftCorner = new Vector2(curRoomPosition.x - borderLayer, curRoomPosition.y - borderLayer);
+        Vector2 borderLeftCorner =  new Vector2(curRoomPosition.x - borderLayer, curRoomPosition.y - borderLayer);
 
         if (curRoomPosition.x - borderLayer < 0)
         {
@@ -78,15 +79,15 @@ public class MapRenderOptimizer
             borderLeftCorner.y = 0;
         }
 
-        int distXToTraverse = 2 * borderLayer + (int)curRoom.size.x;
-        int distYToTraverse = 2 * borderLayer + (int)curRoom.size.y;
+        int distXToTraverse = 2 * borderLayer + (int) curRoom.size.x;
+        int distYToTraverse = 2 * borderLayer + (int) curRoom.size.y;
 
-        for (int xOffset = 0; xOffset < distXToTraverse; xOffset++)
+        for (int xOffset  = 0; xOffset < distXToTraverse; xOffset++)
         {
             for (int yOffset = 0; yOffset < distYToTraverse; yOffset++)
             {
-                int xPos = (int)borderLeftCorner.x + xOffset;
-                int yPos = (int)borderLeftCorner.y + yOffset;
+                int xPos = (int) borderLeftCorner.x + xOffset;
+                int yPos = (int) borderLeftCorner.y + yOffset;
 
                 if (xPos > gridWidth - 1) continue;
                 if (yPos > gridHeight - 1) continue;
@@ -105,7 +106,7 @@ public class MapRenderOptimizer
         }
 
         // Debug.Log($"Found {roomsToLoad.Count} rooms to load.");
-
+     
         return roomsToLoad;
     }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,7 +20,7 @@ public class LootBagFactory : Singleton<LootBagFactory>
         Assert.IsNotNull(lootBagPrefab, "Loot bag prefab should not be null!");
         Assert.IsNotNull(lootBagPrefab.GetComponent<LootHolder>(), "Loot bag prefab should have a LootHolder component!");
         Assert.IsNotNull(lootBagPrefab.GetComponent<SpriteRenderer>(), "Loot bag prefab should have a SpriteRenderer component!");
-        Assert.IsTrue(lootBagPrefab.GetComponent<Collider2D>() != null
+        Assert.IsTrue(lootBagPrefab.GetComponent<Collider2D>() != null 
             || lootBagPrefab.GetComponentInChildren<Collider2D>() != null,
             "Loot bag prefab should have a Collider2D component in either root or child!");
         Assert.IsTrue(lootBagPrefab.GetComponent<IInteractable>() != null

@@ -1,10 +1,7 @@
-
-/* Unmerged change from project 'Assembly-CSharp.Player'
-Before:
  using System.Collections;
-After:
-using System.Collections;
-*/
+using System.Collections.Generic;
+using UnityEngine;
+
 public interface IInteractableObject
 {
     void Interact();

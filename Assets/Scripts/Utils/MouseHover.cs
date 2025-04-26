@@ -1,10 +1,5 @@
-
-/* Unmerged change from project 'Assembly-CSharp.Player'
-Before:
  using System.Collections;
-After:
-using System.Collections;
-*/
+using System.Collections.Generic;
 using UnityEngine;
 
 // Script intended for objects that need to follow mouse.

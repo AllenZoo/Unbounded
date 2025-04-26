@@ -1,4 +1,6 @@
 using Cinemachine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,16 +28,15 @@ public class CameraTransitioner : MonoBehaviour
         if (transitionEvent == null)
         {
             Debug.LogError("transitionEvent is null. Please assign a UnityEvent to transitionEvent.");
-        }
-        else
+        } else
         {
             transitionEvent.AddListener(Transition);
         }
-
+        
 
         if (transitionCompleteEvent != null)
         {
-            transitionCompleteEvent.AddListener(TransitionComplete);
+           transitionCompleteEvent.AddListener(TransitionComplete);
         }
     }
 

@@ -1,5 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,7 +14,7 @@ using UnityEngine;
 /// Once data is initialized, then we can display it on the UI.
 /// 
 /// </summary>
-[CreateAssetMenu(fileName = "new Bar Context", menuName = "System/General UI/BarContext")]
+[CreateAssetMenu(fileName ="new Bar Context", menuName ="System/General UI/BarContext")]
 public class BarContext : ScriptableObject
 {
     public Action OnBarContextChange;

@@ -1,8 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // Spins a given object around a point
-public class OrbitSpinner : MonoBehaviour
+public class OrbitSpinner: MonoBehaviour
 {
     [Tooltip("Object to spin around a point.")]
     [SerializeField] private GameObject obj;
@@ -26,15 +28,14 @@ public class OrbitSpinner : MonoBehaviour
         if (obj != null)
         {
             // Spin the object around the center point.
-            if (spinClockWise)
-            {
+            if (spinClockWise) { 
                 obj.transform.RotateAround(center.position, Vector3.back, speed * SPIN_SPEED_SCALE * Time.deltaTime);
             }
             else
             {
                 obj.transform.RotateAround(center.position, Vector3.forward, speed * SPIN_SPEED_SCALE * Time.deltaTime);
             }
-
+            
         }
     }
 
