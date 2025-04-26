@@ -7,12 +7,14 @@ using UnityEngine;
 [Serializable]
 public class ItemUpgradeComponent : IItemComponent
 {
+    // TODO: change to keep track of upgrade cards.
     [Tooltip("Keeps track of the upgrades that have been applied to the item. Does not affect stats, just keeps track for history.")]
     public List<Item> upgrades = new List<Item>();
 
     [Tooltip("The list of modifiers added to the item via upgrades.")]
     public List<StatModifierEquipment> upgradeStatModifiers = new List<StatModifierEquipment>();
 
+    #region Constructors
     public ItemUpgradeComponent()
     {
         upgradeStatModifiers = new List<StatModifierEquipment>();
@@ -26,7 +28,15 @@ public class ItemUpgradeComponent : IItemComponent
             this.upgradeStatModifiers.Add(statModifier.DeepCopy());
         }
     }
+    #endregion
 
+    public IItemComponent DeepClone()
+    {
+        return new ItemUpgradeComponent(upgradeStatModifiers);
+    }
+
+
+    #region Equals + Hash
     public override bool Equals(object obj)
     {
         if (obj == null || GetType() != obj.GetType())
@@ -43,4 +53,5 @@ public class ItemUpgradeComponent : IItemComponent
     {
         return HashCode.Combine(upgradeStatModifiers.GetHashCode());
     }
+    #endregion
 }

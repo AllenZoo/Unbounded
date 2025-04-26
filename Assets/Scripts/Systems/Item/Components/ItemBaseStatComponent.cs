@@ -11,6 +11,7 @@ public class ItemBaseStatComponent : IItemComponent
 {
     public List<StatModifierEquipment> statModifiers = new List<StatModifierEquipment>();
 
+    #region Constructors
     public ItemBaseStatComponent()
     {
         statModifiers = new List<StatModifierEquipment>();
@@ -24,7 +25,14 @@ public class ItemBaseStatComponent : IItemComponent
             this.statModifiers.Add(statModifier.DeepCopy());
         }
     }
+    #endregion
 
+    public IItemComponent DeepClone()
+    {
+        return new ItemBaseStatComponent(statModifiers);
+    }
+
+    #region Equals + Hash
     public override bool Equals(object obj)
     {
         if (obj == null || GetType() != obj.GetType())
@@ -42,4 +50,5 @@ public class ItemBaseStatComponent : IItemComponent
     {
         return HashCode.Combine(statModifiers.GetHashCode());
     }
+    #endregion
 }

@@ -12,4 +12,9 @@ public class ItemEquipmentComponent : IItemComponent
     public ItemEquipmentComponent(EquipmentType equipmentType) {
         this.equipmentType = equipmentType;
     }
+
+    public IItemComponent DeepClone()
+    {
+        return new ItemEquipmentComponent(equipmentType);
+    }
 }

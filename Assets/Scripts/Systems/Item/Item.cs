@@ -9,7 +9,7 @@ using UnityEngine;
 
 public interface IItemComponent
 {
-    
+    public IItemComponent DeepClone();
 }
 
 [System.Serializable]
@@ -25,44 +25,8 @@ public class Item
     [MinValue(0)]
     public int quantity;
 
-    [PropertySpace(10)]
-    [ListDrawerSettings(ShowIndexLabels = true, AddCopiesLastElement = true)]
-    [HideReferenceObjectPicker]
-    public List<SerializableItemComponent> serializableComponents = new List<SerializableItemComponent>();
-
-    private List<IItemComponent> Components => serializableComponents.Select(sc => sc.component).ToList();
-
-    #region Editor Buttons
-    [Button("Add Attack Component")]
-    private void AddAttackComponent()
-    {
-        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Attack, new ItemAttackContainerComponent(null)));
-    }
-
-    [Button("Add Base Stat Component")]
-    private void AddBaseStatComponent()
-    {
-        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.BaseStat, new ItemBaseStatComponent()));
-    }
-
-    [Button("Add Upgrade Component")]
-    private void AddUpgradeComponent()
-    {
-        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Upgrade, new ItemUpgradeComponent()));
-    }
-
-    [Button("Add Upgrader Component")]
-    private void AddUpgraderComponent()
-    {
-        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Upgrader, new ItemUpgraderComponent()));
-    }
-
-    [Button("Add Equipment Component")]
-    private void AddEquipmentComponent()
-    {
-        serializableComponents.Add(new SerializableItemComponent(SerializableItemComponent.ComponentType.Equipment, new ItemEquipmentComponent(EquipmentType.SWORD)));
-    }
-    #endregion
+    [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
+    private List<IItemComponent> components = new List<IItemComponent>();
 
 
     // This method will help us recreate the SO_Item reference when loading
@@ -72,34 +36,33 @@ public class Item
     {
         this.data = baseData;
         this.quantity = quantity;
-        this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
+        // this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
     }
 
-    public Item(ItemData data, int quantity, List<SerializableItemComponent> serializableComponents) : this(data, quantity)
+    public Item(ItemData baseData, int quantity, List<IItemComponent> components): this(baseData, quantity)
     {
-        this.serializableComponents = serializableComponents;
+
     }
+
 
     public T GetComponent<T>() where T : IItemComponent
     {
-        return (T)Components.Find(c => c is T);
+        return (T)components.Find(c => c is T);
     }
 
     public void AddComponent(IItemComponent component)
     {
-        var serializableComponent = new SerializableItemComponent();
-        serializableComponent.SetComponent(component);
-        serializableComponents.Add(serializableComponent);
+        components.Add(component);
     }
 
     public bool HasComponent<T>() where T : IItemComponent
     {
-        return Components.Exists(c => c is T);
+        return components.Exists(c => c is T);
     }
 
     public List<IItemComponent> GetItemComponents()
     {
-        return Components;
+        return components;
     }
 
     /// <summary>
@@ -108,18 +71,13 @@ public class Item
     /// <returns></returns>
     public Item Clone()
     {
-        List<SerializableItemComponent> clonedComponents = new List<SerializableItemComponent>();
-        foreach (var component in serializableComponents)
+        List<IItemComponent> clonedComponents = new List<IItemComponent>();
+        foreach (var component in components)
         {
-            clonedComponents.Add(component.DeepCopy());
+            clonedComponents.Add(component.DeepClone());
         }
 
-        return new Item(data, quantity, clonedComponents);
-    }
-
-    public void Erase()
-    {
-        
+        return new Item(data, quantity, components);
     }
 
     /// <summary>
@@ -148,5 +106,15 @@ public class Item
     public override int GetHashCode()
     {
         return HashCode.Combine(data.GetHashCode(), quantity);
+    }
+
+    private static IEnumerable<object> GetItemComponentTypes()
+    {
+        yield return new ItemAttackContainerComponent(null);
+        yield return new ItemBaseStatComponent();
+        yield return new ItemUpgradeComponent();
+        yield return new ItemUpgraderComponent();
+        yield return new ItemEquipmentComponent(EquipmentType.SWORD);
+        yield return new ItemValueComponent();
     }
 }
