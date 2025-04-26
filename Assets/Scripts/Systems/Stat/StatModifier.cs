@@ -55,7 +55,7 @@ public class StatModifier : IDisposable, IUpgradeModifier
     {
         OnDispose?.Invoke(this);
     }
-    public void ApplyModifier()
+    public void Accept(IUpgradeModifierVisitor visitor)
     {
         throw new NotImplementedException();
     }

@@ -9,7 +9,7 @@ public class TraitModifier : IUpgradeModifier
     [SerializeField] private bool addPiercing = false;
     [SerializeField] private int numAtksToAdd = 0;
 
-    public void ApplyModifier()
+    public void Accept(IUpgradeModifierVisitor visitor)
     {
         throw new System.NotImplementedException();
     }

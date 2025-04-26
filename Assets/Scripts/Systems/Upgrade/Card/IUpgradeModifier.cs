@@ -6,7 +6,7 @@ using UnityEngine;
 /// Interface for all upgrade modifiers related to upgrade card data.
 /// </summary>
 public interface IUpgradeModifier {
-    void ApplyModifier(); // add context to apply to. eg. ApplyModifier(PlayerContext context)
+    void Accept(IUpgradeModifierVisitor visitor);
 }
 
 

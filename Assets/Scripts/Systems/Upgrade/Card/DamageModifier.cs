@@ -9,7 +9,7 @@ public class DamageModifier : IUpgradeModifier
     [SerializeField, Tooltip("In %. Apply after base damage calculation (ATK minus DEF)")]
     private double percentageIncrease = 10;
 
-    public void ApplyModifier()
+    public void Accept(IUpgradeModifierVisitor visitor)
     {
         throw new System.NotImplementedException();
     }
