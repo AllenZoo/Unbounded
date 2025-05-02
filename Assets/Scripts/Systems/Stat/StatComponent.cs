@@ -5,18 +5,22 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// Stat Component MonoBehaviour Class that is attached to GameObjects that want to handle stats and events.
+/// </summary>
 public class StatComponent : MonoBehaviour
 {
     // LocalEventHandler only handles event logic between systems on the same object
-    [SerializeField] public LocalEventHandler localEventHandler;
+    [SerializeField] public LocalEventHandler leh;
 
     // This event allows for subscription between different objects. Eg. UI and StatComponent
     public event Action OnStatChange;
 
     [SerializeField] private SO_StatContainer baseStats;
 
-    private StatMediator statMediator;
+    private IStatMediator statMediator;
 
+    #region Stats
     public float health
     {
         get
@@ -122,41 +126,30 @@ public class StatComponent : MonoBehaviour
             OnStatChange?.Invoke();
         }
     }
+    #endregion
 
     private void Awake()
     {
         Debug.Assert(baseStats != null, 
             "Forgot to drag a scriptable stat container to object: " + gameObject.name);
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                                       "] with root object [" + gameObject.transform.root.name + "] for StatComponent.cs");
-            }
-        }
-        statMediator = new StatMediator(localEventHandler, this);
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        statMediator = new StatMediator();
 
         // This binding is made in Awake, since a Call to OnWeaponEquippedEvent happens in Start in EquipmentWeaponHandler
         LocalEventBinding<OnWeaponEquippedEvent> weaponEquippedBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
-        localEventHandler.Register(weaponEquippedBinding);
+        leh.Register(weaponEquippedBinding);
 
         LocalEventBinding<OnDamagedEvent> damageBinding = new LocalEventBinding<OnDamagedEvent>(HandleDamage);
-        localEventHandler.Register(damageBinding);
+        leh.Register(damageBinding);
 
         LocalEventBinding<OnStatBuffEvent> buffBinding = new LocalEventBinding<OnStatBuffEvent>(HandleBuff);
-        localEventHandler.Register(buffBinding);
-
-        LocalEventBinding<OnStatChangeEvent> statChangeBinding = new LocalEventBinding<OnStatChangeEvent>(HandleStatChange);
-        localEventHandler.Register(statChangeBinding);
+        leh.Register(buffBinding);
     }
 
     private void Start()
     {
-        
-
+        statMediator.RegisterStatChangeListener(HandleStatChange);
     }
 
     public float GetStatValue(Stat stat)
@@ -262,8 +255,9 @@ public class StatComponent : MonoBehaviour
     /// Invokes global event for stat change.
     /// </summary>
     /// <param name="e"></param>
-    private void HandleStatChange(OnStatChangeEvent e)
+    private void HandleStatChange()
     {
+        leh.Call(new OnStatChangeEvent { statComponent = this });
         OnStatChange?.Invoke();
     }
 

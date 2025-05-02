@@ -18,10 +18,11 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         statsPostMod = new StatComponent();
     }
 
-    //public StatComponent GetStatsAfterModification()
-    //{
+    public StatComponent GetStatsAfterModification()
+    {
+        return statsPostMod;
+    }
 
-    //}
 
     private void ApplyModifiers(List<IUpgradeModifier> modifiers)
     {
