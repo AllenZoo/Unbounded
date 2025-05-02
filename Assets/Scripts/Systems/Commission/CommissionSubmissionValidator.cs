@@ -65,8 +65,11 @@ public class CommissionSubmissionValidator
         List<StatModifier> itemModifiers = new List<StatModifier>();
 
         // Get all the stat modifiers from the item.
+
+        // TODO:
+        throw new NotImplementedException();
         //  itemModifiers.AddRange(item.GetComponent<ItemBaseStatComponent>().statModifiers.Select(component => component.GetModifier()));
-        itemModifiers.AddRange(item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Select(component => component.GetModifier()));
+        // itemModifiers.AddRange(item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Select(component => component.GetModifier()));
 
         StatQuery query = new StatQuery(requirement.Item1, 0);
         StatMediator.CalculateFinalStat(itemModifiers, query, new NormalStatModifierOrder());

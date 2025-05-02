@@ -199,6 +199,7 @@ public class StatComponent : MonoBehaviour
 
         if (equipped != null)
         {
+            throw new NotImplementedException();
             // Add stat modifiers from equipped weapon
             //if (equipped.HasComponent<ItemBaseStatComponent>())
             //{
@@ -208,32 +209,33 @@ public class StatComponent : MonoBehaviour
             //    });
             //}
 
-            if (equipped.HasComponent<ItemUpgradeComponent>())
-            {
-                equipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>
-                {
-                    statMediator.AddModifier(statModifier.GetModifier());
-                });
-            }
+            //if (equipped.HasComponent<ItemUpgradeComponent>())
+            //{
+            //    equipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>
+            //    {
+            //        statMediator.AddModifier(statModifier.GetModifier());
+            //    });
+            //}
         }
 
         // Dispose unequipped equipment stat modifiers
         if (unequipped != null)
         {
-           //if (unequipped.HasComponent<ItemBaseStatComponent>())
-           // {
-           //     unequipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
-           //     {
-           //         statMediator.RemoveModifier(statModifier.GetModifier());
-           //     });
-           // }
-            if (unequipped.HasComponent<ItemUpgradeComponent>())
-            {
-                unequipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>
-                {
-                    statMediator.RemoveModifier(statModifier.GetModifier());
-                });
-            }
+            throw new NotImplementedException();
+            //if (unequipped.HasComponent<ItemBaseStatComponent>())
+            // {
+            //     unequipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
+            //     {
+            //         statMediator.RemoveModifier(statModifier.GetModifier());
+            //     });
+            // }
+            //if (unequipped.HasComponent<ItemUpgradeComponent>())
+            //{
+            //    unequipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>
+            //    {
+            //        statMediator.RemoveModifier(statModifier.GetModifier());
+            //    });
+            //}
         }
     }
     

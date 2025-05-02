@@ -112,6 +112,7 @@ public class ItemDescriptor : MonoBehaviour
 
         if (item.HasComponent<ItemBaseStatComponent>())
         {
+            throw new NotImplementedException();
             itemTextStats.text += "Base Stats:\n";
             ItemBaseStatComponent itemBaseStatComponent = item.GetComponent<ItemBaseStatComponent>();
             // TODO: stringify base stats somehow else.
@@ -120,13 +121,14 @@ public class ItemDescriptor : MonoBehaviour
 
         if (item.HasComponent<ItemUpgradeComponent>())
         {
-            if (item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Count > 0)
-            {
-                // Hide this text if no upgrades are present.
-                itemTextStats.text += "Upgrades:\n";
-            }
-            ItemUpgradeComponent itemUpgradeComponent = item.GetComponent<ItemUpgradeComponent>();
-            itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
+            throw new NotImplementedException();
+            //if (item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Count > 0)
+            //{
+            //    // Hide this text if no upgrades are present.
+            //    itemTextStats.text += "Upgrades:\n";
+            //}
+            //ItemUpgradeComponent itemUpgradeComponent = item.GetComponent<ItemUpgradeComponent>();
+            //itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
         }
 
         if (item.HasComponent<ItemUpgraderComponent>())

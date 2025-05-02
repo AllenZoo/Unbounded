@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -53,7 +54,8 @@ public class Forger : IForger
             for (int i = 0; i < stone.quantity; i++)
             {
                 // Add stat modifiers to the previewItem
-                previewItem.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.AddRange(stone.GetComponent<ItemUpgraderComponent>().modifiers);
+                throw new NotImplementedException();
+                // previewItem.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.AddRange(stone.GetComponent<ItemUpgraderComponent>().modifiers);
 
                 // Add the stones themselves into the preview item for history purposes
                 //previewItem.GetComponent<ItemUpgradeComponent>().upgrades.Add(stone);
