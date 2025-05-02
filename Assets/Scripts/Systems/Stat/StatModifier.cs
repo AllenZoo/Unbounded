@@ -57,7 +57,7 @@ public class StatModifier : IDisposable, IUpgradeModifier
     }
     public void Accept(IUpgradeModifierVisitor visitor)
     {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 
     //public override string ToString()

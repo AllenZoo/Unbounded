@@ -24,6 +24,7 @@ public class Item
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
     private List<IItemComponent> components = new List<IItemComponent>();
 
+    private ItemModifierMediator itemModifierMediator; 
 
     // This method will help us recreate the SO_Item reference when loading
     public string dataGUID;
@@ -33,6 +34,7 @@ public class Item
     {
         this.data = baseData;
         this.quantity = quantity;
+        this.itemModifierMediator = new ItemModifierMediator(this);
         // this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
     }
 
@@ -42,35 +44,38 @@ public class Item
     }
     #endregion
 
+    public void ApplyModifiers()
+    {
+        if (HasComponent<ItemUpgradeComponent>())
+        {
+            //itemModifierMediator.ApplyModifiers(GetComponent<ItemUpgradeComponent>().GetUpgradeModifiers());
+        }
+    }
+
     #region Item Component Handling
     public T GetComponent<T>() where T : IItemComponent
     {
         return (T)components.Find(c => c is T);
     }
-
     public void AddComponent(IItemComponent component)
     {
         components.Add(component);
     }
-
     public void RemoveComponent<T>() where T : IItemComponent
     {
         components.RemoveAll(c => c is T);
     }
-
-
     public bool HasComponent<T>() where T : IItemComponent
     {
         return components.Exists(c => c is T);
     }
-
     public List<IItemComponent> GetItemComponents()
     {
         return components;
     }
-
     private static IEnumerable<object> GetItemComponentTypes()
     {
+        // For Odin serialization of interfaces.
         yield return new ItemAttackContainerComponent(null);
         yield return new ItemBaseStatComponent();
         yield return new ItemUpgradeComponent();
@@ -80,6 +85,7 @@ public class Item
     }
     #endregion
 
+    #region Utility (Clone, IsEmpty)
 
     /// <summary>
     /// Creates a deep copy of the item.
@@ -101,6 +107,7 @@ public class Item
     /// </summary>
     /// <returns></returns>
     public bool IsEmpty() => data == null || quantity == 0;
+    #endregion
 
     // TODO: update equals and hash function.
     #region Equals + Hash

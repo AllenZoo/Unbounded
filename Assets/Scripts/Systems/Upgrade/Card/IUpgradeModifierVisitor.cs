@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public interface IUpgradeModifierVisitor
 {
-    void Visit(StatModifier modifier);
-    void Visit(DamageModifier modifier);
-    void Visit(TraitModifier modifier);
+    public virtual void Visit(StatModifier modifier) { }
+    public virtual void Visit(DamageModifier modifier) { }
+    public virtual void Visit(TraitModifier modifier) { }
 }
 

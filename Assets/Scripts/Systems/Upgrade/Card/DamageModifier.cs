@@ -11,6 +11,6 @@ public class DamageModifier : IUpgradeModifier
 
     public void Accept(IUpgradeModifierVisitor visitor)
     {
-        throw new System.NotImplementedException();
+        visitor.Visit(this);
     }
 }
