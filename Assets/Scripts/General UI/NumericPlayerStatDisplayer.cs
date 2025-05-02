@@ -23,7 +23,7 @@ public class NumericPlayerStatDisplayer : MonoBehaviour
 
     private void Render()
     {
-        float statValue = playerStat.GetStatValue(statToDisplay);
+        float statValue = playerStat.StatContainer.GetStatValue(statToDisplay);
         text.text = "" + statValue;
     }
 }

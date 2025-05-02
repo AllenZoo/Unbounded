@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,128 +14,16 @@ public class StatComponent : MonoBehaviour
     // LocalEventHandler only handles event logic between systems on the same object
     [SerializeField] public LocalEventHandler leh;
 
+    public StatContainer StatContainer { get { return statContainer; } private set { } }
+    [SerializeField, Required] private StatContainer statContainer;
+
     // This event allows for subscription between different objects. Eg. UI and StatComponent
     public event Action OnStatChange;
 
-    [SerializeField] private SO_StatContainer baseStats;
-
-    private IStatMediator statMediator;
-
-    #region Stats
-    public float health
-    {
-        get
-        {
-            var q = new StatQuery(Stat.HP, baseStats.health);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float maxHealth
-    {
-        get {
-            var q = new StatQuery(Stat.MAX_HP, baseStats.maxHealth);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float mana
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MP, baseStats.mana);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float maxMana
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MAX_MP, baseStats.maxMana);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float stamina
-    {
-        get
-        {
-            var q = new StatQuery(Stat.SP, baseStats.stamina);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float maxStamina
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MAX_SP, baseStats.maxStamina);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float attack {
-        get {
-            var q = new StatQuery(Stat.ATK, baseStats.attack);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { } 
-    }
-    public float defense {
-        get {
-            var q = new StatQuery(Stat.DEF, baseStats.defense);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float dexterity
-    {
-        get
-        {
-            var q = new StatQuery(Stat.DEX, baseStats.dexterity);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float speed {
-        get {
-            var q = new StatQuery(Stat.SPD, baseStats.speed);
-            statMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float gold {
-        get {
-            //var q = new StatQuery(Stat.GOLD, baseStats.gold);
-            //statMediator.CalculateFinalStat(q);
-            //return q.Value;
-            return baseStats.gold;
-        }
-        set {
-            baseStats.gold = value;
-            OnStatChange?.Invoke();
-        }
-    }
-    #endregion
 
     private void Awake()
     {
-        Debug.Assert(baseStats != null, 
-            "Forgot to drag a scriptable stat container to object: " + gameObject.name);
-
         leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
-        statMediator = new StatMediator();
 
         // This binding is made in Awake, since a Call to OnWeaponEquippedEvent happens in Start in EquipmentWeaponHandler
         LocalEventBinding<OnWeaponEquippedEvent> weaponEquippedBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
@@ -145,42 +34,31 @@ public class StatComponent : MonoBehaviour
 
         LocalEventBinding<OnStatBuffEvent> buffBinding = new LocalEventBinding<OnStatBuffEvent>(HandleBuff);
         leh.Register(buffBinding);
+
+        // If null reference here, most likely statContainer not serialized.
+        statContainer.Init();
     }
 
     private void Start()
     {
-        statMediator.RegisterStatChangeListener(HandleStatChange);
+        statContainer.StatMediator.RegisterStatChangeListener(HandleStatChange);
     }
 
-    public float GetStatValue(Stat stat)
+    /// <summary>
+    /// For debugging purposes.
+    /// 
+    /// TODO: eventually remove.
+    /// </summary>
+    private void Update()
     {
-        switch(stat)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            case Stat.HP:
-                return health;
-            case Stat.MAX_HP:
-                return maxHealth;
-            case Stat.MP:
-                return mana;
-            case Stat.MAX_MP:
-                return maxMana;
-            case Stat.SP:
-                return stamina;
-            case Stat.MAX_SP:
-                return maxStamina;
-            case Stat.ATK:
-                return attack;
-            case Stat.DEF:
-                return defense;
-            case Stat.SPD:
-                return speed;
-            case Stat.GOLD:
-                return gold;
-            default:
-                return 0;
+            //gold += 10;
+            HandleDamage(new OnDamagedEvent { damage = 10 });
         }
     }
 
+    #region Local Event Function Handlers
     /// <summary>
     /// Modifies stats based on weapon equipped and weapon unequipped.
     /// </summary>
@@ -239,7 +117,7 @@ public class StatComponent : MonoBehaviour
     private void HandleDamage(OnDamagedEvent e)
     {
         StatModifier damageModifier = new StatModifier(Stat.HP, new AddOperation(-e.damage), -1);
-        statMediator.AddModifier(damageModifier);
+        statContainer.StatMediator.AddModifier(damageModifier);
     }
 
     /// <summary>
@@ -248,7 +126,7 @@ public class StatComponent : MonoBehaviour
     /// <param name="e"></param>
     private void HandleBuff(OnStatBuffEvent e)
     {
-        statMediator.AddModifier(e.buff);
+        statContainer.StatMediator.AddModifier(e.buff);
     }
 
     /// <summary>
@@ -260,13 +138,5 @@ public class StatComponent : MonoBehaviour
         leh.Call(new OnStatChangeEvent { statComponent = this });
         OnStatChange?.Invoke();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            gold += 10;
-            HandleDamage(new OnDamagedEvent{ damage=10});
-        }
-    }
+    #endregion    
 }

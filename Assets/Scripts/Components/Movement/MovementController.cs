@@ -94,7 +94,7 @@ public class MovementController : MonoBehaviour
         Vector2 processed_dir = motion.dir.sqrMagnitude > 1 ? motion.dir.normalized : motion.dir;
 
         // 1. Velocity Calculation
-        Vector2 velocity = processed_dir * stat.speed * Time.fixedDeltaTime * scale;
+        Vector2 velocity = processed_dir * stat.StatContainer.Speed * Time.fixedDeltaTime * scale;
 
         // 2. Apply translation
         rb.velocity = velocity;

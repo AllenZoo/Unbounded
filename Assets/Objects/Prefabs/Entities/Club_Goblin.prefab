@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de38b8fb36a1b754e968d85a331f55e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  leh: {fileID: 0}
   dropRates:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: 955c59cadb623cb458abb37d39b5d41e, type: 2}
@@ -457,8 +457,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
-  baseStats: {fileID: 11400000, guid: 23674f35256ae2446bba61a22c395e80, type: 2}
+  leh: {fileID: 7793221365435426079}
+  statContainer:
+    baseStats: {fileID: 11400000, guid: 23674f35256ae2446bba61a22c395e80, type: 2}
 --- !u!50 &3820556010379128906
 Rigidbody2D:
   serializedVersion: 4

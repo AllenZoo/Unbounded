@@ -120,13 +120,13 @@ public class BarController : MonoBehaviour
         switch (statToTrack)
         {
             case BarTrackStat.HP:
-                fillImage.fillAmount = statObject.health / statObject.maxHealth;
+                fillImage.fillAmount = statObject.StatContainer.Health / statObject.StatContainer.MaxHealth;
                 break;
             case BarTrackStat.MP:
-                fillImage.fillAmount = statObject.mana / statObject.maxMana;
+                fillImage.fillAmount = statObject.StatContainer.Mana / statObject.StatContainer.MaxMana;
                 break;
             case BarTrackStat.Stamina:
-                fillImage.fillAmount = statObject.stamina / statObject.maxStamina;
+                fillImage.fillAmount = statObject.StatContainer.Stamina / statObject.StatContainer.MaxStamina;
                 break;
         }
         

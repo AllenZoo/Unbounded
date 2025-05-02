@@ -471,8 +471,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: -3388595544745265729}
-  baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
+  leh: {fileID: -3388595544745265729}
+  statContainer:
+    baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
 --- !u!50 &4456538979408597579
 Rigidbody2D:
   serializedVersion: 4

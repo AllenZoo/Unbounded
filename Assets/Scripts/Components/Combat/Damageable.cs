@@ -105,7 +105,7 @@ public class Damageable : MonoBehaviour
         float growthScale = 8f;
 
         // Make damage reduction grow at a logarithmic rate. (This function looks good on desmos)
-        float damageReduction = Mathf.Log10(stat.defense/growthScale + 1f) / 2f;
+        float damageReduction = Mathf.Log10(stat.StatContainer.Defense/growthScale + 1f) / 2f;
 
         float damageTaken = damage * (1f - damageReduction);
 
@@ -117,7 +117,7 @@ public class Damageable : MonoBehaviour
 
     private void CheckDeath(OnStatChangeEvent e)
     {
-        if (e.statComponent.health <= 0)
+        if (e.statComponent.StatContainer.Health <= 0)
         {
             localEventHandler.Call(new OnDeathEvent { });
             // Disable hittable so it can't be hit anymore.
