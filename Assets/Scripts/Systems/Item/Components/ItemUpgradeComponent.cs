@@ -9,30 +9,51 @@ public class ItemUpgradeComponent : IItemComponent
 {
     // TODO: change to keep track of upgrade cards.
     [Tooltip("Keeps track of the upgrades that have been applied to the item. Does not affect stats, just keeps track for history.")]
-    public List<Item> upgrades = new List<Item>();
+    public List<UpgradeCardData> cards = new List<UpgradeCardData>();
+
+    //TODO: refactor this using the new modifier system. Make sure this is private
+    public List<StatModifierEquipment> upgradeStatModifiers = new List<StatModifierEquipment>();
 
     [Tooltip("The list of modifiers added to the item via upgrades.")]
-    public List<StatModifierEquipment> upgradeStatModifiers = new List<StatModifierEquipment>();
+    private List<IUpgradeModifier> upgradeModifiers = new List<IUpgradeModifier>();
 
     #region Constructors
     public ItemUpgradeComponent()
     {
-        upgradeStatModifiers = new List<StatModifierEquipment>();
+        upgradeModifiers = new List<IUpgradeModifier>();
     }
 
-    public ItemUpgradeComponent(List<StatModifierEquipment> toBeCloned)
+    public ItemUpgradeComponent(List<IUpgradeModifier> toBeCloned, List<UpgradeCardData> cards)
     {
-        this.upgradeStatModifiers = new List<StatModifierEquipment>();
+        this.upgradeModifiers = new List<IUpgradeModifier>();
         foreach (var statModifier in toBeCloned)
         {
-            this.upgradeStatModifiers.Add(statModifier.DeepCopy());
+            // this.upgradeModifiers.Add(statModifier.DeepCopy());
         }
+        // TODO: double chekc this cloning logic.
+        this.cards = new List<UpgradeCardData>(cards);
+    }
+    #endregion
+
+    #region Modifier Logic
+    public List<IUpgradeModifier> GetUpgradeModifiers()
+    {
+        return upgradeModifiers;
+    }
+
+    public void AddUpgrade(IUpgradeModifier upgradeModifier)
+    {
+        upgradeModifiers.Add(upgradeModifier);
+    }
+
+    public void RemoveUpgrade(IUpgradeModifier upgradeModifier) {
+        upgradeModifiers.Remove(upgradeModifier);
     }
     #endregion
 
     public IItemComponent DeepClone()
     {
-        return new ItemUpgradeComponent(upgradeStatModifiers);
+        return new ItemUpgradeComponent(upgradeModifiers, cards);
     }
 
 

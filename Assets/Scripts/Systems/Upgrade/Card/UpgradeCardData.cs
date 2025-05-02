@@ -7,11 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="new upgrade card", menuName ="System/Upgrade/UpgradeCard")]
 public class UpgradeCardData : ScriptableObject
 {
-    // TODO: extract these fields into some CardTemplate scriptable object class.
     public string title;
     public Sprite icon;
     public Color cardColor; 
-    //
 
     public CardRarity rarity;
 

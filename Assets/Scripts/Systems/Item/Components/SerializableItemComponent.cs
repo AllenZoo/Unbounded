@@ -1,91 +1,94 @@
-using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+// Deprecated Class. We no longer need this since we use Odin for interface serialization.
+// TODO: delete.
 
-[System.Serializable]
-public class SerializableItemComponent
-{
-    public enum ComponentType
-    {
-        Attack,
-        BaseStat,
-        Upgrade,
-        Upgrader,
-        Equipment,
-        // Add other types as needed
-    }
+//using Sirenix.OdinInspector;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using UnityEngine;
 
-    [HideLabel]
-    public ComponentType type;
+//[System.Serializable]
+//public class SerializableItemComponent
+//{
+//    public enum ComponentType
+//    {
+//        Attack,
+//        BaseStat,
+//        Upgrade,
+//        Upgrader,
+//        Equipment,
+//        // Add other types as needed
+//    }
 
-    [InlineProperty]
-    [HideLabel]
-    [SerializeReference]
-    public IItemComponent component;
+//    [HideLabel]
+//    public ComponentType type;
 
-    public SerializableItemComponent()
-    {
-    }
+//    [InlineProperty]
+//    [HideLabel]
+//    [SerializeReference]
+//    public IItemComponent component;
 
-    public SerializableItemComponent(ComponentType type, IItemComponent component)
-    {
-        this.type = type;
-        this.component = component;
-    }
+//    public SerializableItemComponent()
+//    {
+//    }
 
-    public void SetComponent(IItemComponent newComponent)
-    {
-        if (newComponent is ItemAttackContainerComponent)
-            type = ComponentType.Attack;
-        else if (newComponent is ItemUpgradeComponent)
-            type = ComponentType.Upgrade;
-        else if (newComponent is ItemBaseStatComponent)
-            type = ComponentType.BaseStat;
-        else if (newComponent is ItemUpgraderComponent)
-            type = ComponentType.Upgrader;
-        else if (newComponent is ItemEquipmentComponent)
-            type = ComponentType.Equipment;
+//    public SerializableItemComponent(ComponentType type, IItemComponent component)
+//    {
+//        this.type = type;
+//        this.component = component;
+//    }
 
-        // Add other types as needed
+//    public void SetComponent(IItemComponent newComponent)
+//    {
+//        if (newComponent is ItemAttackContainerComponent)
+//            type = ComponentType.Attack;
+//        else if (newComponent is ItemUpgradeComponent)
+//            type = ComponentType.Upgrade;
+//        else if (newComponent is ItemBaseStatComponent)
+//            type = ComponentType.BaseStat;
+//        else if (newComponent is ItemUpgraderComponent)
+//            type = ComponentType.Upgrader;
+//        else if (newComponent is ItemEquipmentComponent)
+//            type = ComponentType.Equipment;
 
-        component = newComponent;
-    }
+//        // Add other types as needed
 
-    public SerializableItemComponent DeepCopy()
-    {
-        var newComponent = new SerializableItemComponent();
-        newComponent.SetComponent(DeepCopyComponent(component));
-        return newComponent;
-    }
+//        component = newComponent;
+//    }
 
-    private IItemComponent DeepCopyComponent(IItemComponent component)
-    {
-        if (component is ItemBaseStatComponent baseStatComponent)
-        {
-            List<StatModifierEquipment> copy = baseStatComponent.statModifiers.Select(s => s.DeepCopy()).ToList();
-            return new ItemBaseStatComponent(copy);
-        }
-        else if (component is ItemUpgradeComponent upgradeComponent)
-        {
-            List<StatModifierEquipment> copy = upgradeComponent.upgradeStatModifiers.Select(s => s.DeepCopy()).ToList();
-            return new ItemUpgradeComponent(copy);
-        }
-        else if (component is ItemUpgraderComponent upgraderComponent)
-        {
-            List<StatModifierEquipment> copy = upgraderComponent.modifiers.Select(s => s.DeepCopy()).ToList();
-            return new ItemUpgraderComponent(copy, upgraderComponent.costPerItem);
-        } 
-        else if (component is ItemEquipmentComponent equipmentComponent)
-        {
-            return new ItemEquipmentComponent(equipmentComponent.equipmentType);
-        }
+//    public SerializableItemComponent DeepCopy()
+//    {
+//        var newComponent = new SerializableItemComponent();
+//        newComponent.SetComponent(DeepCopyComponent(component));
+//        return newComponent;
+//    }
 
-        // Add more component types as needed
-        Debug.LogError("Deep copy not implemented for component type: " + component.GetType());
+//    private IItemComponent DeepCopyComponent(IItemComponent component)
+//    {
+//        if (component is ItemBaseStatComponent baseStatComponent)
+//        {
+//            List<StatModifierEquipment> copy = baseStatComponent.statModifiers.Select(s => s.DeepCopy()).ToList();
+//            return new ItemBaseStatComponent(copy);
+//        }
+//        else if (component is ItemUpgradeComponent upgradeComponent)
+//        {
+//            List<StatModifierEquipment> copy = upgradeComponent.upgradeStatModifiers.Select(s => s.DeepCopy()).ToList();
+//            return new ItemUpgradeComponent(copy);
+//        }
+//        else if (component is ItemUpgraderComponent upgraderComponent)
+//        {
+//            List<StatModifierEquipment> copy = upgraderComponent.modifiers.Select(s => s.DeepCopy()).ToList();
+//            return new ItemUpgraderComponent(copy, upgraderComponent.costPerItem);
+//        } 
+//        else if (component is ItemEquipmentComponent equipmentComponent)
+//        {
+//            return new ItemEquipmentComponent(equipmentComponent.equipmentType);
+//        }
 
-        // If the component type is not recognized, return a shallow copy
-        return component;
-    }
-}
+//        // Add more component types as needed
+//        Debug.LogError("Deep copy not implemented for component type: " + component.GetType());
+
+//        // If the component type is not recognized, return a shallow copy
+//        return component;
+//    }
+//}

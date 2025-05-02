@@ -200,13 +200,13 @@ public class StatComponent : MonoBehaviour
         if (equipped != null)
         {
             // Add stat modifiers from equipped weapon
-            if (equipped.HasComponent<ItemBaseStatComponent>())
-            {
-                equipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
-                {
-                    statMediator.AddModifier(statModifier.GetModifier());
-                });
-            }
+            //if (equipped.HasComponent<ItemBaseStatComponent>())
+            //{
+            //    equipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
+            //    {
+            //        statMediator.AddModifier(statModifier.GetModifier());
+            //    });
+            //}
 
             if (equipped.HasComponent<ItemUpgradeComponent>())
             {
@@ -220,13 +220,13 @@ public class StatComponent : MonoBehaviour
         // Dispose unequipped equipment stat modifiers
         if (unequipped != null)
         {
-           if (unequipped.HasComponent<ItemBaseStatComponent>())
-            {
-                unequipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
-                {
-                    statMediator.RemoveModifier(statModifier.GetModifier());
-                });
-            }
+           //if (unequipped.HasComponent<ItemBaseStatComponent>())
+           // {
+           //     unequipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
+           //     {
+           //         statMediator.RemoveModifier(statModifier.GetModifier());
+           //     });
+           // }
             if (unequipped.HasComponent<ItemUpgradeComponent>())
             {
                 unequipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>

@@ -7,29 +7,41 @@ using UnityEngine;
 /**
  * For items that have base stats.
  */
+[Serializable]
 public class ItemBaseStatComponent : IItemComponent
 {
-    public List<StatModifierEquipment> statModifiers = new List<StatModifierEquipment>();
+    /// <summary>
+    /// Base stats of the weapon. Static.
+    /// </summary>
+    public SO_StatContainer BaseStats { get; private set; }
+
+    ///// <summary>
+    ///// The Stat modifiers applied to item.
+    ///// TODO: move all modifier logic to upgrade component.
+    ///// </summary>
+    //public List<StatModifierEquipment> statModifiers = new List<StatModifierEquipment>();
 
     #region Constructors
     public ItemBaseStatComponent()
     {
-        statModifiers = new List<StatModifierEquipment>();
+        //statModifiers = new List<StatModifierEquipment>();
     }
 
-    public ItemBaseStatComponent(List<StatModifierEquipment> toBeCloned)
+    public ItemBaseStatComponent(SO_StatContainer baseStats)
     {
-        this.statModifiers = new List<StatModifierEquipment>();
-        foreach (var statModifier in toBeCloned)
-        {
-            this.statModifiers.Add(statModifier.DeepCopy());
-        }
+        this.BaseStats = baseStats;
+        //this.statModifiers = new List<StatModifierEquipment>();
+        //foreach (var statModifier in toBeCloned)
+        //{
+        //    this.statModifiers.Add(statModifier.DeepCopy());
+        //}
     }
     #endregion
 
     public IItemComponent DeepClone()
     {
-        return new ItemBaseStatComponent(statModifiers);
+        return new ItemBaseStatComponent(BaseStats);
+        // return new ItemBaseStatComponent(BaseStats, statModifiers);
     }
 
     #region Equals + Hash
@@ -42,13 +54,14 @@ public class ItemBaseStatComponent : IItemComponent
         // Check if lists match each other regardless of order.
 
         ItemBaseStatComponent other = obj as ItemBaseStatComponent;
-        bool isEqual = statModifiers.All(other.statModifiers.Contains) && statModifiers.Count == other.statModifiers.Count;
+        //bool isEqual = statModifiers.All(other.statModifiers.Contains) && statModifiers.Count == other.statModifiers.Count;
+        bool isEqual = BaseStats.Equals(other.BaseStats);
         return isEqual;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(statModifiers.GetHashCode());
+        return HashCode.Combine(BaseStats.GetHashCode());
     }
     #endregion
 }

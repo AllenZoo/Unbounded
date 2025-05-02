@@ -56,7 +56,7 @@ public class Forger : IForger
                 previewItem.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.AddRange(stone.GetComponent<ItemUpgraderComponent>().modifiers);
 
                 // Add the stones themselves into the preview item for history purposes
-                previewItem.GetComponent<ItemUpgradeComponent>().upgrades.Add(stone);
+                //previewItem.GetComponent<ItemUpgradeComponent>().upgrades.Add(stone);
             }
         }
 

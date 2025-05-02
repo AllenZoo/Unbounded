@@ -114,7 +114,8 @@ public class ItemDescriptor : MonoBehaviour
         {
             itemTextStats.text += "Base Stats:\n";
             ItemBaseStatComponent itemBaseStatComponent = item.GetComponent<ItemBaseStatComponent>();
-            itemTextStats.text += StringifyStatModifierList(itemBaseStatComponent.statModifiers);
+            // TODO: stringify base stats somehow else.
+            //itemTextStats.text += StringifyStatModifierList(itemBaseStatComponent.statModifiers);
         }
 
         if (item.HasComponent<ItemUpgradeComponent>())

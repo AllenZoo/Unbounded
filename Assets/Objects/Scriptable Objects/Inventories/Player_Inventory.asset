@@ -23,16 +23,13 @@ MonoBehaviour:
     SerializationNodes: []
   slots: 9
   items:
+  - data: {fileID: 0}
+    quantity: 0
+    components: []
+    dataGUID: 
   - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
     quantity: 6
     components: []
-    dataGUID: f973e5a82c08c8549a07ceafc11aa959
-  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
-    quantity: 1
-    components:
-    - rid: 3587002246619201538
-    - rid: 3587002246619201539
-    - rid: 3587002246619201540
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
@@ -42,12 +39,9 @@ MonoBehaviour:
     quantity: 0
     components: []
     dataGUID: 
-  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
-    quantity: 1
-    components:
-    - rid: 3587002246619201538
-    - rid: 3587002246619201539
-    - rid: 3587002246619201540
+  - data: {fileID: 0}
+    quantity: 0
+    components: []
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
@@ -67,14 +61,4 @@ MonoBehaviour:
     dataGUID: 
   references:
     version: 2
-    RefIds:
-    - rid: 3587002246619201538
-      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
-    - rid: 3587002246619201539
-      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
-      data:
-        statModifiers: []
-    - rid: 3587002246619201540
-      type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
-      data:
-        equipmentType: 0
+    RefIds: []

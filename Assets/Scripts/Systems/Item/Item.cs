@@ -15,14 +15,10 @@ public interface IItemComponent
 [System.Serializable]
 public class Item
 {
-    [HorizontalGroup("Row1")]
-    // [HideLabel]
-    // [PreviewField(50)]
+    [HorizontalGroup("Row1")] // HideLabel, PreviewField(50)
     public ItemData data;
 
-    [HorizontalGroup("Row2")]
-    [LabelWidth(60)]
-    [MinValue(0)]
+    [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
     public int quantity;
 
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
@@ -32,6 +28,7 @@ public class Item
     // This method will help us recreate the SO_Item reference when loading
     public string dataGUID;
 
+    #region Constructor
     public Item(ItemData baseData, int quantity)
     {
         this.data = baseData;
@@ -41,10 +38,11 @@ public class Item
 
     public Item(ItemData baseData, int quantity, List<IItemComponent> components): this(baseData, quantity)
     {
-
+        this.components = components;
     }
+    #endregion
 
-
+    #region Item Component Handling
     public T GetComponent<T>() where T : IItemComponent
     {
         return (T)components.Find(c => c is T);
@@ -55,6 +53,12 @@ public class Item
         components.Add(component);
     }
 
+    public void RemoveComponent<T>() where T : IItemComponent
+    {
+        components.RemoveAll(c => c is T);
+    }
+
+
     public bool HasComponent<T>() where T : IItemComponent
     {
         return components.Exists(c => c is T);
@@ -64,6 +68,18 @@ public class Item
     {
         return components;
     }
+
+    private static IEnumerable<object> GetItemComponentTypes()
+    {
+        yield return new ItemAttackContainerComponent(null);
+        yield return new ItemBaseStatComponent();
+        yield return new ItemUpgradeComponent();
+        yield return new ItemUpgraderComponent();
+        yield return new ItemEquipmentComponent(EquipmentType.SWORD);
+        yield return new ItemValueComponent();
+    }
+    #endregion
+
 
     /// <summary>
     /// Creates a deep copy of the item.
@@ -77,7 +93,7 @@ public class Item
             clonedComponents.Add(component.DeepClone());
         }
 
-        return new Item(data, quantity, components);
+        return new Item(data, quantity, clonedComponents);
     }
 
     /// <summary>
@@ -87,6 +103,7 @@ public class Item
     public bool IsEmpty() => data == null || quantity == 0;
 
     // TODO: update equals and hash function.
+    #region Equals + Hash
     /// <summary>
     /// Override Equals method.
     /// </summary>
@@ -107,14 +124,5 @@ public class Item
     {
         return HashCode.Combine(data.GetHashCode(), quantity);
     }
-
-    private static IEnumerable<object> GetItemComponentTypes()
-    {
-        yield return new ItemAttackContainerComponent(null);
-        yield return new ItemBaseStatComponent();
-        yield return new ItemUpgradeComponent();
-        yield return new ItemUpgraderComponent();
-        yield return new ItemEquipmentComponent(EquipmentType.SWORD);
-        yield return new ItemValueComponent();
-    }
+    #endregion
 }
