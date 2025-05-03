@@ -63,12 +63,6 @@ public class SO_Inventory : SerializedScriptableObject
                 AdjustItemsToSlots();
             }
         }
-
-        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
-        foreach (Item item in items)
-        {
-            if (item != null) item.Init();
-        }
     }
 
     private void AdjustItemsToSlots()

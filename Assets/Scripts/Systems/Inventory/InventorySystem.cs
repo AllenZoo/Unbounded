@@ -41,6 +41,7 @@ public class InventorySystem : MonoBehaviour
         {
             slotRules = new SerializedDictionary<int, SO_Conditions>();
         }
+        inventory.Init();
     }
 
     private void Start()
