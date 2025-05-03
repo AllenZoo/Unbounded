@@ -13,6 +13,7 @@ public interface IStatMediator
     void CalculateFinalStat(StatQuery query);
     void AddModifier(StatModifier modifier);
     void RemoveModifier(StatModifier modifier);
+    void ClearModifiers();
     void RegisterStatChangeListener(Action action);
 }
 
@@ -89,6 +90,12 @@ public class StatMediator : IStatMediator
     {
         modifiers.Remove(modifier);
         InvalidateCache(modifier.Stat);
+        OnStatChange?.Invoke();
+    }
+    public void ClearModifiers()
+    {
+        modifiers.Clear();
+        modifiersCache.Clear();
         OnStatChange?.Invoke();
     }
     public void RegisterStatChangeListener(Action action)

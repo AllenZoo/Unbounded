@@ -21,10 +21,10 @@ public class Item
     [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
     public int quantity;
 
+    public ItemModifierMediator ItemModifierMediator { get; private set; }
+
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
     private List<IItemComponent> components = new List<IItemComponent>();
-
-    private ItemModifierMediator itemModifierMediator; 
 
     // This method will help us recreate the SO_Item reference when loading
     public string dataGUID;
@@ -34,7 +34,7 @@ public class Item
     {
         this.data = baseData;
         this.quantity = quantity;
-        this.itemModifierMediator = new ItemModifierMediator(this);
+        this.ItemModifierMediator = new ItemModifierMediator(this);
         // this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
     }
 
@@ -44,15 +44,9 @@ public class Item
     }
     #endregion
 
-    public void ApplyModifiers()
-    {
-        if (HasComponent<ItemUpgradeComponent>())
-        {
-            //itemModifierMediator.ApplyModifiers(GetComponent<ItemUpgradeComponent>().GetUpgradeModifiers());
-        }
-    }
-
     #region Item Component Handling
+
+    // TODO: make this private. Other systems should acces Item components via ItemModifierMediator entrypoint.
     public T GetComponent<T>() where T : IItemComponent
     {
         return (T)components.Find(c => c is T);
