@@ -10,6 +10,7 @@ using UnityEngine;
 public interface IItemComponent
 {
     public IItemComponent DeepClone();
+    public virtual void Init() { }
 }
 
 [System.Serializable]
@@ -46,6 +47,11 @@ public class Item
     public void Init()
     {
         this.ItemModifierMediator = new ItemModifierMediator(this);
+
+        foreach (var component in components)
+        {
+            component.Init();
+        }
     }
     #endregion
 

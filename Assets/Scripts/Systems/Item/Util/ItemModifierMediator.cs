@@ -35,11 +35,13 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     {
         if (baseStatComponent == null)
         {
+            if (Debug.isDebugBuild) Debug.LogError("Base stat component is null!");
             return new Optional<StatContainer>(null);
         }       
 
         ItemUpgradeComponent component = item.GetComponent<ItemUpgradeComponent>();
         if (component != null) {
+            //Debug.Log("Adding upgrade modifiers");
             ClearModifiers();
             ApplyModifiers(component.GetUpgradeModifiers());
         }

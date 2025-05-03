@@ -67,7 +67,7 @@ public class StatComponent : MonoBehaviour
     /// <param name="e"></param>
     private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
     {
-        Debug.Log($"Player Atk Stat before handling weapon equipped is [{statContainer.Attack}]");
+        if (Debug.isDebugBuild) Debug.Log($"Player Atk Stat before handling weapon equipped is [{statContainer.Attack}]");
         Item equipped = e.equipped;
         Item unequipped = e.unequipped;
 
@@ -80,6 +80,8 @@ public class StatComponent : MonoBehaviour
                 StatContainer esc =  equippedStatContainer.Value;
                 StatModifier equippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
                 StatContainer.StatMediator.AddModifier(equippedStatModifier);
+
+                if (Debug.isDebugBuild) Debug.Log($"Equipped weapon atk value is: " + esc.Attack);
             } else
             {
                 Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
@@ -105,7 +107,7 @@ public class StatComponent : MonoBehaviour
             }
         }
 
-        Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
+        if (Debug.isDebugBuild) Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
     }
     
     /// <summary>

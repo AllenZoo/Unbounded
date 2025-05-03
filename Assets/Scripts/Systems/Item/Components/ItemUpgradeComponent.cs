@@ -23,15 +23,23 @@ public class ItemUpgradeComponent : IItemComponent
         upgradeModifiers = new List<IUpgradeModifier>();
     }
 
-    public ItemUpgradeComponent(List<IUpgradeModifier> toBeCloned, List<UpgradeCardData> cards)
+    public ItemUpgradeComponent(List<UpgradeCardData> cards)
     {
         this.upgradeModifiers = new List<IUpgradeModifier>();
-        //foreach (var statModifier in toBeCloned)
-        //{
-        //    // this.upgradeModifiers.Add(statModifier.DeepCopy());
-        //}
-        // TODO: double chekc this cloning logic.
+
+        // Note: references will point to same card, list is different.
+        //       Since we shouldn't modify the cards themselves, this shallow copy should be fine.
         this.cards = new List<UpgradeCardData>(cards);
+    }
+
+    public virtual void Init()
+    {
+        // Debug.Log("Initializing upgrade component!");
+        // Extract modifiers from cards and add to modifiers list
+        upgradeModifiers = cards
+            .SelectMany(card => card.mods)
+            .Select(mod => mod.modifier)
+            .ToList();
     }
     #endregion
 
@@ -53,7 +61,7 @@ public class ItemUpgradeComponent : IItemComponent
 
     public IItemComponent DeepClone()
     {
-        return new ItemUpgradeComponent(upgradeModifiers, cards);
+        return new ItemUpgradeComponent(cards);
     }
 
 
