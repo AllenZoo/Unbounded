@@ -21,7 +21,7 @@ public class Attacker
 
     // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
     // does nothing.
-    public void Attack(KeyCode keyCode, AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes)
+    public void Attack(KeyCode keyCode, AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat)
     {
         if (attackerData == null || attackData == null)
         {
@@ -46,9 +46,7 @@ public class Attacker
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - attackerTransform.position);
 
-            AttackComponent newAttack = AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb);
-
-            // TODO: figure out way to modify stat. newAttack.attackerATKStat = statComponent.attack;
+            AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb, atkStat);
         }
     }
 

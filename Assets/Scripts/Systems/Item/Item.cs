@@ -42,6 +42,11 @@ public class Item
     {
         this.components = components;
     }
+
+    public void Init()
+    {
+        this.ItemModifierMediator = new ItemModifierMediator(this);
+    }
     #endregion
 
     #region Item Component Handling
@@ -73,9 +78,9 @@ public class Item
         yield return new ItemAttackContainerComponent(null);
         yield return new ItemBaseStatComponent();
         yield return new ItemUpgradeComponent();
-        yield return new ItemUpgraderComponent();
+        // yield return new ItemUpgraderComponent();
         yield return new ItemEquipmentComponent(EquipmentType.SWORD);
-        yield return new ItemValueComponent();
+        //yield return new ItemValueComponent();
     }
     #endregion
 

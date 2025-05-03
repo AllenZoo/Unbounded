@@ -66,15 +66,13 @@ public class ItemUpgradeComponent : IItemComponent
         }
         // Check if lists match each other regardless of order.
         ItemUpgradeComponent other = obj as ItemUpgradeComponent;
-        throw new NotImplementedException();
-        //bool isEqual = upgradeStatModifiers.All(other.upgradeStatModifiers.Contains) && upgradeStatModifiers.Count == other.upgradeStatModifiers.Count;
-        return false; // Stub.
+        bool isEqual = upgradeModifiers.All(other.upgradeModifiers.Contains) && upgradeModifiers.Count == other.upgradeModifiers.Count;
+        return isEqual;
     }
 
     public override int GetHashCode()
     {
-        throw new NotImplementedException();
-        //return HashCode.Combine(upgradeStatModifiers.GetHashCode());
+        return HashCode.Combine(upgradeModifiers.GetHashCode());
     }
     #endregion
 }

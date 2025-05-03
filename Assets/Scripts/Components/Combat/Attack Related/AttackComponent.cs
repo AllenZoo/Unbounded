@@ -24,8 +24,6 @@ public class AttackComponent : MonoBehaviour
     private List<EntityType> targetTypes = new List<EntityType>();
     private List<Damageable> hitTargets = new List<Damageable>();
 
-    private StatComponent attackerStats = new StatComponent();
-
     private void Awake()
     {
         // Checks to see RB2 and Collider2D components properties are correct.
@@ -38,6 +36,7 @@ public class AttackComponent : MonoBehaviour
 
         // Checks if layer is on 'AttackCollider'
         // Used to optimize collision detections
+        // TODO:
         //Assert.IsTrue(gameObject.layer.Equals("AttackCollider"));
     }
 

@@ -35,6 +35,8 @@ public class StatComponent : MonoBehaviour
         LocalEventBinding<OnStatBuffEvent> buffBinding = new LocalEventBinding<OnStatBuffEvent>(HandleBuff);
         leh.Register(buffBinding);
 
+
+        Debug.Assert(statContainer != null);
         // If null reference here, most likely statContainer not serialized.
         statContainer.Init();
     }
@@ -65,49 +67,45 @@ public class StatComponent : MonoBehaviour
     /// <param name="e"></param>
     private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
     {
+        Debug.Log($"Player Atk Stat before handling weapon equipped is [{statContainer.Attack}]");
         Item equipped = e.equipped;
         Item unequipped = e.unequipped;
 
         if (equipped != null)
         {
-            throw new NotImplementedException();
-            // Add stat modifiers from equipped weapon
-            //if (equipped.HasComponent<ItemBaseStatComponent>())
-            //{
-            //    equipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
-            //    {
-            //        statMediator.AddModifier(statModifier.GetModifier());
-            //    });
-            //}
-
-            //if (equipped.HasComponent<ItemUpgradeComponent>())
-            //{
-            //    equipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>
-            //    {
-            //        statMediator.AddModifier(statModifier.GetModifier());
-            //    });
-            //}
+            // Add stat modifiers from equipped item (if equiopped item has stats)
+            Optional<StatContainer> equippedStatContainer = equipped.ItemModifierMediator.GetStatsAfterModification();
+            if (equippedStatContainer.HasValue)
+            {
+                StatContainer esc =  equippedStatContainer.Value;
+                StatModifier equippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
+                StatContainer.StatMediator.AddModifier(equippedStatModifier);
+            } else
+            {
+                Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
+            }
         }
 
         // Dispose unequipped equipment stat modifiers
         if (unequipped != null)
         {
-            throw new NotImplementedException();
-            //if (unequipped.HasComponent<ItemBaseStatComponent>())
-            // {
-            //     unequipped.GetComponent<ItemBaseStatComponent>().statModifiers.ForEach((statModifier) =>
-            //     {
-            //         statMediator.RemoveModifier(statModifier.GetModifier());
-            //     });
-            // }
-            //if (unequipped.HasComponent<ItemUpgradeComponent>())
-            //{
-            //    unequipped.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.ForEach((statModifier) =>
-            //    {
-            //        statMediator.RemoveModifier(statModifier.GetModifier());
-            //    });
-            //}
+            Optional<StatContainer> unequippedStatContainer = unequipped.ItemModifierMediator.GetStatsAfterModification();
+            if (unequippedStatContainer.HasValue)
+            {
+                StatContainer esc = unequippedStatContainer.Value;
+                StatModifier unequippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(-esc.Attack), -1);
+                StatContainer.StatMediator.AddModifier(unequippedStatModifier);
+
+                // TODO: make a way to remove StatModifier by value and not be reference.
+                //StatContainer.StatMediator.RemoveModifier(unequippedStatModifier);
+            }
+            else
+            {
+                Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
+            }
         }
+
+        Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
     }
     
     /// <summary>

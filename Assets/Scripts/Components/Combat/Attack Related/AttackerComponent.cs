@@ -52,7 +52,7 @@ public class AttackerComponent : MonoBehaviour
         // Attack if attack is ready and if data is not null.
         if (attackRdy && canAttack && attacker != null)
         {
-            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes);
+            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack);
             StartCoroutine(AttackCooldown());
         }
     }
@@ -70,20 +70,20 @@ public class AttackerComponent : MonoBehaviour
     }
 
     // Handles setting non-transform property of attacks..
-    private IEnumerator ChargeUpAttack(Attack attack)
-    {
-        // Charge up attack
-        yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
-    }
+    //private IEnumerator ChargeUpAttack(Attack attack)
+    //{
+    //    // Charge up attack
+    //    yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
+    //}
 
-    private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        // attackObj.GetComponent<Attack>().ResetAttack();
-    }
+    //private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
+    //{
+    //    yield return new WaitForSeconds(duration);
+    //    // attackObj.GetComponent<Attack>().ResetAttack();
+    //}
 
-    private bool ValidateList(List<EntityType> value)
-    {
-        return value != null && value.Count > 0;
-    }
+    //private bool ValidateList(List<EntityType> value)
+    //{
+    //    return value != null && value.Count > 0;
+    //}
 }

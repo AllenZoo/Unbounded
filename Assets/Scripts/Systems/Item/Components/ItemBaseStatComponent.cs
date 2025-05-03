@@ -13,7 +13,7 @@ public class ItemBaseStatComponent : IItemComponent
     /// <summary>
     /// Base stats of the weapon. Static.
     /// </summary>
-    public SO_StatContainer BaseStats { get; private set; }
+    [field: SerializeField] public SO_StatContainer BaseStats { get; private set; }
 
     ///// <summary>
     ///// The Stat modifiers applied to item.
@@ -47,14 +47,19 @@ public class ItemBaseStatComponent : IItemComponent
     #region Equals + Hash
     public override bool Equals(object obj)
     {
+        if (obj == null) return false;
+
+        ItemBaseStatComponent other = obj as ItemBaseStatComponent;
+        if (BaseStats == null)
+        {
+            return other.BaseStats == null;
+        }
+
         if (obj == null || GetType() != obj.GetType())
         {
             return false;
         }
-        // Check if lists match each other regardless of order.
 
-        ItemBaseStatComponent other = obj as ItemBaseStatComponent;
-        //bool isEqual = statModifiers.All(other.statModifiers.Contains) && statModifiers.Count == other.statModifiers.Count;
         bool isEqual = BaseStats.Equals(other.BaseStats);
         return isEqual;
     }

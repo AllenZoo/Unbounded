@@ -66,9 +66,10 @@ public class AttackSpawner
     /// <param name="targetTypes"></param>
     /// <param name="attackObj"></param>
     /// <returns>The newly created Attack.</returns>
-    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, float atkStat)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
+        attackComponent.Attack.SetAtkStat(atkStat);
 
         Assert.IsNotNull(attackComponent, "To spawn attack obj, it must have an attack component!");
 
