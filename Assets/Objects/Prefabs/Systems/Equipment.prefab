@@ -266,6 +266,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
+  systemContext: {fileID: 11400000, guid: a6a11665f99af4e41873a10acdd397f6, type: 2}
 --- !u!223 &2864501048915541323
 Canvas:
   m_ObjectHideFlags: 0
@@ -301,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 2864501048915541323}
   uiCollider: {fileID: 4428250969172840418}
+  pageUIContext: {fileID: 0}
 --- !u!114 &5349686431237858370
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -29,7 +30,9 @@ public class InventorySystem : MonoBehaviour
     [SerializedDictionary("Slot index", "Slot conditions")]
     [SerializeField] private SerializedDictionary<int, SO_Conditions> slotRules;
 
-    // Ref to inventory data.
+    [Tooltip("Optional field. Used to initialize a SO InventorySystemContext ref.")]
+    [SerializeField, AllowNull] private InventorySystemContext systemContext;
+
 
     private void Awake()
     {
@@ -42,6 +45,7 @@ public class InventorySystem : MonoBehaviour
             slotRules = new SerializedDictionary<int, SO_Conditions>();
         }
         inventory.Init();
+        systemContext?.Init(this);
     }
 
     private void Start()

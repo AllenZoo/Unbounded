@@ -12,13 +12,12 @@ public class EquipmentWeaponHandler : MonoBehaviour
 {
     [Required, SerializeField] private LocalEventHandler leh;
 
-    // TODO: decide whether to have reference to SO_Inventory or InventorySystem.
-    // Probably better to have ref to SO_Inventory.
-    [Tooltip("Equipment inventory")]
-    [SerializeField] private InventorySystem inventory;
+    [Tooltip("Inventory we will look for weapon item for in.")]
+    [Required, SerializeField] private InventorySystemContext inventorySystemContext;
     [SerializeField] private int weaponSlotIndex = 0;
     [SerializeField] private AttackerComponent attackerComponent;
 
+    private InventorySystem inventory;
     private Item curWeapon;
     private Item previousWeapon;
 
@@ -33,12 +32,15 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     private void Start()
     {
-        inventory = InventorySystemStorage.Instance.GetSystem(InventoryType.Equipment);
+        inventory = inventorySystemContext.Get();
 
         if (inventory != null)
         {
             inventory.OnInventoryDataModified += UpdateWeapon;
             UpdateWeapon();
+        } else
+        {
+            Debug.LogError("Inventory System not given to equipment weapon handler!");
         }
 
         EventBinding<OnUpgradeCardApplyEffect> ucaeBinding = new EventBinding<OnUpgradeCardApplyEffect>(HandleOnUCAEBindingEvent);
