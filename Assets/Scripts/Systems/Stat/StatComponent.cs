@@ -74,7 +74,7 @@ public class StatComponent : MonoBehaviour
 
         if (equipped != null)
         {
-            equipped.ItemModifierMediator.OnModifierChange += HandleWeaponItemChange;
+            equipped.ItemModifierMediator.OnModifierChange += HandleEquippedWeaponItemChange;
 
             // Add stat modifiers from equipped item (if equiopped item has stats)
             Optional<StatContainer> equippedStatContainer = equipped.ItemModifierMediator.GetStatsAfterModification();
@@ -95,7 +95,7 @@ public class StatComponent : MonoBehaviour
         // Dispose unequipped equipment stat modifiers
         if (unequipped != null)
         {
-            unequipped.ItemModifierMediator.OnModifierChange -= HandleWeaponItemChange;
+            unequipped.ItemModifierMediator.OnModifierChange -= HandleEquippedWeaponItemChange;
 
             Optional<StatContainer> unequippedStatContainer = unequipped.ItemModifierMediator.GetStatsAfterModification();
             if (unequippedStatContainer.HasValue)
@@ -141,12 +141,26 @@ public class StatComponent : MonoBehaviour
     }
     #endregion    
 
-    private void HandleWeaponItemChange()
+    private void HandleEquippedWeaponItemChange(Item item)
     {
-        // Modify the stat container to have the weapon item change
-        // TODO: after we figure out how to handle removing/adding modifiers in a way we 
-        //       can remove them by reference.
+        // Clear previous modifiers.
+        StatContainer.StatMediator.RemoveModifiersFromSource(item);
 
+        // Apply the updated one
+        // Add stat modifiers from equipped item (if equiopped item has stats)
+        Optional<StatContainer> equippedStatContainer = item.ItemModifierMediator.GetStatsAfterModification();
 
+        if (equippedStatContainer.HasValue)
+        {
+            StatContainer esc = equippedStatContainer.Value;
+            StatModifier equippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
+            StatContainer.StatMediator.AddModifier(item, equippedStatModifier);
+
+            if (Debug.isDebugBuild) Debug.Log($"Equipped weapon atk value is: " + esc.Attack);
+        }
+        else
+        {
+            Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
+        }
     }
 }

@@ -15,7 +15,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 {
     // TODO: make StatComponent subscribe to this.
     //       handles the case of player upgrading the weapon but not requipping it.
-    public Action OnModifierChange;
+    public Action<Item> OnModifierChange;
 
 
     private Item item;
@@ -29,9 +29,6 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
     // Accumulator for damage modifiers.
     private double percentageDamageIncrease = 0;
-
-    // TODO: for attack container trait modifiaction.
-    // private AttackContainer attackContainer;
 
     public ItemModifierMediator(Item item)
     {
@@ -47,7 +44,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         upgradeComponent = item.GetComponent<ItemUpgradeComponent>();
         if (upgradeComponent != null)
         {
-            upgradeComponent.OnUpgradeModifierChange += OnModifierChange;
+            upgradeComponent.OnUpgradeModifierChange += () => OnModifierChange?.Invoke(item);
         }
 
         baseAttacker = item?.data?.attacker;
