@@ -27,7 +27,14 @@ public class Attack
     /// The the atk stat attached to Attack. Boosts the base damage of said attack.
     /// Generally the cumulation of weapon stats + player stats after modifiers applied for each.
     /// </summary>
-    private float atkStat = 0;
+    [SerializeField, ReadOnly] private float atkStat = 0;
+
+    /// <summary>
+    /// Damage modifier to apply to final calculated damage.
+    /// For example after Attack.Damage - Damageable.Defense = TrueDamage
+    /// We apply % modifier to TrueDamage: TrueDamage + TrueDamage * % modifier.
+    /// </summary>
+    [SerializeField, ReadOnly]  private double percentageDamageIncrease = 0;
 
     public Attack()
     {
@@ -58,7 +65,7 @@ public class Attack
             return;
         }
 
-        hit.TakeDamage(calculatedDamage);
+        hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
         
         // Knockback the target if:
         //      - attack has knockback
@@ -86,6 +93,11 @@ public class Attack
     public void SetAtkStat(float atkStat)
     {
         this.atkStat = atkStat;
+    }
+
+    public void SetPercentageDamageIncrease(double val)
+    {
+        percentageDamageIncrease = val;
     }
 
     // Calculates the damage of the attack while also taking into account the attacker's stats.

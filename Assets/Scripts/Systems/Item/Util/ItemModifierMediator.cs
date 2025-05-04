@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
@@ -9,11 +11,22 @@ using UnityEngine;
 /// </summary>
 public class ItemModifierMediator : IUpgradeModifierVisitor
 {
-    private Item item;
+    // TODO: make StatComponent subscribe to this.
+    //       handles the case of player upgrading the weapon but not requipping it.
+    public Action OnModifierChange;
 
-    // Holds the stats of the item after modification.
-    private StatContainer statContainer;
+
+    private Item item;
     private ItemBaseStatComponent baseStatComponent;
+    private ItemUpgradeComponent upgradeComponent;
+
+    // Holds the stats of the item after modification. The accumulator passed in the modifier visitor.
+    private StatContainer statContainer;
+
+    
+
+    // Accumulator for damage modifiers.
+    private double percentageDamageIncrease = 0;
 
     // TODO: for attack container trait modifiaction.
     // private AttackContainer attackContainer;
@@ -28,8 +41,17 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         {
             statContainer = new StatContainer(baseStatComponent.BaseStats);
         }
+
+        upgradeComponent = item.GetComponent<ItemUpgradeComponent>();
     }
 
+
+    public double GetPercentageDamageIncreaseTotal()
+    {
+        ClearModifiers();
+        ApplyModifiers(upgradeComponent);
+        return percentageDamageIncrease;
+    }
     public Optional<StatContainer> GetStatsBeforeModification()
     {
         if (baseStatComponent != null)
@@ -40,21 +62,16 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             return new Optional<StatContainer>(null);
         }
     }
-
     public Optional<StatContainer> GetStatsAfterModification()
     {
         if (baseStatComponent == null)
         {
             if (Debug.isDebugBuild) Debug.LogError("Base stat component is null!");
             return new Optional<StatContainer>(null);
-        }       
-
-        ItemUpgradeComponent component = item.GetComponent<ItemUpgradeComponent>();
-        if (component != null) {
-            //Debug.Log("Adding upgrade modifiers");
-            ClearModifiers();
-            ApplyModifiers(component.GetUpgradeModifiers());
         }
+
+        ClearModifiers();
+        ApplyModifiers(upgradeComponent);
 
         return new Optional<StatContainer>(statContainer);
     }
@@ -73,12 +90,23 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
     }
 
+    private void ApplyModifiers(ItemUpgradeComponent component)
+    {
+        if (component == null)
+        {
+            Debug.Log("Failed to apply Modifiers for item with no ItemUpgradeComponent");
+            return;
+        }
+        ApplyModifiers(component.GetUpgradeModifiers());
+    }
+
     /// <summary>
     /// Clears all previously applied modifier.
     /// </summary>
     private void ClearModifiers()
     {
         statContainer.StatMediator.ClearModifiers();
+        percentageDamageIncrease = 0;
     }
     #endregion
 
@@ -88,8 +116,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         statContainer.StatMediator.AddModifier(modifier);
     }
 
-    public virtual void Visit(DamageModifier modifier) { 
-        
+    public virtual void Visit(DamageModifier modifier) {
+        percentageDamageIncrease += modifier.PercentageIncrease;
     }
 
     public virtual void Visit(TraitModifier modifier) { 

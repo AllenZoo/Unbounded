@@ -10,17 +10,14 @@ using UnityEngine.Assertions;
 /// </summary>
 public class AttackerComponent : MonoBehaviour
 {
-    [Required]
-    [SerializeField]
+    [Required, SerializeField]
     private Attacker attacker;
 
-    [Required]
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [Required, SerializeField] private LocalEventHandler localEventHandler;
 
     [Tooltip("Types of entities this attacker can damage.")]
-    [Required]
     [ValidateInput("ValidateList", "List cannot be empty!")]
-    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+    [Required, SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     [Tooltip("Component that holds stats for adding damage to attacks.")]
     [SerializeField] private StatComponent statComponent;
@@ -52,7 +49,7 @@ public class AttackerComponent : MonoBehaviour
         // Attack if attack is ready and if data is not null.
         if (attackRdy && canAttack && attacker != null)
         {
-            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack);
+            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack, statComponent.PercentageDamageIncrease);
             StartCoroutine(AttackCooldown());
         }
     }
@@ -70,20 +67,21 @@ public class AttackerComponent : MonoBehaviour
     }
 
     // Handles setting non-transform property of attacks..
-    //private IEnumerator ChargeUpAttack(Attack attack)
-    //{
-    //    // Charge up attack
-    //    yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
-    //}
+    private IEnumerator ChargeUpAttack(Attack attack)
+    {
+        // Charge up attack
+        yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
+    }
+    private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        // attackObj.GetComponent<Attack>().ResetAttack();
+    }
 
-    //private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
-    //{
-    //    yield return new WaitForSeconds(duration);
-    //    // attackObj.GetComponent<Attack>().ResetAttack();
-    //}
-
-    //private bool ValidateList(List<EntityType> value)
-    //{
-    //    return value != null && value.Count > 0;
-    //}
+    // Used for field validation via Odin.
+    // Disabled since broken.
+    private bool ValidateList(List<EntityType> value)
+    {
+        return value != null && value.Count > 0;
+    }
 }

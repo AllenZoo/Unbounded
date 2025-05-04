@@ -12,7 +12,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [SerializeField] private LocalEventHandler leh;
     [SerializeField] private StatComponent stat;
 
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
@@ -39,31 +39,29 @@ public class Damageable : MonoBehaviour
         // Set collider2d to be a trigger.
         GetComponent<Collider2D>().isTrigger = true;
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                    "] with root object [" + gameObject.transform.root.name + "] for Damageable.cs");
-                return;
-            }
-        }
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
 
         LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(CheckDeath);
-        localEventHandler.Register(statModResBinding);
+        leh.Register(statModResBinding);
     }
 
     // Damage needs to be > 0
     public void TakeDamage(float damage)
     {
+        TakeDamage(damage, 0);
+    }
+    public void TakeDamage(float damage, double percentageDamageIncrease)
+    {
+        Debug.Log($"Percentage Damage Increase is [{percentageDamageIncrease}]");
+
         if (!isDamageable)
         {
             Debug.Log("Target is currently not damageable!");
             return;
         }
 
-        float calculatedDamage = CalculateDamage(damage);
+
+        float calculatedDamage = CalculateDamage(damage, percentageDamageIncrease);
 
         if (calculatedDamage <= 0)
         {
@@ -71,8 +69,9 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        localEventHandler.Call(new OnDamagedEvent { damage = calculatedDamage });
+        leh.Call(new OnDamagedEvent { damage = calculatedDamage });
     }
+
 
     public void TakeDamageOverTime(Attack attack, float damage)
     {
@@ -99,7 +98,7 @@ public class Damageable : MonoBehaviour
 
     // Calculate damage based on damage amount and damage reduction.
     // At 5 defense, reduce about 10% of damage.
-    private float CalculateDamage(float damage)
+    private float CalculateDamage(float damage, double percentageDamageIncrease)
     {
         // Increase this to make damage reudction growth slower.
         float growthScale = 8f;
@@ -109,17 +108,20 @@ public class Damageable : MonoBehaviour
 
         float damageTaken = damage * (1f - damageReduction);
 
-        // Round down to whole number.
-        damageTaken = Mathf.Floor(damageTaken);
+        // Apply Modifier (percentageDamageIncrease)
+        float totalDamage = (float)(damageTaken + damageTaken * percentageDamageIncrease / 100);
 
-        return damageTaken;
+        // Round down to whole number.
+        totalDamage = Mathf.Floor(totalDamage);
+
+        return totalDamage;
     }
 
     private void CheckDeath(OnStatChangeEvent e)
     {
         if (e.statComponent.StatContainer.Health <= 0)
         {
-            localEventHandler.Call(new OnDeathEvent { });
+            leh.Call(new OnDeathEvent { });
             // Disable hittable so it can't be hit anymore.
             isHittable = false;
         }

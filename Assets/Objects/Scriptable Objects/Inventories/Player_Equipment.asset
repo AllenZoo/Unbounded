@@ -23,10 +23,24 @@ MonoBehaviour:
     SerializationNodes: []
   slots: 1
   items:
-  - data: {fileID: 0}
-    quantity: 0
-    components: []
+  - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408760998250152039
+    - rid: 3408760998250152040
+    - rid: 3408760998250152041
     dataGUID: 
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3408760998250152039
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+    - rid: 3408760998250152040
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards:
+        - {fileID: 11400000, guid: 061a045cfc35999428411d675cea0bca, type: 2}
+    - rid: 3408760998250152041
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}

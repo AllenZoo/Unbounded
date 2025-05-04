@@ -68,6 +68,10 @@ public class EquipmentWeaponHandler : MonoBehaviour
             return;
         }
 
+        // throw new NotImplementedException();
+
+        // TODO: we store attacker data in item itself and not ItemAttackContainerComponent. Handle trait modification here, using ItemModifierMediator to return dynamically
+        //       modified attacker.
         // If item doesn't contain an ItemAttackContainerComponent, then throw an error since this shouldn't happen.
         Attacker attackerToSet = item.data.attacker;
         if (attackerToSet == null)

@@ -20,6 +20,9 @@ public class StatComponent : MonoBehaviour
     // This event allows for subscription between different objects. Eg. UI and StatComponent
     public event Action OnStatChange;
 
+    // Ugly code, but this is one way to implement it so lets do this for now.
+    public double PercentageDamageIncrease { get; private set; } = 0;
+
 
     private void Awake()
     {
@@ -75,6 +78,10 @@ public class StatComponent : MonoBehaviour
         {
             // Add stat modifiers from equipped item (if equiopped item has stats)
             Optional<StatContainer> equippedStatContainer = equipped.ItemModifierMediator.GetStatsAfterModification();
+            
+            // Set the percentage increase.
+            PercentageDamageIncrease = equipped.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
+
             if (equippedStatContainer.HasValue)
             {
                 StatContainer esc =  equippedStatContainer.Value;

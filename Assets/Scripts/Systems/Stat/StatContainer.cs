@@ -57,7 +57,6 @@ public class StatContainer
     }
     #endregion
 
-
     public float GetStatValue(Stat stat)
     {
         return stat switch
@@ -77,6 +76,10 @@ public class StatContainer
         };
     }
 
+    /// <summary>
+    /// Util function to get a dictionary of all non zero stats for item descriptor purposes.
+    /// </summary>
+    /// <returns></returns>
     public Dictionary<Stat, float> GetNonZeroStats()
     {
         var result = new Dictionary<Stat, float>();
