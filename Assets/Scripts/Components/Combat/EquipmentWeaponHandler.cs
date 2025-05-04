@@ -16,24 +16,19 @@ public class EquipmentWeaponHandler : MonoBehaviour
     // Probably better to have ref to SO_Inventory.
     [Tooltip("Equipment inventory")]
     [SerializeField] private InventorySystem inventory;
-    [SerializeField] private int weaponSlotIndex;
+    [SerializeField] private int weaponSlotIndex = 0;
+    [SerializeField] private AttackerComponent attackerComponent;
 
-    [Tooltip("Stat component to modify when equipping weapon items.")]
-    [SerializeField] private StatComponent stat;
-
-    private AttackerComponent attackerComponent;
+    private Item curWeapon;
     private Item previousWeapon;
 
     private void Awake()
     {
         // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
-        Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attackerComponent = GetComponent<AttackerComponent>();
 
-        if (leh == null)
-        {
-            leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
-        }
+        if (leh == null) leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
+
     }
 
     private void Start()
@@ -45,6 +40,9 @@ public class EquipmentWeaponHandler : MonoBehaviour
             inventory.OnInventoryDataModified += UpdateWeapon;
             UpdateWeapon();
         }
+
+        EventBinding<OnUpgradeCardApplyEffect> ucaeBinding = new EventBinding<OnUpgradeCardApplyEffect>(HandleOnUCAEBindingEvent);
+        EventBus<OnUpgradeCardApplyEffect>.Register(ucaeBinding);
     }
 
     /// <summary>
@@ -72,9 +70,20 @@ public class EquipmentWeaponHandler : MonoBehaviour
             Debug.LogError("ERROR: Item in weapon slot does not contain an attack component! Did we equip an item that cannot attack?");
             return;
         }
-
         attackerComponent.SetAttacker(attackerToSet);
-        leh.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
-        previousWeapon = item;
+
+        previousWeapon = curWeapon;
+        curWeapon = item;
+        leh.Call(new OnWeaponEquippedEvent { equipped = curWeapon, unequipped = previousWeapon });
+    }
+
+    private void HandleOnUCAEBindingEvent(OnUpgradeCardApplyEffect e)
+    {
+        if (curWeapon == null) {
+            Debug.LogError("Upgrade Card applied to null weapon! Shouldn't ever happen if we design game properly.");
+            return;
+        }
+
+        curWeapon.GetComponent<ItemUpgradeComponent>().AddCard(e.cardData);
     }
 }

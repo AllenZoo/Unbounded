@@ -45,6 +45,10 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         upgradeComponent = item.GetComponent<ItemUpgradeComponent>();
+        if (upgradeComponent != null)
+        {
+            upgradeComponent.OnUpgradeModifierChange += OnModifierChange;
+        }
 
         baseAttacker = item?.data?.attacker;
     }
@@ -84,6 +88,13 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         ClearModifiers();
         ApplyModifiers(upgradeComponent);
         return dynamicAttacker;
+    }
+
+    // TODO: for letting StatComponent add and remove the same stat modifiers from adding item.
+    // maybe doesn't work considering how upgrades will make previous StatModifier irrelevant.
+    public StatModifier PackageStat(Stat stat)
+    {
+        return null;
     }
 
     #region Modifier Application Helpers

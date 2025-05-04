@@ -7,12 +7,10 @@ using UnityEngine;
 [Serializable]
 public class ItemUpgradeComponent : IItemComponent
 {
-    // TODO: change to keep track of upgrade cards.
+    public Action OnUpgradeModifierChange;
+
     [Tooltip("Keeps track of the upgrades that have been applied to the item. Does not affect stats, just keeps track for history.")]
     public List<UpgradeCardData> cards = new List<UpgradeCardData>();
-
-    //TODO: refactor this using the new modifier system. Make sure this is private
-    //public List<StatModifierEquipment> upgradeStatModifiers = new List<StatModifierEquipment>();
 
     [Tooltip("The list of modifiers added to the item via upgrades.")]
     private List<IUpgradeModifier> upgradeModifiers = new List<IUpgradeModifier>();
@@ -40,6 +38,7 @@ public class ItemUpgradeComponent : IItemComponent
             .SelectMany(card => card.mods)
             .Select(mod => mod.modifier)
             .ToList();
+        OnUpgradeModifierChange?.Invoke();
     }
     #endregion
 
@@ -49,13 +48,36 @@ public class ItemUpgradeComponent : IItemComponent
         return upgradeModifiers;
     }
 
+    public void AddCard(UpgradeCardData card)
+    {
+        cards.Add(card);
+
+        // Add modifiers from card to mod list.
+        foreach (var mod in card.mods)
+        {
+            AddUpgrade(mod.modifier);
+        }
+    }
+
+    public void RemoveCard(UpgradeCardData card) {
+        cards.Remove(card);
+
+        // Remove modifiers from card from mod list
+        foreach (var mod in card.mods)
+        {
+            RemoveUpgrade(mod.modifier);
+        }
+    }
+
     public void AddUpgrade(IUpgradeModifier upgradeModifier)
     {
         upgradeModifiers.Add(upgradeModifier);
+        OnUpgradeModifierChange?.Invoke();
     }
 
     public void RemoveUpgrade(IUpgradeModifier upgradeModifier) {
         upgradeModifiers.Remove(upgradeModifier);
+        OnUpgradeModifierChange?.Invoke();
     }
     #endregion
 

@@ -216,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8892982430432078833}
   - component: {fileID: 6428701841868124147}
-  - component: {fileID: 6023583095845778480}
+  - component: {fileID: 8188111842875681085}
   m_Layer: 0
   m_Name: UpgradeCardPack
   m_TagString: Untagged
@@ -260,7 +260,7 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6023583095845778480}
+      - m_Target: {fileID: 8188111842875681085}
         m_TargetAssemblyTypeName: UpgradeCardPack, Assembly-CSharp
         m_MethodName: DisplayCards
         m_Mode: 1
@@ -276,7 +276,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   pageUIContext: {fileID: 11400000, guid: 69f0e0cf07bab3b40954d4fc5052d4e2, type: 2}
---- !u!114 &6023583095845778480
+--- !u!114 &8188111842875681085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

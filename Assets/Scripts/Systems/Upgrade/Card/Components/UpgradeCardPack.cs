@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class UpgradeCardPack : SerializedMonoBehaviour
 {
-    [SerializeField, ReadOnly] private HashSet<UpgradeCardData> cardsInPack = new HashSet<UpgradeCardData>();
+    [SerializeField] private HashSet<UpgradeCardData> cardsInPack = new HashSet<UpgradeCardData>();
 
     /// <summary>
     /// Fires an event to display UpgradeCardPack in UI. This function should be hooked up in the pfb to UnityEvent 'OnInteract' via inspector to

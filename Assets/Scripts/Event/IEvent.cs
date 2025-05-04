@@ -71,11 +71,6 @@ public struct OnPauseChangeRequest: IGlobalEvent {
     public bool shouldPause;
 }
 
-public struct OnUpgradeCardViewClicked: IGlobalEvent
-{
-
-}
-
 public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
     public UpgradeCardData cardData;
