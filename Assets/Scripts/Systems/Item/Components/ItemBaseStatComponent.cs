@@ -24,24 +24,17 @@ public class ItemBaseStatComponent : IItemComponent
     #region Constructors
     public ItemBaseStatComponent()
     {
-        //statModifiers = new List<StatModifierEquipment>();
     }
 
     public ItemBaseStatComponent(SO_StatContainer baseStats)
     {
         this.BaseStats = baseStats;
-        //this.statModifiers = new List<StatModifierEquipment>();
-        //foreach (var statModifier in toBeCloned)
-        //{
-        //    this.statModifiers.Add(statModifier.DeepCopy());
-        //}
     }
     #endregion
 
     public IItemComponent DeepClone()
     {
         return new ItemBaseStatComponent(BaseStats);
-        // return new ItemBaseStatComponent(BaseStats, statModifiers);
     }
 
     #region Equals + Hash

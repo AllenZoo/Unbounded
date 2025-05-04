@@ -1,15 +1,15 @@
-using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-/// <summary>
-/// For storing dynamic stat data. Useful for representing stats as a dynamic object.
-/// </summary>
 [Serializable]
 public class StatContainer
 {
     public IStatMediator StatMediator { get; private set; }
-    [SerializeField, Required] private SO_StatContainer baseStats;
+
+    [SerializeField, Required]
+    private SO_StatContainer baseStats;
 
     public StatContainer(SO_StatContainer baseStats)
     {
@@ -17,7 +17,7 @@ public class StatContainer
         {
             throw new ArgumentNullException(nameof(baseStats));
         }
-            
+
         this.baseStats = baseStats;
         this.StatMediator = new StatMediator();
     }
@@ -32,151 +32,64 @@ public class StatContainer
     }
 
     #region Stats
-    public float Health
-    {
-        get
-        {
-            var q = new StatQuery(Stat.HP, baseStats.health);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float MaxHealth
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MAX_HP, baseStats.maxHealth);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float Mana
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MP, baseStats.mana);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float MaxMana
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MAX_MP, baseStats.maxMana);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float Stamina
-    {
-        get
-        {
-            var q = new StatQuery(Stat.SP, baseStats.stamina);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float MaxStamina
-    {
-        get
-        {
-            var q = new StatQuery(Stat.MAX_SP, baseStats.maxStamina);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float Attack
-    {
-        get
-        {
-            var q = new StatQuery(Stat.ATK, baseStats.attack);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float Defense
-    {
-        get
-        {
-            var q = new StatQuery(Stat.DEF, baseStats.defense);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float Dexterity
-    {
-        get
-        {
-            var q = new StatQuery(Stat.DEX, baseStats.dexterity);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    public float Speed
-    {
-        get
-        {
-            var q = new StatQuery(Stat.SPD, baseStats.speed);
-            StatMediator.CalculateFinalStat(q);
-            return q.Value;
-        }
-        private set { }
-    }
-    
-    // TODO: currently hard coded param. Not using modifiers. See if we need to.
+    public float Health => GetModifiedStat(Stat.HP, baseStats.health);
+    public float MaxHealth => GetModifiedStat(Stat.MAX_HP, baseStats.maxHealth);
+    public float Mana => GetModifiedStat(Stat.MP, baseStats.mana);
+    public float MaxMana => GetModifiedStat(Stat.MAX_MP, baseStats.maxMana);
+    public float Stamina => GetModifiedStat(Stat.SP, baseStats.stamina);
+    public float MaxStamina => GetModifiedStat(Stat.MAX_SP, baseStats.maxStamina);
+    public float Attack => GetModifiedStat(Stat.ATK, baseStats.attack);
+    public float Defense => GetModifiedStat(Stat.DEF, baseStats.defense);
+    public float Dexterity => GetModifiedStat(Stat.DEX, baseStats.dexterity);
+    public float Speed => GetModifiedStat(Stat.SPD, baseStats.speed);
+
     public float Gold
     {
-        get
-        {
-            //var q = new StatQuery(Stat.GOLD, baseStats.gold);
-            //statMediator.CalculateFinalStat(q);
-            //return q.Value;
-            return baseStats.gold;
-        }
-        set
-        {
-            baseStats.gold = value;
-            //OnStatChange?.Invoke();
-        }
+        get => baseStats.gold;
+        set => baseStats.gold = value;
+    }
+
+    private float GetModifiedStat(Stat stat, float baseValue)
+    {
+        var query = new StatQuery(stat, baseValue);
+        StatMediator.CalculateFinalStat(query);
+        return query.Value;
     }
     #endregion
 
+
     public float GetStatValue(Stat stat)
     {
-        switch (stat)
+        return stat switch
         {
-            case Stat.HP:
-                return Health;
-            case Stat.MAX_HP:
-                return MaxHealth;
-            case Stat.MP:
-                return Mana;
-            case Stat.MAX_MP:
-                return MaxMana;
-            case Stat.SP:
-                return Stamina;
-            case Stat.MAX_SP:
-                return MaxStamina;
-            case Stat.ATK:
-                return Attack;
-            case Stat.DEF:
-                return Defense;
-            case Stat.SPD:
-                return Speed;
-            case Stat.GOLD:
-                return Gold;
-            default:
-                return 0;
+            Stat.HP => Health,
+            Stat.MAX_HP => MaxHealth,
+            Stat.MP => Mana,
+            Stat.MAX_MP => MaxMana,
+            Stat.SP => Stamina,
+            Stat.MAX_SP => MaxStamina,
+            Stat.ATK => Attack,
+            Stat.DEF => Defense,
+            Stat.DEX => Dexterity,
+            Stat.SPD => Speed,
+            Stat.GOLD => Gold,
+            _ => 0f
+        };
+    }
+
+    public Dictionary<Stat, float> GetNonZeroStats()
+    {
+        var result = new Dictionary<Stat, float>();
+
+        foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+        {
+            float value = GetStatValue(stat);
+            if (Mathf.Abs(value) > Mathf.Epsilon)
+            {
+                result.Add(stat, value);
+            }
         }
+
+        return result;
     }
 }

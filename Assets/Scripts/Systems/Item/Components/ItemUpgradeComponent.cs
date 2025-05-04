@@ -65,6 +65,69 @@ public class ItemUpgradeComponent : IItemComponent
     }
 
 
+    #region String Utils Formatting Item Descriptor.
+    public string GetItemDescriptorText()
+    {
+        List<string> lines = new List<string>();
+
+        foreach (var mod in upgradeModifiers)
+        {
+            switch (mod)
+            {
+                case StatModifier statMod:
+                    string statText = FormatStatModifier(statMod);
+                    if (!string.IsNullOrEmpty(statText))
+                        lines.Add(statText);
+                    break;
+
+                case DamageModifier dmgMod:
+                    lines.Add(FormatDamageModifier(dmgMod));
+                    break;
+
+                case TraitModifier traitMod:
+                    lines.Add(FormatTraitModifier(traitMod));
+                    break;
+            }
+        }
+
+        // Add a tab character to each line
+        for (int i = 0; i < lines.Count; i++)
+        {
+            lines[i] = "\t" + lines[i];
+        }
+
+        return string.Join("\n", lines);
+    }
+
+    private string FormatStatModifier(StatModifier statMod)
+    {
+        string opSymbol = statMod.operation switch
+        {
+            AddOperation add => $"+{add.GetValue()}",
+            MultiplyOperation mul => $"x{mul.GetValue()}",
+            _ => ""
+        };
+
+        return $"{statMod.Stat}: {opSymbol}";
+    }
+
+    private string FormatDamageModifier(DamageModifier dmgMod)
+    {
+        return $"Bonus Damage: +{dmgMod.PercentageIncrease}%";
+    }
+
+    private string FormatTraitModifier(TraitModifier traitMod)
+    {
+        List<string> traits = new List<string>();
+        if (traitMod.AddPiercing)
+            traits.Add("Adds Piercing");
+        if (traitMod.NumAtksToAdd > 0)
+            traits.Add($"Extra Attacks: {traitMod.NumAtksToAdd}");
+
+        return string.Join(" | ", traits);
+    }
+    #endregion
+
     #region Equals + Hash
     public override bool Equals(object obj)
     {

@@ -6,8 +6,9 @@ using UnityEngine;
 [Serializable]
 public class TraitModifier : IUpgradeModifier
 {
-    [SerializeField] private bool addPiercing = false;
-    [SerializeField] private int numAtksToAdd = 0;
+    [field: SerializeField] public bool AddPiercing { get; private set; } = false;
+
+    [field: SerializeField] public int NumAtksToAdd { get; private set; } = 0;
 
     public void Accept(IUpgradeModifierVisitor visitor)
     {

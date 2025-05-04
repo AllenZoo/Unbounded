@@ -112,23 +112,35 @@ public class ItemDescriptor : MonoBehaviour
 
         if (item.HasComponent<ItemBaseStatComponent>())
         {
-            throw new NotImplementedException();
             itemTextStats.text += "Base Stats:\n";
-            ItemBaseStatComponent itemBaseStatComponent = item.GetComponent<ItemBaseStatComponent>();
-            // TODO: stringify base stats somehow else.
-            //itemTextStats.text += StringifyStatModifierList(itemBaseStatComponent.statModifiers);
+
+            // ibsc = Item Base Stat Component
+            // sco = Stat Container Optional
+            // bs = Base Stats Container
+            ItemModifierMediator imm = item.ItemModifierMediator;
+
+            var sco = imm.GetStatsBeforeModification();
+            if (!sco.HasValue) return;
+
+            StatContainer bs = sco.Value;
+            foreach (var stat in bs.GetNonZeroStats())
+            {
+                itemTextStats.text += $"\t{stat.Key}: {stat.Value} \n";
+            }
+            
         }
 
         if (item.HasComponent<ItemUpgradeComponent>())
         {
-            throw new NotImplementedException();
-            //if (item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Count > 0)
-            //{
-            //    // Hide this text if no upgrades are present.
-            //    itemTextStats.text += "Upgrades:\n";
-            //}
-            //ItemUpgradeComponent itemUpgradeComponent = item.GetComponent<ItemUpgradeComponent>();
-            //itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
+            var iuc = item.GetComponent<ItemUpgradeComponent>();
+            var modifiers = iuc.GetUpgradeModifiers();
+            if (modifiers.Count > 0)
+            {
+                // Hide this text if no upgrades are present.
+                itemTextStats.text += "Modifiers:\n";
+                itemTextStats.text += iuc.GetItemDescriptorText();
+            }
+            
         }
 
         if (item.HasComponent<ItemUpgraderComponent>())

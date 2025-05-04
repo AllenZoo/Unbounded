@@ -13,11 +13,10 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
     // Holds the stats of the item after modification.
     private StatContainer statContainer;
+    private ItemBaseStatComponent baseStatComponent;
 
     // TODO: for attack container trait modifiaction.
     // private AttackContainer attackContainer;
-
-    private ItemBaseStatComponent baseStatComponent;
 
     public ItemModifierMediator(Item item)
     {
@@ -28,6 +27,17 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         if (baseStatComponent != null)
         {
             statContainer = new StatContainer(baseStatComponent.BaseStats);
+        }
+    }
+
+    public Optional<StatContainer> GetStatsBeforeModification()
+    {
+        if (baseStatComponent != null)
+        {
+            return new Optional<StatContainer>(new StatContainer(baseStatComponent.BaseStats));
+        } else {
+            if (Debug.isDebugBuild) Debug.LogError("Base stat component is null!");
+            return new Optional<StatContainer>(null);
         }
     }
 
@@ -50,6 +60,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     }
 
 
+    #region Helpers
     /// <summary>
     /// Applies the modifiers.
     /// </summary>
@@ -69,7 +80,9 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     {
         statContainer.StatMediator.ClearModifiers();
     }
+    #endregion
 
+    #region Visiter Functions
     public virtual void Visit(StatModifier modifier) {
         // Apply modifier!
         statContainer.StatMediator.AddModifier(modifier);
@@ -82,4 +95,5 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     public virtual void Visit(TraitModifier modifier) { 
         
     }
+    #endregion
 }
