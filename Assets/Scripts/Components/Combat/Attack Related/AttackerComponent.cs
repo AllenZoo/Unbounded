@@ -53,7 +53,7 @@ public class AttackerComponent : MonoBehaviour
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && canAttack && attacker != null)
+        if (attackRdy && canAttack && attacker != null && attacker.AttackerData != null)
         {
             attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack, PercentageDamageIncrease);
             StartCoroutine(AttackCooldown());

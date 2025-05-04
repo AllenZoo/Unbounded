@@ -55,32 +55,19 @@ public class EquipmentWeaponHandler : MonoBehaviour
     {
         // Get item from inventory.
         Item item = inventory.GetItem(weaponSlotIndex);
-
         previousWeapon = curWeapon;
         curWeapon = item;
 
-        // If item is null, then we don't have a weapon equipped.
-        // Note: isEmpty() checks if item.data is null.
-        if (item == null || item.IsEmpty())
-        {
-            leh.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
-            previousWeapon = null;
-            attackerComponent.SetAttacker(null);
-            return;
-        }
-
-        Attacker attackerToSet = item.ItemModifierMediator.GetAttackerAfterModification();
-        if (attackerToSet == null)
-        {
-            Debug.LogError("ERROR: Item in weapon slot does not contain an attack component! Did we equip an item that cannot attack?");
-            return;
-        }
+        Attacker attackerToSet = item?.ItemModifierMediator.GetAttackerAfterModification();
         attackerComponent.SetAttacker(attackerToSet);
-
 
         leh.Call(new OnWeaponEquippedEvent { equipped = curWeapon, unequipped = previousWeapon });
     }
 
+    /// <summary>
+    /// Handles UCAE = UpgradeCardApplyEffect event.
+    /// </summary>
+    /// <param name="e"></param>
     private void HandleOnUCAEBindingEvent(OnUpgradeCardApplyEffect e)
     {
         if (curWeapon == null) {
