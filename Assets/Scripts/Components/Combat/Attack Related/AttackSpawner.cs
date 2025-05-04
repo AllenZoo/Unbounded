@@ -61,18 +61,19 @@ public class AttackSpawner
     /// <summary>
     /// Spawns attack object torwards direction from spawnerPos.
     /// </summary>
-    /// <param name="direction"></param>
-    /// <param name="spawnerPos"></param>
-    /// <param name="targetTypes"></param>
-    /// <param name="attackObj"></param>
-    /// <returns>The newly created Attack.</returns>
-    /// TODO: comment to make things clearer.
+    /// <param name="direction">direction to spawn the attack torwards</param>
+    /// <param name="spawnerPos">the transform to spawn the attack at</param>
+    /// <param name="targetTypes">the targets the spawned attack can hit</param>
+    /// <param name="attackObj">the actual attack object pfb</param>
+    /// <param name="attacker">the attacker. Needed for setting attackObj data.</param>
+    /// <param name="atkStat">the atk stat to set on atk obj</param>
+    /// <param name="percentageDamageIncrease">the % increase buff to apply to attack</param>
+    /// <returns>The newly created attack</returns>
     public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, Attacker attacker, float atkStat, double percentageDamageIncrease)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
 
         Assert.IsNotNull(attackComponent, "To spawn attack obj, it must have an attack component!");
-
         if (attackComponent == null)
         {
             Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
@@ -80,12 +81,13 @@ public class AttackSpawner
         }
 
         // Dereference a bit to make things less messy.
-        AttackData attackData = attacker.AttackData;
+        // We want to set AttackComponent of spawned object with the data passed in from attacker.
+        AttackData attackerAttacKData = attacker.AttackData;
 
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 0.5f;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackData.rotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttacKData.rotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -99,11 +101,11 @@ public class AttackSpawner
         var newAttack = newAttackObj.GetComponent<AttackComponent>();
         newAttack.Attack.SetAtkStat(atkStat);
         newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
-        newAttack.ResetAttackAfterTime(attackData.duration);
-        newAttack.Attack.SetAtkData(attacker.AttackData);
+        newAttack.ResetAttackAfterTime(attackerAttacKData.duration);
+        newAttack.Attack.SetAtkData(attackerAttacKData);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attacker.AttackData.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attackerAttacKData.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
