@@ -12,7 +12,9 @@ public interface IStatMediator
     //void CalculateFinalStat(List<IStatModifierContainer> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
     void CalculateFinalStat(StatQuery query);
     void AddModifier(StatModifier modifier);
+    void AddModifier(object source, StatModifier modifier);
     void RemoveModifier(StatModifier modifier);
+    void RemoveModifiersFromSource(object source);
     void ClearModifiers();
     void RegisterStatChangeListener(Action action);
 }
@@ -32,6 +34,8 @@ public class StatMediator : IStatMediator
 
     private List<StatModifier> modifiers = new List<StatModifier>();
     private Dictionary<Stat, IEnumerable<StatModifier>> modifiersCache = new Dictionary<Stat, IEnumerable<StatModifier>>();
+    private Dictionary<object, List<StatModifier>> sourceToModifiers = new Dictionary<object, List<StatModifier>>();
+
     private IStatModifierApplicationOrder order = new NormalStatModifierOrder();
 
     public StatMediator()
@@ -86,10 +90,33 @@ public class StatMediator : IStatMediator
 
         OnStatChange?.Invoke();
     }
+    public void AddModifier(object source, StatModifier modifier)
+    {
+        AddModifier(modifier); // reuse original logic
+        if (!sourceToModifiers.ContainsKey(source))
+        {
+            sourceToModifiers[source] = new List<StatModifier>();
+        }
+        sourceToModifiers[source].Add(modifier);
+    }
     public void RemoveModifier(StatModifier modifier)
     {
         modifiers.Remove(modifier);
         InvalidateCache(modifier.Stat);
+        OnStatChange?.Invoke();
+    }
+    public void RemoveModifiersFromSource(object source)
+    {
+        if (!sourceToModifiers.TryGetValue(source, out var sourceMods))
+            return;
+
+        foreach (var mod in sourceMods)
+        {
+            modifiers.Remove(mod);
+            InvalidateCache(mod.Stat);
+        }
+
+        sourceToModifiers.Remove(source);
         OnStatChange?.Invoke();
     }
     public void ClearModifiers()

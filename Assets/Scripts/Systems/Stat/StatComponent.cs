@@ -20,7 +20,7 @@ public class StatComponent : MonoBehaviour
     // This event allows for subscription between different objects. Eg. UI and StatComponent
     public event Action OnStatChange;
 
-
+    #region Unity Life Cycle Functions
     private void Awake()
     {
         leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
@@ -59,6 +59,7 @@ public class StatComponent : MonoBehaviour
             HandleDamage(new OnDamagedEvent { damage = 10 });
         }
     }
+    #endregion
 
     #region Local Event Function Handlers
     /// <summary>
@@ -73,14 +74,16 @@ public class StatComponent : MonoBehaviour
 
         if (equipped != null)
         {
+            equipped.ItemModifierMediator.OnModifierChange += HandleWeaponItemChange;
+
             // Add stat modifiers from equipped item (if equiopped item has stats)
             Optional<StatContainer> equippedStatContainer = equipped.ItemModifierMediator.GetStatsAfterModification();
 
             if (equippedStatContainer.HasValue)
             {
-                StatContainer esc =  equippedStatContainer.Value;
+                StatContainer esc = equippedStatContainer.Value;
                 StatModifier equippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
-                StatContainer.StatMediator.AddModifier(equippedStatModifier);
+                StatContainer.StatMediator.AddModifier(equipped, equippedStatModifier);
 
                 if (Debug.isDebugBuild) Debug.Log($"Equipped weapon atk value is: " + esc.Attack);
             } else
@@ -92,15 +95,12 @@ public class StatComponent : MonoBehaviour
         // Dispose unequipped equipment stat modifiers
         if (unequipped != null)
         {
+            unequipped.ItemModifierMediator.OnModifierChange -= HandleWeaponItemChange;
+
             Optional<StatContainer> unequippedStatContainer = unequipped.ItemModifierMediator.GetStatsAfterModification();
             if (unequippedStatContainer.HasValue)
             {
-                StatContainer esc = unequippedStatContainer.Value;
-                StatModifier unequippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(-esc.Attack), -1);
-                StatContainer.StatMediator.AddModifier(unequippedStatModifier);
-
-                // TODO: make a way to remove StatModifier by value and not be reference.
-                //StatContainer.StatMediator.RemoveModifier(unequippedStatModifier);
+                StatContainer.StatMediator.RemoveModifiersFromSource(unequipped);
             }
             else
             {
@@ -140,4 +140,13 @@ public class StatComponent : MonoBehaviour
         OnStatChange?.Invoke();
     }
     #endregion    
+
+    private void HandleWeaponItemChange()
+    {
+        // Modify the stat container to have the weapon item change
+        // TODO: after we figure out how to handle removing/adding modifiers in a way we 
+        //       can remove them by reference.
+
+
+    }
 }

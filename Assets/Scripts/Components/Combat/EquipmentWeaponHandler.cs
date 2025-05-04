@@ -56,6 +56,9 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // Get item from inventory.
         Item item = inventory.GetItem(weaponSlotIndex);
 
+        previousWeapon = curWeapon;
+        curWeapon = item;
+
         // If item is null, then we don't have a weapon equipped.
         // Note: isEmpty() checks if item.data is null.
         if (item == null || item.IsEmpty())
@@ -74,8 +77,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
         attackerComponent.SetAttacker(attackerToSet);
 
-        previousWeapon = curWeapon;
-        curWeapon = item;
+
         leh.Call(new OnWeaponEquippedEvent { equipped = curWeapon, unequipped = previousWeapon });
     }
 
