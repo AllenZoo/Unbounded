@@ -69,8 +69,6 @@ public class AttackSpawner
     public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, float atkStat, double percentageDamageIncrease)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
-        attackComponent.Attack.SetAtkStat(atkStat);
-        attackComponent.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
 
         Assert.IsNotNull(attackComponent, "To spawn attack obj, it must have an attack component!");
 
@@ -97,7 +95,10 @@ public class AttackSpawner
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
-        AttackComponent newAttack = newAttackObj.GetComponent<AttackComponent>();
+        // Set dynamic attack fields and reset timer.
+        var newAttack = newAttackObj.GetComponent<AttackComponent>();
+        newAttack.Attack.SetAtkStat(atkStat);
+        newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
         newAttack.ResetAttackAfterTime(attackData.duration);
 
         // Set velocity of attack (get from Attack in attackObj)

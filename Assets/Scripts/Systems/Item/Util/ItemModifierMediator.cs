@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
+// TODO: add some caching system so that we don't have to constantly clear and apply modifiers. We should cache stuff for better performance.
+
 /// <summary>
 /// Handles the application of all modifiers on a Item component.
 /// Stores the final modified state of each relevant weapon component.

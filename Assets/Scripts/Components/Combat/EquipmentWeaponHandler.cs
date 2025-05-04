@@ -79,6 +79,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
             Debug.LogError("ERROR: Item in weapon slot does not contain an attack component! Did we equip an item that cannot attack?");
             return;
         }
+
         attackerComponent.SetAttacker(attackerToSet);
         localEventHandler.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
         previousWeapon = item;

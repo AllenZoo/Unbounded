@@ -22,6 +22,9 @@ public class AttackerComponent : MonoBehaviour
     [Tooltip("Component that holds stats for adding damage to attacks.")]
     [SerializeField] private StatComponent statComponent;
 
+    // Ugly code, but this is one way to implement it so lets do this for now.
+    public double PercentageDamageIncrease { get; private set; } = 0;
+
     private bool attackRdy = true;
     private bool canAttack = true;
 
@@ -42,6 +45,9 @@ public class AttackerComponent : MonoBehaviour
 
         LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
         localEventHandler.Register<OnDeathEvent>(deathEventBinding);
+
+        LocalEventBinding<OnWeaponEquippedEvent> equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
+        localEventHandler.Register<OnWeaponEquippedEvent>(equipEventBinding);
     }
 
     public void AttackReq(OnAttackInput input)
@@ -49,7 +55,7 @@ public class AttackerComponent : MonoBehaviour
         // Attack if attack is ready and if data is not null.
         if (attackRdy && canAttack && attacker != null)
         {
-            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack, statComponent.PercentageDamageIncrease);
+            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack, PercentageDamageIncrease);
             StartCoroutine(AttackCooldown());
         }
     }
@@ -83,5 +89,16 @@ public class AttackerComponent : MonoBehaviour
     private bool ValidateList(List<EntityType> value)
     {
         return value != null && value.Count > 0;
+    }
+
+    private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
+    {
+        // Set the percentage increase.
+        Item equipped = e.equipped;
+
+        if (equipped != null)
+        {
+            PercentageDamageIncrease = equipped.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
+        }
     }
 }
