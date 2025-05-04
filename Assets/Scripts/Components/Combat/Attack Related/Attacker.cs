@@ -18,6 +18,11 @@ public class Attacker
     [SerializeField] private AttackerData attackerData;
     [SerializeField] private AttackData attackData;
 
+    public Attacker(AttackerData attackerData, AttackData attackData)
+    {
+        this.attackerData = attackerData;
+        this.attackData = attackData;
+    }
 
     // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
     // does nothing.
@@ -46,8 +51,7 @@ public class Attacker
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - attackerTransform.position);
 
-            AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb, atkStat, percentageDamageIncrease);
+            AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb, this, atkStat, percentageDamageIncrease);
         }
     }
-
 }

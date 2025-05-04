@@ -10,9 +10,7 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(AttackerComponent))]
 public class EquipmentWeaponHandler : MonoBehaviour
 {
-    [Required]
-    [SerializeField] 
-    private LocalEventHandler localEventHandler;
+    [Required, SerializeField] private LocalEventHandler leh;
 
     // TODO: decide whether to have reference to SO_Inventory or InventorySystem.
     // Probably better to have ref to SO_Inventory.
@@ -32,9 +30,9 @@ public class EquipmentWeaponHandler : MonoBehaviour
         Assert.IsNotNull(stat, "EquipmentWeaponHandler needs stat component to modify.");
         attackerComponent = GetComponent<AttackerComponent>();
 
-        if (localEventHandler == null)
+        if (leh == null)
         {
-            localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
+            leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
         }
     }
 
@@ -62,18 +60,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // Note: isEmpty() checks if item.data is null.
         if (item == null || item.IsEmpty())
         {
-            localEventHandler.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
+            leh.Call(new OnWeaponEquippedEvent { equipped = null, unequipped = previousWeapon });
             previousWeapon = null;
             attackerComponent.SetAttacker(null);
             return;
         }
 
-        // throw new NotImplementedException();
-
-        // TODO: we store attacker data in item itself and not ItemAttackContainerComponent. Handle trait modification here, using ItemModifierMediator to return dynamically
-        //       modified attacker.
-        // If item doesn't contain an ItemAttackContainerComponent, then throw an error since this shouldn't happen.
-        Attacker attackerToSet = item.data.attacker;
+        Attacker attackerToSet = item.ItemModifierMediator.GetAttackerAfterModification();
         if (attackerToSet == null)
         {
             Debug.LogError("ERROR: Item in weapon slot does not contain an attack component! Did we equip an item that cannot attack?");
@@ -81,7 +74,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
 
         attackerComponent.SetAttacker(attackerToSet);
-        localEventHandler.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
+        leh.Call(new OnWeaponEquippedEvent { equipped = item, unequipped = previousWeapon });
         previousWeapon = item;
     }
 }

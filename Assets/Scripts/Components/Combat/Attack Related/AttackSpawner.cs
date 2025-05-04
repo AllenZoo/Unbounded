@@ -66,7 +66,8 @@ public class AttackSpawner
     /// <param name="targetTypes"></param>
     /// <param name="attackObj"></param>
     /// <returns>The newly created Attack.</returns>
-    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, float atkStat, double percentageDamageIncrease)
+    /// TODO: comment to make things clearer.
+    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, Attacker attacker, float atkStat, double percentageDamageIncrease)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
 
@@ -79,8 +80,7 @@ public class AttackSpawner
         }
 
         // Dereference a bit to make things less messy.
-        Attack attack = attackComponent.Attack;
-        AttackData attackData = attack.AttackData;
+        AttackData attackData = attacker.AttackData;
 
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 0.5f;
@@ -100,9 +100,10 @@ public class AttackSpawner
         newAttack.Attack.SetAtkStat(atkStat);
         newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
         newAttack.ResetAttackAfterTime(attackData.duration);
+        newAttack.Attack.SetAtkData(attacker.AttackData);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.AttackData.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attacker.AttackData.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;

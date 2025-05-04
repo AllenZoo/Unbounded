@@ -94,10 +94,13 @@ public class Attack
     {
         this.atkStat = atkStat;
     }
-
     public void SetPercentageDamageIncrease(double val)
     {
         percentageDamageIncrease = val;
+    }
+    public void SetAtkData(AttackData attackData)
+    {
+        this.attackData = attackData;
     }
 
     // Calculates the damage of the attack while also taking into account the attacker's stats.

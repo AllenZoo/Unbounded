@@ -21,11 +21,11 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     private Item item;
     private ItemBaseStatComponent baseStatComponent;
     private ItemUpgradeComponent upgradeComponent;
+    private Attacker baseAttacker; // The base Attacker instance to create a copy of.
+    private Attacker dynamicAttacker; // Accumlator of modifier visitor.
 
     // Holds the stats of the item after modification. The accumulator passed in the modifier visitor.
     private StatContainer statContainer;
-
-    
 
     // Accumulator for damage modifiers.
     private double percentageDamageIncrease = 0;
@@ -45,6 +45,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         upgradeComponent = item.GetComponent<ItemUpgradeComponent>();
+
+        baseAttacker = item?.data?.attacker;
     }
 
 
@@ -77,9 +79,14 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
         return new Optional<StatContainer>(statContainer);
     }
+    public Attacker GetAttackerAfterModification()
+    {
+        ClearModifiers();
+        ApplyModifiers(upgradeComponent);
+        return dynamicAttacker;
+    }
 
-
-    #region Helpers
+    #region Modifier Application Helpers
     /// <summary>
     /// Applies the modifiers.
     /// </summary>
@@ -109,6 +116,10 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     {
         statContainer.StatMediator.ClearModifiers();
         percentageDamageIncrease = 0;
+
+        var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);
+        var attackData = ScriptableObject.Instantiate(baseAttacker?.AttackData);
+        dynamicAttacker = new Attacker(attackerData, attackData);
     }
     #endregion
 
@@ -119,11 +130,18 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     }
 
     public virtual void Visit(DamageModifier modifier) {
+        // Apply Modifier
         percentageDamageIncrease += modifier.PercentageIncrease;
     }
 
     public virtual void Visit(TraitModifier modifier) { 
-        
+        // Apply Modifier
+        if (modifier.AddPiercing)
+        {
+            dynamicAttacker.AttackData.isPiercing = true;
+        }
+
+        dynamicAttacker.AttackerData.numAttacks += modifier.NumAtksToAdd;
     }
     #endregion
 }
