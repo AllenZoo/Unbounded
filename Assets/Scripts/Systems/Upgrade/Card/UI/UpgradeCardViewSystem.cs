@@ -91,7 +91,6 @@ public class UpgradeCardViewSystem : PageUI
             
         pfbToDataMap.Clear();
         menuEventSystemHandler.Selectables.Clear();
-        //ClosePage();
     }
 
     private void OnUpgradeCardClicked(UpgradeCardView cardView)
