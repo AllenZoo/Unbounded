@@ -109,7 +109,13 @@ public class ItemDescriptor : MonoBehaviour
     /// <param name="item"></param>
     private void HandleItemDisplay(Item item)
     {
+        if (item?.data?.attacker?.AttackData != null)
+        {
+            var attackData = item.data?.attacker?.AttackData;
+            itemTextStats.text += $"Base ATK Damage: {attackData.baseDamagee}\n";
+        }
 
+        // Base Weapon Stats
         if (item.HasComponent<ItemBaseStatComponent>())
         {
             itemTextStats.text += "Base Stats:\n";
@@ -130,6 +136,7 @@ public class ItemDescriptor : MonoBehaviour
             
         }
 
+        // Upgrades
         if (item.HasComponent<ItemUpgradeComponent>())
         {
             var iuc = item.GetComponent<ItemUpgradeComponent>();

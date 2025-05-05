@@ -132,12 +132,10 @@ public class ItemUpgradeComponent : IItemComponent
 
         return $"{statMod.Stat}: {opSymbol}";
     }
-
     private string FormatDamageModifier(DamageModifier dmgMod)
     {
         return $"Bonus Damage: +{dmgMod.PercentageIncrease}%";
     }
-
     private string FormatTraitModifier(TraitModifier traitMod)
     {
         List<string> traits = new List<string>();
