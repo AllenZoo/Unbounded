@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de38b8fb36a1b754e968d85a331f55e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  leh: {fileID: 0}
   dropRates:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: ca4d9c6c9f321404d92a71a6c49d0ed3, type: 2}
@@ -166,8 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
-  baseStats: {fileID: 11400000, guid: 534630ad0ae4396458672f3a843d111f, type: 2}
+  leh: {fileID: 7380168260825384525}
+  statContainer:
+    baseStats: {fileID: 11400000, guid: 534630ad0ae4396458672f3a843d111f, type: 2}
 --- !u!50 &1489280840202876616
 Rigidbody2D:
   serializedVersion: 4
@@ -779,6 +780,7 @@ MonoBehaviour:
   localEventHandler: {fileID: 0}
   sprite: {fileID: 4693658594238709340}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  defaultMaterial: {fileID: 0}
 --- !u!1 &8453840291651679978
 GameObject:
   m_ObjectHideFlags: 0

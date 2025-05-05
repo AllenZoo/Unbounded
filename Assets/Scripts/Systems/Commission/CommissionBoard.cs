@@ -138,7 +138,7 @@ public class CommissionBoard : MonoBehaviour
         completedCommissions.Add(new Tuple<Commission, Item>(commission, submittedItem));
         submitInventory.ClearInventory();
 
-        PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold += commission.reward;
+        PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().StatContainer.Gold += commission.reward;
 
         // Reset Active and generate new commission set
         commissionsContext.ResetContext();

@@ -88,7 +88,6 @@ public class SO_Inventory : SerializedScriptableObject
         OnInventoryDataChange?.Invoke();
     }
 
-    [Button("Set Item")]
     public void Set(int index, Item item)
     {
         if (index >= 0 && index < items.Count)
@@ -101,8 +100,6 @@ public class SO_Inventory : SerializedScriptableObject
             Debug.LogError($"Invalid index: {index}. Must be between 0 and {items.Count - 1}.");
         }
     }
-
-    [Button("Check If Empty")]
     public bool IsEmpty()
     {
         foreach (Item item in items)

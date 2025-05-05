@@ -18,8 +18,15 @@ public class Inventory
     public Inventory(SO_Inventory inventory)
     {
         data = inventory;
-        //items = inventory.items;
-        //numSlots = inventory.slots;
+    }
+
+    public void Init()
+    {
+        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
+        foreach (Item item in data.items)
+        {
+            if (item != null) item.Init();
+        }
     }
 
     //public Inventory(List<Item> items, int numSlots)

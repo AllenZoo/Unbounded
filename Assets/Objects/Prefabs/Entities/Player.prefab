@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4aa276add087e4dae7943d26d89c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
-  inventory: {fileID: 0}
+  leh: {fileID: 8924692159491181220}
+  inventorySystemContext: {fileID: 11400000, guid: a6a11665f99af4e41873a10acdd397f6, type: 2}
   weaponSlotIndex: 0
-  stat: {fileID: 7405677662020513449}
+  attackerComponent: {fileID: 0}
 --- !u!114 &2251975519570500716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  leh: {fileID: 0}
   stat: {fileID: 7405677662020513449}
   entityType: 0
   isDamageable: 1
@@ -669,8 +669,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11584a15d2336db479982898c011453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 8924692159491181220}
-  baseStats: {fileID: 11400000, guid: f012e5a20fdb94444a68536a454134c2, type: 2}
+  leh: {fileID: 8924692159491181220}
+  statContainer:
+    baseStats: {fileID: 11400000, guid: f012e5a20fdb94444a68536a454134c2, type: 2}
 --- !u!114 &7405677662020513448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,3 +882,4 @@ MonoBehaviour:
   localEventHandler: {fileID: 8924692159491181220}
   sprite: {fileID: 2588634707587799474}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  defaultMaterial: {fileID: 0}

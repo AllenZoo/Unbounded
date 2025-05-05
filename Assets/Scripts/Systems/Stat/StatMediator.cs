@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,28 +8,39 @@ using UnityEngine;
 // Reason: There is a static function that handles cases where we just need the mediator to calculate the final stat value of a list of modifiers.
 public interface IStatMediator
 {
-    void CalculateFinalStat(List<StatModifier> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
-    void CalculateFinalStat(List<IStatModifierContainer> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
+    //void CalculateFinalStat(List<StatModifier> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
+    //void CalculateFinalStat(List<IStatModifierContainer> stat, StatQuery query, IStatModifierApplicationOrder orderStrategy);
     void CalculateFinalStat(StatQuery query);
     void AddModifier(StatModifier modifier);
+    void AddModifier(object source, StatModifier modifier);
     void RemoveModifier(StatModifier modifier);
+    void RemoveModifiersFromSource(object source);
+    void ClearModifiers();
+    void RegisterStatChangeListener(Action action);
 }
 
 /// <summary>
 /// Class that handles the final stat calculation after taking in modifiers. Also class that is in charge of adding new stat modifiers.
 /// </summary>
-public class StatMediator
+public class StatMediator : IStatMediator
 {
-    private LocalEventHandler localEventHander;
-    private StatComponent stat;
+
+    /// <summary>
+    /// Event that fires whenever modifiers are added or removed.
+    /// 
+    /// Pass through StatModifier is the modifier that either got added or removed(?)
+    /// </summary>
+    public Action OnStatChange;
+
     private List<StatModifier> modifiers = new List<StatModifier>();
     private Dictionary<Stat, IEnumerable<StatModifier>> modifiersCache = new Dictionary<Stat, IEnumerable<StatModifier>>();
+    private Dictionary<object, List<StatModifier>> sourceToModifiers = new Dictionary<object, List<StatModifier>>();
+
     private IStatModifierApplicationOrder order = new NormalStatModifierOrder();
 
-    public StatMediator(LocalEventHandler localEventHander, StatComponent stat)
+    public StatMediator()
     {
-        this.localEventHander = localEventHander;
-        this.stat = stat;
+
     }
 
     /// <summary>
@@ -76,13 +88,48 @@ public class StatMediator
         modifier.OnDispose += (modifier) => InvalidateCache(modifier.Stat);
         modifier.OnDispose += (modifier) => modifiers.Remove(modifier);
 
-        localEventHander.Call(new OnStatChangeEvent { statComponent = stat, statModifier = modifier });
+        OnStatChange?.Invoke();
+    }
+    public void AddModifier(object source, StatModifier modifier)
+    {
+        AddModifier(modifier); // reuse original logic
+        if (!sourceToModifiers.ContainsKey(source))
+        {
+            sourceToModifiers[source] = new List<StatModifier>();
+        }
+        sourceToModifiers[source].Add(modifier);
     }
     public void RemoveModifier(StatModifier modifier)
     {
         modifiers.Remove(modifier);
         InvalidateCache(modifier.Stat);
+        OnStatChange?.Invoke();
     }
+    public void RemoveModifiersFromSource(object source)
+    {
+        if (!sourceToModifiers.TryGetValue(source, out var sourceMods))
+            return;
+
+        foreach (var mod in sourceMods)
+        {
+            modifiers.Remove(mod);
+            InvalidateCache(mod.Stat);
+        }
+
+        sourceToModifiers.Remove(source);
+        OnStatChange?.Invoke();
+    }
+    public void ClearModifiers()
+    {
+        modifiers.Clear();
+        modifiersCache.Clear();
+        OnStatChange?.Invoke();
+    }
+    public void RegisterStatChangeListener(Action action)
+    {
+        OnStatChange += action;
+    }
+
 
     private void InvalidateCache(Stat stat)
     {
@@ -104,6 +151,7 @@ public class StatMediator
 
 /// <summary>
 /// Class that gets passed through StatMediator to each StatModifier to calculate the final stat.
+/// Essentially an accumulator.
 /// </summary>
 public class StatQuery
 {

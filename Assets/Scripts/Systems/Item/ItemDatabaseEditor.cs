@@ -1,24 +1,26 @@
-using UnityEngine;
-using UnityEditor;
+// TODO: fix this later with ItemDatabase.cs
 
-[CustomEditor(typeof(ItemDatabase))]
-public class ItemDatabaseEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
+//using UnityEngine;
+//using UnityEditor;
 
-        ItemDatabase itemDB = (ItemDatabase)target;
+//[CustomEditor(typeof(ItemDatabase))]
+//public class ItemDatabaseEditor : Editor
+//{
+//    public override void OnInspectorGUI()
+//    {
+//        DrawDefaultInspector();
 
-        if (GUILayout.Button("Save Database"))
-        {
-            itemDB.SaveDatabase();
-        }
+//        ItemDatabase itemDB = (ItemDatabase)target;
 
-        if (GUILayout.Button("Load Database"))
-        {
-            itemDB.LoadDatabase();
-            EditorUtility.SetDirty(itemDB);
-        }
-    }
-}
+//        if (GUILayout.Button("Save Database"))
+//        {
+//            itemDB.SaveDatabase();
+//        }
+
+//        if (GUILayout.Button("Load Database"))
+//        {
+//            itemDB.LoadDatabase();
+//            EditorUtility.SetDirty(itemDB);
+//        }
+//    }
+//}

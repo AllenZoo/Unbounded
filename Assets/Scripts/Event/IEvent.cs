@@ -71,6 +71,15 @@ public struct OnPauseChangeRequest: IGlobalEvent {
     public bool shouldPause;
 }
 
+public struct OnUpgradeCardApplyEffect: IGlobalEvent
+{
+    public UpgradeCardData cardData;
+}
+
+public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
+{
+    public HashSet<UpgradeCardData> upgradeCards;
+}
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
@@ -117,7 +126,6 @@ public struct OnKnockBackEndEvent: ILocalEvent { }
 public struct OnStatChangeEvent: ILocalEvent
 {
     public StatComponent statComponent;
-    public StatModifier statModifier;
 }
 
 public struct OnSpawnEvent: ILocalEvent

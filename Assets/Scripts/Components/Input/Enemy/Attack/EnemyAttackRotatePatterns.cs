@@ -303,8 +303,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         if (statComponent != null)
         {
             // Calculate HP threshold percentage
-            float maxHP = statComponent.maxHealth;
-            float curHP = statComponent.health;
+            float maxHP = statComponent.StatContainer.MaxHealth;
+            float curHP = statComponent.StatContainer.Health;
 
             double percentage = curHP / maxHP;
             curHPThreshold = percentage;

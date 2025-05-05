@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,8 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// Behavioural class that encapsulate attack hit. (TODO: use chatGpt to think of better way to describe this)
+/// Behavioural class that encapsulate attack hit.
+/// Holds both static and dynamic attack data.
 /// </summary>
 [Serializable]
 public class Attack 
@@ -18,9 +20,30 @@ public class Attack
         private set { }
     }
 
-    [SerializeField]
+    [SerializeField, Required]
     private AttackData attackData;
 
+    /// <summary>
+    /// The the atk stat attached to Attack. Boosts the base damage of said attack.
+    /// Generally the cumulation of weapon stats + player stats after modifiers applied for each.
+    /// </summary>
+    [SerializeField, ReadOnly] private float atkStat = 0;
+
+    /// <summary>
+    /// Damage modifier to apply to final calculated damage.
+    /// For example after Attack.Damage - Damageable.Defense = TrueDamage
+    /// We apply % modifier to TrueDamage: TrueDamage + TrueDamage * % modifier.
+    /// </summary>
+    [SerializeField, ReadOnly]  private double percentageDamageIncrease = 0;
+
+    public Attack()
+    {
+        this.atkStat = 0f;
+    }
+    public Attack(float atkStat)
+    {
+        this.atkStat = atkStat;
+    }
 
 
     // Logic to determine what happens when the attack hits a target.
@@ -33,11 +56,7 @@ public class Attack
 
     public void Hit(Damageable hit, Transform hitMaker)
     {
-
-        // TODO: reimplement
-        //float calculatedDamage = CalculateDamage(attackData.baseDamagee, attackerATKStat);
-        float calculatedDamage = CalculateDamage(attackData.baseDamagee, 1);
-
+        float calculatedDamage = CalculateDamage(attackData.baseDamagee, atkStat);
 
         // Damage the target.
         if (attackData.isDOT)
@@ -46,7 +65,7 @@ public class Attack
             return;
         }
 
-        hit.TakeDamage(calculatedDamage);
+        hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
         
         // Knockback the target if:
         //      - attack has knockback
@@ -69,6 +88,19 @@ public class Attack
             return;
         }
 
+    }
+
+    public void SetAtkStat(float atkStat)
+    {
+        this.atkStat = atkStat;
+    }
+    public void SetPercentageDamageIncrease(double val)
+    {
+        percentageDamageIncrease = val;
+    }
+    public void SetAtkData(AttackData attackData)
+    {
+        this.attackData = attackData;
     }
 
     // Calculates the damage of the attack while also taking into account the attacker's stats.

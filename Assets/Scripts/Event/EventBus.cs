@@ -19,6 +19,9 @@ public static class EventBus<T>
 
     public static void Call(T @event)
     {
+        if (Debug.isDebugBuild)
+            Debug.Log($"[EventBus<{typeof(T)}>] Fired: {@event}. Listeners: {eventBindings.Count}");
+
         foreach (var eventBinding in eventBindings)
         {
             eventBinding.OnEvent?.Invoke(@event);

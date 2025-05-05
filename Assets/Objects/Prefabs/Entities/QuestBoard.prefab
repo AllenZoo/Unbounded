@@ -232,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 2476256474212995462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1938608540}
@@ -255,8 +255,5 @@ MonoBehaviour:
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   priority: 5
   requiredKeyPress: 102
-  displayMessage:
-    message: Quest Board! Press F to open.
-    reqKey: 102
-    shouldDisplayPrompt: 1
+  displayMessage: Quest Board! Press F to open.
   pageUIContext: {fileID: 11400000, guid: 9b57c547124570f41a981a7aa73f6c66, type: 2}

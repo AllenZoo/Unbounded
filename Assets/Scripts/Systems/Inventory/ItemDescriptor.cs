@@ -109,23 +109,45 @@ public class ItemDescriptor : MonoBehaviour
     /// <param name="item"></param>
     private void HandleItemDisplay(Item item)
     {
+        if (item?.data?.attacker?.AttackData != null)
+        {
+            var attackData = item.data?.attacker?.AttackData;
+            itemTextStats.text += $"Base ATK Damage: {attackData.baseDamagee}\n";
+        }
 
+        // Base Weapon Stats
         if (item.HasComponent<ItemBaseStatComponent>())
         {
             itemTextStats.text += "Base Stats:\n";
-            ItemBaseStatComponent itemBaseStatComponent = item.GetComponent<ItemBaseStatComponent>();
-            itemTextStats.text += StringifyStatModifierList(itemBaseStatComponent.statModifiers);
+
+            // ibsc = Item Base Stat Component
+            // sco = Stat Container Optional
+            // bs = Base Stats Container
+            ItemModifierMediator imm = item.ItemModifierMediator;
+
+            var sco = imm.GetStatsBeforeModification();
+            if (!sco.HasValue) return;
+
+            StatContainer bs = sco.Value;
+            foreach (var stat in bs.GetNonZeroStats())
+            {
+                itemTextStats.text += $"\t{stat.Key}: {stat.Value} \n";
+            }
+            
         }
 
+        // Upgrades
         if (item.HasComponent<ItemUpgradeComponent>())
         {
-            if (item.GetComponent<ItemUpgradeComponent>().upgradeStatModifiers.Count > 0)
+            var iuc = item.GetComponent<ItemUpgradeComponent>();
+            var modifiers = iuc.GetUpgradeModifiers();
+            if (modifiers.Count > 0)
             {
                 // Hide this text if no upgrades are present.
-                itemTextStats.text += "Upgrades:\n";
+                itemTextStats.text += "Modifiers:\n";
+                itemTextStats.text += iuc.GetItemDescriptorText();
             }
-            ItemUpgradeComponent itemUpgradeComponent = item.GetComponent<ItemUpgradeComponent>();
-            itemTextStats.text += StringifyStatModifierList(itemUpgradeComponent.upgradeStatModifiers);
+            
         }
 
         if (item.HasComponent<ItemUpgraderComponent>())

@@ -23,33 +23,22 @@ MonoBehaviour:
     SerializationNodes: []
   slots: 4
   items:
-  - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
-    quantity: 2
-    serializableComponents:
-    - type: 3
-      component:
-        rid: 4443694464056688840
-    dataGUID: f973e5a82c08c8549a07ceafc11aa959
   - data: {fileID: 0}
     quantity: 0
-    serializableComponents: []
+    components: []
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
-    serializableComponents: []
+    components: []
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
-    serializableComponents: []
+    components: []
+    dataGUID: 
+  - data: {fileID: 0}
+    quantity: 0
+    components: []
     dataGUID: 
   references:
     version: 2
-    RefIds:
-    - rid: 4443694464056688840
-      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
-      data:
-        modifiers:
-        - OperationType: 0
-          Stat: 6
-          Value: 1
-        costPerItem: 1
+    RefIds: []

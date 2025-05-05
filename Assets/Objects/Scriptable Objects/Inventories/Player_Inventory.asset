@@ -25,59 +25,118 @@ MonoBehaviour:
   items:
   - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
     quantity: 1
-    serializableComponents:
-    - type: 0
-      component:
-        rid: 3587002021781700632
+    components:
+    - rid: 3408761035384946808
+    - rid: 3408761035384946809
+    - rid: 3408761035384946810
     dataGUID: 
-  - data: {fileID: 11400000, guid: f973e5a82c08c8549a07ceafc11aa959, type: 2}
-    quantity: 6
-    serializableComponents:
-    - type: 3
-      component:
-        rid: 4511599094373548057
-    dataGUID: f973e5a82c08c8549a07ceafc11aa959
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761035384946802
+    - rid: 3408761035384946803
+    - rid: 3408761035384946804
+    dataGUID: 
+  - data: {fileID: 11400000, guid: 99c3983a611e0b34c962be2ad2d42b1d, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761035384946811
+    - rid: 3408761035384946812
+    - rid: 3408761035384946813
+    dataGUID: 
+  - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761035384946817
+    - rid: 3408761035384946818
+    - rid: 3408761035384946819
+    dataGUID: 
+  - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761035384946805
+    - rid: 3408761035384946806
+    - rid: 3408761035384946807
+    dataGUID: 
+  - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761035384946814
+    - rid: 3408761035384946815
+    - rid: 3408761035384946816
+    dataGUID: 
   - data: {fileID: 0}
     quantity: 0
-    serializableComponents: []
+    components: []
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
-    serializableComponents: []
+    components: []
     dataGUID: 
   - data: {fileID: 0}
     quantity: 0
-    serializableComponents: []
-    dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
-    dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
-    dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
-    dataGUID: 
-  - data: {fileID: 0}
-    quantity: 0
-    serializableComponents: []
+    components: []
     dataGUID: 
   references:
     version: 2
     RefIds:
-    - rid: 3587002021781700632
-      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
-    - rid: 4511599094373548057
-      type: {class: ItemUpgraderComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761035384946802
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:
-        modifiers:
-        - OperationType: 0
-          Stat: 6
-          Value: 1
-        - OperationType: 0
-          Stat: 8
-          Value: 1
-        costPerItem: 1
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 17e01aa1d6b82a34aa8fa9bbebb38c6f, type: 2}
+    - rid: 3408761035384946803
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761035384946804
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761035384946805
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+    - rid: 3408761035384946806
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761035384946807
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761035384946808
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 17e01aa1d6b82a34aa8fa9bbebb38c6f, type: 2}
+    - rid: 3408761035384946809
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761035384946810
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761035384946811
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 17e01aa1d6b82a34aa8fa9bbebb38c6f, type: 2}
+    - rid: 3408761035384946812
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761035384946813
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761035384946814
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+    - rid: 3408761035384946815
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761035384946816
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761035384946817
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+    - rid: 3408761035384946818
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761035384946819
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}

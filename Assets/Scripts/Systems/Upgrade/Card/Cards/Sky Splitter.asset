@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
+  m_Name: Sky Splitter
+  m_EditorClassIdentifier: 
+  title: Sky Splitter
+  icon: {fileID: 21300000, guid: ece3e85f5ef16e045b30a331e91f0bb0, type: 3}
+  cardColor: {r: 0.80821115, g: 0.9245283, b: 0.46662515, a: 1}
+  rarity: 1
+  mods:
+  - modifier:
+      rid: 3587002153543401472
+    modifierDescription: x2 ATK to weapon permanently
+  - modifier:
+      rid: 3587002153543401477
+    modifierDescription: Add piercing to weapon
+  references:
+    version: 2
+    RefIds:
+    - rid: 3587002153543401472
+      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        Stat: 6
+        operation:
+          rid: 3587002153543401476
+        MarkedForRemoval: 0
+    - rid: 3587002153543401476
+      type: {class: MultiplyOperation, ns: , asm: Assembly-CSharp}
+      data:
+        value: 2
+    - rid: 3587002153543401477
+      type: {class: TraitModifier, ns: , asm: Assembly-CSharp}
+      data:
+        <AddPiercing>k__BackingField: 1
+        <NumAtksToAdd>k__BackingField: 0

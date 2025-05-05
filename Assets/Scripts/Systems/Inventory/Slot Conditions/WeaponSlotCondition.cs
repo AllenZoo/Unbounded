@@ -12,8 +12,9 @@ public class WeaponSlotCondition : IItemCondition
             // (We can have an empty weapon slot)
             return true;
         }
-        
+
         // Check if Item data is type of SO_Weapon_Item.
+        //return item.data.attacker != null;
         return item.HasComponent<ItemAttackContainerComponent>();
     }
 }

@@ -25,6 +25,7 @@ public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObje
     [SerializeField]
     protected KeyCode requiredKeyPress = KeyCode.None;
 
+
     protected IInteractionMessageDisplayBehaviour messageDisplayBehaviour = new NoMessageDisplay();
 
     public abstract void Interact();

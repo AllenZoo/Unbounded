@@ -1,14 +1,17 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class StatModifier : IDisposable
+public class StatModifier : IDisposable, IUpgradeModifier
 {
     [SerializeField] public Stat Stat;
 
+    [SerializeReference, InlineEditor, ValueDropdown(nameof(GetOperationTypes))]
     public IOperation operation;
+
     public bool MarkedForRemoval = false;
 
     public event Action<StatModifier> OnDispose = delegate { };
@@ -52,9 +55,21 @@ public class StatModifier : IDisposable
     {
         OnDispose?.Invoke(this);
     }
-
-    public override string ToString()
+    public void Accept(IUpgradeModifierVisitor visitor)
     {
-        return $"{Stat} {operation.GetValue()}";
+        visitor.Visit(this);
     }
+
+    //public override string ToString()
+    //{
+    //    return $"{Stat} {operation.GetValue()}";
+    //}
+
+    private static IEnumerable<object> GetOperationTypes()
+    {
+        yield return new AddOperation(1);
+        yield return new MultiplyOperation(2);
+    }
+
+    
 }

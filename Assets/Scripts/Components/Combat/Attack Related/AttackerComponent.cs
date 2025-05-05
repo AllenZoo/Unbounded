@@ -10,20 +10,20 @@ using UnityEngine.Assertions;
 /// </summary>
 public class AttackerComponent : MonoBehaviour
 {
-    [Required]
-    [SerializeField]
+    [Required, SerializeField]
     private Attacker attacker;
 
-    [Required]
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [Required, SerializeField] private LocalEventHandler localEventHandler;
 
     [Tooltip("Types of entities this attacker can damage.")]
-    [Required]
     [ValidateInput("ValidateList", "List cannot be empty!")]
-    [SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+    [Required, SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
 
     [Tooltip("Component that holds stats for adding damage to attacks.")]
     [SerializeField] private StatComponent statComponent;
+
+    // Ugly code, but this is one way to implement it so lets do this for now.
+    public double PercentageDamageIncrease { get; private set; } = 0;
 
     private bool attackRdy = true;
     private bool canAttack = true;
@@ -45,14 +45,17 @@ public class AttackerComponent : MonoBehaviour
 
         LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
         localEventHandler.Register<OnDeathEvent>(deathEventBinding);
+
+        LocalEventBinding<OnWeaponEquippedEvent> equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
+        localEventHandler.Register<OnWeaponEquippedEvent>(equipEventBinding);
     }
 
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && canAttack && attacker != null)
+        if (attackRdy && canAttack && attacker != null && attacker.AttackerData != null)
         {
-            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes);
+            attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack, PercentageDamageIncrease);
             StartCoroutine(AttackCooldown());
         }
     }
@@ -75,15 +78,41 @@ public class AttackerComponent : MonoBehaviour
         // Charge up attack
         yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
     }
-
     private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
     {
         yield return new WaitForSeconds(duration);
         // attackObj.GetComponent<Attack>().ResetAttack();
     }
 
+    // Used for field validation via Odin.
+    // Disabled since broken.
     private bool ValidateList(List<EntityType> value)
     {
         return value != null && value.Count > 0;
+    }
+
+    private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
+    {
+        // Set the percentage increase.
+        Item equipped = e.equipped;
+        Item unequipped = e.unequipped;
+
+        if (equipped != null)
+        {
+            UpdatePercentageDamageIncrease(equipped);
+            equipped.ItemModifierMediator.OnModifierChange += UpdatePercentageDamageIncrease;
+        }
+        if (unequipped != null)
+        {
+            unequipped.ItemModifierMediator.OnModifierChange -= UpdatePercentageDamageIncrease;
+        }
+    }
+
+    private void UpdatePercentageDamageIncrease(Item weapon)
+    {
+        if (weapon != null)
+        {
+            PercentageDamageIncrease = weapon.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
+        }
     }
 }

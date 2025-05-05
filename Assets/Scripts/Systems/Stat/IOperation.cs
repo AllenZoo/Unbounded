@@ -12,7 +12,7 @@ public interface IOperation
 [Serializable]
 public class AddOperation : IOperation
 {
-    readonly float value;
+    [SerializeField] private float value = 1f;
 
     public AddOperation(float value)
     {
@@ -33,7 +33,7 @@ public class AddOperation : IOperation
 [Serializable]
 public class MultiplyOperation : IOperation
 {
-    readonly float value;
+    [SerializeField] private float value = 2f;
 
     public MultiplyOperation(float value)
     {

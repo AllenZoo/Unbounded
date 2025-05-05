@@ -18,13 +18,10 @@ public class AttackComponent : MonoBehaviour
     public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
 
     [Tooltip("The projectile data associated with Attack")]
-    [Required]
-    [SerializeField] private Attack attack;
+    [Required, SerializeField] private Attack attack;
 
     private List<EntityType> targetTypes = new List<EntityType>();
     private List<Damageable> hitTargets = new List<Damageable>();
-
-    private StatComponent attackerStats = new StatComponent();
 
     private void Awake()
     {
@@ -38,6 +35,7 @@ public class AttackComponent : MonoBehaviour
 
         // Checks if layer is on 'AttackCollider'
         // Used to optimize collision detections
+        // TODO:
         //Assert.IsTrue(gameObject.layer.Equals("AttackCollider"));
     }
 

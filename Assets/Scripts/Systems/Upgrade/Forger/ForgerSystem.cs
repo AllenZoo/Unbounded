@@ -68,7 +68,7 @@ public class ForgerSystem : MonoBehaviour
         persistPreviewItem = true;
 
         // Spend gold from player (important to do this before consuming stones)
-        PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold -= GetForgeCost();
+        PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().StatContainer.Gold -= GetForgeCost();
 
         // Consume stones
         upgradeInventory.ClearInventory();
@@ -178,7 +178,7 @@ public class ForgerSystem : MonoBehaviour
 
     public float GetCurMoney()
     {
-        return PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold;
+        return PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().StatContainer.Gold;
     }
 
     /// <summary>
@@ -187,7 +187,7 @@ public class ForgerSystem : MonoBehaviour
     /// <returns>true if player has enough money.</returns>
     private bool CheckFunds(float cost)
     {
-        float curMoney = PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().gold;
+        float curMoney = PlayerSingleton.Instance.GetComponentInChildren<StatComponent>().StatContainer.Gold;
         return curMoney >= cost;
     }
     
