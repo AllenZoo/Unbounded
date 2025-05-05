@@ -115,7 +115,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     /// </summary>
     private void ClearModifiers()
     {
-        statContainer.StatMediator.ClearModifiers();
+        statContainer?.StatMediator.ClearModifiers();
         percentageDamageIncrease = 0;
 
         var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);

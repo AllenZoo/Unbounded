@@ -95,10 +95,24 @@ public class AttackerComponent : MonoBehaviour
     {
         // Set the percentage increase.
         Item equipped = e.equipped;
+        Item unequipped = e.unequipped;
 
         if (equipped != null)
         {
-            PercentageDamageIncrease = equipped.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
+            UpdatePercentageDamageIncrease(equipped);
+            equipped.ItemModifierMediator.OnModifierChange += UpdatePercentageDamageIncrease;
+        }
+        if (unequipped != null)
+        {
+            unequipped.ItemModifierMediator.OnModifierChange -= UpdatePercentageDamageIncrease;
+        }
+    }
+
+    private void UpdatePercentageDamageIncrease(Item weapon)
+    {
+        if (weapon != null)
+        {
+            PercentageDamageIncrease = weapon.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
         }
     }
 }

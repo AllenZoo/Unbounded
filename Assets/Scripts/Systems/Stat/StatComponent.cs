@@ -104,7 +104,7 @@ public class StatComponent : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
+                Debug.LogError("Unequipped item doesn't have base stat/proper stat container handling!");
             }
         }
 
