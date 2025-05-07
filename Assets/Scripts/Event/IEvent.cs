@@ -75,10 +75,23 @@ public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
     public UpgradeCardData cardData;
 }
-
 public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
 {
     public HashSet<UpgradeCardData> upgradeCards;
+}
+
+public struct OnStarterWeaponCardApplyEffect : IGlobalEvent
+{
+    public StarterWeaponData cardData;
+}
+public struct OnDisplayStaterWeaponCardsRequest : IGlobalEvent
+{
+    public HashSet<StarterWeaponData> starterWeaponCards;
+}
+
+public struct Test<T>:IGlobalEvent
+{
+
 }
 
 /// <summary>

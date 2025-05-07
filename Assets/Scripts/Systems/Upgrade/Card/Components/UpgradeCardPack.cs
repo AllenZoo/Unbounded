@@ -29,5 +29,4 @@ public class UpgradeCardPack : SerializedMonoBehaviour
     {
         this.cardsInPack = cards;
     }
-
 }

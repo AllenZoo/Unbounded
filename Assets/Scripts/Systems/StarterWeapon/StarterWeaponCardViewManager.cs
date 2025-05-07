@@ -12,7 +12,7 @@ using UnityEngine.Assertions;
 /// This component requires a <see cref="StarterWeaponCardView"/> to function correctly.
 /// </remarks>
 [RequireComponent(typeof(StarterWeaponCardView))]
-public class StarterWeaponCardViewManager : MonoBehaviour
+public class StarterWeaponCardViewManager : CardViewManagerBase<StarterWeaponData>
 {
     /// <summary>
     /// Reference to the card view that displays the UI elements.
@@ -33,7 +33,7 @@ public class StarterWeaponCardViewManager : MonoBehaviour
     /// Sets the weapon data and updates the card view accordingly.
     /// </summary>
     /// <param name="cardData">The weapon data to apply to the card view.</param>
-    public void SetCardData(StarterWeaponData cardData)
+    public override void SetCardData(StarterWeaponData cardData)
     {
         this.cardData = cardData;
         cardView.SetData(cardData);
