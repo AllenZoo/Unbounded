@@ -2,26 +2,25 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
 /// <summary>
-/// Script to handle OnClick, hover events, etc. on the Upgrade Card.
-/// Should only handle logic of passing Upgrade Card to any listeners for these events.
+/// Script to handle OnClick, hover events, etc. on the Starter Weapon Card.
+/// Should only handle logic of passing Starter Weapon Card to any listeners for these events.
 /// Hover animations should be hanlded by MenuEventSystemHandler.cs
 /// </summary>
-[RequireComponent(typeof(UpgradeCardView))]
-public class UpgradeCardViewEventHandler : MonoBehaviour,
+[RequireComponent(typeof(StarterWeaponCardView))]
+public class StarterWeaponViewEventHandler : MonoBehaviour,
     IPointerClickHandler,
     IPointerEnterHandler,
     IPointerExitHandler
 {
 
-    public Action<UpgradeCardView> OnUpgradeCardClicked;
+    public Action<StarterWeaponCardView> OnUpgradeCardClicked;
 
-    private UpgradeCardView cardView;
+    private StarterWeaponCardView cardView;
 
     private void Awake()
     {
-        cardView = GetComponent<UpgradeCardView>();
+        cardView = GetComponent<StarterWeaponCardView>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -43,4 +42,3 @@ public class UpgradeCardViewEventHandler : MonoBehaviour,
         // Example: remove highlight
     }
 }
-
