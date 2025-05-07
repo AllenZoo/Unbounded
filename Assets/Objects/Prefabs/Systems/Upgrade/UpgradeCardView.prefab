@@ -636,7 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8326982865558992912}
   - component: {fileID: 8326982865558992918}
-  - component: {fileID: 8326982865558992919}
+  - component: {fileID: 8384577820784536420}
   - component: {fileID: 7594227348490219026}
   - component: {fileID: 1336991367}
   - component: {fileID: 8566105078677665294}
@@ -685,7 +685,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 8326982865920841083}
   modifierListParent: {fileID: 8326982865143438388}
   modifierViewPrefab: {fileID: 3794407254240240673, guid: b1f1fc9c684f3eb42a2f07e1275c7a6d, type: 3}
---- !u!114 &8326982865558992919
+--- !u!114 &8384577820784536420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -694,11 +694,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8326982865558992913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e1b115c6a9de074492a57061afc4444, type: 3}
+  m_Script: {fileID: 11500000, guid: ca2d6a3101021044a9141033e61b0187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeCardData: {fileID: 11400000, guid: 702f2220a80731045b794928a784c4d8, type: 2}
   cardView: {fileID: 8326982865558992918}
+  cardData: {fileID: 0}
 --- !u!114 &7594227348490219026
 MonoBehaviour:
   m_ObjectHideFlags: 0

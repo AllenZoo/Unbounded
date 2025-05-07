@@ -26,6 +26,7 @@ public class StarterWeaponCardViewManager : CardViewManagerBase<StarterWeaponDat
 
     private void Awake()
     {
+        cardView = GetComponent<StarterWeaponCardView>();
         Assert.IsNotNull(cardView);
     }
 
