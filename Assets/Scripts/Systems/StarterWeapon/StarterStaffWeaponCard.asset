@@ -16,3 +16,29 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 11400000, guid: db1f6cf94ea405048ab68331baf1e616, type: 2}
   <Description>k__BackingField: Long range weapon that deals massive damage at the
     cost of fire rate.
+  <Item>k__BackingField:
+    data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761110916235270
+    - rid: 3408761110916235271
+    - rid: 3408761110916235272
+    - rid: 3408761110916235277
+    dataGUID: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 3408761110916235270
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761110916235271
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+    - rid: 3408761110916235272
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761110916235277
+      type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
+      data:
+        equipmentType: 2

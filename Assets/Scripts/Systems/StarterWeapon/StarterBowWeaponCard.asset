@@ -15,3 +15,29 @@ MonoBehaviour:
   <WeaponName>k__BackingField: Bow
   <Icon>k__BackingField: {fileID: 11400000, guid: 148a7e8e545ab4d44bd54cf399ea076b, type: 2}
   <Description>k__BackingField: Mid-range weapon with fast attack speed.
+  <Item>k__BackingField:
+    data: {fileID: 11400000, guid: e6bd3452e058b854493d1094b1efa511, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761110916235273
+    - rid: 3408761110916235274
+    - rid: 3408761110916235275
+    - rid: 3408761110916235276
+    dataGUID: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 3408761110916235273
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761110916235274
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: f36979738565b8d4ba1c259de4a43496, type: 2}
+    - rid: 3408761110916235275
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761110916235276
+      type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
+      data:
+        equipmentType: 1
