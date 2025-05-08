@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public abstract class CardViewSystemBase<TCardData, TDisplayEvent, TApplyEvent> : PageUI
+public abstract class CardViewSystemBase<TCardData, TDisplayEvent, TApplyEvent, TCardView> : PageUI
     where TDisplayEvent : IEvent
     where TApplyEvent : IEvent, new()
+    where TCardView: CardViewBase
 {
     [SerializeField] protected MenuEventSystemHandler menuEventSystemHandler;
     [SerializeField] protected Transform cardParent;
@@ -55,10 +56,10 @@ public abstract class CardViewSystemBase<TCardData, TDisplayEvent, TApplyEvent> 
             menuEventSystemHandler.RegisterSelectable(selectable);
         }
 
-        var eventHandler = cardViewInit.GetComponent<UpgradeCardViewEventHandler>();
+        var eventHandler = cardViewInit.GetComponent<CardViewEventHandlerBase<TCardView>>();
         if (eventHandler != null)
         {
-            eventHandler.OnUpgradeCardClicked += OnCardClicked;
+            eventHandler.OnCardViewClicked += OnCardClicked;
         }
     }
     protected virtual void ClearChildren()
@@ -71,7 +72,7 @@ public abstract class CardViewSystemBase<TCardData, TDisplayEvent, TApplyEvent> 
         pfbToDataMap.Clear();
         menuEventSystemHandler.Selectables.Clear();
     }
-    private void OnCardClicked(UpgradeCardView cardView)
+    private void OnCardClicked(TCardView cardView)
     {
         if (pfbToDataMap.TryGetValue(cardView.gameObject, out var cardData))
         {

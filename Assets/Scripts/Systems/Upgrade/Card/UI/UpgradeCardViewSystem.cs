@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// and relays user selections to other systems.
 /// </summary>
 [RequireComponent(typeof(MenuEventSystemHandler))]
-public class UpgradeCardViewSystem : CardViewSystemBase<UpgradeCardData, OnDisplayUpgradeCardsRequest, OnUpgradeCardApplyEffect>
+public class UpgradeCardViewSystem : CardViewSystemBase<UpgradeCardData, OnDisplayUpgradeCardsRequest, OnUpgradeCardApplyEffect, UpgradeCardView>
 {
     protected override OnUpgradeCardApplyEffect CreateApplyEvent(UpgradeCardData cardData)
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarterWeaponCardViewSystem : CardViewSystemBase<StarterWeaponData, OnDisplayStaterWeaponCardsRequest, OnStarterWeaponCardApplyEffect>
+public class StarterWeaponCardViewSystem : CardViewSystemBase<StarterWeaponData, OnDisplayStaterWeaponCardsRequest, OnStarterWeaponCardApplyEffect,  StarterWeaponCardView>
 {
     protected override OnStarterWeaponCardApplyEffect CreateApplyEvent(StarterWeaponData cardData)
     {

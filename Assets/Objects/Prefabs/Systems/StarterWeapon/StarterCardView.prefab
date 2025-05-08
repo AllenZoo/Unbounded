@@ -592,6 +592,7 @@ GameObject:
   - component: {fileID: 8618357952620031531}
   - component: {fileID: 8618357952620031533}
   - component: {fileID: 8618357952620031530}
+  - component: {fileID: 67261415989227515}
   m_Layer: 5
   m_Name: StarterCardView
   m_TagString: Untagged
@@ -728,3 +729,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardViewManager: {fileID: 8618357952620031533}
   cardData: {fileID: 11400000, guid: e1a71164f4266f141b736f1766bda8f9, type: 2}
+--- !u!114 &67261415989227515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8618357952620031543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53935dfce9028d940a6f67f216b79678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -13,7 +13,7 @@ using UnityEngine.UI;
 /// Expects serialized references to UI elements (TextMeshProUGUI for text, Image for the icon).
 /// The <see cref="SetData"/> method should be called with valid data to populate the card.
 /// </remarks>
-public class StarterWeaponCardView : MonoBehaviour
+public class StarterWeaponCardView : CardViewBase
 {
     /// <summary>
     /// Text field displaying the weapon's name.

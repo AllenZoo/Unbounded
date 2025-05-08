@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UpgradeCardView : MonoBehaviour
+public class UpgradeCardView : CardViewBase
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private Image iconImage;
