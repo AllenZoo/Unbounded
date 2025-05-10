@@ -97,14 +97,15 @@ public class AttackerComponent : MonoBehaviour
         Item equipped = e.equipped;
         Item unequipped = e.unequipped;
 
+        if (unequipped != null)
+        {
+            unequipped.ItemModifierMediator.OnModifierChange -= UpdatePercentageDamageIncrease;
+        }
+
         if (equipped != null)
         {
             UpdatePercentageDamageIncrease(equipped);
             equipped.ItemModifierMediator.OnModifierChange += UpdatePercentageDamageIncrease;
-        }
-        if (unequipped != null)
-        {
-            unequipped.ItemModifierMediator.OnModifierChange -= UpdatePercentageDamageIncrease;
         }
     }
 

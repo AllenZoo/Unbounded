@@ -93,6 +93,14 @@ public class Inventory
         data.InvokeOnDataChange();
     }
 
+    public void SetItem(int index, Item item)
+    {
+        data.items[index] = item;
+        EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
+        OnInventoryDataModified?.Invoke();
+        data.InvokeOnDataChange();
+    }
+
     public Item GetItem(int index)
     {
         return data.items[index];

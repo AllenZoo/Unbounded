@@ -53,6 +53,8 @@ public class InventoryUI : MonoBehaviour
     private InventorySystem inventorySystem;
     //private Inventory inventory;
 
+    EventBinding<OnInventoryModifiedEvent> inventoryChangeBinding;
+
     private void Awake()
     {
         if (shouldGenerateSlots)
@@ -82,7 +84,7 @@ public class InventoryUI : MonoBehaviour
 
         inventorySystem.OnInventoryDataModified += Rerender;
 
-        EventBinding<OnInventoryModifiedEvent> inventoryChangeBinding = new EventBinding<OnInventoryModifiedEvent>(Rerender);
+        inventoryChangeBinding = new EventBinding<OnInventoryModifiedEvent>(Rerender);
         EventBus<OnInventoryModifiedEvent>.Register(inventoryChangeBinding);
         //inventorySystem.OnInventoryDataReset += SetInventoryData;
     }
@@ -91,6 +93,11 @@ public class InventoryUI : MonoBehaviour
     private void OnEnable()
     {
         Rerender();
+    }
+
+    private void OnDestroy()
+    {
+        EventBus<OnInventoryModifiedEvent>.Unregister(inventoryChangeBinding);
     }
 
 

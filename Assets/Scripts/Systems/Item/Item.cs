@@ -22,7 +22,21 @@ public class Item
     [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
     public int quantity;
 
-    public ItemModifierMediator ItemModifierMediator { get; private set; }
+    public ItemModifierMediator ItemModifierMediator
+    {
+        get
+        {
+            if (itemModifierMediator == null)
+            {
+                Debug.LogWarning($"[Item] ItemModifierMediator was accessed while still null. " +
+                                 $"Ensure Init() was called before accessing this property.");
+            }
+
+            return itemModifierMediator;
+        }
+        private set => itemModifierMediator = value;
+    }
+    private ItemModifierMediator itemModifierMediator;
 
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
     private List<IItemComponent> components = new List<IItemComponent>();
@@ -35,7 +49,7 @@ public class Item
     {
         this.data = baseData;
         this.quantity = quantity;
-        this.ItemModifierMediator = new ItemModifierMediator(this);
+        this.itemModifierMediator = new ItemModifierMediator(this);
         // this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
     }
 
@@ -46,7 +60,7 @@ public class Item
 
     public void Init()
     {
-        this.ItemModifierMediator = new ItemModifierMediator(this);
+        this.itemModifierMediator = new ItemModifierMediator(this);
 
         foreach (var component in components)
         {

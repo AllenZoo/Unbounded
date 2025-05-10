@@ -13,10 +13,10 @@ using UnityEngine;
 /// </summary>
 public class ItemModifierMediator : IUpgradeModifierVisitor
 {
-    // TODO: make StatComponent subscribe to this.
-    //       handles the case of player upgrading the weapon but not requipping it.
+    /// <summary>
+    /// Event invoked whenever a new modifier is added to item.
+    /// </summary>
     public Action<Item> OnModifierChange;
-
 
     private Item item;
     private ItemBaseStatComponent baseStatComponent;
@@ -47,13 +47,13 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             upgradeComponent.OnUpgradeModifierChange += () => OnModifierChange?.Invoke(item);
         }
 
-        baseAttacker = item?.data?.attacker;
+        baseAttacker = item.IsEmpty() ? null : item?.data?.attacker;
     }
 
-
+    #region Mediator Query Functions
     public double GetPercentageDamageIncreaseTotal()
     {
-        ClearModifiers();
+        ClearModifiers(ModifierType.Damage);
         ApplyModifiers(upgradeComponent);
         return percentageDamageIncrease;
     }
@@ -75,17 +75,18 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             return new Optional<StatContainer>(null);
         }
 
-        ClearModifiers();
+        ClearModifiers(ModifierType.Stat);
         ApplyModifiers(upgradeComponent);
 
         return new Optional<StatContainer>(statContainer);
     }
     public Attacker GetAttackerAfterModification()
     {
-        ClearModifiers();
+        ClearModifiers(ModifierType.Trait);
         ApplyModifiers(upgradeComponent);
         return dynamicAttacker;
     }
+    #endregion
 
     #region Modifier Application Helpers
     /// <summary>
@@ -110,17 +111,43 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         ApplyModifiers(component.GetUpgradeModifiers());
     }
 
+    private enum ModifierType
+    {
+        Stat, // eg. + 1 ATK
+        Damage, // eg. + 10% damage
+        Trait, // eg. Add Weapon Piercing.
+    }
+
     /// <summary>
     /// Clears all previously applied modifier.
     /// </summary>
-    private void ClearModifiers()
+    private void ClearModifiers(ModifierType modType)
     {
-        statContainer?.StatMediator.ClearModifiers();
-        percentageDamageIncrease = 0;
+        switch (modType)
+        {
+            case ModifierType.Stat:
+                statContainer?.StatMediator.ClearModifiers();
+                break;
+            case ModifierType.Damage:
+                percentageDamageIncrease = 0;
+                break;
+            case ModifierType.Trait:
+                if (baseAttacker != null) { 
+                    // Clean up previously allocated attacker SOs
+                    if (dynamicAttacker != null) { 
+                        if (dynamicAttacker.AttackData != null)
+                            UnityEngine.Object.Destroy(dynamicAttacker.AttackData);
 
-        var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);
-        var attackData = ScriptableObject.Instantiate(baseAttacker?.AttackData);
-        dynamicAttacker = new Attacker(attackerData, attackData);
+                        if (dynamicAttacker.AttackerData != null)
+                            UnityEngine.Object.Destroy(dynamicAttacker.AttackerData);
+                    }
+
+                    var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);
+                    var attackData = ScriptableObject.Instantiate(baseAttacker?.AttackData);
+                    dynamicAttacker = new Attacker(attackerData, attackData);
+                }
+                break;
+        }
     }
     #endregion
 
