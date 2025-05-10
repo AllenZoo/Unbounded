@@ -23,11 +23,8 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     private void Awake()
     {
-        // Assert.IsNotNull(inventory, "EquipmentWeaponHandler needs inventory.");
         attackerComponent = GetComponent<AttackerComponent>();
-
         if (leh == null) leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
-
     }
 
     private void Start()
@@ -45,6 +42,10 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
         EventBinding<OnUpgradeCardApplyEffect> ucaeBinding = new EventBinding<OnUpgradeCardApplyEffect>(HandleOnUCAEBindingEvent);
         EventBus<OnUpgradeCardApplyEffect>.Register(ucaeBinding);
+
+
+        EventBinding<OnStarterWeaponCardApplyEffect> oswcaeBinding = new EventBinding<OnStarterWeaponCardApplyEffect>(HandleOnStarterWeaponPickedEvent);
+        EventBus<OnStarterWeaponCardApplyEffect>.Register(oswcaeBinding);
     }
 
     /// <summary>
@@ -61,9 +62,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // Get item from inventory.
         Item item = inventory.GetItem(weaponSlotIndex);
         previousWeapon = curWeapon;
-        curWeapon = item;
+        curWeapon = item.IsEmpty() ? null : item;
 
-        UpdateAttacker(item);
+        // Don't update anything if curWeapon and previousWeapon are the same.
+        if (CheckItemEqual(curWeapon, previousWeapon)) return;
+
+        Debug.Log("Updating Attacker (should only see this once)");
+        UpdateAttacker(curWeapon);
 
         if (previousWeapon?.ItemModifierMediator != null)
         {
@@ -74,9 +79,9 @@ public class EquipmentWeaponHandler : MonoBehaviour
             curWeapon.ItemModifierMediator.OnModifierChange += UpdateAttacker;
         }
 
-
         leh.Call(new OnWeaponEquippedEvent { equipped = curWeapon, unequipped = previousWeapon });
     }
+
 
     /// <summary>
     /// Sets the attacker given item.
@@ -85,8 +90,19 @@ public class EquipmentWeaponHandler : MonoBehaviour
     /// <param name="attackerItem"></param>
     private void UpdateAttacker(Item attackerItem)
     {
+        if (attackerItem == null)
+        {
+            attackerComponent.SetAttacker(null);
+            return;
+        }
+
         Attacker attackerToSet = attackerItem?.ItemModifierMediator.GetAttackerAfterModification();
         attackerComponent.SetAttacker(attackerToSet);
+    }
+
+    private void UpdateAttacker()
+    {
+        UpdateAttacker(curWeapon);
     }
 
     /// <summary>
@@ -101,5 +117,35 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
 
         curWeapon.GetComponent<ItemUpgradeComponent>().AddCard(e.cardData);
+    }
+
+    private void HandleOnStarterWeaponPickedEvent (OnStarterWeaponCardApplyEffect e)
+    {
+        if (!inventory.GetItem(0).IsEmpty())
+        {
+            Debug.LogError("Selected Starter Weapon when we already have a weapon equipped to player!");
+            return;
+        }
+
+        // Equip that item into inventory system
+        Item newWeapon = e.cardData.Item.Clone();
+        newWeapon.Init();
+        inventory.SetItem(newWeapon, 0);
+        UpdateWeapon();
+    }
+
+    private bool CheckItemEqual(Item item1, Item item2)
+    {
+        if (item1 == null)
+        {
+            return item2 == null;
+        }
+
+        if(item2 == null)
+        {
+            return false;
+        }
+
+        return item1.Equals(item2);
     }
 }

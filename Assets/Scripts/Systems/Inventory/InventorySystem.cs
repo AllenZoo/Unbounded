@@ -86,6 +86,16 @@ public class InventorySystem : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets an item into a slot. Overwrites any previous items in that slot.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="slot"></param>
+    public void SetItem(Item item, int slot)
+    {
+        inventory.SetItem(slot, item);
+    } 
+
+    /// <summary>
     /// Switch items in the same inventory system
     /// </summary>
     /// <param name="index1"></param>

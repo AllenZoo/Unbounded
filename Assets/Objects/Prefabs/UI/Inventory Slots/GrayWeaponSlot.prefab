@@ -162,11 +162,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotIndex: 0
-  itemData: {fileID: 0}
+  item:
+    data: {fileID: 0}
+    quantity: 0
+    components: []
+    dataGUID: 
   itemIconElement: {fileID: 2316573515048347833}
   slotItemBackground: {fileID: 6582573375545595285}
   quantityText: {fileID: 5651111092500526731}
+  isDraggable: 0
+  isDroppable: 0
   hoverDelay: 0.5
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1102393647811975157
 GameObject:
   m_ObjectHideFlags: 0

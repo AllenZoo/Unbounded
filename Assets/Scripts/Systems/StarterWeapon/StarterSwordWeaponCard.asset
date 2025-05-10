@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68f07a692decb24b90ecaa6c497eefd, type: 3}
+  m_Name: StarterSwordWeaponCard
+  m_EditorClassIdentifier: 
+  <WeaponName>k__BackingField: Sword
+  <Icon>k__BackingField: {fileID: 11400000, guid: fd85ea8a2a5cc2a4cb26c2224a4b5721, type: 2}
+  <Description>k__BackingField: A powerful but short ranged weapon.
+  <Item>k__BackingField:
+    data: {fileID: 11400000, guid: 93f274d1c7da9714aaca1bf1270bc278, type: 2}
+    quantity: 1
+    components:
+    - rid: 3408761110916235278
+    - rid: 3408761110916235279
+    - rid: 3408761110916235280
+    - rid: 3408761110916235281
+    dataGUID: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 3408761110916235278
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 3408761110916235279
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 5b3ff18b58c9a914ba97a641c2062dde, type: 2}
+    - rid: 3408761110916235280
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
+    - rid: 3408761110916235281
+      type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
+      data:
+        equipmentType: 0

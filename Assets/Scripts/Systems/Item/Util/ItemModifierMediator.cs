@@ -1,7 +1,9 @@
+using Sirenix.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 
 // TODO: add some caching system so that we don't have to constantly clear and apply modifiers. We should cache stuff for better performance.
@@ -13,9 +15,12 @@ using UnityEngine;
 /// </summary>
 public class ItemModifierMediator : IUpgradeModifierVisitor
 {
-    // TODO: make StatComponent subscribe to this.
-    //       handles the case of player upgrading the weapon but not requipping it.
+    /// <summary>
+    /// Event invoked whenever a new modifier is added to item.
+    /// </summary>
     public Action<Item> OnModifierChange;
+
+    private CacheMediator<StatContainer, IUpgradeModifier> statCache;
 
 
     private Item item;
@@ -47,14 +52,15 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             upgradeComponent.OnUpgradeModifierChange += () => OnModifierChange?.Invoke(item);
         }
 
-        baseAttacker = item?.data?.attacker;
+        baseAttacker = item.IsEmpty() ? null : item?.data?.attacker;
+
     }
 
-
+    #region Mediator Query Functions
     public double GetPercentageDamageIncreaseTotal()
     {
-        ClearModifiers();
-        ApplyModifiers(upgradeComponent);
+        ClearModifiers(ModifierType.Damage);
+        ApplyModifiers(upgradeComponent, ModifierType.Damage);
         return percentageDamageIncrease;
     }
     public Optional<StatContainer> GetStatsBeforeModification()
@@ -75,19 +81,28 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             return new Optional<StatContainer>(null);
         }
 
-        ClearModifiers();
-        ApplyModifiers(upgradeComponent);
+        ClearModifiers(ModifierType.Stat);
+        ApplyModifiers(upgradeComponent, ModifierType.Stat);
 
         return new Optional<StatContainer>(statContainer);
     }
     public Attacker GetAttackerAfterModification()
     {
-        ClearModifiers();
-        ApplyModifiers(upgradeComponent);
+        ClearModifiers(ModifierType.Trait);
+        ApplyModifiers(upgradeComponent, ModifierType.Trait);
         return dynamicAttacker;
     }
+    #endregion
 
     #region Modifier Application Helpers
+    private enum ModifierType
+    {
+        Stat, // eg. + 1 ATK
+        Damage, // eg. + 10% damage
+        Trait, // eg. Add Weapon Piercing.
+        All, // all of the above.
+    }
+
     /// <summary>
     /// Applies the modifiers.
     /// </summary>
@@ -100,27 +115,68 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
     }
 
-    private void ApplyModifiers(ItemUpgradeComponent component)
+    private void ApplyModifiers(ItemUpgradeComponent component, ModifierType modifierType)
     {
         if (component == null)
         {
             Debug.Log("Failed to apply Modifiers for item with no ItemUpgradeComponent");
             return;
         }
-        ApplyModifiers(component.GetUpgradeModifiers());
+        ApplyModifiers(GetModifiersOfType(component, modifierType));
     }
+
+    private List<IUpgradeModifier> GetModifiersOfType(ItemUpgradeComponent component, ModifierType modifierType)
+    {
+        if (component == null)
+        {
+            Debug.Log("No upgrade component to extract upgrade modifiers from!");
+            return new List<IUpgradeModifier>();
+        }
+
+        var fullList = component.GetUpgradeModifiers();
+
+        return fullList.Where(m => modifierType switch
+        {
+            ModifierType.Stat => m is StatModifier,
+            ModifierType.Damage => m is DamageModifier,
+            ModifierType.Trait => m is TraitModifier,
+            ModifierType.All => true,
+            _ => false
+        }).ToList();
+
+    }
+
 
     /// <summary>
     /// Clears all previously applied modifier.
     /// </summary>
-    private void ClearModifiers()
+    private void ClearModifiers(ModifierType modType)
     {
-        statContainer?.StatMediator.ClearModifiers();
-        percentageDamageIncrease = 0;
+        switch (modType)
+        {
+            case ModifierType.Stat:
+                statContainer?.StatMediator.ClearModifiers();
+                break;
+            case ModifierType.Damage:
+                percentageDamageIncrease = 0;
+                break;
+            case ModifierType.Trait:
+                if (baseAttacker != null) { 
+                    // Clean up previously allocated attacker SOs
+                    if (dynamicAttacker != null) { 
+                        if (dynamicAttacker.AttackData != null)
+                            UnityEngine.Object.Destroy(dynamicAttacker.AttackData);
 
-        var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);
-        var attackData = ScriptableObject.Instantiate(baseAttacker?.AttackData);
-        dynamicAttacker = new Attacker(attackerData, attackData);
+                        if (dynamicAttacker.AttackerData != null)
+                            UnityEngine.Object.Destroy(dynamicAttacker.AttackerData);
+                    }
+
+                    var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);
+                    var attackData = ScriptableObject.Instantiate(baseAttacker?.AttackData);
+                    dynamicAttacker = new Attacker(attackerData, attackData);
+                }
+                break;
+        }
     }
     #endregion
 

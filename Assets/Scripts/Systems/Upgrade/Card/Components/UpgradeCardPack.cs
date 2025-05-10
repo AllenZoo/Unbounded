@@ -6,28 +6,10 @@ using UnityEngine;
 /// <summary>
 /// MonoBehaviour class attached to UpgradeCardPack pfb.
 /// </summary>
-public class UpgradeCardPack : SerializedMonoBehaviour
+public class UpgradeCardPack : CardPackBase<UpgradeCardData, OnDisplayUpgradeCardsRequest>
 {
-    [SerializeField] private HashSet<UpgradeCardData> cardsInPack = new HashSet<UpgradeCardData>();
-
-    /// <summary>
-    /// Fires an event to display UpgradeCardPack in UI. This function should be hooked up in the pfb to UnityEvent 'OnInteract' via inspector to
-    /// PromptInteractor component.
-    /// </summary>
-    public void DisplayCards()
+    protected override OnDisplayUpgradeCardsRequest CreateDisplayEvent(HashSet<UpgradeCardData> cards)
     {
-        if (cardsInPack.Count <= 0 && Debug.isDebugBuild)
-        {
-            Debug.LogError("Requesting to display cards with no cards in pack.");
-            //return;
-        }
-
-        EventBus<OnDisplayUpgradeCardsRequest>.Call(new OnDisplayUpgradeCardsRequest() { upgradeCards = cardsInPack });
+        return new OnDisplayUpgradeCardsRequest { upgradeCards = cards };
     }
-
-    public void SetCards(HashSet<UpgradeCardData> cards)
-    {
-        this.cardsInPack = cards;
-    }
-
 }
