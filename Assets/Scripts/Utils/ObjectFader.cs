@@ -11,10 +11,10 @@ public class ObjectFader : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     // The desired transparency value
-    [SerializeField] private float transparency = 0.5f;
+    [SerializeField] private float transparency = 0.7f;
 
     // Duration of the fade animation
-    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float fadeDuration = 0.2f;
 
     // Optional ease type for the animation
     [SerializeField] private Ease easeType = Ease.Linear;
