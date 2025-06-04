@@ -1766,6 +1766,67 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &105893185
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4916847632353115073, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_Name
+      value: StarterWeaponCardPack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115101, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4916847632353115101, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
 --- !u!4 &297987935 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3820556010379128880, guid: 8ce87540cff0d6544a14bee77a54cff9, type: 3}
@@ -4604,7 +4665,7 @@ Transform:
   - {fileID: 2691818008501528103}
   - {fileID: 1805455043227770930}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1673867974
 PrefabInstance:
@@ -4762,10 +4823,13 @@ MonoBehaviour:
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   priority: 5
   requiredKeyPress: 102
-  displayMessage:
-    message: Very Suspicious Forge... Press F to interact
-    reqKey: 102
-    shouldDisplayPrompt: 0
+  displayMessage: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUninteract:
+    m_PersistentCalls:
+      m_Calls: []
   pageUIContext: {fileID: 11400000, guid: 1199ca841388e8a46a19d6d6e122a9b4, type: 2}
 --- !u!4 &1832980316
 Transform:
@@ -11149,10 +11213,13 @@ MonoBehaviour:
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   priority: 5
   requiredKeyPress: 102
-  displayMessage:
-    message: Forge! Press F to interact.
-    reqKey: 102
-    shouldDisplayPrompt: 1
+  displayMessage: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUninteract:
+    m_PersistentCalls:
+      m_Calls: []
   pageUIContext: {fileID: 11400000, guid: 1199ca841388e8a46a19d6d6e122a9b4, type: 2}
 --- !u!212 &2069891676
 SpriteRenderer:
