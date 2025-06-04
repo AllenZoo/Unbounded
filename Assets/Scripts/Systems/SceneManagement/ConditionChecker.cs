@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class ConditionChecker : SerializedMonoBehaviour
 {
-    [DictionaryDrawerSettings(KeyLabel = "Condition", ValueLabel = "Expected Value:")]
-    [SerializeField, Tooltip("Maps Boolean ScriptableObjects to their expected values.")]
-    private Dictionary<SerializableObjectBoolean, bool> conditionMap = new();
+    [SerializeField]
+    private List<BooleanCondition> conditions = new();
+
 
 
     /// <summary>
@@ -18,13 +18,27 @@ public class ConditionChecker : SerializedMonoBehaviour
     /// <returns>True if all conditions match, otherwise false.</returns>
     public bool ValidateConditions()
     {
-        foreach (var (condition, expectedValue) in conditionMap)
+        foreach (var entry in conditions)
         {
-            if (condition.Value != expectedValue)
+            if (entry.Condition == null) continue;
+
+            if (entry.Condition.Value != entry.ExpectedValue)
                 return false;
         }
 
         return true;
     }
+
 }
+
+[System.Serializable]
+public class BooleanCondition
+{
+    [HorizontalGroup("Split"), LabelWidth(100), InlineEditor, HideLabel]
+    public SerializableObjectBoolean Condition;
+
+    [HorizontalGroup("Split"), LabelWidth(100)]
+    public bool ExpectedValue;
+}
+
 
