@@ -11712,34 +11712,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
-      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
-      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 1563060625, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1563060625, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
     - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1805455043227770931}
-    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
-      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
-      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RequestSceneLoad
-      objectReference: {fileID: 0}
-    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
-      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneLoadRequester, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
-      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_RootOrder
       value: 3
