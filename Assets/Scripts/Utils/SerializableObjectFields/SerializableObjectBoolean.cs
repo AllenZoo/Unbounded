@@ -5,6 +5,11 @@ using UnityEngine;
 public class SerializableObjectBoolean : ScriptableObject
 {
     [SerializeField] private bool value;
+    [SerializeField] private bool resetToDefault = true;
+
+    [Tooltip("The default value to reset to when needed.")]
+    [SerializeField] private bool defaultValue;
+
     public bool Value => value;
 
     public event Action OnValueChanged;
@@ -16,4 +21,30 @@ public class SerializableObjectBoolean : ScriptableObject
         value = newValue;
         OnValueChanged?.Invoke();
     }
+
+    /// <summary>
+    /// Resets the value to its default if enabled.
+    /// </summary>
+    public void ResetValue()
+    {
+        if (!resetToDefault) return;
+
+        Set(defaultValue);
+    }
+
+    /// <summary>
+    /// Optional helper to set the current value as the default (can be used in editor).
+    /// </summary>
+    public void SetCurrentAsDefault()
+    {
+        defaultValue = value;
+    }
+
+    private void OnDisable()
+    {
+#if UNITY_EDITOR
+        ResetValue();
+#endif
+    }
+
 }
