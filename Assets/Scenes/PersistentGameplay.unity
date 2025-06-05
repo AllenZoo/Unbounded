@@ -137,6 +137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 225212998}
+  - component: {fileID: 225212999}
   m_Layer: 0
   m_Name: PlayerWeaponStateManager
   m_TagString: Untagged
@@ -159,6 +160,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &225212999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225212997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73474ce5ff7501f4fb351650aa52a9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  eventBindings:
+  - eventType:
+      rid: 5455592094620188672
+    condition: {fileID: 11400000, guid: 8c1ea68f9fde9324bae2caa7dbc13355, type: 2}
+    newValue: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5455592094620188672
+      type: {class: OnStarterWeaponCardApplyEffect, ns: , asm: Assembly-CSharp}
+      data:
+        cardData: {fileID: 0}
 --- !u!1 &292727817
 GameObject:
   m_ObjectHideFlags: 0

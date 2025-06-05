@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Checks if a set of Boolean conditions match expected values.
+/// Component attached to objects that require a condition checker reference.
+/// 
+/// Class handles and checks if a set of Boolean conditions match expected values.
 /// </summary>
 public class ConditionChecker : SerializedMonoBehaviour
 {
     [SerializeField]
     private List<BooleanCondition> conditions = new();
-
 
 
     /// <summary>

@@ -39,6 +39,8 @@ public class EventBinding<T> : IEventBinding<T> where T : IEvent
     {
         onEventNoArgs = _event;
     }
+
+    public EventBinding() { }
 }
 
 public class LocalEventBinding<T> : EventBinding<T> where T: ILocalEvent
