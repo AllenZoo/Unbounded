@@ -12,6 +12,9 @@ using UnityEngine.Events;
 ///   1. Attach to an object.
 ///   2. Make sure the object/child of said object contains a Interactable Collider (layer of collider needs to be set to InteractCollider).
 ///      Also make sure to set IsTrigger.
+///     
+/// Extra:
+///     * If pageUI not neccessary, there is a 'EmptyPage' reference to fill in the field.
 /// </summary>
 public class InteractablePrompter : WorldInteractableObject
 {
