@@ -9,7 +9,7 @@ using UnityEngine;
 /// <summary>
 /// A manager level class that updates conditions that change after an event is called.
 /// 
-/// For example, if OnStarterWeaponCardEffectApply is called/invoked, set PlayerStarterWeaponEquipped SerializableObjectBoolean state to true.
+/// For example, if OnStarterWeaponCardEffectApply is called/invoked, we can make it set PlayerStarterWeaponEquipped SerializableObjectBoolean state to true.
 /// </summary>
 public class ConditionUpdater : SerializedMonoBehaviour
 {
@@ -39,7 +39,6 @@ public class ConditionUpdater : SerializedMonoBehaviour
         }
     }
 }
-
 
 [Serializable]
 public class ConditionEventBinding
