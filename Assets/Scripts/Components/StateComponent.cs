@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ public class StateComponent : MonoBehaviour
     public State state { get; private set; } = State.IDLE;
 
     [Header("For debugging, doesn't affect anything.")]
-    [SerializeField] State debuggingState = State.IDLE;
-    [SerializeField] private List<State> crowdControlStates = new List<State>() {State.STUNNED };
+    [SerializeField, ReadOnly] State debuggingState = State.IDLE;
+    [SerializeField, ReadOnly] private List<State> crowdControlStates = new List<State>() {State.STUNNED };
 
     private delegate IEnumerator AnimationCoroutine();
     private delegate void StateAction();
