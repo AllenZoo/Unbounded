@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -18,7 +19,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
     [SerializeField] private Transform objFeet;
 
     [Header("For debugging, don't set value")]
-    [SerializeField] private int oldSortingOrder;
+    [SerializeField, ReadOnly] private int oldSortingOrder;
     private int bestSortingOrder;
 
     // TODO: use this to unfade, and reset sorting order when collidedWith.Count is empty.
