@@ -39,8 +39,17 @@ public class AttackPool : MonoBehaviour
         Transform subPool = FindSubPool(attack).transform;
         for (int i = 0; i < subPool.childCount; i++)
         {
-            if (!subPool.GetChild(i).gameObject.activeSelf)
+            var child = subPool.GetChild(i);
+
+            if (!child.gameObject.activeSelf)
             {
+                // Clear trailrenderers if it has
+                var trailRenderComponent = child.GetComponent<TrailRenderer>();
+                if (trailRenderComponent != null)
+                {
+                    trailRenderComponent.Clear();
+                }
+
                 return subPool.GetChild(i).gameObject;
             }
         }
