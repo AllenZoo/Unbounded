@@ -12,7 +12,7 @@ public class StatModifier : IDisposable, IUpgradeModifier
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetOperationTypes))]
     public IOperation operation;
 
-    public bool MarkedForRemoval = false;
+    [ReadOnly] public bool MarkedForRemoval = false;
 
     public event Action<StatModifier> OnDispose = delegate { };
     readonly CountdownTimer timer;

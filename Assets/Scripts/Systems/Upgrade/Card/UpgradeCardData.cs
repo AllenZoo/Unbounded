@@ -24,6 +24,9 @@ public class UpgradeCardData : ScriptableObject
     [TableList]
     public List<UpgradeModifierEntry> mods = new List<UpgradeModifierEntry>();
 
+    [TextArea(5, 8)]
+    public string description;
+
 }
 
 /// <summary>
