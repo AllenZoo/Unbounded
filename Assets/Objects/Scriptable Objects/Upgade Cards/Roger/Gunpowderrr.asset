@@ -16,9 +16,16 @@ MonoBehaviour:
   icon: {fileID: -1008234145, guid: 602ddf47aa173cc4e940a205c1a31405, type: 3}
   cardColor: {r: 0.75110114, g: 0.8301887, b: 0.49733, a: 1}
   rarity: 1
-  mods: []
+  mods:
+  - modifier:
+      rid: 5455592278805184514
+    modifierDescription: Increases Range
   description: Increases range of projectile. *should be fine to ingest some gunpowder,
     right?*
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5455592278805184514
+      type: {class: RangeModifier, ns: , asm: Assembly-CSharp}
+      data:
+        <RangeToAdd>k__BackingField: 5

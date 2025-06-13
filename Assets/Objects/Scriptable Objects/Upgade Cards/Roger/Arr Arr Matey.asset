@@ -16,8 +16,15 @@ MonoBehaviour:
   icon: {fileID: 1772827320, guid: 602ddf47aa173cc4e940a205c1a31405, type: 3}
   cardColor: {r: 0.1792453, g: 0.7169812, b: 0.24308994, a: 1}
   rarity: 1
-  mods: []
+  mods:
+  - modifier:
+      rid: 5455592278805184515
+    modifierDescription: Increases Projectile Speed
   description: The say that yelling ARR ARR makes your bullets go faster...
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5455592278805184515
+      type: {class: ProjectileSpeedModifier, ns: , asm: Assembly-CSharp}
+      data:
+        <ProjectileSpeedToAdd>k__BackingField: 5

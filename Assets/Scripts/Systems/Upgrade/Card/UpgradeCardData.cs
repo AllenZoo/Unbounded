@@ -45,5 +45,7 @@ public class UpgradeModifierEntry
         yield return new StatModifier(Stat.ATK, new AddOperation(1f), -1);
         yield return new DamageModifier();
         yield return new TraitModifier();
+        yield return new RangeModifier();
+        yield return new ProjectileSpeedModifier();
     }
 }
