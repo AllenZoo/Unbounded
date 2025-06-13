@@ -122,12 +122,6 @@ public class BarController : MonoBehaviour
             case BarTrackStat.HP:
                 fillImage.fillAmount = statObject.StatContainer.Health / statObject.StatContainer.MaxHealth;
                 break;
-            case BarTrackStat.MP:
-                fillImage.fillAmount = statObject.StatContainer.Mana / statObject.StatContainer.MaxMana;
-                break;
-            case BarTrackStat.Stamina:
-                fillImage.fillAmount = statObject.StatContainer.Stamina / statObject.StatContainer.MaxStamina;
-                break;
         }
         
     }

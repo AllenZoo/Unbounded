@@ -57,6 +57,7 @@ public class StatComponent : MonoBehaviour
         {
             //gold += 10;
             HandleDamage(new OnDamagedEvent { damage = 10 });
+            Debug.Log($"DEX Stat: {statContainer.Dexterity}");
         }
     }
     #endregion
@@ -77,19 +78,7 @@ public class StatComponent : MonoBehaviour
             equipped.ItemModifierMediator.OnModifierChange += HandleEquippedWeaponItemChange;
 
             // Add stat modifiers from equipped item (if equiopped item has stats)
-            Optional<StatContainer> equippedStatContainer = equipped.ItemModifierMediator.GetStatsAfterModification();
-
-            if (equippedStatContainer.HasValue)
-            {
-                StatContainer esc = equippedStatContainer.Value;
-                StatModifier equippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
-                StatContainer.StatMediator.AddModifier(equipped, equippedStatModifier);
-
-                if (Debug.isDebugBuild) Debug.Log($"Equipped weapon atk value is: " + esc.Attack);
-            } else
-            {
-                Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
-            }
+            ApplyWeaponStatModifiers(equipped);
         }
 
         // Dispose unequipped equipment stat modifiers
@@ -108,7 +97,11 @@ public class StatComponent : MonoBehaviour
             }
         }
 
-        if (Debug.isDebugBuild) Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
+        if (Debug.isDebugBuild)
+        {
+            Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
+            Debug.Log($"Player DEX Stat after handling weapon equipped is [{statContainer.Dexterity}]");
+        }
     }
     
     /// <summary>
@@ -141,6 +134,11 @@ public class StatComponent : MonoBehaviour
     }
     #endregion    
 
+
+    /// <summary>
+    /// Function that handles whenever equipped weapon is upgraded/changed.
+    /// </summary>
+    /// <param name="item"></param>
     private void HandleEquippedWeaponItemChange(Item item)
     {
         // Clear previous modifiers.
@@ -148,19 +146,42 @@ public class StatComponent : MonoBehaviour
 
         // Apply the updated one
         // Add stat modifiers from equipped item (if equiopped item has stats)
+        ApplyWeaponStatModifiers(item);
+    }
+
+    /// <summary>
+    /// Helper function that applies the actual stat modifiers from item to entity that owns this StatComponent
+    /// </summary>
+    /// <param name="item"></param>
+    private void ApplyWeaponStatModifiers(Item item)
+    {
         Optional<StatContainer> equippedStatContainer = item.ItemModifierMediator.GetStatsAfterModification();
 
         if (equippedStatContainer.HasValue)
         {
             StatContainer esc = equippedStatContainer.Value;
-            StatModifier equippedStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
-            StatContainer.StatMediator.AddModifier(item, equippedStatModifier);
+            StatModifier equippedATKStatModifier = new StatModifier(Stat.ATK, new AddOperation(esc.Attack), -1);
+            StatModifier equippedDEXStatModifier = new StatModifier(Stat.DEX, new AddOperation(esc.Dexterity), -1);
+            StatModifier equippedDEFStatModifier = new StatModifier(Stat.DEF, new AddOperation(esc.Defense), -1);
+            StatModifier equippedSPDStatModifier = new StatModifier(Stat.SPD, new AddOperation(esc.Speed), -1);
 
-            if (Debug.isDebugBuild) Debug.Log($"Equipped weapon atk value is: " + esc.Attack);
+            StatContainer.StatMediator.AddModifier(item, equippedATKStatModifier);
+            StatContainer.StatMediator.AddModifier(item, equippedDEXStatModifier);
+            StatContainer.StatMediator.AddModifier(item, equippedDEFStatModifier);
+            StatContainer.StatMediator.AddModifier(item, equippedSPDStatModifier);
+
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log($"Equipped weapon ATK value is: " + esc.Attack);
+                Debug.Log($"Equipped weapon DEX value is: " + esc.Dexterity);
+                Debug.Log($"Equipped weapon DEF value is: " + esc.Defense);
+                Debug.Log($"Equipped weapon SPD value is: " + esc.Speed);
+            }
         }
         else
         {
             Debug.LogError("Equipped item doesn't have base stat/proper stat container handling!");
         }
     }
+
 }

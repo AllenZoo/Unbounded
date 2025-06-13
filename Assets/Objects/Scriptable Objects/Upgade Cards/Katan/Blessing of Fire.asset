@@ -23,13 +23,14 @@ MonoBehaviour:
   - modifier:
       rid: 3587002153543401474
     modifierDescription: +1 SPD to weapon permanently
+  description: 
   references:
     version: 2
     RefIds:
     - rid: 3587002153543401472
       type: {class: StatModifier, ns: , asm: Assembly-CSharp}
       data:
-        Stat: 6
+        Stat: 2
         operation:
           rid: 3587002153543401473
         MarkedForRemoval: 0
@@ -40,7 +41,7 @@ MonoBehaviour:
     - rid: 3587002153543401474
       type: {class: StatModifier, ns: , asm: Assembly-CSharp}
       data:
-        Stat: 9
+        Stat: 5
         operation:
           rid: 3587002153543401475
         MarkedForRemoval: 0

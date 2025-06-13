@@ -28,8 +28,8 @@ MonoBehaviour:
     components:
     - rid: 5455592090641104908
     - rid: 5455592090641104909
-    - rid: 5455592090641104910
     - rid: 5455592090641104911
+    - rid: 5455592278805184512
     dataGUID: 
   references:
     version: 2
@@ -40,11 +40,11 @@ MonoBehaviour:
       type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
       data:
         <BaseStats>k__BackingField: {fileID: 11400000, guid: 5b3ff18b58c9a914ba97a641c2062dde, type: 2}
-    - rid: 5455592090641104910
-      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
-      data:
-        cards: []
     - rid: 5455592090641104911
       type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
       data:
         equipmentType: 0
+    - rid: 5455592278805184512
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
