@@ -27,7 +27,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     private ItemBaseStatComponent baseStatComponent;
     private ItemUpgradeComponent upgradeComponent;
     private Attacker baseAttacker; // The base Attacker instance to create a copy of.
-    private Attacker dynamicAttacker; // Accumlator of modifier visitor.
+    private Attacker dynamicAttacker; // Accumlator of modifier visitor. Deep copy of base attacker.
 
     // Holds the stats of the item after modification. The accumulator passed in the modifier visitor.
     private StatContainer statContainer;
@@ -210,7 +210,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     // TODO:
     public virtual void Visit(RangeModifier modifier)
     {
-        dynamicAttacker.AttackData.duration += modifier.RangeToAdd;
+        dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
     }
 
     // TODO:
