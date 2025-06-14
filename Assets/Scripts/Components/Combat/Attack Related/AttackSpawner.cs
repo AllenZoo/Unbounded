@@ -103,7 +103,6 @@ public class AttackSpawner
         newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
 
         var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
-        Debug.Log($"Spawning attack with duration: {duration}");
         newAttack.ResetAttackAfterTime(duration);
         newAttack.Attack.SetAtkData(attackerAttackData);
 
