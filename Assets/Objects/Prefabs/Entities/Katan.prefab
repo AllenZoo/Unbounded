@@ -355,8 +355,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccde9886d16d8ac4e80a69c1d3a689db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: -3388595544745265729}
+  leh: {fileID: -3388595544745265729}
   barContext: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
+  barConfig: {fileID: 11400000, guid: b8c15e260a4f50c4785588705fb5b6f4, type: 2}
 --- !u!1 &4062177657863964859
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4456538979408597553
 Transform:
   m_ObjectHideFlags: 0
