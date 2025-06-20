@@ -24,4 +24,7 @@ public class BarContext : ScriptableObject
 
     public bool IsVisible { get { return isVisible; } set { isVisible = value; OnBarContextChange?.Invoke(); } }
     [SerializeField, ReadOnly] private bool isVisible;
+
+    public BossBarConfig BossBarConfig { get { return bossBarConfig; } set { bossBarConfig = value; OnBarContextChange?.Invoke(); } }
+    [SerializeField, ReadOnly] private BossBarConfig bossBarConfig;
 }

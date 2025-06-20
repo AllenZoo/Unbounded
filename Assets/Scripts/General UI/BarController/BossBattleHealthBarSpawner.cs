@@ -7,26 +7,28 @@ using UnityEngine.Assertions;
 // Class that spawns (or sets active) a boss health bar when the boss is aggroed to player.
 public class BossBattleHealthBarSpawner : MonoBehaviour
 {
-    [SerializeField, Required] private LocalEventHandler localEventHandler;
+    [SerializeField, Required] private LocalEventHandler leh;
     [SerializeField, Required] private BarContext barContext;
+    [SerializeField, Required] private BossBarConfig barConfig;
 
     private void Awake()
     {
-        Assert.IsNotNull(localEventHandler);
+        Assert.IsNotNull(leh);
         Assert.IsNotNull(barContext);
 
-        localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
+        if (leh == null) leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
     }
 
     private void Start()
     {
         LocalEventBinding<OnAggroStatusChangeEvent> aggroChangeBinding = new LocalEventBinding<OnAggroStatusChangeEvent>(OnAggroStatusChange);
-        localEventHandler.Register(aggroChangeBinding);
+        leh.Register(aggroChangeBinding);
     }
 
     private void OnAggroStatusChange(OnAggroStatusChangeEvent e)
     {
         barContext.IsVisible = e.isAggroed;
-        barContext.LEH = localEventHandler;
+        barContext.BossBarConfig = barConfig;
+        barContext.LEH = leh;
     }
 }
