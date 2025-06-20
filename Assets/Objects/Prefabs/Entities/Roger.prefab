@@ -612,6 +612,7 @@ GameObject:
   - component: {fileID: 649064099983020949}
   - component: {fileID: 551598601173631618}
   - component: {fileID: 649064099983020950}
+  - component: {fileID: 5379839545947120568}
   m_Layer: 6
   m_Name: Roger
   m_TagString: Entity
@@ -738,6 +739,21 @@ MonoBehaviour:
   cardDeckData: {fileID: 11400000, guid: 097325642f64f3149930f139cd4f254b, type: 2}
   numCardsInPack: 3
   cardPackPfb: {fileID: 8188111842875681085, guid: 2fe033b2c6e72e246a46ee48dc427475, type: 3}
+--- !u!114 &5379839545947120568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675867524841792782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a54b54bbc827cc48b746b819fbcb750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booleanStatesToSetTrueOnDeath:
+  - {fileID: 11400000, guid: f0bbde24436f4f84fb5b41b62743fd9d, type: 2}
+  leh: {fileID: 551598601173631618}
 --- !u!1 &7998717576902393734
 GameObject:
   m_ObjectHideFlags: 0
