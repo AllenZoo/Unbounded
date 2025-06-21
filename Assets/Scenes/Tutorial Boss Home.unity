@@ -16415,6 +16415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2065777250}
   - component: {fileID: 2065777249}
+  - component: {fileID: 2065777251}
   m_Layer: 0
   m_Name: PortalParent
   m_TagString: Untagged
@@ -16452,6 +16453,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2065777251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065777248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba6fa76e1804c74aad3031ea782d248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeSceneAfterLoad:
+    m_SceneAsset: {fileID: 102900000, guid: 49290f5e5dd99a14ebca1a48c6c32b44, type: 3}
+    m_SceneName: HomeBase
+  persistentGameplay:
+    m_SceneAsset: {fileID: 102900000, guid: d4d20a7b1dccc3e4f9dd8b241e38351d, type: 3}
+    m_SceneName: PersistentGameplay
+  loadPersistentGameplay: 1
+  scenesToLoad: []
+  scenesToUnload:
+  - m_SceneAsset: {fileID: 102900000, guid: 0dcba01320f2a5d4eaeb2f39d192c8e7, type: 3}
+    m_SceneName: Tutorial Boss Home
+  showLoadingBar: 1
+  requestOnStart: 0
 --- !u!1001 &2121116595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16775,7 +16801,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7675867524841792782, guid: 57802f49050d6494f979f893efa9b47d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57802f49050d6494f979f893efa9b47d, type: 3}
@@ -16870,7 +16896,19 @@ MonoBehaviour:
   conditionChecker: {fileID: 1127297900}
   OnTeleportRequest:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2065777251}
+        m_TargetAssemblyTypeName: SceneLoadRequester, Assembly-CSharp
+        m_MethodName: RequestSceneLoad
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8713606998100833554
 GameObject:
   m_ObjectHideFlags: 0
