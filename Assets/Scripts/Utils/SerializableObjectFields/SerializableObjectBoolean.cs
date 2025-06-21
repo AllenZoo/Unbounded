@@ -5,6 +5,8 @@ using UnityEngine;
 public class SerializableObjectBoolean : ScriptableObject
 {
     [SerializeField] private bool value;
+
+    [Tooltip("Reset to default OnDisable")]
     [SerializeField] private bool resetToDefault = true;
 
     [Tooltip("The default value to reset to when needed.")]

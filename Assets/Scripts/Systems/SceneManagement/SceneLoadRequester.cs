@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// IMPORTANT NOTE: if it appears that a scene can't/isn't being loaded, ensure that it is added to the build since if it isn't, it won't work.
+/// </summary>
 [Serializable]
 public class SceneLoadRequester : MonoBehaviour
 {
