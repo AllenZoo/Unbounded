@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using Sirenix.OdinInspector;
 
 public class BossSelecter : MonoBehaviour
 {
-    [SerializeField] private List<SceneField> bossScenes;
+    [SerializeField] private List<BossSelectionEntry> bossScenes;
 
     /// <summary>
     /// Returns a random boss scene from the list.
     /// Returns null if the list is empty or unassigned.
     /// </summary>
-    public SceneField GetRandomBossScene()
+    public BossSelectionEntry GetRandomBossScene()
     {
         if (bossScenes == null || bossScenes.Count == 0)
         {
@@ -17,7 +19,14 @@ public class BossSelecter : MonoBehaviour
             return null;
         }
 
-        int index = Random.Range(0, bossScenes.Count);
+        int index = UnityEngine.Random.Range(0, bossScenes.Count);
         return bossScenes[index];
     }
 }
+
+[Serializable]
+public class BossSelectionEntry
+{
+    [SerializeField, Required] private SceneField bossScene;
+    [SerializeField, Required] private GameObject boss;
+} 
