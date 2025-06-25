@@ -193,6 +193,55 @@ MonoBehaviour:
       type: {class: OnStarterWeaponCardApplyEffect, ns: , asm: Assembly-CSharp}
       data:
         cardData: {fileID: 0}
+--- !u!1 &227173404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 227173406}
+  - component: {fileID: 227173405}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &227173405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227173404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 707a4ea6a370a3d4b9938b5ed2d02508, type: 2}
+--- !u!4 &227173406
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227173404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &292727817
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,10 +333,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossScenes:
-  - m_SceneAsset: {fileID: 102900000, guid: e84169e91899f98458c1a3dc8f75d284, type: 3}
-    m_SceneName: Katan's Home
-  - m_SceneAsset: {fileID: 102900000, guid: 0dcba01320f2a5d4eaeb2f39d192c8e7, type: 3}
-    m_SceneName: Tutorial Boss Home
+  - bossScene:
+      m_SceneAsset: {fileID: 102900000, guid: e84169e91899f98458c1a3dc8f75d284, type: 3}
+      m_SceneName: Katan's Home
+    boss: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+  - bossScene:
+      m_SceneAsset: {fileID: 102900000, guid: 0dcba01320f2a5d4eaeb2f39d192c8e7, type: 3}
+      m_SceneName: Tutorial Boss Home
+    boss: {fileID: 7675867524841792782, guid: 57802f49050d6494f979f893efa9b47d, type: 3}
 --- !u!4 &834575404
 Transform:
   m_ObjectHideFlags: 0
@@ -4637,6 +4690,10 @@ PrefabInstance:
       propertyPath: attacker.attackerData
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2588634707587799474, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fcd0183c34c46a84898cf2050976c0ba, type: 2}
     - target: {fileID: 3185927748019698975, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: serializationData.Prefab
       value: 
