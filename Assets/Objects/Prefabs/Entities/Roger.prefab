@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 4766584381322637732}
   - component: {fileID: 2809262439502679865}
   - component: {fileID: 1494388138132968141}
+  - component: {fileID: 6050364102642844282}
   m_Layer: 6
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -531,6 +532,21 @@ MonoBehaviour:
   sprite: {fileID: 4766584381322637732}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
+--- !u!114 &6050364102642844282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4766584381322637754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967e3520561d71347b65f76ecf4838e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderBank: {fileID: 11400000, guid: c0fa9c82ac275f947a466b358b28dfbe, type: 2}
+  leh: {fileID: 551598601173631618}
+  sr: {fileID: 4766584381322637732}
 --- !u!1 &6104322146501104156
 GameObject:
   m_ObjectHideFlags: 0

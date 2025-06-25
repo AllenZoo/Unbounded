@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// Controls a bunch of graphics stuff.
+/// </summary>
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
