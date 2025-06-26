@@ -9,4 +9,5 @@ using UnityEngine;
 public class ShaderBank : ScriptableObject
 {
     public Material DissolveMaterial;
+    public Material HighlightMaterial;
 }

@@ -67,7 +67,7 @@ public class AnimatorController : MonoBehaviour
 
         if (defaultMaterial == null)
         {
-            defaultMaterial = sprite.sharedMaterial;
+            defaultMaterial = new Material(sprite.sharedMaterial);
         }
         
         Assert.IsNotNull(damageMaterial, "Need material for being damaged");
