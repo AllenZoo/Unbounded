@@ -13,7 +13,11 @@ public class Highlightable : MonoBehaviour
     [SerializeField, Required] private ShaderBank shaderBank;
     [SerializeField, Required] private SpriteRenderer sr;
 
-    private bool keepHighlighting;
+    [Tooltip("Whether highlight comes along with an objective arrow to point to it")]
+    [SerializeField] private bool hasArrow = false;
+    [SerializeField, ShowIf(nameof(hasArrow))] private GameObject objectiveArrow;
+
+
     private float maxGlowPower = 1.5f;
     private float minGlowPower = 0f;
     private Material highlight;
@@ -30,19 +34,9 @@ public class Highlightable : MonoBehaviour
         highlight = new Material(shaderBank.HighlightMaterial);
     }
 
-    //public void Highlight()
-    //{
-    //    StartCoroutine(StartHighlight(highlight));
-    //}
-    //public void StopHighlight()
-    //{
-    //    keepHighlighting = false;
-    //    StopAllCoroutines();
-    //    highlight.SetFloat("Highlight", 0);
-    //}
-
     public void Highlight()
     {
+        // Glow Highlight effect
         if (highlightTween != null && highlightTween.IsActive())
             return;
 
@@ -59,6 +53,28 @@ public class Highlightable : MonoBehaviour
         )
         .SetLoops(-1, LoopType.Yoyo)
         .SetEase(Ease.InOutSine);
+
+        // Display Arrow if present
+        if (hasArrow)
+        {
+            if (objectiveArrow != null)
+            {
+                objectiveArrow.SetActive(true);
+
+                var bounceable = objectiveArrow.GetComponent<Bounceable>();
+                var highlightable = objectiveArrow.GetComponent<Highlightable>();
+
+                if (bounceable)
+                {
+                    bounceable.StartBounce();
+                }
+
+                if (highlightable)
+                {
+                    highlightable.Highlight();
+                }
+            }
+        }
     }
 
     public void StopHighlight()
@@ -75,35 +91,21 @@ public class Highlightable : MonoBehaviour
     }
 
 
-
-    private IEnumerator StartHighlight(Material highlight)
-    {
-        sr.material = highlight;
-        highlight.SetFloat("Highlight", 1); //TODO: check if this works even though property is bool.
-        keepHighlighting = true;
-
-        while (keepHighlighting)
-        {
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(1f);
-    }
-
     // TODO: for debugging. Remove afterwards.
-    private bool toggle = false;
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!toggle)
-            {
-                Highlight();
-            } else
-            {
-                StopHighlight();
-            }
-            toggle = !toggle;
-        }
-    }
+
+    //private bool toggle = false;
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        if (!toggle)
+    //        {
+    //            Highlight();
+    //        } else
+    //        {
+    //            StopHighlight();
+    //        }
+    //        toggle = !toggle;
+    //    }
+    //}
 }
