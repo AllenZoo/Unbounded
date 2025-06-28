@@ -16,6 +16,9 @@ public class ObjectiveData : ScriptableObject
     [Tooltip("Ref to highlightable that will be highlighted when objective is active. Can be null.")]
     public HighlightableContext HighlightableContext;
 
+    [Tooltip("Ref to objective point that will be invoke an event to complete objective.")]
+    public ObjectivePointContext ObjectivePointContext;
+
     [TextArea(5, 8), Tooltip("Description for design purposes")]
     public string ObjectiveDescription;
 }

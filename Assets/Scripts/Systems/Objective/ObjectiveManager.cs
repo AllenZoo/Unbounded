@@ -50,11 +50,22 @@ public class ObjectiveManager : MonoBehaviour
         }
 
         obj.SetState(ObjectiveState.ACTIVE);
-        var context = obj.GetData().HighlightableContext.GetContext().Value;
 
-        if (context != null)
+        var objPoint = obj.GetData().ObjectivePointContext.GetContext().Value;
+        if (objPoint != null)
         {
-            context.Highlight();
+            objPoint.SetObjective(obj);
+            // TODO: currently we just advance to next objective once objective point is complete. May need to revamp if we ever make objectives with multiple
+            //       objective points but leave for now.
+            objPoint.OnObjectivePointComplete += (_) => CompleteAndAdvanceCurrent(); 
+        }
+
+
+        var highlight = obj.GetData().HighlightableContext.GetContext().Value;
+
+        if (highlight != null)
+        {
+            highlight.Highlight();
         }
 
 
