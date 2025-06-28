@@ -12,6 +12,8 @@ public class Highlightable : MonoBehaviour
 {
     [SerializeField, Required] private ShaderBank shaderBank;
     [SerializeField, Required] private SpriteRenderer sr;
+    [SerializeField] private bool highlightOnEnable;
+
 
     [Tooltip("Whether highlight comes along with an objective arrow to point to it")]
     [SerializeField] private bool hasArrow = false;
@@ -34,11 +36,25 @@ public class Highlightable : MonoBehaviour
         highlight = new Material(shaderBank.HighlightMaterial);
     }
 
+    private void OnEnable()
+    {
+        if (highlightOnEnable)
+        {
+            Debug.Log("Highlighting on load.");
+            highlightTween.Kill();
+            highlightTween = null;
+            Highlight();
+        }
+    }
+
     public void Highlight()
     {
         // Glow Highlight effect
         if (highlightTween != null && highlightTween.IsActive())
+        {
             return;
+        }
+            
 
         sr.material = new Material(shaderBank.HighlightMaterial); // create new material
         highlight = sr.material;
@@ -60,19 +76,6 @@ public class Highlightable : MonoBehaviour
             if (objectiveArrow != null)
             {
                 objectiveArrow.SetActive(true);
-
-                var bounceable = objectiveArrow.GetComponent<Bounceable>();
-                var highlightable = objectiveArrow.GetComponent<Highlightable>();
-
-                if (bounceable)
-                {
-                    bounceable.StartBounce();
-                }
-
-                if (highlightable)
-                {
-                    highlightable.Highlight();
-                }
             }
         }
     }
@@ -88,6 +91,15 @@ public class Highlightable : MonoBehaviour
         // Optional: fade out smoothly
         highlight.DOFloat(0f, "_GlowPower", 0.3f);
         highlight.SetFloat("Highlight", 0);
+
+        // Hide Arrow if present
+        if (hasArrow)
+        {
+            if (objectiveArrow != null)
+            {
+                objectiveArrow.SetActive(false);
+            }
+        }
     }
 
 
@@ -101,7 +113,8 @@ public class Highlightable : MonoBehaviour
     //        if (!toggle)
     //        {
     //            Highlight();
-    //        } else
+    //        }
+    //        else
     //        {
     //            StopHighlight();
     //        }

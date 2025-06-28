@@ -1777,9 +1777,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: StarterWeaponCardPack
       objectReference: {fileID: 0}
+    - target: {fileID: 4916847632353115073, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4916847632353115074, guid: 55e94380d9fe12247a52d70d428453ff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2115,7 +2119,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 63142478213917348, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 63142478213917348, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2169,6 +2173,14 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 7413152258113576321, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+    - target: {fileID: 8075797641743451602, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      propertyPath: highlightOnEnable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8075797641743451602, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      propertyPath: highlightableArrow
+      value: 
+      objectReference: {fileID: 1653268614}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
 --- !u!1001 &691933277
@@ -4734,8 +4746,19 @@ Transform:
   - {fileID: 2691818008501528103}
   - {fileID: 1805455043227770930}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1653268614 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 662230419682596040, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+  m_PrefabInstance: {fileID: 613881598}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373318a5d46dc944cb7493438e16532d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1673867974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4976,7 +4999,7 @@ Transform:
   m_Children:
   - {fileID: 1544289893}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1835546446
 PrefabInstance:
@@ -11517,7 +11540,7 @@ Transform:
   m_Children:
   - {fileID: 1881012658}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2069891675
 MonoBehaviour:
@@ -11787,7 +11810,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2476256474212995461, guid: 45188124e29bfe74a89bbfefbc562bcc, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2476256474212995461, guid: 45188124e29bfe74a89bbfefbc562bcc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12031,13 +12054,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7626387580217396008, guid: 9a7ee2d035c9cc345b17db6e6574647a, type: 3}
+      propertyPath: highlightOnEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8280419874453586532, guid: 9a7ee2d035c9cc345b17db6e6574647a, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8280419874453586532, guid: 9a7ee2d035c9cc345b17db6e6574647a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.54
+      value: 6.12
       objectReference: {fileID: 0}
     - target: {fileID: 8280419874453586532, guid: 9a7ee2d035c9cc345b17db6e6574647a, type: 3}
       propertyPath: m_LocalPosition.y

@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2165927085705448430, guid: cd459477b0efc7347919cb1ac40be759, type: 3}
+      propertyPath: highlightOnEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8205156685652935335, guid: cd459477b0efc7347919cb1ac40be759, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -84,6 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaderBank: {fileID: 11400000, guid: c0fa9c82ac275f947a466b358b28dfbe, type: 2}
   sr: {fileID: 63142478213917351}
+  highlightOnEnable: 0
   hasArrow: 1
   objectiveArrow: {fileID: 1301291900477152651}
 --- !u!114 &8533903197920160854

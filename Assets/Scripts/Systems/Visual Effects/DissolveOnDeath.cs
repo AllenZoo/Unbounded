@@ -16,7 +16,7 @@ public class DissolveOnDeath : MonoBehaviour
 
     [Header("Properties")]
     [Tooltip("Time to delay the dissolve animation for.")]
-    [SerializeField] private float DelayTime = 1f;
+    [SerializeField] private float DelayTime = 0f;
 
     private LocalEventBinding<OnDeathEvent> OnDeathBinding;
 

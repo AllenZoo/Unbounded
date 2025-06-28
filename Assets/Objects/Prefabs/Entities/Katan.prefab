@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 1547172783033353881}
   - component: {fileID: 8188220333368915972}
   - component: {fileID: 4891969500134188528}
+  - component: {fileID: 4943971060321582812}
   m_Layer: 6
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -189,6 +190,22 @@ MonoBehaviour:
   sprite: {fileID: 1547172783033353881}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
+--- !u!114 &4943971060321582812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547172783033353863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967e3520561d71347b65f76ecf4838e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderBank: {fileID: 11400000, guid: c0fa9c82ac275f947a466b358b28dfbe, type: 2}
+  leh: {fileID: -3388595544745265729}
+  sr: {fileID: 1547172783033353881}
+  DelayTime: 0
 --- !u!1 &1645832319290299256
 GameObject:
   m_ObjectHideFlags: 0
