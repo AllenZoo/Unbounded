@@ -36,9 +36,16 @@ public class ObjectiveManager : MonoBehaviour
     {
         var curState = obj.GetState();
 
+        // Guards against bad objectives.
         if (!curState.Equals(ObjectiveState.INACTIVE))
         {
             Debug.LogError("Tried to activate an objective that is not inactive!");
+            return null;
+        }
+
+        if (obj.GetData() == null)
+        {
+            Debug.LogError("Tried to activate an objective that is has no data!");
             return null;
         }
 
@@ -108,7 +115,6 @@ public class ObjectiveManager : MonoBehaviour
     }
 
 
-
     /// <summary>
     /// Returns the next INACTIVE objective or null if none.
     /// </summary>
@@ -129,8 +135,10 @@ public class ObjectiveManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            StartUpTutorialObjectives();
             //Debug.Log("Here in update!");
             //ActivateObjective(test);
+
         }
     }
 }
