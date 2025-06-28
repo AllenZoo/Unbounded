@@ -18,6 +18,9 @@ public class Objective
         this.data = data;
     }
 
+    public bool IsEmpty() => data == null;
+
+
     #region Getters and Setters
     public ObjectiveState GetState()
     {

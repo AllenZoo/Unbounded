@@ -43,7 +43,7 @@ public class ObjectiveManager : MonoBehaviour
             return null;
         }
 
-        if (obj.GetData() == null)
+        if (obj.IsEmpty())
         {
             Debug.LogError("Tried to activate an objective that is has no data!");
             return null;
@@ -101,7 +101,13 @@ public class ObjectiveManager : MonoBehaviour
         curActive = GetNextTutorialObjective();
 
         if (curActive != null)
+        {
             ActivateObjective(curActive);
+        } else
+        {
+            Debug.Log("Completed all tutorial objectives!");
+        }
+            
     }
 
     public void ResetTutorial()
@@ -123,11 +129,12 @@ public class ObjectiveManager : MonoBehaviour
     {
         foreach (var obj in tutorialObjectives)
         {
-            if (obj.GetState().Equals(ObjectiveState.INACTIVE))
+            if (obj.GetState().Equals(ObjectiveState.INACTIVE) && !obj.IsEmpty())
             {
                 return obj;
             }
         }
+        Debug.Log("No more tutorial objectives to get");
         return null;
     }
 
@@ -136,6 +143,14 @@ public class ObjectiveManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartUpTutorialObjectives();
+            //Debug.Log("Here in update!");
+            //ActivateObjective(test);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            CompleteAndAdvanceCurrent();
             //Debug.Log("Here in update!");
             //ActivateObjective(test);
 

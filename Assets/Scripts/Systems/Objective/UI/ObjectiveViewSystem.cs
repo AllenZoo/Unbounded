@@ -11,7 +11,7 @@ public class ObjectiveViewSystem : MonoBehaviour
     [SerializeField, Required] private Transform objectiveListParent;
 
     private ObjectiveManager objectiveManager;
-    private readonly List<ObjectiveView> activeViews = new();
+    private readonly Dictionary<Objective, ObjectiveView> activeViews = new();
 
     private void Awake()
     {
@@ -43,25 +43,25 @@ public class ObjectiveViewSystem : MonoBehaviour
     {
         var view = Instantiate(pfbObjectiveView, objectiveListParent);
         view.SetData(obj);
-        activeViews.Add(view);
+        activeViews.Add(obj, view);
     }
 
     private void HandleObjectiveCompleted(Objective obj)
     {
         // Optionally, fade out or remove the view.
-        var view = activeViews.Find(v => v.name == obj.GetData().ObjectiveName); // Better: compare by ID
+        var view = activeViews[obj];
         if (view != null)
         {
             Destroy(view.gameObject);
-            activeViews.Remove(view);
+            activeViews.Remove(obj);
         }
     }
 
     public void ClearAllViews()
     {
-        foreach (var view in activeViews)
+        foreach (var kvp in activeViews)
         {
-            Destroy(view.gameObject);
+            Destroy(kvp.Value.gameObject);
         }
         activeViews.Clear();
     }
