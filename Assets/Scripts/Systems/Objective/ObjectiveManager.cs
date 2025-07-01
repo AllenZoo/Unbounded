@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles all objective functionality. Basically a tutorial manager.
+/// </summary>
 public class ObjectiveManager : MonoBehaviour
 {
     public event Action<Objective> OnObjectiveActivated;
@@ -12,6 +15,12 @@ public class ObjectiveManager : MonoBehaviour
     [Tooltip("List of tutorial objectives, in order of execution.")]
     [SerializeField] private List<Objective> tutorialObjectives;
     private Objective curActive;
+
+    private void Awake()
+    {
+        EventBinding<OnTutorialObjectiveRequest> binding = new EventBinding<OnTutorialObjectiveRequest>(StartUpTutorialObjectives);
+        EventBus<OnTutorialObjectiveRequest>.Register(binding);
+    }
 
 
     /// <summary>
@@ -151,20 +160,20 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartUpTutorialObjectives();
-            //Debug.Log("Here in update!");
-            //ActivateObjective(test);
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    StartUpTutorialObjectives();
+        //    //Debug.Log("Here in update!");
+        //    //ActivateObjective(test);
 
-        }
+        //}
 
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            CompleteAndAdvanceCurrent();
-            //Debug.Log("Here in update!");
-            //ActivateObjective(test);
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    CompleteAndAdvanceCurrent();
+        //    //Debug.Log("Here in update!");
+        //    //ActivateObjective(test);
 
-        }
+        //}
     }
 }

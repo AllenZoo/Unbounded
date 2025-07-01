@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 392467599, guid: cd459477b0efc7347919cb1ac40be759, type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 392467599, guid: cd459477b0efc7347919cb1ac40be759, type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -161,6 +161,51 @@ MonoBehaviour:
   contextRef: {fileID: 11400000, guid: 189c1541c85c9d24b962199fccac0a54, type: 2}
   context: {fileID: 8075797641743451602}
   loadOnEnable: 1
+--- !u!114 &360960041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63142478213917350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f8507f758627940b1af2dab933d5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: globalEventType
+      Entry: 7
+      Data: 0|OnStarterWeaponCardApplyEffect, Assembly-CSharp
+    - Name: cardData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  OnEventTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5959827747821478916}
+        m_TargetAssemblyTypeName: ObjectivePoint, Assembly-CSharp
+        m_MethodName: CompleteObjective
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &63142478213917351 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1719829169397888385, guid: cd459477b0efc7347919cb1ac40be759, type: 3}

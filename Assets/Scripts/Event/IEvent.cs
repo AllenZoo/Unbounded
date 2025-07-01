@@ -89,7 +89,7 @@ public struct OnDisplayStaterWeaponCardsRequest : IGlobalEvent
     public HashSet<StarterWeaponData> starterWeaponCards;
 }
 
-public struct Test<T>:IGlobalEvent
+public struct OnTutorialObjectiveRequest : IGlobalEvent
 {
 
 }
