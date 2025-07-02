@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a79169e29e67341a6f5af12c7fb4f6, type: 3}
-  m_Name: Katan_Base_Stats
+  m_Script: {fileID: 11500000, guid: 8b1f88cf8093b0045a251701190b35b3, type: 3}
+  m_Name: IsTutorialComplete
   m_EditorClassIdentifier: 
-  health: 300
-  maxHealth: 300
-  attack: 5
-  defense: 5
-  dexterity: 0
-  speed: 1
-  gold: 0
+  value: 0
+  resetToDefault: 1
+  defaultValue: 0
