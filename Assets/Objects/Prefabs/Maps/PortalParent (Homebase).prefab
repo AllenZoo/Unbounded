@@ -83,10 +83,6 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4265682824811658318, guid: 06aaa8e64d5601947a015cd4a58ab8b0, type: 3}
-    - target: {fileID: 4265682824811658318, guid: 06aaa8e64d5601947a015cd4a58ab8b0, type: 3}
-      propertyPath: conditions.Array.data[0].Condition
-      value: 
-      objectReference: {fileID: 11400000, guid: f0bbde24436f4f84fb5b41b62743fd9d, type: 2}
     - target: {fileID: 4890430392646728240, guid: 06aaa8e64d5601947a015cd4a58ab8b0, type: 3}
       propertyPath: m_Name
       value: Portal Variant Level To Home
@@ -135,6 +131,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4890430392646728243, guid: 06aaa8e64d5601947a015cd4a58ab8b0, type: 3}
+      propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1479744093501242231}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06aaa8e64d5601947a015cd4a58ab8b0, type: 3}
 --- !u!4 &1576968357116153365 stripped
