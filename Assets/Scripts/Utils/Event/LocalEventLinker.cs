@@ -61,14 +61,6 @@ public class LocalEventLinker : SerializedMonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            leh.Call(new OnDeathEvent());
-        }
-    }
-
     public void Trigger()
     {
         Debug.Log("event triggered!");
