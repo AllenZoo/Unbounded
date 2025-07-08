@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Handles all objective functionality. Basically a tutorial manager.
 /// </summary>
 public class ObjectiveManager : MonoBehaviour
 {
+    public UnityEvent OnTutorialComplete;
     public event Action<Objective> OnObjectiveActivated;
     public event Action<Objective> OnObjectiveCompleted;
 
@@ -126,6 +128,7 @@ public class ObjectiveManager : MonoBehaviour
         } else
         {
             Debug.Log("Completed all tutorial objectives!");
+            OnTutorialComplete?.Invoke();
         }
             
     }

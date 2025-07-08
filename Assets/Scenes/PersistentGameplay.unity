@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 1363445785}
   - component: {fileID: 1363445786}
   - component: {fileID: 1363445787}
+  - component: {fileID: 1363445788}
   m_Layer: 0
   m_Name: ObjectiveManager
   m_TagString: Untagged
@@ -556,6 +557,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36757a15c7449f448524ca19dd3c9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnTutorialComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1363445788}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   tutorialObjectives:
   - state: 0
     data: {fileID: 11400000, guid: 1f7eed94d31ffd348a8e299e021178bf, type: 2}
@@ -574,6 +590,31 @@ MonoBehaviour:
   contextRef: {fileID: 11400000, guid: 02fbf2b089c96f34e9d42b60f7912e20, type: 2}
   context: {fileID: 1363445786}
   loadOnEnable: 1
+--- !u!114 &1363445788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363445784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73474ce5ff7501f4fb351650aa52a9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  eventBindings: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1367273475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1018248561889792264, guid: 2476a66babcc32249aa4d7fb101fa367, type: 3}

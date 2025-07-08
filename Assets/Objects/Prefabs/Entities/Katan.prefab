@@ -453,6 +453,8 @@ GameObject:
   - component: {fileID: -3388595544745265729}
   - component: {fileID: 6800178234446079147}
   - component: {fileID: 9014969601075677309}
+  - component: {fileID: 1098211490}
+  - component: {fileID: 1098211491}
   m_Layer: 6
   m_Name: Katan
   m_TagString: Entity
@@ -598,6 +600,65 @@ MonoBehaviour:
   booleanStatesToSetTrueOnDeath:
   - {fileID: 11400000, guid: f0bbde24436f4f84fb5b41b62743fd9d, type: 2}
   leh: {fileID: -3388595544745265729}
+--- !u!114 &1098211490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375511d4081ecdb40af6c676abb8238f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnTransform: {fileID: 4456538979408597553}
+  spawnList:
+  - spawnOffset: {x: 0, y: -2, z: 0}
+    spawnPrefab: {fileID: 1479744093501242230, guid: 18a3c175774889a4f8440e533e5bccff, type: 3}
+--- !u!114 &1098211491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680bd291bb0523e4e8e26e80c9ba6838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: globalEventType
+      Entry: 7
+      Data: 0|OnDeathEvent, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+  leh: {fileID: -3388595544745265729}
+  OnEventTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1098211490}
+        m_TargetAssemblyTypeName: PrefabSpawnerComponent, Assembly-CSharp
+        m_MethodName: SpawnObjects
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5019623686023127502
 GameObject:
   m_ObjectHideFlags: 0

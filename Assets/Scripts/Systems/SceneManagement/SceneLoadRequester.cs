@@ -24,6 +24,8 @@ public class SceneLoadRequester : MonoBehaviour
     [Tooltip("Whether this object requests a scene load at Start.")]
     [SerializeField] private bool requestOnStart = false;
 
+    [SerializeField] private bool unloadCurrentActiveScene = false;
+
     public IEnumerator Start()
     {
         yield return StartCoroutine(LoadBootstrapScene());
@@ -36,14 +38,21 @@ public class SceneLoadRequester : MonoBehaviour
     public void RequestSceneLoad()
     {
         List<SceneField> _scenesToLoad = new List<SceneField>(scenesToLoad);
+        List<SceneField> _scenesToUnload = new List<SceneField>(scenesToUnload);
         if (loadPersistentGameplay && persistentGameplay != null) _scenesToLoad.Add(persistentGameplay);
 
         _scenesToLoad.Add(activeSceneAfterLoad);
 
+        if (unloadCurrentActiveScene)
+        {
+            SceneField activeScene = new SceneField(SceneManager.GetActiveScene().name);
+            _scenesToUnload.Add(activeScene);
+        }
+
         EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
         {
             scenesToLoad = _scenesToLoad,
-            scenesToUnload = this.scenesToUnload,
+            scenesToUnload = _scenesToUnload,
             showLoadingBar = this.showLoadingBar,
             activeSceneToSet = this.activeSceneAfterLoad,
         });

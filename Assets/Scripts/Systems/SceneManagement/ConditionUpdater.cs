@@ -38,6 +38,12 @@ public class ConditionUpdater : SerializedMonoBehaviour
             ConditionEventBinder.Unregister(binding);
         }
     }
+
+    // TODO; figure out a way so that we can link event calls via inspector.
+    public void UpdateCondition(ConditionEventBinding binding)
+    {
+
+    }
 }
 
 [Serializable]

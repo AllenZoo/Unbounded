@@ -48,4 +48,8 @@ public class LocalEventBinding<T> : EventBinding<T> where T: ILocalEvent
     public LocalEventBinding(Action<T> _event) : base(_event)
     {
     }
+
+    public LocalEventBinding(Action _event) : base(_event)
+    {
+    }
 }
