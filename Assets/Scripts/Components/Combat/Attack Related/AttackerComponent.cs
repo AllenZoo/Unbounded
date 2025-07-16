@@ -68,7 +68,8 @@ public class AttackerComponent : MonoBehaviour
     private IEnumerator AttackCooldown()
     {
         attackRdy = false;
-        yield return new WaitForSeconds(attacker.AttackerData.cooldown);
+        var attackCd = GetCooldownExponential(attacker.AttackerData.cooldown, statComponent.StatContainer.Dexterity, 0.05f);
+        yield return new WaitForSeconds(attackCd);
         attackRdy = true;
     }
 
@@ -116,4 +117,15 @@ public class AttackerComponent : MonoBehaviour
             PercentageDamageIncrease = weapon.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
         }
     }
+
+    float GetCooldownExponential(float baseCooldown, float dex, float scalingFactor = 0.05f, float minCooldown = 0.01f)
+    {
+        return Mathf.Max(minCooldown, baseCooldown / (1f + (dex * scalingFactor)));
+    }
+
+    float GetCooldownLinear(float baseCooldown, float dex, float dexMultiplier = 0.01f)
+    {
+        return Mathf.Max(0.05f, baseCooldown - (dex * dexMultiplier));
+    }
+
 }

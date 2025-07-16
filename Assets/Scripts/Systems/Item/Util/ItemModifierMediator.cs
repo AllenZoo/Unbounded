@@ -27,7 +27,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     private ItemBaseStatComponent baseStatComponent;
     private ItemUpgradeComponent upgradeComponent;
     private Attacker baseAttacker; // The base Attacker instance to create a copy of.
-    private Attacker dynamicAttacker; // Accumlator of modifier visitor.
+    private Attacker dynamicAttacker; // Accumlator of modifier visitor. Deep copy of base attacker.
 
     // Holds the stats of the item after modification. The accumulator passed in the modifier visitor.
     private StatContainer statContainer;
@@ -90,6 +90,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     {
         ClearModifiers(ModifierType.Trait);
         ApplyModifiers(upgradeComponent, ModifierType.Trait);
+        ApplyModifiers(upgradeComponent, ModifierType.Range);
+        ApplyModifiers(upgradeComponent, ModifierType.ProjectileSpeed);
         return dynamicAttacker;
     }
     #endregion
@@ -100,6 +102,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         Stat, // eg. + 1 ATK
         Damage, // eg. + 10% damage
         Trait, // eg. Add Weapon Piercing.
+        Range, // eg. Range Increase
+        ProjectileSpeed, // eg. Projectile Speed Increase
         All, // all of the above.
     }
 
@@ -140,6 +144,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             ModifierType.Stat => m is StatModifier,
             ModifierType.Damage => m is DamageModifier,
             ModifierType.Trait => m is TraitModifier,
+            ModifierType.Range => m is RangeModifier,
+            ModifierType.ProjectileSpeed => m is ProjectileSpeedModifier,
             ModifierType.All => true,
             _ => false
         }).ToList();
@@ -199,6 +205,18 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         dynamicAttacker.AttackerData.numAttacks += modifier.NumAtksToAdd;
+    }
+
+    // TODO:
+    public virtual void Visit(RangeModifier modifier)
+    {
+        dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
+    }
+
+    // TODO:
+    public virtual void Visit(ProjectileSpeedModifier modifier)
+    {
+        dynamicAttacker.AttackData.initialSpeed += modifier.ProjectileSpeedToAdd;
     }
     #endregion
 }

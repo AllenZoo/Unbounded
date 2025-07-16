@@ -130,6 +130,12 @@ public class PageUI : MonoBehaviour, IUIPage
     /// </summary>
     private void HandleBlockedStatus()
     {
+        if (uiCollider == null)
+        {
+            Debug.LogError($"[PageUI] uiCollider is null on {gameObject.name}. Did you forget to assign it?");
+            return;
+        }
+
         List<Collider2D> collisions = new List<Collider2D>();
 
         var filter = new ContactFilter2D
@@ -148,6 +154,14 @@ public class PageUI : MonoBehaviour, IUIPage
             if (collision != null && collision.CompareTag("UI"))
             {
                 PageUI otherPage = collision.GetComponent<PageUI>();
+
+                // Guard for UIOverlayManager.Instance being null
+                if (UIOverlayManager.Instance == null)
+                {
+                    Debug.LogError($"UIOverlayManager.Instance. Make sure to assign it/check if it gets destroyed on play.");
+                    return;
+                }
+
                 if (otherPage != null &&
                     !UIOverlayManager.Instance.IsPageInFrontOfOther(this, otherPage) &&
                     otherPage.GetCanvas().enabled)

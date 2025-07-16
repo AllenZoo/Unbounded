@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// Controls a bunch of graphics stuff.
+/// </summary>
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
@@ -64,7 +67,7 @@ public class AnimatorController : MonoBehaviour
 
         if (defaultMaterial == null)
         {
-            defaultMaterial = sprite.sharedMaterial;
+            defaultMaterial = new Material(sprite.sharedMaterial);
         }
         
         Assert.IsNotNull(damageMaterial, "Need material for being damaged");

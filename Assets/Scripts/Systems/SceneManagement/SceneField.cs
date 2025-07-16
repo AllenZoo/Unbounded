@@ -23,6 +23,12 @@ public class SceneField
         return sceneField.SceneName;
     }
 
+    public SceneField(string sceneName)
+    {
+        m_SceneName = sceneName;
+    }
+
+
     public override bool Equals(object obj)
     {
         if (obj is SceneField other)

@@ -100,8 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63411b034ee9d6f409432947af78ab16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transparency: 0.5
-  fadeSpeed: 0.5
+  transparency: 0.3
+  fadeDuration: 0.2
+  easeType: 1
   doFade: 0
 --- !u!50 &4643170107694827664
 Rigidbody2D:

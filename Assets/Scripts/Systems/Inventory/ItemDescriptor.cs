@@ -112,7 +112,7 @@ public class ItemDescriptor : MonoBehaviour
         if (item?.data?.attacker?.AttackData != null)
         {
             var attackData = item.data?.attacker?.AttackData;
-            itemTextStats.text += $"Base ATK Damage: {attackData.baseDamagee}\n";
+            itemTextStats.text += $"Base ATK Damage: {attackData.baseDamage}\n";
         }
 
         // Base Weapon Stats

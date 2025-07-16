@@ -14,6 +14,12 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
 {
     public static event Action OnPageOrderModified;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     private List<IUIPage> uiPages = new List<IUIPage>();
 
     // Method to add a new UI page

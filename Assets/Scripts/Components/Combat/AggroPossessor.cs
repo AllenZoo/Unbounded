@@ -13,8 +13,8 @@ public class AggroPossessor : MonoBehaviour
 
     [SerializeField] private float aggroRange;
     [SerializeField] private float aggroReleaseRange;
-    [SerializeField] private CircleCollider2D aggroDetecter;
-    [SerializeField] private EnemyAIComponent aggroBrain;
+    [SerializeField, Required] private CircleCollider2D aggroDetecter;
+    [SerializeField, Required] private EnemyAIComponent aggroBrain;
 
     [Header("For Debugging (Don't set values)")]
     [SerializeField, ReadOnly] private GameObject aggroTarget;
@@ -25,6 +25,8 @@ public class AggroPossessor : MonoBehaviour
     {
         Assert.IsNotNull(aggroDetecter, "Aggro Possessor needs way to detect if entity enters aggro range.");
         Assert.IsTrue(aggroReleaseRange > aggroRange, "Aggro release range must be greater than aggro range.");
+        Assert.IsNotNull(aggroBrain);
+
         aggroDetecter.radius = aggroRange;
 
         if (localEventHandler == null)

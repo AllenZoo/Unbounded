@@ -15,13 +15,17 @@ public class AttackData:ScriptableObject
     public GameObject attackPfb;
 
     [Tooltip("Base damage number of attack")]
-    public float baseDamagee = 5f;
+    public float baseDamage = 5f;
 
-    [Tooltip("Base duration in seconds until attack disappears")]
-    public float duration = 0.5f;
+    // TODO: remove this field.
+    //[Tooltip("Base duration in seconds until attack disappears")]
+    //public float duration = 0.5f;
+
+    [Tooltip("Base distance the attack can travel. Used to calculate duration (duration = distance/speed)")]
+    public float distance = 5f;
 
     [Tooltip("Initial Speed of Attack.")]
-    public float initialSpeed = 0f;
+    public float initialSpeed = 1f;
 
     [Tooltip("Base nockback value of attack")]
     public float baseKnockback = 0f;

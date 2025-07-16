@@ -34,10 +34,6 @@ public class StatContainer
     #region Stats
     public float Health => GetModifiedStat(Stat.HP, baseStats.health);
     public float MaxHealth => GetModifiedStat(Stat.MAX_HP, baseStats.maxHealth);
-    public float Mana => GetModifiedStat(Stat.MP, baseStats.mana);
-    public float MaxMana => GetModifiedStat(Stat.MAX_MP, baseStats.maxMana);
-    public float Stamina => GetModifiedStat(Stat.SP, baseStats.stamina);
-    public float MaxStamina => GetModifiedStat(Stat.MAX_SP, baseStats.maxStamina);
     public float Attack => GetModifiedStat(Stat.ATK, baseStats.attack);
     public float Defense => GetModifiedStat(Stat.DEF, baseStats.defense);
     public float Dexterity => GetModifiedStat(Stat.DEX, baseStats.dexterity);
@@ -63,10 +59,6 @@ public class StatContainer
         {
             Stat.HP => Health,
             Stat.MAX_HP => MaxHealth,
-            Stat.MP => Mana,
-            Stat.MAX_MP => MaxMana,
-            Stat.SP => Stamina,
-            Stat.MAX_SP => MaxStamina,
             Stat.ATK => Attack,
             Stat.DEF => Defense,
             Stat.DEX => Dexterity,
@@ -95,4 +87,5 @@ public class StatContainer
 
         return result;
     }
+
 }

@@ -123,8 +123,11 @@ public class EquipmentWeaponHandler : MonoBehaviour
     {
         if (!inventory.GetItem(0).IsEmpty())
         {
-            Debug.LogError("Selected Starter Weapon when we already have a weapon equipped to player!");
-            return;
+            // TODO: consider blocking new weapon equip. Game logic shouldn't warrant being able to do this anyways.
+
+            Debug.LogError("Warning! We already have an equipped weapon to player. Overriding old weapon!");
+            //Debug.LogError("Selected Starter Weapon when we already have a weapon equipped to player!");
+            //return;
         }
 
         // Equip that item into inventory system

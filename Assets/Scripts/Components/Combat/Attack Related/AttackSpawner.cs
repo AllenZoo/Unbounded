@@ -82,12 +82,12 @@ public class AttackSpawner
 
         // Dereference a bit to make things less messy.
         // We want to set AttackComponent of spawned object with the data passed in from attacker.
-        AttackData attackerAttacKData = attacker.AttackData;
+        AttackData attackerAttackData = attacker.AttackData;
 
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 0.5f;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttacKData.rotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttackData.rotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -101,11 +101,13 @@ public class AttackSpawner
         var newAttack = newAttackObj.GetComponent<AttackComponent>();
         newAttack.Attack.SetAtkStat(atkStat);
         newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
-        newAttack.ResetAttackAfterTime(attackerAttacKData.duration);
-        newAttack.Attack.SetAtkData(attackerAttacKData);
+
+        var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
+        newAttack.ResetAttackAfterTime(duration);
+        newAttack.Attack.SetAtkData(attackerAttackData);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attackerAttacKData.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attackerAttackData.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;

@@ -32,7 +32,9 @@ public class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBeha
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            
+            // TODO: temp since we will never have to destory gameobject
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

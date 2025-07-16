@@ -5,10 +5,21 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 
+/// <summary>
+/// Interactable Prompter
+/// 
+/// To use: 
+///   1. Attach to an object.
+///   2. Make sure the object/child of said object contains a Interactable Collider (layer of collider needs to be set to InteractCollider).
+///      Also make sure to set IsTrigger.
+///     
+/// Extra:
+///     * If pageUI not neccessary, there is a 'EmptyPage' reference to fill in the field.
+/// </summary>
 public class InteractablePrompter : WorldInteractableObject
 {
 
-    [SerializeField] private string displayMessage = "";
+    [SerializeField, TextArea(5, 8)] private string displayMessage = "";
     [SerializeField] private UnityEvent OnInteract;
     [SerializeField] private UnityEvent OnUninteract;
 

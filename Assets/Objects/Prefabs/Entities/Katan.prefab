@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 1547172783033353881}
   - component: {fileID: 8188220333368915972}
   - component: {fileID: 4891969500134188528}
+  - component: {fileID: 4943971060321582812}
   m_Layer: 6
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -189,6 +190,22 @@ MonoBehaviour:
   sprite: {fileID: 1547172783033353881}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
+--- !u!114 &4943971060321582812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547172783033353863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967e3520561d71347b65f76ecf4838e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderBank: {fileID: 11400000, guid: c0fa9c82ac275f947a466b358b28dfbe, type: 2}
+  leh: {fileID: -3388595544745265729}
+  sr: {fileID: 1547172783033353881}
+  DelayTime: 0
 --- !u!1 &1645832319290299256
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,8 +372,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccde9886d16d8ac4e80a69c1d3a689db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: -3388595544745265729}
+  leh: {fileID: -3388595544745265729}
   barContext: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
+  barConfig: {fileID: 11400000, guid: b8c15e260a4f50c4785588705fb5b6f4, type: 2}
 --- !u!1 &4062177657863964859
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,6 +452,9 @@ GameObject:
   - component: {fileID: 916700090708789427}
   - component: {fileID: -3388595544745265729}
   - component: {fileID: 6800178234446079147}
+  - component: {fileID: 9014969601075677309}
+  - component: {fileID: 1098211490}
+  - component: {fileID: 1098211491}
   m_Layer: 6
   m_Name: Katan
   m_TagString: Entity
@@ -563,7 +584,81 @@ MonoBehaviour:
   leh: {fileID: -3388595544745265729}
   cardDeckData: {fileID: 11400000, guid: 45e5c6ce1f42dfe4b812d7f099c70e97, type: 2}
   numCardsInPack: 3
-  cardPackPfb: {fileID: 6023583095845778480, guid: 2fe033b2c6e72e246a46ee48dc427475, type: 3}
+  cardPackPfb: {fileID: 8188111842875681085, guid: 2fe033b2c6e72e246a46ee48dc427475, type: 3}
+--- !u!114 &9014969601075677309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a54b54bbc827cc48b746b819fbcb750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booleanStatesToSetTrueOnDeath:
+  - {fileID: 11400000, guid: f0bbde24436f4f84fb5b41b62743fd9d, type: 2}
+  leh: {fileID: -3388595544745265729}
+--- !u!114 &1098211490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375511d4081ecdb40af6c676abb8238f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnTransform: {fileID: 4456538979408597553}
+  spawnList:
+  - spawnOffset: {x: 0, y: -2, z: 0}
+    spawnPrefab: {fileID: 1479744093501242230, guid: 18a3c175774889a4f8440e533e5bccff, type: 3}
+--- !u!114 &1098211491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680bd291bb0523e4e8e26e80c9ba6838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: globalEventType
+      Entry: 7
+      Data: 0|OnDeathEvent, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+  leh: {fileID: -3388595544745265729}
+  OnEventTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1098211490}
+        m_TargetAssemblyTypeName: PrefabSpawnerComponent, Assembly-CSharp
+        m_MethodName: SpawnObjects
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5019623686023127502
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  leh: {fileID: 0}
   stat: {fileID: 4456538979408597558}
   entityType: 1
   isDamageable: 1

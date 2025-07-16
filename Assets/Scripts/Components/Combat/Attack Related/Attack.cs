@@ -56,7 +56,7 @@ public class Attack
 
     public void Hit(Damageable hit, Transform hitMaker)
     {
-        float calculatedDamage = CalculateDamage(attackData.baseDamagee, atkStat);
+        float calculatedDamage = CalculateDamage(attackData.baseDamage, atkStat);
 
         // Damage the target.
         if (attackData.isDOT)

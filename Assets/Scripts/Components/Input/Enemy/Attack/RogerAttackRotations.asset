@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bdb20ee1c134449b9968e8ced459ba, type: 3}
+  m_Name: RogerAttackRotations
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  behaviours:
+  - name: Phase 1 [Cannonball Attack]
+    attacker:
+      attackerData: {fileID: 11400000, guid: cdf5e852c982db44cba9aa6c8562148b, type: 2}
+      attackData: {fileID: 11400000, guid: 8e677ba1b825bab489afc8969e959530, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
+    chaseBehaviourInstance: {fileID: 0}
+    addStatModifiers:
+    - stat: 8
+      amount: -3
+    - stat: 6
+      amount: 2
+  - name: Phase 2 [Sword Chase Attack]
+    attacker:
+      attackerData: {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
+      attackData: {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}
+    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    chaseBehaviourInstance: {fileID: 0}
+    addStatModifiers:
+    - stat: 8
+      amount: 2
+  rageBehaviour:
+    name: Rage Phase
+    attacker:
+      attackerData: {fileID: 0}
+      attackData: {fileID: 0}
+    chaseBehaviour: {fileID: 0}
+    chaseBehaviourInstance: {fileID: 0}
+    addStatModifiers: []
+  rageModeHPThreshold: -1
+  transitionTimeRange:
+    min: 5
+    max: 10
+  debug: 0
