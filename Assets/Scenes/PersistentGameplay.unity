@@ -559,19 +559,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnTutorialComplete:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1363445788}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  TutorialStateBoolean: {fileID: 11400000, guid: 9bd4b78a6b648b64db73e763b775bc75, type: 2}
   tutorialObjectives:
   - state: 0
     data: {fileID: 11400000, guid: 1f7eed94d31ffd348a8e299e021178bf, type: 2}

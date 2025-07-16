@@ -14,6 +14,9 @@ public class ObjectiveManager : MonoBehaviour
     public event Action<Objective> OnObjectiveCompleted;
 
 
+    [Tooltip("The SO that keeps track of whether the tutorial is complete or not.")]
+    [SerializeField] private SerializableObjectBoolean TutorialStateBoolean;
+
     [Tooltip("List of tutorial objectives, in order of execution.")]
     [SerializeField] private List<Objective> tutorialObjectives;
     private Objective curActive;
@@ -129,6 +132,7 @@ public class ObjectiveManager : MonoBehaviour
         {
             Debug.Log("Completed all tutorial objectives!");
             OnTutorialComplete?.Invoke();
+            TutorialStateBoolean.Set(true);
         }
             
     }

@@ -89,6 +89,7 @@ public struct OnDisplayStaterWeaponCardsRequest : IGlobalEvent
     public HashSet<StarterWeaponData> starterWeaponCards;
 }
 
+// Invoked in editor via EventInvoker.cs
 public struct OnTutorialObjectiveRequest : IGlobalEvent
 {
 
