@@ -34,7 +34,7 @@ public class Interactor : MonoBehaviour
             return;
         }
 
-        Debug.Log("Triggered interaction with: " + collision.gameObject.transform.parent.name);
+        // Debug.Log("Triggered interaction with: " + collision.gameObject.transform.parent.name);
         // Check if interactable is triggerable just by walking over/near it.
         if (activeInteractable == null)
         {
@@ -125,8 +125,10 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
-        HandleInteractableKeyPress();
-        
+        if (interactables.Count > 0)
+        {
+            HandleInteractableKeyPress();
+        }
     }
 
 }

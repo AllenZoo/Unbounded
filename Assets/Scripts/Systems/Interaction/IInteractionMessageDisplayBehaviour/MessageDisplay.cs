@@ -21,7 +21,7 @@ public class MessageDisplay : IInteractionMessageDisplayBehaviour
 
     public void HidePrompt()
     {
-        InteractablePromptData empty = new InteractablePromptData("", KeyCode.None, false);
+        InteractablePromptData empty = new InteractablePromptData("", false);
         soPromptDataRef.SetData(empty);
     }
 }

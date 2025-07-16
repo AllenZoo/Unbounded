@@ -8,15 +8,15 @@ public struct InteractablePromptData
 {
     [SerializeField]
     public string message;
-    [SerializeField]
-    public KeyCode reqKey; // Used in message for like (Press 'K' to interact)
+    //[SerializeField]
+    //public KeyCode reqKey; // Used in message for like (Press 'K' to interact)
     [SerializeField]
     public bool shouldDisplayPrompt;
 
-    public InteractablePromptData(string message, KeyCode reqKey, bool display)
+    public InteractablePromptData(string message, bool display)
     {
         this.message = message;
-        this.reqKey = reqKey;
+        //this.reqKey = reqKey;
         this.shouldDisplayPrompt = display;
     }
 }

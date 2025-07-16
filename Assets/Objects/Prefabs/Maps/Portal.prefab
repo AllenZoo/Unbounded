@@ -182,6 +182,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2ddd24957353849a58ff89ff050dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
+  priority: 5
+  requiredKeyPress: 102
+  sceneTeleporterPromptData:
+    message: Press F to use portal.
+    shouldDisplayPrompt: 1
   conditionChecker: {fileID: 1563060625}
   OnTeleportRequest:
     m_PersistentCalls:
@@ -198,6 +204,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  teleportOnCollision: 0
 --- !u!61 &8713606998269308883
 BoxCollider2D:
   m_ObjectHideFlags: 0

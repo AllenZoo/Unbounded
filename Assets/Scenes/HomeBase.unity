@@ -11782,6 +11782,7 @@ MonoBehaviour:
     m_SceneName: HomeBase
   showLoadingBar: 1
   requestOnStart: 0
+  unloadCurrentActiveScene: 0
 --- !u!1001 &2136167022698602201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12169,6 +12170,10 @@ PrefabInstance:
       propertyPath: conditions.Array.data[0].Condition
       value: 
       objectReference: {fileID: 11400000, guid: 9bd4b78a6b648b64db73e763b775bc75, type: 2}
+    - target: {fileID: 8047265343096880189, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: OnTeleportRequest.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

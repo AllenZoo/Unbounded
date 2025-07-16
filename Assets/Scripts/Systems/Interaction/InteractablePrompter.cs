@@ -18,13 +18,12 @@ using UnityEngine.Events;
 /// </summary>
 public class InteractablePrompter : WorldInteractableObject
 {
-
     [SerializeField, TextArea(5, 8)] private string displayMessage = "";
     [SerializeField] private UnityEvent OnInteract;
     [SerializeField] private UnityEvent OnUninteract;
 
     [Required, SerializeField]
-    [Tooltip("Reference to page that will be toggled on and off by interacting with forge.")]
+    [Tooltip("Reference to page that will be toggled on and off by interacting with prompter. eg. ForgePage. If none, set to Empty Page.")]
     private PageUIContext pageUIContext;
 
     private void Awake()
@@ -32,7 +31,7 @@ public class InteractablePrompter : WorldInteractableObject
         Assert.IsNotNull(pageUIContext);
 
         // Make default display prompt = true
-        InteractablePromptData newPrompt = new InteractablePromptData(displayMessage, requiredKeyPress, true);
+        InteractablePromptData newPrompt = new InteractablePromptData(displayMessage, true);
         messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
     }
 
