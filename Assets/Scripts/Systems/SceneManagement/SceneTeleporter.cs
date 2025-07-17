@@ -27,14 +27,15 @@ public class SceneTeleporter : WorldInteractableObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!teleportOnCollision) return;
-
         if (!collision.CompareTag("Player")) return;
 
         // Check conditions before teleporting
         if (conditionChecker == null || conditionChecker.ValidateConditions())
         {
-            TeleportToScene();
+            if (teleportOnCollision)
+            {
+                TeleportToScene();
+            }
         }
         else
         {
