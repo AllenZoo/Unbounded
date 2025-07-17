@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Component attached to objects that require a condition checker reference.
@@ -11,6 +12,9 @@ public class ConditionChecker : SerializedMonoBehaviour
 {
     [SerializeField]
     private List<BooleanCondition> conditions = new();
+
+    public UnityEvent OnValidationPass;
+    public UnityEvent OnValidationFail;
 
 
     /// <summary>
@@ -24,9 +28,15 @@ public class ConditionChecker : SerializedMonoBehaviour
             if (entry.Condition == null) continue;
 
             if (entry.Condition.Value != entry.ExpectedValue)
+            {
+                Debug.Log("Validation Failed :(");
+                OnValidationFail?.Invoke();
                 return false;
+            }
         }
 
+        Debug.Log("Validation Passed :)");
+        OnValidationPass?.Invoke();
         return true;
     }
 

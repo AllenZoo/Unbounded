@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
-  priority: 5
+  priority: 6
   requiredKeyPress: 0
   displayMessage: To use the portal make sure you have selected a weapon!
   OnInteract:
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 8713606998269308908}
   - component: {fileID: 8713606998269308883}
   - component: {fileID: 1563060625}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Portal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,6 +182,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2ddd24957353849a58ff89ff050dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
+  priority: 5
+  requiredKeyPress: 102
+  sceneTeleporterPromptData:
+    message: Press F to use portal.
+    shouldDisplayPrompt: 1
   conditionChecker: {fileID: 1563060625}
   OnTeleportRequest:
     m_PersistentCalls:
@@ -198,6 +204,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  teleportOnCollision: 0
 --- !u!61 &8713606998269308883
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -246,5 +253,35 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   conditions:
-  - Condition: {fileID: 11400000, guid: 8c1ea68f9fde9324bae2caa7dbc13355, type: 2}
+  - Condition: {fileID: 11400000, guid: 9bd4b78a6b648b64db73e763b775bc75, type: 2}
     ExpectedValue: 1
+  OnValidationPass:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8047265343096880189}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnValidationFail:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8047265343096880189}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2

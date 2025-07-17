@@ -19,7 +19,7 @@ public abstract class WorldInteractableObject : MonoBehaviour, IInteractableObje
     [SerializeField]
     protected SO_InteractablePromptData soPromptData;
 
-    [SerializeField]
+    [SerializeField, Tooltip("Priority of the interactable in case of overlap. Higher priority interactables get displayed first!")]
     protected float priority = 5;
 
     [SerializeField]
