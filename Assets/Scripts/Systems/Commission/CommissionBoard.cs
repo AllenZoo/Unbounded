@@ -13,6 +13,7 @@ using UnityEngine.Assertions;
 ///     Also handles the validation of commission submissions.
 /// </summary>
 /// 
+/// CURRENTLY DEPRECATED
 public class CommissionBoard : MonoBehaviour
 {
     // CommissionBoard AKA CommissionStateHandler. In charge of 
@@ -29,7 +30,7 @@ public class CommissionBoard : MonoBehaviour
     /// The shared reference to the submit inventory where player will put an item into.
     /// </summary>
     [SerializeField, Required]
-    private SO_Inventory submitInventory;
+    private Inventory submitInventory;
     
     /// <summary>
     /// History of completed commissions and related items to look back on.

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Class that handles rendering the proper info on the Commission Info Display UI.
 /// </summary>
+/// CURRENTLY DEPRECATED
 public class CommissionInfoDisplayUI : PageUI
 {
     #region Properties
@@ -31,7 +32,7 @@ public class CommissionInfoDisplayUI : PageUI
     [Required][SerializeField] private GameObject wrapper;
 
     [FoldoutGroup("Data")]
-    [Required][SerializeField] private SO_Inventory submitInventory;
+    [Required][SerializeField] private Inventory submitInventory;
 
     [Header("Stat Tags")]
     [Required][SerializeField] private StatTagUI statTagPfb;
@@ -143,7 +144,7 @@ public class CommissionInfoDisplayUI : PageUI
         ToggleVisibility(false);
     }
     public void RejectCommission() => ToggleVisibility(false);
-    public void SubmitCommission() => commission.SubmitCommission(submitInventory.items[0]);
+    public void SubmitCommission() => commission.SubmitCommission(submitInventory.GetItem(0));
     #endregion
 
 }

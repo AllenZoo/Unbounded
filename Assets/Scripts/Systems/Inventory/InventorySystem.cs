@@ -16,8 +16,7 @@ public class InventorySystem : MonoBehaviour
     // SO_Inventory.
     public event Action<Inventory> OnInventoryDataReset;
 
-    //[Header("Init through SO.")]
-    //[SerializeField] private SO_Inventory initInventory;
+
     [SerializeField] private Inventory inventory;
 
     // Maps each slot and their respective rules.
@@ -38,7 +37,6 @@ public class InventorySystem : MonoBehaviour
     {
         // Check that inventory is not null
         Assert.IsNotNull(inventory, "Inventory is null.");
-        Assert.IsNotNull(inventory.data, "Inventory does not have proper SO_Inventory.");
 
         if (slotRules == null)
         {
