@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 // Attach to Attack Handler (with Attacker)
 // Handles modifying the attacker object with item equipped.
 [RequireComponent(typeof(AttackerComponent))]
-public class EquipmentWeaponHandler : MonoBehaviour
+public class EquipmentWeaponHandler : MonoBehaviour, IDataPersistence
 {
     [Required, SerializeField] private LocalEventHandler leh;
 
@@ -18,8 +18,8 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [SerializeField] private AttackerComponent attackerComponent;
 
     private InventorySystem inventory;
-    private Item curWeapon;
-    private Item previousWeapon;
+    [SerializeField, ReadOnly] private Item curWeapon;
+    [SerializeField, ReadOnly] private Item previousWeapon;
 
     private void Awake()
     {
@@ -150,5 +150,22 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
 
         return item1.Equals(item2);
+    }
+
+    public void LoadData(GameData data)
+    {
+        //throw new NotImplementedException();
+        Debug.Log("Loading weapon inside equipment weapon handler!");
+        // TODO: move this save load logic to inventory.
+
+        curWeapon = data.playerEquippedWeapon;
+        UpdateAttacker();
+    }
+
+    public void SaveData(GameData data)
+    {
+        Debug.Log("Saving inside equipment weapon handler!");
+        data.playerEquippedWeapon = curWeapon;
+        //throw new NotImplementedException();
     }
 }

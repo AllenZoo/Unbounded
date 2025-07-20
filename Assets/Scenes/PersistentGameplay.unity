@@ -334,6 +334,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6986ae1d2084546a54982d4570778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &782292167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 782292169}
+  - component: {fileID: 782292168}
+  m_Layer: 0
+  m_Name: DataPersister
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &782292168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782292167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dddfa2d2ef0883443be0ee51c7d25735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  disableDataPersistence: 0
+  initializeDataIfNull: 1
+  overrideSelectedProfileId: 1
+  testSelectedProfileId: test
+  fileName: treasure
+  useEncryption: 0
+  autoSave: 0
+  autoSaveTimeSeconds: 60
+--- !u!4 &782292169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782292167}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &834575402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1777,6 @@ MonoBehaviour:
   interactablePromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   onInitData:
     message: 
-    reqKey: 0
     shouldDisplayPrompt: 0
   displayObject: {fileID: 9215150273210396324}
   textDisplay: {fileID: 8498492568719781996}
