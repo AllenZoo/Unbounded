@@ -12,8 +12,14 @@ public class GameData
     public long lastUpdated;
     public Item playerEquippedWeapon;
 
+    /// <summary>
+    /// Maps InventorySystem GUID to Invenotry.
+    /// </summary>
+    public Dictionary<string, Inventory> inventories;
+
     public GameData()
     {
         playerEquippedWeapon = null;
+        inventories = new Dictionary<string, Inventory> ();
     }
 }

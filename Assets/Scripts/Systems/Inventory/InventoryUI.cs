@@ -69,11 +69,13 @@ public class InventoryUI : MonoBehaviour
 
         inventorySystem = GetComponent<InventorySystem>();
 
-        InitWhole();
+        
     }
 
     private void Start()
     {
+        InitWhole();
+
         // Assign Event Listeners
         foreach (SlotUI slot in slots)
         {

@@ -88,11 +88,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51625132256c8a84e80019c890cb87a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   inventory:
-    data: {fileID: 11400000, guid: eac6917f07cfcb94c9818c1e6537e34e, type: 2}
+    items:
+    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+      quantity: 1
+      components: []
+      dataGUID: 
+    numSlots: 9
+  inventoryGuid: 97adfd51-9b03-4b01-94f7-8d234fa3ce64
   slotRules:
     _serializedList: []
   systemContext: {fileID: 11400000, guid: d28d2ef29a561ae48845f0930043d9c2, type: 2}
+  references:
+    version: 2
+    RefIds: []
 --- !u!223 &5858127598595799942
 Canvas:
   m_ObjectHideFlags: 0

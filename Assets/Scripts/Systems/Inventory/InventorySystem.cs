@@ -1,4 +1,5 @@
 using AYellowpaper.SerializedCollections;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 // Manages the inventory data. Does not handle UI, but processes requests to add/remove/swap items.
-public class InventorySystem : MonoBehaviour
+public class InventorySystem : SerializedMonoBehaviour, IDataPersistence
 {
     // Refers to when items in inventory are added/removed/swapped.
     public event Action OnInventoryDataModified;
@@ -18,6 +19,14 @@ public class InventorySystem : MonoBehaviour
 
 
     [SerializeField] private Inventory inventory;
+
+    [Tooltip("Inventory GUID associated with inventory for data persistence purposes. Make sure to generate with Context Menu option.")]
+    [SerializeField, ReadOnly, Required] private string inventoryGuid;
+    [ContextMenu("Generate Inventory GUID")]
+    void GenerateGUID()
+    {
+        inventoryGuid = Guid.NewGuid().ToString();
+    }
 
     // Maps each slot and their respective rules.
     // Implement interface ConditionMet(SO_Item item) for each condition
@@ -353,6 +362,25 @@ public class InventorySystem : MonoBehaviour
         inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
     }
 
+    #region Data Persistence
+    public void LoadData(GameData data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SaveData(GameData data)
+    {
+        // TODO: make sure that Inventory can be converted to some JSON formattable object.
+        if (data.inventories.ContainsKey(inventoryGuid))
+        {
+            data.inventories[inventoryGuid] = inventory;
+        } else
+        {
+            data.inventories.TryAdd(inventoryGuid, inventory);
+        }
+    }
+    #endregion
+
     #region Getters and Setters
     public Dictionary<int, SO_Conditions> GetSlotRules()
     {
@@ -383,5 +411,5 @@ public class InventorySystem : MonoBehaviour
         OnInventoryDataModified?.Invoke();
         OnInventoryDataReset?.Invoke(inventory);
     }
-    #endregion  
+    #endregion
 }

@@ -12,22 +12,13 @@ public class Inventory
 {
     public event Action OnInventoryDataModified;
 
-    private List<Item> items;
-    private int numSlots;
+    [SerializeField] private List<Item> items = new List<Item>();
+    [SerializeField] private int numSlots = 9;
 
     // Init through scriptable object.
     public Inventory()
     {
         items = new List<Item>();
-    }
-
-    public void Init()
-    {
-        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
-        foreach (Item item in items)
-        {
-            if (item != null) item.Init();
-        }
     }
 
     public Inventory(List<Item> items, int numSlots)
@@ -49,7 +40,17 @@ public class Inventory
         }
     }
 
+    public void Init()
+    {
+        AdjustItemsToSlots();
+        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
+        foreach (Item item in items)
+        {
+            if (item != null) item.Init();
+        }
+    }
 
+   
     /// <summary>
     /// Attempts to add/stack an item to an index of the inventory. 
     /// </summary>

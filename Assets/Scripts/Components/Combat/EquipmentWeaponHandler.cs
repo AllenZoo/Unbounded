@@ -96,7 +96,12 @@ public class EquipmentWeaponHandler : MonoBehaviour, IDataPersistence
             return;
         }
 
-        Attacker attackerToSet = attackerItem?.ItemModifierMediator.GetAttackerAfterModification();
+        if (attackerItem.ItemModifierMediator == null)
+        {
+            Debug.Log($"ItemModiferMediator is null? {attackerItem.ItemModifierMediator == null}");
+        }
+       
+        Attacker attackerToSet = attackerItem?.ItemModifierMediator?.GetAttackerAfterModification();
         attackerComponent.SetAttacker(attackerToSet);
     }
 

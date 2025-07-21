@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class FileDataHandler
 {
@@ -89,7 +90,8 @@ public class FileDataHandler
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
             // serialize the C# game data object into Json
-            string dataToStore = JsonUtility.ToJson(data, true);
+            // TODO: figure out a way to make dictionary appear in JSON.
+            string dataToStore = JsonConvert.SerializeObject(data, Formatting.Indented);
 
             // optionally encrypt the data
             if (useEncryption)
