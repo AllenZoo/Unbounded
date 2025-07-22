@@ -88,29 +88,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51625132256c8a84e80019c890cb87a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   inventory:
     items:
-    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    - data: {fileID: 11400000, guid: e6bd3452e058b854493d1094b1efa511, type: 2}
       quantity: 1
-      components: []
+      components:
+      - rid: 2134259224491327490
+      - rid: 2134259224491327491
       dataGUID: 
-    numSlots: 9
-  inventoryGuid: 97adfd51-9b03-4b01-94f7-8d234fa3ce64
+    slots: 9
+  inventoryGuid: 2b61bf96-a7a8-4081-9aad-89a928da7587
   slotRules:
     _serializedList: []
   systemContext: {fileID: 11400000, guid: d28d2ef29a561ae48845f0930043d9c2, type: 2}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2134259224491327490
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+    - rid: 2134259224491327491
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: f36979738565b8d4ba1c259de4a43496, type: 2}
 --- !u!223 &5858127598595799942
 Canvas:
   m_ObjectHideFlags: 0

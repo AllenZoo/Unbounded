@@ -51,7 +51,7 @@ public class FileDataHandler
                 }
 
                 // Deserialize from JSON back to GameData.
-                loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                JsonConvert.PopulateObject(dataToLoad, loadedData);
             }
             catch (Exception e)
             {

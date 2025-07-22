@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -12,6 +13,7 @@ public class AttackData:ScriptableObject
 
     [Required]
     [Tooltip("Gameobject representation of attack")]
+    [JsonIgnore]
     public GameObject attackPfb;
 
     [Tooltip("Base damage number of attack")]

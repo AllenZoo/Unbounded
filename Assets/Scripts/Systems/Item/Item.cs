@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -22,6 +23,7 @@ public class Item
     [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
     public int quantity;
 
+    [JsonIgnore]
     public ItemModifierMediator ItemModifierMediator
     {
         get
@@ -39,7 +41,7 @@ public class Item
     private ItemModifierMediator itemModifierMediator;
 
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
-    private List<IItemComponent> components = new List<IItemComponent>();
+    public List<IItemComponent> components = new List<IItemComponent>();
 
     // This method will help us recreate the SO_Item reference when loading
     public string dataGUID;

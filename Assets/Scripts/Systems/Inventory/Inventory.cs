@@ -1,24 +1,25 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // Handles logic of managing data of inventory.
-[System.Serializable]
+[Serializable]
 public class Inventory
 {
     public event Action OnInventoryDataModified;
 
+    public List<Item> Items { get { return items; } private set { } }
     [SerializeField] private List<Item> items = new List<Item>();
-    [SerializeField] private int numSlots = 9;
+    public int Slots { get { return slots; } private set { } }
+    [SerializeField] private int slots = 9;
 
     // Init through scriptable object.
     public Inventory()
     {
         items = new List<Item>();
+        slots = 9;
+        Init();
     }
 
     public Inventory(List<Item> items, int numSlots)
@@ -27,17 +28,18 @@ public class Inventory
         Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
 
         this.items = items;
-        this.numSlots = numSlots;
+        this.slots = numSlots;
 
         // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
-        if (this.items.Count < this.numSlots)
+        if (this.items.Count < this.slots)
         {
-            int difference = this.numSlots - this.items.Count;
+            int difference = this.slots - this.items.Count;
             for (int i = 0; i < difference; i++)
             {
                 this.items.Add(null);
             }
         }
+        Init();
     }
 
     public void Init()
@@ -183,7 +185,7 @@ public class Inventory
     /// <returns>index or -1</returns>
     public int LastIndexOf(Item item)
     {
-        for (int i = numSlots - 1; i >= 0; i--)
+        for (int i = slots - 1; i >= 0; i--)
         {
             if (items[i] == item)
             {
@@ -195,7 +197,7 @@ public class Inventory
 
     public int GetFirstEmptySlot()
     {
-        for (int i = 0; i < numSlots; i++)
+        for (int i = 0; i < slots; i++)
         {
 
             // TODO: check logic. (Do we need to add .data or just items[i] == null?)
@@ -209,7 +211,7 @@ public class Inventory
 
     public bool IsEmpty()
     {
-        for(int i = 0;i < numSlots;i++)
+        for(int i = 0;i < slots;i++)
         {
             if (items[i] != null && items[i].data != null)
             {
@@ -221,7 +223,7 @@ public class Inventory
 
     public int GetInventorySize()
     {
-        return numSlots;
+        return slots;
     }
     public void ClearInventory()
     {
@@ -230,13 +232,13 @@ public class Inventory
     }
     private void AdjustItemsToSlots()
     {
-        if (items.Count > numSlots)
+        if (items.Count > slots)
         {
-            items.RemoveRange(numSlots, items.Count - numSlots);
+            items.RemoveRange(slots, items.Count - slots);
         }
-        else if (items.Count < numSlots)
+        else if (items.Count < slots)
         {
-            int difference = numSlots - items.Count;
+            int difference = slots - items.Count;
             for (int i = 0; i < difference; i++)
             {
                 items.Add(null);

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     public string itemName;
+
+    [JsonIgnore]
     public Sprite itemSprite;
     public float spriteRot;
     public bool isStackable;

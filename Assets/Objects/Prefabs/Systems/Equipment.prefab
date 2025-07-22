@@ -260,23 +260,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51625132256c8a84e80019c890cb87a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   inventory:
-    items: []
-    numSlots: 1
-  inventoryGuid: e2b7aafa-47ae-402e-bc50-3353b01ca3c8
+    items:
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    - data: {fileID: 0}
+      quantity: 0
+      components: []
+      dataGUID: 
+    slots: 1
+  inventoryGuid: c67f4f04-48ed-421e-81fa-13a6d996cab5
   slotRules:
     _serializedList:
     - Key: 0
-      Value: {fileID: 11400000, guid: 5d3c031e6657032488da58a707e44dd6, type: 2}
+      Value: {fileID: 11400000, guid: 52ea07350fd651a4bb43261b52e89daa, type: 2}
   systemContext: {fileID: 11400000, guid: a6a11665f99af4e41873a10acdd397f6, type: 2}
   references:
     version: 2

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 // Manages the inventory data. Does not handle UI, but processes requests to add/remove/swap items.
-public class InventorySystem : SerializedMonoBehaviour, IDataPersistence
+public class InventorySystem : MonoBehaviour, IDataPersistence
 {
     // Refers to when items in inventory are added/removed/swapped.
     public event Action OnInventoryDataModified;
@@ -365,12 +365,18 @@ public class InventorySystem : SerializedMonoBehaviour, IDataPersistence
     #region Data Persistence
     public void LoadData(GameData data)
     {
-        throw new NotImplementedException();
+        if (data.inventories.ContainsKey(inventoryGuid))
+        {
+            inventory = data.inventories[inventoryGuid];
+        }
+        else
+        {
+            Debug.Log("Cannot load inventory that has never been saved");
+        }
     }
 
     public void SaveData(GameData data)
     {
-        // TODO: make sure that Inventory can be converted to some JSON formattable object.
         if (data.inventories.ContainsKey(inventoryGuid))
         {
             data.inventories[inventoryGuid] = inventory;
