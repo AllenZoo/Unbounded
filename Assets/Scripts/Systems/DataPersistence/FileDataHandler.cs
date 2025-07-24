@@ -51,7 +51,9 @@ public class FileDataHandler
                 }
 
                 // Deserialize from JSON back to GameData.
-                JsonConvert.PopulateObject(dataToLoad, loadedData);
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(dataToLoad);
+                loadedData = Sirenix.Serialization.SerializationUtility.DeserializeValue<GameData>(bytes, Sirenix.Serialization.DataFormat.JSON);
+
             }
             catch (Exception e)
             {
@@ -89,9 +91,9 @@ public class FileDataHandler
             // create the directory the file will be written to if it doesn't already exist
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
-            // serialize the C# game data object into Json
-            // TODO: figure out a way to make dictionary appear in JSON.
-            string dataToStore = JsonConvert.SerializeObject(data, Formatting.Indented);
+            // Serialize to JSON.
+            byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, Sirenix.Serialization.DataFormat.JSON);
+            string dataToStore = System.Text.Encoding.UTF8.GetString(bytes);
 
             // optionally encrypt the data
             if (useEncryption)
