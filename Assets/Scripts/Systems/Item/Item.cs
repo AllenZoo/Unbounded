@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ public class Item
 {
     [HorizontalGroup("Row1")] // HideLabel, PreviewField(50)
     public ItemData data;
+    [OdinSerialize, ReadOnly] private string dataGUID;
 
     [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
     public int quantity;
@@ -43,8 +45,6 @@ public class Item
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
     public List<IItemComponent> components = new List<IItemComponent>();
 
-    // This method will help us recreate the SO_Item reference when loading
-    public string dataGUID;
 
     #region Constructor
     public Item(ItemData baseData, int quantity)
@@ -52,18 +52,19 @@ public class Item
         this.data = baseData;
         this.quantity = quantity;
         this.itemModifierMediator = new ItemModifierMediator(this);
-        // this.dataGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(data));
+        this.dataGUID = data.ID;
     }
 
     public Item(ItemData baseData, int quantity, List<IItemComponent> components): this(baseData, quantity)
     {
         this.components = components;
+        this.dataGUID = data.ID;
     }
 
     public void Init()
     {
         this.itemModifierMediator = new ItemModifierMediator(this);
-
+        this.dataGUID = data.ID;
         foreach (var component in components)
         {
             component.Init();
@@ -128,6 +129,16 @@ public class Item
     /// </summary>
     /// <returns></returns>
     public bool IsEmpty() => data == null || quantity == 0;
+    #endregion
+
+    #region DataPersistence
+
+    public void Load()
+    {
+        // Load the ItemData from Database
+        data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(dataGUID);
+    }
+
     #endregion
 
     // TODO: update equals and hash function.

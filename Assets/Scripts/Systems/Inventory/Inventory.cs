@@ -52,7 +52,7 @@ public class Inventory
         }
     }
 
-   
+    #region Inventory Actions
     /// <summary>
     /// Attempts to add/stack an item to an index of the inventory. 
     /// </summary>
@@ -246,4 +246,15 @@ public class Inventory
         }
         OnInventoryDataModified?.Invoke();
     }
+    #endregion
+
+    #region Data Persistence
+
+    public void Load() {
+        foreach (var item in items)
+        {
+            item.Load();
+        }
+    }
+    #endregion
 }

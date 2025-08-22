@@ -90,12 +90,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory:
     items:
-    - data: {fileID: 11400000, guid: e6bd3452e058b854493d1094b1efa511, type: 2}
+    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
       quantity: 1
       components:
-      - rid: 2134259224491327490
-      - rid: 2134259224491327491
-      dataGUID: 
+      - rid: 2134259224491327501
     slots: 9
   inventoryGuid: 2b61bf96-a7a8-4081-9aad-89a928da7587
   slotRules:
@@ -104,12 +102,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2134259224491327490
-      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
-    - rid: 2134259224491327491
-      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+    - rid: 2134259224491327501
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
       data:
-        <BaseStats>k__BackingField: {fileID: 11400000, guid: f36979738565b8d4ba1c259de4a43496, type: 2}
+        cards: []
 --- !u!223 &5858127598595799942
 Canvas:
   m_ObjectHideFlags: 0

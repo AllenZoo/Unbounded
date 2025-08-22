@@ -60,6 +60,13 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         Init();
     }
 
+    // Init
+    private void Init()
+    {
+        inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
+    }
+
+    #region Inventory Actions
     // TODO: think about how to incoporate checking for conditions with adding items.
     // Maybe don't need to if we implicitly decide items can only be added to inventory where
     // slots can hold any items.
@@ -356,11 +363,7 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         OnInventoryDataModified?.Invoke();
     }
 
-    // Init
-    private void Init()
-    {
-        inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
-    }
+    #endregion
 
     #region Data Persistence
     public void LoadData(GameData data)
@@ -368,6 +371,8 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         if (data.inventories.ContainsKey(inventoryGuid))
         {
             inventory = data.inventories[inventoryGuid];
+            inventory.Load();
+            //OnInventoryDataModified?.Invoke();
         }
         else
         {
