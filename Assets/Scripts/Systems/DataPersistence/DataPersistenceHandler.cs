@@ -12,6 +12,8 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     [SerializeField] private bool overrideSelectedProfileId = false;
     [Tooltip("The test profile Id we can choose to override with.")]
     [SerializeField] private string testSelectedProfileId = "test";
+    [SerializeField] private bool loadOnStart = false;
+    [SerializeField] private bool saveOnApplicationQuit = false;
 
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
@@ -68,7 +70,10 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     protected void Start()
     {
-        LoadGame();
+        if (loadOnStart)
+        {
+            LoadGame();
+        }
     }
 
     public void ChangeSelectedProfileId(string newProfileId)
@@ -168,7 +173,10 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     }
     private void OnApplicationQuit()
     {
-        SaveGame();
+        if (saveOnApplicationQuit)
+        {
+            SaveGame();
+        }
     }
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {

@@ -14,33 +14,33 @@ public class Inventory
     public int Slots { get { return slots; } private set { } }
     [SerializeField] private int slots = 9;
 
-    // Init through scriptable object.
-    public Inventory()
-    {
-        items = new List<Item>();
-        slots = 9;
-        Init();
-    }
+    //// Init through scriptable object.
+    //public Inventory()
+    //{
+    //    items = new List<Item>();
+    //    slots = 9;
+    //    Init();
+    //}
 
-    public Inventory(List<Item> items, int numSlots)
-    {
-        // Assert that items.Count <= numSlots.
-        Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
+    //public Inventory(List<Item> items, int numSlots)
+    //{
+    //    // Assert that items.Count <= numSlots.
+    //    Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
 
-        this.items = items;
-        this.slots = numSlots;
+    //    this.items = items;
+    //    this.slots = numSlots;
 
-        // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
-        if (this.items.Count < this.slots)
-        {
-            int difference = this.slots - this.items.Count;
-            for (int i = 0; i < difference; i++)
-            {
-                this.items.Add(null);
-            }
-        }
-        Init();
-    }
+    //    // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
+    //    if (this.items.Count < this.slots)
+    //    {
+    //        int difference = this.slots - this.items.Count;
+    //        for (int i = 0; i < difference; i++)
+    //        {
+    //            this.items.Add(null);
+    //        }
+    //    }
+    //    Init();
+    //}
 
     public void Init()
     {
@@ -64,12 +64,12 @@ public class Inventory
         Item item1 = items[index];
         Item item2 = item;
 
-        if (item1 == null || item1.data == null)
+        if (item1 == null || item1.Data == null)
         {
             items[index] = item;
         }
-        else if (item1.data.Equals(item2.data)
-            && item1.data.isStackable && item2.data.isStackable)
+        else if (item1.Data.Equals(item2.Data)
+            && item1.Data.isStackable && item2.Data.isStackable)
         {
             // Stack items.
             Item stackedItem = item1.Clone();
@@ -131,10 +131,10 @@ public class Inventory
         Item item2 = items[index2];
 
         // Check if items are stackable and have the same SO_Item data.
-        if (item2 != null && item2.data != null && 
-                       (( !item1.data.Equals(item2.data)
-                       || !item1.data.isStackable
-                       || !item2.data.isStackable) ))
+        if (item2 != null && item2.Data != null && 
+                       (( !item1.Data.Equals(item2.Data)
+                       || !item1.Data.isStackable
+                       || !item2.Data.isStackable) ))
         {
             //Debug.Log("Cannot stack items. " +
             //    "Items are not stackable or do not have the same SO_Item data.");
@@ -157,7 +157,7 @@ public class Inventory
         Item originalItem = items[index];
         int totalQuantity = originalItem.quantity;
         // To be splittable, the item must be stackable and have a quantity > 1.
-        if (totalQuantity <= 1 && originalItem.data.isStackable)
+        if (totalQuantity <= 1 && originalItem.Data.isStackable)
         {
             // Not splittable, return error!
             Debug.Log("Attempted to split item. Failed.");
@@ -201,7 +201,7 @@ public class Inventory
         {
 
             // TODO: check logic. (Do we need to add .data or just items[i] == null?)
-            if (items[i].data == null)
+            if (items[i].Data == null)
             {
                 return i;
             }
@@ -213,7 +213,7 @@ public class Inventory
     {
         for(int i = 0;i < slots;i++)
         {
-            if (items[i] != null && items[i].data != null)
+            if (items[i] != null && items[i].Data != null)
             {
                 return false;
             }
@@ -250,11 +250,15 @@ public class Inventory
 
     #region Data Persistence
 
-    public void Load() {
-        foreach (var item in items)
+    public void Load(Inventory inventoryData) {
+        for (int i = 0; i < slots; i++)
         {
-            item.Load();
+            Item item = items[i];
+            item.Load(inventoryData.GetItem(i));
         }
+
+        Debug.Log("Invoking inventory modified event");
+        OnInventoryDataModified?.Invoke();
     }
     #endregion
 }

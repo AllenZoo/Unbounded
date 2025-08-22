@@ -19,8 +19,19 @@ public interface IItemComponent
 public class Item
 {
     [HorizontalGroup("Row1")] // HideLabel, PreviewField(50)
-    public ItemData data;
-    [OdinSerialize, ReadOnly] private string dataGUID;
+
+    //[NonSerialized, ShowInInspector]
+    
+    public ItemData Data => data;
+
+    [UnityEngine.SerializeField]
+    private ItemData data;
+
+
+    // TODO: not possible to serailize from awake since if it starts off null, no way we get the GUID....
+    //       need to get the value during loading, and then search up value in SO DB.
+
+    [OdinSerialize, ShowInInspector, ReadOnly] private string dataGUID;
 
     [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
     public int quantity;
@@ -52,19 +63,24 @@ public class Item
         this.data = baseData;
         this.quantity = quantity;
         this.itemModifierMediator = new ItemModifierMediator(this);
-        this.dataGUID = data.ID;
+        this.dataGUID = Data.ID;
     }
 
     public Item(ItemData baseData, int quantity, List<IItemComponent> components): this(baseData, quantity)
     {
         this.components = components;
-        this.dataGUID = data.ID;
+        this.dataGUID = Data.ID;
     }
 
     public void Init()
     {
         this.itemModifierMediator = new ItemModifierMediator(this);
-        this.dataGUID = data.ID;
+
+        if (Data != null)
+        {
+            this.dataGUID = Data.ID;
+        }
+        
         foreach (var component in components)
         {
             component.Init();
@@ -121,22 +137,31 @@ public class Item
             clonedComponents.Add(component.DeepClone());
         }
 
-        return new Item(data, quantity, clonedComponents);
+        return new Item(Data, quantity, clonedComponents);
     }
 
     /// <summary>
     /// Checks if data is null or quantity = 0.
     /// </summary>
     /// <returns></returns>
-    public bool IsEmpty() => data == null || quantity == 0;
+    public bool IsEmpty() => Data == null || quantity == 0;
     #endregion
 
     #region DataPersistence
 
-    public void Load()
+    public void Load(Item itemData)
     {
-        // Load the ItemData from Database
-        data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(dataGUID);
+        Debug.Log("loading item hehe");
+        if (itemData.dataGUID != null)
+        {
+            // Load the ItemData from Database
+            data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(itemData.dataGUID);
+        }
+    }
+
+    public void Save()
+    {
+
     }
 
     #endregion
@@ -156,12 +181,12 @@ public class Item
         }
 
         Item other = obj as Item;
-        return data.Equals(other.data) && quantity == other.quantity;
+        return Data.Equals(other.Data) && quantity == other.quantity;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(data.GetHashCode(), quantity);
+        return HashCode.Combine(Data.GetHashCode(), quantity);
     }
     #endregion
 }

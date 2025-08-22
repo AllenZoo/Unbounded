@@ -62,8 +62,8 @@ public class ItemDescriptor : MonoBehaviour
 
         if (context.Item == null || context.Item.IsEmpty()) return;
 
-        itemTextName.text = context.Item.data.itemName;
-        itemTextDesc.text = context.Item.data.description;
+        itemTextName.text = context.Item.Data.itemName;
+        itemTextDesc.text = context.Item.Data.description;
         itemTextStats.text = "";
         HandleItemDisplay(context.Item);
     }
@@ -109,9 +109,9 @@ public class ItemDescriptor : MonoBehaviour
     /// <param name="item"></param>
     private void HandleItemDisplay(Item item)
     {
-        if (item?.data?.attacker?.AttackData != null)
+        if (item?.Data?.attacker?.AttackData != null)
         {
-            var attackData = item.data?.attacker?.AttackData;
+            var attackData = item.Data?.attacker?.AttackData;
             itemTextStats.text += $"Base ATK Damage: {attackData.baseDamage}\n";
         }
 

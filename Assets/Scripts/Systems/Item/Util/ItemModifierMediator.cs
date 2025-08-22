@@ -52,7 +52,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             upgradeComponent.OnUpgradeModifierChange += () => OnModifierChange?.Invoke(item);
         }
 
-        baseAttacker = item.IsEmpty() ? null : item?.data?.attacker;
+        baseAttacker = item.IsEmpty() ? null : item?.Data?.attacker;
 
     }
 

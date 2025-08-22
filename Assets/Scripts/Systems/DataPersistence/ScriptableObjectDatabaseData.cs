@@ -20,6 +20,8 @@ public class ScriptableObjectDatabaseData : SerializedScriptableObject
 
     public T Get<T>(string id) where T : ScriptableObject, IIdentifiableSO
     {
+        Debug.Log($"Trying to get object with id: {id}");
+
         if (guidToSO == null) BuildLookup();
 
         return guidToSO.TryGetValue(id, out var so) ? so as T : null;

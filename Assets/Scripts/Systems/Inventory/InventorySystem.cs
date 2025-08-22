@@ -41,7 +41,7 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     [Tooltip("Optional field. Used to initialize a SO InventorySystemContext ref.")]
     [SerializeField, AllowNull] private InventorySystemContext systemContext;
 
-
+    // Something in here throwing error and causing script to disable itself (or coudl be in Start)
     private void Awake()
     {
         // Check that inventory is not null
@@ -252,7 +252,7 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         }
 
         // Check if item1 is splittable
-        if (item1 == null || item1.data == null || !item1.data.isStackable)
+        if (item1 == null || item1.Data == null || !item1.Data.isStackable)
         {
             // item1 is null or not splittable!
             Debug.Log("Item at index1 is null or not splittable! Failed to split item.");
@@ -260,8 +260,8 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (item2 != null && item2.data != null 
-            && (!item2.data.isStackable || !item2.data.Equals(item1.data)))
+        if (item2 != null && item2.Data != null 
+            && (!item2.Data.isStackable || !item2.Data.Equals(item1.Data)))
         {
             // item2 is not null and is not stackable with item1!
             Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
@@ -304,8 +304,8 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (otherItem != null && otherItem.data != null && 
-            (!otherItem.data.isStackable || (thisItem.data != null && !otherItem.data.Equals(thisItem.data))))
+        if (otherItem != null && otherItem.Data != null && 
+            (!otherItem.Data.isStackable || (thisItem.Data != null && !otherItem.Data.Equals(thisItem.Data))))
         {
             // item2 is not null and is not stackable with item1!
             Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
@@ -371,8 +371,9 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         if (data.inventories.ContainsKey(inventoryGuid))
         {
             inventory = data.inventories[inventoryGuid];
-            inventory.Load();
-            //OnInventoryDataModified?.Invoke();
+            inventory.Load(inventory); // Looks weird but this is how we pass on the GUID data down to the items.
+
+            OnInventoryDataModified?.Invoke();
         }
         else
         {
