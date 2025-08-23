@@ -50,9 +50,12 @@ public class FileDataHandler
                     dataToLoad = EncryptDecrypt(dataToLoad);
                 }
 
+                var context = new Sirenix.Serialization.DeserializationContext();
+                context.IndexReferenceResolver = new Sirenix.Serialization.UnityReferenceResolver();
+
                 // Deserialize from JSON back to GameData.
                 byte[] bytes = System.Text.Encoding.UTF8.GetBytes(dataToLoad);
-                loadedData = Sirenix.Serialization.SerializationUtility.DeserializeValue<GameData>(bytes, Sirenix.Serialization.DataFormat.JSON);
+                loadedData = Sirenix.Serialization.SerializationUtility.DeserializeValue<GameData>(bytes, Sirenix.Serialization.DataFormat.JSON, context);
 
             }
             catch (Exception e)
@@ -91,8 +94,11 @@ public class FileDataHandler
             // create the directory the file will be written to if it doesn't already exist
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
+            var context = new Sirenix.Serialization.SerializationContext();
+            context.IndexReferenceResolver = new Sirenix.Serialization.UnityReferenceResolver();
+
             // Serialize to JSON.
-            byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, Sirenix.Serialization.DataFormat.JSON);
+            byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, Sirenix.Serialization.DataFormat.JSON, context);
             string dataToStore = System.Text.Encoding.UTF8.GetString(bytes);
 
             // optionally encrypt the data
