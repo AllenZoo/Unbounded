@@ -241,7 +241,8 @@ public class Inventory
             int difference = slots - items.Count;
             for (int i = 0; i < difference; i++)
             {
-                items.Add(null);
+                Item emptyItem = new Item();
+                items.Add(emptyItem);
             }
         }
         OnInventoryDataModified?.Invoke();
@@ -251,10 +252,14 @@ public class Inventory
     #region Data Persistence
 
     public void Load(Inventory inventoryData) {
+
+        if (inventoryData == null) return;
+
         for (int i = 0; i < slots; i++)
         {
             Item item = items[i];
-            item.Load(inventoryData.GetItem(i));
+            var itemToLoad = inventoryData.GetItem(i);
+            item?.Load(itemToLoad);
         }
 
         Debug.Log("Invoking inventory modified event");

@@ -58,6 +58,11 @@ public class Item
 
 
     #region Constructor
+    
+    public Item()
+    {
+        // For creating empty Item.
+    }
     public Item(ItemData baseData, int quantity)
     {
         this.data = baseData;
