@@ -13,6 +13,7 @@ public interface IItemComponent
 {
     public IItemComponent DeepClone();
     public virtual void Init() { }
+    public virtual void Load(Item item) { }
 }
 
 [System.Serializable]
@@ -77,6 +78,7 @@ public class Item
         this.dataGUID = Data.ID;
     }
 
+    // TODO: think about case where Init is called multiple times.
     public void Init()
     {
         if (IsEmpty()) return;
@@ -156,13 +158,19 @@ public class Item
 
     #region DataPersistence
 
-    public void Load(Item itemData)
+    public void Load(Item item)
     {
-        Debug.Log("loading item hehe");
-        if (itemData.dataGUID != null)
+        if (item.dataGUID != null)
         {
             // Load the ItemData from Database
-            data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(itemData.dataGUID);
+            data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(item.dataGUID);
+        }
+
+        if (components == null) return;
+
+        foreach (var component in components)
+        {
+            component.Load(item);
         }
     }
 

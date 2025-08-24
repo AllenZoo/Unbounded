@@ -55,6 +55,12 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         LoadGame();
     }
 
+    [Button("New Game (creates blank GameData)")]
+    private void CreateNewGameButton()
+    {
+        NewGame();
+    }
+
     protected override void Awake()
     {
         base.Awake();

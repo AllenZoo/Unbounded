@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 // Attach to Attack Handler (with Attacker)
 // Handles modifying the attacker object with item equipped.
 [RequireComponent(typeof(AttackerComponent))]
-public class EquipmentWeaponHandler : MonoBehaviour, IDataPersistence
+public class EquipmentWeaponHandler : MonoBehaviour
 {
     [Required, SerializeField] private LocalEventHandler leh;
 
@@ -98,7 +98,8 @@ public class EquipmentWeaponHandler : MonoBehaviour, IDataPersistence
 
         if (attackerItem.ItemModifierMediator == null)
         {
-            Debug.Log($"ItemModiferMediator is null? {attackerItem.ItemModifierMediator == null}");
+            Debug.Log($"ItemModiferMediator is null. Initializing.");
+            attackerItem.Init();
         }
        
         Attacker attackerToSet = attackerItem?.ItemModifierMediator?.GetAttackerAfterModification();
@@ -155,22 +156,5 @@ public class EquipmentWeaponHandler : MonoBehaviour, IDataPersistence
         }
 
         return item1.Equals(item2);
-    }
-
-    public void LoadData(GameData data)
-    {
-        //throw new NotImplementedException();
-        Debug.Log("Loading weapon inside equipment weapon handler!");
-        // TODO: move this save load logic to inventory.
-
-        curWeapon = data.playerEquippedWeapon;
-        UpdateAttacker();
-    }
-
-    public void SaveData(GameData data)
-    {
-        Debug.Log("Saving inside equipment weapon handler!");
-        data.playerEquippedWeapon = curWeapon;
-        //throw new NotImplementedException();
     }
 }
