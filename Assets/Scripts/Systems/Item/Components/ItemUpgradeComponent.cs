@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ public class ItemUpgradeComponent : IItemComponent
     public Action OnUpgradeModifierChange;
 
     [Tooltip("Keeps track of the upgrades that have been applied to the item. Does not affect stats, just keeps track for history.")]
+    [ShowInInspector, NonSerialized]
     public List<UpgradeCardData> cards = new List<UpgradeCardData>();
+    public List<string> upgradeCardsGUID = new List<string>();
 
     [Tooltip("The list of modifiers added to the item via upgrades.")]
     private List<IUpgradeModifier> upgradeModifiers = new List<IUpgradeModifier>();
@@ -32,6 +35,16 @@ public class ItemUpgradeComponent : IItemComponent
 
     public virtual void Init()
     {
+        if (upgradeModifiers == null)
+        {
+            upgradeModifiers = new List<IUpgradeModifier>();
+        }
+
+        if (upgradeCardsGUID == null)
+        {
+            upgradeCardsGUID = new List<string>();
+        }
+
         // Debug.Log("Initializing upgrade component!");
         // Extract modifiers from cards and add to modifiers list
         upgradeModifiers = cards
@@ -39,6 +52,58 @@ public class ItemUpgradeComponent : IItemComponent
             .Select(mod => mod.modifier)
             .ToList();
         OnUpgradeModifierChange?.Invoke();
+    }
+
+    public virtual void Load(Item item)
+    {
+        InitIfNull();
+
+        var uComp = item.GetComponent<ItemUpgradeComponent>();
+        if (uComp != null)
+        {
+            // TODO: it seems that uComp and this component are the same reference to same object somehow??
+            //       need to investigate further.
+
+
+            // TODO: temp fix.
+            // Clear all upgrades (just in case)
+            var tempGUIDs = new List<string>(this.upgradeCardsGUID);
+
+            this.cards.Clear();
+            this.upgradeModifiers.Clear();
+            this.upgradeCardsGUID.Clear();
+
+            // Load each upgrade
+            var uCompCardGUIDs = uComp.upgradeCardsGUID;
+
+            foreach (string guid in tempGUIDs)
+            {
+                UpgradeCardData cardData = ScriptableObjectDatabase.Instance.Data.Get<UpgradeCardData>(guid);
+                AddCard(cardData);  // Adds to all lists.
+            }
+        }
+    }
+    
+    /// <summary>
+    /// For some reason, it seems that sometime when we Load, or Init, the lists are null. Thus, to avoid running into NullReferenceErrors
+    /// this helper ensures that we atleast have an empty list instead of null.
+    /// </summary>
+    private void InitIfNull()
+    {
+        if (cards == null)
+        {
+            cards = new List<UpgradeCardData> ();
+        }
+
+        if (upgradeCardsGUID == null)
+        {
+            upgradeCardsGUID = new List<string>();
+        }
+
+        if (upgradeModifiers == null)
+        {
+            upgradeModifiers = new List<IUpgradeModifier>();
+        }
     }
     #endregion
 
@@ -51,6 +116,7 @@ public class ItemUpgradeComponent : IItemComponent
     public void AddCard(UpgradeCardData card)
     {
         cards.Add(card);
+        upgradeCardsGUID.Add(card.ID);
 
         // Add modifiers from card to mod list.
         foreach (var mod in card.mods)
@@ -61,6 +127,7 @@ public class ItemUpgradeComponent : IItemComponent
 
     public void RemoveCard(UpgradeCardData card) {
         cards.Remove(card);
+        upgradeCardsGUID.Remove(card.ID);
 
         // Remove modifiers from card from mod list
         foreach (var mod in card.mods)

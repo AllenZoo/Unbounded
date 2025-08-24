@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="new upgrade card", menuName ="System/Upgrade/UpgradeCard")]
-public class UpgradeCardData : ScriptableObject
+public class UpgradeCardData : ScriptableObject, IIdentifiableSO
 {
+    [SerializeField, ReadOnly] private string id;
+    public string ID => id;
+
     public string title;
     public Sprite icon;
     public Color cardColor; 
@@ -27,6 +30,16 @@ public class UpgradeCardData : ScriptableObject
     [TextArea(5, 8)]
     public string description;
 
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            id = System.Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+    }
+#endif
 }
 
 /// <summary>

@@ -77,9 +77,9 @@ public class ItemBaseStatComponent : IItemComponent
 
     #region Data Persistence
 
-    public virtual void Load(Item itemData)
+    public virtual void Load(Item item)
     {
-        var bsComp = itemData.GetComponent<ItemBaseStatComponent>();
+        var bsComp = item.GetComponent<ItemBaseStatComponent>();
         if (bsComp != null)
         {
             // Load the ItemData from Database
