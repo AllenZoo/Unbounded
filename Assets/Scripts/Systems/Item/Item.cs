@@ -79,6 +79,8 @@ public class Item
 
     public void Init()
     {
+        if (IsEmpty()) return;
+
         this.itemModifierMediator = new ItemModifierMediator(this);
 
         if (Data != null)

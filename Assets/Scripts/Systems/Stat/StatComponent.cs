@@ -73,7 +73,7 @@ public class StatComponent : MonoBehaviour
         Item equipped = e.equipped;
         Item unequipped = e.unequipped;
 
-        if (equipped != null)
+        if (equipped != null && !equipped.IsEmpty())
         {
             equipped.ItemModifierMediator.OnModifierChange += HandleEquippedWeaponItemChange;
 
@@ -82,7 +82,7 @@ public class StatComponent : MonoBehaviour
         }
 
         // Dispose unequipped equipment stat modifiers
-        if (unequipped != null)
+        if (unequipped != null && !unequipped.IsEmpty())
         {
             unequipped.ItemModifierMediator.OnModifierChange -= HandleEquippedWeaponItemChange;
 

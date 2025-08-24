@@ -70,11 +70,11 @@ public class EquipmentWeaponHandler : MonoBehaviour, IDataPersistence
         Debug.Log("Updating Attacker (should only see this once)");
         UpdateAttacker(curWeapon);
 
-        if (previousWeapon?.ItemModifierMediator != null)
+        if (previousWeapon != null && !previousWeapon.IsEmpty() && previousWeapon.ItemModifierMediator != null)
         {
             previousWeapon.ItemModifierMediator.OnModifierChange -= UpdateAttacker;
         }
-        if (curWeapon?.ItemModifierMediator != null)
+        if (curWeapon != null && !curWeapon.IsEmpty() && curWeapon.ItemModifierMediator != null)
         {
             curWeapon.ItemModifierMediator.OnModifierChange += UpdateAttacker;
         }

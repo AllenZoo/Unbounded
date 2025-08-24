@@ -13,8 +13,7 @@ public class ItemBaseStatComponent : IItemComponent
     /// <summary>
     /// Base stats of the weapon. Static.
     /// </summary>
-    // [field: SerializeField]
-    public SO_StatContainer BaseStats { get; private set; }
+    [field: SerializeField] public SO_StatContainer BaseStats { get; private set; }
 
     ///// <summary>
     ///// The Stat modifiers applied to item.
