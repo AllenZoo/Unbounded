@@ -63,12 +63,12 @@ public class ItemUpgradeComponent : IItemComponent
         {
             // TODO: it seems that uComp and this component are the same reference to same object somehow??
             //       need to investigate further.
+            // UPDATE: not 100% sure but it seems that the Item in the data and the Item we are modifying on are the same object since they both come from the
+            //         same inventory slot.. One thing to note tho is that only GUIDs is actually serialized aka loaded back in properly.
 
-
-            // TODO: temp fix.
-            // Clear all upgrades (just in case)
             var tempGUIDs = new List<string>(this.upgradeCardsGUID);
 
+            // Clear all upgrades (just in case). Techinically not necessary due to discovery above.
             this.cards.Clear();
             this.upgradeModifiers.Clear();
             this.upgradeCardsGUID.Clear();

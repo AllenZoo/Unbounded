@@ -181,27 +181,54 @@ public class Item
 
     #endregion
 
-    // TODO: update equals and hash function.
     #region Equals + Hash
-    /// <summary>
-    /// Override Equals method.
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
     public override bool Equals(object obj)
     {
-        if (obj == null || GetType() != obj.GetType())
-        {
+        if (obj is not Item other)
             return false;
-        }
 
-        Item other = obj as Item;
-        return Data.Equals(other.Data) && quantity == other.quantity;
+        if (!string.Equals(dataGUID, other.dataGUID, StringComparison.Ordinal))
+            return false;
+
+        if (quantity != other.quantity)
+            return false;
+
+        if (components == null && other.components == null) return true;
+        if (components == null || other.components == null) return false;
+        if (components.Count != other.components.Count) return false;
+
+        // Multiset comparison: group by component, compare counts
+        var thisGroups = components.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
+        var otherGroups = other.components.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
+
+        return thisGroups.Count == otherGroups.Count &&
+               thisGroups.All(kvp => otherGroups.TryGetValue(kvp.Key, out var count) && count == kvp.Value);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Data.GetHashCode(), quantity);
+        unchecked
+        {
+            int hash = 17;
+            hash = hash * 31 + (dataGUID != null ? dataGUID.GetHashCode() : 0);
+            hash = hash * 31 + quantity.GetHashCode();
+
+            if (components != null && components.Count > 0)
+            {
+                // Aggregate component hashes in a commutative way (order doesn’t matter)
+                int compHash = 0;
+                foreach (var comp in components)
+                {
+                    compHash += comp?.GetHashCode() ?? 0; // addition is commutative
+                }
+
+                hash = hash * 31 + compHash;
+            }
+
+            return hash;
+        }
     }
+
+
     #endregion
 }
