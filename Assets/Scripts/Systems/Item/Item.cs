@@ -28,10 +28,6 @@ public class Item
     [UnityEngine.SerializeField]
     private ItemData data;
 
-
-    // TODO: not possible to serailize from awake since if it starts off null, no way we get the GUID....
-    //       need to get the value during loading, and then search up value in SO DB.
-
     [OdinSerialize, ShowInInspector, ReadOnly] private string dataGUID;
 
     [HorizontalGroup("Row2"), LabelWidth(60), MinValue(0)]
@@ -46,6 +42,7 @@ public class Item
             {
                 Debug.LogWarning($"[Item] ItemModifierMediator was accessed while still null. " +
                                  $"Ensure Init() was called before accessing this property.");
+                Init();
             }
 
             return itemModifierMediator;
