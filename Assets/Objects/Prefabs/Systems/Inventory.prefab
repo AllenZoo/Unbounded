@@ -89,10 +89,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory:
-    data: {fileID: 11400000, guid: eac6917f07cfcb94c9818c1e6537e34e, type: 2}
+    items:
+    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+      quantity: 1
+      components:
+      - rid: 2134259224491327501
+    slots: 9
+  inventoryGuid: 2b61bf96-a7a8-4081-9aad-89a928da7587
   slotRules:
     _serializedList: []
   systemContext: {fileID: 11400000, guid: d28d2ef29a561ae48845f0930043d9c2, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2134259224491327501
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        cards: []
 --- !u!223 &5858127598595799942
 Canvas:
   m_ObjectHideFlags: 0

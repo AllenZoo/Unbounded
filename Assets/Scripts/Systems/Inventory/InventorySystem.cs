@@ -1,4 +1,5 @@
 using AYellowpaper.SerializedCollections;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 // Manages the inventory data. Does not handle UI, but processes requests to add/remove/swap items.
-public class InventorySystem : MonoBehaviour
+public class InventorySystem : MonoBehaviour, IDataPersistence
 {
     // Refers to when items in inventory are added/removed/swapped.
     public event Action OnInventoryDataModified;
@@ -16,9 +17,16 @@ public class InventorySystem : MonoBehaviour
     // SO_Inventory.
     public event Action<Inventory> OnInventoryDataReset;
 
-    //[Header("Init through SO.")]
-    //[SerializeField] private SO_Inventory initInventory;
+
     [SerializeField] private Inventory inventory;
+
+    [Tooltip("Inventory GUID associated with inventory for data persistence purposes. Make sure to generate with Context Menu option.")]
+    [SerializeField, ReadOnly, Required] private string inventoryGuid;
+    [ContextMenu("Generate Inventory GUID")]
+    void GenerateGUID()
+    {
+        inventoryGuid = Guid.NewGuid().ToString();
+    }
 
     // Maps each slot and their respective rules.
     // Implement interface ConditionMet(SO_Item item) for each condition
@@ -33,12 +41,11 @@ public class InventorySystem : MonoBehaviour
     [Tooltip("Optional field. Used to initialize a SO InventorySystemContext ref.")]
     [SerializeField, AllowNull] private InventorySystemContext systemContext;
 
-
+    // Something in here throwing error and causing script to disable itself (or coudl be in Start)
     private void Awake()
     {
         // Check that inventory is not null
         Assert.IsNotNull(inventory, "Inventory is null.");
-        Assert.IsNotNull(inventory.data, "Inventory does not have proper SO_Inventory.");
 
         if (slotRules == null)
         {
@@ -53,6 +60,13 @@ public class InventorySystem : MonoBehaviour
         Init();
     }
 
+    // Init
+    private void Init()
+    {
+        inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
+    }
+
+    #region Inventory Actions
     // TODO: think about how to incoporate checking for conditions with adding items.
     // Maybe don't need to if we implicitly decide items can only be added to inventory where
     // slots can hold any items.
@@ -238,7 +252,7 @@ public class InventorySystem : MonoBehaviour
         }
 
         // Check if item1 is splittable
-        if (item1 == null || item1.data == null || !item1.data.isStackable)
+        if (item1 == null || item1.Data == null || !item1.Data.isStackable)
         {
             // item1 is null or not splittable!
             Debug.Log("Item at index1 is null or not splittable! Failed to split item.");
@@ -246,8 +260,8 @@ public class InventorySystem : MonoBehaviour
         }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (item2 != null && item2.data != null 
-            && (!item2.data.isStackable || !item2.data.Equals(item1.data)))
+        if (item2 != null && item2.Data != null 
+            && (!item2.Data.isStackable || !item2.Data.Equals(item1.Data)))
         {
             // item2 is not null and is not stackable with item1!
             Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
@@ -290,8 +304,8 @@ public class InventorySystem : MonoBehaviour
         }
 
         // Check if item at index2 is null or atleast stackable and matches item at index 1.
-        if (otherItem != null && otherItem.data != null && 
-            (!otherItem.data.isStackable || (thisItem.data != null && !otherItem.data.Equals(thisItem.data))))
+        if (otherItem != null && otherItem.Data != null && 
+            (!otherItem.Data.isStackable || (thisItem.Data != null && !otherItem.Data.Equals(thisItem.Data))))
         {
             // item2 is not null and is not stackable with item1!
             Debug.Log("Item at index2 is not null and is not stackable with item1! Failed to split item.");
@@ -349,11 +363,35 @@ public class InventorySystem : MonoBehaviour
         OnInventoryDataModified?.Invoke();
     }
 
-    // Init
-    private void Init()
+    #endregion
+
+    #region Data Persistence
+    public void LoadData(GameData data)
     {
-        inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
+        if (data.inventories.ContainsKey(inventoryGuid))
+        {
+            inventory = data.inventories[inventoryGuid];
+            inventory.Load(inventory); // Looks weird but this is how we pass on the GUID data down to the items.
+
+            OnInventoryDataModified?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Cannot load inventory that has never been saved");
+        }
     }
+
+    public void SaveData(GameData data)
+    {
+        if (data.inventories.ContainsKey(inventoryGuid))
+        {
+            data.inventories[inventoryGuid] = inventory;
+        } else
+        {
+            data.inventories.TryAdd(inventoryGuid, inventory);
+        }
+    }
+    #endregion
 
     #region Getters and Setters
     public Dictionary<int, SO_Conditions> GetSlotRules()
@@ -385,5 +423,5 @@ public class InventorySystem : MonoBehaviour
         OnInventoryDataModified?.Invoke();
         OnInventoryDataReset?.Invoke(inventory);
     }
-    #endregion  
+    #endregion
 }

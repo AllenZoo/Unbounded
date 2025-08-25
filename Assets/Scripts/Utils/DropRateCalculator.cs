@@ -23,7 +23,7 @@ public class DropRateCalculator
             currentRate += dropRate.rate;
             if (random <= currentRate)
             {
-                if (dropRate.item.data == null)
+                if (dropRate.item.Data == null)
                 {
                     return null;
                 }

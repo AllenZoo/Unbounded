@@ -1,33 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // Handles logic of managing data of inventory.
-[System.Serializable]
+[Serializable]
 public class Inventory
 {
     public event Action OnInventoryDataModified;
 
-    //// TODO: make this just the base init data.
-    public SO_Inventory data;
+    public List<Item> Items { get { return items; } private set { } }
+    [SerializeField] private List<Item> items = new List<Item>();
+    public int Slots { get { return slots; } private set { } }
+    [SerializeField] private int slots = 9;
 
-    // Init through scriptable object.
-    public Inventory(SO_Inventory inventory)
-    {
-        data = inventory;
-    }
-
-    public void Init()
-    {
-        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
-        foreach (Item item in data.items)
-        {
-            if (item != null) item.Init();
-        }
-    }
+    //// Init through scriptable object.
+    //public Inventory()
+    //{
+    //    items = new List<Item>();
+    //    slots = 9;
+    //    Init();
+    //}
 
     //public Inventory(List<Item> items, int numSlots)
     //{
@@ -35,20 +28,31 @@ public class Inventory
     //    Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
 
     //    this.items = items;
-    //    this.numSlots = numSlots;
+    //    this.slots = numSlots;
 
     //    // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
-    //    if (this.items.Count < this.numSlots)
+    //    if (this.items.Count < this.slots)
     //    {
-    //        int difference = this.numSlots - this.items.Count;
+    //        int difference = this.slots - this.items.Count;
     //        for (int i = 0; i < difference; i++)
     //        {
     //            this.items.Add(null);
     //        }
     //    }
+    //    Init();
     //}
 
+    public void Init()
+    {
+        AdjustItemsToSlots();
+        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
+        foreach (Item item in items)
+        {
+            if (item != null) item.Init();
+        }
+    }
 
+    #region Inventory Actions
     /// <summary>
     /// Attempts to add/stack an item to an index of the inventory. 
     /// </summary>
@@ -57,20 +61,20 @@ public class Inventory
     /// <returns>1 if item was added/stacked, -1 if item was not added/stacked.</returns>
     public int AddItem(int index, Item item)
     {
-        Item item1 = data.items[index];
+        Item item1 = items[index];
         Item item2 = item;
 
-        if (item1 == null || item1.data == null)
+        if (item1 == null || item1.Data == null)
         {
-            data.items[index] = item;
+            items[index] = item;
         }
-        else if (item1.data.Equals(item2.data)
-            && item1.data.isStackable && item2.data.isStackable)
+        else if (item1.Data.Equals(item2.Data)
+            && item1.Data.isStackable && item2.Data.isStackable)
         {
             // Stack items.
             Item stackedItem = item1.Clone();
             stackedItem.quantity += item2.quantity;
-            data.items[index] = stackedItem;
+            items[index] = stackedItem;
         }
         else
         {
@@ -81,37 +85,33 @@ public class Inventory
 
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
-        data.InvokeOnDataChange();
         return 1;
     }
 
     public void RemoveItem(int index)
     {
-        data.items[index] = null;
+        items[index] = null;
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
-        data.InvokeOnDataChange();
     }
 
     public void SetItem(int index, Item item)
     {
-        data.items[index] = item;
+        items[index] = item;
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
-        data.InvokeOnDataChange();
     }
 
     public Item GetItem(int index)
     {
-        return data.items[index];
+        return items[index];
     }
 
     public void SwapItems(int index1, int index2)
     {
-        Item temp = data.items[index1];
-        data.items[index1] = data.items[index2];
-        data.items[index2] = temp;
-        data.InvokeOnDataChange();
+        Item temp = items[index1];
+        items[index1] = items[index2];
+        items[index2] = temp;
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
     }
@@ -127,22 +127,21 @@ public class Inventory
     /// <returns>1 if successful, -1 if failed</returns>
     public int StackItems(int index1, int index2)
     {
-        Item item1 = data.items[index1];
-        Item item2 = data.items[index2];
+        Item item1 = items[index1];
+        Item item2 = items[index2];
 
         // Check if items are stackable and have the same SO_Item data.
-        if (item2 != null && item2.data != null && 
-                       (( !item1.data.Equals(item2.data)
-                       || !item1.data.isStackable
-                       || !item2.data.isStackable) ))
+        if (item2 != null && item2.Data != null && 
+                       (( !item1.Data.Equals(item2.Data)
+                       || !item1.Data.isStackable
+                       || !item2.Data.isStackable) ))
         {
             //Debug.Log("Cannot stack items. " +
             //    "Items are not stackable or do not have the same SO_Item data.");
             return -1;
         }
 
-        AddItem(index2, data.items[index1]);
-        data.InvokeOnDataChange();
+        AddItem(index2, items[index1]);
         return 1;
     }
 
@@ -155,10 +154,10 @@ public class Inventory
     /// <returns>The second half of the items. Returns null if item is not splittable.</returns>
     public Item SplitIndex(int index)
     {
-        Item originalItem = data.items[index];
+        Item originalItem = items[index];
         int totalQuantity = originalItem.quantity;
         // To be splittable, the item must be stackable and have a quantity > 1.
-        if (totalQuantity <= 1 && originalItem.data.isStackable)
+        if (totalQuantity <= 1 && originalItem.Data.isStackable)
         {
             // Not splittable, return error!
             Debug.Log("Attempted to split item. Failed.");
@@ -172,7 +171,6 @@ public class Inventory
 
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
-        data.InvokeOnDataChange();
 
         Item secondHalf = originalItem.Clone();
         secondHalf.quantity = secondHalfQuantity;
@@ -187,9 +185,9 @@ public class Inventory
     /// <returns>index or -1</returns>
     public int LastIndexOf(Item item)
     {
-        for (int i = data.slots - 1; i >= 0; i--)
+        for (int i = slots - 1; i >= 0; i--)
         {
-            if (data.items[i] == item)
+            if (items[i] == item)
             {
                 return i;
             }
@@ -199,11 +197,11 @@ public class Inventory
 
     public int GetFirstEmptySlot()
     {
-        for (int i = 0; i < data.slots; i++)
+        for (int i = 0; i < slots; i++)
         {
 
             // TODO: check logic. (Do we need to add .data or just items[i] == null?)
-            if (data.items[i].data == null)
+            if (items[i].Data == null)
             {
                 return i;
             }
@@ -213,9 +211,9 @@ public class Inventory
 
     public bool IsEmpty()
     {
-        for(int i = 0;i < data.slots;i++)
+        for(int i = 0;i < slots;i++)
         {
-            if (data.items[i] != null && data.items[i].data != null)
+            if (items[i] != null && items[i].Data != null)
             {
                 return false;
             }
@@ -225,6 +223,47 @@ public class Inventory
 
     public int GetInventorySize()
     {
-        return data.slots;
+        return slots;
     }
+    public void ClearInventory()
+    {
+        items.Clear();
+        AdjustItemsToSlots();
+    }
+    private void AdjustItemsToSlots()
+    {
+        if (items.Count > slots)
+        {
+            items.RemoveRange(slots, items.Count - slots);
+        }
+        else if (items.Count < slots)
+        {
+            int difference = slots - items.Count;
+            for (int i = 0; i < difference; i++)
+            {
+                Item emptyItem = new Item();
+                items.Add(emptyItem);
+            }
+        }
+        OnInventoryDataModified?.Invoke();
+    }
+    #endregion
+
+    #region Data Persistence
+
+    public void Load(Inventory inventoryData) {
+
+        if (inventoryData == null) return;
+
+        for (int i = 0; i < slots; i++)
+        {
+            Item item = items[i];
+            var itemToLoad = inventoryData.GetItem(i);
+            item?.Load(itemToLoad);
+        }
+
+        Debug.Log("Invoking inventory modified event");
+        OnInventoryDataModified?.Invoke();
+    }
+    #endregion
 }

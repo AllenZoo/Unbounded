@@ -47,8 +47,12 @@ public class ItemAttackContainerComponent : IItemComponent
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(attackerData.GetHashCode());
+        unchecked
+        {
+            return attackerData != null ? attackerData.GetHashCode() : 0;
+        }
     }
+
 
     //public override string ToString()
     //{

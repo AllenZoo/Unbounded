@@ -111,7 +111,11 @@ public class Interactor : MonoBehaviour
         interactables.RemoveAll(obj => obj == null || !obj.gameObject.activeInHierarchy);
         SortListByPriority();
         activeInteractable = GetNextActiveInteractable();
-        activeInteractable.DisplayPrompt();
+
+        if (activeInteractable != null)
+        {
+            activeInteractable.DisplayPrompt();
+        }
     }
 
     private void Update()

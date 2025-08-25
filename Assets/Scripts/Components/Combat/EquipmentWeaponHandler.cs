@@ -18,8 +18,8 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [SerializeField] private AttackerComponent attackerComponent;
 
     private InventorySystem inventory;
-    private Item curWeapon;
-    private Item previousWeapon;
+    [SerializeField, ReadOnly] private Item curWeapon;
+    [SerializeField, ReadOnly] private Item previousWeapon;
 
     private void Awake()
     {
@@ -70,11 +70,11 @@ public class EquipmentWeaponHandler : MonoBehaviour
         Debug.Log("Updating Attacker (should only see this once)");
         UpdateAttacker(curWeapon);
 
-        if (previousWeapon?.ItemModifierMediator != null)
+        if (previousWeapon != null && !previousWeapon.IsEmpty() && previousWeapon.ItemModifierMediator != null)
         {
             previousWeapon.ItemModifierMediator.OnModifierChange -= UpdateAttacker;
         }
-        if (curWeapon?.ItemModifierMediator != null)
+        if (curWeapon != null && !curWeapon.IsEmpty() && curWeapon.ItemModifierMediator != null)
         {
             curWeapon.ItemModifierMediator.OnModifierChange += UpdateAttacker;
         }
@@ -96,7 +96,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
             return;
         }
 
-        Attacker attackerToSet = attackerItem?.ItemModifierMediator.GetAttackerAfterModification();
+        if (attackerItem.ItemModifierMediator == null)
+        {
+            Debug.Log($"ItemModiferMediator is null. Initializing.");
+            attackerItem.Init();
+        }
+       
+        Attacker attackerToSet = attackerItem?.ItemModifierMediator?.GetAttackerAfterModification();
         attackerComponent.SetAttacker(attackerToSet);
     }
 

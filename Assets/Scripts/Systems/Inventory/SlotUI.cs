@@ -66,7 +66,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     private void Rerender()
     {
         // Check if slot holds an item.
-        if (item == null || item.data == null)
+        if (item == null || item.Data == null)
         {
             // Slot is empty
             if (slotItemBackground != null)
@@ -91,11 +91,11 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         itemIconElement.SetActive(true);
         Image image = itemIconElement.GetComponent<Image>();
         Assert.IsNotNull(image, "item icon element needs image component to display item sprite on.");
-        image.sprite = item.data.itemSprite;
-        itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, item.data.spriteRot);
+        image.sprite = item.Data.itemSprite;
+        itemIconElement.transform.rotation =  Quaternion.Euler(0f, 0f, item.Data.spriteRot);
 
         // Check if item is stackable and if quantity is greater than 1.
-        if (item.data.isStackable && item.quantity > 1)
+        if (item.Data.isStackable && item.quantity > 1)
         {
             quantityText.text = "x" + item.quantity.ToString();
             quantityText.gameObject.SetActive(true);
@@ -124,7 +124,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Debug.Log("Got into pointer drag event!");
-        if (item == null || item.data == null)
+        if (item == null || item.Data == null)
         {
             return;
         }
@@ -159,7 +159,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isMouseOver && item != null && item.data != null)
+        if (!isMouseOver && item != null && item.Data != null)
         {
             isMouseOver = true;
             hoverCoroutine = StartCoroutine(DelayedItemDescriptor());
@@ -211,11 +211,11 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     }
     public Sprite GetItemSprite()
     {
-        return item.data.itemSprite;
+        return item.Data.itemSprite;
     }
     public float GetItemSpriteRot()
     {
-        return item.data.spriteRot;
+        return item.Data.spriteRot;
     }
     #endregion
 }
