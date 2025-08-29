@@ -9,7 +9,7 @@ public class ItemDescModel
 {
     public string Name;
     public string Description;
-    public float BaseAtk;
+    public float BaseAtk; // TODO-OPT: prob not necessary to display this, since player's probably care more about final ATK anyways.
     public float FinalAtk;
     public double PercentageDamageIncrease;
 
