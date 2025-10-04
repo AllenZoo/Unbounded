@@ -33,6 +33,8 @@ public class ItemDescModel
     /// </summary>
     public bool CanViewUpgrades;
 
+    public List<BonusStatEntry> BonusStats;
+
     /// <summary>
     /// Weapon traits. Eg piercing attacks, multi-attacks.
     /// </summary>
@@ -42,4 +44,10 @@ public class ItemDescModel
     {
 
     }
+}
+
+public struct BonusStatEntry
+{
+    public Stat stat;
+    public float value;
 }

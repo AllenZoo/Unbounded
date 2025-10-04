@@ -88,4 +88,36 @@ public class StatContainer
         return result;
     }
 
+    /// <summary>
+    /// Util function to get a diff in stats between two stat containers.
+    /// 
+    /// Returns "this - other"
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public StatContainer Diff(StatContainer other)
+    {
+        if (other == null)
+        {
+            throw new ArgumentNullException(nameof(other));
+        }
+
+        // Create a temporary "diff" SO_StatContainer (not saved to project).
+        var diffStats = ScriptableObject.CreateInstance<SO_StatContainer>();
+
+        // Fill with differences
+        diffStats.health = this.Health - other.Health;
+        diffStats.maxHealth = this.MaxHealth - other.MaxHealth;
+        diffStats.attack = this.Attack - other.Attack;
+        diffStats.defense = this.Defense - other.Defense;
+        diffStats.dexterity = this.Dexterity - other.Dexterity;
+        diffStats.speed = this.Speed - other.Speed;
+        diffStats.gold = this.Gold - other.Gold;
+
+        // Wrap it in a StatContainer and return
+        var diffContainer = new StatContainer(diffStats);
+        diffContainer.Init(); // fresh mediator
+        return diffContainer;
+    }
+
 }
