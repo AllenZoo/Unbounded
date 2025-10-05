@@ -178,9 +178,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
                 StopCoroutine(hoverCoroutine);
             }
 
-            // Call event to hide item descriptor UI
-            // TODO: move the closing logic somewhere else. (eg. close with inventory instead of exiting slot)
-            // EventBus<ItemDescReqEvent>.Call(new ItemDescReqEvent { display = false, item = null });
+            // Event to close descriptor UI is on the close button for the item descriptor box and also the inventory display box (manually linked to an event invoker)
         }
     }
 

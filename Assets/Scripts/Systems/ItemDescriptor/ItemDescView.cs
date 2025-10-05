@@ -12,6 +12,9 @@ public class ItemDescView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI BaseDamageText;
     private const string BASE_DAMAGE_FIELD_HEADER_TEXT = "Base Damage: ";
 
+    [SerializeField] private TextMeshProUGUI FinalDamageText;
+    private const string FINAL_DAMAGE_FIELD_HEADER_TEXT = "Final Damage: ";
+
     [SerializeField] private TextMeshProUGUI ProjectileSpeedText;
     private const string PROJECTILE_SPEED_HEADER_TEXT = "Projectile Speed: ";
 
@@ -42,6 +45,7 @@ public class ItemDescView : MonoBehaviour
 
         // --- Core Stats ---
         BaseDamageText.text = $"{BASE_DAMAGE_FIELD_HEADER_TEXT}{model.BaseAtk}";
+        FinalDamageText.text = $"{FINAL_DAMAGE_FIELD_HEADER_TEXT}{model.FinalAtk}";
         ProjectileSpeedText.text = $"{PROJECTILE_SPEED_HEADER_TEXT}{model.ProjectileSpeed}";
         ProjectileRangeText.text = $"{PROJECTILE_RANGE_HEADER_TEXT}{model.ProjectileRange}";
         NumProjectilesText.text = $"{NUM_PROJECTILE_HEADER_TEXT}{model.NumProjectilesPerAttack}";
