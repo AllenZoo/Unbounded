@@ -97,6 +97,12 @@ public class InventoryUI : MonoBehaviour
         Rerender();
     }
 
+    private void OnDisable()
+    {
+        // Call event to hide item descriptor UI
+        EventBus<ItemDescReqEvent>.Call(new ItemDescReqEvent { display = false, item = null });
+    }
+
     private void OnDestroy()
     {
         EventBus<OnInventoryModifiedEvent>.Unregister(inventoryChangeBinding);

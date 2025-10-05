@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class ItemDescController : MonoBehaviour
 {
+    [SerializeField] private bool HideUIOnStart = true;
     [SerializeField] private ItemDescView view;
+    
 
     private ItemDescModel model;
 
@@ -18,6 +20,11 @@ public class ItemDescController : MonoBehaviour
     {
         EventBinding<ItemDescReqEvent> itemDescReqBinding = new EventBinding<ItemDescReqEvent>(OnItemDescReqEvent);
         EventBus<ItemDescReqEvent>.Register(itemDescReqBinding);
+
+        if (HideUIOnStart)
+        {
+            Hide();
+        }
     }
 
     public void OnItemDescReqEvent(ItemDescReqEvent itemDescReqEvent)

@@ -95,6 +95,11 @@ MonoBehaviour:
       components:
       - rid: 2134259224491327501
       - rid: 680086521627541505
+    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+      quantity: 1
+      components:
+      - rid: 680086521627541506
+      - rid: 680086521627541507
     slots: 3
   inventoryGuid: 2b61bf96-a7a8-4081-9aad-89a928da7587
   slotRules:
@@ -108,6 +113,15 @@ MonoBehaviour:
       data:
         <BaseStats>k__BackingField: {fileID: 11400000, guid: f36979738565b8d4ba1c259de4a43496, type: 2}
         BaseStatGUID: 
+    - rid: 680086521627541506
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+        BaseStatGUID: 
+    - rid: 680086521627541507
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgradeCardsGUID: []
     - rid: 2134259224491327501
       type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
       data:

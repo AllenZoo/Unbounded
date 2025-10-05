@@ -35,7 +35,7 @@ public class EventInvoker : SerializedMonoBehaviour
         InvokeEvent();
     }
 
-    private void InvokeEvent()
+    public void InvokeEvent()
     {
         var eventType = globalEvent.GetType();
         Type busType = typeof(EventBus<>).MakeGenericType(eventType);

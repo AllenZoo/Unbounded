@@ -207,13 +207,11 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         dynamicAttacker.AttackerData.numAttacks += modifier.NumAtksToAdd;
     }
 
-    // TODO:
     public virtual void Visit(RangeModifier modifier)
     {
         dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
     }
 
-    // TODO:
     public virtual void Visit(ProjectileSpeedModifier modifier)
     {
         dynamicAttacker.AttackData.initialSpeed += modifier.ProjectileSpeedToAdd;
