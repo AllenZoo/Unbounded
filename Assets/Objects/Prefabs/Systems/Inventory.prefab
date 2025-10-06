@@ -90,11 +90,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory:
     items:
-    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+    - data: {fileID: 11400000, guid: e6bd3452e058b854493d1094b1efa511, type: 2}
       quantity: 1
       components:
       - rid: 2134259224491327501
-    slots: 9
+      - rid: 680086521627541505
+    - data: {fileID: 11400000, guid: af9ebc1fdf1fbb44e9120b0852ed3038, type: 2}
+      quantity: 1
+      components:
+      - rid: 680086521627541506
+      - rid: 680086521627541507
+    slots: 3
   inventoryGuid: 2b61bf96-a7a8-4081-9aad-89a928da7587
   slotRules:
     _serializedList: []
@@ -102,10 +108,24 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 680086521627541505
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: f36979738565b8d4ba1c259de4a43496, type: 2}
+        BaseStatGUID: 
+    - rid: 680086521627541506
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 9978149e963d0f14ab366767cef2dc92, type: 2}
+        BaseStatGUID: 
+    - rid: 680086521627541507
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgradeCardsGUID: []
     - rid: 2134259224491327501
       type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
       data:
-        cards: []
+        upgradeCardsGUID: []
 --- !u!223 &5858127598595799942
 Canvas:
   m_ObjectHideFlags: 0
@@ -113,7 +133,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6390549700487428147}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -220,7 +240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.22976685, y: -17.220993}
+  m_AnchoredPosition: {x: -0, y: -102}
   m_SizeDelta: {x: 271, y: 266.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6390549700634469839
@@ -282,7 +302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.22982788, y: 138.9256}
+  m_AnchoredPosition: {x: -1, y: 51}
   m_SizeDelta: {x: 271, y: 45.3427}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6390549701085451301

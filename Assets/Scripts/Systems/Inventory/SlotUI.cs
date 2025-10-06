@@ -159,10 +159,12 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isMouseOver && item != null && item.Data != null)
+        if (!isMouseOver && item != null && item.Data != null && !item.IsEmpty())
         {
             isMouseOver = true;
-            hoverCoroutine = StartCoroutine(DelayedItemDescriptor());
+
+            // Call event to display item on item descriptor UI
+            EventBus<ItemDescReqEvent>.Call(new ItemDescReqEvent { display = true, item = item });
         }
     }
 
@@ -175,8 +177,8 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
             {
                 StopCoroutine(hoverCoroutine);
             }
-            // Hide the item descriptor here (e.g., set it inactive)
-            inventoryUI.SetItemDescriptor(null, false);
+
+            // Event to close descriptor UI is on the close button for the item descriptor box and also the inventory display box (manually linked to an event invoker)
         }
     }
 
@@ -186,14 +188,6 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
         isDroppable = isInteractive;
         Rerender();
     }
-
-    private IEnumerator DelayedItemDescriptor()
-    {
-        yield return new WaitForSeconds(hoverDelay);
-        // Show the item descriptor here (e.g., set it active)
-        inventoryUI.SetItemDescriptor(item, true);
-    }
-
 
     #region Setters and Getters
     public void SetSlotIndex(int index)

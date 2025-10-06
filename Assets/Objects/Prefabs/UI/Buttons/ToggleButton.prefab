@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 338740951817737297}
   - component: {fileID: 951047308606559454}
   - component: {fileID: 9118998770384255854}
+  - component: {fileID: 7709828729833094534}
   m_Layer: 5
   m_Name: ToggleButton
   m_TagString: Untagged
@@ -200,3 +201,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiElementsToToggle: []
+--- !u!114 &7709828729833094534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3253006287991749401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeda5c1eae682f548af8eb3e56385ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: globalEvent
+      Entry: 7
+      Data: 0|ItemDescReqEvent, Assembly-CSharp
+    - Name: item
+      Entry: 6
+      Data: 
+    - Name: display
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+  invokeOnLoad: 0
+  invokeDelay: 0
