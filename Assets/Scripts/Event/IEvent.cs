@@ -74,10 +74,12 @@ public struct OnPauseChangeRequest: IGlobalEvent {
 public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
     public UpgradeCardData cardData;
+    public UpgradeCardPack src;
 }
 public struct OnDisplayUpgradeCardsRequest: IGlobalEvent
 {
     public HashSet<UpgradeCardData> upgradeCards;
+    public UpgradeCardPack src;
 }
 
 public struct OnStarterWeaponCardApplyEffect : IGlobalEvent

@@ -12,13 +12,15 @@ using UnityEngine.UI;
 [RequireComponent(typeof(MenuEventSystemHandler))]
 public class UpgradeCardViewSystem : CardViewSystemBase<UpgradeCardData, OnDisplayUpgradeCardsRequest, OnUpgradeCardApplyEffect, UpgradeCardView>
 {
+    private UpgradeCardPack src;
     protected override OnUpgradeCardApplyEffect CreateApplyEvent(UpgradeCardData cardData)
     {
-        return new OnUpgradeCardApplyEffect { cardData = cardData };
+        return new OnUpgradeCardApplyEffect { cardData = cardData, src = src };
     }
 
     protected override IEnumerable<UpgradeCardData> GetCardListFromEvent(OnDisplayUpgradeCardsRequest e)
     {
+        src = e.src;
         return e.upgradeCards;
     }
 }
