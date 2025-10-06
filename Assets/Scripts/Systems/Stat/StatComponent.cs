@@ -110,8 +110,9 @@ public class StatComponent : MonoBehaviour
     /// <param name="e"></param>
     private void HandleDamage(OnDamagedEvent e)
     {
-        StatModifier damageModifier = new StatModifier(Stat.HP, new AddOperation(-e.damage), -1);
-        statContainer.StatMediator.AddModifier(damageModifier);
+        statContainer.Health -= e.damage;
+        // Invoke Stat Change event
+        HandleStatChange();
     }
 
     /// <summary>

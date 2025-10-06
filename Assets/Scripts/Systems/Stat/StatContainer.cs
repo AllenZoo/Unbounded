@@ -20,6 +20,7 @@ public class StatContainer
 
         this.baseStats = baseStats;
         this.StatMediator = new StatMediator();
+        health = baseStats.health;
     }
 
     public void Init()
@@ -29,10 +30,14 @@ public class StatContainer
             throw new ArgumentNullException(nameof(baseStats));
         }
         this.StatMediator = new StatMediator();
+        health = baseStats.health;
     }
 
+    // Note: Health is special since it's so frequently modified, we just decided to store it without the modifier chain.
+    private float health;
+
     #region Stats
-    public float Health => GetModifiedStat(Stat.HP, baseStats.health);
+    public float Health { get { return health; } set { health = value; } }
     public float MaxHealth => GetModifiedStat(Stat.MAX_HP, baseStats.maxHealth);
     public float Attack => GetModifiedStat(Stat.ATK, baseStats.attack);
     public float Defense => GetModifiedStat(Stat.DEF, baseStats.defense);
