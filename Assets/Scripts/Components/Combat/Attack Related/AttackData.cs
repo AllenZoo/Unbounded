@@ -23,6 +23,9 @@ public class AttackData:ScriptableObject
     //[Tooltip("Base duration in seconds until attack disappears")]
     //public float duration = 0.5f;
 
+    [Tooltip("Sound to play whenever attack is made")]
+    public AudioClip attackSound;
+
     [Tooltip("Base distance the attack can travel. Used to calculate duration (duration = distance/speed)")]
     public float distance = 5f;
 

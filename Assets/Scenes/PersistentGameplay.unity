@@ -498,12 +498,64 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 8300000, guid: 957885bee5a00304eae523ea16ff7a0d, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: audioClips
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[SoundType, Assembly-CSharp],[System.Collections.Generic.List`1[[UnityEngine.AudioClip,
+        UnityEngine.AudioModule]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[SoundType, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[UnityEngine.AudioClip, UnityEngine.AudioModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!82 &596964503
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5348,6 +5400,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fcd0183c34c46a84898cf2050976c0ba, type: 2}
+    - target: {fileID: 2611898876193215710, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: damagedSoundEffect
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3185927748019698975, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: serializationData.Prefab
       value: 

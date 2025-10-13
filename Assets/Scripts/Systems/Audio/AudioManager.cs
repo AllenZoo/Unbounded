@@ -8,7 +8,8 @@ using UnityEngine;
 [RequiredComponents(typeof(AudioSource))]
 public class AudioManager : Singleton<AudioManager>
 {
-    [SerializeField] private AudioClip[] audioClips;
+    //[SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private Dictionary<SoundType, List<AudioClip>> audioClips;
     private AudioSource audioSource;
 
     protected override void Awake()
@@ -19,13 +20,30 @@ public class AudioManager : Singleton<AudioManager>
 
     public static void PlaySound(SoundType sound, float volume)
     {
+        if (!Instance.audioClips.ContainsKey(sound)) return;
 
+        var audioClips = Instance.audioClips[sound];
+
+        if (audioClips == null) return;
+
+        foreach (var clip in audioClips)
+        {
+            Instance.audioSource.PlayOneShot(clip, volume);
+        }
+    }
+
+    public static void PlaySound(AudioClip clip, float volume)
+    {
+        if (clip == null) return;
+
+        Instance.audioSource.PlayOneShot(clip, volume);
     }
 
 }
 
 public enum SoundType
 {
+    None,
     Hit,
     Damaged,
 }

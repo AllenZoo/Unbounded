@@ -20,6 +20,9 @@ public class AnimatorController : MonoBehaviour
     // For making the sprite flash white. 
     [SerializeField] private Material damageMaterial;
     [SerializeField] private Material defaultMaterial;
+
+    // For whether entity should make damaged sound effect. (Set enum to 'None' if nothing)
+    [SerializeField] private SoundType damagedSoundEffect = SoundType.None;
     private bool runningDamageEffect = false;
 
     #region Animator Parameters
@@ -210,6 +213,7 @@ public class AnimatorController : MonoBehaviour
         runningDamageEffect = true;
         Handle_Effects(curState);
 
+        AudioManager.PlaySound(damagedSoundEffect, 1);
         sprite.material = damageMaterial;
         yield return new WaitForSeconds(0.2f);
         sprite.material = defaultMaterial;
