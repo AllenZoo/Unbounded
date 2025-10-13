@@ -107,7 +107,7 @@ public class AttackSpawner
         newAttack.Attack.SetAtkData(attackerAttackData);
 
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attackerAttackData.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.initialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;

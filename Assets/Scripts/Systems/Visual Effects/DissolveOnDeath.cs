@@ -13,6 +13,7 @@ public class DissolveOnDeath : MonoBehaviour
     [SerializeField, Required] private ShaderBank shaderBank;
     [SerializeField, Required] private LocalEventHandler leh;
     [SerializeField, Required] private SpriteRenderer sr;
+    [SerializeField] private SoundType onDeathSfx = SoundType.None;
 
     [Header("Properties")]
     [Tooltip("Time to delay the dissolve animation for.")]
@@ -51,6 +52,7 @@ public class DissolveOnDeath : MonoBehaviour
     {
         // Set the sprite material to dissolve.
         Material dissolve = new Material(shaderBank.DissolveMaterial);
+        AudioManager.PlaySound(onDeathSfx, 1);
         StartCoroutine(StartDissolving(dissolve));
     }
 

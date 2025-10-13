@@ -46,4 +46,6 @@ public enum SoundType
     None,
     Hit,
     Damaged,
+    Enemy_Damaged,
+    Death,
 }
