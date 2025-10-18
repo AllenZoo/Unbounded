@@ -58,10 +58,10 @@ public class Knockbackable : MonoBehaviour
     {
         // Debug.Log("Knockback start!");
         localEventHandler.Call(new OnKnockBackBeginEvent { knockbackDir = direction, knockbackForce = force });
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
         yield return new WaitForSeconds(duration);
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         // Debug.Log("Knockback ended!");
         localEventHandler.Call(new OnKnockBackEndEvent());
     }

@@ -33,6 +33,9 @@ public class Attacker
             return;
         }
 
+        // Play sfx here
+        AudioManager.PlaySound(attackData.attackSound, 1);
+
         //Debug.Log($"Attacking with num atks value of [{attackerData.numAttacks}]");
         for (int i = 0; i < attackerData.numAttacks; i++)
         {

@@ -145,7 +145,7 @@ public class PageUI : MonoBehaviour, IUIPage
         };
         filter.SetLayerMask(LayerMask.GetMask("UI"));
 
-        uiCollider.OverlapCollider(filter, collisions);
+        uiCollider.Overlap(filter, collisions);
 
         isBlocked = false;
 

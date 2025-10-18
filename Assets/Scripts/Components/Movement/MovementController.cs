@@ -82,7 +82,7 @@ public class MovementController : MonoBehaviour
     // Resets the rb velocity to zero.
     public void ResetMovementVelocity()
     {
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
     }
 
     // Calculates velocity and moves gameobject appropriately
@@ -97,6 +97,6 @@ public class MovementController : MonoBehaviour
         Vector2 velocity = processed_dir * stat.StatContainer.Speed * Time.fixedDeltaTime * scale;
 
         // 2. Apply translation
-        rb.velocity = velocity;
+        rb.linearVelocity = velocity;
     }    
 }
