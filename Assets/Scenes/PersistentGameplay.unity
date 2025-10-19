@@ -745,6 +745,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6986ae1d2084546a54982d4570778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &727115777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 727115779}
+  - component: {fileID: 727115778}
+  m_Layer: 0
+  m_Name: Loader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &727115778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727115777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c9570f073d31645b7660a0dc2ddde7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  cameraMain: {fileID: 1371126967}
+  loadingCanvasPfb: {fileID: 586095026266063046, guid: dfe5eff5469dc9045afcea6dbe62b588, type: 3}
+  bar: {fileID: 0}
+--- !u!4 &727115779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727115777}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &782292167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1283,11 @@ GameObject:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1018248561889792269, guid: 2476a66babcc32249aa4d7fb101fa367, type: 3}
   m_PrefabInstance: {fileID: 1018248562703638795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1371126967 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7702156466669170463, guid: 197ca5b2d17813642985ca95654e8fd0, type: 3}
+  m_PrefabInstance: {fileID: 1430833341}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1430833341
 PrefabInstance:
@@ -6449,3 +6501,4 @@ SceneRoots:
   - {fileID: 2105112786}
   - {fileID: 603393402}
   - {fileID: 1357486697}
+  - {fileID: 727115779}

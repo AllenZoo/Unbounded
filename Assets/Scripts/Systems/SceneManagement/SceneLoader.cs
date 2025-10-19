@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
+/// <summary>
+/// Used in BootStrap scene to manage scene loading.
+/// </summary>
 public class SceneLoader : MonoBehaviour
 {
     [Tooltip("Temporary Camera to capture the loading screen if other cameras don't exist.")]
@@ -16,6 +19,13 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private GameObject loadingCanvasPfb;
     [Tooltip("The image of the loading bar in the loading canvas pfb")]
     [SerializeField] private Image bar;
+
+    /// <summary>
+    /// Reference to disabled cameras so that our main camera is the one rendering the loading screen.
+    /// Useful for re-enabling after loading is done.
+    /// </summary>
+    private List<Camera> disabledCameras = new List<Camera>();
+
 
     private void Awake()
     {
@@ -150,20 +160,66 @@ public class SceneLoader : MonoBehaviour
         return filteredScenes;
     }
 
+    //public void ShowLoadingScreen()
+    //{
+    //    if (loadingCanvasPfb != null)
+    //    {
+    //        cameraMain.SetActive(true);
+    //        loadingCanvasPfb.SetActive(true);
+    //        bar.fillAmount = 0;
+    //    }
+    //}
+
     public void ShowLoadingScreen()
     {
         if (loadingCanvasPfb != null)
         {
-            cameraMain.SetActive(true);
             loadingCanvasPfb.SetActive(true);
             bar.fillAmount = 0;
+
+            // ensure it's rendered
+            var canvas = loadingCanvasPfb.GetComponentInChildren<Canvas>();
+            if (canvas != null)
+            {
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            }
+
+            // disable other cams
+            foreach (var cam in Camera.allCameras)
+            {
+                if (cam.enabled)
+                {
+                    cam.enabled = false;
+                    disabledCameras.Add(cam);
+                }
+            }
+                
+            // activate main camera
+            cameraMain.SetActive(true);
+            var camComp = cameraMain.GetComponent<Camera>();
+            if (camComp != null)
+            {
+                camComp.enabled = true;
+                camComp.depth = 1000; // ensure on top
+            }
         }
     }
+
     public void HideLoadingScreen()
     {
         if (loadingCanvasPfb != null) { 
             loadingCanvasPfb.SetActive(false); 
             cameraMain.SetActive(false); 
         }
+
+        // Re-enable previously disabled cameras
+        foreach (var cam in disabledCameras)
+        {
+            if (cam != null)
+            {
+                cam.enabled = true;
+            }
+        }
+        disabledCameras.Clear();
     }
 }
