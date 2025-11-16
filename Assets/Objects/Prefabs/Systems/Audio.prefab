@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7457027101940637247}
   - component: {fileID: 4048310980382505947}
+  - component: {fileID: 9186472906001337476}
   m_Layer: 5
   m_Name: row (1)
   m_TagString: Untagged
@@ -65,6 +66,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &9186472906001337476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921817093887126191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0480c832895f3b54fb728240b951a2b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SerializableObjectFloatTextDisplay
+  text: {fileID: 4171194774363860571}
+  val: {fileID: 11400000, guid: 612b559d5b4a3aa42bbd56cbc704a871, type: 2}
 --- !u!1 &1189576147578910054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1863,7 +1878,7 @@ GameObject:
   - component: {fileID: 6070579301235093892}
   - component: {fileID: 4171194774363860571}
   m_Layer: 5
-  m_Name: text
+  m_Name: se_val_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2133,6 +2148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5873467123776064495}
   - component: {fileID: 6468496269964006302}
+  - component: {fileID: 8872249202638340293}
   m_Layer: 5
   m_Name: row
   m_TagString: Untagged
@@ -2188,6 +2204,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8872249202638340293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6837475775044690933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0480c832895f3b54fb728240b951a2b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SerializableObjectFloatTextDisplay
+  text: {fileID: 5364088835821823313}
+  val: {fileID: 11400000, guid: b2a7f9e22cf98f9428648cee9b1b7033, type: 2}
 --- !u!1 &7076958270604401874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,7 +2230,7 @@ GameObject:
   - component: {fileID: 8023436096460969377}
   - component: {fileID: 5364088835821823313}
   m_Layer: 5
-  m_Name: text
+  m_Name: bg_val_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

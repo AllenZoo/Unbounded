@@ -1,27 +1,27 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Serializable Object Variables/Boolean")]
-public class SerializableObjectBoolean : ScriptableObject
+[CreateAssetMenu(fileName = "New Float Variable", menuName = "System/Scriptable Object Variables/Float")]
+public class ScriptableObjectFloat : ScriptableObject
 {
-    [SerializeField] private bool value;
+    [SerializeField] private float value;
 
     [Tooltip("Reset to default OnDisable")]
     [SerializeField] private bool resetToDefault = true;
 
     [Tooltip("The default value to reset to when needed.")]
-    [SerializeField] private bool defaultValue;
+    [SerializeField] private float defaultValue;
 
-    public bool Value => value;
+    public float Value => value;
 
-    public event Action OnValueChanged;
+    public event Action<float> OnValueChanged;
 
-    public void Set(bool newValue)
+    public void Set(float newValue)
     {
         if (value == newValue) return;
 
         value = newValue;
-        OnValueChanged?.Invoke();
+        OnValueChanged?.Invoke(this.value);
     }
 
     /// <summary>
@@ -48,5 +48,4 @@ public class SerializableObjectBoolean : ScriptableObject
         ResetValue();
 #endif
     }
-
 }

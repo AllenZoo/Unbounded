@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,29 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private Dictionary<SoundType, List<AudioClip>> audioClips;
     private AudioSource audioSource;
 
+    [Required, SerializeField] private ScriptableObjectFloat backgroundMusicVolume;
+    [Required, SerializeField] private ScriptableObjectFloat soundEffectsVolume;
+
+    [Required, SerializeField] private AudioSource backgroundMusicAudioSource;
+    [Required, SerializeField] private AudioSource soundEffectsAudioSource;
+
     protected override void Awake()
     {
         base.Awake();
         audioSource = GetComponent<AudioSource>();
     }
+
+    protected void Start()
+    {
+        if (backgroundMusicVolume == null ||  backgroundMusicAudioSource == null || backgroundMusicAudioSource == null || soundEffectsAudioSource == null)
+        {
+            Debug.LogError("Some fields were not initialized/dragged in properly!");
+            return;
+        }
+
+        backgroundMusicVolume.OnValueChanged += (float volume) => backgroundMusicAudioSource.volume = volume/100;
+        soundEffectsVolume.OnValueChanged += (float volume) => soundEffectsAudioSource.volume = volume/100;
+    } 
 
     public static void PlaySound(SoundType sound, float volume)
     {

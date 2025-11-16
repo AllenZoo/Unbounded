@@ -55,7 +55,7 @@ public class ConditionEventBinding
 
     [Tooltip("Condition to set when the event fires.")]
     [InlineEditor, HideLabel]
-    public SerializableObjectBoolean condition;
+    public ScriptableObjectBoolean condition;
 
     [Tooltip("Value to apply to the condition.")]
     public bool newValue;

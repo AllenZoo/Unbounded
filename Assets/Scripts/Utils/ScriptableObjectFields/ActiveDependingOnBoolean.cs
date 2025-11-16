@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 public class ActiveDependingOnBoolean : MonoBehaviour
 {
-    [SerializeField, Required] private SerializableObjectBoolean boolean;
+    [SerializeField, Required] private ScriptableObjectBoolean boolean;
     [SerializeField, Required] private GameObject objectToSet;
 
     private void Awake()
