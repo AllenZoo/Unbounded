@@ -99,8 +99,8 @@ public class StatComponent : MonoBehaviour
 
         if (Debug.isDebugBuild)
         {
-            Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
-            Debug.Log($"Player DEX Stat after handling weapon equipped is [{statContainer.Dexterity}]");
+            //Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
+            //Debug.Log($"Player DEX Stat after handling weapon equipped is [{statContainer.Dexterity}]");
         }
     }
     
