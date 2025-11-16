@@ -86,17 +86,15 @@ public class StatComponent : MonoBehaviour
         {
             unequipped.ItemModifierMediator.OnModifierChange -= HandleEquippedWeaponItemChange;
 
-            StatContainer.StatMediator.RemoveModifiersFromSource(unequipped);
-
-            //Optional<StatContainer> unequippedStatContainer = unequipped.ItemModifierMediator.GetStatsAfterModification();
-            //if (unequippedStatContainer.HasValue)
-            //{
-            //    StatContainer.StatMediator.RemoveModifiersFromSource(unequipped);
-            //}
-            //else
-            //{
-            //    Debug.LogError("Unequipped item doesn't have base stat/proper stat container handling!");
-            //}
+            Optional<StatContainer> unequippedStatContainer = unequipped.ItemModifierMediator.GetStatsAfterModification();
+            if (unequippedStatContainer.HasValue)
+            {
+                StatContainer.StatMediator.RemoveModifiersFromSource(unequipped);
+            }
+            else
+            {
+                Debug.LogError("Unequipped item doesn't have base stat/proper stat container handling!");
+            }
         }
 
         if (Debug.isDebugBuild)

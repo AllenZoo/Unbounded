@@ -81,7 +81,6 @@ public class Item
     // Should be run once per unique Item object. 
     public void Init()
     {
-        // TODO: check adding this guard doesn't mess with data persistance
         if (isInitialized) return;
 
         if (IsEmpty()) return;
