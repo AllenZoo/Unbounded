@@ -626,8 +626,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneTeleporter, Assembly-CSharp
-        m_MethodName: TeleportToScene
+        m_TargetAssemblyTypeName: PageUI, Assembly-CSharp
+        m_MethodName: MoveToTop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6146312952296456462}
+        m_TargetAssemblyTypeName: PageUI, Assembly-CSharp
+        m_MethodName: ClosePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1197,6 +1209,8 @@ GameObject:
   m_Component:
   - component: {fileID: 882203201411883818}
   - component: {fileID: 2713871112513822956}
+  - component: {fileID: 1826689030243577380}
+  - component: {fileID: 8484505978518145957}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -1271,12 +1285,52 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7964385201421116814}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1826689030243577380}
+        m_TargetAssemblyTypeName: ScriptableObjectFloatSetter, Assembly-CSharp
+        m_MethodName: SetSOFloat
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1826689030243577380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4898267057555004512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce512859c88d8eb4eac3e494a2837d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjectFloatSetter
+  obj: {fileID: 11400000, guid: 612b559d5b4a3aa42bbd56cbc704a871, type: 2}
+  multiplier: 1
+--- !u!114 &8484505978518145957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4898267057555004512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d64c0ad77afa4a4689629d8a2b4c2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjectFloatSliderInitDisplay
+  slider: {fileID: 2713871112513822956}
+  floatObj: {fileID: 11400000, guid: 612b559d5b4a3aa42bbd56cbc704a871, type: 2}
 --- !u!1 &4938350983860576902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,7 +1766,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5306503385409325443}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -2436,6 +2490,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7698163404442234824}
   - component: {fileID: 5319120122148380262}
+  - component: {fileID: 7673409522633007504}
+  - component: {fileID: 3692251424056388260}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -2510,12 +2566,52 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3596649779495036943}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7673409522633007504}
+        m_TargetAssemblyTypeName: ScriptableObjectFloatSetter, Assembly-CSharp
+        m_MethodName: SetSOFloat
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7673409522633007504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7649783029331590946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce512859c88d8eb4eac3e494a2837d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjectFloatSetter
+  obj: {fileID: 11400000, guid: b2a7f9e22cf98f9428648cee9b1b7033, type: 2}
+  multiplier: 1
+--- !u!114 &3692251424056388260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7649783029331590946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d64c0ad77afa4a4689629d8a2b4c2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjectFloatSliderInitDisplay
+  slider: {fileID: 5319120122148380262}
+  floatObj: {fileID: 11400000, guid: b2a7f9e22cf98f9428648cee9b1b7033, type: 2}
 --- !u!1 &7792692911989822591
 GameObject:
   m_ObjectHideFlags: 0
