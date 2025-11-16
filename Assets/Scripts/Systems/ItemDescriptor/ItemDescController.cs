@@ -31,8 +31,10 @@ public class ItemDescController : MonoBehaviour
     {
         if (itemDescReqEvent.display)
         {
+            // TODO: fix the issue in this function that causes the bug.
             ItemDescModel model = ItemDataConverter.ConvertFromItem(itemDescReqEvent.item);
             Show(model);
+            Debug.Log("Displaying model!");
         } else
         {
             Hide();

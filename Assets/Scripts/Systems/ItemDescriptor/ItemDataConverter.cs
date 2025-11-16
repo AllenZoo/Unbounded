@@ -14,9 +14,10 @@ public class ItemDataConverter
         item.Init();
         var mediator = item.ItemModifierMediator;
 
-        StatContainer baseStatContainer = mediator.GetStatsBeforeModification().Value;
-        StatContainer finalStatContainer = mediator.GetStatsAfterModification().Value;
-        Attacker finalAttacker = mediator.GetAttackerAfterModification();
+        // These functions cause the stat increase + attacker not attacking problem.
+        StatContainer baseStatContainer = mediator.QueryStatsBeforeModification().Value;
+        StatContainer finalStatContainer = mediator.QueryStatsAfterModification().Value;
+        Attacker finalAttacker = mediator.QueryAttackerAfterModification();
 
 
         model.Name = item.Data.itemName;

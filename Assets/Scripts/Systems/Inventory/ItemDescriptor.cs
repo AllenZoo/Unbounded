@@ -8,6 +8,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+///
+/// DEPRECATED AS OF 10/18/2025
+///
+
 /// <summary>
 /// Attach to UI that should display relevant info of ItemDescriptorContext.
 /// </summary>
@@ -125,7 +129,7 @@ public class ItemDescriptor : MonoBehaviour
             // bs = Base Stats Container
             ItemModifierMediator imm = item.ItemModifierMediator;
 
-            var sco = imm.GetStatsBeforeModification();
+            var sco = imm.QueryStatsBeforeModification();
             if (!sco.HasValue) return;
 
             StatContainer bs = sco.Value;

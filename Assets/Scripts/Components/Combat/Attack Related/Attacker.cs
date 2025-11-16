@@ -12,8 +12,8 @@ using UnityEngine.Assertions;
 [Serializable]
 public class Attacker
 {
-    public AttackerData AttackerData { get { return attackerData; } private set { } }
-    public AttackData AttackData { get { return attackData; } private set { } }
+    public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
+    public AttackData AttackData { get { return attackData; } set { attackData = value; } }
 
     [SerializeField] private AttackerData attackerData;
     [SerializeField] private AttackData attackData;

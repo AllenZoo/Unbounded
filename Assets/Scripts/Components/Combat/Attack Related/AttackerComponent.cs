@@ -114,7 +114,7 @@ public class AttackerComponent : MonoBehaviour
     {
         if (weapon != null)
         {
-            PercentageDamageIncrease = weapon.ItemModifierMediator.GetPercentageDamageIncreaseTotal();
+            PercentageDamageIncrease = weapon.ItemModifierMediator.QueryPercentageDamageIncreaseTotal();
         }
     }
 

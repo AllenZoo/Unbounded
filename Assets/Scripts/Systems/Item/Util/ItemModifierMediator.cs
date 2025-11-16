@@ -22,7 +22,9 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
     private CacheMediator<StatContainer, IUpgradeModifier> statCache;
 
-
+    /// <summary>
+    /// Each ItemModifierMediator should have a 1 to 1 relation with an Item.
+    /// </summary>
     private Item item;
     private ItemBaseStatComponent baseStatComponent;
     private ItemUpgradeComponent upgradeComponent;
@@ -35,10 +37,16 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     // Accumulator for damage modifiers.
     private double percentageDamageIncrease = 0;
 
+    private Action onUpgradeModifierChangeHandler;
+
     public ItemModifierMediator(Item item)
     {
         this.item = item;
-
+        this.Init(item);
+    }
+    private void Init(Item item)
+    {
+        if (item == null) { return; }
 
         baseStatComponent = item.GetComponent<ItemBaseStatComponent>();
         if (baseStatComponent != null)
@@ -49,21 +57,26 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         upgradeComponent = item.GetComponent<ItemUpgradeComponent>();
         if (upgradeComponent != null)
         {
-            upgradeComponent.OnUpgradeModifierChange += () => OnModifierChange?.Invoke(item);
+            onUpgradeModifierChangeHandler = () => OnModifierChange?.Invoke(item);
+            upgradeComponent.OnUpgradeModifierChange += onUpgradeModifierChangeHandler;
         }
 
         baseAttacker = item.IsEmpty() ? null : item?.Data?.attacker;
-
     }
 
     #region Mediator Query Functions
-    public double GetPercentageDamageIncreaseTotal()
+    /**
+     * Note: There was a bug previously were we called query objects, and clearing previously created objects that certain
+     * systems depended on. (e.g. clearing scriptable object of an attacker that was still being used). Thus these functions should be used carefully.
+     * 
+     */
+    public double QueryPercentageDamageIncreaseTotal()
     {
         ClearModifiers(ModifierType.Damage);
         ApplyModifiers(upgradeComponent, ModifierType.Damage);
         return percentageDamageIncrease;
     }
-    public Optional<StatContainer> GetStatsBeforeModification()
+    public Optional<StatContainer> QueryStatsBeforeModification()
     {
         if (baseStatComponent != null)
         {
@@ -73,7 +86,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
             return new Optional<StatContainer>(null);
         }
     }
-    public Optional<StatContainer> GetStatsAfterModification()
+    public Optional<StatContainer> QueryStatsAfterModification()
     {
         if (baseStatComponent == null)
         {
@@ -86,7 +99,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
         return new Optional<StatContainer>(statContainer);
     }
-    public Attacker GetAttackerAfterModification()
+    public Attacker QueryAttackerAfterModification()
     {
         ClearModifiers(ModifierType.Trait);
         ApplyModifiers(upgradeComponent, ModifierType.Trait);
@@ -161,60 +174,166 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         switch (modType)
         {
             case ModifierType.Stat:
-                statContainer?.StatMediator.ClearModifiers();
+                // Recreate the stat container from base stats so we never accumulate on an already-modified container
+                if (baseStatComponent != null)
+                {
+                    statContainer = new StatContainer(baseStatComponent.BaseStats);
+                }
+                else
+                {
+                    statContainer?.StatMediator.ClearModifiers();
+                }
                 break;
+
             case ModifierType.Damage:
                 percentageDamageIncrease = 0;
                 break;
+
             case ModifierType.Trait:
-                if (baseAttacker != null) { 
-                    // Clean up previously allocated attacker SOs
-                    if (dynamicAttacker != null) { 
-                        if (dynamicAttacker.AttackData != null)
-                            UnityEngine.Object.Destroy(dynamicAttacker.AttackData);
+                // Ensure baseAttacker is set (lazy init, because item.Data may not have been ready in ctor)
+                if (baseAttacker == null)
+                {
+                    if (item != null && !item.IsEmpty())
+                        baseAttacker = item?.Data?.attacker;
+                }
 
-                        if (dynamicAttacker.AttackerData != null)
-                            UnityEngine.Object.Destroy(dynamicAttacker.AttackerData);
-                    }
+                // If there's no base attacker, nothing to build
+                if (baseAttacker == null)
+                {
+                    dynamicAttacker = null;
+                    return;
+                }
 
-                    var attackerData = ScriptableObject.Instantiate(baseAttacker?.AttackerData);
-                    var attackData = ScriptableObject.Instantiate(baseAttacker?.AttackData);
+                // Create new dynamic attacker if never created before.
+                if (dynamicAttacker == null)
+                {
+                    var attackerData = ScriptableObject.Instantiate(baseAttacker.AttackerData);
+                    var attackData = ScriptableObject.Instantiate(baseAttacker.AttackData);
                     dynamicAttacker = new Attacker(attackerData, attackData);
                 }
+
+                // Modify dynamic attacker back to base attacker
+                else if (dynamicAttacker != null)
+                {
+                    // Destroy previous instantiated SOs safely
+                    if (dynamicAttacker.AttackData != null)
+                        UnityEngine.Object.Destroy(dynamicAttacker.AttackData);
+
+                    if (dynamicAttacker.AttackerData != null)
+                        UnityEngine.Object.Destroy(dynamicAttacker.AttackerData);
+
+                    // Create fresh deep copy of attack/attacker SOs
+                    var attackerData = ScriptableObject.Instantiate(baseAttacker.AttackerData);
+                    var attackData = ScriptableObject.Instantiate(baseAttacker.AttackData);
+
+                    dynamicAttacker.AttackerData = attackerData;
+                    dynamicAttacker.AttackData = attackData;
+
+                    // IMPORTANT: Do not create new Attacker instance. Bug will occur since EquipmentWeaponHandler --> AttackerComponent references the
+                    //            dynamicAttacker created. Never destroy the dynamicAttacker object, just modify it.
+                    // dynamicAttacker = new Attacker(attackerData, attackData);
+                }
+
+
                 break;
         }
     }
     #endregion
 
     #region Visiter Functions
-    public virtual void Visit(StatModifier modifier) {
-        // Apply modifier!
+    public virtual void Visit(StatModifier modifier)
+    {
+        if (statContainer == null)
+        {
+            if (baseStatComponent != null)
+                statContainer = new StatContainer(baseStatComponent.BaseStats);
+            else
+            {
+                if (Debug.isDebugBuild) Debug.LogError("StatModifier visited but no baseStatComponent!");
+                return;
+            }
+        }
         statContainer.StatMediator.AddModifier(modifier);
     }
 
-    public virtual void Visit(DamageModifier modifier) {
-        // Apply Modifier
+    public virtual void Visit(DamageModifier modifier)
+    {
         percentageDamageIncrease += modifier.PercentageIncrease;
     }
 
-    public virtual void Visit(TraitModifier modifier) { 
-        // Apply Modifier
-        if (modifier.AddPiercing)
+    public virtual void Visit(TraitModifier modifier)
+    {
+        // Ensure dynamic attacker exists (clear/instantiate if necessary)
+        if (dynamicAttacker == null)
         {
-            dynamicAttacker.AttackData.isPiercing = true;
+            ClearModifiers(ModifierType.Trait); // will lazy-init baseAttacker and dynamicAttacker if possible
+            if (dynamicAttacker == null)
+            {
+                if (Debug.isDebugBuild) Debug.LogWarning("TraitModifier applied but no attacker exists to modify.");
+                return;
+            }
         }
 
-        dynamicAttacker.AttackerData.numAttacks += modifier.NumAtksToAdd;
+        if (modifier.AddPiercing)
+        {
+            if (dynamicAttacker.AttackData != null)
+                dynamicAttacker.AttackData.isPiercing = true;
+        }
+
+        if (dynamicAttacker.AttackerData != null)
+            dynamicAttacker.AttackerData.numAttacks += modifier.NumAtksToAdd;
     }
 
     public virtual void Visit(RangeModifier modifier)
     {
-        dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
+        if (dynamicAttacker == null)
+        {
+            ClearModifiers(ModifierType.Trait);
+            if (dynamicAttacker == null) return;
+        }
+
+        if (dynamicAttacker.AttackData != null)
+            dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
     }
 
     public virtual void Visit(ProjectileSpeedModifier modifier)
     {
-        dynamicAttacker.AttackData.initialSpeed += modifier.ProjectileSpeedToAdd;
+        if (dynamicAttacker == null)
+        {
+            ClearModifiers(ModifierType.Trait);
+            if (dynamicAttacker == null) return;
+        }
+
+        if (dynamicAttacker.AttackData != null)
+            dynamicAttacker.AttackData.initialSpeed += modifier.ProjectileSpeedToAdd;
+    }
+    #endregion
+
+    #region Getters
+    public Item GetItem()
+    {
+        return item;
+    }
+
+    public Attacker GetAttackerAfterModification()
+    {
+        return dynamicAttacker;
+    }
+    public Optional<StatContainer> GetStatsBeforeModification()
+    {
+        if (baseStatComponent != null)
+        {
+            return new Optional<StatContainer>(new StatContainer(baseStatComponent.BaseStats));
+        }
+        return null;
+    }
+    public Optional<StatContainer> GetStatsAfterModification()
+    {
+        return new Optional<StatContainer>(statContainer);
+    }
+    public double GetPercentageDamageIncreaseTotal()
+    {
+        return percentageDamageIncrease;
     }
     #endregion
 }
