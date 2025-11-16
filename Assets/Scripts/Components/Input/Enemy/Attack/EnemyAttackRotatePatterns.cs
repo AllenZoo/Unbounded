@@ -117,6 +117,10 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             behaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
         }
 
+        // Initalize ChaseSOBase Rage Behaviour
+        rageBehaviour.chaseBehaviourInstance = Instantiate(rageBehaviour.chaseBehaviour);
+        rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+
         ResetBehaviourSelectionWeightMap();
         currentBehaviour = emptyBehaviour;
 
