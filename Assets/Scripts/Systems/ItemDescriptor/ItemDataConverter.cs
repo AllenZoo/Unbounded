@@ -14,10 +14,9 @@ public class ItemDataConverter
         item.Init();
         var mediator = item.ItemModifierMediator;
 
-        StatContainer baseStatContainer = mediator.GetStatsBeforeModification().Value;
-        StatContainer finalStatContainer = mediator.GetStatsAfterModification().Value;
-        Attacker finalAttacker = mediator.GetAttackerAfterModification();
-
+        StatContainer baseStatContainer = mediator.QueryStatsBeforeModification().Value;
+        StatContainer finalStatContainer = mediator.QueryStatsAfterModification().Value;
+        Attacker finalAttacker = mediator.QueryAttackerAfterModification();
 
         model.Name = item.Data.itemName;
         model.Description = item.Data.description;

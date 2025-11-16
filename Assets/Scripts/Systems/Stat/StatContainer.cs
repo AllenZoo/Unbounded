@@ -42,7 +42,12 @@ public class StatContainer
     public float Attack => GetModifiedStat(Stat.ATK, baseStats.attack);
     public float Defense => GetModifiedStat(Stat.DEF, baseStats.defense);
     public float Dexterity => GetModifiedStat(Stat.DEX, baseStats.dexterity);
-    public float Speed => GetModifiedStat(Stat.SPD, baseStats.speed);
+    public float Speed { 
+        get { 
+            curSpeed = GetModifiedStat(Stat.SPD, baseStats.speed);
+            return curSpeed;
+        } 
+    }
 
     public float Gold
     {
@@ -56,6 +61,9 @@ public class StatContainer
         StatMediator.CalculateFinalStat(query);
         return query.Value;
     }
+
+    // For debugging purposes.
+    [SerializeField, ReadOnly] private float curSpeed = 0;
     #endregion
 
     public float GetStatValue(Stat stat)

@@ -130,7 +130,7 @@ public class StatMediator : IStatMediator
         OnStatChange += action;
     }
 
-
+    
     private void InvalidateCache(Stat stat)
     {
         modifiersCache.Remove(stat);

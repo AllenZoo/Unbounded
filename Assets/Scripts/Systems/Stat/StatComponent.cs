@@ -99,8 +99,8 @@ public class StatComponent : MonoBehaviour
 
         if (Debug.isDebugBuild)
         {
-            Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
-            Debug.Log($"Player DEX Stat after handling weapon equipped is [{statContainer.Dexterity}]");
+            //Debug.Log($"Player Atk Stat after handling weapon equipped is [{statContainer.Attack}]");
+            //Debug.Log($"Player DEX Stat after handling weapon equipped is [{statContainer.Dexterity}]");
         }
     }
     
@@ -156,7 +156,7 @@ public class StatComponent : MonoBehaviour
     /// <param name="item"></param>
     private void ApplyWeaponStatModifiers(Item item)
     {
-        Optional<StatContainer> equippedStatContainer = item.ItemModifierMediator.GetStatsAfterModification();
+        Optional<StatContainer> equippedStatContainer = item.ItemModifierMediator.QueryStatsAfterModification();
 
         if (equippedStatContainer.HasValue)
         {

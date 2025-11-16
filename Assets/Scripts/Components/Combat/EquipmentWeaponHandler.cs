@@ -102,7 +102,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
             attackerItem.Init();
         }
        
-        Attacker attackerToSet = attackerItem?.ItemModifierMediator?.GetAttackerAfterModification();
+        Attacker attackerToSet = attackerItem?.ItemModifierMediator?.QueryAttackerAfterModification();
         attackerComponent.SetAttacker(attackerToSet);
     }
 

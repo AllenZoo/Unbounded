@@ -54,6 +54,8 @@ public class Item
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
     public List<IItemComponent> components = new List<IItemComponent>();
 
+    // TODO: after adding this check hovering over weapon disables it..
+    private bool isInitialized = false;
 
     #region Constructor
     
@@ -61,6 +63,7 @@ public class Item
     {
         // For creating empty Item.
     }
+
     public Item(ItemData baseData, int quantity)
     {
         this.data = baseData;
@@ -75,12 +78,15 @@ public class Item
         this.dataGUID = Data.ID;
     }
 
-    // TODO: think about case where Init is called multiple times.
+    // Should be run once per unique Item object. 
     public void Init()
     {
+        if (isInitialized) return;
+
         if (IsEmpty()) return;
 
         this.itemModifierMediator = new ItemModifierMediator(this);
+
 
         if (Data != null)
         {
@@ -91,6 +97,8 @@ public class Item
         {
             component.Init();
         }
+
+        isInitialized = true;
     }
     #endregion
 
