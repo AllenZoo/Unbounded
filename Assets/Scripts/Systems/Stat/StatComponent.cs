@@ -173,10 +173,10 @@ public class StatComponent : MonoBehaviour
 
             if (Debug.isDebugBuild)
             {
-                Debug.Log($"Equipped weapon ATK value is: " + esc.Attack);
-                Debug.Log($"Equipped weapon DEX value is: " + esc.Dexterity);
-                Debug.Log($"Equipped weapon DEF value is: " + esc.Defense);
-                Debug.Log($"Equipped weapon SPD value is: " + esc.Speed);
+                //Debug.Log($"Equipped weapon ATK value is: " + esc.Attack);
+                //Debug.Log($"Equipped weapon DEX value is: " + esc.Dexterity);
+                //Debug.Log($"Equipped weapon DEF value is: " + esc.Defense);
+                //Debug.Log($"Equipped weapon SPD value is: " + esc.Speed);
             }
         }
         else

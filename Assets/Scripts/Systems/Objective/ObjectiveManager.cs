@@ -15,7 +15,7 @@ public class ObjectiveManager : MonoBehaviour
 
 
     [Tooltip("The SO that keeps track of whether the tutorial is complete or not.")]
-    [SerializeField] private SerializableObjectBoolean TutorialStateBoolean;
+    [SerializeField] private ScriptableObjectBoolean TutorialStateBoolean;
 
     [Tooltip("List of tutorial objectives, in order of execution.")]
     [SerializeField] private List<Objective> tutorialObjectives;

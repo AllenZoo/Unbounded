@@ -46,7 +46,7 @@ public class ConditionChecker : SerializedMonoBehaviour
 public class BooleanCondition
 {
     [HorizontalGroup("Split"), LabelWidth(100), InlineEditor, HideLabel]
-    public SerializableObjectBoolean Condition;
+    public ScriptableObjectBoolean Condition;
 
     [HorizontalGroup("Split"), LabelWidth(100)]
     public bool ExpectedValue;

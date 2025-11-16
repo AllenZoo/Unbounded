@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Serializable Object Variables/Boolean")]
-public class SerializableObjectBoolean : ScriptableObject
+[CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Scriptable Object Variables/Boolean")]
+public class ScriptableObjectBoolean : ScriptableObject
 {
     [SerializeField] private bool value;
 

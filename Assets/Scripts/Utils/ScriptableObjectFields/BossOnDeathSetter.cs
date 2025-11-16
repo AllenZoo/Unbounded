@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 public class BossOnDeathSetter : MonoBehaviour
 {
-    [SerializeField] private List<SerializableObjectBoolean> booleanStatesToSetTrueOnDeath;
+    [SerializeField] private List<ScriptableObjectBoolean> booleanStatesToSetTrueOnDeath;
     [SerializeField] private LocalEventHandler leh;
 
     private LocalEventBinding<OnDeathEvent> onDeathBinding;
