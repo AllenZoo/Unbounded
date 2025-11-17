@@ -7,7 +7,7 @@ using UnityEngine;
 /// Main Audio Manager class. Any audio effects being played must go through here.
 /// </summary>
 [RequiredComponents(typeof(AudioSource))]
-public class AudioManager : Singleton<AudioManager>
+public class AudioManager : Singleton<AudioManager>, IDataPersistence
 {
     //[SerializeField] private AudioClip[] audioClips;
     [SerializeField] private Dictionary<SoundType, List<AudioClip>> audioClips;
@@ -58,6 +58,25 @@ public class AudioManager : Singleton<AudioManager>
         Instance.audioSource.PlayOneShot(clip, volume);
     }
 
+    /// <summary>
+    /// Load Audio Data
+    /// </summary>
+    /// <param name="data"></param>
+    public void LoadData(GameData data)
+    {
+        backgroundMusicVolume.Set(data.backgroundMusicVolume);
+        soundEffectsVolume.Set(data.soundEffectsVolume);
+    }
+
+    /// <summary>
+    /// Save Audio Data
+    /// </summary>
+    /// <param name="data"></param>
+    public void SaveData(GameData data)
+    {
+        data.backgroundMusicVolume = backgroundMusicVolume.Value;
+        data.soundEffectsVolume = soundEffectsVolume.Value;
+    }
 }
 
 public enum SoundType

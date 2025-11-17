@@ -17,9 +17,17 @@ public class GameData
     /// </summary>
     public Dictionary<string, Inventory> inventories;
 
+    /// <summary>
+    /// Audio Settings
+    /// </summary>
+    public float backgroundMusicVolume;
+    public float soundEffectsVolume;
+
     public GameData()
     {
         playerEquippedWeapon = null;
         inventories = new Dictionary<string, Inventory> ();
+        backgroundMusicVolume = 100f;
+        soundEffectsVolume = 100f;
     }
 }

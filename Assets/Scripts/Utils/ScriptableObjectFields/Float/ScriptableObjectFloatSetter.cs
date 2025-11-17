@@ -9,9 +9,14 @@ using UnityEngine.UI;
 public class ScriptableObjectFloatSetter : MonoBehaviour
 {
     [Required, SerializeField] private ScriptableObjectFloat obj;
-    [SerializeField] private float multiplier = 100f;
+    [SerializeField] private float multiplier = 1f;
     public void SetSOFloat(float value)
     {
-        obj.Set(Mathf.RoundToInt(value * multiplier));
+        var valToSet = Mathf.RoundToInt(value * multiplier);
+
+        if (valToSet != obj.Value)
+        {
+            obj.Set(valToSet);
+        }
     }
 }
