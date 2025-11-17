@@ -6,20 +6,23 @@ using UnityEngine;
 
 public class InteractionPromptUIManager : MonoBehaviour
 {
-    [Required]
-    [SerializeField]
+    /// <summary>
+    /// Canvas that holds everything displayed by IPUIManager.
+    /// Used for hiding/showing the page.
+    /// </summary>
+    [Required, SerializeField]
+    private Canvas canvas;
+
+    [Required, SerializeField]
     private SO_InteractablePromptData interactablePromptData;
 
-    [Required]
-    [SerializeField]
+    [Required, SerializeField]
     private InteractablePromptData onInitData;
 
-    [Required]
-    [SerializeField] 
+    [Required, SerializeField]
     private GameObject displayObject;
 
-    [Required]
-    [SerializeField]
+    [Required, SerializeField]
     private TextMeshProUGUI textDisplay;
 
     private void Start()
@@ -32,11 +35,13 @@ public class InteractionPromptUIManager : MonoBehaviour
     private void Rerender()
     {
         if (!interactablePromptData.Data.shouldDisplayPrompt) {
-            displayObject.SetActive(false);
+            //displayObject.SetActive(false);
+            canvas.enabled = false;
             return;
         }
 
         // If we reach here, we should display data.
+        canvas.enabled = true;
         displayObject.SetActive(true);
         textDisplay.text = interactablePromptData.Data.message;
     }

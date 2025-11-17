@@ -2968,6 +2968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5b9939c5fbc834092264420871b4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 3917635570239628160}
   interactablePromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   onInitData:
     message: 
@@ -3075,6 +3076,7 @@ GameObject:
   - component: {fileID: 2300701143024782409}
   - component: {fileID: 3151966554499241369}
   - component: {fileID: 3185650895847511193}
+  - component: {fileID: 3917635570239628160}
   m_Layer: 0
   m_Name: InteractPromptUI
   m_TagString: Untagged
@@ -3082,6 +3084,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!223 &3917635570239628160
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3917635570239628159}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!4 &3932107510320960414
 Transform:
   m_ObjectHideFlags: 0
@@ -4501,6 +4526,11 @@ RectTransform:
 --- !u!224 &6009033260451017010 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3907286209513241860, guid: 2f2cf89d742e815499ed507670e67d1b, type: 3}
+  m_PrefabInstance: {fileID: 7304038094714506294}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &6009033260451017016 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 4800247264665959525, guid: 2f2cf89d742e815499ed507670e67d1b, type: 3}
   m_PrefabInstance: {fileID: 7304038094714506294}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6009033260874677158
@@ -6060,6 +6090,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6659620015919050340, guid: 2f2cf89d742e815499ed507670e67d1b, type: 3}
+      propertyPath: itemDescCanvas
+      value: 
+      objectReference: {fileID: 6009033260451017016}
     - target: {fileID: 8158170931521967956, guid: 2f2cf89d742e815499ed507670e67d1b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
