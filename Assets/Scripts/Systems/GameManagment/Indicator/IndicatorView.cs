@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class IndicatorView : MonoBehaviour
 {
-
+    #region Fields
     /// <summary>
     /// Reference to indicator transform. Useful for rotation/orientation modifications
     /// </summary>
@@ -32,8 +32,9 @@ public class IndicatorView : MonoBehaviour
     //[SerializeField] private Sprite indicatorIcon;
 
     [SerializeField] private Canvas indicatorCanvas;
+    #endregion
 
-
+    #region Functions
     public void SetPortraitIconImage(Sprite icon)
     {
         portraitIconImage.sprite = icon;
@@ -42,28 +43,55 @@ public class IndicatorView : MonoBehaviour
     /// <summary>
     /// Rotate Indicator Transform by angle (degrees)
     /// </summary>
-    /// <param name="angle"></param>
-    public void RotateIndicatorTransform(float angle)
+    /// <param name="angle">angle to rotate by</param>
+    /// <param name="resetFirst">whether to reset to no rotation first before applying rotation.</param>
+    public void RotateIndicatorTransform(float angle, bool resetFirst = true)
     {
+        if (resetFirst)
+        {
+            indicatorTransform.rotation = Quaternion.identity;
+        }
+
         indicatorTransform.Rotate(0, 0, angle);
+    }
+
+    public void MoveIndicatorTransform(float x, float y)
+    {
+        indicatorTransform.position = new Vector3(x, y, 0);
     }
 
     /// <summary>
     /// Rotate Arrow Transform by angle (degrees)
     /// </summary>
-    /// <param name="angle"></param>
-    public void RotateArrowTransform(float angle)
+    /// <param name="angle">angle to rotate by</param>
+    /// <param name="resetFirst">whether to reset to no rotation first before applying rotation.</param>
+    public void RotateArrowTransform(float angle, bool resetFirst = true)
     {
+        if (resetFirst)
+        {
+            arrowTransform.rotation = Quaternion.identity;
+        }
+
         arrowTransform.Rotate(0, 0, angle);
     }
 
     /// <summary>
     /// Rotate Portrait Transform by angle (degrees)
     /// </summary>
-    /// <param name="angle"></param>
-    public void RotatePortraitTransform(float angle)
+    /// <param name="angle">angle to rotate by</param>
+    /// <param name="resetFirst">whether to reset to no rotation (relative to parent) first before applying rotation.</param>
+    public void RotatePortraitTransform(float angle, bool resetFirst = true)
     {
+        if (resetFirst)
+        {
+            portraitTransform.rotation = Quaternion.identity;
+        }
         portraitTransform.Rotate(0, 0, angle);
+    }
+
+    public void SetPortraitRotationQuaternionIdentity()
+    {
+        portraitTransform.rotation = Quaternion.identity;
     }
 
     public void Show()
@@ -75,4 +103,5 @@ public class IndicatorView : MonoBehaviour
     {
         indicatorCanvas.enabled = false;
     }
+    #endregion
 }
