@@ -55,6 +55,19 @@ public class IndicatorView : MonoBehaviour
         indicatorTransform.Rotate(0, 0, angle);
     }
 
+    public void MoveIndicatorTransform(Vector3 newPos)
+    {
+        indicatorTransform.position = newPos;
+    }
+    public void MoveIndicatorTransformUI(Vector2 anchoredPos)
+    {
+        RectTransform rectTransform = indicatorTransform.GetComponent<RectTransform>();
+        if (rectTransform != null)
+        {
+            rectTransform.anchoredPosition = anchoredPos;
+        }
+    }
+
     public void MoveIndicatorTransform(float x, float y)
     {
         indicatorTransform.position = new Vector3(x, y, 0);
@@ -96,12 +109,14 @@ public class IndicatorView : MonoBehaviour
 
     public void Show()
     {
-        indicatorCanvas.enabled = true;
+        gameObject.SetActive(true);
+        //indicatorCanvas.enabled = true;
     }
 
     public void Hide()
     {
-        indicatorCanvas.enabled = false;
+        gameObject.SetActive(false);
+        //indicatorCanvas.enabled = false;
     }
     #endregion
 }

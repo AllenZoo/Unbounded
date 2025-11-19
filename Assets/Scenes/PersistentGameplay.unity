@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 69254282}
+  - component: {fileID: 69254283}
   m_Layer: 5
   m_Name: BossIndicatorSystem
   m_TagString: Untagged
@@ -155,6 +156,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &69254283
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69254281}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!224 &216169484 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5115412110512948277, guid: 939dc9670e617c84ab20be6e4df4c976, type: 3}
@@ -929,6 +953,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6986ae1d2084546a54982d4570778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &622624635 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+  m_PrefabInstance: {fileID: 7405677661359215958}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &628502019
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,7 +995,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 68.5981, y: 30}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &628502021
 MonoBehaviour:
@@ -2404,7 +2433,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 114, y: -12}
+  m_AnchoredPosition: {x: 333, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1782076384
@@ -2421,7 +2450,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IndicatorController
   view: {fileID: 628502021}
   objToPointTo: {fileID: 1379698704}
-  objToPointFrom: {fileID: 293645201}
+  objToPointFrom: {fileID: 622624635}
+  canvasRect: {fileID: 969628349}
 --- !u!1 &1850849107
 GameObject:
   m_ObjectHideFlags: 0
