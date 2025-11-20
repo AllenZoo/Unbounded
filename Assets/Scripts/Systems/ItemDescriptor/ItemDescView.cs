@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,11 @@ using UnityEngine.Rendering.Universal.Internal;
 
 public class ItemDescView : MonoBehaviour
 {
+    /// <summary>
+    /// For hiding/showing view.
+    /// </summary>
+    [Required, SerializeField] private Canvas itemDescCanvas;
+
     [SerializeField] private TextMeshProUGUI TitleText;
     
     [SerializeField] private TextMeshProUGUI BaseDamageText;
@@ -39,7 +45,7 @@ public class ItemDescView : MonoBehaviour
     /// </summary>
     public void DisplayView(ItemDescModel model)
     {
-        gameObject.SetActive(true);
+        itemDescCanvas.enabled = true;
 
         TitleText.text = model.Name;
 
@@ -86,7 +92,7 @@ public class ItemDescView : MonoBehaviour
     /// </summary>
     public void HideView()
     {
-        gameObject.SetActive(false);
+        itemDescCanvas.enabled = false;
 
         // Optional cleanup (so stale data isn’t shown when redisplayed)
         ClearChildren(BonusStatsPfbParent);
