@@ -34,12 +34,7 @@ public class IndicatorView : MonoBehaviour
     [SerializeField] private Canvas indicatorCanvas;
     #endregion
 
-    #region Functions
-    public void SetPortraitIconImage(Sprite icon)
-    {
-        portraitIconImage.sprite = icon;
-    }
-
+    #region Indicator Move/Rotate Functions
     /// <summary>
     /// Rotate Indicator Transform by angle (degrees)
     /// </summary>
@@ -105,6 +100,18 @@ public class IndicatorView : MonoBehaviour
     public void SetPortraitRotationQuaternionIdentity()
     {
         portraitTransform.rotation = Quaternion.identity;
+    }
+    #endregion
+
+    #region Functions
+    public void SetPortraitIconImage(Sprite icon)
+    {
+        portraitIconImage.sprite = icon;
+    }
+
+    public RectTransform GetViewRect()
+    {
+        return this.gameObject.GetComponent<RectTransform>();
     }
 
     public void Show()
