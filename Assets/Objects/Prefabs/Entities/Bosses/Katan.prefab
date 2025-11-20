@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 1051176910154285482}
   - component: {fileID: 7599973659860923114}
   - component: {fileID: 7531693359182105070}
+  - component: {fileID: 722946925127517407}
   m_Layer: 7
   m_Name: AggroHandler
   m_TagString: Untagged
@@ -426,6 +427,20 @@ MonoBehaviour:
   leh: {fileID: -3388595544745265729}
   barContext: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
   barConfig: {fileID: 11400000, guid: b8c15e260a4f50c4785588705fb5b6f4, type: 2}
+--- !u!114 &722946925127517407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3225468431850876824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3c516fb81773b45b37833892277287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IndicatorTarget
+  targetTransform: {fileID: 4456538979408597553}
+  createIndicatorOnStart: 1
 --- !u!1 &4062177657863964859
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +561,7 @@ MonoBehaviour:
   leh: {fileID: -3388595544745265729}
   statContainer:
     baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
+    curSpeed: 0
 --- !u!50 &4456538979408597579
 Rigidbody2D:
   serializedVersion: 5

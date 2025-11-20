@@ -6,7 +6,6 @@ public class IndicatorController : MonoBehaviour
 
     [SerializeField] private Transform objToPointTo;
     [SerializeField] private Transform objToPointFrom;
-    [SerializeField] private RectTransform canvasRect;
 
     /// <summary>
     /// Sets the source point variables
@@ -46,6 +45,8 @@ public class IndicatorController : MonoBehaviour
         view.SetPortraitRotationQuaternionIdentity();
 
         // Calculate border based on height and width of rectangle wrapping indicator (after rotation)
+        // Used to be hard coded: Vector2 border = new Vector2(38f, 38f);
+        // Which worked but maybe this is a better method once we refine it further. For now it's good.
         // 0 -> Bottom left
         // 1 -> Top left
         // 2 -> Top right
@@ -169,11 +170,6 @@ public class IndicatorController : MonoBehaviour
 
     private void Update()
     {
-        // FOR DEBUGGING: TODO: REMOVE LATER:
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            PointIndicator();
-        }
         PointIndicator();
     }
 }

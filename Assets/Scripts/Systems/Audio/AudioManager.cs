@@ -33,6 +33,9 @@ public class AudioManager : Singleton<AudioManager>, IDataPersistence
             return;
         }
 
+        backgroundMusicAudioSource.volume = backgroundMusicVolume.Value/100;
+        soundEffectsAudioSource.volume = soundEffectsVolume.Value/100;
+
         backgroundMusicVolume.OnValueChanged += (float volume) => backgroundMusicAudioSource.volume = volume/100;
         soundEffectsVolume.OnValueChanged += (float volume) => soundEffectsAudioSource.volume = volume/100;
     } 
