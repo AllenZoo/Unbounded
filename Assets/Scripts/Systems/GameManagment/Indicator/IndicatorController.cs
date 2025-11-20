@@ -62,7 +62,7 @@ public class IndicatorController : MonoBehaviour
         float indicatorWidth = maxX - minX;
         float indicatorHeight = maxY - minY;
 
-        Vector2 border = new Vector2(indicatorWidth/2.2f, indicatorHeight/2.2f);
+        Vector2 border = new Vector2(indicatorWidth/2.0f, indicatorHeight/2.0f);
 
         float left = border.x;
         float right = Screen.width - border.x;
