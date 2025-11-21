@@ -35140,6 +35140,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5201384911887026869, guid: 98b98e886645ac8458c08e10eabd4158, type: 3}
   m_PrefabInstance: {fileID: 1422958996}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1513553820
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1098211491, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1098211491, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.07612
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.56649
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597553, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_Name
+      value: Katan
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
 --- !u!1001 &1555766739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40496,7 +40561,7 @@ MonoBehaviour:
   feetTransform: {fileID: 1832727460136436890}
   tracker: {fileID: 3471395589572115455}
   attackerComponent: {fileID: 449100515512146196}
-  attackRange: 2
+  attackRange: 18
   enemyIdleBase: {fileID: 11400000, guid: 6ba24126c4bdef340b52f74a74fa732c, type: 2}
   enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
   enemyAttackBase: {fileID: 11400000, guid: b0d27f04031171c4781cfc3ca8713853, type: 2}
@@ -40663,7 +40728,7 @@ MonoBehaviour:
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 585625653201050797}
-  aggroBrain: {fileID: 0}
+  aggroBrain: {fileID: 7014365952263786214}
   aggroTarget: {fileID: 0}
   distFromTarget: -1
   isAggroed: 0
@@ -41005,6 +41070,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1513553820}
   - {fileID: 6665545410438151286}
   - {fileID: 1043709441}
   - {fileID: 591474135}
