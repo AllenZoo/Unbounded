@@ -39361,7 +39361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leh: {fileID: 3576213130554825720}
   barContext: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
-  barConfig: {fileID: 11400000, guid: b8c15e260a4f50c4785588705fb5b6f4, type: 2}
+  barConfig: {fileID: 11400000, guid: e1291f700580d7c41818d63e4af626ed, type: 2}
 --- !u!1 &1046984454068743294
 GameObject:
   m_ObjectHideFlags: 0
@@ -39388,7 +39388,7 @@ Animator:
   m_GameObject: {fileID: 8367866064639977664}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: eb75fe419f358b94780008582239c6b4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 326c2edd922143546aaebbfb7120a218, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -39729,7 +39729,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1832727460136436890}
@@ -39747,7 +39747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: 3576213130554825720}
   sprite: {fileID: 8367866064639977694}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
@@ -40300,7 +40300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leh: {fileID: 3576213130554825720}
   statContainer:
-    baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
+    baseStats: {fileID: 11400000, guid: cc4c77501f194b74fb7b8c0ee99f06b3, type: 2}
     curSpeed: 0
 --- !u!114 &6665545410438151283
 MonoBehaviour:
@@ -40329,8 +40329,8 @@ GameObject:
   - component: {fileID: 6665545410438151281}
   - component: {fileID: 6665545410438151180}
   - component: {fileID: 6665545410438151283}
-  - component: {fileID: 7917553867266877172}
   - component: {fileID: 3576213130554825720}
+  - component: {fileID: 7014365952263786214}
   - component: {fileID: 4541632526823852780}
   - component: {fileID: 2036633898628015674}
   - component: {fileID: 7014365952263786213}
@@ -40478,6 +40478,28 @@ MonoBehaviour:
   spawnList:
   - spawnOffset: {x: 0, y: -2, z: 0}
     spawnPrefab: {fileID: 1479744093501242230, guid: 18a3c175774889a4f8440e533e5bccff, type: 3}
+--- !u!114 &7014365952263786214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665545410438151284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAIComponent
+  localEventHandler: {fileID: 3576213130554825720}
+  inputEnabled: 1
+  contextSteerer: {fileID: 2916366898752228450}
+  feetTransform: {fileID: 1832727460136436890}
+  tracker: {fileID: 3471395589572115455}
+  attackerComponent: {fileID: 449100515512146196}
+  attackRange: 2
+  enemyIdleBase: {fileID: 11400000, guid: 6ba24126c4bdef340b52f74a74fa732c, type: 2}
+  enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+  enemyAttackBase: {fileID: 11400000, guid: b0d27f04031171c4781cfc3ca8713853, type: 2}
 --- !u!1 &7111190692944137062
 GameObject:
   m_ObjectHideFlags: 0
@@ -40566,32 +40588,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IndicatorTarget
   targetTransform: {fileID: 6665545410438151286}
+  indicatorIconSprite: {fileID: -1282482557, guid: 63f3fa39feb67c24f84853876ebdbe71, type: 3}
   createIndicatorOnStart: 1
---- !u!114 &7917553867266877172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6665545410438151284}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d024959419225b245b10ebb70a5487ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 3576213130554825720}
-  inputEnabled: 1
-  contextSteerer: {fileID: 2916366898752228450}
-  feetTransform: {fileID: 1832727460136436890}
-  tracker: {fileID: 3471395589572115455}
-  attackerComponent: {fileID: 449100515512146196}
-  attackRange: 18
-  enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
-  enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
-  enemyAttackBase: {fileID: 11400000, guid: 83eba0a654af7fc458c12211e45373d9, type: 2}
-  centerTransform: {fileID: 6665545410438151286}
-  maxDistAwayFromCenter: 5
-  ringAttack: {fileID: 5907366424908023556}
 --- !u!1001 &7959640394754507744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40661,11 +40659,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  localEventHandler: {fileID: 3576213130554825720}
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 585625653201050797}
-  aggroBrain: {fileID: 7917553867266877172}
+  aggroBrain: {fileID: 0}
   aggroTarget: {fileID: 0}
   distFromTarget: -1
   isAggroed: 0
@@ -40997,8 +40995,8 @@ Transform:
   m_GameObject: {fileID: 1241122843138619874}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.06899977, y: -0.436, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.26, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2527608316591969836}
