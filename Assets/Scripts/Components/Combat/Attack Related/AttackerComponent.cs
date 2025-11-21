@@ -11,7 +11,7 @@ using UnityEngine.Assertions;
 public class AttackerComponent : MonoBehaviour
 {
     [Required, SerializeField]
-    private Attacker attacker;
+    private IAttacker attacker;
 
     [Required, SerializeField] private LocalEventHandler localEventHandler;
 
@@ -53,7 +53,7 @@ public class AttackerComponent : MonoBehaviour
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && canAttack && attacker != null && attacker.AttackerData != null)
+        if (attackRdy && canAttack && attacker != null && attacker.IsInitialized())
         {
             attacker.Attack(input.keyCode, input.attackInfo, this.transform, TargetTypes, statComponent.StatContainer.Attack, PercentageDamageIncrease);
             StartCoroutine(AttackCooldown());
@@ -68,7 +68,7 @@ public class AttackerComponent : MonoBehaviour
     private IEnumerator AttackCooldown()
     {
         attackRdy = false;
-        var attackCd = GetCooldownExponential(attacker.AttackerData.cooldown, statComponent.StatContainer.Dexterity, 0.05f);
+        var attackCd = GetCooldownExponential(attacker.GetCooldown(), statComponent.StatContainer.Dexterity, 0.05f);
         yield return new WaitForSeconds(attackCd);
         attackRdy = true;
     }
@@ -77,7 +77,7 @@ public class AttackerComponent : MonoBehaviour
     private IEnumerator ChargeUpAttack(Attack attack)
     {
         // Charge up attack
-        yield return new WaitForSeconds(attacker.AttackerData.chargeUp);
+        yield return new WaitForSeconds(attacker.GetChargeUp());
     }
     private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
     {

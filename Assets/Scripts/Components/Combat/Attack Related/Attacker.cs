@@ -10,7 +10,7 @@ using UnityEngine.Assertions;
 /// Similar to a blueprint for creating attack patterns
 /// </summary>
 [Serializable]
-public class Attacker
+public class Attacker: IAttacker
 {
     public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
@@ -57,5 +57,20 @@ public class Attacker
 
             AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb, this, atkStat, percentageDamageIncrease);
         }
+    }
+
+    public bool IsInitialized()
+    {
+        return attackerData != null && attackData != null;
+    }
+
+    public float GetCooldown()
+    {
+        return attackerData.cooldown;
+    }
+
+    public float GetChargeUp()
+    {
+        return attackerData.chargeUp;
     }
 }
