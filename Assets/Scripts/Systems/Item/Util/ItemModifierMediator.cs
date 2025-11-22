@@ -207,9 +207,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
                 // Create new dynamic attacker if never created before.
                 if (dynamicAttacker == null)
                 {
-                    var attackerData = ScriptableObject.Instantiate(baseAttacker.AttackerData);
-                    var attackData = ScriptableObject.Instantiate(baseAttacker.AttackData);
-                    dynamicAttacker = new Attacker(attackerData, attackData);
+                    dynamicAttacker = baseAttacker.DeepClone();
                 }
 
                 // Modify dynamic attacker back to base attacker
