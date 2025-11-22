@@ -69,7 +69,7 @@ public class AttackSpawner
     /// <param name="atkStat">the atk stat to set on atk obj</param>
     /// <param name="percentageDamageIncrease">the % increase buff to apply to attack</param>
     /// <returns>The newly created attack</returns>
-    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, Attacker attacker, float atkStat, double percentageDamageIncrease)
+    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, IAttacker attacker, float atkStat, double percentageDamageIncrease)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
 

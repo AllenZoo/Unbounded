@@ -9,6 +9,15 @@ public interface IAttacker
     public bool IsInitialized();
     public float GetCooldown();
     public float GetChargeUp();
-    //public AttackerData AttackerData { get; set; }
-    //public AttackData AttackData { get; set; }
+
+    // TODO: figure out if there's a better way to pass in Data info through interface.
+
+    // Fields required from this: numAttacks, wholeObj <- ItemModifierMediator + smt else.
+    public AttackerData AttackerData { get; set; }
+
+    // Fields required from this:
+    // [rotOffset, distance, initialSpeed, wholeObj] <- AttackSpawner
+    // [initialSpeed, distance, isPiercing] <- ItemDataConverter
+    // [distance, initialSpeed, isPiercing, wholeObj] <- ItemModifierMediator.. for applying modifiers that change these attributes.
+    public AttackData AttackData { get; set; }
 }

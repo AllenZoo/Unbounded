@@ -28,8 +28,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     private Item item;
     private ItemBaseStatComponent baseStatComponent;
     private ItemUpgradeComponent upgradeComponent;
-    private Attacker baseAttacker; // The base Attacker instance to create a copy of.
-    private Attacker dynamicAttacker; // Accumlator of modifier visitor. Deep copy of base attacker.
+    private IAttacker baseAttacker; // The base Attacker instance to create a copy of.
+    private IAttacker dynamicAttacker; // Accumlator of modifier visitor. Deep copy of base attacker.
 
     // Holds the stats of the item after modification. The accumulator passed in the modifier visitor.
     private StatContainer statContainer;
@@ -99,7 +99,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
         return new Optional<StatContainer>(statContainer);
     }
-    public Attacker QueryAttackerAfterModification()
+    public IAttacker QueryAttackerAfterModification()
     {
         ClearModifiers(ModifierType.Trait);
         ApplyModifiers(upgradeComponent, ModifierType.Trait);
@@ -315,7 +315,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         return item;
     }
 
-    public Attacker GetAttackerAfterModification()
+    public IAttacker GetAttackerAfterModification()
     {
         return dynamicAttacker;
     }
