@@ -10,10 +10,10 @@ using UnityEngine;
 public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 {
     [Tooltip("Defines the movement and attack pattern behaviour of entity.")]
-    [SerializeField]
+    [OdinSerialize]
     private List<BehaviourDefinition> behaviours = new();
 
-    [SerializeField]
+    [OdinSerialize]
     private BehaviourDefinition rageBehaviour;
 
     [SerializeField]
@@ -329,10 +329,17 @@ public class BehaviourDefinition
     [Required]
     [Tooltip("This is the main identifier and differentiator between behaviours. Should be unique. NOTE: shouldn't be 'empty'.")]
     public string name; // For debugging purposes
-    public Attacker attacker;
+
+    [OdinSerialize]
+    public IAttacker attacker;
+
     public EnemyChaseSOBase chaseBehaviour;
     [ReadOnly] public EnemyChaseSOBase chaseBehaviourInstance; // We should initialize this ref and not the above, since SO are shared. We need to create new ref using Instantiate.
     public List<AddStatModifier> addStatModifiers;
+
+    [SerializeField, Tooltip("For keeping track of what attacker and attack objs are being used")]
+    [TextArea(3, 10)]
+    private string behaviourDescription = "";
 }
 
 [Serializable]

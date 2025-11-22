@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -8,9 +9,9 @@ using UnityEngine.Assertions;
 /// <summary>
 /// Component attached to entities that attack!
 /// </summary>
-public class AttackerComponent : MonoBehaviour
+public class AttackerComponent : SerializedMonoBehaviour
 {
-    [Required, SerializeField]
+    [Required, OdinSerialize]
     private IAttacker attacker;
 
     [Required, SerializeField] private LocalEventHandler localEventHandler;
@@ -60,7 +61,7 @@ public class AttackerComponent : MonoBehaviour
         }
     }
 
-    public void SetAttacker(Attacker attacker)
+    public void SetAttacker(IAttacker attacker)
     {
         this.attacker = attacker;
     }

@@ -15,41 +15,196 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: cdf5e852c982db44cba9aa6c8562148b, type: 2}
+    - {fileID: 11400000, guid: 8e677ba1b825bab489afc8969e959530, type: 2}
+    - {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
+    - {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
+    - {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}
+    - {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  behaviours:
-  - name: Phase 1 [Cannonball Attack]
-    attacker:
-      attackerData: {fileID: 11400000, guid: cdf5e852c982db44cba9aa6c8562148b, type: 2}
-      attackData: {fileID: 11400000, guid: 8e677ba1b825bab489afc8969e959530, type: 2}
-    chaseBehaviour: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
-    chaseBehaviourInstance: {fileID: 0}
-    addStatModifiers:
-    - stat: 8
-      amount: -3
-    - stat: 6
-      amount: 2
-  - name: Phase 2 [Sword Chase Attack]
-    attacker:
-      attackerData: {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
-      attackData: {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}
-    chaseBehaviour: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
-    chaseBehaviourInstance: {fileID: 0}
-    addStatModifiers:
-    - stat: 8
-      amount: 2
-  rageBehaviour:
-    name: Rage Phase
-    attacker:
-      attackerData: {fileID: 0}
-      attackData: {fileID: 0}
-    chaseBehaviour: {fileID: 0}
-    chaseBehaviourInstance: {fileID: 0}
-    addStatModifiers: []
+    SerializationNodes:
+    - Name: behaviours
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[BehaviourDefinition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 1|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: 'Phase 1 [Cannonball Attack]'
+    - Name: attacker
+      Entry: 7
+      Data: 2|Attacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 0
+    - Name: attackData
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 10
+      Data: 2
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: AddStatModifier, Assembly-CSharp
+    - Name: stat
+      Entry: 3
+      Data: 8
+    - Name: amount
+      Entry: 4
+      Data: -3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: AddStatModifier, Assembly-CSharp
+    - Name: stat
+      Entry: 3
+      Data: 6
+    - Name: amount
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: Fire SingleShot attack pattern with BulletAttack projectiles
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: 'Phase 2 [Sword Chase Attack]'
+    - Name: attacker
+      Entry: 7
+      Data: 5|Attacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 3
+    - Name: attackData
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 10
+      Data: 5
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: AddStatModifier, Assembly-CSharp
+    - Name: stat
+      Entry: 3
+      Data: 8
+    - Name: amount
+      Entry: 4
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: Fire SpamAttack with SwordAttack projectiles.
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: rageBehaviour
+      Entry: 7
+      Data: 7|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: Rage Phase
+    - Name: attacker
+      Entry: 7
+      Data: 8|Attacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 6
+      Data: 
+    - Name: attackData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: No Rage phase
+    - Name: 
+      Entry: 8
+      Data: 
   rageModeHPThreshold: -1
   transitionTimeRange:
     min: 5

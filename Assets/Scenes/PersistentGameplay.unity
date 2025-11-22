@@ -6632,6 +6632,30 @@ PrefabInstance:
       propertyPath: attacker.attackerData
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
+      value: '"path":"attacker","value":{"$id":0,"$type":"Attacker, Assembly-CSharp","attackerData":null,"attackData":null}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[1]'
+      value: '"path":"attacker.attackData","value":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[2]'
+      value: '"path":"attacker.attackerData","value":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2588634707587799474, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

@@ -1,3 +1,4 @@
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +16,10 @@ public class Attacker: IAttacker
     public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
 
-    [SerializeField] private AttackerData attackerData;
-    [SerializeField] private AttackData attackData;
+    [OdinSerialize] private AttackerData attackerData;
+    [OdinSerialize] private AttackData attackData;
+
+    public Attacker() { }
 
     public Attacker(AttackerData attackerData, AttackData attackData)
     {
