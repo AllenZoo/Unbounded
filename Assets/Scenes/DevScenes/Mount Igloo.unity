@@ -39370,9 +39370,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: attacker
+      Entry: 6
+      Data: 
   localEventHandler: {fileID: 3576213130554825720}
   TargetTypes: 00000000
   statComponent: {fileID: 6665545410438151281}
@@ -40561,7 +40570,7 @@ MonoBehaviour:
   feetTransform: {fileID: 1832727460136436890}
   tracker: {fileID: 3471395589572115455}
   attackerComponent: {fileID: 449100515512146196}
-  attackRange: 18
+  attackRange: 28
   enemyIdleBase: {fileID: 11400000, guid: 6ba24126c4bdef340b52f74a74fa732c, type: 2}
   enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
   enemyAttackBase: {fileID: 11400000, guid: b0d27f04031171c4781cfc3ca8713853, type: 2}

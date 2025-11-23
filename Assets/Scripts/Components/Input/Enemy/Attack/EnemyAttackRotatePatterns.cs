@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -117,9 +118,20 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             behaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
         }
 
-        // Initalize ChaseSOBase Rage Behaviour
-        rageBehaviour.chaseBehaviourInstance = Instantiate(rageBehaviour.chaseBehaviour);
-        rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+        // Initalize Rage Behaviour (if not null)
+        if (rageBehaviour != null)
+        {
+            if (rageBehaviour.chaseBehaviour == null)
+            {
+                Debug.Log("[EnemyAttackRotatePatterns] Rage Behaviour Chase Behaviour SO is null!" +
+                    " Make sure to set Rage Behaviour to null in Attack Rotation pattern if boss doesn't have rage behaviour");
+            } else
+            {
+                rageBehaviour.chaseBehaviourInstance = Instantiate(rageBehaviour.chaseBehaviour);
+                rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+            }       
+        }
+        
 
         ResetBehaviourSelectionWeightMap();
         currentBehaviour = emptyBehaviour;

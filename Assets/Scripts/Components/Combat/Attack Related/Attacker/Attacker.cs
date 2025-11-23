@@ -17,7 +17,7 @@ public class Attacker: IAttacker
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
 
     [OdinSerialize] private AttackerData attackerData;
-    [OdinSerialize] private AttackData attackData;
+    [OdinSerialize] private AttackData attackData; // TODO: maybe move this elsewhere. (add as parameter to main Attack function)
 
     public Attacker() { }
 
@@ -29,7 +29,7 @@ public class Attacker: IAttacker
 
     // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
     // does nothing.
-    public void Attack(KeyCode keyCode, AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
+    public void Attack(KeyCode keyCode, AttackSpawnInfo info, AttackerComponent attackerComponent, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
     {
         if (attackerData == null || attackData == null)
         {
