@@ -56,6 +56,10 @@ public class AttackerComponent : SerializedMonoBehaviour
         // Attack if attack is ready and if data is not null.
         if (attackRdy && canAttack && attacker != null && attacker.IsInitialized())
         {
+            // Stop previous attack
+            attacker.StopAttack();
+
+            // Create new attack context.
             AttackContext ac = new AttackContext(
                 input.attackInfo,
                 this,
@@ -64,6 +68,8 @@ public class AttackerComponent : SerializedMonoBehaviour
                 statComponent.StatContainer.Attack,
                 PercentageDamageIncrease
             );
+
+            // Start Attack
             attacker.Attack(input.keyCode, ac);
             StartCoroutine(AttackCooldown());
         }

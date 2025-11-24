@@ -62,6 +62,11 @@ public class Attacker: IAttacker
         }
     }
 
+    public void StopAttack()
+    {
+        // Do nothing for basic attacker.
+    }
+
     public bool IsInitialized()
     {
         return attackerData != null && attackData != null;

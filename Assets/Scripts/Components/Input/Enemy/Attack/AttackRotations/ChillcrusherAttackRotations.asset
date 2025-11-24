@@ -19,6 +19,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8e677ba1b825bab489afc8969e959530, type: 2}
     - {fileID: 11400000, guid: 4b8c7cdf29e487b4281d175771310a82, type: 2}
     - {fileID: 11400000, guid: 19717b74d148a334ba22200a652da70a, type: 2}
+    - {fileID: 11400000, guid: 67378b86ea81b7b438eaadb05f744044, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -30,13 +31,13 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
-      Data: 'Phase1 [Typhoon Ring]'
+      Data: 'Phase1 [Typhoon Ring CW]'
     - Name: attacker
       Entry: 7
       Data: 2|FanAttacker, Assembly-CSharp
@@ -70,7 +71,52 @@ MonoBehaviour:
       Data: 
     - Name: behaviourDescription
       Entry: 1
-      Data: 5-Spiral-Fan-Attack pattern with BulletAttack projectiles
+      Data: 5-Spiral-Fan-Attack pattern with BulletAttack projectiles. Projectiles
+        spin in clockwise direction.
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: 'Phase1 [Typhoon Ring CCW]'
+    - Name: attacker
+      Entry: 7
+      Data: 5|FanAttacker, Assembly-CSharp
+    - Name: attackData
+      Entry: 10
+      Data: 0
+    - Name: fanAttackerData
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 10
+      Data: 2
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 6|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[AddStatModifier, Assembly-CSharp]],
+        Unity.Plastic.Antlr3.Runtime
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 5-Spiral-Fan-Attack pattern with BulletAttack projectiles. Projectiles
+        spin in counter clockwise direction.
     - Name: 
       Entry: 8
       Data: 

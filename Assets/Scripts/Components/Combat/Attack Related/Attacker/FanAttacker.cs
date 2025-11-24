@@ -12,6 +12,7 @@ public class FanAttacker : IAttacker
 
     private bool isAttacking = false;
     private MonoBehaviour coroutineRunner;
+    private Coroutine curCoroutine;
 
     public FanAttacker() { }
 
@@ -19,11 +20,6 @@ public class FanAttacker : IAttacker
     {
         this.fanAttackerData = fanAttackerData;
         this.attackData = attackData;
-    }
-
-    public void SetCoroutineRunner(MonoBehaviour runner)
-    {
-        coroutineRunner = runner;
     }
 
     public void Attack(KeyCode keyCode, AttackContext ac)
@@ -43,18 +39,17 @@ public class FanAttacker : IAttacker
         if (coroutineRunner != ac.AttackerComponent)
         {
             // Stop any previous coroutines on the old runner if it exists
-            if (coroutineRunner != null)
+            if (coroutineRunner != null && curCoroutine != null)
             {
                 // NOTE: this can be buggy if:
-                //   1. multiple attackers share the same component
-                //   2. other coroutines are running on the same component
-                coroutineRunner.StopAllCoroutines();
+                //   1. multiple components share the same attacker. (Start and Stop conflicts..)
+                coroutineRunner.StopCoroutine(curCoroutine);
             }
             coroutineRunner = ac.AttackerComponent;
         }
 
         // Start the attack coroutine
-        coroutineRunner.StartCoroutine(
+        curCoroutine = coroutineRunner.StartCoroutine(
             AttackCoroutine(
                 ac.SpawnInfo, 
                 ac.AttackerTransform, 
@@ -63,6 +58,15 @@ public class FanAttacker : IAttacker
                 ac.PercentageDamageIncrease
                 )
             );
+    }
+
+    public void StopAttack()
+    {
+        if (isAttacking && coroutineRunner != null && curCoroutine != null)
+        {
+            coroutineRunner.StopCoroutine(curCoroutine);
+            isAttacking = false;
+        }
     }
 
     private IEnumerator AttackCoroutine(AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
