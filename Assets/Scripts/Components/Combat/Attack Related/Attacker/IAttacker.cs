@@ -16,6 +16,8 @@ public interface IAttacker
     // Fields required from this: numAttacks, wholeObj <- ItemModifierMediator + smt else.
     public AttackerData AttackerData { get;  set; }
 
+
+    // TODO: get rid of this from this interface if possible.
     // Fields required from this:
     // [rotOffset, distance, initialSpeed, wholeObj] <- AttackSpawner
     // [initialSpeed, distance, isPiercing] <- ItemDataConverter
