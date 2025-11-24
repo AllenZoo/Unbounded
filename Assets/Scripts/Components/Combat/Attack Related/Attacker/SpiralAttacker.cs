@@ -3,20 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FanAttacker : IAttacker
+public class SpiralAttacker : IAttacker
 {
-    public AttackerData AttackerData { get { return fanAttackerData; } set { fanAttackerData = (FanAttackerData)value; } }
+    public AttackerData AttackerData { get { return fanAttackerData; } set { fanAttackerData = (SpiralAttackerData)value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
     [OdinSerialize] private AttackData attackData;
-    [OdinSerialize] private FanAttackerData fanAttackerData;
+    [OdinSerialize] private SpiralAttackerData fanAttackerData;
 
     private bool isAttacking = false;
     private MonoBehaviour coroutineRunner;
     private Coroutine curCoroutine;
 
-    public FanAttacker() { }
+    public SpiralAttacker() { }
 
-    public FanAttacker(FanAttackerData fanAttackerData, AttackData attackData)
+    public SpiralAttacker(SpiralAttackerData fanAttackerData, AttackData attackData)
     {
         this.fanAttackerData = fanAttackerData;
         this.attackData = attackData;
@@ -115,9 +115,9 @@ public class FanAttacker : IAttacker
 
     public IAttacker DeepClone()
     {
-        FanAttackerData clonedAttackerData = UnityEngine.Object.Instantiate(fanAttackerData);
+        SpiralAttackerData clonedAttackerData = UnityEngine.Object.Instantiate(fanAttackerData);
         AttackData clonedAttackData = UnityEngine.Object.Instantiate(attackData);
-        return new FanAttacker(clonedAttackerData, clonedAttackData);
+        return new SpiralAttacker(clonedAttackerData, clonedAttackData);
     }
 
     public float GetChargeUp()

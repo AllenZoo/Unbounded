@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FanAttackerData", menuName = "System/Combat/FanAttacker", order = 1)]
-public class FanAttackerData : AttackerData
+public class SpiralAttackerData : AttackerData
 {
     // TODO: functionally similar to numAttacks in AttackerData (see if we should replace)
     public float numBlades; // Similar to numAttacks, but for continuous fan attack.
