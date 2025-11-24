@@ -10,7 +10,7 @@ using UnityEngine.Assertions;
 /// Holds both static and dynamic attack data.
 /// </summary>
 [Serializable]
-public class Attack 
+public class Attack: IAttack
 {
     public event Action<Damageable> OnHit;
 
@@ -88,6 +88,11 @@ public class Attack
             return;
         }
 
+    }
+
+    public void OnLaunch()
+    {
+        // Do nothing for basic attack.
     }
 
     public void SetAtkStat(float atkStat)

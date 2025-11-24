@@ -28,7 +28,7 @@ public class AttackComponent : MonoBehaviour
         // Checks to see RB2 and Collider2D components properties are correct.
 
         // Check if RB2 is kinematic.
-        Assert.IsTrue(GetComponent<Rigidbody2D>().isKinematic, "RB2D needs to be kinematic");
+        Assert.IsTrue(GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Kinematic, "RB2D needs to be kinematic");
 
         // Check if Collider2D is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");

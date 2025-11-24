@@ -14,6 +14,8 @@ public class AttackerComponent : SerializedMonoBehaviour
     [Required, OdinSerialize]
     private IAttacker attacker;
 
+    // private IAttacker attack;
+
     [Required, SerializeField] private LocalEventHandler localEventHandler;
 
     [Tooltip("Types of entities this attacker can damage.")]
