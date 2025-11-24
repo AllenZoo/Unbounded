@@ -29,7 +29,7 @@ public class Attacker: IAttacker
 
     // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
     // does nothing.
-    public void Attack(KeyCode keyCode, AttackSpawnInfo info, AttackerComponent attackerComponent, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
+    public void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (attackerData == null || attackData == null)
         {
@@ -56,9 +56,9 @@ public class Attacker: IAttacker
                 angle *= -1;
             }
 
-            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (info.mousePosition - attackerTransform.position);
+            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.SpawnInfo.mousePosition - ac.AttackerTransform.position);
 
-            AttackSpawner.SpawnAttack(attackDir, attackerTransform, targetTypes, attackData.attackPfb, this, atkStat, percentageDamageIncrease);
+            AttackSpawner.SpawnAttack(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.attackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
         }
     }
 

@@ -26,21 +26,21 @@ public class FanAttacker : IAttacker
         coroutineRunner = runner;
     }
 
-    public void Attack(KeyCode keyCode, AttackSpawnInfo info, AttackerComponent attackerComponent, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
+    public void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (isAttacking)
         {
             return; // Attack already in progress
         }
 
-        if (attackerComponent == null)
+        if (ac.AttackerComponent == null)
         {
             Debug.LogWarning("AttackerComponent is null. Cannot start attack coroutine.");
             return;
         }
 
         // If the coroutine runner has changed, update it
-        if (coroutineRunner != attackerComponent)
+        if (coroutineRunner != ac.AttackerComponent)
         {
             // Stop any previous coroutines on the old runner if it exists
             if (coroutineRunner != null)
@@ -50,11 +50,19 @@ public class FanAttacker : IAttacker
                 //   2. other coroutines are running on the same component
                 coroutineRunner.StopAllCoroutines();
             }
-            coroutineRunner = attackerComponent;
+            coroutineRunner = ac.AttackerComponent;
         }
 
         // Start the attack coroutine
-        coroutineRunner.StartCoroutine(AttackCoroutine(info, attackerTransform, targetTypes, atkStat, percentageDamageIncrease));
+        coroutineRunner.StartCoroutine(
+            AttackCoroutine(
+                ac.SpawnInfo, 
+                ac.AttackerTransform, 
+                ac.TargetTypes, 
+                ac.AtkStat, 
+                ac.PercentageDamageIncrease
+                )
+            );
     }
 
     private IEnumerator AttackCoroutine(AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
