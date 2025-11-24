@@ -60,32 +60,42 @@ public class FanAttacker : IAttacker
     private IEnumerator AttackCoroutine(AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
     {
         isAttacking = true;
-
         Vector3 attackDir = info.mousePosition - attackerTransform.position;
-        float spawnAngleDiff = 5f; // Angle difference between each projectile spawned in a single blade
-        float angleSplit = 360f / fanAttackerData.numBlades; // Angle difference between each blade
-        float curSpawnAngleDiff = 0;
-        float delayBetweenWaves = 0.05f; // Time delay between each wave (adjustable) TODO: use projectileDensity from FanAttackerData later.
 
-        // Cycle until spawn angle diff reaches one full cycle
-        while (curSpawnAngleDiff < 360f)
+        // Time delay between each wave (s)
+        float delayBetweenWaves = fanAttackerData.timeBetweenBladeProjectiles;
+
+        // Angle difference between each projectile spawned in a single wave (minimum of 1 degree)
+        float spawnAngleDiff = Mathf.Max(1f, fanAttackerData.spinSpeed * delayBetweenWaves);
+
+        // Angle difference between each blade in a single wave
+        float angleSplit = 360f / fanAttackerData.numBlades;
+
+        // Calculate total number of waves needed for a full 360-degree rotation
+        int totalWaves = Mathf.CeilToInt(360f / spawnAngleDiff);
+
+        // Direction multiplier for clockwise/counter-clockwise
+        float direction = fanAttackerData.clockwiseSpin ? 1f : -1f;
+
+        // Spawn waves
+        for (int waveIndex = 0; waveIndex < totalWaves; waveIndex++)
         {
-            float curAngleIncrement = 0;
+            float curSpawnAngleDiff = waveIndex * spawnAngleDiff * direction;
             Vector3 baseDir = Quaternion.Euler(0, 0, curSpawnAngleDiff) * attackDir;
 
+            // Spawn all blades in this wave
             for (int i = 0; i < fanAttackerData.numBlades; i++)
             {
+                float curAngleIncrement = i * angleSplit;
                 Vector3 spawnDir = Quaternion.Euler(0, 0, curAngleIncrement) * baseDir;
                 AttackSpawner.SpawnAttack(spawnDir, attackerTransform, targetTypes, attackData.attackPfb, this, atkStat, percentageDamageIncrease);
-
-                // Increment for next blade
-                curAngleIncrement += angleSplit;
             }
 
-            curSpawnAngleDiff += spawnAngleDiff;
-
-            // Wait before spawning the next wave
-            yield return new WaitForSeconds(delayBetweenWaves);
+            // Wait before spawning the next wave (but not after the last wave)
+            if (waveIndex < totalWaves - 1)
+            {
+                yield return new WaitForSeconds(delayBetweenWaves);
+            }
         }
 
         isAttacking = false;
