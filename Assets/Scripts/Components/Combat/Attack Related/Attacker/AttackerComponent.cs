@@ -91,7 +91,7 @@ public class AttackerComponent : SerializedMonoBehaviour
     }
 
     // Handles setting non-transform property of attacks..
-    private IEnumerator ChargeUpAttack(Attack attack)
+    private IEnumerator ChargeUpAttack(IAttacker attacker)
     {
         // Charge up attack
         yield return new WaitForSeconds(attacker.GetChargeUp());

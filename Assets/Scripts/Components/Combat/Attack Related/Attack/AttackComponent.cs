@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class AttackComponent : MonoBehaviour
+public class AttackComponent : SerializedMonoBehaviour
 {
     public event Action<Damageable> OnHit;
-    public Attack Attack { get { return attack; } private set { } }
+    public IAttack Attack { get { return attack; } private set { } }
     public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
 
     [Tooltip("The projectile data associated with Attack")]
-    [Required, SerializeField] private Attack attack;
+    [Required, OdinSerialize] private IAttack attack;
 
     private List<EntityType> targetTypes = new List<EntityType>();
     private List<Damageable> hitTargets = new List<Damageable>();

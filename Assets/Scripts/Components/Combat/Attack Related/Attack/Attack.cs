@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,13 +15,9 @@ public class Attack: IAttack
 {
     public event Action<Damageable> OnHit;
 
-    public AttackData AttackData
-    {
-        get { return attackData; }
-        private set { }
-    }
+    public AttackData AttackData { get => attackData; set => attackData = value; }
 
-    [SerializeField, Required]
+    [Required, OdinSerialize]
     private AttackData attackData;
 
     /// <summary>
@@ -95,18 +92,12 @@ public class Attack: IAttack
         // Do nothing for basic attack.
     }
 
-    public void SetAtkStat(float atkStat)
+    public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
         this.atkStat = atkStat;
+        this.percentageDamageIncrease = percentageDamageIncrease;
     }
-    public void SetPercentageDamageIncrease(double val)
-    {
-        percentageDamageIncrease = val;
-    }
-    public void SetAtkData(AttackData attackData)
-    {
-        this.attackData = attackData;
-    }
+
 
     // Calculates the damage of the attack while also taking into account the attacker's stats.
     // TODO: move this logic to a util class alongside with the damage calculation formula in Damageable.

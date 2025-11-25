@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class BombAttack : IAttack
 {
-    public BombAttackData BombAttackData { get => bombAttackData; set => bombAttackData = value; }
+    public AttackData AttackData { get => bombAttackData; set => bombAttackData = (BombAttackData) value; }
+
     private BombAttackData bombAttackData;
 
     public BombAttack() { }
@@ -13,6 +14,11 @@ public class BombAttack : IAttack
     }
 
     public void OnLaunch()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
         throw new System.NotImplementedException();
     }

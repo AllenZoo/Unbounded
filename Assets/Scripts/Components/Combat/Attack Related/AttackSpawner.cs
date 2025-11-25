@@ -99,12 +99,11 @@ public class AttackSpawner
 
         // Set dynamic attack fields and reset timer.
         var newAttack = newAttackObj.GetComponent<AttackComponent>();
-        newAttack.Attack.SetAtkStat(atkStat);
-        newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
+        newAttack.Attack.SetModifiers(atkStat, percentageDamageIncrease);
 
         var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
         newAttack.ResetAttackAfterTime(duration);
-        newAttack.Attack.SetAtkData(attackerAttackData);
+        newAttack.Attack.AttackData = attackerAttackData;
 
         // Set velocity of attack (get from Attack in attackObj)
         newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.initialSpeed;

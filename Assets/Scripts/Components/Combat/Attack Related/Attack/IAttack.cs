@@ -6,4 +6,10 @@ public interface IAttack {
 
     // Should be called when the attack hits a target
     void Hit(Damageable hit, Transform hitMaker);
+
+    void SetModifiers(float atkStat, double percentageDamageIncrease);
+
+    public AttackData AttackData { get; set; }
+
+     
 }

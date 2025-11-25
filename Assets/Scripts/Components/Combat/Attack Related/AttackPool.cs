@@ -63,6 +63,15 @@ public class AttackPool : MonoBehaviour
     // If it doesn't exist, it will create a new one.
     private GameObject FindSubPool(GameObject attack)
     {
+        Assert.IsNotNull(attack.GetComponent<AttackComponent>(),
+            "AttackPool: FindSubPool was given an attack object that does not have an AttackComponent!");
+        Assert.IsNotNull(attack.GetComponent<AttackComponent>().Attack,
+            "AttackPool: FindSubPool was given an attack object that does not have an Attack assigned in its AttackComponent!");
+        Assert.IsNotNull(attack.GetComponent<AttackComponent>().Attack.AttackData,
+            "AttackPool: FindSubPool was given an attack object that does not have AttackData assigned in its AttackComponent's Attack!");
+        Assert.IsFalse(string.IsNullOrEmpty(attack.GetComponent<AttackComponent>().Attack.AttackData.attackName),
+            "AttackPool: FindSubPool was given an attack object that has an empty attack name in its AttackData!");
+
         string groupName = attack.GetComponent<AttackComponent>().Attack.AttackData.attackName;
         Assert.IsTrue(groupName.EndsWith("|"), "It is required convention that attack names need to end with |." +
             "Cur attack name: " + groupName);
