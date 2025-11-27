@@ -1,3 +1,4 @@
+using Sirenix.Serialization;
 using UnityEngine;
 
 public class MeteorAttacker : IAttacker
@@ -7,7 +8,8 @@ public class MeteorAttacker : IAttacker
 
 
     // TODO: create an indicator class (creates indicator that transitions from transparent to opaque over time)
-    
+    [OdinSerialize]
+    private IAttackIndicator attackIndicator;
 
     public void Attack(KeyCode keyCode, AttackContext attackContext)
     {
