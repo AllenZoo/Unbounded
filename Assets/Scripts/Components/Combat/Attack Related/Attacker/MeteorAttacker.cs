@@ -13,7 +13,11 @@ public class MeteorAttacker : IAttacker
 
     public void Attack(KeyCode keyCode, AttackContext attackContext)
     {
+
+        // TODO: randomly generate meteor positions within a certain area around the target position
         throw new System.NotImplementedException();
+
+        // TODO: for each meteor position, spawn an indicator and after a delay, spawn the meteor attack
     }
 
     public IAttacker DeepClone()
