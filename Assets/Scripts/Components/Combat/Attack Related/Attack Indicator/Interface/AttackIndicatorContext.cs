@@ -1,30 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Data Class that holds context information for spawning an attack indicator. (essentially just encapsulate function parameters)
+/// </summary>
 public class AttackIndicatorContext
 {
     // TODO: modify as needed to fit spawning indicator requirements
-    public AttackSpawnInfo SpawnInfo { get; set; }
-    public AttackerComponent AttackerComponent { get; set; }
-    public Transform AttackerTransform { get; set; }
-    public List<EntityType> TargetTypes { get; set; }
-    public float AtkStat { get; set; }
-    public double PercentageDamageIncrease { get; set; }
+    public Vector3 IndicatorSpawnPoint;
 
     // Optional: Constructor for convenience
-    public AttackIndicatorContext(
-        AttackSpawnInfo spawnInfo,
-        AttackerComponent attackerComponent,
-        Transform attackerTransform,
-        List<EntityType> targetTypes,
-        float atkStat,
-        double percentageDamageIncrease)
+    public AttackIndicatorContext(Vector3 indicatorSpawnPoint)
     {
-        SpawnInfo = spawnInfo;
-        AttackerComponent = attackerComponent;
-        AttackerTransform = attackerTransform;
-        TargetTypes = targetTypes;
-        AtkStat = atkStat;
-        PercentageDamageIncrease = percentageDamageIncrease;
+        this.IndicatorSpawnPoint = indicatorSpawnPoint;
     }
 }

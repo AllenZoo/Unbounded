@@ -1,4 +1,7 @@
+using NUnit.Framework;
 using Sirenix.Serialization;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MeteorAttacker : IAttacker
@@ -11,37 +14,82 @@ public class MeteorAttacker : IAttacker
     [OdinSerialize]
     private IAttackIndicator attackIndicator;
 
+    #region IAttacker Implementation
     public void Attack(KeyCode keyCode, AttackContext attackContext)
     {
 
-        // TODO: randomly generate meteor positions within a certain area around the target position
-        throw new System.NotImplementedException();
+        // Randomly generate meteor positions within a certain area around the target position
+        var errorRange = new Vector2(-100f, 100f); // min, max error
+        List<Vector3> meteorPositions = CalculateMeteorPositions(attackContext.AttackerTransform, errorRange, 5);
 
         // TODO: for each meteor position, spawn an indicator and after a delay, spawn the meteor attack
-    }
+        foreach (var pos in meteorPositions)
+        {
+            // Spawn indicator at pos (TODO: implement/change context params)
+            attackIndicator.Indicate(new AttackIndicatorContext(pos));
 
-    public IAttacker DeepClone()
-    {
-        throw new System.NotImplementedException();
+            // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
+            // AttackSpawner.SpawnAttack(attackContext.SpawnInfo, pos, attackContext.TargetTypes, AttackData.attackPrefab);
+        }
     }
-
-    public float GetChargeUp()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public float GetCooldown()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool IsInitialized()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void StopAttack()
     {
         throw new System.NotImplementedException();
     }
+    public IAttacker DeepClone()
+    {
+        throw new System.NotImplementedException();
+    }
+    public float GetChargeUp()
+    {
+        throw new System.NotImplementedException();
+    }
+    public float GetCooldown()
+    {
+        throw new System.NotImplementedException();
+    }
+    public bool IsInitialized()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
+
+    #region IAttacker Helpers
+    /// <summary>
+    /// Calculates random meteor spawn positions around a target.
+    /// </summary>
+    /// <param name="target"> The Transform whose position serves as the center point for meteor placement.</param>
+    /// <param name="errorRange">
+    /// A Vector2 defining the minimum and maximum random offset applied to the target 
+    /// position on both the X and Y axes. (x = min offset, y = max offset).
+    /// Each meteor's final position is shifted by a random value within this range,
+    /// creating positional variation or spread.
+    /// </param>
+    /// <param name="meteorCount">The number of meteor positions to generate.</param>
+    /// <returns>
+    /// A list of Vector3 positions representing randomized meteor spawn points.
+    /// </returns>
+
+    private List<Vector3> CalculateMeteorPositions(Transform target, Vector2 errorRange, int meteorCount)
+    {
+        List<Vector3> positions = new List<Vector3>(meteorCount);
+
+        for (int i = 0; i < meteorCount; i++)
+        {
+            float errorX = UnityEngine.Random.Range(errorRange.x, errorRange.y);
+            float errorY = UnityEngine.Random.Range(errorRange.x, errorRange.y);
+
+            Vector3 offset = new Vector3(errorX, errorY, 0f);
+            Vector3 meteorPos = target.position + offset;
+
+            positions.Add(meteorPos);
+        }
+
+        Debug.Assert(positions.Count == meteorCount,
+            "Meteor count mismatch in CalculateMeteorPositions");
+
+        return positions;
+    }
+    #endregion
+
 }

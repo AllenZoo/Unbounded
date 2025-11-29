@@ -39236,6 +39236,7 @@ GameObject:
   - component: {fileID: 2064357883}
   - component: {fileID: 2064357885}
   - component: {fileID: 2064357886}
+  - component: {fileID: 2064357887}
   m_Layer: 0
   m_Name: MeteorCircleIndicatorPfb
   m_TagString: Untagged
@@ -39360,6 +39361,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+--- !u!114 &2064357887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064357882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e491bcafc3cf3e49ad50cfddf541911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CircleColourChanger
+  circleRenderer: {fileID: 2064357883}
 --- !u!1001 &2087888266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40560,7 +40574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6665545410438151286
 Transform:
   m_ObjectHideFlags: 0
