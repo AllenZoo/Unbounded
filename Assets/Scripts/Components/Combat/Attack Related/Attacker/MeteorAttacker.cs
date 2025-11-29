@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class MeteorAttacker : IAttacker
 {
-    public AttackerData AttackerData { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public AttackData AttackData { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
+    public AttackerData AttackerData { get { return meteorAttackerData; } set { meteorAttackerData = (MeteorAttackerData) value; } }
+    public AttackData AttackData { get { return attackData; } set { attackData = value; } }
+    [OdinSerialize] private AttackData attackData;
+    [OdinSerialize] private MeteorAttackerData meteorAttackerData;
 
     // TODO: create an indicator class (creates indicator that transitions from transparent to opaque over time)
     [OdinSerialize]
@@ -50,7 +51,7 @@ public class MeteorAttacker : IAttacker
     }
     public bool IsInitialized()
     {
-        throw new System.NotImplementedException();
+        return attackData != null && meteorAttackerData != null && attackIndicator != null;
     }
     #endregion
 

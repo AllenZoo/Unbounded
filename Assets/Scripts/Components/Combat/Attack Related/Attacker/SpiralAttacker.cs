@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class SpiralAttacker : IAttacker
 {
-    public AttackerData AttackerData { get { return fanAttackerData; } set { fanAttackerData = (SpiralAttackerData)value; } }
+    public AttackerData AttackerData { get { return spiralAttackerData; } set { spiralAttackerData = (SpiralAttackerData)value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
     [OdinSerialize] private AttackData attackData;
-    [OdinSerialize] private SpiralAttackerData fanAttackerData;
+    [OdinSerialize] private SpiralAttackerData spiralAttackerData;
 
     private bool isAttacking = false;
     private MonoBehaviour coroutineRunner;
@@ -18,7 +18,7 @@ public class SpiralAttacker : IAttacker
 
     public SpiralAttacker(SpiralAttackerData fanAttackerData, AttackData attackData)
     {
-        this.fanAttackerData = fanAttackerData;
+        this.spiralAttackerData = fanAttackerData;
         this.attackData = attackData;
     }
 
@@ -75,19 +75,19 @@ public class SpiralAttacker : IAttacker
         Vector3 attackDir = info.mousePosition - attackerTransform.position;
 
         // Time delay between each wave (s)
-        float delayBetweenWaves = fanAttackerData.timeBetweenBladeProjectiles;
+        float delayBetweenWaves = spiralAttackerData.timeBetweenBladeProjectiles;
 
         // Angle difference between each projectile spawned in a single wave (minimum of 1 degree)
-        float spawnAngleDiff = Mathf.Max(1f, fanAttackerData.spinSpeed * delayBetweenWaves);
+        float spawnAngleDiff = Mathf.Max(1f, spiralAttackerData.spinSpeed * delayBetweenWaves);
 
         // Angle difference between each blade in a single wave
-        float angleSplit = 360f / fanAttackerData.numBlades;
+        float angleSplit = 360f / spiralAttackerData.numBlades;
 
         // Calculate total number of waves needed for a full 360-degree rotation
         int totalWaves = Mathf.CeilToInt(360f / spawnAngleDiff);
 
         // Direction multiplier for clockwise/counter-clockwise
-        float direction = fanAttackerData.clockwiseSpin ? 1f : -1f;
+        float direction = spiralAttackerData.clockwiseSpin ? 1f : -1f;
 
         // Spawn waves
         for (int waveIndex = 0; waveIndex < totalWaves; waveIndex++)
@@ -96,7 +96,7 @@ public class SpiralAttacker : IAttacker
             Vector3 baseDir = Quaternion.Euler(0, 0, curSpawnAngleDiff) * attackDir;
 
             // Spawn all blades in this wave
-            for (int i = 0; i < fanAttackerData.numBlades; i++)
+            for (int i = 0; i < spiralAttackerData.numBlades; i++)
             {
                 float curAngleIncrement = i * angleSplit;
                 Vector3 spawnDir = Quaternion.Euler(0, 0, curAngleIncrement) * baseDir;
@@ -115,24 +115,24 @@ public class SpiralAttacker : IAttacker
 
     public IAttacker DeepClone()
     {
-        SpiralAttackerData clonedAttackerData = UnityEngine.Object.Instantiate(fanAttackerData);
+        SpiralAttackerData clonedAttackerData = UnityEngine.Object.Instantiate(spiralAttackerData);
         AttackData clonedAttackData = UnityEngine.Object.Instantiate(attackData);
         return new SpiralAttacker(clonedAttackerData, clonedAttackData);
     }
 
     public float GetChargeUp()
     {
-        return fanAttackerData.chargeUp;
+        return spiralAttackerData.chargeUp;
     }
 
     public float GetCooldown()
     {
-        return fanAttackerData.cooldown;
+        return spiralAttackerData.cooldown;
     }
 
     public bool IsInitialized()
     {
-        return fanAttackerData != null && attackData != null;
+        return spiralAttackerData != null && attackData != null;
     }
 
     public bool IsAttacking()

@@ -14,22 +14,6 @@ public class CircleAttackIndicator : IAttackIndicator
     {
         // Spawn indicator object at position with radius.
         var indicator = AttackIndicatorSpawner.SpawnIndicator(context.IndicatorSpawnPoint, data.attackIndicatorPfb);
-
-        //indicator.GetComponent<AttackIndicatorComponent>().
-
-        // Set scale of indicator to match radius.
-        indicator.GetComponent<CircleScaler>().SetCircleRadius(data.indicatorRadius);
-
-        // Start Transition of indicator from transparent to opaque over duration.
-        indicator.GetComponent<CircleColourChanger>().TransitionColour(data.startFillColour, data.endFillColour, data.transitionTime);
-    }
-
-    public void Test(GameObject indicator)
-    {
-        // Set scale of indicator to match radius.
-        indicator.GetComponent<CircleScaler>().SetCircleRadius(data.indicatorRadius);
-
-        // Start Transition of indicator from transparent to opaque over duration.
-        indicator.GetComponent<CircleColourChanger>().TransitionColour(data.startFillColour, data.endFillColour, data.transitionTime);
+        indicator.Setup(data);
     }
 }

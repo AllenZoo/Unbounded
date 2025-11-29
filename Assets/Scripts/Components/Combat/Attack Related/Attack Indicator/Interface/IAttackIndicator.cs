@@ -8,5 +8,4 @@ public interface IAttackIndicator
     /// </summary>
     /// <param name="context"></param>
     void Indicate(AttackIndicatorContext context);
-    void Test(GameObject test);
 }

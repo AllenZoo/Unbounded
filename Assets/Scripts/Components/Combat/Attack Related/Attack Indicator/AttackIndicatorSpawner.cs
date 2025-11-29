@@ -3,12 +3,10 @@ using UnityEngine;
 public class AttackIndicatorSpawner
 {
     // TODO: spawns indicator at given location (update parameters, look to AttackSpawner for reference).
-    public static GameObject SpawnIndicator(Vector3 spawnPos, GameObject indicatorPfb)
+    public static AttackIndicatorInstance SpawnIndicator(Vector3 spawnPos, GameObject indicatorPfb)
     {
         // TODO: implement pool for indicators later, and add parent transform to this object.
         var go = GameObject.Instantiate(indicatorPfb, spawnPos, Quaternion.identity);
-
-        // TODO: assert that go has CircleColourChanger and CircleScaler components.
-        return go;
+        return go.GetComponent<AttackIndicatorInstance>();
     }
 }
