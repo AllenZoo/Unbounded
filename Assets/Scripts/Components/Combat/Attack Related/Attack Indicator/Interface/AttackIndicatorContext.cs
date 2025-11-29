@@ -3,10 +3,11 @@ using UnityEngine;
 
 /// <summary>
 /// Data Class that holds context information for spawning an attack indicator. (essentially just encapsulate function parameters)
+/// 
+/// Passed through entry point of IAttackIndicator.Indicate(...)
 /// </summary>
 public class AttackIndicatorContext
 {
-    // TODO: modify as needed to fit spawning indicator requirements
     public Vector3 IndicatorSpawnPoint;
 
     // Radius override for when setting up the radius dynamically.

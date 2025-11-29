@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleScaler), typeof(CircleColourChanger))]
@@ -21,11 +22,9 @@ public class CircleAttackIndicatorInstance : MonoBehaviour
 
         scaler.SetCircleRadius(indicatorRadius);
 
-        colourChanger.TransitionColour(
-            data.startFillColour,
-            data.endFillColour,
-            data.transitionTime
-        );
+        colourChanger
+            .TransitionColour(data.startFillColour, data.endFillColour, data.transitionTime)
+            .OnComplete(() => Destroy(gameObject, data.delayUntilDestroy)); // destroy after transition
     }
 
     /// <summary>
@@ -37,10 +36,8 @@ public class CircleAttackIndicatorInstance : MonoBehaviour
     {
         scaler.SetCircleRadius(radius);
 
-        colourChanger.TransitionColour(
-            data.startFillColour,
-            data.endFillColour,
-            data.transitionTime
-        );
+        colourChanger
+            .TransitionColour(data.startFillColour, data.endFillColour, data.transitionTime)
+            .OnComplete(() => Destroy(gameObject, data.delayUntilDestroy)); // destroy after transition
     }
 }

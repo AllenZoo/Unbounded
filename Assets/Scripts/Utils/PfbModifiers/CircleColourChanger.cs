@@ -14,12 +14,14 @@ public class CircleColourChanger : MonoBehaviour
         }
     }
 
-    public void TransitionColour(Color startColour, Color endColour, float duration = 0.2f)
+    public Tween TransitionColour(Color startColour, Color endColour, float duration = 0.2f)
     {
         if (circleRenderer != null)
         {
             circleRenderer.color = startColour;
-            circleRenderer.DOColor(endColour, duration);
+            return circleRenderer.DOColor(endColour, duration);
         }
+
+        return null;
     }
 }

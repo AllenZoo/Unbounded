@@ -14,4 +14,6 @@ public class AttackIndicatorData : ScriptableObject
     public Color startFillColour = Color.red;
     public Color endFillColour = new Color(1f, 0f, 0f, 0.5f);
 
+    [Tooltip("Delay after the indicator has finished transitioning out before destroying the object.")]
+    public float delayUntilDestroy = 1f;
 }

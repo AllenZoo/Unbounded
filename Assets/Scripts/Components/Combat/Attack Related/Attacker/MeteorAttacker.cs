@@ -34,7 +34,7 @@ public class MeteorAttacker : IAttacker
                 meteorAttackerData.meteorRadiusRange.x,
                 meteorAttackerData.meteorRadiusRange.y);
 
-            // Spawn indicator at pos (TODO: implement/change context params)
+            // Spawn indicator at pos
             attackIndicator.Indicate(new AttackIndicatorContext(pos, indicatorRadius, true));
 
             // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
