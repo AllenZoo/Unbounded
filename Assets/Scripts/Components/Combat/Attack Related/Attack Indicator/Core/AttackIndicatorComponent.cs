@@ -5,6 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Component is attached to an entity that can trigger attack indicators.
 /// NOTE: This script is NOT attached on the Indicator pfb itself! (that is handled by the AttackindicatorInstance implementation) 
+/// 
+/// UNUSED FOR NOW.
 /// </summary>
 public class AttackIndicatorComponent : SerializedMonoBehaviour
 {
@@ -14,11 +16,13 @@ public class AttackIndicatorComponent : SerializedMonoBehaviour
     // Trigger an indicator reaction.
     public void TriggerIndicator()
     {
-        var context = new AttackIndicatorContext(
-            indicatorSpawnPoint.position
-        );
+        // TODO:
+        //var context = new AttackIndicatorContext(
+        //    indicatorSpawnPoint.position
+            
+        //);
 
-        attackIndicator.Indicate(context);
+        //attackIndicator.Indicate(context);
     }
 
     private void Update()

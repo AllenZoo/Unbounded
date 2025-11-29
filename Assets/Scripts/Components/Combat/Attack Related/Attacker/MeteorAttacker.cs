@@ -19,15 +19,23 @@ public class MeteorAttacker : IAttacker
     public void Attack(KeyCode keyCode, AttackContext attackContext)
     {
 
-        // Randomly generate meteor positions within a certain area around the target position
-        var errorRange = new Vector2(-100f, 100f); // min, max error
-        List<Vector3> meteorPositions = CalculateMeteorPositions(attackContext.AttackerTransform, errorRange, 5);
+        // Randomly generate meteor positions within a certain area around the target position, given number of meteors to spawn, the error range,
+        // and the target position (TODO: currently providing transform of the attacker instaead of target).
+        List<Vector3> meteorPositions = CalculateMeteorPositions(
+            attackContext.SpawnInfo.mousePosition, 
+            meteorAttackerData.errorRange, 
+            meteorAttackerData.numAttacks);
 
         // TODO: for each meteor position, spawn an indicator and after a delay, spawn the meteor attack
         foreach (var pos in meteorPositions)
         {
+            // Get random radius based on range
+            float indicatorRadius = UnityEngine.Random.Range(
+                meteorAttackerData.meteorRadiusRange.x,
+                meteorAttackerData.meteorRadiusRange.y);
+
             // Spawn indicator at pos (TODO: implement/change context params)
-            attackIndicator.Indicate(new AttackIndicatorContext(pos));
+            attackIndicator.Indicate(new AttackIndicatorContext(pos, indicatorRadius, true));
 
             // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
             // AttackSpawner.SpawnAttack(attackContext.SpawnInfo, pos, attackContext.TargetTypes, AttackData.attackPrefab);
@@ -35,7 +43,7 @@ public class MeteorAttacker : IAttacker
     }
     public void StopAttack()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
     public IAttacker DeepClone()
     {
@@ -43,11 +51,11 @@ public class MeteorAttacker : IAttacker
     }
     public float GetChargeUp()
     {
-        throw new System.NotImplementedException();
+        return meteorAttackerData.chargeUp;
     }
     public float GetCooldown()
     {
-        throw new System.NotImplementedException();
+        return meteorAttackerData.cooldown;
     }
     public bool IsInitialized()
     {
@@ -71,7 +79,7 @@ public class MeteorAttacker : IAttacker
     /// A list of Vector3 positions representing randomized meteor spawn points.
     /// </returns>
 
-    private List<Vector3> CalculateMeteorPositions(Transform target, Vector2 errorRange, int meteorCount)
+    private List<Vector3> CalculateMeteorPositions(Vector3 target, Vector2 errorRange, int meteorCount)
     {
         List<Vector3> positions = new List<Vector3>(meteorCount);
 
@@ -81,7 +89,7 @@ public class MeteorAttacker : IAttacker
             float errorY = UnityEngine.Random.Range(errorRange.x, errorRange.y);
 
             Vector3 offset = new Vector3(errorX, errorY, 0f);
-            Vector3 meteorPos = target.position + offset;
+            Vector3 meteorPos = target + offset;
 
             positions.Add(meteorPos);
         }

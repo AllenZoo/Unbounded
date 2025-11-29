@@ -13,7 +13,14 @@ public class CircleAttackIndicator : IAttackIndicator
     public void Indicate(AttackIndicatorContext context)
     {
         // Spawn indicator object at position with radius.
-        var indicator = AttackIndicatorSpawner.SpawnIndicator(context.IndicatorSpawnPoint, data.attackIndicatorPfb);
-        indicator.Setup(data);
+        var indicator = AttackIndicatorSpawner.SpawnIndicator(context, data.attackIndicatorPfb);
+
+        if (context.OverrideRadius)
+        {
+            indicator.Setup(data, context.IndicatorRadius);
+        } else
+        {
+            indicator.Setup(data);
+        }
     }
 }
