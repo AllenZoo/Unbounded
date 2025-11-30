@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,56 +8,48 @@ using UnityEngine.Assertions;
 // Class that spawns attacks.
 public class AttackSpawner
 {
+
     /// <summary>
-    /// Spawns attack object from attackObj at spawnerPos, towards mousePosition (or attack input position for monsters).
+    /// Spawns attack from top right to target point, like a meteor
     /// </summary>
-    /// <param name="info"></param>
-    /// <param name="spawnerPos"></param>
-    /// <param name="targetTypes"></param>
-    /// <param name="attackObj"></param>
-    /// <returns>The newly created Attack.</returns>
-    public static AttackComponent SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    /// <returns></returns>
+    //public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget)
+    //{
+    //    // TODO: spawn attack from provided point A (sky) to provided point B with given time to reach the target.
+    //    return null;
+    //}
+
+
+    /// <summary>
+    /// Spawns attack from top right to target point, like a meteor
+    /// </summary>
+    /// <returns></returns>
+    public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb)
     {
-        // TODO: clean up later.
-        return null;
-        //Attack attack = attackObj.GetComponent<AttackComponent>();
-        //Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
+        // 1. Choose a spawn point above and to the right of the target (or camera)
+        Vector3 spawnPos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, 1.2f, 0));
+        spawnPos.z = 0f;
 
-        //if (attack == null)
-        //{
-        //    Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
-        //    return null;
-        //}
+        // 2. Spawn the meteor prefab
+        GameObject newAttackObj = AttackPool.Instance.GetAttack(attackPfb);
+        newAttackObj.transform.position = spawnPos;
+        //newAttackObj.transform.rotation = rotation; // TODO: impelemnt rotation changes so that attack faces proper dir. Get vector of spawn to target.
+        newAttackObj.SetActive(true);
 
-        //// Offset from attacker. TODO: make this a better calculation.
-        //float offset = 0.5f;
 
-        //Vector3 direction = info.mousePosition - spawnerPos.position;
-        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
-        //Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
+        AttackComponent attack = newAttackObj.GetComponent<AttackComponent>();
 
-        //// Check if attackObj is in pool, use it. else, instantiate new one.
-        //// Spawn attack object a certain distance from attacker, rotated towards mouse.
-        //GameObject newAttackObj = AttackPool.Instance.GetAttack(attackObj);
-        //newAttackObj.transform.position = spawnPos;
-        //newAttackObj.transform.rotation = rotation;
-        //newAttackObj.SetActive(true);
+        // 3. Start movement toward the target using DOTween
+        newAttackObj.transform.DOMove(targetPos, timeToTarget)
+            .SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                //attack.OnImpact();   // Run damage/explosion logic
+            });
 
-        //Attack newAttack = newAttackObj.GetComponent<Attack>();
-        //newAttack.ResetAttackAfterTime(newAttack.Data.duration);
-
-        //// Set velocity of attack (get from Attack in attackObj)
-        //newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
-
-        //// Set valid EntityType targets for attack.
-        //newAttack.TargetTypes = targetTypes;
-
-        //// Set sprite of attack.
-        ////newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
-
-        //return newAttack;
+        return attack;
     }
+
 
     /// <summary>
     /// Spawns attack object torwards direction from spawnerPos.

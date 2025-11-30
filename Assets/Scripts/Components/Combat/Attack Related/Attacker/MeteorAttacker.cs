@@ -27,7 +27,7 @@ public class MeteorAttacker : IAttacker
             meteorAttackerData.numAttacks);
 
         // TODO: for each meteor position, spawn an indicator and after a delay, spawn the meteor attack
-        foreach (var pos in meteorPositions)
+        foreach (Vector3 pos in meteorPositions)
         {
             // Get random radius based on range
             float indicatorRadius = UnityEngine.Random.Range(
@@ -38,7 +38,9 @@ public class MeteorAttacker : IAttacker
             attackIndicator.Indicate(new AttackIndicatorContext(pos, indicatorRadius, true));
 
             // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
-            // AttackSpawner.SpawnAttack(attackContext.SpawnInfo, pos, attackContext.TargetTypes, AttackData.attackPrefab);
+            float indicatorTransitionTime = attackIndicator.Data.transitionTime;
+
+            AttackSpawner.SpawnMeteorAttack(pos, 1f, attackData.attackPfb);
         }
     }
     public void StopAttack()
