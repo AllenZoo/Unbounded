@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-[CreateAssetMenu(fileName = "AttackerData", menuName = "System/Combat/Attack", order = 1)]
+[CreateAssetMenu(fileName = "new Attack Data", menuName = "System/Combat/Attack/Attack", order = 1)]
 public class AttackData:ScriptableObject
 {
     public string attackName = "Attack";

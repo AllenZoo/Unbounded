@@ -59,7 +59,26 @@ public class AttackComponent : SerializedMonoBehaviour
         }
     }
 
-   
+    public void TriggerAttackLand()
+    {
+        attack.OnLand();
+    }
+
+    // For resetting the attack when it is disabled.
+    //   - Clears hitTargets list.
+    //   - Sets attack object to inactive.
+    public void ResetAttack()
+    {
+        StopAllCoroutines();
+        hitTargets.Clear();
+        this.gameObject.SetActive(false);
+    }
+
+    public void ResetAttackAfterTime(float time)
+    {
+        StartCoroutine(ResetAttackAfterTimeCoroutine(time));
+    }
+
     /// <summary>
     /// Helper that validates and then triggers the hit.
     /// </summary>
@@ -94,22 +113,6 @@ public class AttackComponent : SerializedMonoBehaviour
         }
 
         return true;
-    }
-
-
-    // For resetting the attack when it is disabled.
-    //   - Clears hitTargets list.
-    //   - Sets attack object to inactive.
-    public void ResetAttack()
-    {
-        StopAllCoroutines();
-        hitTargets.Clear();
-        this.gameObject.SetActive(false);
-    }
-
-    public void ResetAttackAfterTime(float time)
-    {
-        StartCoroutine(ResetAttackAfterTimeCoroutine(time));
     }
 
     private IEnumerator ResetAttackAfterTimeCoroutine(float time)

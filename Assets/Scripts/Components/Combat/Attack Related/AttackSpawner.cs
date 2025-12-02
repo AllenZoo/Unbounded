@@ -36,6 +36,12 @@ public class AttackSpawner
         //newAttackObj.transform.rotation = rotation; // TODO: impelemnt rotation changes so that attack faces proper dir. Get vector of spawn to target.
         newAttackObj.SetActive(true);
 
+        // 3. Scale attack size based on radius provided (TODO:)
+        newAttackObj.GetComponent<CircleScaler>()?.SetCircleRadius(0.5f); // TODO: replace with actual radius.
+        if (newAttackObj.GetComponent<CircleScaler>() == null)
+        {
+            Debug.LogError("AttackSpawner: SpawnMeteorAttack: attackPfb does not have CircleScaler component!");
+        }
 
         AttackComponent attack = newAttackObj.GetComponent<AttackComponent>();
 
@@ -44,6 +50,7 @@ public class AttackSpawner
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {
+                attack.TriggerAttackLand();
                 //attack.OnImpact();   // Run damage/explosion logic
             });
 

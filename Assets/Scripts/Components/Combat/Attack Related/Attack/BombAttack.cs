@@ -1,10 +1,14 @@
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using System;
 using UnityEngine;
 
+[Serializable]
 public class BombAttack : IAttack
 {
     public AttackData AttackData { get => bombAttackData; set => bombAttackData = (BombAttackData) value; }
 
-    private BombAttackData bombAttackData;
+    [Required, OdinSerialize] private BombAttackData bombAttackData;
 
     public BombAttack() { }
 
@@ -14,6 +18,11 @@ public class BombAttack : IAttack
     }
 
     public void OnLaunch()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnLand()
     {
         throw new System.NotImplementedException();
     }

@@ -89,9 +89,14 @@ public class Attack: IAttack
 
     public void OnLaunch()
     {
-        // Do nothing for basic attack.
+        // Do nothing for basic projectile attack.
     }
 
+    public void OnLand()
+    {
+        // Do nothing for basic projectile attack.
+
+    }
     public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
         this.atkStat = atkStat;

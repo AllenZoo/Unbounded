@@ -4,6 +4,9 @@ public interface IAttack {
     // Should be called when the attack is launched/spawned
     void OnLaunch();
 
+    // Should be called when the attack lands/hits the ground
+    void OnLand();
+
     // Should be called when the attack hits a target
     void Hit(Damageable hit, Transform hitMaker);
 
