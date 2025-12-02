@@ -5,9 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new Bomb Attack Data", menuName = "System/Combat/Attack/BombAttack", order = 1)]
 public class BombAttackData : AttackData
 {
-    [Tooltip("Radius of explosion effect")]
-    public float explosionRadius;
+    [Header("Bomb Specific Fields")]
+    [Tooltip("If true, always use the explosion radius defined in this field (explosionRadius).")]
+    public bool alwaysUseThisExplosionRadius;
 
-    [Tooltip("Time in seconds before bomb explodes")]
+    [Tooltip("Radius of explosion effect")]
+    public float explosionRadius; // TODO: this may need to be a dynamic field.. Think about adding an option that toggles this as dynamic or static.
+
+    [Tooltip("Time in seconds before bomb explodes (after it lands)")]
     public float fuseTime;
 }
