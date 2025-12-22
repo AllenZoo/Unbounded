@@ -172,7 +172,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 79cb7fde57ca8134988da271c29022d5, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -181,6 +182,9 @@ MonoBehaviour:
     - Name: attack
       Entry: 7
       Data: 0|BombAttack, Assembly-CSharp
+    - Name: bombAttackData
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

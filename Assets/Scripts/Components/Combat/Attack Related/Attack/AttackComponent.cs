@@ -61,7 +61,8 @@ public class AttackComponent : SerializedMonoBehaviour
 
     public void TriggerAttackLand()
     {
-        attack.OnLand();
+        // Get all hittable entities in circle at time.
+        attack.OnLand(this);
     }
 
     // For resetting the attack when it is disabled.

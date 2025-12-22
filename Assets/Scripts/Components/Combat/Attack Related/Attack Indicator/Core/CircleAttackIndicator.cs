@@ -17,7 +17,17 @@ public class CircleAttackIndicator : IAttackIndicator
 
         if (context.OverrideRadius)
         {
-            indicator.Setup(data, context.IndicatorRadius);
+            // Only grow if override and grow radius are both true.
+            if (context.GrowRadius)
+            {
+                indicator.Setup(data, startRadius: context.StartRadius, endRadius: context.IndicatorRadius, transitionTime: context.RadiusGrowthTime);
+                return;
+            } else
+            {
+                indicator.Setup(data, context.IndicatorRadius);
+                return;
+            }
+               
         } else
         {
             indicator.Setup(data);

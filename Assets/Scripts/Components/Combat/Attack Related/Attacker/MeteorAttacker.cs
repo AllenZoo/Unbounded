@@ -20,27 +20,34 @@ public class MeteorAttacker : IAttacker
     {
 
         // Randomly generate meteor positions within a certain area around the target position, given number of meteors to spawn, the error range,
-        // and the target position (TODO: currently providing transform of the attacker instaead of target).
+        // and the target position
         List<Vector3> meteorPositions = CalculateMeteorPositions(
             attackContext.SpawnInfo.mousePosition, 
             meteorAttackerData.errorRange, 
             meteorAttackerData.numAttacks);
 
-        // TODO: for each meteor position, spawn an indicator and after a delay, spawn the meteor attack
+        // For each meteor position, spawn an indicator and after a delay, spawn the meteor attack
         foreach (Vector3 pos in meteorPositions)
         {
-            // Get random radius based on range
+            // Get random radius based on range. This is the final radius the indicator will grow to.
             float indicatorRadius = UnityEngine.Random.Range(
                 meteorAttackerData.meteorRadiusRange.x,
                 meteorAttackerData.meteorRadiusRange.y);
 
+            // Initial Start Radius of indicator.
+            float startRadius = 2f;
+
+            // (TODO: tweak radiusGrowthTime param). There is a paramter for this in AttackIndicatorData.cs, but we override that with this variable.
+            float radiusGrowthTime = 1f;
+
             // Spawn indicator at pos
-            attackIndicator.Indicate(new AttackIndicatorContext(pos, indicatorRadius, true));
+            attackIndicator.Indicate(new AttackIndicatorContext(pos, startRadius, indicatorRadius, true, radiusGrowthTime: radiusGrowthTime, growRadius: true));
 
             // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
             float indicatorTransitionTime = attackIndicator.Data.transitionTime;
 
-            AttackSpawner.SpawnMeteorAttack(pos, 1f, attackData.attackPfb);
+            // TODO: meteor radius
+            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.attackPfb, meteorRadius: indicatorRadius);
         }
     }
     public void StopAttack()

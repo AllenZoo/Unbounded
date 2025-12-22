@@ -92,7 +92,7 @@ public class Attack: IAttack
         // Do nothing for basic projectile attack.
     }
 
-    public void OnLand()
+    public void OnLand(MonoBehaviour crStarter)
     {
         // Do nothing for basic projectile attack.
 

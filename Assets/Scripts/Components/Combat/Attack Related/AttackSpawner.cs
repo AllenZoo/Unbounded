@@ -24,7 +24,7 @@ public class AttackSpawner
     /// Spawns attack from top right to target point, like a meteor
     /// </summary>
     /// <returns></returns>
-    public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb)
+    public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb, float meteorRadius)
     {
         // 1. Choose a spawn point above and to the right of the target (or camera)
         Vector3 spawnPos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, 1.2f, 0));
@@ -36,8 +36,8 @@ public class AttackSpawner
         //newAttackObj.transform.rotation = rotation; // TODO: impelemnt rotation changes so that attack faces proper dir. Get vector of spawn to target.
         newAttackObj.SetActive(true);
 
-        // 3. Scale attack size based on radius provided (TODO:)
-        newAttackObj.GetComponent<CircleScaler>()?.SetCircleRadius(0.5f); // TODO: replace with actual radius.
+        // 3. Scale attack size based on radius provided
+        newAttackObj.GetComponent<CircleScaler>()?.SetCircleRadius(meteorRadius);
         if (newAttackObj.GetComponent<CircleScaler>() == null)
         {
             Debug.LogError("AttackSpawner: SpawnMeteorAttack: attackPfb does not have CircleScaler component!");
@@ -51,7 +51,7 @@ public class AttackSpawner
             .OnComplete(() =>
             {
                 attack.TriggerAttackLand();
-                //attack.OnImpact();   // Run damage/explosion logic
+                //attack.OnImpact();   // Run damage/explosion logic (TODO: add some logic for this)
             });
 
         return attack;
