@@ -5,12 +5,14 @@ public interface IAttack {
     void OnLaunch();
 
     // Should be called when the attack lands/hits the ground
-    void OnLand(MonoBehaviour coroutineStarter);
+    void OnLand(AttackComponent ac);
 
     // Should be called when the attack hits a target
     void Hit(Damageable hit, Transform hitMaker);
 
     void SetModifiers(float atkStat, double percentageDamageIncrease);
+
+    void Reset(AttackComponent ac);
 
     public AttackData AttackData { get; set; }
 

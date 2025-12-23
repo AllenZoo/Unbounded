@@ -92,7 +92,7 @@ public class Attack: IAttack
         // Do nothing for basic projectile attack.
     }
 
-    public void OnLand(MonoBehaviour crStarter)
+    public void OnLand(AttackComponent crStarter)
     {
         // Do nothing for basic projectile attack.
 
@@ -102,6 +102,12 @@ public class Attack: IAttack
         this.atkStat = atkStat;
         this.percentageDamageIncrease = percentageDamageIncrease;
     }
+
+    public void Reset(AttackComponent ac)
+    {
+        // Do nothing for basic projectile attack.
+    }
+
 
 
     // Calculates the damage of the attack while also taking into account the attacker's stats.

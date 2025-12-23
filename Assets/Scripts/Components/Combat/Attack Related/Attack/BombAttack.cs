@@ -24,24 +24,49 @@ public class BombAttack : IAttack
         throw new System.NotImplementedException();
     }
 
-    public void OnLand(MonoBehaviour corountineStarter)
+    public void OnLand(AttackComponent ac)
     {
         // Start fuse timer.
         //bombAttackData.fuseTime;
-        throw new System.NotImplementedException();
+        ac.StartCoroutine(OnLandEnumerator(ac));
     }
 
-    public IEnumerator OnLandEnumerator()
+    public IEnumerator OnLandEnumerator(AttackComponent ac)
     {
         yield return new WaitForSeconds(bombAttackData.fuseTime);
-        Explode();
+        Explode(ac);
     }
 
-    public void Explode()
+    public void Explode(AttackComponent ac)
     {
-        // explode and do damage to any entity in radius. (e.g. collider)
-        // Do this by spawning an explosion attack overtop.
+        // Change Sprite
+        SpriteRenderer spriteRenderer = ac.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+            spriteRenderer.sprite = bombAttackData.explosionSprite;
+            spriteRenderer.enabled = true;
+        }
 
+        // Explode and do damage to any entity in radius. (e.g. collider)
+
+        // Option 1: Do this by spawning an explosion attack overtop.
+
+        // Option 2: Allow for Triggers to occur.
+
+    }
+
+
+    public void Reset(AttackComponent ac)
+    {
+        // Change Sprite back to original.
+        SpriteRenderer spriteRenderer = ac.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+            spriteRenderer.sprite = bombAttackData.initSprite;
+            spriteRenderer.enabled = true;
+        }
     }
 
     public void SetModifiers(float atkStat, double percentageDamageIncrease)

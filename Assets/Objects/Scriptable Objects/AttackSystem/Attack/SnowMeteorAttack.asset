@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8258e6f6b53d6409540885b446aef0, type: 3}
   m_Name: SnowMeteorAttack
   m_EditorClassIdentifier: Assembly-CSharp::BombAttackData
-  attackName: Attack
+  attackName: Snow Meteor Attack|
   attackPfb: {fileID: 8200173734761957917, guid: a07ef39135690bb4793d807bd63df25a, type: 3}
   baseDamage: 5
   attackSound: {fileID: 0}
@@ -30,3 +30,5 @@ MonoBehaviour:
   alwaysUseThisExplosionRadius: 0
   explosionRadius: 0
   fuseTime: 0
+  initSprite: {fileID: 7607144487970100932, guid: d2a62a5a11f58dc4ea9ed28a3d4e056d, type: 3}
+  explosionSprite: {fileID: 654544120, guid: e2f36e98927840749bd4b59bcd025f4b, type: 3}

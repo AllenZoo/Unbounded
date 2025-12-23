@@ -72,6 +72,7 @@ public class AttackComponent : SerializedMonoBehaviour
     {
         StopAllCoroutines();
         hitTargets.Clear();
+        attack.Reset(this);
         this.gameObject.SetActive(false);
     }
 

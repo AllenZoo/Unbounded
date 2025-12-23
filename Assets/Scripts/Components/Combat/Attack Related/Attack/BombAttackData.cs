@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
@@ -14,4 +15,12 @@ public class BombAttackData : AttackData
 
     [Tooltip("Time in seconds before bomb explodes (after it lands)")]
     public float fuseTime;
+
+    [Required]
+    [Tooltip("Initial before explosion sprite")]
+    public Sprite initSprite;
+
+    [Required]
+    [Tooltip("Bomb explosion sprite")]
+    public Sprite explosionSprite;
 }

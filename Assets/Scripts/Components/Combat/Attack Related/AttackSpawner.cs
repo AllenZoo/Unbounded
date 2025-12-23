@@ -36,6 +36,7 @@ public class AttackSpawner
         //newAttackObj.transform.rotation = rotation; // TODO: impelemnt rotation changes so that attack faces proper dir. Get vector of spawn to target.
         newAttackObj.SetActive(true);
 
+
         // 3. Scale attack size based on radius provided
         newAttackObj.GetComponent<CircleScaler>()?.SetCircleRadius(meteorRadius);
         if (newAttackObj.GetComponent<CircleScaler>() == null)
@@ -44,6 +45,10 @@ public class AttackSpawner
         }
 
         AttackComponent attack = newAttackObj.GetComponent<AttackComponent>();
+
+        // Set duration until attack disappears/resets. (reset = set inactive)
+        var duration = timeToTarget + 1f; // TODO: modify this for object reset duration (e.g. timer for attack to despawn)
+        attack.ResetAttackAfterTime(duration);
 
         // 3. Start movement toward the target using DOTween
         newAttackObj.transform.DOMove(targetPos, timeToTarget)
@@ -97,14 +102,15 @@ public class AttackSpawner
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
-        // Set dynamic attack fields and reset timer.
+        // Set dynamic attack fields
         var newAttack = newAttackObj.GetComponent<AttackComponent>();
         newAttack.Attack.SetModifiers(atkStat, percentageDamageIncrease);
-
-        var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
-        newAttack.ResetAttackAfterTime(duration);
         newAttack.Attack.AttackData = attackerAttackData;
 
+        // Set duration until attack disappears/resets. (reset = set inactive)
+        var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
+        newAttack.ResetAttackAfterTime(duration);
+        
         // Set velocity of attack (get from Attack in attackObj)
         newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.initialSpeed;
 
