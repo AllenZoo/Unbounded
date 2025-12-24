@@ -59,4 +59,7 @@ public class AttackData:ScriptableObject
 
     [Tooltip("Rotational offset for rotating attack on spawn")]
     public float rotOffset = 0f;
+
+    [Tooltip("Whether hitting an enemy will cause the sprite to stop rendering.")]
+    public bool disappearOnHit = true;
 }

@@ -55,6 +55,15 @@ public class BombAttack : IAttack
 
     public void OnLaunch(AttackComponent ac)
     {
+        // Change Sprite back to original projectile sprite.
+        SpriteRenderer spriteRenderer = ac.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+            spriteRenderer.sprite = bombAttackData.initSprite;
+            spriteRenderer.enabled = true;
+        }
+
         // Deactivate hit collision until it explodes.
         ac.AttackCollider.enabled = false;
         throw new System.NotImplementedException();
@@ -95,14 +104,7 @@ public class BombAttack : IAttack
 
     public void Reset(AttackComponent ac)
     {
-        // Change Sprite back to original.
-        SpriteRenderer spriteRenderer = ac.GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.enabled = false;
-            spriteRenderer.sprite = bombAttackData.initSprite;
-            spriteRenderer.enabled = true;
-        }
+        
     }
 
     public void SetModifiers(float atkStat, double percentageDamageIncrease)

@@ -84,7 +84,18 @@ public class AttackComponent : SerializedMonoBehaviour
         StopAllCoroutines();
         hitTargets.Clear();
         attack.Reset(this);
-        this.gameObject.SetActive(false);
+
+        if (attack.AttackData.disappearOnHit)
+        {
+            this.gameObject.SetActive(false);
+        } else
+        {
+            // object still needs to disable itself 
+            // TODO: Remove the following line and implement new logic.
+            // Maybe think of new way to implement this difference between bomb attack and projectile attack? (DOT vs  projectile)
+            this.gameObject.SetActive(false);
+        }
+        
     }
 
     public void ResetAttackAfterTime(float time)
