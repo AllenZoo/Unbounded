@@ -16,13 +16,13 @@ public class MeteorAttacker : IAttacker
     private IAttackIndicator attackIndicator;
 
     #region IAttacker Implementation
-    public void Attack(KeyCode keyCode, AttackContext attackContext)
+    public void Attack(KeyCode keyCode, AttackContext ac)
     {
 
         // Randomly generate meteor positions within a certain area around the target position, given number of meteors to spawn, the error range,
         // and the target position
         List<Vector3> meteorPositions = CalculateMeteorPositions(
-            attackContext.SpawnInfo.mousePosition, 
+            ac.SpawnInfo.mousePosition, 
             meteorAttackerData.errorRange, 
             meteorAttackerData.numAttacks);
 
@@ -46,8 +46,8 @@ public class MeteorAttacker : IAttacker
             // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
             float indicatorTransitionTime = attackIndicator.Data.transitionTime;
 
-            // TODO: meteor radius
-            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.attackPfb, meteorRadius: indicatorRadius);
+            // TODO-OPT: Tweak Time To Target param.
+            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.attackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
         }
     }
     public void StopAttack()

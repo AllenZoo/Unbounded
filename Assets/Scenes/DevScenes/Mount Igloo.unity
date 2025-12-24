@@ -34587,7 +34587,7 @@ GameObject:
   - component: {fileID: 1043709441}
   - component: {fileID: 1043709440}
   m_Layer: 0
-  m_Name: GoblinForestMap
+  m_Name: Mount Igloo Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39810,6 +39810,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowMeteorAttack
       objectReference: {fileID: 0}
+    - target: {fileID: 8200173734761957917, guid: a07ef39135690bb4793d807bd63df25a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40827,7 +40831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6665545410438151286
 Transform:
   m_ObjectHideFlags: 0

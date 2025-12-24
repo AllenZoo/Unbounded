@@ -51,7 +51,7 @@ public class Attack: IAttack
     /// <param name="hit"></param>
     /// <param name="hitObject"></param>
 
-    public void Hit(Damageable hit, Transform hitMaker)
+    public bool Hit(Damageable hit, Transform hitMaker)
     {
         float calculatedDamage = CalculateDamage(attackData.baseDamage, atkStat);
 
@@ -59,7 +59,7 @@ public class Attack: IAttack
         if (attackData.isDOT)
         {
             hit.TakeDamageOverTime(this, calculatedDamage);
-            return;
+            return true;
         }
 
         hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
@@ -75,19 +75,10 @@ public class Attack: IAttack
                 kb.Knockback(hit.transform.position - hitMaker.position, attackData.baseKnockback, attackData.baseStunDuration);
             }
         }
-
-
-        // Resets the attack if conditions are met.
-        if (!attackData.isAOE && !attackData.isPiercing && !attackData.lastsUntilDuration)
-        {
-            // TODO: movee this logic into the component.
-            // Destroy the attack object. (or set inactive if we want to reuse it)
-            return;
-        }
-
+        return true;
     }
 
-    public void OnLaunch()
+    public void OnLaunch(AttackComponent ac)
     {
         // Do nothing for basic projectile attack.
     }

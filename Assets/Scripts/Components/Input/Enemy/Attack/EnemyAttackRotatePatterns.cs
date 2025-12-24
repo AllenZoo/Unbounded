@@ -13,7 +13,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     [Tooltip("Defines the movement and attack pattern behaviour of entity.")]
     [OdinSerialize]
     private List<BehaviourDefinition> behaviours = new();
-
+    private List<BehaviourDefinition> enabledBehaviours = new();
+    
     [OdinSerialize]
     private BehaviourDefinition rageBehaviour;
 
@@ -41,8 +42,6 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 
     // To keep track of all the stat modifier references that we applied. Useful when we want to revert their effects.
     private List<StatModifier> appliedStatModifiers = new List<StatModifier>();
-
-    
 
     #region SO Base functions
     public override void DoAnimationTriggerEventLogic()
@@ -131,7 +130,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
                 rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
             }       
         }
-        
+
+        enabledBehaviours = behaviours.Where(b => !b.DisableBehaviour).ToList();
 
         ResetBehaviourSelectionWeightMap();
         currentBehaviour = emptyBehaviour;
@@ -161,7 +161,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
 
         behaviourSelectionWeightMap.Clear();
-        foreach(BehaviourDefinition behaviour in behaviours)
+        foreach(BehaviourDefinition behaviour in enabledBehaviours)
         {
             behaviourSelectionWeightMap.Add(behaviour, 1.0);
         }
@@ -294,12 +294,16 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
         
         // 1b. Apply new stat changes
-        foreach (AddStatModifier addStatModifier in currentBehaviour.addStatModifiers)
+        if (currentBehaviour.addStatModifiers != null)
         {
-            var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
-            enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
-            appliedStatModifiers.Add(statModifier);
+            foreach (AddStatModifier addStatModifier in currentBehaviour.addStatModifiers)
+            {
+                var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
+                enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
+                appliedStatModifiers.Add(statModifier);
+            }
         }
+        
 
         // 2. Set Attacker
         if (enemyAIComponent.AttackerComponent != null)
@@ -352,6 +356,13 @@ public class BehaviourDefinition
     [SerializeField, Tooltip("For keeping track of what attacker and attack objs are being used")]
     [TextArea(3, 10)]
     private string behaviourDescription = "";
+
+
+    public bool DisableBehaviour { get { return disableBehaviour; } private set { } }
+
+    [Header("Debugging")]
+    [SerializeField, Tooltip("Disable behaviour for debugging")]
+    private bool disableBehaviour = false;
 }
 
 [Serializable]

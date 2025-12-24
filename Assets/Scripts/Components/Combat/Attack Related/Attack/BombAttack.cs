@@ -11,17 +11,54 @@ public class BombAttack : IAttack
 
     [Required, OdinSerialize] private BombAttackData bombAttackData;
 
+    /// <summary>
+    /// The the atk stat attached to Attack. Boosts the base damage of said attack.
+    /// Generally the cumulation of weapon stats + player stats after modifiers applied for each.
+    /// </summary>
+    [SerializeField, ReadOnly] private float atkStat = 0;
+
+    /// <summary>
+    /// Damage modifier to apply to final calculated damage.
+    /// For example after Attack.Damage - Damageable.Defense = TrueDamage
+    /// We apply % modifier to TrueDamage: TrueDamage + TrueDamage * % modifier.
+    /// </summary>
+    [SerializeField, ReadOnly] private double percentageDamageIncrease = 0;
+
     public BombAttack() { }
 
-    public void Hit(Damageable hit, Transform hitMaker)
+    public bool Hit(Damageable hit, Transform hitMaker)
     {
-        // if not landed yet, dont do anything.
-        throw new System.NotImplementedException();
+        float calculatedDamage = CalculateDamage(bombAttackData.baseDamage, atkStat);
+
+        // Damage the target.
+        if (bombAttackData.isDOT)
+        {
+            hit.TakeDamageOverTime(this, calculatedDamage);
+            return true;
+        }
+
+        hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
+
+        // Knockback the target if:
+        //      - attack has knockback
+        //      - target is knockbackable
+        if (bombAttackData.baseKnockback > 0)
+        {
+            Knockbackable kb = hit.GetComponent<Knockbackable>();
+            if (kb != null)
+            {
+                kb.Knockback(hit.transform.position - hitMaker.position, bombAttackData.baseKnockback, bombAttackData.baseStunDuration);
+            }
+        }
+        return true;
     }
 
-    public void OnLaunch()
+    public void OnLaunch(AttackComponent ac)
     {
+        // Deactivate hit collision until it explodes.
+        ac.AttackCollider.enabled = false;
         throw new System.NotImplementedException();
+
     }
 
     public void OnLand(AttackComponent ac)
@@ -51,11 +88,10 @@ public class BombAttack : IAttack
         // Explode and do damage to any entity in radius. (e.g. collider)
 
         // Option 1: Do this by spawning an explosion attack overtop.
-
-        // Option 2: Allow for Triggers to occur.
+        // Option 2: Allow for Triggers to occur. (picked this one)
+        ac.AttackCollider.enabled = true;
 
     }
-
 
     public void Reset(AttackComponent ac)
     {
@@ -71,6 +107,16 @@ public class BombAttack : IAttack
 
     public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
-        throw new System.NotImplementedException();
+        this.atkStat = atkStat;
+        this.percentageDamageIncrease = percentageDamageIncrease;
+    }
+
+
+    // Taken from Attack.cs. TODO: eventually refactor this (along with the duplciate code in Attack.cs) to implement more compelx damage system.
+    private float CalculateDamage(float baseDamage, float atkStat)
+    {
+        float calculatedDMG = baseDamage + atkStat;
+        return calculatedDMG;
+
     }
 }

@@ -14,6 +14,9 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AttackComponent : SerializedMonoBehaviour
 {
+    [ReadOnly]
+    public Collider2D AttackCollider;
+
     public event Action<Damageable> OnHit;
     public IAttack Attack { get { return attack; } private set { } }
     public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
@@ -21,8 +24,9 @@ public class AttackComponent : SerializedMonoBehaviour
     [Tooltip("The projectile data associated with Attack")]
     [Required, OdinSerialize] private IAttack attack;
 
-    private List<EntityType> targetTypes = new List<EntityType>();
-    private List<Damageable> hitTargets = new List<Damageable>();
+    [Header("Debugging (Reset fields to empty)")]
+    [SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
+    [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
 
     private void Awake()
     {
@@ -38,6 +42,8 @@ public class AttackComponent : SerializedMonoBehaviour
         // Used to optimize collision detections
         // TODO:
         //Assert.IsTrue(gameObject.layer.Equals("AttackCollider"));
+
+        AttackCollider = GetComponent<Collider2D>();
     }
 
     /// <summary>
@@ -57,6 +63,11 @@ public class AttackComponent : SerializedMonoBehaviour
             }
             
         }
+    }
+
+    public void TriggerAttackLaunch()
+    {
+        attack.OnLaunch(this);
     }
 
     public void TriggerAttackLand()
@@ -103,8 +114,8 @@ public class AttackComponent : SerializedMonoBehaviour
         }
 
         // Trigger Hit
-        attack.Hit(hit, this.transform);
-        hitTargets.Add(hit);
+        var hitSuccess = attack.Hit(hit, this.transform);
+        if (hitSuccess) hitTargets.Add(hit);
 
 
         // Resets the attack if conditions are met.

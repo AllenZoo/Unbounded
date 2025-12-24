@@ -24,7 +24,7 @@ public class AttackSpawner
     /// Spawns attack from top right to target point, like a meteor
     /// </summary>
     /// <returns></returns>
-    public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb, float meteorRadius)
+    public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb, float meteorRadius, List<EntityType> targetTypes)
     {
         // 1. Choose a spawn point above and to the right of the target (or camera)
         Vector3 spawnPos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, 1.2f, 0));
@@ -53,11 +53,16 @@ public class AttackSpawner
         // 3. Start movement toward the target using DOTween
         newAttackObj.transform.DOMove(targetPos, timeToTarget)
             .SetEase(Ease.Linear)
+            .OnStart(() => { attack.TriggerAttackLaunch(); })
             .OnComplete(() =>
             {
+
                 attack.TriggerAttackLand();
                 //attack.OnImpact();   // Run damage/explosion logic (TODO: add some logic for this)
             });
+
+        // 4. Set valid EntityType targets for attack.
+        attack.TargetTypes = targetTypes;
 
         return attack;
     }
