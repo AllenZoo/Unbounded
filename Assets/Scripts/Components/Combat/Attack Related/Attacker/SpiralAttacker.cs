@@ -11,8 +11,8 @@ public class SpiralAttacker : IAttacker
     [OdinSerialize] private SpiralAttackerData spiralAttackerData;
 
     private bool isAttacking = false;
-    private MonoBehaviour coroutineRunner;
-    private Coroutine curCoroutine;
+    private MonoBehaviour coroutineRunner; // instance that runs the coroutine.
+    private Coroutine curCoroutine; // keeps track of running coroutine. If null, this means no coroutine is currently running.
 
     public SpiralAttacker() { }
 
@@ -62,11 +62,16 @@ public class SpiralAttacker : IAttacker
 
     public void StopAttack()
     {
-        if (isAttacking && coroutineRunner != null && curCoroutine != null)
+        if (!isAttacking)
         {
-            coroutineRunner.StopCoroutine(curCoroutine);
             isAttacking = false;
         }
+
+        if (coroutineRunner != null && curCoroutine != null)
+        {
+            coroutineRunner.StopCoroutine(curCoroutine);
+        }
+
     }
 
     private IEnumerator AttackCoroutine(AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)

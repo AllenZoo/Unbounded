@@ -6,7 +6,7 @@ using UnityEngine;
 public interface IAttacker
 {
     public void Attack(KeyCode keyCode, AttackContext attackContext);
-    public void StopAttack(); // For attackers that have continuous attacks (like fan attacker)
+    public void StopAttack(); // For attackers that have continuous attacks (like spiral attacker)
     public bool IsInitialized();
     public float GetCooldown();
     public float GetChargeUp();

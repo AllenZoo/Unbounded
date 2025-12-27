@@ -92,7 +92,7 @@ public class AttackComponent : SerializedMonoBehaviour
         {
             // object still needs to disable itself 
             // TODO: Remove the following line and implement new logic.
-            // Maybe think of new way to implement this difference between bomb attack and projectile attack? (DOT vs  projectile)
+            // Maybe think of new way to implement this difference between bomb attack and projectile attack? (AOE DOT vs  projectile)
             this.gameObject.SetActive(false);
         }
         

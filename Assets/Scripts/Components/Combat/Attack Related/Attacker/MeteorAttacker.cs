@@ -11,9 +11,7 @@ public class MeteorAttacker : IAttacker
     [OdinSerialize] private AttackData attackData;
     [OdinSerialize] private MeteorAttackerData meteorAttackerData;
 
-    // TODO: create an indicator class (creates indicator that transitions from transparent to opaque over time)
-    [OdinSerialize]
-    private IAttackIndicator attackIndicator;
+    [OdinSerialize] private IAttackIndicator attackIndicator; // Class that spawns an indicator of area where a meteor is going to land on.
 
     #region IAttacker Implementation
     public void Attack(KeyCode keyCode, AttackContext ac)
@@ -52,6 +50,7 @@ public class MeteorAttacker : IAttacker
     }
     public void StopAttack()
     {
+        // Not a continouous attack so don't need.
         //throw new System.NotImplementedException();
     }
     public IAttacker DeepClone()
