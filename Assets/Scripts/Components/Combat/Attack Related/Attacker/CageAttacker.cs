@@ -1,4 +1,7 @@
+using DG.Tweening;
 using Sirenix.Serialization;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -37,22 +40,44 @@ public class CageAttacker : IAttacker
 
         if (!attacking)
         {
-
-
             attacking = true;
+            curCoroutine = coroutineRunner.StartCoroutine(AttackCoroutine());
+        }
+    }
 
-            // Spawn Cage at outer radius.
-            for (int i = 0; i < cageAttackerData.CageAttackDensity; i++)
-            {
+    private IEnumerator AttackCoroutine()
+    {
 
-            }
-
-            // Start Transition between growing and shrinking cage
-
+        // Spawn Cage at outer radius.
+        for (int i = 0; i < cageAttackerData.CageAttackDensity; i++)
+        {
+            // TODO: maybe we don't need coroutine since we just spawn in the attacks in a circle...
+            // UPDATE: no we do b/c the attack shrink and grow at certain times.
+            // Spawn in a parent object, that we can apply transform.RotateAround() on. (Refer to RingAttack.cs)
         }
 
-        throw new System.NotImplementedException();
+        // Start Transition between growing and shrinking cage
+        SetCageRadius(null, null, 1, 1);
+        yield return new WaitForSeconds(0);
     }
+
+    /// <summary>
+    /// Transition to given Cage radius.
+    /// </summary>
+    private void SetCageRadius(List<GameObject> cageAtkProjectiles, Transform centerPoint, float radius, float transitionTime)
+    {
+        foreach(var projectile in cageAtkProjectiles)
+        {
+            // Dir from center to projectile in ring.
+            Vector2 dir = projectile.transform.position - centerPoint.position;
+
+            // Transition projectile along dir, such that the magnitude of vector from center to new location is at radius.
+            Vector2 dirNormalized = dir.normalized; // Get unit vector
+            Vector2 newPos = dirNormalized * radius; // Get new location.
+            projectile.transform.DOMove(newPos, transitionTime); // Set new location of projectile.
+        }
+    }
+
 
     public void StopAttack()
     {

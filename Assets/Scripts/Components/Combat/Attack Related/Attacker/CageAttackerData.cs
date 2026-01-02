@@ -13,6 +13,6 @@ public class CageAttackerData : AttackerData
     [Tooltip("Min Radius that cage shrinks to")]
     public float CageInnerRadius;
 
-    [Tooltip("Timein seconds for cage to grow, shrink and then grow back to full outer radius again.")]
+    [Tooltip("Time in seconds for cage to grow, shrink and then grow back to full outer radius again.")]
     public float CycleTime;
 }
