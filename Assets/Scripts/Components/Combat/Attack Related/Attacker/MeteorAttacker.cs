@@ -33,7 +33,7 @@ public class MeteorAttacker : IAttacker
                 meteorAttackerData.meteorRadiusRange.y);
 
             // Initial Start Radius of indicator.
-            float startRadius = 2f;
+            float startRadius = indicatorRadius / 2;
 
             // (TODO: tweak radiusGrowthTime param). There is a paramter for this in AttackIndicatorData.cs, but we override that with this variable.
             float radiusGrowthTime = 1f;

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static System.TimeZoneInfo;
 
 public class CageAttacker : IAttacker
 {
@@ -12,6 +13,10 @@ public class CageAttacker : IAttacker
 
     [OdinSerialize] private AttackData attackData;
     [OdinSerialize] private CageAttackerData cageAttackerData;
+
+    private DG.Tweening.Sequence cageSequence;
+    private float currentRadius;
+
 
     private MonoBehaviour coroutineRunner; // instance that runs the coroutine.
     private Coroutine curCoroutine; // keeps track of running coroutine. If null, this means no coroutine is currently running.
@@ -91,20 +96,87 @@ public class CageAttacker : IAttacker
             projectiles.Add(proj);
         }
 
+        currentRadius = outerRadius;
+
+        // Start Transition between growing and shrinking cage
+        StartCageRadiusSequence(
+            projectiles,
+            cageRoot.transform,
+            innerRadius,
+            outerRadius,
+            cageAttackerData.CycleTime
+        );
+
+       
+
         // Rotate Cage.
         cageRoot.transform.DORotate(
             new Vector3(0, 0, 360f),
             cageAttackerData.RotationalSpeed,
             RotateMode.FastBeyond360
-        ).SetLoops(-1);
+        )
+        .SetEase(Ease.Linear)
+        .SetLoops(-1, LoopType.Incremental);
 
 
-        // Start Transition between growing and shrinking cage
-        //SetCageRadius(null, null, 1, 1);
         yield return new WaitForSeconds(0);
-
-        //attacking = false;
     }
+
+
+    private void StartCageRadiusSequence(List<GameObject> projectiles, Transform center, float innerRadius, float outerRadius, float cycleTime)
+    {
+        cageSequence?.Kill();
+
+        cageSequence = DOTween.Sequence();
+
+        float half = cycleTime * 0.5f;
+
+        // Outer -> Inner
+        cageSequence.Append(
+            DOTween.To(
+                () => currentRadius,
+                r =>
+                {
+                    currentRadius = r;
+                    UpdateCageRadius(projectiles, center, r);
+                },
+                innerRadius,
+                half
+            ).SetEase(Ease.InOutSine)
+        );
+
+        // Inner -> Outer
+        cageSequence.Append(
+            DOTween.To(
+                () => currentRadius,
+                r =>
+                {
+                    currentRadius = r;
+                    UpdateCageRadius(projectiles, center, r);
+                },
+                outerRadius,
+                half
+            ).SetEase(Ease.InOutSine)
+        );
+
+        cageSequence.SetLoops(-1);
+    }
+
+    private void UpdateCageRadius(List<GameObject> projectiles, Transform centerPoint, float radius)
+    {
+        foreach (var projectile in projectiles)
+        {
+            // Dir from center to projectile in ring.
+            Vector2 dir = projectile.transform.position - centerPoint.position;
+
+            // Transition projectile along dir, such that the magnitude of vector from center to new location is at radius.
+            Vector2 dirNormalized = dir.normalized; // Get unit vector
+            Vector2 newPos = (Vector2)centerPoint.position + dirNormalized * radius; // Get new location.
+
+            projectile.transform.position = newPos;
+        }
+    }
+
 
     /// <summary>
     /// Transition to given Cage radius.
