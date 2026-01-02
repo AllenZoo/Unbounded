@@ -69,7 +69,7 @@ public class AttackSpawner
 
 
     /// <summary>
-    /// Spawns attack object torwards direction from spawnerPos.
+    /// Spawns attack object torwards direction from spawnerPos. Instantiates attack in a created AttackPool.
     /// </summary>
     /// <param name="direction">direction to spawn the attack torwards</param>
     /// <param name="spawnerPos">the transform to spawn the attack at</param>
@@ -79,7 +79,7 @@ public class AttackSpawner
     /// <param name="atkStat">the atk stat to set on atk obj</param>
     /// <param name="percentageDamageIncrease">the % increase buff to apply to attack</param>
     /// <returns>The newly created attack</returns>
-    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, IAttacker attacker, float atkStat, double percentageDamageIncrease)
+    public static AttackComponent SpawnAttackInPool(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, IAttacker attacker, float atkStat, double percentageDamageIncrease)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
 
@@ -124,4 +124,5 @@ public class AttackSpawner
 
         return newAttack;
     }
+
 }

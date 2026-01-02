@@ -58,7 +58,7 @@ public class Attacker: IAttacker
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.SpawnInfo.mousePosition - ac.AttackerTransform.position);
 
-            AttackSpawner.SpawnAttack(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.attackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
+            AttackSpawner.SpawnAttackInPool(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.attackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
         }
     }
 

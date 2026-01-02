@@ -17,6 +17,8 @@ public class CageAttacker : IAttacker
     private Coroutine curCoroutine; // keeps track of running coroutine. If null, this means no coroutine is currently running.
     private bool attacking = false;
 
+    private GameObject cageRoot; // root parent that contains the multiple child component attacks of the cage.
+
     public void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (ac.AttackerComponent == null)
@@ -41,24 +43,67 @@ public class CageAttacker : IAttacker
         if (!attacking)
         {
             attacking = true;
-            curCoroutine = coroutineRunner.StartCoroutine(AttackCoroutine());
+            curCoroutine = coroutineRunner.StartCoroutine(AttackCoroutine(ac));
         }
     }
 
-    private IEnumerator AttackCoroutine()
+    private IEnumerator AttackCoroutine(AttackContext ac)
     {
+        // Redundant Cleanup.
+        if (cageRoot != null)
+        {
+            cageRoot.transform.DOKill();
+            GameObject.Destroy(cageRoot);
+        }
+
+
+        // Create CageRootParent on Attacker.
+        cageRoot = new GameObject("CageRoot");
+        cageRoot.transform.SetParent(ac.AttackerTransform, false);
+        cageRoot.transform.localPosition = Vector3.zero;
+
+
+        List<GameObject> projectiles = new ();
+
+        float count = cageAttackerData.CageAttackDensity;
+        float outerRadius = cageAttackerData.CageOuterRadius;
+        float innerRadius = cageAttackerData.CageInnerRadius;
 
         // Spawn Cage at outer radius.
-        for (int i = 0; i < cageAttackerData.CageAttackDensity; i++)
+        for (int i = 0; i < count; i++)
         {
             // TODO: maybe we don't need coroutine since we just spawn in the attacks in a circle...
             // UPDATE: no we do b/c the attack shrink and grow at certain times.
             // Spawn in a parent object, that we can apply transform.RotateAround() on. (Refer to RingAttack.cs)
+
+            float angle = i * Mathf.PI * 2f / count;
+            Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            Vector2 spawnPos = (Vector2) cageRoot.transform.position + dir * outerRadius;
+
+            // Instantiate projectile.
+            GameObject proj = Object.Instantiate(
+                   attackData.attackPfb,
+                   spawnPos,
+                   Quaternion.identity,
+                   cageRoot.transform
+            );
+
+            projectiles.Add(proj);
         }
 
+        // Rotate Cage.
+        cageRoot.transform.DORotate(
+            new Vector3(0, 0, 360f),
+            cageAttackerData.RotationalSpeed,
+            RotateMode.FastBeyond360
+        ).SetLoops(-1);
+
+
         // Start Transition between growing and shrinking cage
-        SetCageRadius(null, null, 1, 1);
+        //SetCageRadius(null, null, 1, 1);
         yield return new WaitForSeconds(0);
+
+        //attacking = false;
     }
 
     /// <summary>
@@ -73,16 +118,23 @@ public class CageAttacker : IAttacker
 
             // Transition projectile along dir, such that the magnitude of vector from center to new location is at radius.
             Vector2 dirNormalized = dir.normalized; // Get unit vector
-            Vector2 newPos = dirNormalized * radius; // Get new location.
-            projectile.transform.DOMove(newPos, transitionTime); // Set new location of projectile.
+            Vector2 newPos = (Vector2)centerPoint.position + dirNormalized * radius; // Get new location.
+            projectile.transform.DOMove(newPos, transitionTime).SetEase(Ease.InOutSine); // Set new location of projectile.
         }
     }
 
 
     public void StopAttack()
     {
+        if (cageRoot != null)
+        {
+            // Destroy projectiles
+            cageRoot.transform.DOKill();
+            GameObject.Destroy(cageRoot);
+            cageRoot = null;
+        }
+       
         attacking = false;
-        throw new System.NotImplementedException();
     }
 
     public IAttacker DeepClone()
