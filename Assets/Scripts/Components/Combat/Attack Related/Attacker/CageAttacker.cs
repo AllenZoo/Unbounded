@@ -93,6 +93,8 @@ public class CageAttacker : IAttacker
                    cageRoot.transform
             );
 
+            AttackSpawner.SetUpAttack(proj, ac.AttackerComponent.TargetTypes);
+
             projectiles.Add(proj);
         }
 

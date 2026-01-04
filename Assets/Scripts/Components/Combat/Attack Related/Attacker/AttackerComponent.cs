@@ -82,7 +82,10 @@ public class AttackerComponent : SerializedMonoBehaviour
     public void SetAttacker(IAttacker attacker)
     {
         // Kill any previous ongoing attacks
-        attacker.StopAttack();
+        if (this.attacker != attacker)
+        {
+            this.attacker.StopAttack();
+        }
         this.attacker = attacker;
     }
 

@@ -125,10 +125,24 @@ public class AttackSpawner
         return newAttack;
     }
 
-    // TODO: implement
-    public static GameObject SetUpAttack(Transform cageRoot)
+
+    /// <summary>
+    /// Function that setsup created attacks by assigning the attack component the relevant target type.
+    /// </summary>
+    /// <param name="attackObj"></param>
+    /// <param name="targetTypes"></param>
+    public static void SetUpAttack(GameObject attackObj, List<EntityType> targetTypes)
     {
-        return null;
+        // Check for an attack component on object
+        AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
+        Assert.IsNotNull(attackComponent, "Attack Object must have an attack component!");
+        if (attackComponent == null)
+        {
+            Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
+            return;
+        }
+
+        attackComponent.TargetTypes = targetTypes;
     }
 
 }
