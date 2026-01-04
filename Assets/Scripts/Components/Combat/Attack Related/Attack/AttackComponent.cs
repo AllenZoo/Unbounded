@@ -94,6 +94,9 @@ public class AttackComponent : SerializedMonoBehaviour
             // TODO: Remove the following line and implement new logic.
             // Maybe think of new way to implement this difference between bomb attack and projectile attack? (AOE DOT vs  projectile)
             this.gameObject.SetActive(false);
+
+
+            // UPDATE: why not just use duration?
         }
         
     }
@@ -110,6 +113,8 @@ public class AttackComponent : SerializedMonoBehaviour
     /// <returns>whether the hit is valid</returns>
     private bool ValidateHit(Damageable hit)
     {
+        AttackData ad = attack.AttackData;
+
         // Check if hit target EntityType matches what the attack can hit.
         if (!targetTypes.Contains(hit.EntityType))
         {
@@ -118,9 +123,9 @@ public class AttackComponent : SerializedMonoBehaviour
         }
 
         // Checks if hit already has been processed by this attack on this target.
-        if (!attack.AttackData.CanRepeat && hitTargets.Contains(hit))
+        if (hitTargets.Contains(hit))
         {
-            // Attack doesn't repeat damage, and already has hit this target.
+            // Attack already has hit this target.
             return false;
         }
 
@@ -128,15 +133,36 @@ public class AttackComponent : SerializedMonoBehaviour
         var hitSuccess = attack.Hit(hit, this.transform);
         if (hitSuccess) hitTargets.Add(hit);
 
+        // Reset hit cooldown if attack does not disappear after a hit, and if the attack can repeat hit a target.
+        if (!ad.DisappearOnHit && ad.CanRepeat)
+        {
+            if (ad.RehitCooldown <= 0)
+            {
+                hitTargets.Remove(hit);
+            } else
+            {
+                StartCoroutine(ResetHitCooldown(ad.RehitCooldown, hit));
+            }
+        }
+
 
         // Resets the attack if conditions are met.
-        if (!attack.AttackData.IsAOE && !attack.AttackData.IsPiercing && attack.AttackData.DisappearOnHit)
+        if (!ad.IsAOE && !ad.IsPiercing && ad.DisappearOnHit)
         {
             // Destroy the attack object. (or set inactive if we want to reuse it)
             ResetAttack();
         }
 
         return true;
+    }
+
+    private IEnumerator ResetHitCooldown(float delay, Damageable target)
+    {
+        yield return new WaitForSeconds(delay);
+        if (hitTargets.Contains(target))
+        {
+            hitTargets.Remove(target);
+        }
     }
 
     private IEnumerator ResetAttackAfterTimeCoroutine(float time)
