@@ -14,6 +14,8 @@ public class AttackerComponent : SerializedMonoBehaviour
     [Required, OdinSerialize]
     private IAttacker attacker;
 
+    private IAttacker prevAttacker;
+
     // private IAttacker attack;
 
     [Required, SerializeField] private LocalEventHandler localEventHandler;
@@ -56,7 +58,7 @@ public class AttackerComponent : SerializedMonoBehaviour
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && canAttack && attacker != null && attacker.IsInitialized())
+        if (attackRdy && canAttack && attacker != null && attacker.IsInitialized() && attacker.CanAttack())
         {
             // Stop previous attack
             attacker.StopAttack();
@@ -79,6 +81,8 @@ public class AttackerComponent : SerializedMonoBehaviour
 
     public void SetAttacker(IAttacker attacker)
     {
+        // Kill any previous ongoing attacks
+        attacker.StopAttack();
         this.attacker = attacker;
     }
 

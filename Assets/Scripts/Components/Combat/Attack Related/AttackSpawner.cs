@@ -125,4 +125,10 @@ public class AttackSpawner
         return newAttack;
     }
 
+    // TODO: implement
+    public static GameObject SetUpAttack(Transform cageRoot)
+    {
+        return null;
+    }
+
 }

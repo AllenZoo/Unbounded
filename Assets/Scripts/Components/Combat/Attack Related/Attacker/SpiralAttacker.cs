@@ -140,6 +140,12 @@ public class SpiralAttacker : IAttacker
         return spiralAttackerData != null && attackData != null;
     }
 
+    public bool CanAttack()
+    {
+        return true;
+    }
+
+
     public bool IsAttacking()
     {
         return isAttacking;

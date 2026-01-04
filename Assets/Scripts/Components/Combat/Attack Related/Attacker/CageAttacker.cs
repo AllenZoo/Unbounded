@@ -209,6 +209,13 @@ public class CageAttacker : IAttacker
         attacking = false;
     }
 
+    public bool CanAttack()
+    {
+        // We can attack if we aren't already attacking.
+        return !attacking;
+    }
+
+
     public IAttacker DeepClone()
     {
         throw new System.NotImplementedException();

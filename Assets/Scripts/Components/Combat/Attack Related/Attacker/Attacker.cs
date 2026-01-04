@@ -82,6 +82,12 @@ public class Attacker: IAttacker
         return attackerData.chargeUp;
     }
 
+    public bool CanAttack()
+    {
+        return true;
+    }
+
+
     public IAttacker DeepClone()
     {
         AttackerData clonedAttackerData = UnityEngine.Object.Instantiate(attackerData);

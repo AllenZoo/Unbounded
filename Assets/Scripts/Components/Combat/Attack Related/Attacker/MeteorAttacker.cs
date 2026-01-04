@@ -53,6 +53,12 @@ public class MeteorAttacker : IAttacker
         // Not a continouous attack so don't need.
         //throw new System.NotImplementedException();
     }
+
+    public bool CanAttack()
+    {
+        return true; 
+    }
+
     public IAttacker DeepClone()
     {
         throw new System.NotImplementedException();

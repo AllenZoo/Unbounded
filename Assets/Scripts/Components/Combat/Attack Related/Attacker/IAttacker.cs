@@ -10,6 +10,7 @@ public interface IAttacker
     public bool IsInitialized();
     public float GetCooldown();
     public float GetChargeUp();
+    public bool CanAttack();
     public IAttacker DeepClone();
 
     // TODO: figure out if there's a better way to pass in Data info through interface.
