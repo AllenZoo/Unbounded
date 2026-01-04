@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SnowballCageAttack
   m_EditorClassIdentifier: Assembly-CSharp::AttackData
   AttackName: Snowball Cage Attack|
-  AttackPfb: {fileID: 0}
+  AttackPfb: {fileID: 7363673462885834939, guid: 642a06f5eb498034a94d89be4578c897, type: 3}
   BaseDamage: 5
   AttackSound: {fileID: 0}
   RotOffset: 0
@@ -26,6 +26,6 @@ MonoBehaviour:
   IsDOT: 0
   DotDuration: 5
   LastsUntilDuration: 0
-  DisappearOnHit: 1
-  CanRepeat: 0
-  RehitCooldown: -1
+  DisappearOnHit: 0
+  CanRepeat: 1
+  RehitCooldown: 2
