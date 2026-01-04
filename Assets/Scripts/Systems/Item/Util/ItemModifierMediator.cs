@@ -275,7 +275,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         if (modifier.AddPiercing)
         {
             if (dynamicAttacker.AttackData != null)
-                dynamicAttacker.AttackData.isPiercing = true;
+                dynamicAttacker.AttackData.IsPiercing = true;
         }
 
         if (dynamicAttacker.AttackerData != null)
@@ -291,7 +291,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         if (dynamicAttacker.AttackData != null)
-            dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
+            dynamicAttacker.AttackData.Distance += modifier.RangeToAdd;
     }
 
     public virtual void Visit(ProjectileSpeedModifier modifier)
@@ -303,7 +303,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         if (dynamicAttacker.AttackData != null)
-            dynamicAttacker.AttackData.initialSpeed += modifier.ProjectileSpeedToAdd;
+            dynamicAttacker.AttackData.InitialSpeed += modifier.ProjectileSpeedToAdd;
     }
     #endregion
 

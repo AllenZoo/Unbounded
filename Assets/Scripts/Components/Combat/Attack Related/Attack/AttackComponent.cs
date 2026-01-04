@@ -85,7 +85,7 @@ public class AttackComponent : SerializedMonoBehaviour
         hitTargets.Clear();
         attack.Reset(this);
 
-        if (attack.AttackData.disappearOnHit)
+        if (attack.AttackData.DisappearOnHit)
         {
             this.gameObject.SetActive(false);
         } else
@@ -118,7 +118,7 @@ public class AttackComponent : SerializedMonoBehaviour
         }
 
         // Checks if hit already has been processed by this attack on this target.
-        if (!attack.AttackData.canRepeat && hitTargets.Contains(hit))
+        if (!attack.AttackData.CanRepeat && hitTargets.Contains(hit))
         {
             // Attack doesn't repeat damage, and already has hit this target.
             return false;
@@ -130,7 +130,7 @@ public class AttackComponent : SerializedMonoBehaviour
 
 
         // Resets the attack if conditions are met.
-        if (!attack.AttackData.isAOE && !attack.AttackData.isPiercing && !attack.AttackData.lastsUntilDuration)
+        if (!attack.AttackData.IsAOE && !attack.AttackData.IsPiercing && !attack.AttackData.LastsUntilDuration)
         {
             // Destroy the attack object. (or set inactive if we want to reuse it)
             ResetAttack();

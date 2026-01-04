@@ -87,7 +87,7 @@ public class CageAttacker : IAttacker
 
             // Instantiate projectile.
             GameObject proj = Object.Instantiate(
-                   attackData.attackPfb,
+                   attackData.AttackPfb,
                    spawnPos,
                    Quaternion.identity,
                    cageRoot.transform

@@ -97,7 +97,7 @@ public class AttackSpawner
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 0.5f;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttackData.rotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttackData.RotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -113,11 +113,11 @@ public class AttackSpawner
         newAttack.Attack.AttackData = attackerAttackData;
 
         // Set duration until attack disappears/resets. (reset = set inactive)
-        var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
+        var duration = attackerAttackData.Distance / attackerAttackData.InitialSpeed;
         newAttack.ResetAttackAfterTime(duration);
         
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.InitialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;

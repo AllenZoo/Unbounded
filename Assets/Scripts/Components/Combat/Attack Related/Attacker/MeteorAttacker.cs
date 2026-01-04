@@ -45,7 +45,7 @@ public class MeteorAttacker : IAttacker
             float indicatorTransitionTime = attackIndicator.Data.transitionTime;
 
             // TODO-OPT: Tweak Time To Target param.
-            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.attackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
+            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.AttackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
         }
     }
     public void StopAttack()

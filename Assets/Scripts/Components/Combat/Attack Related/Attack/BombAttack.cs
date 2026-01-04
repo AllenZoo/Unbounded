@@ -28,10 +28,10 @@ public class BombAttack : IAttack
 
     public bool Hit(Damageable hit, Transform hitMaker)
     {
-        float calculatedDamage = CalculateDamage(bombAttackData.baseDamage, atkStat);
+        float calculatedDamage = CalculateDamage(bombAttackData.BaseDamage, atkStat);
 
         // Damage the target.
-        if (bombAttackData.isDOT)
+        if (bombAttackData.IsDOT)
         {
             hit.TakeDamageOverTime(this, calculatedDamage);
             return true;
@@ -42,12 +42,12 @@ public class BombAttack : IAttack
         // Knockback the target if:
         //      - attack has knockback
         //      - target is knockbackable
-        if (bombAttackData.baseKnockback > 0)
+        if (bombAttackData.BaseKnockback > 0)
         {
             Knockbackable kb = hit.GetComponent<Knockbackable>();
             if (kb != null)
             {
-                kb.Knockback(hit.transform.position - hitMaker.position, bombAttackData.baseKnockback, bombAttackData.baseStunDuration);
+                kb.Knockback(hit.transform.position - hitMaker.position, bombAttackData.BaseKnockback, bombAttackData.BaseStunDuration);
             }
         }
         return true;

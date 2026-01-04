@@ -1,65 +1,137 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Sirenix.OdinInspector;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEditor;
+using UnityEngine.Serialization;
 
-[Serializable]
-[CreateAssetMenu(fileName = "new Attack Data", menuName = "System/Combat/Attack/Attack", order = 1)]
-public class AttackData:ScriptableObject
+[CreateAssetMenu(
+    fileName = "NewAttackData",
+    menuName = "System/Combat/Attack",
+    order = 1)]
+[InfoBox("Base Attack Data Fields")]
+
+public class AttackData : ScriptableObject
 {
-    public string attackName = "Attack";
 
-    [Required]
-    [Tooltip("Gameobject representation of attack")]
-    [JsonIgnore]
-    public GameObject attackPfb;
+    #region Basic Info
 
-    [Tooltip("Base damage number of attack")]
-    public float baseDamage = 5f;
+    [FoldoutGroup("Basic Info")]
+    [Required, InfoBox("Attack name must end with a '|' character")]
+    public string AttackName = "Attack|";
 
-    // TODO: remove this field.
-    //[Tooltip("Base duration in seconds until attack disappears")]
-    //public float duration = 0.5f;
+    [FoldoutGroup("Basic Info")]
+    [Required, JsonIgnore]
+    [Tooltip("Prefab used to spawn this attack")]
+    public GameObject AttackPfb;
 
-    [Tooltip("Sound to play whenever attack is made")]
-    public AudioClip attackSound;
+    [FoldoutGroup("Basic Info")]
+    [Min(0f)]
+    public float BaseDamage = 5f;
 
-    [Tooltip("Base distance the attack can travel. Used to calculate duration (duration = distance/speed)")]
-    public float distance = 5f;
+    #endregion
 
-    [Tooltip("Initial Speed of Attack.")]
-    public float initialSpeed = 1f;
+    #region VFX and SFX
 
-    [Tooltip("Base nockback value of attack")]
-    public float baseKnockback = 0f;
+    [FoldoutGroup("VFX and SFX")]
+    public AudioClip AttackSound;
 
-    [Tooltip("Base stun duration")]
-    public float baseStunDuration = 1f;
+    [FoldoutGroup("VFX and SFX")]
+    [Tooltip("Rotational offset applied on spawn")]
+    public float RotOffset = 0f;
 
-    [Tooltip("If true, the attack will hit all targets in the collider. If false, it will only hit the first target.")]
-    public bool isAOE = false;
+    #endregion
 
-    [Tooltip("If true, the attack will be able to hit the same target multiple times.")]
-    public bool canRepeat = false;
+    #region Movement
 
-    [Header("For DOT")]
-    [Tooltip("If true, the attack will deal damage over time.")]
-    public bool isDOT = false;
+    [FoldoutGroup("Movement")]
+    [Min(0f)]
+    [Tooltip("Maximum distance the attack can travel")]
+    public float Distance = 5f;
 
-    [Tooltip("Duration of DOT effect in seconds.")]
-    public float dotDuration = 5f;
+    [FoldoutGroup("Movement")]
+    [Min(0.01f)]
+    [Tooltip("Initial speed of the attack")]
+    public float InitialSpeed = 1f;
 
-    [Tooltip("If true, the attack will pierce through targets.")]
-    public bool isPiercing = false;
+    [FoldoutGroup("Movement")]
+    [ShowInInspector, ReadOnly]
+    [LabelText("Duration (Distance / Speed) [Seconds]")]
+    public float Duration => Distance / InitialSpeed;
 
-    [Tooltip("If true, the attack will last until duration is over.")]
-    public bool lastsUntilDuration = false;
+    #endregion
 
-    [Tooltip("Rotational offset for rotating attack on spawn")]
-    public float rotOffset = 0f;
+    #region Combat Effects
 
-    [Tooltip("Whether hitting an enemy will cause the sprite to stop rendering.")]
-    public bool disappearOnHit = true;
+    [FoldoutGroup("Combat Effects")]
+    [Min(0f)]
+    public float BaseKnockback = 0f;
+
+    [FoldoutGroup("Combat Effects")]
+    [Min(0f)]
+    public float BaseStunDuration = 1f;
+
+    [FoldoutGroup("Combat Effects")]
+    public bool IsAOE = false;
+    
+    [FoldoutGroup("Combat Effects")]
+    public bool IsPiercing = false;
+
+    #endregion
+
+    #region DOT
+
+    [FoldoutGroup("Damage Over Time")]
+    public bool IsDOT = false;
+
+    [FoldoutGroup("Damage Over Time")]
+    [ShowIf(nameof(IsDOT))]
+    [Min(0f)]
+    public float DotDuration = 5f;
+
+    #endregion
+
+    #region Hit Behaviour
+
+    [FoldoutGroup("Hit Behavior")]
+    public bool LastsUntilDuration = false; // TODO: check out what this field even does.
+
+    [FoldoutGroup("Hit Behavior")]
+    public bool DisappearOnHit = true;
+
+    [FoldoutGroup("Hit Behavior")]
+    [HideIf(nameof(DisappearOnHit))]
+    public bool CanRepeat = false;
+
+    [FoldoutGroup("Hit Behavior")]
+    [ShowIf("@this.CanRepeat && !this.DisappearOnHit")]
+    [Tooltip("Cooldown before the same target can be hit again")]
+    [Min(0f)]
+    public float RehitCooldown = 0f;
+
+    #endregion
 }
+
+
+// TO use go to Tools/Migrate/Resave AttackData
+#if UNITY_EDITOR
+public static class AttackDataMigration
+{
+    [MenuItem("Tools/Migrate/Resave AttackData")]
+    public static void ResaveAllAttackData()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:AttackData");
+
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            ScriptableObject asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+            EditorUtility.SetDirty(asset);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        Debug.Log("AttackData migration complete.");
+    }
+}
+#endif

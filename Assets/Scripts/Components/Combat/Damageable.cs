@@ -84,7 +84,7 @@ public class Damageable : MonoBehaviour
         float total_duration = 0;
         while (dotAttacks.Contains(attack))
         {
-            if (total_duration >= attack.AttackData.dotDuration)
+            if (total_duration >= attack.AttackData.DotDuration)
             {
                 dotAttacks.Remove(attack);
                 yield break;

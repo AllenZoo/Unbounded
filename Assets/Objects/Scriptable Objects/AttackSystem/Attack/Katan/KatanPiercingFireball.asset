@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: KatanPiercingFireball
   m_EditorClassIdentifier: 
-  attackName: KatanPiercingFireball|
-  attackPfb: {fileID: 5066251419482662075, guid: c3d70c087a950a74ba88ac7e9b4ed7cb, type: 3}
-  baseDamage: 5
-  distance: 40
-  initialSpeed: 8
-  baseKnockback: 18
-  baseStunDuration: 0.5
-  isAOE: 0
-  canRepeat: 1
-  isDOT: 0
-  dotDuration: 5
-  isPiercing: 1
-  lastsUntilDuration: 0
-  rotOffset: 0
+  AttackName: KatanPiercingFireball|
+  AttackPfb: {fileID: 5066251419482662075, guid: c3d70c087a950a74ba88ac7e9b4ed7cb, type: 3}
+  BaseDamage: 5
+  AttackSound: {fileID: 0}
+  RotOffset: 0
+  Distance: 40
+  InitialSpeed: 8
+  BaseKnockback: 18
+  BaseStunDuration: 0.5
+  IsAOE: 0
+  IsPiercing: 1
+  IsDOT: 0
+  DotDuration: 5
+  LastsUntilDuration: 0
+  DisappearOnHit: 1
+  CanRepeat: 1
+  RehitCooldown: -1

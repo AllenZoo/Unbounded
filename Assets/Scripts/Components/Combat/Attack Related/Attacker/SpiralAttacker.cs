@@ -105,7 +105,7 @@ public class SpiralAttacker : IAttacker
             {
                 float curAngleIncrement = i * angleSplit;
                 Vector3 spawnDir = Quaternion.Euler(0, 0, curAngleIncrement) * baseDir;
-                AttackSpawner.SpawnAttackInPool(spawnDir, attackerTransform, targetTypes, attackData.attackPfb, this, atkStat, percentageDamageIncrease);
+                AttackSpawner.SpawnAttackInPool(spawnDir, attackerTransform, targetTypes, attackData.AttackPfb, this, atkStat, percentageDamageIncrease);
             }
 
             // Wait before spawning the next wave (but not after the last wave)

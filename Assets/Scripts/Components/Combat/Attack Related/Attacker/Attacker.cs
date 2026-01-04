@@ -37,7 +37,7 @@ public class Attacker: IAttacker
         }
 
         // Play sfx here
-        AudioManager.PlaySound(attackData.attackSound, 1);
+        AudioManager.PlaySound(attackData.AttackSound, 1);
 
         //Debug.Log($"Attacking with num atks value of [{attackerData.numAttacks}]");
         for (int i = 0; i < attackerData.numAttacks; i++)
@@ -58,7 +58,7 @@ public class Attacker: IAttacker
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.SpawnInfo.mousePosition - ac.AttackerTransform.position);
 
-            AttackSpawner.SpawnAttackInPool(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.attackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
+            AttackSpawner.SpawnAttackInPool(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.AttackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
         }
     }
 

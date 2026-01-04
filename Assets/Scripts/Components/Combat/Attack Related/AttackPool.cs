@@ -69,10 +69,10 @@ public class AttackPool : MonoBehaviour
             "AttackPool: FindSubPool was given an attack object that does not have an Attack assigned in its AttackComponent!");
         Assert.IsNotNull(attack.GetComponent<AttackComponent>().Attack.AttackData,
             "AttackPool: FindSubPool was given an attack object that does not have AttackData assigned in its AttackComponent's Attack!");
-        Assert.IsFalse(string.IsNullOrEmpty(attack.GetComponent<AttackComponent>().Attack.AttackData.attackName),
+        Assert.IsFalse(string.IsNullOrEmpty(attack.GetComponent<AttackComponent>().Attack.AttackData.AttackName),
             "AttackPool: FindSubPool was given an attack object that has an empty attack name in its AttackData!");
 
-        string groupName = attack.GetComponent<AttackComponent>().Attack.AttackData.attackName;
+        string groupName = attack.GetComponent<AttackComponent>().Attack.AttackData.AttackName;
         Assert.IsTrue(groupName.EndsWith("|"), "It is required convention that attack names need to end with |." +
             "Cur attack name: " + groupName);
 
