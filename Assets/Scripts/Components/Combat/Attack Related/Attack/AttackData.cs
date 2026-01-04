@@ -90,12 +90,8 @@ public class AttackData : ScriptableObject
     #endregion
 
     #region Hit Behaviour
-
     [FoldoutGroup("Hit Behavior")]
-    public bool LastsUntilDuration = false; // TODO: check out what this field even does.
-
-    [FoldoutGroup("Hit Behavior")]
-    public bool DisappearOnHit = true;
+    public bool DisappearOnHit = true; // If the attack does not disappear on hit, attack will disappear at end of 'Duration'
 
     [FoldoutGroup("Hit Behavior")]
     [HideIf(nameof(DisappearOnHit))]

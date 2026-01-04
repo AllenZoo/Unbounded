@@ -130,7 +130,7 @@ public class AttackComponent : SerializedMonoBehaviour
 
 
         // Resets the attack if conditions are met.
-        if (!attack.AttackData.IsAOE && !attack.AttackData.IsPiercing && !attack.AttackData.LastsUntilDuration)
+        if (!attack.AttackData.IsAOE && !attack.AttackData.IsPiercing && attack.AttackData.DisappearOnHit)
         {
             // Destroy the attack object. (or set inactive if we want to reuse it)
             ResetAttack();

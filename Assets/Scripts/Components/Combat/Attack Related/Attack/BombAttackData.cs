@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(fileName = "new Bomb Attack Data", menuName = "System/Combat/Attack/BombAttack", order = 1)]
 public class BombAttackData : AttackData
 {
+    #region Bomb Attack Fields
     [FoldoutGroup("Bomb Attack Properties")]
     [Tooltip("If true, always use the explosion radius defined in this field (explosionRadius).")]
     public bool AlwaysUseThisExplosionRadius;
@@ -29,4 +30,5 @@ public class BombAttackData : AttackData
     [Required]
     [Tooltip("Bomb explosion sprite")]
     public Sprite ExplosionSprite;
+    #endregion
 }
