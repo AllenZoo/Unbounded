@@ -60,7 +60,7 @@ public class BombAttack : IAttack
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = false;
-            spriteRenderer.sprite = bombAttackData.initSprite;
+            spriteRenderer.sprite = bombAttackData.InitSprite;
             spriteRenderer.enabled = true;
         }
 
@@ -79,7 +79,7 @@ public class BombAttack : IAttack
 
     public IEnumerator OnLandEnumerator(AttackComponent ac)
     {
-        yield return new WaitForSeconds(bombAttackData.fuseTime);
+        yield return new WaitForSeconds(bombAttackData.FuseTime);
         Explode(ac);
     }
 
@@ -90,7 +90,7 @@ public class BombAttack : IAttack
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = false;
-            spriteRenderer.sprite = bombAttackData.explosionSprite;
+            spriteRenderer.sprite = bombAttackData.ExplosionSprite;
             spriteRenderer.enabled = true;
         }
 

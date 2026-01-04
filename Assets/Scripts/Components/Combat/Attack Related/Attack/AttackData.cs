@@ -9,8 +9,6 @@ using UnityEngine.Serialization;
     fileName = "NewAttackData",
     menuName = "System/Combat/Attack",
     order = 1)]
-[InfoBox("Base Attack Data Fields")]
-
 public class AttackData : ScriptableObject
 {
 
@@ -114,6 +112,7 @@ public class AttackData : ScriptableObject
 
 
 // TO use go to Tools/Migrate/Resave AttackData
+// Note: This function saves any AttackData subclasses
 #if UNITY_EDITOR
 public static class AttackDataMigration
 {
@@ -125,13 +124,19 @@ public static class AttackDataMigration
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            ScriptableObject asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+            AttackData asset = AssetDatabase.LoadAssetAtPath<AttackData>(path);
+
+            if (asset == null)
+                continue;
+
             EditorUtility.SetDirty(asset);
         }
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+
         Debug.Log("AttackData migration complete.");
     }
 }
 #endif
+
