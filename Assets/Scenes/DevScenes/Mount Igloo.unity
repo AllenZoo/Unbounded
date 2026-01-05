@@ -35361,6 +35361,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7449954481719588691, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7449954481719588691, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39617,6 +39621,8 @@ MonoBehaviour:
   localEventHandler: {fileID: 3576213130554825720}
   TargetTypes: 00000000
   statComponent: {fileID: 6665545410438151281}
+  attackRdy: 1
+  canAttack: 1
 --- !u!58 &585625653201050797
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -40160,6 +40166,8 @@ MonoBehaviour:
   shouldFadeIfInFront: 0
   objFader: {fileID: 0}
   objSprite: {fileID: 8367866064639977694}
+  alwaysUnder: 0
+  alwaysAbove: 0
   objFeet: {fileID: 1832727460136436890}
   oldSortingOrder: 0
 --- !u!4 &2356228745120334128 stripped
@@ -40373,7 +40381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leh: {fileID: 3576213130554825720}
-  cardDeckData: {fileID: 11400000, guid: 45e5c6ce1f42dfe4b812d7f099c70e97, type: 2}
+  cardDeckData: {fileID: 11400000, guid: eef465d6261d6c84c894c45eb828ce27, type: 2}
   numCardsInPack: 3
   cardPackPfb: {fileID: 8188111842875681085, guid: 2fe033b2c6e72e246a46ee48dc427475, type: 3}
 --- !u!4 &4754932043319760959

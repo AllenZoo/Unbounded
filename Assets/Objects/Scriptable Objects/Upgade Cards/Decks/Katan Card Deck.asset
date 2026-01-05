@@ -16,20 +16,20 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 702f2220a80731045b794928a784c4d8, type: 2}
     - {fileID: 11400000, guid: d75b447e6d6e3514e9bcd69bbb9d27a7, type: 2}
+    - {fileID: 11400000, guid: 702f2220a80731045b794928a784c4d8, type: 2}
     - {fileID: 11400000, guid: 061a045cfc35999428411d675cea0bca, type: 2}
-    - {fileID: 11400000, guid: 532500799b1022d4e83464f510501d7a, type: 2}
     - {fileID: 11400000, guid: d75dfafb69b721349a162cf342ec1818, type: 2}
+    - {fileID: 11400000, guid: 532500799b1022d4e83464f510501d7a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: Cards
+    - Name: cards
       Entry: 7
-      Data: 0|System.Collections.Generic.HashSet`1[[UpgradeCardData, Assembly-CSharp]],
-        System.Core
+      Data: 0|System.Collections.Generic.List`1[[UpgradeCardData, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 5

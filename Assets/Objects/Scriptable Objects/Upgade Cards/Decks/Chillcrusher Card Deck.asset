@@ -10,25 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47a4df7041b9b4543aed83518420fb9d, type: 3}
-  m_Name: Roger Card Deck
-  m_EditorClassIdentifier: 
+  m_Name: Chillcrusher Card Deck
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeCardDeckData
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: a24016f0ac9e8a8419707773e62252f9, type: 2}
-    - {fileID: 11400000, guid: 0bd520dbdf170b947ae22c716a4ba022, type: 2}
-    - {fileID: 11400000, guid: bd1122ee83da85a45bb7b50e634c2ec0, type: 2}
-    - {fileID: 11400000, guid: dae3d84b20c0e5b4ba3f74262d98ce7d, type: 2}
-    - {fileID: 11400000, guid: 17868bc43723b3f4b8242af635e5e4e0, type: 2}
+    - {fileID: 11400000, guid: 96b8230c07ef9874ba51220039f2b122, type: 2}
+    - {fileID: 11400000, guid: 07d84484f06e3a2468ce6b8767528348, type: 2}
+    - {fileID: 11400000, guid: 287b9485b3ee84d4a843c87dbae9bed7, type: 2}
+    - {fileID: 11400000, guid: 9ab333b05b1de994eafea9244e8d57d3, type: 2}
+    - {fileID: 11400000, guid: 54f8ca682ba14944cbf3c785d19200f6, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: Cards
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[UpgradeCardData, Assembly-CSharp]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: cards
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[UpgradeCardData, Assembly-CSharp]],
+      Data: 1|System.Collections.Generic.List`1[[UpgradeCardData, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12

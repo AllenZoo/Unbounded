@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
+  m_Name: Glacial Momentum
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeCardData
+  id: 0f8e1ac7-9c6c-4580-8d22-fd43f7c0f5ff
+  title: Glacial Momentum
+  icon: {fileID: 0}
+  cardColor: {r: 0.59362763, g: 0.8679245, b: 0.8571846, a: 1}
+  rarity: 0
+  mods:
+  - modifier:
+      rid: 33268053810348153
+    modifierDescription: Increases Projectile Speed (+3)
+  description: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 33268053810348153
+      type: {class: ProjectileSpeedModifier, ns: , asm: Assembly-CSharp}
+      data:
+        <ProjectileSpeedToAdd>k__BackingField: 3
