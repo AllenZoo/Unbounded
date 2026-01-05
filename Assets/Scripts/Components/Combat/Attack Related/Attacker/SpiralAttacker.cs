@@ -62,10 +62,7 @@ public class SpiralAttacker : IAttacker
 
     public void StopAttack()
     {
-        if (!isAttacking)
-        {
-            isAttacking = false;
-        }
+        isAttacking = false;
 
         if (coroutineRunner != null && curCoroutine != null)
         {

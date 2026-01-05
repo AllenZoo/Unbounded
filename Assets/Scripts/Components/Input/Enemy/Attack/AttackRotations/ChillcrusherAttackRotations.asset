@@ -81,7 +81,7 @@ MonoBehaviour:
         spin in clockwise direction.
     - Name: disableBehaviour
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -183,7 +183,7 @@ MonoBehaviour:
       Data: AVALANCHE
     - Name: disableBehaviour
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -229,7 +229,7 @@ MonoBehaviour:
       Data: SNOW CAGE ATTACK
     - Name: disableBehaviour
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -242,8 +242,83 @@ MonoBehaviour:
     - Name: rageBehaviour
       Entry: 6
       Data: 
+    - Name: currentBehaviour
+      Entry: 7
+      Data: 14|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: 
+    - Name: attacker
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 15|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: emptyBehaviour
+      Entry: 7
+      Data: 16|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: empty
+    - Name: attacker
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 17|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
   rageModeHPThreshold: 0.2
   transitionTimeRange:
     min: 5
     max: 10
+  transitionPauseTime: 0.5
   debug: 1

@@ -16,13 +16,19 @@ public class AttackerComponent : SerializedMonoBehaviour
 
     private IAttacker prevAttacker;
 
-    // private IAttacker attack;
 
     [Required, SerializeField] private LocalEventHandler localEventHandler;
 
     [Tooltip("Types of entities this attacker can damage.")]
-    [ValidateInput("ValidateList", "List cannot be empty!")]
+    [ValidateInput(nameof(ValidateList), "List cannot be empty!")]
     [Required, SerializeField] public List<EntityType> TargetTypes = new List<EntityType>();
+    #region Validate List
+    // Used for field validation via Odin.
+    private bool ValidateList(List<EntityType> value)
+    {
+        return value != null && value.Count > 0;
+    }
+    #endregion
 
     [Tooltip("Component that holds stats for adding damage to attacks.")]
     [SerializeField] private StatComponent statComponent;
@@ -30,8 +36,11 @@ public class AttackerComponent : SerializedMonoBehaviour
     // Ugly code, but this is one way to implement it so lets do this for now.
     public double PercentageDamageIncrease { get; private set; } = 0;
 
-    private bool attackRdy = true;
-    private bool canAttack = true;
+    [SerializeField, ReadOnly] private bool attackRdy = true;
+    [SerializeField, ReadOnly] private bool canAttack = true;
+
+    private Coroutine attackCDCoroutine;
+    private Coroutine pauseCoroutine;
 
     private void Awake()
     {
@@ -48,7 +57,11 @@ public class AttackerComponent : SerializedMonoBehaviour
         LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
         localEventHandler.Register<OnAttackInput>(eventBinding);
 
-        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>((e) => canAttack = false);
+        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>(
+            (e) => { 
+                canAttack = false;
+                StopAllCoroutines();
+            });
         localEventHandler.Register<OnDeathEvent>(deathEventBinding);
 
         LocalEventBinding<OnWeaponEquippedEvent> equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
@@ -58,7 +71,11 @@ public class AttackerComponent : SerializedMonoBehaviour
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && canAttack && attacker != null && attacker.IsInitialized() && attacker.CanAttack())
+        if (attackRdy && 
+            canAttack && 
+            attacker != null && 
+            attacker.IsInitialized() && 
+            attacker.CanAttack())
         {
             // Stop previous attack
             attacker.StopAttack();
@@ -75,7 +92,7 @@ public class AttackerComponent : SerializedMonoBehaviour
 
             // Start Attack
             attacker.Attack(input.keyCode, ac);
-            StartCoroutine(AttackCooldown());
+            attackCDCoroutine = StartCoroutine(AttackCooldown());
         }
     }
 
@@ -86,34 +103,44 @@ public class AttackerComponent : SerializedMonoBehaviour
         {
             this.attacker.StopAttack();
         }
+
+        // Kill any ongoing cooldown coroutine
+        if (attackCDCoroutine != null)
+        {
+            Debug.LogError("Got in here!");
+            StopCoroutine(attackCDCoroutine);
+            attackRdy = true;
+        }
+
         this.attacker = attacker;
     }
 
+    /// <summary>
+    /// Pauses any attacks for a given duration.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    public void PauseAttacker(float duration)
+    {
+        if (pauseCoroutine  != null)
+        {
+            StopCoroutine(pauseCoroutine);
+        }
+        pauseCoroutine = StartCoroutine(DeactivateAttacker(duration));
+    }
+
+    private IEnumerator DeactivateAttacker(float duration)
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(duration);
+        canAttack = true;
+    }
     private IEnumerator AttackCooldown()
     {
         attackRdy = false;
         var attackCd = GetCooldownExponential(attacker.GetCooldown(), statComponent.StatContainer.Dexterity, 0.05f);
         yield return new WaitForSeconds(attackCd);
         attackRdy = true;
-    }
-
-    // Handles setting non-transform property of attacks..
-    private IEnumerator ChargeUpAttack(IAttacker attacker)
-    {
-        // Charge up attack
-        yield return new WaitForSeconds(attacker.GetChargeUp());
-    }
-    private IEnumerator DeactivateAttack(GameObject attackObj, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        // attackObj.GetComponent<Attack>().ResetAttack();
-    }
-
-    // Used for field validation via Odin.
-    // Disabled since broken.
-    private bool ValidateList(List<EntityType> value)
-    {
-        return value != null && value.Count > 0;
     }
 
     private void HandleWeaponEquipped(OnWeaponEquippedEvent e)

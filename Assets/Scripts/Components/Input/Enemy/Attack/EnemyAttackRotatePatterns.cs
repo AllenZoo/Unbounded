@@ -10,6 +10,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new EnemyAttack Rotate Patterns", menuName = "System/Enemy/State/Attack/AttackRotatePatterns")]
 public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 {
+    #region Behaviours
     [Tooltip("Defines the movement and attack pattern behaviour of entity.")]
     [OdinSerialize]
     private List<BehaviourDefinition> behaviours = new();
@@ -22,17 +23,27 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     [Tooltip("HP threshold percentage to trigger rage mode. For example, if you want enemy to trigger rage at 20% hp, set this field to 0.2. If no rage mode, set to -1.")]
     private double rageModeHPThreshold = -1;
     private double curHPThreshold = 1; // keeps track of current enemy hp threshold.
+    #endregion
 
+
+    #region Transition Behaviour
     // Time range for how long a rotation should be active before being changed.
     [Tooltip("Time between each behaviour rotation in seconds.")]
     [SerializeField]
     private FloatRange transitionTimeRange;
     private float timer = 0f;
 
+    [Tooltip("Time where boss does nothing for a bit to allow for player to react to next attack.")]
+    [SerializeField]
+    private float transitionPauseTime = 0f;
+    #endregion
+
+
     [SerializeField]
     private bool debug = false;
-
+    [OdinSerialize, ReadOnly, ShowIf(nameof(debug))] 
     private BehaviourDefinition currentBehaviour;
+    [OdinSerialize, ReadOnly, ShowIf(nameof(debug))] 
     private BehaviourDefinition emptyBehaviour = new BehaviourDefinition() { name="empty"};
 
     // Local variable to help keep track of the likelihood of a behaviour being selected as the 'next' behaviour
@@ -70,7 +81,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             // Once timer is up, we transition behaviour.
             var nextBehaviour = GetNextBehaviour();
             TransitionBehaviour(nextBehaviour);
-            timer = UnityEngine.Random.Range(transitionTimeRange.min, transitionTimeRange.max);
+            timer = UnityEngine.Random.Range(transitionTimeRange.min + transitionPauseTime, transitionTimeRange.max + transitionPauseTime);
 
             if (debug)
             {
@@ -227,6 +238,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
                 if (debug)
                 {
                     Debug.Log($"Selected Behaviour is: {selectedBehaviour.name}");
+                    Debug.Log($"Transitioning from {currentBehaviour.name} to {selectedBehaviour.name}.");
                 }
                 break;
             }
@@ -308,6 +320,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         // 2. Set Attacker
         if (enemyAIComponent.AttackerComponent != null)
         {
+            //enemyAIComponent.AttackerComponent.PauseAttacker(transitionPauseTime);
             enemyAIComponent.AttackerComponent.SetAttacker(currentBehaviour.attacker);
         }
     }
