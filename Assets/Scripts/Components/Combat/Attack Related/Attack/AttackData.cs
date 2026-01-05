@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
     fileName = "NewAttackData",
     menuName = "System/Combat/Attack",
     order = 1)]
-public class AttackData : ScriptableObject
+public class AttackData : SerializedScriptableObject
 {
 
     #region Basic Info

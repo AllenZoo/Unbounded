@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8258e6f6b53d6409540885b446aef0, type: 3}
   m_Name: SnowMeteorAttack
   m_EditorClassIdentifier: Assembly-CSharp::BombAttackData
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   AttackName: Snow Meteor Attack|
   AttackPfb: {fileID: 8200173734761957917, guid: a07ef39135690bb4793d807bd63df25a, type: 3}
   BaseDamage: 5
@@ -25,7 +34,6 @@ MonoBehaviour:
   IsPiercing: 0
   IsDOT: 0
   DotDuration: 5
-  LastsUntilDuration: 0
   DisappearOnHit: 0
   CanRepeat: 0
   RehitCooldown: -1
@@ -33,4 +41,6 @@ MonoBehaviour:
   ExplosionRadius: 0
   FuseTime: 0
   InitSprite: {fileID: 21300000, guid: bfd52079a36d02f448b79c8ce8e8e531, type: 3}
+  InitSortingLayerID: -374378069
   ExplosionSprite: {fileID: 21300000, guid: ea8b52d4780bb7242923b7c91af6fb72, type: 3}
+  ExplosionSortingLayerID: 1789471847

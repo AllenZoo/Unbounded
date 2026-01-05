@@ -61,7 +61,15 @@ public class BombAttack : IAttack
         {
             spriteRenderer.enabled = false;
             spriteRenderer.sprite = bombAttackData.InitSprite;
+            spriteRenderer.sortingLayerID = bombAttackData.InitSortingLayerID;
+            //spriteRenderer.sortingOrder = bombAttackData.InitSpriteSortingOrder; // Note: Unnecessary since sorting order handled by VCCM
             spriteRenderer.enabled = true;
+        }
+
+        ViewColliderCollisionManager vccm = ac.GetComponentInChildren<ViewColliderCollisionManager>();
+        if (vccm != null)
+        {
+            vccm.Rise();
         }
 
         // Deactivate hit collision until it explodes.
@@ -91,7 +99,15 @@ public class BombAttack : IAttack
         {
             spriteRenderer.enabled = false;
             spriteRenderer.sprite = bombAttackData.ExplosionSprite;
+            spriteRenderer.sortingLayerID = bombAttackData.ExplosionSortingLayerID;
+            //spriteRenderer.sortingOrder = bombAttackData.ExplosionSpriteSortingOrder; // Note: Unnecessary since sorting order handled by VCCM
             spriteRenderer.enabled = true;
+        }
+
+        ViewColliderCollisionManager vccm = ac.GetComponentInChildren<ViewColliderCollisionManager>();
+        if (vccm != null)
+        {
+            vccm.Sink();
         }
 
         // Explode and do damage to any entity in radius. (e.g. collider)

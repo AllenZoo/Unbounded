@@ -15,6 +15,15 @@ public class ViewColliderCollisionManager : MonoBehaviour
     [SerializeField] private ObjectFader objFader;
     [SerializeField] private SpriteRenderer objSprite;
 
+    [Tooltip("Whether the object should always be under.")]
+    [HideIf(nameof(alwaysAbove))]
+    [SerializeField] private bool alwaysUnder = false;
+
+    [Tooltip("Whether the object should always be above.")]
+    [HideIf(nameof(alwaysUnder))]
+    [SerializeField] private bool alwaysAbove = false;
+
+    [HideIf("@this.alwaysUnder || this.alwaysAbove")]
     [Tooltip("Position to be considered the objects feet relative to parent transform.")]
     [SerializeField] private Transform objFeet;
 
@@ -38,6 +47,15 @@ public class ViewColliderCollisionManager : MonoBehaviour
             Assert.IsNotNull(objFader);
         }
 
+        //if (this.alwaysUnder)
+        //{
+        //    objFeet = Mathf.Infinity);
+        //}
+        //else if (this.alwaysAbove)
+        //{
+        //    objFeet = -Mathf.Infinity;
+        //}
+
         Assert.IsNotNull(parentTransform);
         Assert.IsNotNull(objSprite);
         Assert.IsNotNull(objFeet);
@@ -60,6 +78,27 @@ public class ViewColliderCollisionManager : MonoBehaviour
         //collidedWith = new HashSet<ViewColliderCollisionManager>(); --> Moved this to initialize at runtime, since sometimes, it is possible that OnTriggerEnter2D gets called before this set is initialized.
         isMovingObject = parentTransform.CompareTag("Player") || parentTransform.CompareTag("Entity");
     }
+
+    /// <summary>
+    /// Functions for dynamically changing whether an object should be always under etc.
+    /// </summary>
+    public void Sink()
+    {
+        alwaysAbove = false;
+        alwaysUnder = true;
+
+    }
+    public void Rise()
+    {
+        alwaysUnder = false;
+        alwaysAbove = true;
+    }
+    public void ResetSinkRise()
+    {
+        alwaysUnder = false;
+        alwaysAbove = false;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -157,7 +196,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
         if (otherYPos > thisYPos)
         {
-            // Object is in front of other.
+            // This object is in front of other.
 
             // Increase Sorting Layer of object if necessary.
             if (objSprite.sortingOrder <= otherVCCM.objSprite.sortingOrder)
