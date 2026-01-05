@@ -47,18 +47,10 @@ public class ViewColliderCollisionManager : MonoBehaviour
             Assert.IsNotNull(objFader);
         }
 
-        //if (this.alwaysUnder)
-        //{
-        //    objFeet = Mathf.Infinity);
-        //}
-        //else if (this.alwaysAbove)
-        //{
-        //    objFeet = -Mathf.Infinity;
-        //}
-
         Assert.IsNotNull(parentTransform);
         Assert.IsNotNull(objSprite);
-        Assert.IsNotNull(objFeet);
+
+        if (!alwaysAbove && !alwaysUnder) Assert.IsNotNull(objFeet);
 
         // Check if this object is on the ViewCollider layer.
         Assert.IsTrue(gameObject.layer == LayerMask.NameToLayer("ViewCollider"), "ViewColliderCollisionManager should be on the ViewCollider layer.");
@@ -79,6 +71,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
         isMovingObject = parentTransform.CompareTag("Player") || parentTransform.CompareTag("Entity");
     }
 
+    #region Public API
     /// <summary>
     /// Functions for dynamically changing whether an object should be always under etc.
     /// </summary>
@@ -98,7 +91,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
         alwaysUnder = false;
         alwaysAbove = false;
     }
-
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -191,8 +184,8 @@ public class ViewColliderCollisionManager : MonoBehaviour
     private void HandleViewCollision(ViewColliderCollisionManager otherVCCM)
     {
         // Check which feet is in front.
-        float otherYPos = otherVCCM.objFeet.position.y;
-        float thisYPos = objFeet.position.y;
+        float otherYPos = otherVCCM.GetFeetY();
+        float thisYPos = GetFeetY();
 
         if (otherYPos > thisYPos)
         {
@@ -228,8 +221,8 @@ public class ViewColliderCollisionManager : MonoBehaviour
         // Check if any colliders in list are moving objects.
         foreach (ViewColliderCollisionManager vccm in collidedWith)
         {
-            float thisYPos = objFeet.position.y;
-            float otherYPos = vccm.objFeet.position.y;
+            float thisYPos = GetFeetY();
+            float otherYPos = vccm.GetFeetY();
             
             if (vccm.isMovingObject && otherYPos > thisYPos)
             {
@@ -240,5 +233,26 @@ public class ViewColliderCollisionManager : MonoBehaviour
 
         // No moving objects in front. So don't fade.
         return false;
+    }
+
+    /// <summary>
+    /// Helper to get FeetY depending on certain set parameters.
+    /// </summary>
+    /// <returns></returns>
+    private float GetFeetY()
+    {
+        if (alwaysUnder)
+        {
+            return Mathf.Infinity;
+
+        }
+        else if (alwaysAbove)
+        {
+            return -Mathf.Infinity;
+        }
+        else
+        {
+            return objFeet.position.y;
+        }
     }
 }
