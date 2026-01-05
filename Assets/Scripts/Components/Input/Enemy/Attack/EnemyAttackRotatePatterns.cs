@@ -320,7 +320,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         // 2. Set Attacker
         if (enemyAIComponent.AttackerComponent != null)
         {
-            //enemyAIComponent.AttackerComponent.PauseAttacker(transitionPauseTime);
+            enemyAIComponent.AttackerComponent.PauseAttacker(transitionPauseTime);
             enemyAIComponent.AttackerComponent.SetAttacker(currentBehaviour.attacker);
         }
     }
