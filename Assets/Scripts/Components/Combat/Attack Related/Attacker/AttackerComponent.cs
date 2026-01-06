@@ -99,15 +99,15 @@ public class AttackerComponent : SerializedMonoBehaviour
     public void SetAttacker(IAttacker attacker)
     {
         // Kill any previous ongoing attacks
-        if (this.attacker != attacker)
+        if (this.attacker != null && this.attacker != attacker)
         {
             this.attacker.StopAttack();
         }
 
+
         // Kill any ongoing cooldown coroutine
         if (attackCDCoroutine != null)
         {
-            Debug.LogError("Got in here!");
             StopCoroutine(attackCDCoroutine);
             attackRdy = true;
         }
