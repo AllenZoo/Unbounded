@@ -28,8 +28,8 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
     private Item item;
     private ItemBaseStatComponent baseStatComponent;
     private ItemUpgradeComponent upgradeComponent;
-    private Attacker baseAttacker; // The base Attacker instance to create a copy of.
-    private Attacker dynamicAttacker; // Accumlator of modifier visitor. Deep copy of base attacker.
+    private IAttacker baseAttacker; // The base Attacker instance to create a copy of.
+    private IAttacker dynamicAttacker; // Accumlator of modifier visitor. Deep copy of base attacker.
 
     // Holds the stats of the item after modification. The accumulator passed in the modifier visitor.
     private StatContainer statContainer;
@@ -99,7 +99,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
 
         return new Optional<StatContainer>(statContainer);
     }
-    public Attacker QueryAttackerAfterModification()
+    public IAttacker QueryAttackerAfterModification()
     {
         ClearModifiers(ModifierType.Trait);
         ApplyModifiers(upgradeComponent, ModifierType.Trait);
@@ -207,9 +207,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
                 // Create new dynamic attacker if never created before.
                 if (dynamicAttacker == null)
                 {
-                    var attackerData = ScriptableObject.Instantiate(baseAttacker.AttackerData);
-                    var attackData = ScriptableObject.Instantiate(baseAttacker.AttackData);
-                    dynamicAttacker = new Attacker(attackerData, attackData);
+                    dynamicAttacker = baseAttacker.DeepClone();
                 }
 
                 // Modify dynamic attacker back to base attacker
@@ -277,7 +275,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         if (modifier.AddPiercing)
         {
             if (dynamicAttacker.AttackData != null)
-                dynamicAttacker.AttackData.isPiercing = true;
+                dynamicAttacker.AttackData.IsPiercing = true;
         }
 
         if (dynamicAttacker.AttackerData != null)
@@ -293,7 +291,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         if (dynamicAttacker.AttackData != null)
-            dynamicAttacker.AttackData.distance += modifier.RangeToAdd;
+            dynamicAttacker.AttackData.Distance += modifier.RangeToAdd;
     }
 
     public virtual void Visit(ProjectileSpeedModifier modifier)
@@ -305,7 +303,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         }
 
         if (dynamicAttacker.AttackData != null)
-            dynamicAttacker.AttackData.initialSpeed += modifier.ProjectileSpeedToAdd;
+            dynamicAttacker.AttackData.InitialSpeed += modifier.ProjectileSpeedToAdd;
     }
     #endregion
 
@@ -315,7 +313,7 @@ public class ItemModifierMediator : IUpgradeModifierVisitor
         return item;
     }
 
-    public Attacker GetAttackerAfterModification()
+    public IAttacker GetAttackerAfterModification()
     {
         return dynamicAttacker;
     }

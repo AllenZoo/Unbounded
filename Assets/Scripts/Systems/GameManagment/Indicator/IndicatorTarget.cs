@@ -7,6 +7,7 @@ using UnityEngine;
 public class IndicatorTarget : MonoBehaviour
 {
     [Required, SerializeField] private Transform targetTransform;
+    [Required, SerializeField] private Sprite indicatorIconSprite;
     [SerializeField] private bool createIndicatorOnStart = true;
 
     private void Start()
@@ -16,17 +17,7 @@ public class IndicatorTarget : MonoBehaviour
         if (createIndicatorOnStart)
         {
             Debug.Log("Creating Indicator!");
-            IndicatorSystem.Instance.CreateIndicator(targetTransform);
+            IndicatorSystem.Instance.CreateIndicator(targetTransform, indicatorIconSprite);
         }
     }
-
-    //private void Update()
-    //{
-    //    // TODO: remove after debugging
-    //    if (Input.GetKeyDown(KeyCode.P))
-    //    {
-    //        Debug.Log("Being called");
-    //        IndicatorSystem.Instance.CreateIndicator(targetTransform);
-    //    }
-    //}
 }

@@ -12,12 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac225974a231d0949a60d50773eaf327, type: 3}
   m_Name: Wooden Staff
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 0f061048529b1e240be86d302646c02d, type: 2}
+    - {fileID: 11400000, guid: f54b8787811940b4dac1b1abbd7eea1c, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: attacker
+      Entry: 7
+      Data: 0|Attacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 0
+    - Name: attackData
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
   id: 3180f555-748a-4bbd-a6fd-49e87f002ca0
   itemName: Wooden Staff
   itemSprite: {fileID: 134640067, guid: a64d73120f737c2458025e8b118a7997, type: 3}
   spriteRot: 90
   isStackable: 0
   description: FIREBALL!
-  attacker:
-    attackerData: {fileID: 11400000, guid: 0f061048529b1e240be86d302646c02d, type: 2}
-    attackData: {fileID: 11400000, guid: f54b8787811940b4dac1b1abbd7eea1c, type: 2}

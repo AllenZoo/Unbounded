@@ -12,12 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac225974a231d0949a60d50773eaf327, type: 3}
   m_Name: Wooden Sword
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: cc273666c08634249ba81c5808d345f2, type: 2}
+    - {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: attacker
+      Entry: 7
+      Data: 0|Attacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 0
+    - Name: attackData
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
   id: 207269a8-077e-4638-a8c0-494620417f81
   itemName: Wooden Sword
   itemSprite: {fileID: -870168203, guid: a64d73120f737c2458025e8b118a7997, type: 3}
   spriteRot: 0
   isStackable: 0
   description: Made from a very tough tree.
-  attacker:
-    attackerData: {fileID: 11400000, guid: cc273666c08634249ba81c5808d345f2, type: 2}
-    attackData: {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}

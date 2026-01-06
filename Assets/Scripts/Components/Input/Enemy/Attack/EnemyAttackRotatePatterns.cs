@@ -3,34 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "new EnemyAttack Rotate Patterns", menuName = "System/Enemy/State/Attack/AttackRotatePatterns")]
 public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 {
+    #region Behaviours
     [Tooltip("Defines the movement and attack pattern behaviour of entity.")]
-    [SerializeField]
+    [OdinSerialize]
     private List<BehaviourDefinition> behaviours = new();
-
-    [SerializeField]
+    private List<BehaviourDefinition> enabledBehaviours = new();
+    
+    [OdinSerialize]
     private BehaviourDefinition rageBehaviour;
 
     [SerializeField]
     [Tooltip("HP threshold percentage to trigger rage mode. For example, if you want enemy to trigger rage at 20% hp, set this field to 0.2. If no rage mode, set to -1.")]
     private double rageModeHPThreshold = -1;
     private double curHPThreshold = 1; // keeps track of current enemy hp threshold.
+    #endregion
 
+
+    #region Transition Behaviour
     // Time range for how long a rotation should be active before being changed.
     [Tooltip("Time between each behaviour rotation in seconds.")]
     [SerializeField]
     private FloatRange transitionTimeRange;
     private float timer = 0f;
 
+    [Tooltip("Time where boss does nothing for a bit to allow for player to react to next attack.")]
+    [SerializeField]
+    private float transitionPauseTime = 0f;
+    #endregion
+
+
     [SerializeField]
     private bool debug = false;
-
+    [OdinSerialize, ReadOnly, ShowIf(nameof(debug))] 
     private BehaviourDefinition currentBehaviour;
+    [OdinSerialize, ReadOnly, ShowIf(nameof(debug))] 
     private BehaviourDefinition emptyBehaviour = new BehaviourDefinition() { name="empty"};
 
     // Local variable to help keep track of the likelihood of a behaviour being selected as the 'next' behaviour
@@ -40,8 +53,6 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 
     // To keep track of all the stat modifier references that we applied. Useful when we want to revert their effects.
     private List<StatModifier> appliedStatModifiers = new List<StatModifier>();
-
-    
 
     #region SO Base functions
     public override void DoAnimationTriggerEventLogic()
@@ -70,7 +81,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             // Once timer is up, we transition behaviour.
             var nextBehaviour = GetNextBehaviour();
             TransitionBehaviour(nextBehaviour);
-            timer = UnityEngine.Random.Range(transitionTimeRange.min, transitionTimeRange.max);
+            timer = UnityEngine.Random.Range(transitionTimeRange.min + transitionPauseTime, transitionTimeRange.max + transitionPauseTime);
 
             if (debug)
             {
@@ -117,9 +128,21 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             behaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
         }
 
-        // Initalize ChaseSOBase Rage Behaviour
-        rageBehaviour.chaseBehaviourInstance = Instantiate(rageBehaviour.chaseBehaviour);
-        rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+        // Initalize Rage Behaviour (if not null)
+        if (rageBehaviour != null)
+        {
+            if (rageBehaviour.chaseBehaviour == null)
+            {
+                Debug.Log("[EnemyAttackRotatePatterns] Rage Behaviour Chase Behaviour SO is null!" +
+                    " Make sure to set Rage Behaviour to null in Attack Rotation pattern if boss doesn't have rage behaviour");
+            } else
+            {
+                rageBehaviour.chaseBehaviourInstance = Instantiate(rageBehaviour.chaseBehaviour);
+                rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+            }       
+        }
+
+        enabledBehaviours = behaviours.Where(b => !b.DisableBehaviour).ToList();
 
         ResetBehaviourSelectionWeightMap();
         currentBehaviour = emptyBehaviour;
@@ -149,7 +172,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
 
         behaviourSelectionWeightMap.Clear();
-        foreach(BehaviourDefinition behaviour in behaviours)
+        foreach(BehaviourDefinition behaviour in enabledBehaviours)
         {
             behaviourSelectionWeightMap.Add(behaviour, 1.0);
         }
@@ -215,6 +238,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
                 if (debug)
                 {
                     Debug.Log($"Selected Behaviour is: {selectedBehaviour.name}");
+                    Debug.Log($"Transitioning from {currentBehaviour.name} to {selectedBehaviour.name}.");
                 }
                 break;
             }
@@ -282,17 +306,22 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
         
         // 1b. Apply new stat changes
-        foreach (AddStatModifier addStatModifier in currentBehaviour.addStatModifiers)
+        if (currentBehaviour.addStatModifiers != null)
         {
-            var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
-            enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
-            appliedStatModifiers.Add(statModifier);
+            foreach (AddStatModifier addStatModifier in currentBehaviour.addStatModifiers)
+            {
+                var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
+                enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
+                appliedStatModifiers.Add(statModifier);
+            }
         }
+        
 
         // 2. Set Attacker
         if (enemyAIComponent.AttackerComponent != null)
         {
-            enemyAIComponent.AttackerComponent.SetAttacker(currentBehaviour.attacker);
+            enemyAIComponent.AttackerComponent.PauseAttacker(transitionPauseTime);
+            enemyAIComponent.AttackerComponent.SetAttacker(new List<IAttacker>() { currentBehaviour.attacker });
         }
     }
 
@@ -329,10 +358,24 @@ public class BehaviourDefinition
     [Required]
     [Tooltip("This is the main identifier and differentiator between behaviours. Should be unique. NOTE: shouldn't be 'empty'.")]
     public string name; // For debugging purposes
-    public Attacker attacker;
+
+    [OdinSerialize]
+    public IAttacker attacker;
+
     public EnemyChaseSOBase chaseBehaviour;
     [ReadOnly] public EnemyChaseSOBase chaseBehaviourInstance; // We should initialize this ref and not the above, since SO are shared. We need to create new ref using Instantiate.
     public List<AddStatModifier> addStatModifiers;
+
+    [SerializeField, Tooltip("For keeping track of what attacker and attack objs are being used")]
+    [TextArea(3, 10)]
+    private string behaviourDescription = "";
+
+
+    public bool DisableBehaviour { get { return disableBehaviour; } private set { } }
+
+    [Header("Debugging")]
+    [SerializeField, Tooltip("Disable behaviour for debugging")]
+    private bool disableBehaviour = false;
 }
 
 [Serializable]

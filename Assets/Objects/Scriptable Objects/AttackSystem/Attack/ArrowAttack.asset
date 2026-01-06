@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: ArrowAttack
   m_EditorClassIdentifier: 
-  attackName: ArrowAttack |
-  attackPfb: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
-  baseDamage: 5
-  attackSound: {fileID: 8300000, guid: da5b1f874fe55df44814ed9c5bd1c327, type: 3}
-  distance: 24
-  initialSpeed: 8
-  baseKnockback: 0
-  baseStunDuration: 1
-  isAOE: 0
-  canRepeat: 0
-  isDOT: 0
-  dotDuration: 5
-  isPiercing: 1
-  lastsUntilDuration: 0
-  rotOffset: 0
+  AttackName: ArrowAttack |
+  AttackPfb: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
+  BaseDamage: 5
+  AttackSound: {fileID: 8300000, guid: da5b1f874fe55df44814ed9c5bd1c327, type: 3}
+  RotOffset: 0
+  Distance: 24
+  InitialSpeed: 8
+  BaseKnockback: 0
+  BaseStunDuration: 1
+  IsAOE: 0
+  IsPiercing: 1
+  IsDOT: 0
+  DotDuration: 5
+  LastsUntilDuration: 0
+  DisappearOnHit: 1
+  CanRepeat: 0
+  RehitCooldown: -1

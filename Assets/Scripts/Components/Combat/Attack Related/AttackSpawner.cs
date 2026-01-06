@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,59 +8,68 @@ using UnityEngine.Assertions;
 // Class that spawns attacks.
 public class AttackSpawner
 {
+
     /// <summary>
-    /// Spawns attack object from attackObj at spawnerPos, towards mousePosition (or attack input position for monsters).
+    /// Spawns attack from top right to target point, like a meteor
     /// </summary>
-    /// <param name="info"></param>
-    /// <param name="spawnerPos"></param>
-    /// <param name="targetTypes"></param>
-    /// <param name="attackObj"></param>
-    /// <returns>The newly created Attack.</returns>
-    public static AttackComponent SpawnAttack(AttackSpawnInfo info, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj)
+    /// <returns></returns>
+    //public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget)
+    //{
+    //    // TODO: spawn attack from provided point A (sky) to provided point B with given time to reach the target.
+    //    return null;
+    //}
+
+
+    /// <summary>
+    /// Spawns attack from top right to target point, like a meteor
+    /// </summary>
+    /// <returns></returns>
+    public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb, float meteorRadius, List<EntityType> targetTypes)
     {
-        // TODO: clean up later.
-        return null;
-        //Attack attack = attackObj.GetComponent<AttackComponent>();
-        //Assert.IsNotNull(attack, "To spawn attack obj, it must have an attack component!");
+        // 1. Choose a spawn point above and to the right of the target (or camera)
+        Vector3 spawnPos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, 1.2f, 0));
+        spawnPos.z = 0f;
 
-        //if (attack == null)
-        //{
-        //    Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
-        //    return null;
-        //}
+        // 2. Spawn the meteor prefab
+        GameObject newAttackObj = AttackPool.Instance.GetAttack(attackPfb);
+        newAttackObj.transform.position = spawnPos;
+        //newAttackObj.transform.rotation = rotation; // TODO: impelemnt rotation changes so that attack faces proper dir. Get vector of spawn to target.
+        newAttackObj.SetActive(true);
 
-        //// Offset from attacker. TODO: make this a better calculation.
-        //float offset = 0.5f;
 
-        //Vector3 direction = info.mousePosition - spawnerPos.position;
-        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attack.Data.rotOffset));
-        //Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
+        // 3. Scale attack size based on radius provided
+        newAttackObj.GetComponent<CircleScaler>()?.SetCircleRadius(meteorRadius);
+        if (newAttackObj.GetComponent<CircleScaler>() == null)
+        {
+            Debug.LogError("AttackSpawner: SpawnMeteorAttack: attackPfb does not have CircleScaler component!");
+        }
 
-        //// Check if attackObj is in pool, use it. else, instantiate new one.
-        //// Spawn attack object a certain distance from attacker, rotated towards mouse.
-        //GameObject newAttackObj = AttackPool.Instance.GetAttack(attackObj);
-        //newAttackObj.transform.position = spawnPos;
-        //newAttackObj.transform.rotation = rotation;
-        //newAttackObj.SetActive(true);
+        AttackComponent attack = newAttackObj.GetComponent<AttackComponent>();
 
-        //Attack newAttack = newAttackObj.GetComponent<Attack>();
-        //newAttack.ResetAttackAfterTime(newAttack.Data.duration);
+        // Set duration until attack disappears/resets. (reset = set inactive)
+        var duration = timeToTarget + 1f; // TODO: modify this for object reset duration (e.g. timer for attack to despawn)
+        attack.ResetAttackAfterTime(duration);
 
-        //// Set velocity of attack (get from Attack in attackObj)
-        //newAttackObj.GetComponent<Rigidbody2D>().velocity = direction.normalized * attack.Data.initialSpeed;
+        // 3. Start movement toward the target using DOTween
+        newAttackObj.transform.DOMove(targetPos, timeToTarget)
+            .SetEase(Ease.Linear)
+            .OnStart(() => { attack.TriggerAttackLaunch(); })
+            .OnComplete(() =>
+            {
 
-        //// Set valid EntityType targets for attack.
-        //newAttack.TargetTypes = targetTypes;
+                attack.TriggerAttackLand();
+                //attack.OnImpact();   // Run damage/explosion logic (TODO: add some logic for this)
+            });
 
-        //// Set sprite of attack.
-        ////newAttack.GetComponent<SpriteRenderer>().sprite = attack.Data.attackSprite;
+        // 4. Set valid EntityType targets for attack.
+        attack.TargetTypes = targetTypes;
 
-        //return newAttack;
+        return attack;
     }
 
+
     /// <summary>
-    /// Spawns attack object torwards direction from spawnerPos.
+    /// Spawns attack object torwards direction from spawnerPos. Instantiates attack in a created AttackPool.
     /// </summary>
     /// <param name="direction">direction to spawn the attack torwards</param>
     /// <param name="spawnerPos">the transform to spawn the attack at</param>
@@ -69,7 +79,7 @@ public class AttackSpawner
     /// <param name="atkStat">the atk stat to set on atk obj</param>
     /// <param name="percentageDamageIncrease">the % increase buff to apply to attack</param>
     /// <returns>The newly created attack</returns>
-    public static AttackComponent SpawnAttack(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, Attacker attacker, float atkStat, double percentageDamageIncrease)
+    public static AttackComponent SpawnAttackInPool(Vector3 direction, Transform spawnerPos, List<EntityType> targetTypes, GameObject attackObj, IAttacker attacker, float atkStat, double percentageDamageIncrease)
     {
         AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
 
@@ -87,7 +97,7 @@ public class AttackSpawner
         // Offset from attacker. TODO: make this a better calculation.
         float offset = 0.5f;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttackData.rotOffset));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + attackerAttackData.RotOffset));
         Vector2 spawnPos = direction.normalized * offset + spawnerPos.transform.position;
 
         // Check if attackObj is in pool, use it. else, instantiate new one.
@@ -97,21 +107,42 @@ public class AttackSpawner
         newAttackObj.transform.rotation = rotation;
         newAttackObj.SetActive(true);
 
-        // Set dynamic attack fields and reset timer.
+        // Set dynamic attack fields
         var newAttack = newAttackObj.GetComponent<AttackComponent>();
-        newAttack.Attack.SetAtkStat(atkStat);
-        newAttack.Attack.SetPercentageDamageIncrease(percentageDamageIncrease);
+        newAttack.Attack.SetModifiers(atkStat, percentageDamageIncrease);
+        newAttack.Attack.AttackData = attackerAttackData;
 
-        var duration = attackerAttackData.distance / attackerAttackData.initialSpeed;
+        // Set duration until attack disappears/resets. (reset = set inactive)
+        var duration = attackerAttackData.Distance / attackerAttackData.InitialSpeed;
         newAttack.ResetAttackAfterTime(duration);
-        newAttack.Attack.SetAtkData(attackerAttackData);
-
+        
         // Set velocity of attack (get from Attack in attackObj)
-        newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.initialSpeed;
+        newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.InitialSpeed;
 
         // Set valid EntityType targets for attack.
         newAttack.TargetTypes = targetTypes;
 
         return newAttack;
     }
+
+
+    /// <summary>
+    /// Function that setsup created attacks by assigning the attack component the relevant target type.
+    /// </summary>
+    /// <param name="attackObj"></param>
+    /// <param name="targetTypes"></param>
+    public static void SetUpAttack(GameObject attackObj, List<EntityType> targetTypes)
+    {
+        // Check for an attack component on object
+        AttackComponent attackComponent = attackObj.GetComponent<AttackComponent>();
+        Assert.IsNotNull(attackComponent, "Attack Object must have an attack component!");
+        if (attackComponent == null)
+        {
+            Debug.LogError("AttackSpawner: attackObj does not have Attack component!");
+            return;
+        }
+
+        attackComponent.TargetTypes = targetTypes;
+    }
+
 }

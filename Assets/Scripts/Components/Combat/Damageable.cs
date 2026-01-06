@@ -27,7 +27,7 @@ public class Damageable : MonoBehaviour
     // Can be hit if true. (Checked by Attack component to see if OnHit should trigger)
     public bool isHittable = true;
 
-    private List<Attack> dotAttacks;
+    private List<IAttack> dotAttacks;
 
     private void Awake()
     {
@@ -73,18 +73,18 @@ public class Damageable : MonoBehaviour
     }
 
 
-    public void TakeDamageOverTime(Attack attack, float damage)
+    public void TakeDamageOverTime(IAttack attack, float damage)
     {
         dotAttacks.Add(attack);
         StartCoroutine(DamageOverTime(attack, damage));
     }
 
-    private IEnumerator DamageOverTime(Attack attack, float damage)
+    private IEnumerator DamageOverTime(IAttack attack, float damage)
     {
         float total_duration = 0;
         while (dotAttacks.Contains(attack))
         {
-            if (total_duration >= attack.AttackData.dotDuration)
+            if (total_duration >= attack.AttackData.DotDuration)
             {
                 dotAttacks.Remove(attack);
                 yield break;

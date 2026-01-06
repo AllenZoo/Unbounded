@@ -5351,7 +5351,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1789471847
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 6601e4f1a2938a240be51e97db4835e9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5483,6 +5483,8 @@ MonoBehaviour:
   shouldFadeIfInFront: 0
   objFader: {fileID: 0}
   objSprite: {fileID: 6747605557252889183}
+  alwaysUnder: 0
+  alwaysAbove: 0
   objFeet: {fileID: 6747605558002430280}
   oldSortingOrder: 0
 --- !u!1 &6747605558229510677
@@ -6631,6 +6633,30 @@ PrefabInstance:
     - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: attacker.attackerData
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
+      value: '"path":"attacker","value":{"$id":0,"$type":"Attacker, Assembly-CSharp","attackerData":null,"attackData":null}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[1]'
+      value: '"path":"attacker.attackData","value":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[2]'
+      value: '"path":"attacker.attackerData","value":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251975519570500716, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2588634707587799474, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

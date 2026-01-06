@@ -18,13 +18,14 @@ public class IndicatorSystem : Singleton<IndicatorSystem>
         indicators = new Dictionary<IndicatorController, GameObject>();
     }
 
-    public void CreateIndicator(Transform target)
+    public void CreateIndicator(Transform target, Sprite indicatorIcon)
     {
         ClearDeadIndicators();
 
         var indicator = Instantiate(indicatorPfb, indicatorPool);
         var indicatorControllerRef = indicator.GetComponent<IndicatorController>();
         indicatorControllerRef.SetSourcePoints(target, playerTransform);
+        indicatorControllerRef.SetIndicatorIconSprite(indicatorIcon);
         indicators.Add(indicatorControllerRef, target.gameObject);
     }
 

@@ -16,15 +16,15 @@ public class ItemDataConverter
 
         StatContainer baseStatContainer = mediator.QueryStatsBeforeModification().Value;
         StatContainer finalStatContainer = mediator.QueryStatsAfterModification().Value;
-        Attacker finalAttacker = mediator.QueryAttackerAfterModification();
+        IAttacker finalAttacker = mediator.QueryAttackerAfterModification();
 
         model.Name = item.Data.itemName;
         model.Description = item.Data.description;
         model.BaseAtk = baseStatContainer.Attack;
         model.FinalAtk = finalStatContainer.Attack;
         model.PercentageDamageIncrease = mediator.GetPercentageDamageIncreaseTotal();
-        model.ProjectileSpeed = finalAttacker.AttackData.initialSpeed;
-        model.ProjectileRange = finalAttacker.AttackData.distance;
+        model.ProjectileSpeed = finalAttacker.AttackData.InitialSpeed;
+        model.ProjectileRange = finalAttacker.AttackData.Distance;
         model.FireRate = finalStatContainer.Dexterity; // TODO: calculate this via the DEX stat. Also check if this is accurate (like will it include the player's Dexterity Stat too.)
         model.NumProjectilesPerAttack = finalAttacker.AttackerData.numAttacks;
         model.CanViewUpgrades = item.HasComponent<ItemAttackContainerComponent>();
@@ -43,7 +43,7 @@ public class ItemDataConverter
 
         // TRAITS (add more here when required)
         model.Traits = new List<string>();
-        if (finalAttacker.AttackData.isPiercing)
+        if (finalAttacker.AttackData.IsPiercing)
         {
             model.Traits.Add("+ Piercing");
         }

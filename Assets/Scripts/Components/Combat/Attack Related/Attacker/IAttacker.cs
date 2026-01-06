@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public interface IAttacker
+{
+    void Attack(KeyCode keyCode, AttackContext attackContext);
+    void StopAttack(); // For attackers that have continuous attacks (like spiral attacker)
+    bool IsInitialized();
+    float GetCooldown();
+    float GetChargeUp();
+    IAttacker DeepClone();
+
+    // TODO: figure out if there's a better way to pass in Data info through interface.
+    // Fields required from this: numAttacks, wholeObj <- ItemModifierMediator + smt else.
+    public AttackerData AttackerData { get;  set; }
+
+
+    // TODO: get rid of this from this interface if possible.
+    // Fields required from this:
+    // [rotOffset, distance, initialSpeed, wholeObj] <- AttackSpawner
+    // [initialSpeed, distance, isPiercing] <- ItemDataConverter
+    // [distance, initialSpeed, isPiercing, wholeObj] <- ItemModifierMediator.. for applying modifiers that change these attributes.
+    public AttackData AttackData { get; set; }
+}

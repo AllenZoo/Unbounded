@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "System/Item/Item")]
 [Serializable]
-public class ItemData : ScriptableObject, IIdentifiableSO
+public class ItemData : SerializedScriptableObject, IIdentifiableSO
 {
     [SerializeField, ReadOnly] private string id;
     public string ID => id;
@@ -21,7 +22,8 @@ public class ItemData : ScriptableObject, IIdentifiableSO
     public string description;
 
     [Tooltip("For weapons that contain some attack behaviour data.")]
-    public Attacker attacker;
+    [OdinSerialize, NonSerialized] // Let Odin Serialize
+    public IAttacker attacker;
 
     public override string ToString()
     {

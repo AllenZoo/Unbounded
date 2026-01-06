@@ -19,6 +19,11 @@ public class IndicatorController : MonoBehaviour
     }
 
 
+    public void SetIndicatorIconSprite(Sprite iconSprite)
+    {
+        view.SetPortraitIconImage(iconSprite);
+    }
+
     /// <summary>
     /// Points indicator from a source A (objToPointFrom) to source B (objToPointTo).
     /// </summary>

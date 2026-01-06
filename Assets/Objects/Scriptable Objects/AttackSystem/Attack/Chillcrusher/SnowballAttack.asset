@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
+  m_Name: SnowballAttack
+  m_EditorClassIdentifier: Assembly-CSharp::AttackData
+  AttackName: Snowball Attack|
+  AttackPfb: {fileID: 6775930161445172610, guid: 927e026c4e1293f439fc8dd13d66e13a, type: 3}
+  BaseDamage: 5
+  AttackSound: {fileID: 0}
+  RotOffset: 0
+  Distance: 20
+  InitialSpeed: 10
+  BaseKnockback: 0
+  BaseStunDuration: 0
+  IsAOE: 0
+  IsPiercing: 0
+  IsDOT: 0
+  DotDuration: 5
+  LastsUntilDuration: 0
+  DisappearOnHit: 1
+  CanRepeat: 0
+  RehitCooldown: -1

@@ -14,7 +14,7 @@ public class OrbitSpinner: MonoBehaviour
     [SerializeField] private Transform center;
     [SerializeField] private bool spinClockWise = true;
 
-    private static float SPIN_SPEED_SCALE = 20f;
+    private static readonly float SPIN_SPEED_SCALE = 20f;
 
     private void Awake()
     {
