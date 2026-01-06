@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiralAttacker : IAttacker
+public class SpiralAttacker : IAttacker, IAttackNode
 {
     public AttackerData AttackerData { get { return spiralAttackerData; } set { spiralAttackerData = (SpiralAttackerData)value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
@@ -137,14 +137,15 @@ public class SpiralAttacker : IAttacker
         return spiralAttackerData != null && attackData != null;
     }
 
-    public bool CanAttack()
-    {
-        return true;
-    }
-
-
     public bool IsAttacking()
     {
         return isAttacking;
     }
+
+    #region IAttackNode Implementation
+    public IEnumerable<IAttackNode> GetChildren()
+    {
+        yield return this;
+    }
+    #endregion
 }

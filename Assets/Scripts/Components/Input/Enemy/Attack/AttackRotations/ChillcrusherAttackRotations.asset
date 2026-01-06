@@ -26,6 +26,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
     - {fileID: 11400000, guid: 69b36bb7ac7fc12439f96ce336070af9, type: 2}
     - {fileID: 11400000, guid: beaa5bb9c3d186a47b771b30e5ab00d3, type: 2}
+    - {fileID: 11400000, guid: 32ba547d95b759c4b91ab04d169e2e3e, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -240,11 +241,94 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: rageBehaviour
+      Entry: 7
+      Data: 14|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: '[Phase 69] RAGEEEE'
+    - Name: attacker
+      Entry: 7
+      Data: 15|AttackerWrapper, Assembly-CSharp
+    - Name: attackers
+      Entry: 7
+      Data: 16|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[IAttacker, Assembly-CSharp]],
+        Unity.Plastic.Antlr3.Runtime
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 17|CageAttacker, Assembly-CSharp
+    - Name: attackData
+      Entry: 10
+      Data: 8
+    - Name: cageAttackerData
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|MeteorAttacker, Assembly-CSharp
+    - Name: attackData
+      Entry: 10
+      Data: 4
+    - Name: meteorAttackerData
+      Entry: 10
+      Data: 5
+    - Name: attackIndicator
+      Entry: 7
+      Data: 19|CircleAttackIndicator, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 10
+      Data: 2
+    - Name: chaseBehaviourInstance
       Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 20|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[AddStatModifier, Assembly-CSharp]],
+        Unity.Plastic.Antlr3.Runtime
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
       Data: 
     - Name: currentBehaviour
       Entry: 7
-      Data: 14|BehaviourDefinition, Assembly-CSharp
+      Data: 21|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
       Data: 
@@ -259,7 +343,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 15|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 22|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -281,7 +365,7 @@ MonoBehaviour:
       Data: 
     - Name: emptyBehaviour
       Entry: 7
-      Data: 16|BehaviourDefinition, Assembly-CSharp
+      Data: 23|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
       Data: empty
@@ -296,7 +380,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 17|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 24|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -316,7 +400,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  rageModeHPThreshold: 0.2
+  rageModeHPThreshold: 0.3
   transitionTimeRange:
     min: 5
     max: 10

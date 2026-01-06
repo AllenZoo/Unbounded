@@ -5,13 +5,12 @@ using UnityEngine;
 
 public interface IAttacker
 {
-    public void Attack(KeyCode keyCode, AttackContext attackContext);
-    public void StopAttack(); // For attackers that have continuous attacks (like spiral attacker)
-    public bool IsInitialized();
-    public float GetCooldown();
-    public float GetChargeUp();
-    public bool CanAttack();
-    public IAttacker DeepClone();
+    void Attack(KeyCode keyCode, AttackContext attackContext);
+    void StopAttack(); // For attackers that have continuous attacks (like spiral attacker)
+    bool IsInitialized();
+    float GetCooldown();
+    float GetChargeUp();
+    IAttacker DeepClone();
 
     // TODO: figure out if there's a better way to pass in Data info through interface.
     // Fields required from this: numAttacks, wholeObj <- ItemModifierMediator + smt else.

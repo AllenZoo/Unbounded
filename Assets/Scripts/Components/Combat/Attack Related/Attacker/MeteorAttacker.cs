@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeteorAttacker : IAttacker
+public class MeteorAttacker : IAttacker, IAttackNode
 {
     public AttackerData AttackerData { get { return meteorAttackerData; } set { meteorAttackerData = (MeteorAttackerData) value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
@@ -52,11 +52,6 @@ public class MeteorAttacker : IAttacker
     {
         // Not a continouous attack so don't need.
         //throw new System.NotImplementedException();
-    }
-
-    public bool CanAttack()
-    {
-        return true; 
     }
 
     public IAttacker DeepClone()
@@ -113,6 +108,13 @@ public class MeteorAttacker : IAttacker
 
         return positions;
     }
+
     #endregion
 
+    #region IAttackNode Implementation
+    public IEnumerable<IAttackNode> GetChildren()
+    {
+        yield return this;
+    }
+    #endregion
 }

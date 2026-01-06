@@ -110,8 +110,24 @@ public class AttackerComponent : SerializedMonoBehaviour
 
         foreach (var attacker in attackers)
         {
-            AttackSlot slot = new AttackSlot(attacker);
-            attackSlots.Add(slot);
+            if (attacker is IAttackNode attackNode)
+            {
+                var attackNodes = attackNode.GetChildren();
+
+                foreach (var node in attackNodes)
+                {
+                    if (node is IAttacker attackPattern)
+                    {
+                        AttackSlot slot = new AttackSlot(attackPattern);
+                        attackSlots.Add(slot);
+                    }
+                }
+            }
+
+            else
+            {
+                attackSlots.Add(new AttackSlot(attacker));
+            }
         }
     }
 

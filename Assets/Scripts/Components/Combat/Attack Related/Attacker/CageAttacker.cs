@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static System.TimeZoneInfo;
 
-public class CageAttacker : IAttacker
+public class CageAttacker : IAttacker, IAttackNode
 {
     public AttackerData AttackerData { get => cageAttackerData; set => cageAttackerData = (CageAttackerData) value; }
     public AttackData AttackData { get => attackData; set => attackData = value; }
@@ -240,4 +240,10 @@ public class CageAttacker : IAttacker
         return attackData != null && cageAttackerData != null;
     }
 
+    #region IAttackNode Implementation
+    public IEnumerable<IAttackNode> GetChildren()
+    {
+        yield return this;
+    }
+    #endregion
 }

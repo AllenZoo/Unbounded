@@ -6,12 +6,14 @@ using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// TODO: rename this to ProjectileAttacker
+
 /// <summary>
 /// Class that encapsulates the Attacker process (TODO: use chatGpt to think of better way to describe this)
 /// Similar to a blueprint for creating attack patterns
 /// </summary>
 [Serializable]
-public class Attacker: IAttacker
+public class Attacker: IAttacker, IAttackNode
 {
     public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
@@ -94,4 +96,11 @@ public class Attacker: IAttacker
         AttackData clonedAttackData = UnityEngine.Object.Instantiate(attackData);
         return new Attacker(clonedAttackerData, clonedAttackData);
     }
+
+    #region IAttackNode Implementation
+    public IEnumerable<IAttackNode> GetChildren()
+    {
+        yield return this;
+    }
+    #endregion
 }
