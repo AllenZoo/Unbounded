@@ -11,10 +11,13 @@ using UnityEngine.Assertions;
 /// </summary>
 public class AttackerComponent : SerializedMonoBehaviour
 {
-    [Required, OdinSerialize]
-    private IAttacker attacker;
+    //[Required, OdinSerialize]
+    //private IAttacker attacker;
 
-    [Required, SerializeField] private LocalEventHandler localEventHandler;
+    [Required, OdinSerialize]
+    private List<AttackSlot> attackSlots = new();
+
+    [Required, SerializeField] private LocalEventHandler leh;
 
     [Tooltip("Types of entities this attacker can damage.")]
     [ValidateInput(nameof(ValidateList), "List cannot be empty!")]
@@ -33,10 +36,8 @@ public class AttackerComponent : SerializedMonoBehaviour
     // Ugly code, but this is one way to implement it so lets do this for now.
     public double PercentageDamageIncrease { get; private set; } = 0;
 
-    [SerializeField, ReadOnly] private bool attackRdy = true;
+    // Whether the attacker component can attack.
     [SerializeField, ReadOnly] private bool canAttack = true;
-
-    private Coroutine attackCDCoroutine;
     private Coroutine pauseCoroutine;
 
     private void Awake()
@@ -46,37 +47,30 @@ public class AttackerComponent : SerializedMonoBehaviour
 
         Assert.IsNotNull(statComponent, "Attacker needs stat component to get ATK value.");
 
-        localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
     private void Start()
     {
         LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
-        localEventHandler.Register<OnAttackInput>(eventBinding);
+        leh.Register<OnAttackInput>(eventBinding);
 
         LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>(
             (e) => { 
                 canAttack = false;
                 StopAllCoroutines();
             });
-        localEventHandler.Register<OnDeathEvent>(deathEventBinding);
+        leh.Register<OnDeathEvent>(deathEventBinding);
 
         LocalEventBinding<OnWeaponEquippedEvent> equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
-        localEventHandler.Register<OnWeaponEquippedEvent>(equipEventBinding);
+        leh.Register<OnWeaponEquippedEvent>(equipEventBinding);
     }
 
     public void AttackReq(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
-        if (attackRdy && 
-            canAttack && 
-            attacker != null && 
-            attacker.IsInitialized() && 
-            attacker.CanAttack())
+        if (canAttack)
         {
-            // Stop previous attack
-            attacker.StopAttack();
-
             // Create new attack context.
             AttackContext ac = new AttackContext(
                 input.attackInfo,
@@ -87,30 +81,49 @@ public class AttackerComponent : SerializedMonoBehaviour
                 PercentageDamageIncrease
             );
 
-            // Start Attack
-            attacker.Attack(input.keyCode, ac);
-            attackCDCoroutine = StartCoroutine(AttackCooldown());
+            foreach (var attackSlot in attackSlots)
+            {
+                // Check if ready. E.g. if cooldown has recovered.
+                if (attackSlot.IsReady)
+                {
+                    // Note: Cooldown is handled in attack slot
+                    attackSlot.Trigger(input.keyCode, ac);
+                }
+            }
         }
     }
 
-    public void SetAttacker(IAttacker attacker)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="attackers">attackers to add</param>
+    /// <param name="reset">whether to accumulate the given attacker with old list or to erase old attack slots</param>
+    public void SetAttacker(List<IAttacker> attackers, bool reset = true)
     {
-        // Kill any previous ongoing attacks
-        if (this.attacker != null && this.attacker != attacker)
+        if (reset)
         {
-            this.attacker.StopAttack();
+            // Kill any previous ongoing attacks
+            KillAttackSlots();
         }
 
+        if (attackers == null || attackers.Count <= 0) return;
 
-        // Kill any ongoing cooldown coroutine
-        if (attackCDCoroutine != null)
+        foreach (var attacker in attackers)
         {
-            StopCoroutine(attackCDCoroutine);
-            attackRdy = true;
+            AttackSlot slot = new AttackSlot(attacker);
+            attackSlots.Add(slot);
         }
-
-        this.attacker = attacker;
     }
+
+    private void KillAttackSlots()
+    {
+        foreach (var attackSlot in attackSlots)
+        {
+            attackSlot.StopTrigger();
+        }
+        attackSlots.Clear();
+    }
+
 
     /// <summary>
     /// Pauses any attacks for a given duration.
@@ -126,18 +139,16 @@ public class AttackerComponent : SerializedMonoBehaviour
         pauseCoroutine = StartCoroutine(DeactivateAttacker(duration));
     }
 
+    /// <summary>
+    /// Deactivates Attacker Component for a set duration.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator DeactivateAttacker(float duration)
     {
         canAttack = false;
         yield return new WaitForSeconds(duration);
         canAttack = true;
-    }
-    private IEnumerator AttackCooldown()
-    {
-        attackRdy = false;
-        var attackCd = GetCooldownExponential(attacker.GetCooldown(), statComponent.StatContainer.Dexterity, 0.05f);
-        yield return new WaitForSeconds(attackCd);
-        attackRdy = true;
     }
 
     private void HandleWeaponEquipped(OnWeaponEquippedEvent e)
