@@ -14,9 +14,13 @@ public class MeteorAttacker : IAttacker, IAttackNode
     [OdinSerialize] private IAttackIndicator attackIndicator; // Class that spawns an indicator of area where a meteor is going to land on.
 
     #region IAttacker Implementation
+    /// <summary>
+    /// Spawns an indicator, then a meteor attack to target.
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="ac"></param>
     public void Attack(KeyCode keyCode, AttackContext ac)
     {
-
         // Randomly generate meteor positions within a certain area around the target position, given number of meteors to spawn, the error range,
         // and the target position
         List<Vector3> meteorPositions = CalculateMeteorPositions(

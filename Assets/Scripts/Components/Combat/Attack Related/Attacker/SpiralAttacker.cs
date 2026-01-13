@@ -22,6 +22,11 @@ public class SpiralAttacker : IAttacker, IAttackNode
         this.attackData = attackData;
     }
 
+    /// <summary>
+    /// Spawns projectiles in a spiral like shape.
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="ac"></param>
     public void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (isAttacking)
