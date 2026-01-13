@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeteorAttacker : IAttacker, IAttackNode
+public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
 {
-    public AttackerData AttackerData { get { return meteorAttackerData; } set { meteorAttackerData = (MeteorAttackerData) value; } }
-    public AttackData AttackData { get { return attackData; } set { attackData = value; } }
+    //public override AttackerData AttackerData { get { return meteorAttackerData; } set { meteorAttackerData = value; } }
+    public override AttackData AttackData { get { return attackData; } set { attackData = value; } }
     [OdinSerialize] private AttackData attackData;
     [OdinSerialize] private MeteorAttackerData meteorAttackerData;
 
@@ -19,7 +19,7 @@ public class MeteorAttacker : IAttacker, IAttackNode
     /// </summary>
     /// <param name="keyCode"></param>
     /// <param name="ac"></param>
-    public void Attack(KeyCode keyCode, AttackContext ac)
+    public override void Attack(KeyCode keyCode, AttackContext ac)
     {
         // Randomly generate meteor positions within a certain area around the target position, given number of meteors to spawn, the error range,
         // and the target position
@@ -52,25 +52,23 @@ public class MeteorAttacker : IAttacker, IAttackNode
             AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.AttackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
         }
     }
-    public void StopAttack()
+    public override void StopAttack()
     {
         // Not a continouous attack so don't need.
-        //throw new System.NotImplementedException();
     }
-
-    public IAttacker DeepClone()
+    public override IAttacker DeepClone()
     {
         throw new System.NotImplementedException();
     }
-    public float GetChargeUp()
+    public override float GetChargeUp()
     {
         return meteorAttackerData.chargeUp;
     }
-    public float GetCooldown()
+    public override float GetCooldown()
     {
         return meteorAttackerData.cooldown;
     }
-    public bool IsInitialized()
+    public override bool IsInitialized()
     {
         return attackData != null && meteorAttackerData != null && attackIndicator != null;
     }
@@ -116,7 +114,7 @@ public class MeteorAttacker : IAttacker, IAttackNode
     #endregion
 
     #region IAttackNode Implementation
-    public IEnumerable<IAttackNode> GetChildren()
+    public override IEnumerable<IAttackNode> GetChildren()
     {
         yield return this;
     }

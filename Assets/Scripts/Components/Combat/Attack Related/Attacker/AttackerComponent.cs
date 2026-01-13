@@ -11,9 +11,7 @@ using UnityEngine.Assertions;
 /// </summary>
 public class AttackerComponent : SerializedMonoBehaviour
 {
-    //[Required, OdinSerialize]
-    //private IAttacker attacker;
-
+    // New Attacker :)
     [Required, OdinSerialize]
     private List<AttackSlot> attackSlots = new();
 

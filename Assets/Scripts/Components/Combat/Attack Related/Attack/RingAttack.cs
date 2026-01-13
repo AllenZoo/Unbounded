@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 // TODO: refactor this an attack script to use scriptable objects as well as make attackers also able to spawn RingAttacks.
+//       Remove this class once we implement a persistent attack behaviour logic, or smt similar. 
+//       This attack can then be digested into a cage attack that is persistent.
+
+// TODO: re-enable (temporarily disabled)
 /// A script that will spawn a ring of attacks around given parameters. The attacks will then spin around the center point.
 public class RingAttack : MonoBehaviour
 {
@@ -38,11 +42,13 @@ public class RingAttack : MonoBehaviour
 
         for (int i = 0; i < numAttacks; i++)
         {
+            // TODO: temp disabled.
             // Spawn the attack in a circle around the location point.
-            Vector2 offsetLoc = new Vector2(location.position.x + radius / 2, location.position.y);
-            GameObject attack = Instantiate(attackObj, offsetLoc, Quaternion.identity, this.transform);
-            attack.GetComponent<AttackComponent>().TargetTypes = targetTypes;
-            attack.transform.RotateAround(location.position, Vector3.forward, angleIncrement * i);
+            //Vector2 offsetLoc = new Vector2(location.position.x + radius / 2, location.position.y);
+            //GameObject attack = Instantiate(attackObj, offsetLoc, Quaternion.identity, this.transform);
+
+            ////attack.GetComponent<AttackComponent>().Initialize();
+            //attack.transform.RotateAround(location.position, Vector3.forward, angleIncrement * i);
         }
     }
 

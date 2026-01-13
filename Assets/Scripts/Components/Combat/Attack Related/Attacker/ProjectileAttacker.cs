@@ -13,7 +13,7 @@ using UnityEngine.Assertions;
 /// Similar to a blueprint for creating attack patterns
 /// </summary>
 [Serializable]
-public class Attacker: IAttacker, IAttackNode
+public class ProjectileAttacker: IAttacker, IAttackNode
 {
     public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
@@ -21,9 +21,13 @@ public class Attacker: IAttacker, IAttackNode
     [OdinSerialize] private AttackerData attackerData;
     [OdinSerialize] private AttackData attackData; // TODO: maybe move this elsewhere. (add as parameter to main Attack function)
 
-    public Attacker() { }
+    // TODO: this could potentially be moved into fields stored in attackData, since they are technically static anyways... 1-1 between AttackData and Attack..
+    [OdinSerialize] private IAttack attack;
+    [OdinSerialize] private IAttackMovement attackMovement;
 
-    public Attacker(AttackerData attackerData, AttackData attackData)
+    public ProjectileAttacker() { }
+
+    public ProjectileAttacker(AttackerData attackerData, AttackData attackData)
     {
         this.attackerData = attackerData;
         this.attackData = attackData;
@@ -60,7 +64,8 @@ public class Attacker: IAttacker, IAttackNode
 
             Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.SpawnInfo.mousePosition - ac.AttackerTransform.position);
 
-            AttackSpawner.SpawnAttackInPool(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.AttackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
+            //AttackSpawner.SpawnAttackInPool(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.AttackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
+            AttackSpawner.Spawn(attackData.AttackPfb, attackData, ac, attack, attackMovement);
         }
     }
 
@@ -94,7 +99,7 @@ public class Attacker: IAttacker, IAttackNode
     {
         AttackerData clonedAttackerData = UnityEngine.Object.Instantiate(attackerData);
         AttackData clonedAttackData = UnityEngine.Object.Instantiate(attackData);
-        return new Attacker(clonedAttackerData, clonedAttackData);
+        return new ProjectileAttacker(clonedAttackerData, clonedAttackData);
     }
 
     #region IAttackNode Implementation

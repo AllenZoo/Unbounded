@@ -13,17 +13,6 @@ public class AttackSpawner
     /// Spawns attack from top right to target point, like a meteor
     /// </summary>
     /// <returns></returns>
-    //public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget)
-    //{
-    //    // TODO: spawn attack from provided point A (sky) to provided point B with given time to reach the target.
-    //    return null;
-    //}
-
-
-    /// <summary>
-    /// Spawns attack from top right to target point, like a meteor
-    /// </summary>
-    /// <returns></returns>
     public static AttackComponent SpawnMeteorAttack(Vector3 targetPos, float timeToTarget, GameObject attackPfb, float meteorRadius, List<EntityType> targetTypes)
     {
         // 1. Choose a spawn point above and to the right of the target (or camera)
@@ -62,7 +51,8 @@ public class AttackSpawner
             });
 
         // 4. Set valid EntityType targets for attack.
-        attack.TargetTypes = targetTypes;
+        // TODO: this will be set indirectly via passing through attack context.
+        //attack.TargetTypes = targetTypes;
 
         return attack;
     }
@@ -120,7 +110,8 @@ public class AttackSpawner
         newAttackObj.GetComponent<Rigidbody2D>().linearVelocity = direction.normalized * attackerAttackData.InitialSpeed;
 
         // Set valid EntityType targets for attack.
-        newAttack.TargetTypes = targetTypes;
+        // TODO: this will be set indirectly via passing through attack context.
+        //newAttack.TargetTypes = targetTypes;
 
         return newAttack;
     }
@@ -142,7 +133,29 @@ public class AttackSpawner
             return;
         }
 
-        attackComponent.TargetTypes = targetTypes;
+        // TODO: this will be set indirectly via passing through attack context.
+        //attackComponent.TargetTypes = targetTypes;
     }
 
+
+    public static AttackComponent Spawn(
+        GameObject prefab,
+        AttackData data,
+        AttackContext context,
+        IAttack logic,
+        IAttackMovement movement)
+    {
+        GameObject go = AttackPool.Instance.GetAttack(prefab);
+        go.SetActive(true);
+
+        AttackComponent ac = go.GetComponent<AttackComponent>();
+
+        // Initialize movement
+        movement.Init(ac, data, context);
+
+        // Inject behaviors
+        ac.Initialize(data, context, logic, movement);
+
+        return ac;
+    }
 }

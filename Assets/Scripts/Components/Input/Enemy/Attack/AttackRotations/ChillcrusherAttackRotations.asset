@@ -20,8 +20,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4b8c7cdf29e487b4281d175771310a82, type: 2}
     - {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
     - {fileID: 11400000, guid: 67378b86ea81b7b438eaadb05f744044, type: 2}
-    - {fileID: 11400000, guid: 79cb7fde57ca8134988da271c29022d5, type: 2}
     - {fileID: 11400000, guid: 938a0b0631261084faff9331d55f58a5, type: 2}
+    - {fileID: 11400000, guid: 79cb7fde57ca8134988da271c29022d5, type: 2}
     - {fileID: 11400000, guid: f79aea0a5f8966b4cbca5a558299945b, type: 2}
     - {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
     - {fileID: 11400000, guid: 69b36bb7ac7fc12439f96ce336070af9, type: 2}
@@ -142,12 +142,15 @@ MonoBehaviour:
     - Name: attacker
       Entry: 7
       Data: 8|MeteorAttacker, Assembly-CSharp
-    - Name: attackData
+    - Name: data
       Entry: 10
       Data: 4
-    - Name: meteorAttackerData
+    - Name: attackData
       Entry: 10
       Data: 5
+    - Name: meteorAttackerData
+      Entry: 10
+      Data: 4
     - Name: attackIndicator
       Entry: 7
       Data: 9|CircleAttackIndicator, Assembly-CSharp
@@ -271,12 +274,15 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 18|MeteorAttacker, Assembly-CSharp
+    - Name: data
+      Entry: 6
+      Data: 
     - Name: attackData
       Entry: 10
-      Data: 4
+      Data: 5
     - Name: meteorAttackerData
       Entry: 10
-      Data: 5
+      Data: 4
     - Name: attackIndicator
       Entry: 7
       Data: 19|CircleAttackIndicator, Assembly-CSharp

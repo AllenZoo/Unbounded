@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class AttackContext
 {
+    // TODO: remake this as TargetTransform
     public AttackSpawnInfo SpawnInfo { get; set; }
     public AttackerComponent AttackerComponent { get; set; }
     public Transform AttackerTransform { get; set; }
