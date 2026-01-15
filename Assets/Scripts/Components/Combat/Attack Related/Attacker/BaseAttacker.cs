@@ -8,8 +8,8 @@ using UnityEngine;
 /// <typeparam name="T"></typeparam>
 public abstract class BaseAttacker<T>: IAttacker, IAttackNode where T: AttackerData
 {
-    [OdinSerialize] protected T data;
-    public AttackerData AttackerData { get => data; set => data = (T)value; }
+    [OdinSerialize] protected T attackerData;
+    public AttackerData AttackerData { get => attackerData; set => attackerData = (T)value; }
     public abstract AttackData AttackData { get; set; }
 
     public abstract void Attack(KeyCode keyCode, AttackContext attackContext);

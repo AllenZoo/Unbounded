@@ -17,12 +17,12 @@ public class AttackComponent : SerializedMonoBehaviour
 {
     public Rigidbody2D Rb { get; private set; }
     public Collider2D AttackCollider { get; private set; }
-    public AttackData Data { get; private set; }
+    //public AttackData Data { get; private set; } // Note: doesn't seem like this is even used..
 
 
     public IAttack Attack { get { return attack; } private set { } }
     public IAttackMovement Movement { get { return movement; } private set { } }
-    //public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
+
 
     [Tooltip("The projectile data associated with Attack")]
     [Required, OdinSerialize] private IAttack attack;
@@ -32,6 +32,8 @@ public class AttackComponent : SerializedMonoBehaviour
 
     private AttackContext attackContext;
 
+
+    //public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
     //[Header("Debugging (Reset fields to empty)")]
     //[SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
 
@@ -54,7 +56,7 @@ public class AttackComponent : SerializedMonoBehaviour
 
     public void Initialize(AttackData data, AttackContext context, IAttack logic, IAttackMovement movement)
     {
-        Data = data;
+        //Data = data;
         Movement = movement;
         Attack = logic;
         this.attackContext = context;
@@ -131,7 +133,7 @@ public class AttackComponent : SerializedMonoBehaviour
         AttackData ad = attack.AttackData;
 
         // Check if hit target EntityType matches what the attack can hit.
-        if (!attackContext.TargetTypes.Contains(hit.EntityType))
+        if (!attackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
             // Attack can't hit this target.
             return false;

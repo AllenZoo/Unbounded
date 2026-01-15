@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEditor;
 using UnityEngine.Serialization;
+using Sirenix.Serialization;
 
 [CreateAssetMenu(
     fileName = "NewAttackData",
@@ -11,6 +12,12 @@ using UnityEngine.Serialization;
     order = 1)]
 public class AttackData : SerializedScriptableObject
 {
+
+    #region Key
+    [FoldoutGroup("Key")]
+    [Required, OdinSerialize]
+    public IAttack attack;
+    #endregion
 
     #region Basic Info
 
@@ -21,6 +28,7 @@ public class AttackData : SerializedScriptableObject
     [FoldoutGroup("Basic Info")]
     [Required, JsonIgnore]
     [Tooltip("Prefab used to spawn this attack")]
+    // TODO: assert object contains an AttackComponent script.
     public GameObject AttackPfb;
 
     [FoldoutGroup("Basic Info")]

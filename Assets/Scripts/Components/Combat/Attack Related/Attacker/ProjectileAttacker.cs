@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -25,8 +26,8 @@ public class ProjectileAttacker: IAttacker, IAttackNode
 
     // TODO: this could potentially be moved into fields stored in attackData, since they are technically static anyways... 1-1 between AttackData and Attack..
     // TODO: remove this.
-    [OdinSerialize] private IAttack attack;
-    [OdinSerialize] private IAttackMovement attackMovement;
+    //[OdinSerialize] private IAttack attack;
+    //[OdinSerialize] private IAttackMovement attackMovement;
 
     public ProjectileAttacker() { }
 
@@ -65,10 +66,22 @@ public class ProjectileAttacker: IAttacker, IAttackNode
                 angle *= -1;
             }
 
-            Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.SpawnInfo.mousePosition - ac.AttackerTransform.position);
+            // Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.AttackSpawnInfo.targetPosition - ac.AttackerTransform.position);
 
-            //AttackSpawner.SpawnAttackInPool(attackDir, ac.AttackerTransform, ac.TargetTypes, attackData.AttackPfb, this, ac.AtkStat, ac.PercentageDamageIncrease);
-            AttackSpawner.Spawn(attackData.AttackPfb, attackData, ac, attack, attackMovement);
+            var attackComponent = attackData.AttackPfb?.GetComponent<AttackComponent>();
+            if (attackComponent == null) Debug.LogError("Attack Pfb Does not contain Attack Component!");
+
+            var attack = attackComponent.Attack;
+            var attackMovement = attackComponent.Movement;
+
+            var amc = new AttackModificationContext
+            {
+                Scale = 1,
+                AttackDuration = attackData.Distance / attackData.InitialSpeed
+            };
+
+
+            AttackSpawner.Spawn(attackData.AttackPfb, attackData, ac, amc, attack, attackMovement);
         }
     }
 

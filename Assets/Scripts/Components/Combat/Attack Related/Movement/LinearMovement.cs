@@ -5,7 +5,7 @@ public class LinearMovement : IAttackMovement
     private Vector3 velocity;
     public void Init(AttackComponent ac, AttackData data, AttackContext context)
     {
-        Vector3 dir = context.SpawnInfo.mousePosition - context.AttackerTransform.position;
+        Vector3 dir = context.AttackSpawnInfo.targetPosition - context.AttackerTransform.position;
 
         float offset = 0.5f;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

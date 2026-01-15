@@ -73,10 +73,7 @@ public class AttackerComponent : SerializedMonoBehaviour
             AttackContext ac = new AttackContext(
                 input.attackInfo,
                 this,
-                this.transform,
-                TargetTypes,
-                statComponent.StatContainer.Attack,
-                PercentageDamageIncrease
+                statComponent.StatContainer.Attack
             );
 
             foreach (var attackSlot in attackSlots)

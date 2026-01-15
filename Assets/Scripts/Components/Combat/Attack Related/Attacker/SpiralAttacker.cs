@@ -56,9 +56,9 @@ public class SpiralAttacker : IAttacker, IAttackNode
         // Start the attack coroutine
         curCoroutine = coroutineRunner.StartCoroutine(
             AttackCoroutine(
-                ac.SpawnInfo, 
+                ac.AttackSpawnInfo, 
                 ac.AttackerTransform, 
-                ac.TargetTypes, 
+                ac.AttackerComponent.TargetTypes, 
                 ac.AtkStat, 
                 ac.PercentageDamageIncrease
                 )
@@ -79,7 +79,7 @@ public class SpiralAttacker : IAttacker, IAttackNode
     private IEnumerator AttackCoroutine(AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
     {
         isAttacking = true;
-        Vector3 attackDir = info.mousePosition - attackerTransform.position;
+        Vector3 attackDir = info.targetPosition - attackerTransform.position;
 
         // Time delay between each wave (s)
         float delayBetweenWaves = spiralAttackerData.timeBetweenBladeProjectiles;

@@ -142,6 +142,7 @@ public class AttackSpawner
         GameObject prefab,
         AttackData data,
         AttackContext context,
+        AttackModificationContext amc,
         IAttack logic,
         IAttackMovement movement)
     {
@@ -156,8 +157,11 @@ public class AttackSpawner
         // Inject behaviors
         ac.Initialize(data, context, logic, movement);
 
-        // TODO: make attack die after duration (provide info through context)
-        //ac.ResetAttackAfterTime(-1);
+        // Apply Attack Modifications
+        var scaler = ac.GetComponent<CircleScaler>();
+        scaler.SetCircleRadius(amc.Scale);
+
+        ac.ResetAttackAfterTime(amc.AttackDuration);
 
         return ac;
     }

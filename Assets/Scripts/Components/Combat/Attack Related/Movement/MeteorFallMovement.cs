@@ -14,7 +14,7 @@ public class MeteorFallMovement : IAttackMovement
         attackComponent.transform.position = spawnPos;
 
 
-        targetPos = context.SpawnInfo.mousePosition;
+        targetPos = context.AttackSpawnInfo.targetPosition;
 
         // Use speed to determine time, or just a fixed duration
         timeToTarget = 1.0f;
