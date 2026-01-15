@@ -12,7 +12,7 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
     [OdinSerialize] private MeteorAttackerData meteorAttackerData;
 
     [OdinSerialize] private IAttackIndicator attackIndicator; // Class that spawns an indicator of area where a meteor is going to land on.
-
+    [OdinSerialize] private IAttackMovement attackMovement;
     #region IAttacker Implementation
     /// <summary>
     /// Spawns an indicator, then a meteor attack to target.
@@ -49,7 +49,11 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
             float indicatorTransitionTime = attackIndicator.Data.transitionTime;
 
             // TODO-OPT: Tweak Time To Target param.
-            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.AttackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
+            //AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.AttackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
+
+            var iAttack = attackData.AttackPfb.GetComponent<IAttack>();
+            ac.SpawnInfo.mousePosition = pos; // Hack to position meteor at new location.
+            AttackSpawner.Spawn(attackData.AttackPfb, attackData, ac, iAttack, attackMovement);
         }
     }
     public override void StopAttack()

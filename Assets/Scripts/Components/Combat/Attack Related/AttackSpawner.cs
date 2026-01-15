@@ -156,6 +156,9 @@ public class AttackSpawner
         // Inject behaviors
         ac.Initialize(data, context, logic, movement);
 
+        // TODO: make attack die after duration (provide info through context)
+        //ac.ResetAttackAfterTime(-1);
+
         return ac;
     }
 }

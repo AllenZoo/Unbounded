@@ -16,12 +16,15 @@ using UnityEngine.Assertions;
 public class ProjectileAttacker: IAttacker, IAttackNode
 {
     public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
+
+    // TODO: maybe consider adding IAttack, to AttackData.
     public AttackData AttackData { get { return attackData; } set { attackData = value; } }
 
     [OdinSerialize] private AttackerData attackerData;
     [OdinSerialize] private AttackData attackData; // TODO: maybe move this elsewhere. (add as parameter to main Attack function)
 
     // TODO: this could potentially be moved into fields stored in attackData, since they are technically static anyways... 1-1 between AttackData and Attack..
+    // TODO: remove this.
     [OdinSerialize] private IAttack attack;
     [OdinSerialize] private IAttackMovement attackMovement;
 
