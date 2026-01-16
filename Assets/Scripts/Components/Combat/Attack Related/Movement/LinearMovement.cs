@@ -16,7 +16,7 @@ public class LinearMovement : IAttackMovement
         }
 
         // Angle to apply to the base direction
-        float angle = amc.AngleOffset + data.RotOffset;
+        float angle = amc.AngleOffset; // + data.SpriteRotOffset;
 
         // Calculate initial position and rotation
         Vector2 dir = Quaternion.Euler(0f, 0f, angle) * baseDir;
@@ -24,10 +24,18 @@ public class LinearMovement : IAttackMovement
 
         // Rotate Object to look at target
         float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        ac.transform.rotation = Quaternion.Euler(0f, 0f, zAngle + data.RotOffset);
+        ac.transform.rotation = Quaternion.Euler(0f, 0f, zAngle );
 
         // Set Velocity for movement
         velocity = dir * data.InitialSpeed;
+
+        // Visual
+        float visualAngle =
+            Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg
+            + data.SpriteRotOffset;
+
+        ac.transform.rotation =
+            Quaternion.Euler(0f, 0f, visualAngle);
     }
     public void UpdateMovement(AttackComponent ac, Rigidbody2D rb)
     {

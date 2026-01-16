@@ -11,7 +11,7 @@ using UnityEngine.Assertions;
 /// Holds both static and dynamic attack data.
 /// </summary>
 [Serializable]
-public class Attack: IAttack
+public class ProjectileAttack: IAttack
 {
     public event Action<Damageable> OnHit;
 
@@ -33,11 +33,11 @@ public class Attack: IAttack
     /// </summary>
     [SerializeField, ReadOnly]  private double percentageDamageIncrease = 0;
 
-    public Attack()
+    public ProjectileAttack()
     {
         this.atkStat = 0f;
     }
-    public Attack(float atkStat)
+    public ProjectileAttack(float atkStat)
     {
         this.atkStat = atkStat;
     }

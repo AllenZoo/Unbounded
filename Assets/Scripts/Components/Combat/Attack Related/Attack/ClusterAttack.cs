@@ -12,6 +12,7 @@ public class ClusterAttack : BaseAttack<ClusterAttackData>
 
     public override void OnLaunch(AttackComponent ac)
     {
+        Debug.Log("ClusterAttack: Launched.");
         // If there is a timer-based split, start it here
         if (attackData.SplitDelay > 0)
         {
@@ -30,6 +31,7 @@ public class ClusterAttack : BaseAttack<ClusterAttackData>
 
     private void Split(AttackComponent ac)
     {
+        Debug.Log("ClusterAttack: Splitting into sub-attacks.");
         if (ac == null) return;
 
         // We need the original context to ensure the sub-attacks know who the attacker is

@@ -37,7 +37,7 @@ public class AttackData : SerializedScriptableObject
 
     [FoldoutGroup("VFX and SFX")]
     [Tooltip("Rotational offset applied on spawn")]
-    public float RotOffset = 0f;
+    public float SpriteRotOffset = 0f;
 
     #endregion
 

@@ -58937,7 +58937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2400384043743418956, guid: 7ce3165e8e3bb404987e623a07ccaaa3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4789511864555976164, guid: 7ce3165e8e3bb404987e623a07ccaaa3, type: 3}
       propertyPath: serializationData.Prefab
@@ -59236,7 +59236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4456538979408597555, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7449954481719588691, guid: f6b96d0681863fd46a3c2c59df1c7415, type: 3}
       propertyPath: leh
@@ -82596,67 +82596,6 @@ MonoBehaviour:
   targetTransform: {fileID: 7142332426154868731}
   indicatorIconSprite: {fileID: -696202783, guid: c4ee8c2d09ce1d24a85d29eb32b893f9, type: 3}
   createIndicatorOnStart: 1
---- !u!1001 &6334397756795027647
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1772906594012425468, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 1772906594012425468, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -14.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -3.89
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4016532748327923825, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8424627342221631467, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
-      propertyPath: m_Name
-      value: FireballClusterAttack(large)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
 --- !u!114 &6613178633679246455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83185,4 +83124,3 @@ SceneRoots:
   - {fileID: 429525751}
   - {fileID: 555058906}
   - {fileID: 7142332426154868731}
-  - {fileID: 6334397756795027647}
