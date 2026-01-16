@@ -206,5 +206,16 @@ public class AttackComponent : SerializedMonoBehaviour
         ResetAttack();
     }
 
+    private void Update()
+    {
+        if (movement == null) return;
+
+        if (TryGetComponent<Rigidbody2D>(out var rb))
+        {
+            // NOTE: For future reference, doing this causes projectiles to not move.
+            //movement.UpdateMovement(this, rb);
+        }
+    }
+
 
 }
