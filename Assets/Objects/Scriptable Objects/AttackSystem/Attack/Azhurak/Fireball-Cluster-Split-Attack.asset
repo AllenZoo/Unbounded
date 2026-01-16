@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
-  m_Name: FireballAttack
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: ba5e2e58cba7edc439857981677f997a, type: 3}
+  m_Name: Fireball-Cluster-Split-Attack
+  m_EditorClassIdentifier: Assembly-CSharp::ClusterAttackData
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
@@ -21,14 +21,14 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  AttackName: Fireball |
-  AttackPfb: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
-  BaseDamage: 5
-  AttackSound: {fileID: 8300000, guid: 14fe7a8ba4279d94297c3ac7a6e08115, type: 3}
-  RotOffset: 90
-  Distance: 36
-  InitialSpeed: 12
-  BaseKnockback: 1
+  AttackName: Fireball-Cluster-Split-Attack|
+  AttackPfb: {fileID: 8424627342221631467, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
+  BaseDamage: 7
+  AttackSound: {fileID: 0}
+  RotOffset: 0
+  Distance: 5
+  InitialSpeed: 1
+  BaseKnockback: 0
   BaseStunDuration: 1
   IsAOE: 0
   IsPiercing: 0
@@ -36,4 +36,9 @@ MonoBehaviour:
   DotDuration: 5
   DisappearOnHit: 1
   CanRepeat: 0
-  RehitCooldown: -1
+  RehitCooldown: 0
+  SubAttackData: {fileID: 11400000, guid: f54b8787811940b4dac1b1abbd7eea1c, type: 2}
+  ClusterCount: 3
+  ClusterSpreadAngle: 45
+  UseFullCircle: 0
+  SplitDelay: 0.5

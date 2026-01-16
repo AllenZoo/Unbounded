@@ -31,6 +31,10 @@ public class LinearMovement : IAttackMovement
     }
     public void UpdateMovement(AttackComponent ac, Rigidbody2D rb)
     {
+        // Apply Velocity
         rb.linearVelocity = velocity;
+
+        // Trigger Launch
+        ac.TriggerAttackLaunch();
     }
 }

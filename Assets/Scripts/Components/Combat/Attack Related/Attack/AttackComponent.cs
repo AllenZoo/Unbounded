@@ -30,7 +30,7 @@ public class AttackComponent : SerializedMonoBehaviour
     [Tooltip("The movement data associated with Attack")]
     [Required, OdinSerialize] private IAttackMovement movement;
 
-    private AttackContext attackContext;
+    public AttackContext AttackContext { get; private set; }
 
 
     //public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
@@ -59,7 +59,7 @@ public class AttackComponent : SerializedMonoBehaviour
         //Data = data;
         Movement = movement;
         Attack = logic;
-        this.attackContext = context;
+        this.AttackContext = context;
         movement.UpdateMovement(this, Rb);
     }
 
@@ -132,26 +132,26 @@ public class AttackComponent : SerializedMonoBehaviour
     {
         AttackData ad = attack.AttackData;
 
-        if (attackContext == null)
+        if (AttackContext == null)
         {
             Debug.LogError("AttackContext is NULL", this);
         }
-        else if (attackContext.AttackerComponent == null)
+        else if (AttackContext.AttackerComponent == null)
         {
             Debug.LogError("AttackContext.AttackerComponent is NULL", this);
         }
-        else if (attackContext.AttackerComponent.TargetTypes == null)
+        else if (AttackContext.AttackerComponent.TargetTypes == null)
         {
             Debug.LogError("AttackContext.AttackerComponent.TargetTypes is NULL", this);
         }
-        else if (!attackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
+        else if (!AttackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
             //Debug.Log($"Hit rejected: EntityType {hit.EntityType} not in TargetTypes", this);
         }
 
 
         // Check if hit target EntityType matches what the attack can hit.
-        if (!attackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
+        if (!AttackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
             // Attack can't hit this target.
             return false;
