@@ -63,7 +63,7 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
 
             var amc = new AttackModificationContext
             {
-                Scale = indicatorRadius,
+                ObjectScale = indicatorRadius,
                 AttackDuration = timeToTarget + explosionAfterEffectDuration
             };
 

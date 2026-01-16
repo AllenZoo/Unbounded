@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -374378069
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1264653176, guid: 40e34857295389a4a9512694e05c7abd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -213,7 +213,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1789471847
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 0.3
   m_PreviewTimeScale: 1
@@ -323,3 +323,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: movement
+      Entry: 7
+      Data: 1|LinearMovement, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+  hitTargets: []

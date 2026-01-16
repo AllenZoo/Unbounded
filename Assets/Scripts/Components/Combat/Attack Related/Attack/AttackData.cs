@@ -12,13 +12,6 @@ using Sirenix.Serialization;
     order = 1)]
 public class AttackData : SerializedScriptableObject
 {
-
-    #region Key
-    [FoldoutGroup("Key")]
-    [Required, OdinSerialize]
-    public IAttack attack;
-    #endregion
-
     #region Basic Info
 
     [FoldoutGroup("Basic Info")]

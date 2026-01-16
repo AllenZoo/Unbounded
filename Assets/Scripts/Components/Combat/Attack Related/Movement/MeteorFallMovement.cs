@@ -6,7 +6,7 @@ public class MeteorFallMovement : IAttackMovement
     private Vector3 targetPos;
     private float timeToTarget;
 
-    public void Init(AttackComponent attackComponent, AttackData data, AttackContext context)
+    public void Init(AttackComponent attackComponent, AttackData data, AttackContext context, AttackModificationContext amc)
     {
         // 1. Calculate Spawn Point (Sky)
         Vector3 spawnPos = Camera.main.ViewportToWorldPoint(new Vector3(1.2f, 1.2f, 0));

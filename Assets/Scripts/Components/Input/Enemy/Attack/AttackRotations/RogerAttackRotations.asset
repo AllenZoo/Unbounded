@@ -42,7 +42,7 @@ MonoBehaviour:
       Data: 'Phase 1 [Cannonball Attack]'
     - Name: attacker
       Entry: 7
-      Data: 2|Attacker, Assembly-CSharp
+      Data: 2|ProjectileAttacker, Assembly-CSharp
     - Name: attackerData
       Entry: 10
       Data: 0
@@ -98,6 +98,9 @@ MonoBehaviour:
     - Name: behaviourDescription
       Entry: 1
       Data: Fire SingleShot attack pattern with BulletAttack projectiles
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -109,7 +112,7 @@ MonoBehaviour:
       Data: 'Phase 2 [Sword Chase Attack]'
     - Name: attacker
       Entry: 7
-      Data: 5|Attacker, Assembly-CSharp
+      Data: 5|ProjectileAttacker, Assembly-CSharp
     - Name: attackerData
       Entry: 10
       Data: 3
@@ -153,6 +156,9 @@ MonoBehaviour:
     - Name: behaviourDescription
       Entry: 1
       Data: Fire SpamAttack with SwordAttack projectiles.
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -165,8 +171,39 @@ MonoBehaviour:
     - Name: rageBehaviour
       Entry: 6
       Data: 
+    - Name: currentBehaviour
+      Entry: 6
+      Data: 
+    - Name: emptyBehaviour
+      Entry: 7
+      Data: 7|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: empty
+    - Name: attacker
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 6
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
   rageModeHPThreshold: -1
   transitionTimeRange:
     min: 5
     max: 10
+  transitionPauseTime: 0
   debug: 0

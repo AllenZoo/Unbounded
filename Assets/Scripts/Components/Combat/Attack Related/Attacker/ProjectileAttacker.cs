@@ -14,20 +14,11 @@ using UnityEngine.Assertions;
 /// Similar to a blueprint for creating attack patterns
 /// </summary>
 [Serializable]
-public class ProjectileAttacker: IAttacker, IAttackNode
+public class ProjectileAttacker: BaseAttacker<AttackerData>
 {
-    public AttackerData AttackerData { get { return attackerData; } set { attackerData = value; } }
-
-    // TODO: maybe consider adding IAttack, to AttackData.
-    public AttackData AttackData { get { return attackData; } set { attackData = value; } }
-
-    [OdinSerialize] private AttackerData attackerData;
+    public override AttackData AttackData { get { return attackData; } set { attackData = value; } }
     [OdinSerialize] private AttackData attackData; // TODO: maybe move this elsewhere. (add as parameter to main Attack function)
 
-    // TODO: this could potentially be moved into fields stored in attackData, since they are technically static anyways... 1-1 between AttackData and Attack..
-    // TODO: remove this.
-    //[OdinSerialize] private IAttack attack;
-    //[OdinSerialize] private IAttackMovement attackMovement;
 
     public ProjectileAttacker() { }
 
@@ -37,9 +28,9 @@ public class ProjectileAttacker: IAttacker, IAttackNode
         this.attackData = attackData;
     }
 
-    // Attacks and starts cooldown at end of attack. If data or data.attackObj is null, then this function
+    // Attacks. If data or data.attackObj is null, then this function
     // does nothing.
-    public void Attack(KeyCode keyCode, AttackContext ac)
+    public override void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (attackerData == null || attackData == null)
         {
@@ -76,8 +67,9 @@ public class ProjectileAttacker: IAttacker, IAttackNode
 
             var amc = new AttackModificationContext
             {
-                Scale = 1,
-                AttackDuration = attackData.Distance / attackData.InitialSpeed
+                ObjectScale = 1,
+                AttackDuration = attackData.Distance / attackData.InitialSpeed,
+                AngleOffset = angle
             };
 
 
@@ -85,22 +77,22 @@ public class ProjectileAttacker: IAttacker, IAttackNode
         }
     }
 
-    public void StopAttack()
+    public override void StopAttack()
     {
         // Do nothing for basic attacker.
     }
 
-    public bool IsInitialized()
+    public override bool IsInitialized()
     {
         return attackerData != null && attackData != null;
     }
 
-    public float GetCooldown()
+    public override float GetCooldown()
     {
         return attackerData.cooldown;
     }
 
-    public float GetChargeUp()
+    public override float GetChargeUp()
     {
         return attackerData.chargeUp;
     }
@@ -111,7 +103,7 @@ public class ProjectileAttacker: IAttacker, IAttackNode
     }
 
 
-    public IAttacker DeepClone()
+    public override IAttacker DeepClone()
     {
         AttackerData clonedAttackerData = UnityEngine.Object.Instantiate(attackerData);
         AttackData clonedAttackData = UnityEngine.Object.Instantiate(attackData);
@@ -119,7 +111,7 @@ public class ProjectileAttacker: IAttacker, IAttackNode
     }
 
     #region IAttackNode Implementation
-    public IEnumerable<IAttackNode> GetChildren()
+    public override IEnumerable<IAttackNode> GetChildren()
     {
         yield return this;
     }

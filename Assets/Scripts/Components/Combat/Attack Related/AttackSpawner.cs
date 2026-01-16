@@ -152,14 +152,21 @@ public class AttackSpawner
         AttackComponent ac = go.GetComponent<AttackComponent>();
 
         // Initialize movement
-        movement.Init(ac, data, context);
+        if (movement == null)
+        {
+            Debug.LogError("AttackSpawner: Spawn: movement is null!");
+            return null;
+        }
+        movement.Init(ac, data, context, amc);
 
         // Inject behaviors
         ac.Initialize(data, context, logic, movement);
 
         // Apply Attack Modifications
-        var scaler = ac.GetComponent<CircleScaler>();
-        scaler.SetCircleRadius(amc.Scale);
+        if (ac.TryGetComponent<CircleScaler>(out var scaler))
+        {
+            scaler.SetCircleRadius(amc.ObjectScale);
+        }
 
         ac.ResetAttackAfterTime(amc.AttackDuration);
 

@@ -132,6 +132,24 @@ public class AttackComponent : SerializedMonoBehaviour
     {
         AttackData ad = attack.AttackData;
 
+        if (attackContext == null)
+        {
+            Debug.LogError("AttackContext is NULL", this);
+        }
+        else if (attackContext.AttackerComponent == null)
+        {
+            Debug.LogError("AttackContext.AttackerComponent is NULL", this);
+        }
+        else if (attackContext.AttackerComponent.TargetTypes == null)
+        {
+            Debug.LogError("AttackContext.AttackerComponent.TargetTypes is NULL", this);
+        }
+        else if (!attackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
+        {
+            //Debug.Log($"Hit rejected: EntityType {hit.EntityType} not in TargetTypes", this);
+        }
+
+
         // Check if hit target EntityType matches what the attack can hit.
         if (!attackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
@@ -187,5 +205,6 @@ public class AttackComponent : SerializedMonoBehaviour
         yield return new WaitForSeconds(time);
         ResetAttack();
     }
+
 
 }

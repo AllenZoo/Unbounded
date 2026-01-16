@@ -10,7 +10,7 @@ public class AttackSlot
     public IAttacker Attacker;
     public float nextReadyTime;
 
-    public bool IsReady => Time.time >= nextReadyTime;
+    public bool IsReady => (Time.time >= nextReadyTime) && Attacker != null;
 
     public AttackSlot(IAttacker attacker)
     {
@@ -26,12 +26,23 @@ public class AttackSlot
 
     public void Trigger(KeyCode k, AttackContext ac)
     {
+        if (Attacker == null)
+        {
+            Debug.LogError("Attacker is null!");
+            return;
+        }
+
         Attacker.Attack(k, ac);
         nextReadyTime = Time.time + Attacker.GetCooldown();
     }
 
     public void StopTrigger()
     {
+        if (Attacker == null)
+        {
+            Debug.LogError("Attacker is null!");
+            return;
+        }
         Attacker.StopAttack();
     }
 }

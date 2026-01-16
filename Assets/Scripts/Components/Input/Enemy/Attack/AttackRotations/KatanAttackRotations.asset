@@ -44,7 +44,7 @@ MonoBehaviour:
       Data: 'Phase1 [Arrow Attack]'
     - Name: attacker
       Entry: 7
-      Data: 2|Attacker, Assembly-CSharp
+      Data: 2|ProjectileAttacker, Assembly-CSharp
     - Name: attackerData
       Entry: 10
       Data: 0
@@ -88,6 +88,9 @@ MonoBehaviour:
     - Name: behaviourDescription
       Entry: 1
       Data: Fire GrenadeAttack pattern with KatanArrow projectiles
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -99,7 +102,7 @@ MonoBehaviour:
       Data: 'Phase2 [Trident Sword Slash]'
     - Name: attacker
       Entry: 7
-      Data: 5|Attacker, Assembly-CSharp
+      Data: 5|ProjectileAttacker, Assembly-CSharp
     - Name: attackerData
       Entry: 10
       Data: 3
@@ -143,6 +146,9 @@ MonoBehaviour:
     - Name: behaviourDescription
       Entry: 1
       Data: Fire TridentAttack pattern with KatanSlashFast projectiles
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -153,16 +159,7 @@ MonoBehaviour:
       Entry: 1
       Data: 'Phase3 [Rush]'
     - Name: attacker
-      Entry: 7
-      Data: 8|Attacker, Assembly-CSharp
-    - Name: attackerData
       Entry: 6
-      Data: 
-    - Name: attackData
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
       Data: 
     - Name: chaseBehaviour
       Entry: 10
@@ -172,7 +169,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -198,6 +195,9 @@ MonoBehaviour:
     - Name: behaviourDescription
       Entry: 1
       Data: Rush player, do damage with ring attack.
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -209,13 +209,13 @@ MonoBehaviour:
       Data: 
     - Name: rageBehaviour
       Entry: 7
-      Data: 10|BehaviourDefinition, Assembly-CSharp
+      Data: 9|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
       Data: Rage
     - Name: attacker
       Entry: 7
-      Data: 11|Attacker, Assembly-CSharp
+      Data: 10|ProjectileAttacker, Assembly-CSharp
     - Name: attackerData
       Entry: 10
       Data: 6
@@ -233,7 +233,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 12|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -247,6 +247,39 @@ MonoBehaviour:
     - Name: behaviourDescription
       Entry: 1
       Data: Fire SpamAttack pattern with KatanSlashSlow projectiles
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: currentBehaviour
+      Entry: 6
+      Data: 
+    - Name: emptyBehaviour
+      Entry: 7
+      Data: 12|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: empty
+    - Name: attacker
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 6
+      Data: 
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 6
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -254,4 +287,5 @@ MonoBehaviour:
   transitionTimeRange:
     min: 5
     max: 10
+  transitionPauseTime: 0
   debug: 1

@@ -9,7 +9,7 @@ public interface IAttackMovement
     /// <param name="ac"></param>
     /// <param name="data"></param>
     /// <param name="context"></param>
-    void Init(AttackComponent ac, AttackData data, AttackContext context);
+    void Init(AttackComponent ac, AttackData data, AttackContext context, AttackModificationContext amc);
 
     /// <summary>
     /// Function that starts the movement of Attack.
