@@ -139,14 +139,13 @@ public class AttackSpawner
 
 
     public static AttackComponent Spawn(
-        GameObject prefab,
         AttackData data,
         AttackContext context,
         AttackModificationContext amc,
         IAttack logic,
         IAttackMovement movement)
     {
-        GameObject go = AttackPool.Instance.GetAttack(prefab);
+        GameObject go = AttackPool.Instance.GetAttack(data.AttackPfb);
         go.SetActive(true);
 
         AttackComponent ac = go.GetComponent<AttackComponent>();

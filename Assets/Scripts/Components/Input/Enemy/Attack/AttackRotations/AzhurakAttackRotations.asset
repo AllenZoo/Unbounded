@@ -16,8 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 97ccc31737c0ed74ba1ac7d741b73578, type: 2}
     - {fileID: 11400000, guid: 4b8c7cdf29e487b4281d175771310a82, type: 2}
+    - {fileID: 11400000, guid: 97ccc31737c0ed74ba1ac7d741b73578, type: 2}
     - {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
     - {fileID: 11400000, guid: 67378b86ea81b7b438eaadb05f744044, type: 2}
     - {fileID: 11400000, guid: 938a0b0631261084faff9331d55f58a5, type: 2}
@@ -50,10 +50,10 @@ MonoBehaviour:
     - Name: attacker
       Entry: 7
       Data: 2|SpiralAttacker, Assembly-CSharp
-    - Name: attackData
+    - Name: attackerData
       Entry: 10
       Data: 0
-    - Name: spiralAttackerData
+    - Name: attackData
       Entry: 10
       Data: 1
     - Name: 
@@ -97,12 +97,12 @@ MonoBehaviour:
     - Name: attacker
       Entry: 7
       Data: 5|SpiralAttacker, Assembly-CSharp
-    - Name: attackData
-      Entry: 10
-      Data: 0
-    - Name: spiralAttackerData
+    - Name: attackerData
       Entry: 10
       Data: 3
+    - Name: attackData
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 8
       Data: 

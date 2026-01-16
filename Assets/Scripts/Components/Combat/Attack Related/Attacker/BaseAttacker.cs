@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,7 @@ using UnityEngine;
 /// <typeparam name="T"></typeparam>
 public abstract class BaseAttacker<T>: IAttacker, IAttackNode where T: AttackerData
 {
-    [PreviouslySerializedAs("attackerData")]
-    [OdinSerialize] protected T attackerData;
+    [Required, OdinSerialize] protected T attackerData;
 
     public AttackerData AttackerData { get => attackerData; set => attackerData = (T)value; }
     public abstract AttackData AttackData { get; set; }

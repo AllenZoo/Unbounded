@@ -16,8 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 97ccc31737c0ed74ba1ac7d741b73578, type: 2}
     - {fileID: 11400000, guid: 4b8c7cdf29e487b4281d175771310a82, type: 2}
+    - {fileID: 11400000, guid: 97ccc31737c0ed74ba1ac7d741b73578, type: 2}
     - {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
     - {fileID: 11400000, guid: 67378b86ea81b7b438eaadb05f744044, type: 2}
     - {fileID: 11400000, guid: 938a0b0631261084faff9331d55f58a5, type: 2}
@@ -48,10 +48,10 @@ MonoBehaviour:
     - Name: attacker
       Entry: 7
       Data: 2|SpiralAttacker, Assembly-CSharp
-    - Name: attackData
+    - Name: attackerData
       Entry: 10
       Data: 0
-    - Name: spiralAttackerData
+    - Name: attackData
       Entry: 10
       Data: 1
     - Name: 
@@ -82,7 +82,7 @@ MonoBehaviour:
         spin in clockwise direction.
     - Name: disableBehaviour
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -95,12 +95,12 @@ MonoBehaviour:
     - Name: attacker
       Entry: 7
       Data: 5|SpiralAttacker, Assembly-CSharp
-    - Name: attackData
-      Entry: 10
-      Data: 0
-    - Name: spiralAttackerData
+    - Name: attackerData
       Entry: 10
       Data: 3
+    - Name: attackData
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -129,7 +129,7 @@ MonoBehaviour:
         spin in counter clockwise direction.
     - Name: disableBehaviour
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -142,15 +142,12 @@ MonoBehaviour:
     - Name: attacker
       Entry: 7
       Data: 8|MeteorAttacker, Assembly-CSharp
-    - Name: data
+    - Name: attackerData
       Entry: 10
       Data: 4
     - Name: attackData
       Entry: 10
       Data: 5
-    - Name: meteorAttackerData
-      Entry: 10
-      Data: 4
     - Name: attackIndicator
       Entry: 7
       Data: 9|CircleAttackIndicator, Assembly-CSharp
@@ -160,6 +157,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: timeToTarget
+      Entry: 4
+      Data: 1
+    - Name: explosionAfterEffectDuration
+      Entry: 4
+      Data: 1
+    - Name: radiusGrowthTime
+      Entry: 4
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -187,7 +193,7 @@ MonoBehaviour:
       Data: AVALANCHE
     - Name: disableBehaviour
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -230,7 +236,9 @@ MonoBehaviour:
       Data: 
     - Name: behaviourDescription
       Entry: 1
-      Data: SNOW CAGE ATTACK
+      Data: 'SNOW CAGE ATTACK
+
+        Fast-Ring-Attack + SnowballCageAttack'
     - Name: disableBehaviour
       Entry: 5
       Data: false
@@ -274,15 +282,12 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 18|MeteorAttacker, Assembly-CSharp
-    - Name: data
-      Entry: 6
-      Data: 
+    - Name: attackerData
+      Entry: 10
+      Data: 4
     - Name: attackData
       Entry: 10
       Data: 5
-    - Name: meteorAttackerData
-      Entry: 10
-      Data: 4
     - Name: attackIndicator
       Entry: 7
       Data: 19|CircleAttackIndicator, Assembly-CSharp
@@ -292,6 +297,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: timeToTarget
+      Entry: 4
+      Data: 1
+    - Name: explosionAfterEffectDuration
+      Entry: 4
+      Data: 1
+    - Name: radiusGrowthTime
+      Entry: 4
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -325,7 +339,13 @@ MonoBehaviour:
       Data: 
     - Name: behaviourDescription
       Entry: 1
-      Data: 
+      Data: 'Attacker Wrapper that includes
+
+
+        1. Cage Attacker with Fast-Expanding-Fast-Cycle-Ring-Attack
+        + SnowballCageAttack
+
+        2. Single-Meteor-Strike + SnowMeteorAttack'
     - Name: disableBehaviour
       Entry: 5
       Data: false

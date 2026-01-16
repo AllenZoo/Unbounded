@@ -8,6 +8,13 @@ public class LinearMovement : IAttackMovement
         // Direct Vector from attacker to target
         Vector2 baseDir = (context.AttackSpawnInfo.targetPosition - context.AttackerTransform.position).normalized;
 
+
+        // Check if we need to override the attack direction
+        if (amc.AttackDirection != Vector3.zero)
+        {
+            baseDir = amc.AttackDirection.normalized;
+        }
+
         // Angle to apply to the base direction
         float angle = amc.AngleOffset + data.RotOffset;
 

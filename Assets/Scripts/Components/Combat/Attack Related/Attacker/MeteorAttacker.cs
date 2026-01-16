@@ -8,7 +8,7 @@ using UnityEngine;
 public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
 {
     public override AttackData AttackData { get { return attackData; } set { attackData = value; } }
-    [OdinSerialize] private AttackData attackData;
+    [Required, OdinSerialize] private AttackData attackData;
 
     [OdinSerialize] private IAttackIndicator attackIndicator; // Class that spawns an indicator of area where a meteor is going to land on.
 
@@ -59,7 +59,11 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
 
             ac.AttackSpawnInfo.targetPosition = pos; // Hack to position meteor at new location.
             var attackComponent = attackData?.AttackPfb?.GetComponent<AttackComponent>();
-            if (attackComponent == null) Debug.LogError("Attack Pfb Does not contain Attack Component!");
+            if (attackComponent == null)
+            {
+                Debug.LogError("Attack Pfb Does not contain Attack Component!");
+                return;
+            }
 
             var amc = new AttackModificationContext
             {
@@ -67,7 +71,7 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
                 AttackDuration = timeToTarget + explosionAfterEffectDuration
             };
 
-            AttackSpawner.Spawn(attackData.AttackPfb, attackData, ac, amc, attackComponent.Attack, attackComponent.Movement);
+            AttackSpawner.Spawn(attackData, ac, amc, attackComponent.Attack, attackComponent.Movement);
         }
     }
     public override void StopAttack()

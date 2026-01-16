@@ -1,14 +1,13 @@
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiralAttacker : IAttacker, IAttackNode
+public class SpiralAttacker : BaseAttacker<SpiralAttackerData>
 {
-    public AttackerData AttackerData { get { return spiralAttackerData; } set { spiralAttackerData = (SpiralAttackerData)value; } }
-    public AttackData AttackData { get { return attackData; } set { attackData = value; } }
-    [OdinSerialize] private AttackData attackData;
-    [OdinSerialize] private SpiralAttackerData spiralAttackerData;
+    public override AttackData AttackData { get { return attackData; } set { attackData = value; } }
+    [Required, OdinSerialize] private AttackData attackData;
 
     private bool isAttacking = false;
     private MonoBehaviour coroutineRunner; // instance that runs the coroutine.
@@ -16,18 +15,20 @@ public class SpiralAttacker : IAttacker, IAttackNode
 
     public SpiralAttacker() { }
 
-    public SpiralAttacker(SpiralAttackerData fanAttackerData, AttackData attackData)
+    public SpiralAttacker(SpiralAttackerData spiralAttackerData, AttackData attackData)
     {
-        this.spiralAttackerData = fanAttackerData;
+        this.attackerData = spiralAttackerData;
         this.attackData = attackData;
     }
+
+    #region IAttacker Implementation
 
     /// <summary>
     /// Spawns projectiles in a spiral like shape.
     /// </summary>
     /// <param name="keyCode"></param>
     /// <param name="ac"></param>
-    public void Attack(KeyCode keyCode, AttackContext ac)
+    public override void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (isAttacking)
         {
@@ -54,18 +55,10 @@ public class SpiralAttacker : IAttacker, IAttackNode
         }
 
         // Start the attack coroutine
-        curCoroutine = coroutineRunner.StartCoroutine(
-            AttackCoroutine(
-                ac.AttackSpawnInfo, 
-                ac.AttackerTransform, 
-                ac.AttackerComponent.TargetTypes, 
-                ac.AtkStat, 
-                ac.PercentageDamageIncrease
-                )
-            );
+        curCoroutine = coroutineRunner.StartCoroutine(AttackCoroutine(ac));
     }
 
-    public void StopAttack()
+    public override void StopAttack()
     {
         isAttacking = false;
 
@@ -76,25 +69,25 @@ public class SpiralAttacker : IAttacker, IAttackNode
 
     }
 
-    private IEnumerator AttackCoroutine(AttackSpawnInfo info, Transform attackerTransform, List<EntityType> targetTypes, float atkStat, double percentageDamageIncrease)
+    private IEnumerator AttackCoroutine(AttackContext ac)
     {
         isAttacking = true;
-        Vector3 attackDir = info.targetPosition - attackerTransform.position;
+        Vector3 attackDir = ac.AttackSpawnInfo.targetPosition - ac.AttackerComponent.transform.position;
 
         // Time delay between each wave (s)
-        float delayBetweenWaves = spiralAttackerData.timeBetweenBladeProjectiles;
+        float delayBetweenWaves = attackerData.timeBetweenBladeProjectiles;
 
         // Angle difference between each projectile spawned in a single wave (minimum of 1 degree)
-        float spawnAngleDiff = Mathf.Max(1f, spiralAttackerData.spinSpeed * delayBetweenWaves);
+        float spawnAngleDiff = Mathf.Max(1f, attackerData.spinSpeed * delayBetweenWaves);
 
         // Angle difference between each blade in a single wave
-        float angleSplit = 360f / spiralAttackerData.numBlades;
+        float angleSplit = 360f / attackerData.numBlades;
 
         // Calculate total number of waves needed for a full 360-degree rotation
         int totalWaves = Mathf.CeilToInt(360f / spawnAngleDiff);
 
         // Direction multiplier for clockwise/counter-clockwise
-        float direction = spiralAttackerData.clockwiseSpin ? 1f : -1f;
+        float direction = attackerData.clockwiseSpin ? 1f : -1f;
 
         // Spawn waves
         for (int waveIndex = 0; waveIndex < totalWaves; waveIndex++)
@@ -103,11 +96,25 @@ public class SpiralAttacker : IAttacker, IAttackNode
             Vector3 baseDir = Quaternion.Euler(0, 0, curSpawnAngleDiff) * attackDir;
 
             // Spawn all blades in this wave
-            for (int i = 0; i < spiralAttackerData.numBlades; i++)
+            for (int i = 0; i < attackerData.numBlades; i++)
             {
                 float curAngleIncrement = i * angleSplit;
+
                 Vector3 spawnDir = Quaternion.Euler(0, 0, curAngleIncrement) * baseDir;
-                AttackSpawner.SpawnAttackInPool(spawnDir, attackerTransform, targetTypes, attackData.AttackPfb, this, atkStat, percentageDamageIncrease);
+
+                var attackComponent = attackData?.AttackPfb?.GetComponent<AttackComponent>();
+                if (attackComponent == null)
+                {
+                    Debug.LogError("Attack Pfb Does not contain Attack Component!");
+                    yield return new WaitForEndOfFrame();
+                }
+
+                AttackModificationContext amc = new AttackModificationContext() { 
+                    AttackDuration = attackData.Distance / attackData.InitialSpeed,
+                    AttackDirection = spawnDir.normalized
+                    // Note: we don't need angle offset since attack direction already accounts for it
+                };
+                AttackSpawner.Spawn(attackData, ac, amc, attackComponent.Attack, attackComponent.Movement);
             }
 
             // Wait before spawning the next wave (but not after the last wave)
@@ -120,26 +127,26 @@ public class SpiralAttacker : IAttacker, IAttackNode
         isAttacking = false;
     }
 
-    public IAttacker DeepClone()
+    public override IAttacker DeepClone()
     {
-        SpiralAttackerData clonedAttackerData = UnityEngine.Object.Instantiate(spiralAttackerData);
+        SpiralAttackerData clonedAttackerData = UnityEngine.Object.Instantiate(attackerData);
         AttackData clonedAttackData = UnityEngine.Object.Instantiate(attackData);
         return new SpiralAttacker(clonedAttackerData, clonedAttackData);
     }
 
-    public float GetChargeUp()
+    public override float GetChargeUp()
     {
-        return spiralAttackerData.chargeUp;
+        return attackerData.chargeUp;
     }
 
-    public float GetCooldown()
+    public override float GetCooldown()
     {
-        return spiralAttackerData.cooldown;
+        return attackerData.cooldown;
     }
 
-    public bool IsInitialized()
+    public override bool IsInitialized()
     {
-        return spiralAttackerData != null && attackData != null;
+        return attackerData != null && attackData != null;
     }
 
     public bool IsAttacking()
@@ -147,8 +154,10 @@ public class SpiralAttacker : IAttacker, IAttackNode
         return isAttacking;
     }
 
+    #endregion
+
     #region IAttackNode Implementation
-    public IEnumerable<IAttackNode> GetChildren()
+    public override IEnumerable<IAttackNode> GetChildren()
     {
         yield return this;
     }

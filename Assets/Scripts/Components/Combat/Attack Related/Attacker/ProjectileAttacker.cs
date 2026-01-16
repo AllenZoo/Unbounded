@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections;
@@ -17,7 +18,7 @@ using UnityEngine.Assertions;
 public class ProjectileAttacker: BaseAttacker<AttackerData>
 {
     public override AttackData AttackData { get { return attackData; } set { attackData = value; } }
-    [OdinSerialize] private AttackData attackData; // TODO: maybe move this elsewhere. (add as parameter to main Attack function)
+    [Required, OdinSerialize] private AttackData attackData; // TODO: maybe move this elsewhere. (add as parameter to main Attack function)
 
 
     public ProjectileAttacker() { }
@@ -47,7 +48,7 @@ public class ProjectileAttacker: BaseAttacker<AttackerData>
             // i = 1, shoot to the right of mouse with angleOffset * 1 away from attack 0.
             // i = 2, shoot to the left of mouse with angleOffset * 1 away from attack 0.
             //float angle = (i+1)/2 * angleOffset;
-            float angle = (int) ((i+1)/2) * attackerData.angleOffset;
+            float angle = (int)((i + 1) / 2) * attackerData.angleOffset;
 
             // Odd's offset to the right.
             // Even's offset to the left
@@ -60,7 +61,11 @@ public class ProjectileAttacker: BaseAttacker<AttackerData>
             // Vector3 attackDir = Quaternion.Euler(0, 0, angle) * (ac.AttackSpawnInfo.targetPosition - ac.AttackerTransform.position);
 
             var attackComponent = attackData.AttackPfb?.GetComponent<AttackComponent>();
-            if (attackComponent == null) Debug.LogError("Attack Pfb Does not contain Attack Component!");
+
+            if (attackComponent == null) {
+                Debug.LogError("Attack Pfb Does not contain Attack Component!");
+                return;
+            }
 
             var attack = attackComponent.Attack;
             var attackMovement = attackComponent.Movement;
@@ -73,7 +78,7 @@ public class ProjectileAttacker: BaseAttacker<AttackerData>
             };
 
 
-            AttackSpawner.Spawn(attackData.AttackPfb, attackData, ac, amc, attack, attackMovement);
+            AttackSpawner.Spawn(attackData, ac, amc, attack, attackMovement);
         }
     }
 
