@@ -65,13 +65,23 @@ public class ClusterAttack : BaseAttack<ClusterAttackData>
                 ObjectScale = 1f // Or inherit from parent
             };
 
+            // Create spawn info at a point where the original attack is going
+            //AttackSpawnInfo spawnInfo = new AttackSpawnInfo(ac.transform.position);
+
+            AttackContext nac = new AttackContext()
+            {
+                AttackerComponent = originalContext.AttackerComponent,
+                AttackerTransform = ac.transform,
+                AttackSpawnInfo = originalContext.AttackSpawnInfo,
+            };
+
             // Get components from the sub-attack prefab
             var subAtkComp = attackData.SubAttackData.AttackPfb.GetComponent<AttackComponent>();
 
             // Spawn the sub-attack
             AttackSpawner.Spawn(
                 attackData.SubAttackData,
-                originalContext,
+                nac,
                 amc,
                 subAtkComp.Attack,
                 subAtkComp.Movement

@@ -8,11 +8,13 @@ public class AttackContext
 {
     public AttackSpawnInfo AttackSpawnInfo { get; set; }
     public AttackerComponent AttackerComponent { get; set; }
-    public Transform AttackerTransform => AttackerComponent.transform;
-    public double PercentageDamageIncrease => AttackerComponent.PercentageDamageIncrease;
+    public Transform AttackerTransform { get; set; }
+    public double PercentageDamageIncrease { get; set; }
     public float AtkStat { get; set; }
 
     public float duration; // Duration before attack disappears.
+
+    public AttackContext() { }
 
     public AttackContext(
         AttackSpawnInfo spawnInfo,
@@ -21,6 +23,10 @@ public class AttackContext
     {
         AttackSpawnInfo = spawnInfo;
         AttackerComponent = attackerComponent;
+
+        AttackerTransform = attackerComponent.transform;
+        PercentageDamageIncrease = attackerComponent.PercentageDamageIncrease;
+
         AtkStat = atkStat;
     }
 }

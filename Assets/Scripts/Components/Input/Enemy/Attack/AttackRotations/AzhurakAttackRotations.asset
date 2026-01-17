@@ -19,10 +19,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: cdf5e852c982db44cba9aa6c8562148b, type: 2}
     - {fileID: 11400000, guid: e8df539a51afe5c43a455a8d09751a8a, type: 2}
     - {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    - {fileID: 11400000, guid: 969a163428fd15b408352b696c8f9ee8, type: 2}
+    - {fileID: 11400000, guid: f54b8787811940b4dac1b1abbd7eea1c, type: 2}
+    - {fileID: 11400000, guid: b2db74f5790dedc4d934c0bf99c86ff7, type: 2}
+    - {fileID: 11400000, guid: c286d1e4d5280e841b069a4388a19c53, type: 2}
+    - {fileID: 11400000, guid: 79cb7fde57ca8134988da271c29022d5, type: 2}
+    - {fileID: 11400000, guid: d6159dc0d1aa95b4d859b72f4bec7e35, type: 2}
+    - {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
     - {fileID: 11400000, guid: 32ba547d95b759c4b91ab04d169e2e3e, type: 2}
     - {fileID: 11400000, guid: 69b36bb7ac7fc12439f96ce336070af9, type: 2}
     - {fileID: 11400000, guid: 938a0b0631261084faff9331d55f58a5, type: 2}
-    - {fileID: 11400000, guid: 79cb7fde57ca8134988da271c29022d5, type: 2}
     - {fileID: 11400000, guid: f79aea0a5f8966b4cbca5a558299945b, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -35,7 +41,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
       Data: 1|BehaviourDefinition, Assembly-CSharp
@@ -83,24 +89,17 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: rageBehaviour
       Entry: 7
       Data: 4|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
-      Data: '[Phase 69] RAGEEEE'
+      Data: '[Phase 2] Inferno Cage'
     - Name: attacker
       Entry: 7
       Data: 5|AttackerWrapper, Assembly-CSharp
     - Name: attackers
       Entry: 7
-      Data: 6|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[IAttacker, Assembly-CSharp]],
-        Unity.Plastic.Antlr3.Runtime
+      Data: 6|System.Collections.Generic.List`1[[IAttacker, Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
@@ -118,19 +117,166 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 8|MeteorAttacker, Assembly-CSharp
+      Data: 8|CageAttacker, Assembly-CSharp
     - Name: attackerData
       Entry: 10
       Data: 5
     - Name: attackData
       Entry: 10
-      Data: 6
-    - Name: attackIndicator
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 10
+      Data: 2
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
       Entry: 7
-      Data: 9|CircleAttackIndicator, Assembly-CSharp
-    - Name: data
+      Data: 9|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: Alternating Inward Outward Fire cages, wrapped in AttackerWrapper.
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: '[Phase 3] Fire Storm'
+    - Name: attacker
+      Entry: 7
+      Data: 11|MeteorAttacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 6
+    - Name: attackData
       Entry: 10
       Data: 7
+    - Name: attackIndicator
+      Entry: 7
+      Data: 12|CircleAttackIndicator, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: timeToTarget
+      Entry: 4
+      Data: 1.5
+    - Name: explosionAfterEffectDuration
+      Entry: 4
+      Data: 1
+    - Name: radiusGrowthTime
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: chaseBehaviour
+      Entry: 10
+      Data: 9
+    - Name: chaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: addStatModifiers
+      Entry: 7
+      Data: 13|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[AddStatModifier, Assembly-CSharp]],
+        Unity.Plastic.Antlr3.Runtime
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: behaviourDescription
+      Entry: 1
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: rageBehaviour
+      Entry: 7
+      Data: 14|BehaviourDefinition, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: '[Phase 69] RAGEEEE'
+    - Name: attacker
+      Entry: 7
+      Data: 15|AttackerWrapper, Assembly-CSharp
+    - Name: attackers
+      Entry: 7
+      Data: 16|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[IAttacker, Assembly-CSharp]],
+        Unity.Plastic.Antlr3.Runtime
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 17|CageAttacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 10
+    - Name: attackData
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|MeteorAttacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 12
+    - Name: attackData
+      Entry: 10
+      Data: 7
+    - Name: attackIndicator
+      Entry: 7
+      Data: 19|CircleAttackIndicator, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 13
     - Name: 
       Entry: 8
       Data: 
@@ -163,7 +309,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 10|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 20|Unity.Plastic.Antlr3.Runtime.Misc.ListStack`1[[AddStatModifier, Assembly-CSharp]],
         Unity.Plastic.Antlr3.Runtime
     - Name: 
       Entry: 12
@@ -185,7 +331,7 @@ MonoBehaviour:
       Data: 
     - Name: currentBehaviour
       Entry: 7
-      Data: 11|BehaviourDefinition, Assembly-CSharp
+      Data: 21|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
       Data: 
@@ -200,7 +346,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 12|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 22|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -222,7 +368,7 @@ MonoBehaviour:
       Data: 
     - Name: emptyBehaviour
       Entry: 7
-      Data: 13|BehaviourDefinition, Assembly-CSharp
+      Data: 23|BehaviourDefinition, Assembly-CSharp
     - Name: name
       Entry: 1
       Data: empty
@@ -237,7 +383,7 @@ MonoBehaviour:
       Data: 
     - Name: addStatModifiers
       Entry: 7
-      Data: 14|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
+      Data: 24|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
