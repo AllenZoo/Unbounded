@@ -11,7 +11,8 @@ public class AttackSpawner
         AttackData data,
         AttackContext context,
         AttackModificationContext amc,
-        IAttack logic)
+        IAttack logic,
+        Func<int, Quaternion> rotationFactory = null)
     {
         List<AttackComponent> spawned = new(count);
 
@@ -28,7 +29,14 @@ public class AttackSpawner
             );
 
             if (attack != null)
+            {
+                if (rotationFactory != null)
+                {
+                    attack.transform.rotation = rotationFactory(i);
+                }
+
                 spawned.Add(attack);
+            }
         }
 
         return spawned;

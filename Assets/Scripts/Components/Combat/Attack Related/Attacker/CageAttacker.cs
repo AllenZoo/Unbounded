@@ -88,7 +88,9 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
             attackData,
             ac,
             new AttackModificationContext(),
-            attackData.AttackPfb.GetComponent<AttackComponent>().Attack
+            attackData.AttackPfb.GetComponent<AttackComponent>().Attack,
+            rotationFactory: i =>
+                Quaternion.Euler(0f, 0f, i * (360f / count))
         );
 
         for (int i = 0; i < spawned.Count; i++)
