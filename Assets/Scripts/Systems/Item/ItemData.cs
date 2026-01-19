@@ -38,6 +38,10 @@ public class ItemData : SerializedScriptableObject, IIdentifiableSO
             id = System.Guid.NewGuid().ToString();
             UnityEditor.EditorUtility.SetDirty(this);
         }
+
+        if (attacker == null) { 
+            Debug.LogWarning($"ItemData {itemName} ({id}) has no attacker assigned.");
+        }
     }
 #endif
 }
