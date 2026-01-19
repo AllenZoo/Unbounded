@@ -81698,6 +81698,7 @@ GameObject:
   - component: {fileID: 4990121187298341208}
   - component: {fileID: 606328783748301166}
   - component: {fileID: 4789511864964751665}
+  - component: {fileID: 7534848393935409138}
   m_Layer: 6
   m_Name: Azhurak
   m_TagString: Entity
@@ -82889,6 +82890,19 @@ MonoBehaviour:
   localEventHandler: {fileID: 7418713778841163019}
   debuggingState: 0
   crowdControlStates: 05000000
+--- !u!114 &7534848393935409138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400384042253487769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69103d5630d26740b76146dc1146a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DieOnPlay
+  leh: {fileID: 7418713778841163019}
 --- !u!114 &7691096889516893523
 MonoBehaviour:
   m_ObjectHideFlags: 0
