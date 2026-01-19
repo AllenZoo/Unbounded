@@ -3,6 +3,7 @@ using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -14,19 +15,30 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AttackComponent : SerializedMonoBehaviour
 {
-    [ReadOnly]
-    public Collider2D AttackCollider;
+    public Rigidbody2D Rb { get; private set; }
+    public Collider2D AttackCollider { get; private set; }
+    //public AttackData Data { get; private set; } // Note: doesn't seem like this is even used..
 
-    public event Action<Damageable> OnHit;
+
     public IAttack Attack { get { return attack; } private set { } }
-    public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
+    public IAttackMovement Movement { get { return movement; } private set { } }
+
 
     [Tooltip("The projectile data associated with Attack")]
     [Required, OdinSerialize] private IAttack attack;
 
-    [Header("Debugging (Reset fields to empty)")]
-    [SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
+    [Tooltip("The movement data associated with Attack")]
+    [Required, OdinSerialize] private IAttackMovement movement;
+
+    public AttackContext AttackContext { get; private set; }
+
+
+    //public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
+    //[Header("Debugging (Reset fields to empty)")]
+    //[SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
+
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
+    public event Action<Damageable> OnHit;
 
     private void Awake()
     {
@@ -38,12 +50,17 @@ public class AttackComponent : SerializedMonoBehaviour
         // Check if Collider2D is a trigger.
         Assert.IsTrue(GetComponent<Collider2D>().isTrigger, "Collider2D needs to be a trigger");
 
-        // Checks if layer is on 'AttackCollider'
-        // Used to optimize collision detections
-        // TODO:
-        //Assert.IsTrue(gameObject.layer.Equals("AttackCollider"));
-
         AttackCollider = GetComponent<Collider2D>();
+        Rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void Initialize(AttackData data, AttackContext context, IAttack logic, IAttackMovement movement)
+    {
+        //Data = data;
+        Movement = movement;
+        Attack = logic;
+        this.AttackContext = context;
+        movement.UpdateMovement(this, Rb);
     }
 
     /// <summary>
@@ -115,8 +132,26 @@ public class AttackComponent : SerializedMonoBehaviour
     {
         AttackData ad = attack.AttackData;
 
+        if (AttackContext == null)
+        {
+            Debug.LogError("AttackContext is NULL", this);
+        }
+        else if (AttackContext.AttackerComponent == null)
+        {
+            Debug.LogError("AttackContext.AttackerComponent is NULL", this);
+        }
+        else if (AttackContext.AttackerComponent.TargetTypes == null)
+        {
+            Debug.LogError("AttackContext.AttackerComponent.TargetTypes is NULL", this);
+        }
+        else if (!AttackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
+        {
+            //Debug.Log($"Hit rejected: EntityType {hit.EntityType} not in TargetTypes", this);
+        }
+
+
         // Check if hit target EntityType matches what the attack can hit.
-        if (!targetTypes.Contains(hit.EntityType))
+        if (!AttackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
             // Attack can't hit this target.
             return false;
@@ -170,5 +205,17 @@ public class AttackComponent : SerializedMonoBehaviour
         yield return new WaitForSeconds(time);
         ResetAttack();
     }
+
+    private void Update()
+    {
+        if (movement == null) return;
+
+        if (TryGetComponent<Rigidbody2D>(out var rb))
+        {
+            // NOTE: For future reference, doing this causes projectiles to not move.
+            //movement.UpdateMovement(this, rb);
+        }
+    }
+
 
 }

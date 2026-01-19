@@ -1,29 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Information passed from AttackerComponent to AttackSpawner.
+/// </summary>
 public class AttackContext
 {
-    public AttackSpawnInfo SpawnInfo { get; set; }
+    public AttackSpawnInfo AttackSpawnInfo { get; set; }
     public AttackerComponent AttackerComponent { get; set; }
     public Transform AttackerTransform { get; set; }
-    public List<EntityType> TargetTypes { get; set; }
-    public float AtkStat { get; set; }
     public double PercentageDamageIncrease { get; set; }
+    public float AtkStat { get; set; }
 
-    // Optional: Constructor for convenience
+    public float duration; // Duration before attack disappears.
+
+    public AttackContext() { }
+
     public AttackContext(
         AttackSpawnInfo spawnInfo,
         AttackerComponent attackerComponent,
-        Transform attackerTransform,
-        List<EntityType> targetTypes,
-        float atkStat,
-        double percentageDamageIncrease)
+        float atkStat)
     {
-        SpawnInfo = spawnInfo;
+        AttackSpawnInfo = spawnInfo;
         AttackerComponent = attackerComponent;
-        AttackerTransform = attackerTransform;
-        TargetTypes = targetTypes;
+
+        AttackerTransform = attackerComponent.transform;
+        PercentageDamageIncrease = attackerComponent.PercentageDamageIncrease;
+
         AtkStat = atkStat;
-        PercentageDamageIncrease = percentageDamageIncrease;
     }
 }

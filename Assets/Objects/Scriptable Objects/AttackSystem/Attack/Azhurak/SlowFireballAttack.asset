@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
+  m_Name: SlowFireballAttack
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  AttackName: Fireball Slow |
+  AttackPfb: {fileID: 4638254998750714027, guid: ce17a65afaa5d8e468fc09d6d4106719, type: 3}
+  BaseDamage: 5
+  AttackSound: {fileID: 8300000, guid: 14fe7a8ba4279d94297c3ac7a6e08115, type: 3}
+  SpriteRotOffset: 90
+  Distance: 5
+  InitialSpeed: 2
+  BaseKnockback: 1
+  BaseStunDuration: 1
+  IsAOE: 0
+  IsPiercing: 0
+  IsDOT: 0
+  DotDuration: 5
+  DisappearOnHit: 1
+  CanRepeat: 0
+  RehitCooldown: -1

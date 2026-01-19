@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEditor;
 using UnityEngine.Serialization;
+using Sirenix.Serialization;
 
 [CreateAssetMenu(
     fileName = "NewAttackData",
@@ -11,7 +12,6 @@ using UnityEngine.Serialization;
     order = 1)]
 public class AttackData : SerializedScriptableObject
 {
-
     #region Basic Info
 
     [FoldoutGroup("Basic Info")]
@@ -21,6 +21,7 @@ public class AttackData : SerializedScriptableObject
     [FoldoutGroup("Basic Info")]
     [Required, JsonIgnore]
     [Tooltip("Prefab used to spawn this attack")]
+    // TODO: assert object contains an AttackComponent script.
     public GameObject AttackPfb;
 
     [FoldoutGroup("Basic Info")]
@@ -36,7 +37,7 @@ public class AttackData : SerializedScriptableObject
 
     [FoldoutGroup("VFX and SFX")]
     [Tooltip("Rotational offset applied on spawn")]
-    public float RotOffset = 0f;
+    public float SpriteRotOffset = 0f;
 
     #endregion
 

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5e2e58cba7edc439857981677f997a, type: 3}
+  m_Name: Fireball-Cluster-Split-Attack
+  m_EditorClassIdentifier: Assembly-CSharp::ClusterAttackData
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  AttackName: Fireball-Cluster-Split-Attack|
+  AttackPfb: {fileID: 8424627342221631467, guid: 8415f683860c8164eb2b4acefadc9d52, type: 3}
+  BaseDamage: 7
+  AttackSound: {fileID: 8300000, guid: 14fe7a8ba4279d94297c3ac7a6e08115, type: 3}
+  SpriteRotOffset: 90
+  Distance: 20
+  InitialSpeed: 10
+  BaseKnockback: 0
+  BaseStunDuration: 1
+  IsAOE: 0
+  IsPiercing: 0
+  IsDOT: 0
+  DotDuration: 5
+  DisappearOnHit: 1
+  CanRepeat: 0
+  RehitCooldown: 0
+  SubAttackData: {fileID: 11400000, guid: 431463cfe9451ae42a8a72c16b4699e7, type: 2}
+  ClusterCount: 3
+  ClusterSpreadAngle: 45
+  UseFullCircle: 0
+  SplitDelay: 1

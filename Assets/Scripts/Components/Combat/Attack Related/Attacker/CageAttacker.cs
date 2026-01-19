@@ -1,22 +1,21 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static System.TimeZoneInfo;
 
-public class CageAttacker : IAttacker, IAttackNode
+/// <summary>
+/// NOTE: this class differs from other attackers, in the sense that Attack movement is controlled by this class and not an IAttackMovement class (e.g. we use NullMovement here, overrides anything set in the AttackPfb)
+/// </summary>
+public class CageAttacker : BaseAttacker<CageAttackerData>
 {
-    public AttackerData AttackerData { get => cageAttackerData; set => cageAttackerData = (CageAttackerData) value; }
-    public AttackData AttackData { get => attackData; set => attackData = value; }
+    public override AttackData AttackData { get => attackData; set => attackData = value; }
 
-    [OdinSerialize] private AttackData attackData;
-    [OdinSerialize] private CageAttackerData cageAttackerData;
+    [Required, OdinSerialize] private AttackData attackData;
 
-    private DG.Tweening.Sequence cageSequence;
+    private Sequence cageSequence;
     private float currentRadius;
-
 
     private MonoBehaviour coroutineRunner; // instance that runs the coroutine.
     private Coroutine curCoroutine; // keeps track of running coroutine. If null, this means no coroutine is currently running.
@@ -24,7 +23,8 @@ public class CageAttacker : IAttacker, IAttackNode
 
     private GameObject cageRoot; // root parent that contains the multiple child component attacks of the cage.
 
-    public void Attack(KeyCode keyCode, AttackContext ac)
+    #region IAttack Implementation
+    public override void Attack(KeyCode keyCode, AttackContext ac)
     {
         if (ac.AttackerComponent == null)
         {
@@ -52,6 +52,7 @@ public class CageAttacker : IAttacker, IAttackNode
         }
     }
 
+    #region Attack Helpers (Movement + Spawning)
     private IEnumerator AttackCoroutine(AttackContext ac)
     {
         // Redundant Cleanup.
@@ -68,34 +69,42 @@ public class CageAttacker : IAttacker, IAttackNode
         cageRoot.transform.localPosition = Vector3.zero;
 
 
-        List<GameObject> projectiles = new ();
+        List<AttackComponent> projectiles = new();
 
-        float count = cageAttackerData.CageAttackDensity;
-        float outerRadius = cageAttackerData.CageOuterRadius;
-        float innerRadius = cageAttackerData.CageInnerRadius;
+        int count = Mathf.RoundToInt(attackerData.CageAttackDensity);
+        float outerRadius = attackerData.CageOuterRadius;
+        float innerRadius = attackerData.CageInnerRadius;
 
-        // Spawn Cage at outer radius.
-        for (int i = 0; i < count; i++)
+        // Spawn attacks WITHOUT movement
+        var spawned = AttackSpawner.SpawnGroup(
+            Mathf.RoundToInt(count),
+            i =>
+            {
+                float angle = i * Mathf.PI * 2f / count;
+
+                // Movement handles positioning relative to attacker
+                return NullMovement.Instance;
+            },
+            attackData,
+            ac,
+            new AttackModificationContext(),
+            attackData.AttackPfb.GetComponent<AttackComponent>().Attack
+        );
+
+        for (int i = 0; i < spawned.Count; i++)
         {
-            // TODO: maybe we don't need coroutine since we just spawn in the attacks in a circle...
-            // UPDATE: no we do b/c the attack shrink and grow at certain times.
-            // Spawn in a parent object, that we can apply transform.RotateAround() on. (Refer to RingAttack.cs)
+            var atk = spawned[i];
 
-            float angle = i * Mathf.PI * 2f / count;
+            // Parent under cage root
+            atk.transform.SetParent(cageRoot.transform, false);
+
+            // Initial placement on outer radius
+            float angle = i * Mathf.PI * 2f / spawned.Count;
             Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-            Vector2 spawnPos = (Vector2) cageRoot.transform.position + dir * outerRadius;
 
-            // Instantiate projectile.
-            GameObject proj = Object.Instantiate(
-                   attackData.AttackPfb,
-                   spawnPos,
-                   Quaternion.identity,
-                   cageRoot.transform
-            );
+            atk.transform.localPosition = dir * outerRadius;
 
-            AttackSpawner.SetUpAttack(proj, ac.AttackerComponent.TargetTypes);
-
-            projectiles.Add(proj);
+            projectiles.Add(atk);
         }
 
         currentRadius = outerRadius;
@@ -106,7 +115,7 @@ public class CageAttacker : IAttacker, IAttackNode
             cageRoot.transform,
             innerRadius,
             outerRadius,
-            cageAttackerData.CycleTime
+            attackerData.CycleTime
         );
 
        
@@ -114,7 +123,7 @@ public class CageAttacker : IAttacker, IAttackNode
         // Rotate Cage.
         cageRoot.transform.DORotate(
             new Vector3(0, 0, 360f),
-            cageAttackerData.RotationalSpeed,
+            attackerData.RotationalSpeed,
             RotateMode.FastBeyond360
         )
         .SetEase(Ease.Linear)
@@ -123,9 +132,7 @@ public class CageAttacker : IAttacker, IAttackNode
 
         yield return new WaitForSeconds(0);
     }
-
-
-    private void StartCageRadiusSequence(List<GameObject> projectiles, Transform center, float innerRadius, float outerRadius, float cycleTime)
+    private void StartCageRadiusSequence(List<AttackComponent> projectiles, Transform center, float innerRadius, float outerRadius, float cycleTime)
     {
         cageSequence?.Kill();
 
@@ -163,8 +170,7 @@ public class CageAttacker : IAttacker, IAttackNode
 
         cageSequence.SetLoops(-1);
     }
-
-    private void UpdateCageRadius(List<GameObject> projectiles, Transform centerPoint, float radius)
+    private void UpdateCageRadius(List<AttackComponent> projectiles, Transform centerPoint, float radius)
     {
         foreach (var projectile in projectiles)
         {
@@ -178,27 +184,9 @@ public class CageAttacker : IAttacker, IAttackNode
             projectile.transform.position = newPos;
         }
     }
+    #endregion
 
-
-    /// <summary>
-    /// Transition to given Cage radius.
-    /// </summary>
-    private void SetCageRadius(List<GameObject> cageAtkProjectiles, Transform centerPoint, float radius, float transitionTime)
-    {
-        foreach(var projectile in cageAtkProjectiles)
-        {
-            // Dir from center to projectile in ring.
-            Vector2 dir = projectile.transform.position - centerPoint.position;
-
-            // Transition projectile along dir, such that the magnitude of vector from center to new location is at radius.
-            Vector2 dirNormalized = dir.normalized; // Get unit vector
-            Vector2 newPos = (Vector2)centerPoint.position + dirNormalized * radius; // Get new location.
-            projectile.transform.DOMove(newPos, transitionTime).SetEase(Ease.InOutSine); // Set new location of projectile.
-        }
-    }
-
-
-    public void StopAttack()
+    public override void StopAttack()
     {
         if (cageRoot != null)
         {
@@ -207,41 +195,36 @@ public class CageAttacker : IAttacker, IAttackNode
             GameObject.Destroy(cageRoot);
             cageRoot = null;
         }
-       
+
         attacking = false;
     }
 
-    public bool CanAttack()
-    {
-        // We can attack if we aren't already attacking.
-        return !attacking;
-    }
-
-
-    public IAttacker DeepClone()
+    public override IAttacker DeepClone()
     {
         throw new System.NotImplementedException();
     }
 
-    public float GetChargeUp()
+    public override float GetChargeUp()
     {
-        return cageAttackerData.chargeUp;
+        return attackerData.chargeUp;
     }
 
-    public float GetCooldown()
+    public override float GetCooldown()
     {
         // No Cooldown for CageAttacker
         // TODO: implement for this case in AttackComponent.
         return -1;
     }
 
-    public bool IsInitialized()
+    public override bool IsInitialized()
     {
-        return attackData != null && cageAttackerData != null;
+        return attackData != null && attackerData != null;
     }
 
+    #endregion
+
     #region IAttackNode Implementation
-    public IEnumerable<IAttackNode> GetChildren()
+    public override IEnumerable<IAttackNode> GetChildren()
     {
         yield return this;
     }

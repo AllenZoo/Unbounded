@@ -107,7 +107,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -374378069
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1147905238, guid: a64d73120f737c2458025e8b118a7997, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -190,7 +190,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: attack
       Entry: 7
-      Data: 0|Attack, Assembly-CSharp
+      Data: 0|ProjectileAttack, Assembly-CSharp
     - Name: attackData
       Entry: 10
       Data: 0
@@ -203,3 +203,10 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: movement
+      Entry: 7
+      Data: 1|LinearMovement, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+  hitTargets: []

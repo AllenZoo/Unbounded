@@ -4,7 +4,7 @@ public interface IAttack {
     // Should be called when the attack is launched/spawned
     void OnLaunch(AttackComponent ac);
 
-    // Should be called when the attack lands/hits the ground
+    // Should be called when the attack lands/hits the ground (if applicable)
     void OnLand(AttackComponent ac);
 
     // Should be called when the attack hits a target
@@ -15,6 +15,4 @@ public interface IAttack {
     void Reset(AttackComponent ac);
 
     public AttackData AttackData { get; set; }
-
-     
 }

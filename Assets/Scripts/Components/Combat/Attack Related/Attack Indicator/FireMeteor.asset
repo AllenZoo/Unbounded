@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe8b7f9266e4da48b31158b3004a1b5, type: 3}
+  m_Name: FireMeteor
+  m_EditorClassIdentifier: Assembly-CSharp::CircleAttackIndicatorData
+  attackIndicatorPfb: {fileID: 7873083445468908782, guid: f2e3886d8f1bf8e4b8e38a4df4688214, type: 3}
+  transitionTime: 5
+  startFillColour: {r: 0.9056604, g: 0.4257366, b: 0.33748665, a: 0.29803923}
+  endFillColour: {r: 0.754717, g: 0.17495355, b: 0.06051977, a: 0.5019608}
+  delayUntilDestroy: 1
+  radiusRange: {x: 1, y: 1}

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
+  m_Name: CageFireballAttack
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  AttackName: Cage Fireball  Attack |
+  AttackPfb: {fileID: 6832166389728532627, guid: 92be52811a24dc947834002602f9b204, type: 3}
+  BaseDamage: 5
+  AttackSound: {fileID: 8300000, guid: 14fe7a8ba4279d94297c3ac7a6e08115, type: 3}
+  SpriteRotOffset: 90
+  Distance: 5
+  InitialSpeed: 2
+  BaseKnockback: 1
+  BaseStunDuration: 1
+  IsAOE: 0
+  IsPiercing: 0
+  IsDOT: 0
+  DotDuration: 5
+  DisappearOnHit: 0
+  CanRepeat: 1
+  RehitCooldown: 2

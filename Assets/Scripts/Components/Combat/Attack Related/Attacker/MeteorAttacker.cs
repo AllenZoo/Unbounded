@@ -1,74 +1,98 @@
 using NUnit.Framework;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeteorAttacker : IAttacker, IAttackNode
+public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
 {
-    public AttackerData AttackerData { get { return meteorAttackerData; } set { meteorAttackerData = (MeteorAttackerData) value; } }
-    public AttackData AttackData { get { return attackData; } set { attackData = value; } }
-    [OdinSerialize] private AttackData attackData;
-    [OdinSerialize] private MeteorAttackerData meteorAttackerData;
+    public override AttackData AttackData { get { return attackData; } set { attackData = value; } }
+    [Required, OdinSerialize] private AttackData attackData;
 
     [OdinSerialize] private IAttackIndicator attackIndicator; // Class that spawns an indicator of area where a meteor is going to land on.
 
-    #region IAttacker Implementation
-    public void Attack(KeyCode keyCode, AttackContext ac)
-    {
+    #region Meteor Attacker Custom Properties
+    [FoldoutGroup("Meteor Attacker Custom Properties")]
+    [SerializeField] private float timeToTarget = 1f;
 
+    [FoldoutGroup("Meteor Attacker Custom Properties")]
+    [Tooltip("Determines how long the residue of the attack stays for.")]
+    [SerializeField] private float explosionAfterEffectDuration = 1f;
+
+    [FoldoutGroup("Meteor Attacker Custom Properties")]
+    [SerializeField] private float radiusGrowthTime = 1f;
+    #endregion
+
+    #region IAttacker Implementation
+    /// <summary>
+    /// Spawns an indicator, then a meteor attack to target.
+    /// </summary>
+    /// <param name="keyCode"></param>
+    /// <param name="ac"></param>
+    public override void Attack(KeyCode keyCode, AttackContext ac)
+    {
         // Randomly generate meteor positions within a certain area around the target position, given number of meteors to spawn, the error range,
         // and the target position
         List<Vector3> meteorPositions = CalculateMeteorPositions(
-            ac.SpawnInfo.mousePosition, 
-            meteorAttackerData.errorRange, 
-            meteorAttackerData.numAttacks);
+            ac.AttackSpawnInfo.targetPosition, 
+            attackerData.errorRange, 
+            attackerData.numAttacks);
 
         // For each meteor position, spawn an indicator and after a delay, spawn the meteor attack
         foreach (Vector3 pos in meteorPositions)
         {
             // Get random radius based on range. This is the final radius the indicator will grow to.
             float indicatorRadius = UnityEngine.Random.Range(
-                meteorAttackerData.meteorRadiusRange.x,
-                meteorAttackerData.meteorRadiusRange.y);
+                attackerData.meteorRadiusRange.x,
+                attackerData.meteorRadiusRange.y);
 
             // Initial Start Radius of indicator.
             float startRadius = indicatorRadius / 2;
-
-            // (TODO: tweak radiusGrowthTime param). There is a paramter for this in AttackIndicatorData.cs, but we override that with this variable.
-            float radiusGrowthTime = 1f;
 
             // Spawn indicator at pos
             attackIndicator.Indicate(new AttackIndicatorContext(pos, startRadius, indicatorRadius, true, radiusGrowthTime: radiusGrowthTime, growRadius: true));
 
             // After delay, spawn meteor attack at pos (TODO: implement delay and spawning)
+            // Note: not deleting yet cause i have no clue what this used to do.
             float indicatorTransitionTime = attackIndicator.Data.transitionTime;
 
-            // TODO-OPT: Tweak Time To Target param.
-            AttackSpawner.SpawnMeteorAttack(pos, timeToTarget: 1f, attackData.AttackPfb, meteorRadius: indicatorRadius, ac.TargetTypes);
+            ac.AttackSpawnInfo.targetPosition = pos; // Hack to position meteor at new location.
+            var attackComponent = attackData?.AttackPfb?.GetComponent<AttackComponent>();
+            if (attackComponent == null)
+            {
+                Debug.LogError("Attack Pfb Does not contain Attack Component!");
+                return;
+            }
+
+            var amc = new AttackModificationContext
+            {
+                ObjectScale = indicatorRadius,
+                AttackDuration = timeToTarget + explosionAfterEffectDuration
+            };
+
+            AttackSpawner.Spawn(attackData, ac, amc, attackComponent.Attack, attackComponent.Movement);
         }
     }
-    public void StopAttack()
+    public override void StopAttack()
     {
         // Not a continouous attack so don't need.
-        //throw new System.NotImplementedException();
     }
-
-    public IAttacker DeepClone()
+    public override IAttacker DeepClone()
     {
         throw new System.NotImplementedException();
     }
-    public float GetChargeUp()
+    public override float GetChargeUp()
     {
-        return meteorAttackerData.chargeUp;
+        return attackerData.chargeUp;
     }
-    public float GetCooldown()
+    public override float GetCooldown()
     {
-        return meteorAttackerData.cooldown;
+        return attackerData.cooldown;
     }
-    public bool IsInitialized()
+    public override bool IsInitialized()
     {
-        return attackData != null && meteorAttackerData != null && attackIndicator != null;
+        return attackData != null && attackerData != null && attackIndicator != null;
     }
     #endregion
 
@@ -112,7 +136,7 @@ public class MeteorAttacker : IAttacker, IAttackNode
     #endregion
 
     #region IAttackNode Implementation
-    public IEnumerable<IAttackNode> GetChildren()
+    public override IEnumerable<IAttackNode> GetChildren()
     {
         yield return this;
     }

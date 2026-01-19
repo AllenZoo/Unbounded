@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8258e6f6b53d6409540885b446aef0, type: 3}
+  m_Name: FireMeteorAttack
+  m_EditorClassIdentifier: Assembly-CSharp::BombAttackData
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  AttackName: Fire Meteor Attack|
+  AttackPfb: {fileID: 7587116864066770154, guid: 2cafc0ef948c0364d946a211ad2433ec, type: 3}
+  BaseDamage: 5
+  AttackSound: {fileID: 0}
+  SpriteRotOffset: 0
+  Distance: 5
+  InitialSpeed: 1
+  BaseKnockback: 0
+  BaseStunDuration: 1
+  IsAOE: 0
+  IsPiercing: 0
+  IsDOT: 0
+  DotDuration: 5
+  DisappearOnHit: 0
+  CanRepeat: 0
+  RehitCooldown: -1
+  AlwaysUseThisExplosionRadius: 0
+  ExplosionRadius: 0
+  FuseTime: 0
+  InitSprite: {fileID: -1295915685652976147, guid: b7cb91958d7346644b2d5401c3d101b0, type: 3}
+  InitSortingLayerID: -374378069
+  ExplosionSprite: {fileID: -1560599657, guid: 624d6768d669cf649806aec0fe391f70, type: 3}
+  ExplosionSortingLayerID: 1789471847
