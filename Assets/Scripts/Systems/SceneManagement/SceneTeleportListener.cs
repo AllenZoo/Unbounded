@@ -30,8 +30,9 @@ public class SceneTeleportListener : Singleton<SceneTeleportListener>
     private void OnSceneTeleportRequestHandler(OnSceneTeleportRequest evt)
     {
         SceneField activeScene = new SceneField(SceneManager.GetActiveScene().name);
+        SceneField activeSceneToSet = evt.targetScene;
 
-        List<SceneField> _scenesToLoad = new List<SceneField>() { evt.targetScene };
+        List<SceneField> _scenesToLoad = new List<SceneField>() { activeSceneToSet };
         List<SceneField> _scenesToUnload = new List<SceneField>() { activeScene };
         if (loadPersistentGameplay && persistentGameplay != null) _scenesToLoad.Add(persistentGameplay);
 
@@ -40,7 +41,7 @@ public class SceneTeleportListener : Singleton<SceneTeleportListener>
             scenesToLoad = _scenesToLoad,
             scenesToUnload = _scenesToUnload,
             showLoadingBar = this.showLoadingBar,
-            activeSceneToSet = this.activeSceneAfterLoad,
+            activeSceneToSet = activeSceneToSet,
         });
     }
 }

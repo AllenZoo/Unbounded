@@ -3,7 +3,6 @@ using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequiredComponents(typeof(WorldInteractableObject))]
 public class SceneTeleporter : SerializedMonoBehaviour
 {
     [Tooltip("Conditions that must be true to allow teleporting.")]
@@ -11,18 +10,23 @@ public class SceneTeleporter : SerializedMonoBehaviour
 
 
     [SerializeField] private bool teleportOnCollision = false;
-    [SerializeField] private SceneField targetScene;
+    [Required, SerializeField] private SceneField targetScene;
 
     // Can't odin serialize an abstract obejct on pfb, so using plain old hard coded GetComponent init instead.
+    // Note: Since MenuButton also uses this script, we allow for it to be null.
     private WorldInteractableObject trigger;
 
     private void Awake()
     {
-        trigger.GetComponent<WorldInteractableObject>();
+        TryGetComponent<WorldInteractableObject>(out var t);
+        trigger = t;
+    }
 
+    private void Start()
+    {
         if (trigger == null)
         {
-            Debug.LogError("SceneTeleporter requires a WorldInteractableObject component.");
+            Debug.LogWarning("SceneTeleporter requires a WorldInteractableObject component.");
             return;
         }
 
