@@ -45,16 +45,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea75d8b98ec44dc4da9a61b9d069d03a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
-  priority: 6
-  requiredKeyPress: 0
-  displayMessage: To use the portal make sure you have selected a weapon!
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   OnInteract:
     m_PersistentCalls:
       m_Calls: []
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
+  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
+  priority: 6
+  requiredKeyPress: 0
+  displayMessage: To use the portal make sure you have selected a weapon!
   pageUIContext: {fileID: 11400000, guid: 0d66fb31515c57741856337dadc02224, type: 2}
 --- !u!61 &1573462731
 BoxCollider2D:
@@ -115,6 +124,7 @@ GameObject:
   - component: {fileID: 8713606998269308908}
   - component: {fileID: 8713606998269308883}
   - component: {fileID: 1563060625}
+  - component: {fileID: 1655149487620900760}
   m_Layer: 10
   m_Name: Portal
   m_TagString: Untagged
@@ -208,29 +218,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2ddd24957353849a58ff89ff050dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
-  priority: 5
-  requiredKeyPress: 102
-  sceneTeleporterPromptData:
-    message: Press F to use portal.
-    shouldDisplayPrompt: 1
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 1655149487620900760}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: trigger
+      Entry: 10
+      Data: 0
   conditionChecker: {fileID: 1563060625}
-  OnTeleportRequest:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneLoadRequester, Assembly-CSharp
-        m_MethodName: RequestSceneLoad
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   teleportOnCollision: 0
+  targetScene:
+    m_SceneAsset: {fileID: 0}
+    m_SceneName: 
 --- !u!61 &8713606998269308883
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -331,3 +336,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &1655149487620900760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8713606998269308911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea75d8b98ec44dc4da9a61b9d069d03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractablePrompter
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUninteract:
+    m_PersistentCalls:
+      m_Calls: []
+  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
+  priority: 5
+  requiredKeyPress: 102
+  displayMessage: Press F to use portal!
+  pageUIContext: {fileID: 11400000, guid: 0d66fb31515c57741856337dadc02224, type: 2}

@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// IMPORTANT NOTE: if it appears that a scene can't/isn't being loaded, ensure that it is added to the build since if it isn't, it won't work.
+/// 
+/// Automatically loads bootstrap scene if not already loaded.
 /// </summary>
 [Serializable]
 public class SceneLoadRequester : MonoBehaviour

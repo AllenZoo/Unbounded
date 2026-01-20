@@ -1,28 +1,33 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SceneTeleporter : WorldInteractableObject
+public class SceneTeleporter : SerializedMonoBehaviour
 {
-    [SerializeField, Required] private InteractablePromptData sceneTeleporterPromptData;
+    [OdinSerialize, Required] private WorldInteractableObject trigger;
 
     [Tooltip("Conditions that must be true to allow teleporting.")]
     [SerializeField] private ConditionChecker conditionChecker;
 
-    [Tooltip("Event called when teleport conditions are met.")]
-    public UnityEvent OnTeleportRequest;
+    // Note:
+    //[Tooltip("Event called when teleport conditions are met.")]
+    //public UnityEvent OnTeleportRequest;
 
     [SerializeField] private bool teleportOnCollision = false;
+    [SerializeField] private SceneField targetScene;
 
     private void Awake()
     {
-        InteractablePromptData newPrompt = sceneTeleporterPromptData;
-        messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
+        trigger.OnInteract.AddListener(TeleportToScene);
     }
 
     public void TeleportToScene()
     {
-        OnTeleportRequest?.Invoke();
+        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest
+        {
+            targetScene = targetScene
+        });
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,15 +46,5 @@ public class SceneTeleporter : WorldInteractableObject
         {
             Debug.Log("Teleport blocked: Conditions not met.");
         }
-    }
-
-    public override void Interact()
-    {
-        OnTeleportRequest?.Invoke();
-    }
-
-    public override void UnInteract()
-    {
-
     }
 }

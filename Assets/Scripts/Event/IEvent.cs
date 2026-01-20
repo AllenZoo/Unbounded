@@ -49,6 +49,13 @@ public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
     public Commission commission;
 }
 
+public struct OnSceneTeleportRequest: IGlobalEvent
+{
+    // Requested by objects that want to teleport the player to another scene.
+    // e.g. SceneTeleporter.cs
+    public SceneField targetScene;
+}
+
 public struct OnSceneLoadRequest: IGlobalEvent
 {
     public List<SceneField> scenesToLoad;
