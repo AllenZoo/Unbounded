@@ -146,7 +146,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1789471847
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1999480564, guid: 72640c3f32e8baa4785bdf8fc50f0694, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -319,6 +319,8 @@ MonoBehaviour:
   shouldFadeIfInFront: 0
   objFader: {fileID: 0}
   objSprite: {fileID: 1547172783033353881}
+  alwaysUnder: 0
+  alwaysAbove: 0
   objFeet: {fileID: 8662444364820851421}
   oldSortingOrder: 0
 --- !u!1 &3225468431850876824
@@ -689,7 +691,7 @@ MonoBehaviour:
   spawnTransform: {fileID: 4456538979408597553}
   spawnList:
   - spawnOffset: {x: 0, y: -2, z: 0}
-    spawnPrefab: {fileID: 1479744093501242230, guid: 18a3c175774889a4f8440e533e5bccff, type: 3}
+    spawnPrefab: {fileID: 3511818401287674753, guid: 795e1d2569fc6a744bc869c020e62a6a, type: 3}
 --- !u!114 &1098211491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,12 +779,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
-  localEventHandler: {fileID: -3388595544745265729}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: attackSlots
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[AttackSlot, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  leh: {fileID: 0}
   TargetTypes: 00000000
   statComponent: {fileID: 4456538979408597558}
+  canAttack: 1
 --- !u!1 &5041681082339125450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,9 +1132,17 @@ PrefabInstance:
       value: RingAttack
       objectReference: {fileID: 0}
     - target: {fileID: 2558543789735039355, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
+      propertyPath: radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558543789735039355, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
       propertyPath: numAttacks
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2558543789735039355, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
+      propertyPath: attackerComp
+      value: 
+      objectReference: {fileID: 7449954481719588691}
     - target: {fileID: 2558543789735039355, guid: ed06b8f2835f32648bda9c17ff2f1ef1, type: 3}
       propertyPath: targetTypes.Array.size
       value: 1

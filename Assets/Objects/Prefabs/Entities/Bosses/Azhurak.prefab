@@ -182,7 +182,7 @@ MonoBehaviour:
   spawnTransform: {fileID: 1647315487062554886}
   spawnList:
   - spawnOffset: {x: 0, y: -2, z: 0}
-    spawnPrefab: {fileID: 1479744093501242230, guid: 18a3c175774889a4f8440e533e5bccff, type: 3}
+    spawnPrefab: {fileID: 3511818401287674753, guid: 795e1d2569fc6a744bc869c020e62a6a, type: 3}
 --- !u!114 &8377890676778570884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &270830963085448114
 Transform:
   m_ObjectHideFlags: 0
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63af1be979475144197f5abde27e22fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTypes: 00000000
+  attackerComp: {fileID: 5730656753172400174}
   attackObj: {fileID: 5066251419482662075, guid: c3d70c087a950a74ba88ac7e9b4ed7cb, type: 3}
   numAttacks: 5
   radius: 5

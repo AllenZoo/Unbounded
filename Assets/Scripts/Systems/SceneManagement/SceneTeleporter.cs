@@ -3,22 +3,29 @@ using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequiredComponents(typeof(WorldInteractableObject))]
 public class SceneTeleporter : SerializedMonoBehaviour
 {
-    [OdinSerialize, Required] private WorldInteractableObject trigger;
-
     [Tooltip("Conditions that must be true to allow teleporting.")]
     [SerializeField] private ConditionChecker conditionChecker;
 
-    // Note:
-    //[Tooltip("Event called when teleport conditions are met.")]
-    //public UnityEvent OnTeleportRequest;
 
     [SerializeField] private bool teleportOnCollision = false;
     [SerializeField] private SceneField targetScene;
 
+    // Can't odin serialize an abstract obejct on pfb, so using plain old hard coded GetComponent init instead.
+    private WorldInteractableObject trigger;
+
     private void Awake()
     {
+        trigger.GetComponent<WorldInteractableObject>();
+
+        if (trigger == null)
+        {
+            Debug.LogError("SceneTeleporter requires a WorldInteractableObject component.");
+            return;
+        }
+
         trigger.OnInteract.AddListener(TeleportToScene);
     }
 
