@@ -14,7 +14,7 @@ public class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBeha
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<T>();
+                instance = FindFirstObjectByType<T>();
 
                 if (instance == null)
                 {

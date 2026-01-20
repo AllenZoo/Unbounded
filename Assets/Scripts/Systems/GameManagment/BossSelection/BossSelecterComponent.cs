@@ -52,4 +52,11 @@ public class BossSelectorComponent : SerializedMonoBehaviour
         var result = GetNextBoss();
         Debug.Log($"Selected Boss: {(result != null ? result.bossName : "NULL")}");
     }
+
+    // Context menu for testing in editor
+    [Button, GUIColor(1, 0, 0)]
+    private void ClearSelection()
+    {
+        history.PreviousBosses.Clear();
+    }
 }

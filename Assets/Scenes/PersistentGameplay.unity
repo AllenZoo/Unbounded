@@ -368,6 +368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 280187692}
+  - component: {fileID: 280187693}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -390,6 +391,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 388771411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &280187693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280187691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 216496e0d8c9cee42a805aab471a24b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
 --- !u!1 &292727817
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,12 +562,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 280187692}
   - {fileID: 292727818}
   - {fileID: 225212998}
   - {fileID: 1363445785}
   - {fileID: 834575404}
   - {fileID: 227173406}
-  - {fileID: 280187692}
   - {fileID: 782292169}
   - {fileID: 505448072}
   - {fileID: 596964501}
@@ -1078,9 +1091,12 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: selectorStrategy
-      Entry: 6
+      Entry: 7
+      Data: 0|NoRepeatBossSelector, Assembly-CSharp
+    - Name: 
+      Entry: 8
       Data: 
-  bossPool: {fileID: 0}
+  bossPool: {fileID: 11400000, guid: 7a5f6dbe91bc6e14f862ca812174c7f4, type: 2}
 --- !u!4 &834575404
 Transform:
   m_ObjectHideFlags: 0
