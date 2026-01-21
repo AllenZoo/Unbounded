@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class EventBus<T>
@@ -22,11 +23,15 @@ public static class EventBus<T>
         if (Debug.isDebugBuild)
             Debug.Log($"[EventBus<{typeof(T)}>] Fired: {@event}. Listeners: {eventBindings.Count}");
 
-        foreach (var eventBinding in eventBindings)
+        // Snapshot to avoid modification during iteration
+        var snapshot = eventBindings.ToArray();
+
+        foreach (var eventBinding in snapshot)
         {
             eventBinding.OnEvent?.Invoke(@event);
             eventBinding.OnEventNoArgs?.Invoke();
         }
     }
-    
+
+
 }

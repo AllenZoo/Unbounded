@@ -1,28 +1,52 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SceneTeleporter : WorldInteractableObject
+public class SceneTeleporter : SerializedMonoBehaviour
 {
-    [SerializeField, Required] private InteractablePromptData sceneTeleporterPromptData;
-
     [Tooltip("Conditions that must be true to allow teleporting.")]
     [SerializeField] private ConditionChecker conditionChecker;
 
-    [Tooltip("Event called when teleport conditions are met.")]
-    public UnityEvent OnTeleportRequest;
 
     [SerializeField] private bool teleportOnCollision = false;
+    [Required, SerializeField] private SceneField targetScene;
+
+    // Can't odin serialize an abstract obejct on pfb, so using plain old hard coded GetComponent init instead.
+    // Note: Since MenuButton also uses this script, we allow for it to be null.
+    private WorldInteractableObject trigger;
 
     private void Awake()
     {
-        InteractablePromptData newPrompt = sceneTeleporterPromptData;
-        messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
+        TryGetComponent<WorldInteractableObject>(out var t);
+        trigger = t;
+    }
+
+    private void Start()
+    {
+        if (trigger == null)
+        {
+            Debug.LogWarning("SceneTeleporter requires a WorldInteractableObject component.");
+            return;
+        }
+
+        trigger.OnInteract.AddListener(TeleportToScene);
     }
 
     public void TeleportToScene()
     {
-        OnTeleportRequest?.Invoke();
+        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest
+        {
+            targetScene = targetScene
+        });
+    }
+
+    public void SetTargetScene(SceneField scene)
+    {
+        if (scene != null)
+        {
+            targetScene = scene; 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,15 +65,5 @@ public class SceneTeleporter : WorldInteractableObject
         {
             Debug.Log("Teleport blocked: Conditions not met.");
         }
-    }
-
-    public override void Interact()
-    {
-        OnTeleportRequest?.Invoke();
-    }
-
-    public override void UnInteract()
-    {
-
     }
 }

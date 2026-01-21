@@ -13,7 +13,7 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
     {
         if (initialized)
         {
-            Debug.LogError("Trying to initialize a context that has already been initialized");
+            Debug.LogWarning("Trying to initialize a context that has already been initialized");
             return;
         }
         initialized = true;

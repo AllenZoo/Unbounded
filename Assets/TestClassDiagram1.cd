@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AttackComponent" Collapsed="true">
+    <Position X="8.5" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAABAIAAAEAQgABAAABAQgAMABAADAAAAAABACAEA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\AttackComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackContext" Collapsed="true">
+    <Position X="5.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAACAAgAAAAAAAAAAAAAAIAAAEEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\AttackContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackData" Collapsed="true">
+    <Position X="22" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAKAigAgABEAAAAAAAAAECAJAECAAAAAAIAY=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\AttackData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackDataMigration" Collapsed="true">
+    <Position X="9.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\AttackData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackerComponent" Collapsed="true">
+    <Position X="13.5" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAMACQAEAAAAACAACSAwgAEAAAgEAAAAkAAAEE=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\AttackerComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackerData" Collapsed="true">
+    <Position X="19.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIACAAAAAACAgAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\AttackerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackerWrapper" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAACAAAAAAAIAAQAAIAEAABAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\AttackerWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AttackIndicator" Collapsed="true">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Core\AttackIndicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackIndicatorComponent" Collapsed="true">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Core\AttackIndicatorComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackIndicatorContext" Collapsed="true">
+    <Position X="6.5" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQCQAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Interface\AttackIndicatorContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackIndicatorData" Collapsed="true">
+    <Position X="24.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAEAAAAAAAAAAAAABAAAAAAAAABAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Core\AttackIndicatorData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackIndicatorSpawner" Collapsed="true">
+    <Position X="9.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\AttackIndicatorSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackModificationContext" Collapsed="true">
+    <Position X="11" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAIAAAQAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\AttackModificationContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackPool" Collapsed="true">
+    <Position X="6.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAIEA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\AttackPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackSlot" Collapsed="true">
+    <Position X="13.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEEAAAAABAAAAAAAAAAAAAAAAAACAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\AttackSlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackSpawner" Collapsed="true">
+    <Position X="9.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\AttackSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackSpawnInfo" Collapsed="true">
+    <Position X="11" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\AttackSpawnInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseAttack&lt;T&gt;" Collapsed="true">
+    <Position X="15" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABECAAAIAABAAAEAAAAAAQAAAAAAAAZA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\BaseAttack.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BaseAttacker&lt;T&gt;" Collapsed="true">
+    <Position X="16.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAIgAQAAIAEAABAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\BaseAttacker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BombAttack" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="25.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAABEAAAAIAABgAAEAAAAACQAAAAAAAAZA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\BombAttack.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BombAttackData" Collapsed="true">
+    <Position X="23" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAAAAAIAAAAAAAgCAAAABAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\BombAttackData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CageAttacker" Collapsed="true">
+    <Position X="15.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAQAABAAACAACAACAAAAAAAKBAQAAAAEAABAAEgIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\CageAttacker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CageAttackerData" Collapsed="true">
+    <Position X="21.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAQAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAIBAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\CageAttackerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CircleAttackIndicator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Core\CircleAttackIndicator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CircleAttackIndicatorData" Collapsed="true">
+    <Position X="24.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Core\CircleAttackIndicatorData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CircleAttackIndicatorInstance" Collapsed="true">
+    <Position X="25.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAACAAAAAAAEAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Core\CircleAttackIndicatorInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClusterAttack" Collapsed="true">
+    <Position X="15" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAABEAAAAAAABAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\ClusterAttack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClusterAttackData" Collapsed="true">
+    <Position X="21.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQABIAEAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\ClusterAttackData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyAttackAttackMove" Collapsed="true">
+    <Position X="12.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAQAAAAAIAABBAAAAAAACAAIAgAgAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Input\Enemy\Attack\EnemyAttackAttackMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyAttackRotatePatterns" Collapsed="true">
+    <Position X="10.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAYAEAAAggAIgZAAIACIAABAAAQAAAAiAAIFgAAACAE=</HashCode>
+      <FileName>Assets\Scripts\Components\Input\Enemy\Attack\EnemyAttackRotatePatterns.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyAttackSOBase" Collapsed="true">
+    <Position X="11.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEgAAAAIAQAAABAIAgBAAAAAAQACAAIAgAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Input\Enemy\Attack\EnemyAttackSOBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyAttackState" Collapsed="true">
+    <Position X="27.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAIAAAAAQAAAAAAAAAAIAAAACAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Input\Enemy\Attack\EnemyAttackState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemAttackContainerComponent" Collapsed="true">
+    <Position X="18.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAIgAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Item\Components\ItemAttackContainerComponent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MeteorAttacker" Collapsed="true">
+    <Position X="17.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQCACAACAAAAAAAIAAQAAAAEgABAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\MeteorAttacker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MeteorAttackerData" Collapsed="true">
+    <Position X="17" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\MeteorAttackerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectileAttack" Collapsed="true">
+    <Position X="25.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABECAAAIAABAAAEAAAABAQAAAAAAAAZA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\ProjectileAttack.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ProjectileAttacker" Collapsed="true">
+    <Position X="21.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAICAAAAAAAIAAQAAAAEAABAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\ProjectileAttacker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RingAttack" Collapsed="true">
+    <Position X="26.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAIAAQACCAAAAAAAAEAEAAAAAAgABEAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\RingAttack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpiralAttacker" Collapsed="true">
+    <Position X="19.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAgCAACIACAAAAAAAIAAQAAAAEAABAAAgIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\SpiralAttacker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpiralAttackerData" Collapsed="true">
+    <Position X="19.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAABAAAAAAAAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\SpiralAttackerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IAttack" Collapsed="true">
+    <Position X="16.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABEAAAAIAABAAAEAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\IAttack.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IAttacker" Collapsed="true">
+    <Position X="18.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAIAAAAAIAEAABAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attacker\IAttacker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IAttackIndicator" Collapsed="true">
+    <Position X="20.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack Indicator\Interface\IAttackIndicator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IAttackMovement" Collapsed="true">
+    <Position X="23.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Movement\IAttackMovement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IAttackNode" Collapsed="true">
+    <Position X="22" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Components\Combat\Attack Related\Attack\IAttackNode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

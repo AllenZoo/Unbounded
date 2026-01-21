@@ -19,8 +19,6 @@ using UnityEngine.Events;
 public class InteractablePrompter : WorldInteractableObject
 {
     [SerializeField, TextArea(5, 8)] private string displayMessage = "";
-    [SerializeField] private UnityEvent OnInteract;
-    [SerializeField] private UnityEvent OnUninteract;
 
     [Required, SerializeField]
     [Tooltip("Reference to page that will be toggled on and off by interacting with prompter. eg. ForgePage. If none, set to Empty Page.")]
