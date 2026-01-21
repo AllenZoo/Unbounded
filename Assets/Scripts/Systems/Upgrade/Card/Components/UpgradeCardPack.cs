@@ -11,12 +11,15 @@ public class UpgradeCardPack : CardPackBase<UpgradeCardData, OnDisplayUpgradeCar
     [Tooltip("Whether we disable the pack after player selects an option.")]
     [SerializeField] private bool disableAfterUse = true;
 
+
+    private EventBinding<OnUpgradeCardApplyEffect> oucaeBinding;
+
     protected void Start()
     {
         if (disableAfterUse)
         {
-            EventBinding<OnUpgradeCardApplyEffect> onUpgradeCardApplyEffectBinding = new EventBinding<OnUpgradeCardApplyEffect>(HandleApplyUpgradeCard);
-            EventBus<OnUpgradeCardApplyEffect>.Register(onUpgradeCardApplyEffectBinding);
+            oucaeBinding = new EventBinding<OnUpgradeCardApplyEffect>(HandleApplyUpgradeCard);
+            EventBus<OnUpgradeCardApplyEffect>.Register(oucaeBinding);
         }
     }
 
@@ -30,6 +33,15 @@ public class UpgradeCardPack : CardPackBase<UpgradeCardData, OnDisplayUpgradeCar
         if (disableAfterUse)
         {
             this.gameObject.SetActive(false);
+            //EventBus<OnUpgradeCardApplyEffect>.Unregister(oucaeBinding);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (oucaeBinding != null)
+        {
+            EventBus<OnUpgradeCardApplyEffect>.Unregister(oucaeBinding);
         }
     }
 }

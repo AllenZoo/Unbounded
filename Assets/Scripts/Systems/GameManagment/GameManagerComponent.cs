@@ -5,9 +5,25 @@ using static UnityEngine.Rendering.DebugManager;
 public class GameManagerComponent : Singleton<GameManagerComponent>
 {
     public GameState State { get; private set; }
-    //public RunData CurrentRun { get; private set; }
+    public RoomState RoomState { get; private set; }
 
-    public void StartNewRun(RunMode mode)
+    public int roundNumber = 0; // Number of bosses killed.
+
+    protected override void Awake()
+    {
+        base.Awake();
+        ChangeState(GameState.MainMenu);
+
+        EventBinding<OnSceneLoadRequestFinish> osclrfBinding = new EventBinding<OnSceneLoadRequestFinish>(Handle_OnSceneLoadRequestFinish);
+        EventBus<OnSceneLoadRequestFinish>.Register(osclrfBinding);
+    }
+
+    protected void Start()
+    {
+        Handle_OnSceneLoadRequestFinish();
+    }
+
+    public void StartNewRun()
     {
         //CurrentRun = new RunData
         //{
@@ -19,18 +35,8 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         ChangeState(GameState.WeaponTrial);
     }
 
-    //public void SelectWeapon(WeaponData weapon)
-    //{
-    //    CurrentRun.SelectedWeapon = weapon;
-    //    LoadFirstFloor();
-    //}
 
     public void OnPlayerDeath()
-    {
-        ChangeState(GameState.RunEnd);
-    }
-
-    public void OnFinalBossDefeated()
     {
         ChangeState(GameState.RunEnd);
     }
@@ -63,6 +69,57 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         }
     }
 
+    private void ChangeState(RoomState newRoomState)
+    {
+        RoomState = newRoomState;
+        switch (RoomState)
+        {
+            case RoomState.Menu:
+                break;
+            case RoomState.WeaponTrialRoom:
+                break;
+            case RoomState.HomeRoom:
+                HandleOnHomeRoomState();
+                break;
+            case RoomState.BossRoom:
+                break;
+        }
+    }
+
+    private void Handle_OnSceneLoadRequestFinish()
+    {
+        // Check room we are in. If in HomeRoom, get a random boss selection.
+        RoomState roomState = RoomStateCategorizer.Instance.GetRoomStateForActiveScene();
+        ChangeState(roomState);
+    }
+
+    /// <summary>
+    /// Helper called whenever we change RoomState to HoomRoom.
+    /// </summary>
+    private void HandleOnHomeRoomState()
+    {
+        ManageBossSelection();
+    }
+
+    private void HandleOnBossRoomState()
+    {
+
+    }
+
+    private void ManageBossSelection()
+    {
+        var entry = BossSelectorComponent.Instance.GetNextBoss();
+        BossPortalComponent.Instance.SetBossTeleportation(entry.bossScene);
+    }
+
+
+
+    // Context menu for testing in editor
+    [Button, GUIColor(1, 0, 1)]
+    private void HandleOnRoomState()
+    {
+        HandleOnHomeRoomState();
+    }
 }
 
 public enum GameState
@@ -70,12 +127,16 @@ public enum GameState
     MainMenu,
     WeaponTrial,
     InRun,
+    InHomeRoom,
     BossFight,
     RunEnd
 }
 
-public enum RunMode
+public enum RoomState
 {
-    Tutorial,
-    Normal
+    Null,
+    Menu,
+    WeaponTrialRoom,
+    HomeRoom, // Anchorpoint
+    BossRoom,
 }

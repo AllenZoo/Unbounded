@@ -369,6 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 280187692}
   - component: {fileID: 280187693}
+  - component: {fileID: 280187694}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -412,6 +413,180 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  roundNumber: 0
+--- !u!114 &280187694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280187691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf894c7c8f974947bbf3072344c020f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomStateCategorizer
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 102900000, guid: 49290f5e5dd99a14ebca1a48c6c32b44, type: 3}
+    - {fileID: 102900000, guid: 676d199adb41bef4db66dd8d076328dc, type: 3}
+    - {fileID: 102900000, guid: 0dcba01320f2a5d4eaeb2f39d192c8e7, type: 3}
+    - {fileID: 102900000, guid: e84169e91899f98458c1a3dc8f75d284, type: 3}
+    - {fileID: 102900000, guid: 5469d90789f7bcd4ba131984db34abce, type: 3}
+    - {fileID: 102900000, guid: 2bbd4b217e74afa49a16025ade0dafc3, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: sceneRoomStateMapping
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[SceneField, Assembly-CSharp],[RoomState,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[SceneField, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 2|SceneField, Assembly-CSharp
+    - Name: m_SceneAsset
+      Entry: 10
+      Data: 0
+    - Name: m_SceneName
+      Entry: 1
+      Data: Anchorpoint
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 3|SceneField, Assembly-CSharp
+    - Name: m_SceneAsset
+      Entry: 10
+      Data: 1
+    - Name: m_SceneName
+      Entry: 1
+      Data: Azhurak's Pyre
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 4|SceneField, Assembly-CSharp
+    - Name: m_SceneAsset
+      Entry: 10
+      Data: 2
+    - Name: m_SceneName
+      Entry: 1
+      Data: Deadwind Cove
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 5|SceneField, Assembly-CSharp
+    - Name: m_SceneAsset
+      Entry: 10
+      Data: 3
+    - Name: m_SceneName
+      Entry: 1
+      Data: Deepwood Hollow
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 6|SceneField, Assembly-CSharp
+    - Name: m_SceneAsset
+      Entry: 10
+      Data: 4
+    - Name: m_SceneName
+      Entry: 1
+      Data: MenuScene
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 7|SceneField, Assembly-CSharp
+    - Name: m_SceneAsset
+      Entry: 10
+      Data: 5
+    - Name: m_SceneName
+      Entry: 1
+      Data: Snowfall Cavern
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &292727817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,6 +1291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344afe1b5e9b96948bc12b383b478e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BootstrapLoaderComponent
+  scenesToLoad:
+  - m_SceneAsset: {fileID: 102900000, guid: 6981d3879ea636a449d399ba3780df01, type: 3}
+    m_SceneName: Bootstrap
   loadOnStart: 1
 --- !u!1 &834575402
 GameObject:
@@ -2334,8 +2512,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 804147536}
   - {fileID: 280187692}
+  - {fileID: 804147536}
   - {fileID: 292727818}
   - {fileID: 596964501}
   - {fileID: 834575404}

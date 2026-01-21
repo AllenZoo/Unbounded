@@ -1,7 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class BossSelectorComponent : SerializedMonoBehaviour
+public class BossSelectorComponent : Singleton<BossSelectorComponent>
 {
     [Title("Configuration")]
     [Required, SerializeField] private BossPoolData bossPool;
