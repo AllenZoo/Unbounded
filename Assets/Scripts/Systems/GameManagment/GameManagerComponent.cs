@@ -35,7 +35,6 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         ChangeState(GameState.WeaponTrial);
     }
 
-
     public void OnPlayerDeath()
     {
         ChangeState(GameState.RunEnd);
