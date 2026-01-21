@@ -7,7 +7,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
     public GameState State { get; private set; }
     public RoomState RoomState { get; private set; }
 
-    public int roundNumber = 0; // Number of bosses killed.
+    public int roundNumber = 1; // Round number, (start at 1)
 
     protected override void Awake()
     {
@@ -82,6 +82,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
                 HandleOnHomeRoomState();
                 break;
             case RoomState.BossRoom:
+                HandleOnBossRoomState();
                 break;
         }
     }
@@ -103,7 +104,8 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
     private void HandleOnBossRoomState()
     {
-
+        // Increment Round
+        roundNumber++;
     }
 
     private void ManageBossSelection()

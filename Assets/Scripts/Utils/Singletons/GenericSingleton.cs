@@ -32,14 +32,9 @@ public class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBeha
         if (instance == null)
         {
             instance = this as T;
-            
-            // TODO: temp since we will never have to destory gameobject
-            //DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (instance != this)
         {
-            // Teleport existing instance to this objects position
-            instance.transform.position = transform.position;
             Destroy(gameObject);
         }
     }
