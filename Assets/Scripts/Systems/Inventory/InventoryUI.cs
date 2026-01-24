@@ -55,6 +55,12 @@ public class InventoryUI : MonoBehaviour
 
     EventBinding<OnInventoryModifiedEvent> inventoryChangeBinding;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void Reset()
+    {
+        Debug.Log("[InventoryUI] Resetting static data.");
+    }
+
     private void Awake()
     {
         if (shouldGenerateSlots)
@@ -94,6 +100,7 @@ public class InventoryUI : MonoBehaviour
     // For when Inventory UI is closed and reopened.
     private void OnEnable()
     {
+        //EventBus<OnInventoryModifiedEvent>.Register(inventoryChangeBinding);
         Rerender();
     }
 
@@ -101,6 +108,7 @@ public class InventoryUI : MonoBehaviour
     {
         // Call event to hide item descriptor UI
         EventBus<ItemDescReqEvent>.Call(new ItemDescReqEvent { display = false, item = null });
+        //EventBus<OnInventoryModifiedEvent>.Unregister(inventoryChangeBinding);
     }
 
     private void OnDestroy()

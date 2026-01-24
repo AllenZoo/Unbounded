@@ -23,15 +23,11 @@ public class PageUIContext : ScriptableObject
         this.pageUI = pageUI;
     }
 
-    //TODO call this on editor play end.
+
     public void ResetContext()
     {
         initialized = false;
         pageUI = null;
     }
-
-    private void OnDisable()
-    {
-        ResetContext();
-    }
 }
+

@@ -64,9 +64,9 @@ public struct OnSceneLoadRequest: IGlobalEvent
     public bool showLoadingBar;
 }
 
-public struct OnSceneLoadRequestFinish: IGlobalEvent
+public struct OnSceneLoadRequestFinish : IGlobalEvent
 {
-
+    
 }
 
 public struct OnCameraBoundChangeRequest: IGlobalEvent
