@@ -14,7 +14,6 @@ public static class EventBus<T>
         EventBusRegistry.Register(eventBindings.Clear);
     }
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void Reset()
     {
         Debug.Log($"[EventBus<{typeof(T)}>] Resetting event bindings.");
