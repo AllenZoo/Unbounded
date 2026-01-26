@@ -9,6 +9,7 @@ public class ModalController : MonoBehaviour
     [Required, SerializeField] private ModalData initModalData;
     [Required, SerializeField] private UIDocument modalUIDocument;
     [Required, SerializeField] private ModalContext modalContext;
+    
 
     private VisualElement mainContainer;
 
@@ -44,11 +45,13 @@ public class ModalController : MonoBehaviour
 
     private void OnConfirmButtonClicked()
     {
+        modalContext.Payload.ModalAnswerPayload.Set(true);
         mainContainer.visible = false;
     }
 
     private void OnCancelButtonClicked()
     {
+        modalContext.Payload.ModalAnswerPayload.Set(false);
         mainContainer.visible = false;
     }
 

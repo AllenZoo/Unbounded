@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b54de75e316fe144aceacd0cd86d456, type: 3}
-  m_Name: DoYouLikeJuiceModal
-  m_EditorClassIdentifier: Assembly-CSharp::ModalData
-  ModalTitle: 
-  ModalContentImage: {fileID: 0}
-  ModalContentMessage: 
-  ModalAnswerPayload: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 8b1f88cf8093b0045a251701190b35b3, type: 3}
+  m_Name: WeaponChoiceLocked
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjectBoolean
+  value: 0
+  resetToDefault: 1
+  defaultValue: 0

@@ -25,9 +25,8 @@ public class InteractablePrompter : WorldInteractableObject
     [Tooltip("Reference to page that will be toggled on and off by interacting with prompter. eg. ForgePage. If none, set to Empty Page.")]
     private PageUIContext pageUIContext;
 
-    [OdinSerialize]
-    private List<UIContextTrigger> triggers;
-
+    [SerializeField, Tooltip("Commands to execute on interact/uninteract.")]
+    private List<UITriggerCommand> commands;
 
 
     private void Awake()
@@ -49,12 +48,9 @@ public class InteractablePrompter : WorldInteractableObject
             Debug.Log("Interacting with Prompter!");
         }
 
-        foreach (var trigger in triggers)
+        foreach (var command in commands)
         {
-            if (trigger.context is IPayloadedUIContext payloaded)
-                payloaded.Open(trigger.payload);
-            else
-                trigger.context.Open();
+            command.Execute();
         }
 
         pageUIContext.PageUI?.MoveToTopOrClose();
@@ -68,15 +64,13 @@ public class InteractablePrompter : WorldInteractableObject
         {
             Debug.Log("Uninteracting with Prompter!");
         }
-        
+
+        foreach (var command in commands)
+        {
+            command.Undo();
+        }
+
         pageUIContext.PageUI?.ClosePage();
         OnUninteract?.Invoke();
     }
-}
-
-[System.Serializable]
-public class UIContextTrigger
-{
-    public UIContext context;
-    public UIContextPayload payload;
 }

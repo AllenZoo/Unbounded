@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b54de75e316fe144aceacd0cd86d456, type: 3}
   m_Name: ConfirmWeaponModal
   m_EditorClassIdentifier: Assembly-CSharp::ModalData
-  modalTitle: 'Warning: Confirm your weapon choice'
-  modalContentImage: {fileID: 1439884375, guid: 9c4451317fd7e8641837cc846bb92362, type: 3}
-  modalContentMessage: You will not be able to reselect your weapon until the end
-    of the run. Please confirm your choice!
+  ModalTitle: 
+  ModalContentImage: {fileID: 0}
+  ModalContentMessage: 
+  ModalAnswerPayload: {fileID: 11400000, guid: df3ec32034b7bd1429ce236a437669c9, type: 2}
