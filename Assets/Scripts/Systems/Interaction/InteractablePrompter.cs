@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,11 @@ public class InteractablePrompter : WorldInteractableObject
     [Tooltip("Reference to page that will be toggled on and off by interacting with prompter. eg. ForgePage. If none, set to Empty Page.")]
     private PageUIContext pageUIContext;
 
+    [OdinSerialize]
+    private List<UIContextTrigger> triggers;
+
+
+
     private void Awake()
     {
         Assert.IsNotNull(pageUIContext);
@@ -43,6 +49,14 @@ public class InteractablePrompter : WorldInteractableObject
             Debug.Log("Interacting with Prompter!");
         }
 
+        foreach (var trigger in triggers)
+        {
+            if (trigger.context is IPayloadedUIContext payloaded)
+                payloaded.Open(trigger.payload);
+            else
+                trigger.context.Open();
+        }
+
         pageUIContext.PageUI?.MoveToTopOrClose();
         OnInteract?.Invoke();
     }
@@ -58,4 +72,11 @@ public class InteractablePrompter : WorldInteractableObject
         pageUIContext.PageUI?.ClosePage();
         OnUninteract?.Invoke();
     }
+}
+
+[System.Serializable]
+public class UIContextTrigger
+{
+    public UIContext context;
+    public UIContextPayload payload;
 }
