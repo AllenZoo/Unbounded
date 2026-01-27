@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7283293587702518660
 Transform:
   m_ObjectHideFlags: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8047265343096880189}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea75d8b98ec44dc4da9a61b9d069d03a, type: 3}
   m_Name: 
@@ -60,11 +60,12 @@ MonoBehaviour:
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
-  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   priority: 6
   requiredKeyPress: 0
+  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   displayMessage: To use the portal make sure you have selected a weapon!
   pageUIContext: {fileID: 11400000, guid: 0d66fb31515c57741856337dadc02224, type: 2}
+  commands: []
 --- !u!61 &1573462731
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -72,7 +73,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8047265343096880189}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -150,6 +151,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8713606998269308910
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -195,6 +197,7 @@ SpriteRenderer:
   m_SortingLayerID: 1789471847
   m_SortingLayer: 3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 1886598306, guid: f3aa3fc2cde7bba46815c21329764ee0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -204,7 +207,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8713606998269308908
 MonoBehaviour:
@@ -221,21 +223,18 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 1655149487620900760}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: trigger
-      Entry: 10
-      Data: 0
+    SerializationNodes: []
   conditionChecker: {fileID: 1563060625}
-  teleportOnCollision: 0
   targetScene:
     m_SceneAsset: {fileID: 0}
     m_SceneName: 
+  modalContext: {fileID: 0}
+  teleportModalData: {fileID: 0}
 --- !u!61 &8713606998269308883
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -363,8 +362,9 @@ MonoBehaviour:
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
-  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   priority: 5
   requiredKeyPress: 102
+  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   displayMessage: Press F to use portal!
   pageUIContext: {fileID: 11400000, guid: 0d66fb31515c57741856337dadc02224, type: 2}
+  commands: []

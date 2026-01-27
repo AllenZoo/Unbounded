@@ -7,5 +7,7 @@ public class ModalData : ScriptableObject
 {
     public string ModalTitle;
     public Sprite ModalContentImage;
+
+    [TextArea(3, 8)]
     public string ModalContentMessage;
 }

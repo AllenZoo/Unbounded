@@ -1,29 +1,29 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/styles.uss?fileID=7433441132597879392&amp;guid=409203cd12e27f34d9619ba7a1c3fd7a&amp;type=3#styles" />
-    <ui:VisualElement name="Centerer" data-source="project://database/Assets/UI%20Toolkit/Data/ConfirmWeaponModal.asset?fileID=11400000&amp;guid=0d0e6097678b40d4093d9aa430bf3228&amp;type=2#ConfirmWeaponModal" style="flex-grow: 1; justify-content: center; align-items: flex-start; align-self: center; align-content: center; flex-direction: column; max-width: 100%;">
+    <Style src="project://database/Assets/UI%20Toolkit/styles.uss?fileID=7433441132597879392&amp;guid=409203cd12e27f34d9619ba7a1c3fd7a&amp;type=3#styles"/>
+    <ui:VisualElement name="Centerer" data-source="project://database/Assets/UI%20Toolkit/Data/Modal/ConfirmWeaponModal.asset?fileID=11400000&amp;guid=0d0e6097678b40d4093d9aa430bf3228&amp;type=2#ConfirmWeaponModal" style="flex-grow: 1; justify-content: center; align-items: flex-start; align-self: center; align-content: center; flex-direction: column; max-width: 100%;">
         <ui:VisualElement name="ModalContainer" class="modal-container" style="flex-grow: 0; top: auto; left: auto; width: 946px; height: 778px; opacity: 1; align-self: auto; justify-content: center; align-items: center; min-width: initial; min-height: initial; background-color: rgb(83, 137, 135); -unity-background-scale-mode: stretch-to-fill; border-left-color: rgb(210, 255, 102); border-right-color: rgb(210, 255, 102); border-top-color: rgb(210, 255, 102); border-bottom-color: rgb(210, 255, 102); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; position: relative; flex-direction: column; flex-wrap: nowrap; padding-bottom: 2px; padding-left: 2px; padding-right: 2px; padding-top: 2px; bottom: auto; right: auto; align-content: auto;">
             <ui:VisualElement name="Header" style="flex-grow: 0.5; align-items: center; justify-content: center; font-size: 14px; -unity-background-scale-mode: scale-to-fit;">
                 <ui:Label text="Confirm your weapon" name="Title" style="height: auto; width: auto; justify-content: center; align-items: center; align-self: center; align-content: center; position: relative; -unity-text-align: middle-center; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); top: auto; left: auto; font-size: 63px; -unity-background-scale-mode: scale-to-fit; white-space: normal;">
                     <Bindings>
-                        <ui:DataBinding property="text" data-source-path="modalTitle" binding-mode="ToTarget" />
+                        <ui:DataBinding property="text" data-source-path="ModalTitle" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:Label>
             </ui:VisualElement>
             <ui:VisualElement name="Content" style="flex-grow: 1; margin-top: 10px; margin-bottom: 10px; justify-content: center; align-items: center;">
                 <ui:VisualElement name="ContentImage" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Graphics/Items/Fire/fire_items_v1.png?fileID=1439884375&amp;guid=9c4451317fd7e8641837cc846bb92362&amp;type=3#fire_items_v1_7&quot;); background-color: rgba(255, 255, 255, 0); -unity-background-scale-mode: scale-to-fit; width: 255px; height: 81px; padding-bottom: 4px; padding-top: 4px;">
                     <Bindings>
-                        <ui:DataBinding property="style.backgroundImage" data-source-path="modalContentImage" binding-mode="ToTarget" />
+                        <ui:DataBinding property="style.backgroundImage" data-source-path="ModalContentImage" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:VisualElement>
                 <ui:Label text="You will not be able to reselect your weapon until the end of the run.... lorem ipsum aohoy kidahur anbburb ai agrbw" name="ContentText" style="white-space: pre-wrap; margin-left: 13px; margin-right: 13px; -unity-text-align: middle-center; font-size: 38px; margin-top: 15px;">
                     <Bindings>
-                        <ui:DataBinding property="text" data-source-path="modalContentMessage" binding-mode="ToTarget" />
+                        <ui:DataBinding property="text" data-source-path="ModalContentMessage" binding-mode="ToTarget"/>
                     </Bindings>
                 </ui:Label>
             </ui:VisualElement>
             <ui:VisualElement name="Footer" style="flex-grow: 0.5; flex-direction: row; align-self: center; align-items: center;">
-                <ui:Button text="Confirm" name="ConfirmButton" focusable="false" style="height: 98px; width: 248px; background-color: rgb(198, 243, 171); border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; font-size: 35px; -unity-background-scale-mode: stretch-to-fill; margin-right: 26px;" />
-                <ui:Button text="Cancel" name="CancelButton" focusable="false" style="height: 98px; width: 248px; background-color: rgb(255, 198, 162); -unity-font-style: normal; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; font-size: 35px;" />
+                <ui:Button text="Confirm" name="ConfirmButton" focusable="false" style="height: 98px; width: 248px; background-color: rgb(198, 243, 171); border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; font-size: 35px; -unity-background-scale-mode: stretch-to-fill; margin-right: 26px;"/>
+                <ui:Button text="Cancel" name="CancelButton" focusable="false" style="height: 98px; width: 248px; background-color: rgb(255, 198, 162); -unity-font-style: normal; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; font-size: 35px;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
