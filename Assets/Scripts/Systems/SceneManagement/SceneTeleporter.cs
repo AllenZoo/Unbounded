@@ -8,13 +8,14 @@ public class SceneTeleporter : SerializedMonoBehaviour
     [Tooltip("Conditions that must be true to allow teleporting.")]
     [SerializeField] private ConditionChecker conditionChecker;
 
-
-    [SerializeField] private bool teleportOnCollision = false;
     [Required, SerializeField] private SceneField targetScene;
+    [Optional, SerializeField] private ModalContext modalContext;
+    [Optional, SerializeField] private ModalData teleportModalData;
 
     // Can't odin serialize an abstract obejct on pfb, so using plain old hard coded GetComponent init instead.
     // Note: Since MenuButton also uses this script, we allow for it to be null.
     private WorldInteractableObject trigger;
+
 
     private void Awake()
     {
@@ -30,40 +31,35 @@ public class SceneTeleporter : SerializedMonoBehaviour
             return;
         }
 
-        trigger.OnInteract.AddListener(TeleportToScene);
-    }
-
-    public void TeleportToScene()
-    {
-        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest
-        {
-            targetScene = targetScene
-        });
+        trigger.OnInteract.AddListener(OnInteract);
     }
 
     public void SetTargetScene(SceneField scene)
     {
         if (scene != null)
         {
-            targetScene = scene; 
+            targetScene = scene;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <summary>
+    /// Triggers intent to teleport to the target scene.
+    /// 
+    /// Opens modal if specified.
+    /// </summary>
+    private void OnInteract()
     {
-        if (!collision.CompareTag("Player")) return;
+        var intent = new TeleportInteractionIntent(targetScene);
+        conditionChecker.ValidateConditions();
 
-        // Check conditions before teleporting
-        if (conditionChecker == null || conditionChecker.ValidateConditions())
+        if (modalContext != null && teleportModalData != null)
         {
-            if (teleportOnCollision)
-            {
-                TeleportToScene();
-            }
+            modalContext.Open(teleportModalData, intent);
         }
         else
         {
-            Debug.Log("Teleport blocked: Conditions not met.");
+            intent.Commit();
         }
+
     }
 }
