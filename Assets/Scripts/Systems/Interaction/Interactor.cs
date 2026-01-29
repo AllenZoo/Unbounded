@@ -33,7 +33,13 @@ public class Interactor : MonoBehaviour
         interactables.Add(interactable);
         SortListByPriority();
         activeInteractable = GetNextActiveInteractable();
-        activeInteractable.DisplayPrompt();
+        //activeInteractable.CanInteract(out var failureMessage);
+        //activeInteractable.DisplayPrompt();
+
+        if (!activeInteractable.CanInteract(out var failureMessage))
+        {
+            activeInteractable.DisplayPrompt(failureMessage);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

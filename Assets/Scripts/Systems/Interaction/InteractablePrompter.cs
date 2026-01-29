@@ -38,14 +38,51 @@ public class InteractablePrompter : WorldInteractableObject
         messageDisplayBehaviour = new MessageDisplay(soPromptData, newPrompt);
     }
 
+    protected virtual void OnEnable()
+    {
+        foreach (var precondition in preconditions)
+        {
+            if (precondition is BooleanPreconditionData boolCondition)
+            {
+                boolCondition.Condition.OnValueChanged += RefreshPrompt;
+            }
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        foreach (var precondition in preconditions)
+        {
+            if (precondition is BooleanPreconditionData boolCondition)
+            {
+                boolCondition.Condition.OnValueChanged -= RefreshPrompt;
+            }
+        }
+    }
+
+    public override bool CanInteract(out string failureMessage)
+    {
+        bool res = base.CanInteract(out failureMessage);
+
+        if (res)
+        {
+            // Conditions met, reset display message to normal.
+            failureMessage = displayMessage;
+        }
+
+        return res;
+    }
     public override void Interact()
     {
-        // Interact triggers when Interactor and Key Press conditions pass.
-
-        // Note: if interaction doesn't do anything, check that the relevant PageUI references the same PageUIContext SO on this object!
-        if (Debug.isDebugBuild)
+        // Redundent Check, but just in case. (We already check in Interactor.cs OnTriggerEnter2D)
+        if (!CanInteract(out string failureMessage))
         {
-            Debug.Log("Interacting with Prompter!");
+            
+            DisplayPrompt(failureMessage);
+            return;
+        } else
+        {
+            DisplayPrompt(displayMessage);
         }
 
         foreach (var command in commands)
@@ -56,7 +93,6 @@ public class InteractablePrompter : WorldInteractableObject
         pageUIContext.PageUI?.MoveToTopOrClose();
         OnInteract?.Invoke();
     }
-
     public override void UnInteract()
     {
         // UnInteract should only be triggered when Interactor leaves Interactable collider.
@@ -73,4 +109,17 @@ public class InteractablePrompter : WorldInteractableObject
         pageUIContext.PageUI?.ClosePage();
         OnUninteract?.Invoke();
     }
+
+    private void RefreshPrompt()
+    {
+        if (CanInteract(out string failureMessage))
+        {
+            DisplayPrompt(displayMessage);
+        }
+        else
+        {
+            DisplayPrompt(failureMessage);
+        }
+    }
+
 }

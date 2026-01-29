@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Scriptable Object Variables/Boolean")]
-public class ScriptableObjectBoolean : ScriptableObject
+public partial class ScriptableObjectBoolean : ScriptableObject
 {
     [SerializeField] private bool value;
 
@@ -50,3 +50,19 @@ public class ScriptableObjectBoolean : ScriptableObject
     }
 
 }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+partial class ScriptableObjectBoolean
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void ResetAllBooleans()
+    {
+        var all = Resources.FindObjectsOfTypeAll<ScriptableObjectBoolean>();
+
+        foreach (var boolean in all)
+        {
+            boolean.ResetValue();
+        }
+    }
+}
+#endif

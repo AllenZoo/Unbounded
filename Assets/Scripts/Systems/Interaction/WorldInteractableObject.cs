@@ -14,6 +14,10 @@ public abstract class WorldInteractableObject : SerializedMonoBehaviour, IIntera
     [FoldoutGroup("Events")]
     public UnityEvent OnUninteract;
 
+    [SerializeField]
+    protected List<InteractionPreconditionData> preconditions;
+
+
 
     // Priority
     public float Priority
@@ -36,8 +40,30 @@ public abstract class WorldInteractableObject : SerializedMonoBehaviour, IIntera
 
     protected IInteractionMessageDisplayBehaviour messageDisplayBehaviour = new NoMessageDisplay();
 
+    /// <summary>
+    /// Checks for conditions before interaction. If any condition fails, returns false and outputs failure message.
+    /// </summary>
+    /// <param name="failureMessage"></param>
+    /// <returns></returns>
+    public virtual bool CanInteract(out string failureMessage)
+    {
+        foreach (var condition in preconditions)
+        {
+            if (!condition.IsMet())
+            {
+                failureMessage = condition.FailureMessage;
+                return false;
+            }
+        }
+
+        failureMessage = null;
+        return true;
+    }
     public abstract void Interact();
     public abstract void UnInteract();
+
+    
+
 
     /// <summary>
     /// Displays Prompt via filling the shared scriptable object with data.
@@ -47,6 +73,11 @@ public abstract class WorldInteractableObject : SerializedMonoBehaviour, IIntera
     public void DisplayPrompt()
     {
         messageDisplayBehaviour.DisplayPrompt();
+    }
+
+    public void DisplayPrompt(string prompt) { 
+        messageDisplayBehaviour = new MessageDisplay(soPromptData, new InteractablePromptData(prompt, true));
+        DisplayPrompt();
     }
 
     public void HidePrompt()

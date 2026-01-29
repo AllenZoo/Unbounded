@@ -13,13 +13,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1563060625, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
     - target: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: preconditions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+    - target: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: 'preconditions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b1a0f92b47c57b4b84f855bb7f0c519, type: 2}
     - target: {fileID: 4528981082699553761, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4528981082699553761, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: modalContext
+      value: 
+      objectReference: {fileID: 11400000, guid: c633ea0190cab2348886fbff14a8e2f0, type: 2}
+    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: teleportModalData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d0e6097678b40d4093d9aa430bf3228, type: 2}
     - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: targetScene.m_SceneName
       value: Anchorpoint
@@ -58,11 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 6820924766645253110}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.16054
+      value: -1.9
       objectReference: {fileID: 0}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.9479
+      value: 1.56
       objectReference: {fileID: 0}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_LocalPosition.z
