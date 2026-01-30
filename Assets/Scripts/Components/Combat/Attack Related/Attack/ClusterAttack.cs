@@ -73,6 +73,8 @@ public class ClusterAttack : BaseAttack<ClusterAttackData>
                 AttackerComponent = originalContext.AttackerComponent,
                 AttackerTransform = ac.transform,
                 AttackSpawnInfo = originalContext.AttackSpawnInfo,
+                AtkStat = originalContext.AtkStat,
+                PercentageDamageIncrease = originalContext.PercentageDamageIncrease,
             };
 
             // Get components from the sub-attack prefab
