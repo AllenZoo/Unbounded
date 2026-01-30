@@ -9,17 +9,41 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1563060625, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: conditions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1563060625, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 1563060625, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
     - target: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: preconditions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+    - target: {fileID: 1655149487620900760, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: 'preconditions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b1a0f92b47c57b4b84f855bb7f0c519, type: 2}
     - target: {fileID: 4528981082699553761, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4528981082699553761, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: modalContext
+      value: 
+      objectReference: {fileID: 11400000, guid: c633ea0190cab2348886fbff14a8e2f0, type: 2}
+    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: teleportModalData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d0e6097678b40d4093d9aa430bf3228, type: 2}
+    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: modalDisplayCondition
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ffd7fb9cbb0d9c49b336cb7d5158ca5, type: 2}
     - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: targetScene.m_SceneName
       value: Deadwind Cove
@@ -32,13 +56,17 @@ PrefabInstance:
       propertyPath: targetScene.m_SceneAsset
       value: 
       objectReference: {fileID: 102900000, guid: 0dcba01320f2a5d4eaeb2f39d192c8e7, type: 3}
+    - target: {fileID: 8713606998269308908, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: varToSetTrueOnYesAnswerModal
+      value: 
+      objectReference: {fileID: 11400000, guid: df3ec32034b7bd1429ce236a437669c9, type: 2}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.16
       objectReference: {fileID: 0}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 8713606998269308909, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_LocalPosition.z
@@ -72,6 +100,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8713606998269308910, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2096289195, guid: f3aa3fc2cde7bba46815c21329764ee0, type: 3}
     - target: {fileID: 8713606998269308911, guid: a40cd22ec1ef0d84f9dc9532d3baa291, type: 3}
       propertyPath: m_Name
       value: Portal (Roger)

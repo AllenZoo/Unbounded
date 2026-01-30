@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(StateComponent))]
 public class PlayerInput : InputController
 {
-    [SerializeField] public bool InputEnabled { get; set; } = true;
+    public bool InputEnabled { get; set; } = true;
 
     private void Awake()
     {

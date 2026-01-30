@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,13 +9,19 @@ public class SceneTeleporter : SerializedMonoBehaviour
     [Tooltip("Conditions that must be true to allow teleporting.")]
     [SerializeField] private ConditionChecker conditionChecker;
 
-
-    [SerializeField] private bool teleportOnCollision = false;
     [Required, SerializeField] private SceneField targetScene;
+
+    [Optional, SerializeField] private ScriptableObjectBoolean varToSetTrueOnYesAnswerModal; // Super ugly but works for now :)
+
+    [Tooltip("Modal will display if this condition is TRUE.")]
+    [Optional, SerializeField] private BooleanPreconditionData modalDisplayCondition;
+    [Optional, SerializeField] private ModalContext modalContext;
+    [Optional, SerializeField] private ModalData teleportModalData;
 
     // Can't odin serialize an abstract obejct on pfb, so using plain old hard coded GetComponent init instead.
     // Note: Since MenuButton also uses this script, we allow for it to be null.
     private WorldInteractableObject trigger;
+
 
     private void Awake()
     {
@@ -30,40 +37,57 @@ public class SceneTeleporter : SerializedMonoBehaviour
             return;
         }
 
-        trigger.OnInteract.AddListener(TeleportToScene);
-    }
-
-    public void TeleportToScene()
-    {
-        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest
-        {
-            targetScene = targetScene
-        });
+        trigger.OnInteract.AddListener(OnInteract);
     }
 
     public void SetTargetScene(SceneField scene)
     {
         if (scene != null)
         {
-            targetScene = scene; 
+            targetScene = scene;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <summary>
+    /// Entrypoint for invoking via inspector.
+    /// </summary>
+    public void Teleport()
     {
-        if (!collision.CompareTag("Player")) return;
+        OnInteract();
+    }
 
-        // Check conditions before teleporting
-        if (conditionChecker == null || conditionChecker.ValidateConditions())
+    /// <summary>
+    /// Triggers intent to teleport to the target scene.
+    /// 
+    /// Opens modal if specified.
+    /// </summary>
+    private void OnInteract()
+    {
+        //if (trigger != null && !trigger.CanInteract(out _))
+        //    return;
+
+        // TODO: check when this function is called from flow.
+        var teleportIntent = new TeleportInteractionIntent(targetScene);
+        var setBoolIntent = new SetBooleanVariableIntent(varToSetTrueOnYesAnswerModal, true);
+
+        conditionChecker?.ValidateConditions();
+
+        if (modalContext != null && teleportModalData != null)
         {
-            if (teleportOnCollision)
+            if (modalDisplayCondition != null && !modalDisplayCondition.IsMet())
             {
-                TeleportToScene();
+                teleportIntent.Commit();
+                //setBoolIntent.Commit();
+                return;
             }
+
+            var intentList = new List<ICommittableInteraction>() { teleportIntent, setBoolIntent };
+            modalContext.Open(teleportModalData, intentList);
         }
         else
         {
-            Debug.Log("Teleport blocked: Conditions not met.");
+            teleportIntent.Commit();
+            //setBoolIntent.Commit();
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IInteractableObject
 {
+    bool CanInteract(out string failureMessage);
     void Interact();
     void UnInteract();
     void DisplayPrompt();

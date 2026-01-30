@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ModalContainer" src="project://database/Assets/UI%20Toolkit/ModalContainer.uxml?fileID=9197481963319205126&amp;guid=996e3b951ec1e41409a3ae497ec5a5aa&amp;type=3#ModalContainer" />
+    <Style src="project://database/Assets/UI%20Toolkit/styles.uss?fileID=7433441132597879392&amp;guid=409203cd12e27f34d9619ba7a1c3fd7a&amp;type=3#styles" />
+    <ui:VisualElement name="Background_Dampaener" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.45);">
+        <ui:Instance template="ModalContainer" name="ModalContainer" />
+    </ui:VisualElement>
+</ui:UXML>

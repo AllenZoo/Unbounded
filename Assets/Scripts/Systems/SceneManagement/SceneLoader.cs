@@ -55,7 +55,7 @@ public class SceneLoader : MonoBehaviour
         EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = true });
         yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
         yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
-        EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish());
+        EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish() { finishedActiveScene = e.activeSceneToSet});
         yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
         EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = false });
         HideLoadingScreen();
@@ -124,6 +124,12 @@ public class SceneLoader : MonoBehaviour
         // Start all scene unloading operations
         foreach (var scene in scenesToUnload)
         {
+            if (scene.SceneName == "PersistentGameplay")
+            {
+                Debug.LogError("BIG NONO: Tried to disable persistent gameplay! Make sure you have the correct scene set as active");
+                continue;
+            }
+
             // Check if there is a scene to unload.
             if (SceneManager.GetSceneByName(scene).IsValid())
             {

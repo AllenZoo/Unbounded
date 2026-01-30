@@ -60,11 +60,13 @@ MonoBehaviour:
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
+  preconditions: []
   priority: 6
   requiredKeyPress: 0
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   displayMessage: To use the portal make sure you have selected a weapon!
   pageUIContext: {fileID: 11400000, guid: 0d66fb31515c57741856337dadc02224, type: 2}
+  commands: []
 --- !u!61 &4352166202649696734
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -151,6 +153,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3359076413857744416
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -196,7 +199,8 @@ SpriteRenderer:
   m_SortingLayerID: 1789471847
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1886598306, guid: f3aa3fc2cde7bba46815c21329764ee0, type: 3}
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -894352431, guid: f3aa3fc2cde7bba46815c21329764ee0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -205,7 +209,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4114885130167394275
 MonoBehaviour:
@@ -229,10 +232,13 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   conditionChecker: {fileID: 6767141773833109199}
-  teleportOnCollision: 0
   targetScene:
     m_SceneAsset: {fileID: 102900000, guid: 676d199adb41bef4db66dd8d076328dc, type: 3}
     m_SceneName: Azhurak's Pyre
+  varToSetTrueOnYesAnswerModal: {fileID: 11400000, guid: df3ec32034b7bd1429ce236a437669c9, type: 2}
+  modalDisplayCondition: {fileID: 11400000, guid: 5ffd7fb9cbb0d9c49b336cb7d5158ca5, type: 2}
+  modalContext: {fileID: 11400000, guid: c633ea0190cab2348886fbff14a8e2f0, type: 2}
+  teleportModalData: {fileID: 11400000, guid: 0d0e6097678b40d4093d9aa430bf3228, type: 2}
 --- !u!61 &3154332813365506277
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -360,11 +366,13 @@ MonoBehaviour:
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
+  preconditions: []
   priority: 5
   requiredKeyPress: 102
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
   displayMessage: Press F to use portal!
   pageUIContext: {fileID: 11400000, guid: 0d66fb31515c57741856337dadc02224, type: 2}
+  commands: []
 --- !u!114 &4733566354565492346
 MonoBehaviour:
   m_ObjectHideFlags: 0

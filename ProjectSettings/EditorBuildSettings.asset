@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Release/MenuScene.unity
-    guid: 5469d90789f7bcd4ba131984db34abce
+    path: Assets/Scenes/Release/Armoury.unity
+    guid: 66793af297ebded439365d850d137618
   - enabled: 1
     path: Assets/Scenes/Old/Tutorial.unity
     guid: 6090d88866f31ac4dbff95e0889d5eaf
@@ -38,5 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Release/Azhurak's Pyre.unity
     guid: 676d199adb41bef4db66dd8d076328dc
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/Release/MenuScene.unity
+    guid: 5469d90789f7bcd4ba131984db34abce
+  m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
   m_UseUCBPForAssetBundles: 0

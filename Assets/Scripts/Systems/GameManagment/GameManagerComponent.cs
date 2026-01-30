@@ -89,6 +89,12 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
     private void Handle_OnSceneLoadRequestFinish()
     {
         // Check room we are in. If in HomeRoom, get a random boss selection.
+        if (RoomStateCategorizer.Instance == null)
+        {
+            Debug.LogError("RoomStateCategorizer Instance is null!");
+            return;
+        }
+
         RoomState roomState = RoomStateCategorizer.Instance.GetRoomStateForActiveScene();
         ChangeState(roomState);
     }

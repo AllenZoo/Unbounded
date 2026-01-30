@@ -290,6 +290,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!483693784 &49988899
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -335,6 +336,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -342,7 +344,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &49988900
 Tilemap:
   m_ObjectHideFlags: 0
@@ -2019,13 +2020,25 @@ PrefabInstance:
       value: ArmourStand Highlightable
       objectReference: {fileID: 0}
     - target: {fileID: 1674877522906041257, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      propertyPath: commands.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674877522906041257, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 1674877522906041257, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989933454934212343, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      propertyPath: commands.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989933454934212343, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      propertyPath: 'commands.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 22be4d969a0bc104aa8699b6d2a9c9da, type: 2}
     - target: {fileID: 4989933454934212343, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 4989933454934212343, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 7413152258113576321, guid: 26e6fc5507e02e64395944ca4accee62, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -2267,6 +2280,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &785927493
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2312,6 +2326,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -2319,7 +2334,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &785927494
 Tilemap:
   m_ObjectHideFlags: 0
@@ -2706,6 +2720,7 @@ TilemapCollider2D:
   m_UseDelaunayMesh: 0
 --- !u!483693784 &1241893182
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2751,6 +2766,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -2758,7 +2774,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &1241893183
 Tilemap:
   m_ObjectHideFlags: 0
@@ -4165,67 +4180,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1477796427
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1477796430}
-  - component: {fileID: 1477796431}
-  m_Layer: 0
-  m_Name: TutorialObjectiveRequester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1477796430
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477796427}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1477796431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1477796427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeda5c1eae682f548af8eb3e56385ba9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: globalEvent
-      Entry: 7
-      Data: 0|OnTutorialObjectiveRequest, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-  invokeOnLoad: 1
-  invokeDelay: 1
 --- !u!1001 &1590697192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4828,6 +4782,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!483693784 &1925556928
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4873,6 +4828,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 1
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -4880,7 +4836,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &1925556929
 Tilemap:
   m_ObjectHideFlags: 0
@@ -5676,6 +5631,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &1930517685
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5721,6 +5677,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -5728,7 +5685,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &1930517686
 Tilemap:
   m_ObjectHideFlags: 0
@@ -11208,14 +11164,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1626647044625867967, guid: 616f5333106083f4d91f189e579e136a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4114885130167394275, guid: 616f5333106083f4d91f189e579e136a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4114885130167394275, guid: 616f5333106083f4d91f189e579e136a, type: 3}
+    - target: {fileID: 4352166202649696734, guid: 616f5333106083f4d91f189e579e136a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4733566354565492346, guid: 616f5333106083f4d91f189e579e136a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4733566354565492346, guid: 616f5333106083f4d91f189e579e136a, type: 3}
+    - target: {fileID: 5890433036835306487, guid: 616f5333106083f4d91f189e579e136a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5890433036835306487, guid: 616f5333106083f4d91f189e579e136a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -11289,4 +11257,3 @@ SceneRoots:
   - {fileID: 1626735041}
   - {fileID: 8280419875854494236}
   - {fileID: 105893185}
-  - {fileID: 1477796430}

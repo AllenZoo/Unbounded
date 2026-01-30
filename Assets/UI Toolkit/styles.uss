@@ -1,0 +1,35 @@
+:root {
+}
+
+.unity-button {
+    opacity: 0.8;
+    transition-property: scale, opacity;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-in-out, ease-in-out;
+}
+
+.unity-text-element {
+}
+
+.modal-container {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.unity-button:hover {
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    scale: 1.1 1.1;
+    background-color: rgb(90, 125, 248);
+    opacity: 1;
+    -unity-font-style: normal;
+}
+
+.unity-button:active {
+    background-color: rgb(229, 185, 89);
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.unity-button:focus {
+}

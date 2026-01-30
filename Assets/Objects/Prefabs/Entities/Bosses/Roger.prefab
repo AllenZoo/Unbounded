@@ -75,12 +75,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb3b3ca879f52745a3979529b39426f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacker:
-    attackerData: {fileID: 0}
-    attackData: {fileID: 0}
-  localEventHandler: {fileID: 551598601173631618}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: attackSlots
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[AttackSlot, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  leh: {fileID: 0}
   TargetTypes: 00000000
   statComponent: {fileID: 7675867524841792779}
+  canAttack: 1
 --- !u!1 &2346725273626351608
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +488,8 @@ MonoBehaviour:
   shouldFadeIfInFront: 0
   objFader: {fileID: 0}
   objSprite: {fileID: 4766584381322637732}
+  alwaysUnder: 0
+  alwaysAbove: 0
   objFeet: {fileID: 3416482856212962784}
   oldSortingOrder: 0
 --- !u!1 &4766584381322637754
@@ -551,7 +572,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1789471847
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1772827320, guid: 602ddf47aa173cc4e940a205c1a31405, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -618,6 +639,7 @@ MonoBehaviour:
   shaderBank: {fileID: 11400000, guid: c0fa9c82ac275f947a466b358b28dfbe, type: 2}
   leh: {fileID: 551598601173631618}
   sr: {fileID: 4766584381322637732}
+  onDeathSfx: 0
   DelayTime: 0
 --- !u!1 &6104322146501104156
 GameObject:
@@ -701,6 +723,8 @@ GameObject:
   - component: {fileID: 551598601173631618}
   - component: {fileID: 649064099983020950}
   - component: {fileID: 5379839545947120568}
+  - component: {fileID: 2857095827299717107}
+  - component: {fileID: 8750099223386730952}
   m_Layer: 6
   m_Name: Roger
   m_TagString: Entity
@@ -740,6 +764,7 @@ MonoBehaviour:
   leh: {fileID: 551598601173631618}
   statContainer:
     baseStats: {fileID: 11400000, guid: c30fc3fa21f33134ab7c6ae2ccec5166, type: 2}
+    curSpeed: 0
 --- !u!50 &7675867524841792886
 Rigidbody2D:
   serializedVersion: 5
@@ -848,6 +873,65 @@ MonoBehaviour:
   booleanStatesToSetTrueOnDeath:
   - {fileID: 11400000, guid: f0bbde24436f4f84fb5b41b62743fd9d, type: 2}
   leh: {fileID: 551598601173631618}
+--- !u!114 &2857095827299717107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675867524841792782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375511d4081ecdb40af6c676abb8238f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabSpawnerComponent
+  spawnTransform: {fileID: 7675867524841792780}
+  spawnList:
+  - spawnOffset: {x: 0, y: -2, z: 0}
+    spawnPrefab: {fileID: 3511818401287674753, guid: 795e1d2569fc6a744bc869c020e62a6a, type: 3}
+--- !u!114 &8750099223386730952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675867524841792782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680bd291bb0523e4e8e26e80c9ba6838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalEventLinker
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: globalEventType
+      Entry: 7
+      Data: 0|OnDeathEvent, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+  leh: {fileID: 551598601173631618}
+  OnEventTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2857095827299717107}
+        m_TargetAssemblyTypeName: PrefabSpawnerComponent, Assembly-CSharp
+        m_MethodName: SpawnObjects
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7998717576902393734
 GameObject:
   m_ObjectHideFlags: 0

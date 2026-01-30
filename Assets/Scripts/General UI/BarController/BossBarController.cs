@@ -19,6 +19,8 @@ public class BossBarController : BarController
     protected override void Render()
     {
         base.Render();
+        if (!bossText) return;
+
         bossConfig = barContext.BossBarConfig;
 
         if (bossText != null && bossConfig != null)

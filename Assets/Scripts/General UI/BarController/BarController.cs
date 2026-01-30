@@ -42,14 +42,42 @@ public class BarController : MonoBehaviour
 
     protected void Start()
     {
+        //localEventHandlerContext.OnInitialized += OnLEHInit;
+        //OnLEHInit(); // this call is in case we don't subscribe before OnInitialized gets called in LEH.
+        //if (useBarContext) { 
+        //    barContext.OnBarContextChange += Render;
+        //    barContext.OnBarContextChange += OnBarContextChange;
+        //}
+        //Render();
+    }
+
+    protected void OnEnable()
+    {
         localEventHandlerContext.OnInitialized += OnLEHInit;
-        OnLEHInit(); // this call is in case we don't subscribe before OnInitialized gets called in LEH.
-        if (useBarContext) { 
+
+        if (useBarContext)
+        {
             barContext.OnBarContextChange += Render;
             barContext.OnBarContextChange += OnBarContextChange;
         }
+
+        OnLEHInit();
         Render();
     }
+
+    protected void OnDisable()
+    {
+        localEventHandlerContext.OnInitialized -= OnLEHInit;
+
+        if (useBarContext)
+        {
+            barContext.OnBarContextChange -= Render;
+            barContext.OnBarContextChange -= OnBarContextChange;
+        }
+
+        ClearSubscriptions();
+    }
+
 
     #region Helpers
 
@@ -105,13 +133,22 @@ public class BarController : MonoBehaviour
     /// </summary>
     protected void ClearSubscriptions()
     {
-        localEventHandlerContext.OnInitialized -= OnLEHInit;
-        LocalEventHandler handler = localEventHandlerContext.LocalEventHandler;
-        handler.Unregister(statModResBinding);
+        if (leh != null && statModResBinding != null)
+        {
+            leh.Unregister(statModResBinding);
+            statModResBinding = null;
+        }
+
+        leh = null;
     }
+
 
     protected virtual void Render()
     {
+        if (!this) return;
+        if (!isActiveAndEnabled) return;
+        if (!fillImage) return;
+
         if (useBarContext)
         {
             displayUI?.SetActive(barContext.IsVisible);
