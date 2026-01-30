@@ -7,14 +7,15 @@ The Boss Scaling System automatically scales boss statistics based on the curren
 
 ### Components
 - **BossScalingSystem.cs**: MonoBehaviour component that should be attached to boss entities
-- Located in: `Assets/Scripts/Systems/GameManagment/BossScalingSystem.cs`
+- Located in: `Assets/Scripts/Systems/GameManagement/BossScalingSystem.cs`
 
 ### How It Works
 
 1. **Automatic Detection**: The system automatically detects if an entity is a boss by checking the `EntityType.BOSS_MONSTER` on the `Damageable` component
 2. **Round-Based Scaling**: Stats are scaled based on the `GameManagerComponent.roundNumber`
-3. **Compound Growth**: Uses a compound multiplier formula: `newStat = baseStat × (multiplier ^ rounds)`
+3. **Compound Growth**: Uses a compound multiplier formula: `newStat = baseStat × (multiplier ^ effectiveRounds)` where `effectiveRounds = currentRound - 1` (scaling starts from round 2)
 4. **Stat Modifiers**: Applies scaling through the existing StatMediator system, ensuring compatibility with other stat modifications
+5. **One-Time Application**: Scaling is applied once during `Awake()` and protected by a flag to prevent double-scaling
 
 ### Scaled Statistics
 

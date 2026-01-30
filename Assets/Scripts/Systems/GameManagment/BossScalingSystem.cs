@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// System that scales boss stats based on the current round number.
 /// Applies scaling modifiers to boss StatComponents on initialization.
+/// Note: Scaling is applied once during Awake(). Should not be called multiple times.
 /// </summary>
 public class BossScalingSystem : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class BossScalingSystem : MonoBehaviour
 
     [Tooltip("Maximum round number for scaling (default: 10)")]
     [SerializeField] private int maxRoundNumber = 10;
+
+    // Flag to prevent double-scaling if Awake is called multiple times
+    private bool hasAppliedScaling = false;
 
     private void Awake()
     {
@@ -47,6 +51,13 @@ public class BossScalingSystem : MonoBehaviour
     /// </summary>
     private void ApplyBossScaling()
     {
+        // Prevent double-scaling
+        if (hasAppliedScaling)
+        {
+            Debug.LogWarning($"BossScalingSystem on {gameObject.name}: Scaling already applied, skipping.");
+            return;
+        }
+
         if (statComponent == null)
         {
             Debug.LogWarning($"BossScalingSystem on {gameObject.name}: StatComponent is null, cannot apply scaling.");
@@ -60,12 +71,13 @@ public class BossScalingSystem : MonoBehaviour
         currentRound = Mathf.Min(currentRound, maxRoundNumber);
 
         // Calculate scaling factors (rounds start at 1, so we scale from round 2 onwards)
-        float roundMultiplier = currentRound - 1; // Round 1 = 0 multiplier, Round 2 = 1 multiplier, etc.
+        // effectiveRounds represents the number of rounds beyond the first
+        float effectiveRounds = currentRound - 1; // Round 1 = 0, Round 2 = 1, etc.
 
-        // Calculate stat increases
-        float healthIncrease = CalculateStatIncrease(statComponent.StatContainer.MaxHealth, healthScalingMultiplier, roundMultiplier);
-        float attackIncrease = CalculateStatIncrease(statComponent.StatContainer.Attack, attackScalingMultiplier, roundMultiplier);
-        float defenseIncrease = CalculateStatIncrease(statComponent.StatContainer.Defense, defenseScalingMultiplier, roundMultiplier);
+        // Calculate stat increases using compound growth formula
+        float healthIncrease = CalculateStatIncrease(statComponent.StatContainer.MaxHealth, healthScalingMultiplier, effectiveRounds);
+        float attackIncrease = CalculateStatIncrease(statComponent.StatContainer.Attack, attackScalingMultiplier, effectiveRounds);
+        float defenseIncrease = CalculateStatIncrease(statComponent.StatContainer.Defense, defenseScalingMultiplier, effectiveRounds);
 
         // Apply modifiers through the stat system
         if (healthIncrease > 0)
@@ -73,8 +85,18 @@ public class BossScalingSystem : MonoBehaviour
             StatModifier healthModifier = new StatModifier(Stat.MAX_HP, new AddOperation(healthIncrease), -1);
             statComponent.StatContainer.StatMediator.AddModifier(this, healthModifier);
 
-            // Also increase current health to match the new max health
-            statComponent.StatContainer.Health += healthIncrease;
+            // Increase current health proportionally if boss is at full health
+            // Otherwise preserve the damage already taken
+            float currentHealthPercent = statComponent.StatContainer.Health / (statComponent.StatContainer.MaxHealth - healthIncrease);
+            if (currentHealthPercent >= 0.99f) // Close to full health
+            {
+                statComponent.StatContainer.Health = statComponent.StatContainer.MaxHealth;
+            }
+            else
+            {
+                // Scale current health proportionally to maintain damage taken percentage
+                statComponent.StatContainer.Health = statComponent.StatContainer.MaxHealth * currentHealthPercent;
+            }
         }
 
         if (attackIncrease > 0)
@@ -88,6 +110,9 @@ public class BossScalingSystem : MonoBehaviour
             StatModifier defenseModifier = new StatModifier(Stat.DEF, new AddOperation(defenseIncrease), -1);
             statComponent.StatContainer.StatMediator.AddModifier(this, defenseModifier);
         }
+
+        // Mark as scaled
+        hasAppliedScaling = true;
 
         if (Debug.isDebugBuild)
         {
