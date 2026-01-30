@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,11 @@ public class SceneTeleporter : SerializedMonoBehaviour
     [SerializeField] private ConditionChecker conditionChecker;
 
     [Required, SerializeField] private SceneField targetScene;
+
+    [Optional, SerializeField] private ScriptableObjectBoolean varToSetTrueOnYesAnswerModal; // Super ugly but works for now :)
+
+    [Tooltip("Modal will display if this condition is TRUE.")]
+    [Optional, SerializeField] private BooleanPreconditionData modalDisplayCondition;
     [Optional, SerializeField] private ModalContext modalContext;
     [Optional, SerializeField] private ModalData teleportModalData;
 
@@ -43,23 +49,45 @@ public class SceneTeleporter : SerializedMonoBehaviour
     }
 
     /// <summary>
+    /// Entrypoint for invoking via inspector.
+    /// </summary>
+    public void Teleport()
+    {
+        OnInteract();
+    }
+
+    /// <summary>
     /// Triggers intent to teleport to the target scene.
     /// 
     /// Opens modal if specified.
     /// </summary>
     private void OnInteract()
     {
-        var intent = new TeleportInteractionIntent(targetScene);
-        conditionChecker.ValidateConditions();
+        //if (trigger != null && !trigger.CanInteract(out _))
+        //    return;
+
+        // TODO: check when this function is called from flow.
+        var teleportIntent = new TeleportInteractionIntent(targetScene);
+        var setBoolIntent = new SetBooleanVariableIntent(varToSetTrueOnYesAnswerModal, true);
+
+        conditionChecker?.ValidateConditions();
 
         if (modalContext != null && teleportModalData != null)
         {
-            modalContext.Open(teleportModalData, intent);
+            if (modalDisplayCondition != null && !modalDisplayCondition.IsMet())
+            {
+                teleportIntent.Commit();
+                //setBoolIntent.Commit();
+                return;
+            }
+
+            var intentList = new List<ICommittableInteraction>() { teleportIntent, setBoolIntent };
+            modalContext.Open(teleportModalData, intentList);
         }
         else
         {
-            intent.Commit();
+            teleportIntent.Commit();
+            //setBoolIntent.Commit();
         }
-
     }
 }

@@ -27,6 +27,7 @@ public class ObjectiveViewSystem : MonoBehaviour
         if (objectiveManager == null)
         {
             Debug.LogError("Objective Manager is null! Maybe context was not hooked up properly.");
+            return;
         }
 
         objectiveManager.OnObjectiveActivated += HandleObjectiveActivated;

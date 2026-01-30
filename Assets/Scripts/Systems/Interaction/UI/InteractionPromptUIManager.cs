@@ -41,6 +41,10 @@ public class InteractionPromptUIManager : MonoBehaviour
         }
 
         // If we reach here, we should display data.
+        if (canvas == null)
+            return;
+
+
         canvas.enabled = true;
         displayObject.SetActive(true);
         textDisplay.text = interactablePromptData.Data.message;

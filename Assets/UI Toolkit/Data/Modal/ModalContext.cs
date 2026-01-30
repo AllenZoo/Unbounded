@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -19,14 +20,29 @@ public class ModalContext : ScriptableObject
     public Action OnChanged;
 
 
-    private ICommittableInteraction interaction;
+    private List<ICommittableInteraction> interactions;
 
+    public void Open(ModalData payload, List<ICommittableInteraction> interactions = null)
+    {
+        IsOpen = true;
+        Payload = payload;
+        this.interactions = interactions;
+        OnChanged?.Invoke();
+    }
 
     public void Open(ModalData payload, ICommittableInteraction interaction = null)
     {
         IsOpen = true;
         Payload = payload;
-        this.interaction = interaction;
+        this.interactions = new List<ICommittableInteraction>() { interaction };
+        OnChanged?.Invoke();
+    }
+
+    public void Open(ModalData payload)
+    {
+        IsOpen = true;
+        Payload = payload;
+        interactions = null;
         OnChanged?.Invoke();
     }
 
@@ -42,12 +58,23 @@ public class ModalContext : ScriptableObject
         if (!IsOpen)
             return;
 
-        if (confirmed)
-            interaction?.Commit();
-        else
-            interaction?.Cancel();
 
-        interaction = null;
+        if (interactions == null)
+        {
+            // Nothing to commit or cancel
+        }
+        else if (confirmed)
+        {
+            foreach (var interaction in interactions)
+                interaction?.Commit();
+        }
+        else
+        {
+            foreach (var interaction in interactions)
+                interaction?.Cancel();
+        }
+
+        interactions = null;
         Close();
     }
 }

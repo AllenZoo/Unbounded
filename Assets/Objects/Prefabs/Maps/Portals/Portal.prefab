@@ -60,6 +60,7 @@ MonoBehaviour:
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
+  preconditions: []
   priority: 6
   requiredKeyPress: 0
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
@@ -233,6 +234,8 @@ MonoBehaviour:
   targetScene:
     m_SceneAsset: {fileID: 0}
     m_SceneName: 
+  varToSetTrueOnYesAnswerModal: {fileID: 11400000, guid: df3ec32034b7bd1429ce236a437669c9, type: 2}
+  modalDisplayCondition: {fileID: 11400000, guid: 5ffd7fb9cbb0d9c49b336cb7d5158ca5, type: 2}
   modalContext: {fileID: 0}
   teleportModalData: {fileID: 0}
 --- !u!61 &8713606998269308883
@@ -362,6 +365,7 @@ MonoBehaviour:
   OnUninteract:
     m_PersistentCalls:
       m_Calls: []
+  preconditions: []
   priority: 5
   requiredKeyPress: 102
   soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}

@@ -66,7 +66,7 @@ public struct OnSceneLoadRequest: IGlobalEvent
 
 public struct OnSceneLoadRequestFinish : IGlobalEvent
 {
-    
+    public SceneField finishedActiveScene;
 }
 
 public struct OnCameraBoundChangeRequest: IGlobalEvent
