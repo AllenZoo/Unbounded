@@ -133,6 +133,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6908826409817190399
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -178,6 +179,7 @@ SpriteRenderer:
   m_SortingLayerID: 1789471847
   m_SortingLayer: 3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -1282482557, guid: 63f3fa39feb67c24f84853876ebdbe71, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -187,7 +189,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2359868387371073753
 Animator:
@@ -263,6 +264,7 @@ GameObject:
   - component: {fileID: 4990121185565992333}
   - component: {fileID: 606328781740119483}
   - component: {fileID: 4789511864555976164}
+  - component: {fileID: 2315639187349743339}
   m_Layer: 6
   m_Name: Chillcrusher
   m_TagString: Entity
@@ -471,6 +473,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2315639187349743339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400384043743418956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f9c51cb27504a47bbf9438b8a4665e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossScalingSystem
+  statComponent: {fileID: 6844724702161644723}
+  damageable: {fileID: 6727926159154374472}
+  healthScalingMultiplier: 1.15
+  attackScalingMultiplier: 1.1
+  defenseScalingMultiplier: 1.08
+  maxRoundNumber: 10
 --- !u!1 &2642260588123973691
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,7 +1016,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leh: {fileID: 0}
   stat: {fileID: 6844724702161644723}
-  entityType: 1
+  entityType: 3
   isDamageable: 1
   isHittable: 1
 --- !u!114 &5352565439761670184
