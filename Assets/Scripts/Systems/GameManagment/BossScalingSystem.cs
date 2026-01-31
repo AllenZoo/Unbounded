@@ -38,7 +38,10 @@ public class BossScalingSystem : MonoBehaviour
         {
             damageable = GetComponent<Damageable>();
         }
+    }
 
+    private void Start()
+    {
         // Only apply scaling if this is a boss entity
         if (damageable != null && damageable.EntityType == EntityType.BOSS_MONSTER)
         {
