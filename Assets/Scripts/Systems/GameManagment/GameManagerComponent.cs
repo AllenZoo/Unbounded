@@ -32,11 +32,24 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         //    PlayerHP = 100
         //};
 
+        // Initialize run tracking
+        if (RunTracker.Instance != null)
+        {
+            RunTracker.Instance.StartNewRun();
+        }
+
         ChangeState(GameState.WeaponTrial);
     }
 
     public void OnPlayerDeath()
     {
+        // End run tracking and calculate final score
+        if (RunTracker.Instance != null)
+        {
+            int finalScore = RunTracker.Instance.EndRun();
+            Debug.Log($"Run ended with final score: {finalScore}");
+        }
+
         ChangeState(GameState.RunEnd);
     }
 
