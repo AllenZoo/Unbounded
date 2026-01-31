@@ -46,6 +46,9 @@ public class RingAttack : MonoBehaviour
         AttackContext ac = new AttackContext
         {
             AttackerComponent = attackerComp,
+            AttackSpawnInfo = new AttackSpawnInfo(location.position),
+            AtkStat = attackerComp.GetComponent<StatComponent>()?.StatContainer.Attack ?? 0,
+            PercentageDamageIncrease = attackerComp.PercentageDamageIncrease,
         };
 
         // Spawn attacks WITHOUT movement

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 8462797867590895327}
   - component: {fileID: 8377890676778570884}
   - component: {fileID: 4879361148161052695}
+  - component: {fileID: 4931137914273033667}
   m_Layer: 6
   m_Name: Azhurak
   m_TagString: Entity
@@ -240,6 +241,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DieOnPlay
   leh: {fileID: 5780175422548126830}
+--- !u!114 &4931137914273033667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341967784124176155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f9c51cb27504a47bbf9438b8a4665e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossScalingSystem
+  statComponent: {fileID: 6115604619293661680}
+  damageable: {fileID: 8153736144141958130}
+  healthScalingMultiplier: 1.15
+  attackScalingMultiplier: 1.1
+  defenseScalingMultiplier: 1.08
+  maxRoundNumber: 10
 --- !u!1 &1738553048749905133
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,6 +463,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3914420639214489742
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -489,6 +509,7 @@ SpriteRenderer:
   m_SortingLayerID: 1789471847
   m_SortingLayer: 3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -696202783, guid: c4ee8c2d09ce1d24a85d29eb32b893f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -498,7 +519,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &4097270603458788675
 Animator:
@@ -708,7 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leh: {fileID: 0}
   stat: {fileID: 6115604619293661680}
-  entityType: 1
+  entityType: 3
   isDamageable: 1
   isHittable: 1
 --- !u!114 &3721495199916869042
