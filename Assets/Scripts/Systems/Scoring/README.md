@@ -22,6 +22,18 @@ This system tracks player performance during a game run and calculates a final s
 2. **Attach to Bosses**: Add both `BossDamageTracker` and `BossFightInitializer` components to boss prefabs
 3. **Integration**: The system automatically hooks into `GameManagerComponent.StartNewRun()` and `OnPlayerDeath()`
 
+### Example Usage
+See `RunTrackerExample.cs` for a complete working example that demonstrates:
+- Starting a new run
+- Simulating boss fights with damage and timing
+- Getting current score and breakdowns
+- Ending a run
+
+To test in the editor:
+1. Add a GameObject with `RunTrackerExample` component
+2. Check "Run Example On Start"
+3. Enter play mode to see the system in action
+
 ### Events
 The system uses these global events:
 - `OnBossFightStartEvent`: Fired when a boss fight begins
