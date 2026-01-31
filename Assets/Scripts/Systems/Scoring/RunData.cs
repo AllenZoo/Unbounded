@@ -10,6 +10,7 @@ using UnityEngine;
 public class RunData
 {
     private const int MAX_BOSSES = 9;
+    private const int NO_ACTIVE_BOSS = -1;
     
     public List<BossFightData> bossFights;
     public float totalDamageDealt;
@@ -19,7 +20,7 @@ public class RunData
     {
         bossFights = new List<BossFightData>(MAX_BOSSES);
         totalDamageDealt = 0f;
-        currentBossIndex = -1;
+        currentBossIndex = NO_ACTIVE_BOSS;
     }
 
     /// <summary>
@@ -88,6 +89,6 @@ public class RunData
     {
         bossFights.Clear();
         totalDamageDealt = 0f;
-        currentBossIndex = -1;
+        currentBossIndex = NO_ACTIVE_BOSS;
     }
 }

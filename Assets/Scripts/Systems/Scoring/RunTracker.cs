@@ -12,6 +12,10 @@ public class RunTracker : Singleton<RunTracker>
     private bool isTrackingBossFight = false;
     private string currentBossName = string.Empty;
 
+    // Store event bindings for proper cleanup
+    private EventBinding<OnBossFightStartEvent> bossStartBinding;
+    private EventBinding<OnBossFightEndEvent> bossEndBinding;
+
     public RunData CurrentRun => currentRun;
 
     protected override void Awake()
@@ -19,11 +23,11 @@ public class RunTracker : Singleton<RunTracker>
         base.Awake();
         currentRun = new RunData();
         
-        // Register for boss fight events
-        EventBinding<OnBossFightStartEvent> bossStartBinding = new EventBinding<OnBossFightStartEvent>(OnBossFightStart);
+        // Register for boss fight events and store bindings for cleanup
+        bossStartBinding = new EventBinding<OnBossFightStartEvent>(OnBossFightStart);
         EventBus<OnBossFightStartEvent>.Register(bossStartBinding);
 
-        EventBinding<OnBossFightEndEvent> bossEndBinding = new EventBinding<OnBossFightEndEvent>(OnBossFightEnd);
+        bossEndBinding = new EventBinding<OnBossFightEndEvent>(OnBossFightEnd);
         EventBus<OnBossFightEndEvent>.Register(bossEndBinding);
     }
 
@@ -147,11 +151,15 @@ public class RunTracker : Singleton<RunTracker>
     {
         base.OnDestroy();
         
-        // Unregister events if needed
-        EventBinding<OnBossFightStartEvent> bossStartBinding = new EventBinding<OnBossFightStartEvent>(OnBossFightStart);
-        EventBus<OnBossFightStartEvent>.Unregister(bossStartBinding);
+        // Unregister events using stored bindings
+        if (bossStartBinding != null)
+        {
+            EventBus<OnBossFightStartEvent>.Unregister(bossStartBinding);
+        }
 
-        EventBinding<OnBossFightEndEvent> bossEndBinding = new EventBinding<OnBossFightEndEvent>(OnBossFightEnd);
-        EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
+        if (bossEndBinding != null)
+        {
+            EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
+        }
     }
 }
