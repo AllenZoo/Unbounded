@@ -12,6 +12,10 @@ public class BossDamageTracker : MonoBehaviour
     private LocalEventHandler leh;
     private bool hasRegistered = false;
 
+    // Store event bindings for proper cleanup
+    private LocalEventBinding<OnDamagedEvent> damageBinding;
+    private LocalEventBinding<OnDeathEvent> deathBinding;
+
     private void Awake()
     {
         damageable = GetComponent<Damageable>();
@@ -27,14 +31,32 @@ public class BossDamageTracker : MonoBehaviour
 
     private void Start()
     {
-        // Register to listen for damage events
-        LocalEventBinding<OnDamagedEvent> damageBinding = new LocalEventBinding<OnDamagedEvent>(OnBossDamaged);
+        // Register to listen for damage events and store bindings for cleanup
+        damageBinding = new LocalEventBinding<OnDamagedEvent>(OnBossDamaged);
         leh.Register(damageBinding);
-        hasRegistered = true;
 
         // Register to listen for death events to end boss fight
-        LocalEventBinding<OnDeathEvent> deathBinding = new LocalEventBinding<OnDeathEvent>(OnBossDeath);
+        deathBinding = new LocalEventBinding<OnDeathEvent>(OnBossDeath);
         leh.Register(deathBinding);
+        
+        hasRegistered = true;
+    }
+
+    private void OnDestroy()
+    {
+        // Unregister event bindings to prevent memory leaks
+        if (hasRegistered && leh != null)
+        {
+            if (damageBinding != null)
+            {
+                leh.Unregister(damageBinding);
+            }
+            
+            if (deathBinding != null)
+            {
+                leh.Unregister(deathBinding);
+            }
+        }
     }
 
     /// <summary>

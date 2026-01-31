@@ -33,34 +33,22 @@ public class RunTracker : Singleton<RunTracker>
 
     private void Start()
     {
-        // Try to find and track player damage events
-        // Look for player entity in scene
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            LocalEventHandler playerLEH = player.GetComponent<LocalEventHandler>();
-            if (playerLEH != null)
-            {
-                RegisterPlayerDamageTracking(playerLEH);
-            }
-            else
-            {
-                Debug.LogWarning("RunTracker: Player found but no LocalEventHandler component.");
-            }
-        }
+        // Note: Player damage tracking is handled through BossDamageTracker component
+        // attached to boss entities. This listens to boss OnDamagedEvent and reports
+        // damage to RunTracker automatically.
+        Debug.Log("RunTracker initialized. Boss damage tracking via BossDamageTracker components.");
     }
 
     /// <summary>
     /// Registers to track damage dealt by the player's attacks.
-    /// This should be called when the player is spawned/initialized.
+    /// Note: Damage tracking is primarily handled by BossDamageTracker components on boss entities.
+    /// This method is kept for potential future use with direct player tracking.
     /// </summary>
     public void RegisterPlayerDamageTracking(LocalEventHandler playerLEH)
     {
-        if (playerLEH == null) return;
-
-        // We need to listen for when player deals damage to enemies
-        // This will be handled through attack hit events
-        Debug.Log("RunTracker: Registered player damage tracking");
+        // Currently unused - damage tracking happens through BossDamageTracker on bosses
+        // This method can be extended in the future if direct player attack tracking is needed
+        Debug.Log("RunTracker: Player damage tracking registration (currently handled via BossDamageTracker)");
     }
 
     /// <summary>

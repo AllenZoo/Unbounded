@@ -7,13 +7,13 @@ using UnityEngine;
 public class BossFightInitializer : MonoBehaviour
 {
     [SerializeField] private string bossName = "Boss";
-    [SerializeField] private bool autoStartOnAwake = true;
+    [SerializeField] private bool autoStartInStart = true;
 
     private bool hasStarted = false;
 
     private void Start()
     {
-        if (autoStartOnAwake)
+        if (autoStartInStart)
         {
             StartBossFight();
         }
