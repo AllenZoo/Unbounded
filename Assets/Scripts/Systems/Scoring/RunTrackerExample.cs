@@ -72,7 +72,7 @@ public class RunTrackerExample : MonoBehaviour
         Debug.Log($"Simulating boss fight: {bossName}");
 
         // Start boss fight
-        EventBus<OnBossFightStartEvent>.Raise(new OnBossFightStartEvent { bossName = bossName });
+        EventBus<OnBossFightStartEvent>.Call(new OnBossFightStartEvent { bossName = bossName });
 
         // Simulate damage dealt during fight
         // Break it into chunks to simulate realistic combat
@@ -92,7 +92,7 @@ public class RunTrackerExample : MonoBehaviour
         }
 
         // End boss fight
-        EventBus<OnBossFightEndEvent>.Raise(new OnBossFightEndEvent { bossName = bossName });
+        EventBus<OnBossFightEndEvent>.Call(new OnBossFightEndEvent { bossName = bossName });
 
         Debug.Log($"Boss fight complete: {bossName} - {damageDealt} damage in {fightDuration}s");
     }

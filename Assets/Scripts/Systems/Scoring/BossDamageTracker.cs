@@ -78,7 +78,7 @@ public class BossDamageTracker : MonoBehaviour
         if (RunTracker.Instance != null)
         {
             // Fire the boss fight end event
-            EventBus<OnBossFightEndEvent>.Raise(new OnBossFightEndEvent { bossName = gameObject.name });
+            EventBus<OnBossFightEndEvent>.Call(new OnBossFightEndEvent { bossName = gameObject.name });
         }
     }
 }

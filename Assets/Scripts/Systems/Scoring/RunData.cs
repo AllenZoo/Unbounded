@@ -12,13 +12,13 @@ public class RunData
     private const int MAX_BOSSES = 9;
     private const int NO_ACTIVE_BOSS = -1;
     
-    public List<BossFightData> bossFights;
+    public List<BossFightMetrics> bossFights;
     public float totalDamageDealt;
     public int currentBossIndex;
     
     public RunData()
     {
-        bossFights = new List<BossFightData>(MAX_BOSSES);
+        bossFights = new List<BossFightMetrics>(MAX_BOSSES);
         totalDamageDealt = 0f;
         currentBossIndex = NO_ACTIVE_BOSS;
     }
@@ -34,7 +34,7 @@ public class RunData
             return;
         }
 
-        BossFightData newFight = new BossFightData(bossName);
+        BossFightMetrics newFight = new BossFightMetrics(bossName);
         newFight.StartFight();
         bossFights.Add(newFight);
         currentBossIndex = bossFights.Count - 1;
@@ -73,7 +73,7 @@ public class RunData
     /// <summary>
     /// Gets the current boss fight data if one is active.
     /// </summary>
-    public BossFightData GetCurrentBossFight()
+    public BossFightMetrics GetCurrentBossFight()
     {
         if (currentBossIndex >= 0 && currentBossIndex < bossFights.Count)
         {

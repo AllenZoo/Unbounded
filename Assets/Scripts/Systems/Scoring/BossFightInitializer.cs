@@ -34,7 +34,7 @@ public class BossFightInitializer : MonoBehaviour
         string actualBossName = string.IsNullOrEmpty(bossName) ? gameObject.name : bossName;
 
         // Fire the boss fight start event
-        EventBus<OnBossFightStartEvent>.Raise(new OnBossFightStartEvent { bossName = actualBossName });
+        EventBus<OnBossFightStartEvent>.Call(new OnBossFightStartEvent { bossName = actualBossName });
         
         hasStarted = true;
         Debug.Log($"Boss fight started: {actualBossName}");

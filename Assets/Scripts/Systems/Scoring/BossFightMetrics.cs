@@ -6,14 +6,14 @@ using UnityEngine;
 /// Tracks timing and damage dealt during the fight.
 /// </summary>
 [Serializable]
-public class BossFightData
+public class BossFightMetrics
 {
     public string bossName;
     public float damageDealt;
     public float fightDuration; // in seconds
     public float startTime;
     
-    public BossFightData(string bossName)
+    public BossFightMetrics(string bossName)
     {
         this.bossName = bossName;
         this.damageDealt = 0f;

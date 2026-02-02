@@ -135,9 +135,35 @@ public class RunTracker : Singleton<RunTracker>
         }
     }
 
-    protected override void OnDestroy()
+    protected void OnEnable()
     {
-        base.OnDestroy();
+        // Re-register events in case of re-enable
+        if (bossStartBinding != null)
+        {
+            EventBus<OnBossFightStartEvent>.Register(bossStartBinding);
+        }
+        if (bossEndBinding != null)
+        {
+            EventBus<OnBossFightEndEvent>.Register(bossEndBinding);
+        }
+    }
+
+    protected void OnDisable()
+    {
+        // Unregister events using stored bindings
+        if (bossStartBinding != null)
+        {
+            EventBus<OnBossFightStartEvent>.Unregister(bossStartBinding);
+        }
+
+        if (bossEndBinding != null)
+        {
+            EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
+        }
+    }
+
+    protected void OnDestroy()
+    {
         
         // Unregister events using stored bindings
         if (bossStartBinding != null)
