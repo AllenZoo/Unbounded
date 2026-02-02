@@ -176,4 +176,18 @@ public class RunTracker : Singleton<RunTracker>
             EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
         }
     }
+
+    ////TODO: for testing only, remove later
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F5))
+    //    {
+    //        StartNewRun();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.F6))
+    //    {
+    //        EndRun();
+    //    }
+
+    //}
 }

@@ -247,64 +247,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &2006707437
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2006707438}
-  - component: {fileID: 2006707439}
-  m_Layer: 0
-  m_Name: SceneLoadRequest (Load MM)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2006707438
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006707437}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 230.9308, y: 253.35516, z: -4.7890058}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2006707439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2006707437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eba6fa76e1804c74aad3031ea782d248, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeSceneAfterLoad:
-    m_SceneAsset: {fileID: 0}
-    m_SceneName: 
-  persistentGameplay:
-    m_SceneAsset: {fileID: 102900000, guid: d4d20a7b1dccc3e4f9dd8b241e38351d, type: 3}
-    m_SceneName: PersistentGameplay
-  loadPersistentGameplay: 0
-  scenesToLoad:
-  - m_SceneAsset: {fileID: 102900000, guid: 5469d90789f7bcd4ba131984db34abce, type: 3}
-    m_SceneName: MenuScene
-  scenesToUnload: []
-  showLoadingBar: 1
-  requestOnStart: 1
-  unloadCurrentActiveScene: 0
 --- !u!1001 &586095027173130624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -506,4 +448,3 @@ SceneRoots:
   - {fileID: 1049334094}
   - {fileID: 586095027173130624}
   - {fileID: 2988297625561373125}
-  - {fileID: 2006707438}
