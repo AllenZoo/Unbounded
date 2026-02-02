@@ -1,15 +1,15 @@
+using NUnit.Framework;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 /// <summary>
 /// Component attached to boss entities to track damage taken for scoring purposes.
 /// Listens to OnDamagedEvent and reports to RunTracker.
 /// </summary>
-[RequireComponent(typeof(Damageable))]
-[RequireComponent(typeof(LocalEventHandler))]
 public class BossDamageTracker : MonoBehaviour
 {
-    private Damageable damageable;
-    private LocalEventHandler leh;
+    [Required, SerializeField] private Damageable damageable;
+    [Required, SerializeField] private LocalEventHandler leh;
     private bool hasRegistered = false;
 
     // Store event bindings for proper cleanup
@@ -18,9 +18,9 @@ public class BossDamageTracker : MonoBehaviour
 
     private void Awake()
     {
-        damageable = GetComponent<Damageable>();
-        leh = GetComponent<LocalEventHandler>();
-        
+        Assert.IsNotNull(damageable, $"Damageable component is not assigned on {gameObject.name}.");
+        Assert.IsNotNull(leh, $"LocalEventHandler component is not assigned on {gameObject.name}.");
+
         // Verify this is actually a boss entity
         if (damageable.EntityType != EntityType.BOSS_MONSTER)
         {

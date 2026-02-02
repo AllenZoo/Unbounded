@@ -337,6 +337,7 @@ GameObject:
   - component: {fileID: 7599973659860923114}
   - component: {fileID: 7531693359182105070}
   - component: {fileID: 722946925127517407}
+  - component: {fileID: 2115173819755996562}
   m_Layer: 7
   m_Name: AggroHandler
   m_TagString: Untagged
@@ -445,6 +446,20 @@ MonoBehaviour:
   targetTransform: {fileID: 4456538979408597553}
   indicatorIconSprite: {fileID: -1999480564, guid: 72640c3f32e8baa4785bdf8fc50f0694, type: 3}
   createIndicatorOnStart: 1
+--- !u!114 &2115173819755996562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3225468431850876824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
+  bossName: Boss
+  autoStartInStart: 1
 --- !u!1 &4062177657863964859
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +541,7 @@ GameObject:
   - component: {fileID: 1098211490}
   - component: {fileID: 1098211491}
   - component: {fileID: -5348636995580664400}
+  - component: {fileID: 4066509982058332410}
   m_Layer: 6
   m_Name: Katan
   m_TagString: Entity
@@ -755,6 +771,20 @@ MonoBehaviour:
   attackScalingMultiplier: 1.1
   defenseScalingMultiplier: 1.08
   maxRoundNumber: 10
+--- !u!114 &4066509982058332410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456538979408597555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4f8117a67f4c2d9166b9782bffe892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossDamageTracker
+  damageable: {fileID: 4456538981051934084}
+  leh: {fileID: -3388595544745265729}
 --- !u!1 &5019623686023127502
 GameObject:
   m_ObjectHideFlags: 0

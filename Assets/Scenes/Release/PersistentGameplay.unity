@@ -824,6 +824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb9aa1340e85444f87670093d52c699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalController
+  closeOnStart: 1
   modalUIDocument: {fileID: 488501498}
   modalContext: {fileID: 11400000, guid: c633ea0190cab2348886fbff14a8e2f0, type: 2}
 --- !u!1 &505448070
@@ -2140,6 +2141,59 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1018248561889792269, guid: 2476a66babcc32249aa4d7fb101fa367, type: 3}
   m_PrefabInstance: {fileID: 1018248562703638795}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1411431436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1411431437}
+  - component: {fileID: 1411431438}
+  m_Layer: 0
+  m_Name: RunTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1411431437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411431436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2106685534}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1411431438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411431436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbcf19a6643463093bb9667a4178d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunTracker
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!1001 &1430833341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2621,6 +2675,7 @@ Transform:
   - {fileID: 834575404}
   - {fileID: 1363445785}
   - {fileID: 225212998}
+  - {fileID: 1411431437}
   m_Father: {fileID: 388771411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &224420170135506647
