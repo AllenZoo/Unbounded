@@ -104,6 +104,16 @@ public struct OnTutorialObjectiveRequest : IGlobalEvent
 
 }
 
+public struct OnBossFightStartEvent : IGlobalEvent
+{
+    public string bossName;
+}
+
+public struct OnBossFightEndEvent : IGlobalEvent
+{
+    public string bossName;
+}
+
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
 /// </summary>

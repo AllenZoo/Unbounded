@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 2067646286696974389}
   - component: {fileID: 3630364951140753525}
   - component: {fileID: 6299457134379989787}
+  - component: {fileID: 7314748357209161932}
   m_Layer: 7
   m_Name: AggroHandler
   m_TagString: Untagged
@@ -929,6 +930,20 @@ MonoBehaviour:
   targetTransform: {fileID: 7142332424136452910}
   indicatorIconSprite: {fileID: -1282482557, guid: 63f3fa39feb67c24f84853876ebdbe71, type: 3}
   createIndicatorOnStart: 1
+--- !u!114 &7314748357209161932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6677981363669337234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
+  bossName: Boss
+  autoStartInStart: 1
 --- !u!1 &7520094694584610634
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,6 +958,7 @@ GameObject:
   - component: {fileID: 5352565439761670184}
   - component: {fileID: 2656969503046704731}
   - component: {fileID: 2011185809999498787}
+  - component: {fileID: 6911710539118615126}
   m_Layer: 6
   m_Name: HitboxCollider
   m_TagString: Untagged
@@ -1065,6 +1081,20 @@ MonoBehaviour:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: 1ab1bd69905ceea4ba5d8927d78df6d0, type: 2}
   maxItems: 3
+--- !u!114 &6911710539118615126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7520094694584610634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4f8117a67f4c2d9166b9782bffe892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossDamageTracker
+  damageable: {fileID: 6727926159154374472}
+  leh: {fileID: 7418713779254395358}
 --- !u!1 &7977180491257379268
 GameObject:
   m_ObjectHideFlags: 0
