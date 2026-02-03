@@ -39,6 +39,12 @@ public class PlayerInput : InputController
 
     private void Handle_Attack_Input()
     {
+        // Disable attack input when UI is active
+        if (UIStateManager.Instance != null && UIStateManager.Instance.IsUIActive)
+        {
+            return;
+        }
+
         // Handle attack input (left click or just pressed)
         if (Input.GetMouseButton(0))
         {

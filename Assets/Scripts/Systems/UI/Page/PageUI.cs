@@ -20,6 +20,7 @@ public class PageUI : MonoBehaviour, IUIPage
     [SerializeField] private PageUIContext pageUIContext;
 
     private bool isBlocked = false;
+    private bool isRegisteredAsOpen = false;
 
     #region Unity Lifecycle
 
@@ -59,6 +60,13 @@ public class PageUI : MonoBehaviour, IUIPage
 
         UIOverlayManager.Instance?.AddUIPage(this);
         pageUIContext?.Init(this);
+        
+        // Register initial UI state if canvas is already enabled
+        if (canvas != null && canvas.enabled && UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIOpen();
+            isRegisteredAsOpen = true;
+        }
     }
 
     #endregion
@@ -114,6 +122,21 @@ public class PageUI : MonoBehaviour, IUIPage
     public void ToggleVisibility(bool isVisible)
     {
         canvas.enabled = isVisible;
+        
+        // Register UI state change with UIStateManager
+        if (UIStateManager.Instance != null)
+        {
+            if (isVisible && !isRegisteredAsOpen)
+            {
+                UIStateManager.Instance.RegisterUIOpen();
+                isRegisteredAsOpen = true;
+            }
+            else if (!isVisible && isRegisteredAsOpen)
+            {
+                UIStateManager.Instance.RegisterUIClose();
+                isRegisteredAsOpen = false;
+            }
+        }
     }
 
     /// <summary>
