@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: e9f67ebf-669c-4789-a134-973767a00952
   title: Poseidon's Blade
-  icon: {fileID: 1301000414, guid: 432db504d39eb924cadea34d4360ea2f, type: 3}
+  icon: {fileID: -2025250630, guid: 29a3d30f6336d4a4ba7b7075181d2b19, type: 3}
   cardColor: {r: 0.41006586, g: 0.8962264, b: 0.836334, a: 1}
   rarity: 1
   mods:
   - modifier:
       rid: 3408761035384946821
-    modifierDescription: Add 3 Attack Projectiles to your weapon!
+    modifierDescription: Add 2 Attack Projectiles to your weapon!
   description: 
   references:
     version: 2
@@ -29,4 +29,4 @@ MonoBehaviour:
       type: {class: TraitModifier, ns: , asm: Assembly-CSharp}
       data:
         <AddPiercing>k__BackingField: 0
-        <NumAtksToAdd>k__BackingField: 3
+        <NumAtksToAdd>k__BackingField: 2
