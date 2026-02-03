@@ -56,7 +56,13 @@ public class UIStateManager : Singleton<UIStateManager>
     /// </summary>
     public void RegisterUIClose()
     {
-        activeUICount = Mathf.Max(0, activeUICount - 1);
+        if (activeUICount <= 0)
+        {
+            Debug.LogWarning("UIStateManager: RegisterUIClose() called but no UI elements are registered as open. This indicates a registration/unregistration imbalance.");
+            return;
+        }
+        
+        activeUICount--;
         if (activeUICount == 0)
         {
             OnUIActiveStateChanged?.Invoke(false);
