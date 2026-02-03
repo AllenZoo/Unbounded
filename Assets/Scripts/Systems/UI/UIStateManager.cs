@@ -26,6 +26,20 @@ public class UIStateManager : Singleton<UIStateManager>
     }
 
     /// <summary>
+    /// Ensures a UIStateManager instance exists. Creates one if needed.
+    /// </summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void EnsureInstance()
+    {
+        if (Instance == null)
+        {
+            GameObject go = new GameObject("UIStateManager");
+            go.AddComponent<UIStateManager>();
+            DontDestroyOnLoad(go);
+        }
+    }
+
+    /// <summary>
     /// Register that a UI element has been opened.
     /// </summary>
     public void RegisterUIOpen()

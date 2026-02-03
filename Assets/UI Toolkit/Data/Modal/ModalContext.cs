@@ -24,13 +24,16 @@ public class ModalContext : ScriptableObject
 
     public void Open(ModalData payload, List<ICommittableInteraction> interactions = null)
     {
+        // Only register if not already open
+        bool wasOpen = IsOpen;
+        
         IsOpen = true;
         Payload = payload;
         this.interactions = interactions;
         OnChanged?.Invoke();
         
-        // Register UI state change with UIStateManager
-        if (UIStateManager.Instance != null)
+        // Register UI state change with UIStateManager only if newly opened
+        if (!wasOpen && UIStateManager.Instance != null)
         {
             UIStateManager.Instance.RegisterUIOpen();
         }
@@ -38,13 +41,16 @@ public class ModalContext : ScriptableObject
 
     public void Open(ModalData payload, ICommittableInteraction interaction = null)
     {
+        // Only register if not already open
+        bool wasOpen = IsOpen;
+        
         IsOpen = true;
         Payload = payload;
         this.interactions = new List<ICommittableInteraction>() { interaction };
         OnChanged?.Invoke();
         
-        // Register UI state change with UIStateManager
-        if (UIStateManager.Instance != null)
+        // Register UI state change with UIStateManager only if newly opened
+        if (!wasOpen && UIStateManager.Instance != null)
         {
             UIStateManager.Instance.RegisterUIOpen();
         }
@@ -52,13 +58,16 @@ public class ModalContext : ScriptableObject
 
     public void Open(ModalData payload)
     {
+        // Only register if not already open
+        bool wasOpen = IsOpen;
+        
         IsOpen = true;
         Payload = payload;
         interactions = null;
         OnChanged?.Invoke();
         
-        // Register UI state change with UIStateManager
-        if (UIStateManager.Instance != null)
+        // Register UI state change with UIStateManager only if newly opened
+        if (!wasOpen && UIStateManager.Instance != null)
         {
             UIStateManager.Instance.RegisterUIOpen();
         }
@@ -66,12 +75,15 @@ public class ModalContext : ScriptableObject
 
     public void Close()
     {
+        // Only unregister if it was open
+        bool wasOpen = IsOpen;
+        
         IsOpen = false;
         Payload = null;
         OnChanged?.Invoke();
         
-        // Register UI state change with UIStateManager
-        if (UIStateManager.Instance != null)
+        // Register UI state change with UIStateManager only if it was open
+        if (wasOpen && UIStateManager.Instance != null)
         {
             UIStateManager.Instance.RegisterUIClose();
         }
