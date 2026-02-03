@@ -28,6 +28,12 @@ public class ModalContext : ScriptableObject
         Payload = payload;
         this.interactions = interactions;
         OnChanged?.Invoke();
+        
+        // Register UI state change with UIStateManager
+        if (UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIOpen();
+        }
     }
 
     public void Open(ModalData payload, ICommittableInteraction interaction = null)
@@ -36,6 +42,12 @@ public class ModalContext : ScriptableObject
         Payload = payload;
         this.interactions = new List<ICommittableInteraction>() { interaction };
         OnChanged?.Invoke();
+        
+        // Register UI state change with UIStateManager
+        if (UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIOpen();
+        }
     }
 
     public void Open(ModalData payload)
@@ -44,6 +56,12 @@ public class ModalContext : ScriptableObject
         Payload = payload;
         interactions = null;
         OnChanged?.Invoke();
+        
+        // Register UI state change with UIStateManager
+        if (UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIOpen();
+        }
     }
 
     public void Close()
@@ -51,6 +69,12 @@ public class ModalContext : ScriptableObject
         IsOpen = false;
         Payload = null;
         OnChanged?.Invoke();
+        
+        // Register UI state change with UIStateManager
+        if (UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIClose();
+        }
     }
 
     public void Resolve(bool confirmed)

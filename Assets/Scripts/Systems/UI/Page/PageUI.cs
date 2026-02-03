@@ -114,6 +114,19 @@ public class PageUI : MonoBehaviour, IUIPage
     public void ToggleVisibility(bool isVisible)
     {
         canvas.enabled = isVisible;
+        
+        // Register UI state change with UIStateManager
+        if (UIStateManager.Instance != null)
+        {
+            if (isVisible)
+            {
+                UIStateManager.Instance.RegisterUIOpen();
+            }
+            else
+            {
+                UIStateManager.Instance.RegisterUIClose();
+            }
+        }
     }
 
     /// <summary>
