@@ -773,7 +773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &488501498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,6 +1875,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 989832020}
+  - component: {fileID: 989832021}
   m_Layer: 0
   m_Name: UI Toolkit
   m_TagString: Untagged
@@ -1898,6 +1899,20 @@ Transform:
   - {fileID: 488501499}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &989832021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989832019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b921ad1949a3b4d91640599c7de217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnableOnAwake
+  objectsToEnable:
+  - {fileID: 488501497}
 --- !u!224 &1088235696 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2010735730797688367, guid: d4868c87a5b08e048b4553a1115142fc, type: 3}
