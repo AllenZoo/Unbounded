@@ -6,11 +6,11 @@ using UnityEngine;
 /// ScriptableObject that defines music tracks for each music state on a map.
 /// Maps can define their own music configuration to support different music per map.
 /// </summary>
-[CreateAssetMenu(fileName = "MapMusicConfig", menuName = "Audio/Map Music Config")]
+[CreateAssetMenu(fileName = "MapMusicConfig", menuName = "System/Audio/Map Music Config")]
 public class MapMusicConfig : SerializedScriptableObject
 {
     [Tooltip("Name of the map this music configuration is for")]
-    [SerializeField] private string mapName;
+    [SerializeField] private SceneField mapName;
     
     [Tooltip("Dictionary mapping music states to their corresponding audio clips")]
     [SerializeField] private Dictionary<MusicState, AudioClip> musicTracks = new Dictionary<MusicState, AudioClip>();
