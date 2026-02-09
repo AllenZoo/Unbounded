@@ -43,12 +43,9 @@ public class MusicManager : Singleton<MusicManager>
         musicAudioSource.loop = true;
         musicAudioSource.playOnAwake = false;
         
-        // Register for boss fight events
+        // Create event bindings (registration happens in OnEnable)
         bossStartBinding = new EventBinding<OnBossFightStartEvent>(OnBossFightStart);
-        EventBus<OnBossFightStartEvent>.Register(bossStartBinding);
-        
         bossEndBinding = new EventBinding<OnBossFightEndEvent>(OnBossFightEnd);
-        EventBus<OnBossFightEndEvent>.Register(bossEndBinding);
     }
     
     /// <summary>
@@ -218,7 +215,7 @@ public class MusicManager : Singleton<MusicManager>
     
     protected void OnEnable()
     {
-        // Re-register events in case of re-enable
+        // Register events (handles both initial enable and re-enable)
         if (bossStartBinding != null)
         {
             EventBus<OnBossFightStartEvent>.Register(bossStartBinding);
@@ -231,7 +228,7 @@ public class MusicManager : Singleton<MusicManager>
     
     protected void OnDisable()
     {
-        // Unregister events using stored bindings
+        // Unregister events (handles both disable and destroy)
         if (bossStartBinding != null)
         {
             EventBus<OnBossFightStartEvent>.Unregister(bossStartBinding);
@@ -240,24 +237,11 @@ public class MusicManager : Singleton<MusicManager>
         {
             EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
         }
-    }
-    
-    protected void OnDestroy()
-    {
+        
         // Clean up coroutine if still running
         if (transitionCoroutine != null)
         {
             StopCoroutine(transitionCoroutine);
-        }
-        
-        // Unregister events
-        if (bossStartBinding != null)
-        {
-            EventBus<OnBossFightStartEvent>.Unregister(bossStartBinding);
-        }
-        if (bossEndBinding != null)
-        {
-            EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
         }
     }
 }
