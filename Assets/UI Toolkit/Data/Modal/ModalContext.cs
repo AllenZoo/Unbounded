@@ -22,35 +22,71 @@ public class ModalContext : ScriptableObject
 
     private List<ICommittableInteraction> interactions;
 
+    /// <summary>
+    /// Helper method to handle UI state registration when opening a modal.
+    /// </summary>
+    private void HandleUIStateRegistration(bool wasOpen)
+    {
+        // Register UI state change with UIStateManager only if newly opened
+        if (!wasOpen && UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIOpen();
+        }
+    }
+
     public void Open(ModalData payload, List<ICommittableInteraction> interactions = null)
     {
+        // Only register if not already open
+        bool wasOpen = IsOpen;
+        
         IsOpen = true;
         Payload = payload;
         this.interactions = interactions;
         OnChanged?.Invoke();
+        
+        HandleUIStateRegistration(wasOpen);
     }
 
     public void Open(ModalData payload, ICommittableInteraction interaction = null)
     {
+        // Only register if not already open
+        bool wasOpen = IsOpen;
+        
         IsOpen = true;
         Payload = payload;
         this.interactions = new List<ICommittableInteraction>() { interaction };
         OnChanged?.Invoke();
+        
+        HandleUIStateRegistration(wasOpen);
     }
 
     public void Open(ModalData payload)
     {
+        // Only register if not already open
+        bool wasOpen = IsOpen;
+        
         IsOpen = true;
         Payload = payload;
         interactions = null;
         OnChanged?.Invoke();
+        
+        HandleUIStateRegistration(wasOpen);
     }
 
     public void Close()
     {
+        // Only unregister if it was open
+        bool wasOpen = IsOpen;
+        
         IsOpen = false;
         Payload = null;
         OnChanged?.Invoke();
+        
+        // Register UI state change with UIStateManager only if it was open
+        if (wasOpen && UIStateManager.Instance != null)
+        {
+            UIStateManager.Instance.RegisterUIClose();
+        }
     }
 
     public void Resolve(bool confirmed)
