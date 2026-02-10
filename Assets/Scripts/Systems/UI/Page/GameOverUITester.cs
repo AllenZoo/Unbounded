@@ -55,7 +55,7 @@ public class GameOverUITester : MonoBehaviour
             totalTimeSurvived = testTimeSurvived
         };
         
-        EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent { scoreSummary = testData });
+        EventBus<OnGameOverEvent>.Call(new OnGameOverEvent { scoreSummary = testData });
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class GameOverUITester : MonoBehaviour
             totalTimeSurvived = 0f
         };
         
-        EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent { scoreSummary = testData });
+        EventBus<OnGameOverEvent>.Call(new OnGameOverEvent { scoreSummary = testData });
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public class GameOverUITester : MonoBehaviour
             totalTimeSurvived = 543.2f // 9:03
         };
         
-        EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent { scoreSummary = testData });
+        EventBus<OnGameOverEvent>.Call(new OnGameOverEvent { scoreSummary = testData });
     }
 
     private void OnGUI()

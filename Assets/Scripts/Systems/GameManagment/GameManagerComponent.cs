@@ -51,7 +51,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
             
             // Create score summary data and trigger game over event
             ScoreSummaryData scoreSummary = ScoreSummaryData.FromRunData(RunTracker.Instance.CurrentRun);
-            EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent { scoreSummary = scoreSummary });
+            EventBus<OnGameOverEvent>.Call(new OnGameOverEvent { scoreSummary = scoreSummary });
         }
 
         ChangeState(GameState.RunEnd);
