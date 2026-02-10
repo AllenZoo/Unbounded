@@ -114,6 +114,11 @@ public struct OnBossFightEndEvent : IGlobalEvent
     public string bossName;
 }
 
+public struct OnGameOverEvent : IGlobalEvent
+{
+    public ScoreSummaryData scoreSummary;
+}
+
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
 /// </summary>

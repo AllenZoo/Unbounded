@@ -48,6 +48,10 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         {
             int finalScore = RunTracker.Instance.EndRun();
             Debug.Log($"Run ended with final score: {finalScore}");
+            
+            // Create score summary data and trigger game over event
+            ScoreSummaryData scoreSummary = ScoreSummaryData.FromRunData(RunTracker.Instance.CurrentRun);
+            EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent { scoreSummary = scoreSummary });
         }
 
         ChangeState(GameState.RunEnd);
