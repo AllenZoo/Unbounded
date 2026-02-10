@@ -49,7 +49,7 @@ A UI component that displays the score summary. Extends `PageUI` to integrate wi
 - Time formatting helper (MM:SS format)
 - Extensible for future features (high scores, rewards, etc.)
 
-#### 4. **GameManagerComponent Updates** (`Assets/Scripts/Systems/GameManagment/GameManagerComponent.cs`)
+#### 4. **GameManagerComponent Updates** (`Assets/Scripts/Systems/GameManagement/GameManagerComponent.cs`)
 The game manager now triggers the game over flow when the player dies:
 
 ```csharp

@@ -111,13 +111,17 @@ public class GameOverUI : PageUI
     private void OnRetryClicked()
     {
         Debug.Log("GameOverUI: Retry button clicked");
-        // Close the game over UI
-        ClosePage();
         
         // Trigger a new run through the game manager
         if (GameManagerComponent.Instance != null)
         {
+            // Close the game over UI
+            ClosePage();
             GameManagerComponent.Instance.StartNewRun();
+        }
+        else
+        {
+            Debug.LogError("GameOverUI: Cannot retry - GameManagerComponent.Instance is null");
         }
     }
 
