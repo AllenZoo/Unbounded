@@ -1,7 +1,7 @@
-# Game Over Score Summary System
+# Game Over Score Summary System (UI Toolkit)
 
 ## Overview
-This system provides a scalable, decoupled architecture for displaying game over score summaries to the player. It follows Unity best practices by separating concerns between gameplay logic, score calculation, and UI presentation.
+This system provides a scalable, decoupled architecture for displaying game over score summaries to the player using **Unity's UI Toolkit**. It follows Unity best practices by separating concerns between gameplay logic, score calculation, and UI presentation.
 
 ## Architecture
 
@@ -34,22 +34,48 @@ public struct OnGameOverEvent : IGlobalEvent
 }
 ```
 
-#### 3. **GameOverUI** (`Assets/Scripts/Systems/UI/Page/GameOverUI.cs`)
-A UI component that displays the score summary. Extends `PageUI` to integrate with the existing UI overlay system.
+#### 3. **GameOverController** (`Assets/UI Toolkit/Controllers/GameOverController.cs`)
+A MonoBehaviour controller that manages the UI Toolkit-based Game Over display.
 
 **Responsibilities:**
 - Listens for `OnGameOverEvent`
-- Displays score breakdown and statistics
-- Provides optional retry/main menu buttons
+- Updates `GameOverUIData` with formatted score information
+- Controls UI visibility through `GameOverContext`
+- Handles button clicks (Retry, Main Menu)
 - Does NOT calculate scores (only displays provided data)
 
 **Key Features:**
+- UI Toolkit integration with data binding
 - Automatic event registration/cleanup
-- Null-safe UI updates
-- Time formatting helper (MM:SS format)
-- Extensible for future features (high scores, rewards, etc.)
+- VisualElement-based button handling
+- Context-driven visibility management
 
-#### 4. **GameManagerComponent Updates** (`Assets/Scripts/Systems/GameManagement/GameManagerComponent.cs`)
+#### 4. **GameOverContext** (`Assets/UI Toolkit/Data/GameOverContext.cs`)
+A ScriptableObject that manages the state of the Game Over UI.
+
+**Responsibilities:**
+- Tracks whether Game Over UI is open/closed
+- Stores current score summary
+- Notifies listeners when state changes
+
+#### 5. **GameOverUIData** (`Assets/UI Toolkit/Data/GameOverUIData.cs`)
+A ScriptableObject that holds formatted data for UI Toolkit data binding.
+
+**Responsibilities:**
+- Converts `ScoreSummaryData` to display strings
+- Provides properties for UI Toolkit data binding
+- Formats time values (MM:SS format)
+
+#### 6. **GameOverUI.uxml** (`Assets/UI Toolkit/GameOverUI.uxml`)
+The UI Toolkit visual tree that defines the Game Over screen layout.
+
+**Features:**
+- Responsive layout using VisualElements
+- Data binding to `GameOverUIData` properties
+- Styled with USS for consistent appearance
+- Contains retry and main menu buttons
+
+#### 7. **GameManagerComponent Updates** (`Assets/Scripts/Systems/GameManagement/GameManagerComponent.cs`)
 The game manager now triggers the game over flow when the player dies:
 
 ```csharp
@@ -78,6 +104,15 @@ RunTracker.EndRun() → Calculates score using ScoreCalculator
 ScoreSummaryData.FromRunData() → Packages data for UI
     ↓
 EventBus<OnGameOverEvent>.Raise() → Broadcasts event
+    ↓
+GameOverController.OnGameOver() → Receives event
+    ↓
+GameOverUIData.UpdateFromScoreSummary() → Formats data for display
+    ↓
+GameOverContext.Open() → Signals UI to show
+    ↓
+UI Document displays Game Over screen via data binding
+```
     ↓
 GameOverUI.OnGameOver() → Receives event and displays summary
 ```
@@ -113,27 +148,22 @@ The system is designed to easily support future features:
 
 ### Setting Up in Unity Editor
 
-1. **Create a Canvas** for the Game Over UI (if not already present)
+See `GAME_OVER_SETUP_GUIDE_UITOOLKIT.md` for detailed step-by-step instructions.
 
-2. **Add GameOverUI Component**
-   - Create a new GameObject as a child of the Canvas
-   - Add the `GameOverUI` component
-   - Configure the Canvas and Collider2D (required by PageUI)
+**Quick Setup:**
 
-3. **Assign UI Elements**
-   - Create TextMeshProUGUI elements for:
-     - Total Score
-     - Damage Score
-     - Time Score
-     - Bosses Defeated
-     - Total Damage
-     - Time Survived
-   - Optionally add Retry and Main Menu buttons
-   - Assign references in the GameOverUI inspector
+1. **Create UI Document GameObject**
+   - Add a UI Toolkit > UI Document to your scene
+   - Assign `GameOverUI.uxml` as the source asset
+   - Configure Panel Settings
 
-4. **Assign PageUIContext**
-   - Use the existing `GameOverPage.asset` or create a new PageUIContext
-   - Assign it to the GameOverUI's pageUIContext field
+2. **Create ScriptableObject Assets**
+   - Create a `GameOverContext` instance
+   - Create a `GameOverUIData` instance
+
+3. **Add GameOverController Component**
+   - Add the `GameOverController` script to the UI Document GameObject
+   - Assign the UI Document, Context, and Data references
 
 ### Triggering Game Over Programmatically
 
@@ -147,26 +177,32 @@ EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent { scoreSummary = summary });
 ### Extending the System
 
 #### Adding a High Score Comparison
+### Extending the System
+
+#### Adding a High Score Comparison
 
 ```csharp
-// In GameOverUI.cs
-[SerializeField] private TextMeshProUGUI highScoreText;
+// In GameOverUIData.cs - add a new property
+public string highScoreText;
 
-public void DisplayScoreSummary(ScoreSummaryData data)
+// In GameOverUIData.UpdateFromScoreSummary()
+int highScore = PlayerPrefs.GetInt("HighScore", 0);
+if (data.totalScore > highScore)
 {
-    // ... existing code ...
-    
-    int highScore = PlayerPrefs.GetInt("HighScore", 0);
-    if (data.totalScore > highScore)
-    {
-        PlayerPrefs.SetInt("HighScore", data.totalScore);
-        highScoreText.text = "NEW HIGH SCORE!";
-    }
-    else
-    {
-        highScoreText.text = $"High Score: {highScore:N0}";
-    }
+    PlayerPrefs.SetInt("HighScore", data.totalScore);
+    highScoreText = "NEW HIGH SCORE!";
 }
+else
+{
+    highScoreText = $"High Score: {highScore:N0}";
+}
+
+// In GameOverUI.uxml - add a label with data binding
+<ui:Label text="High Score: 0" name="HighScoreLabel">
+    <Bindings>
+        <ui:DataBinding property="text" data-source-path="highScoreText" binding-mode="ToTarget"/>
+    </Bindings>
+</ui:Label>
 ```
 
 #### Adding Reward Information
@@ -180,10 +216,13 @@ public class ScoreSummaryData
     public int coinsEarned;
 }
 
-// Update GameOverUI to display rewards
+// In GameOverUIData - add properties and update method
+public string rewardsText;
+
+// Update in UpdateFromScoreSummary()
 if (data.unlockedItems != null && data.unlockedItems.Count > 0)
 {
-    rewardsText.text = $"Unlocked: {string.Join(", ", data.unlockedItems)}";
+    rewardsText = $"Unlocked: {string.Join(", ", data.unlockedItems)}";
 }
 ```
 
@@ -193,11 +232,11 @@ if (data.unlockedItems != null && data.unlockedItems.Count > 0)
 - **ScoreCalculator**: For score calculation (reused, not duplicated)
 - **RunTracker**: For run data collection
 - **EventBus**: For event-driven communication
-- **PageUI**: For UI overlay management
-- **UIOverlayManager**: For page layering and visibility
+- **UI Toolkit**: For modern, performant UI rendering
+- **UIDocument**: For UI Toolkit integration
 
 ### New Dependencies
-- **TextMeshPro**: For text rendering (standard in Unity)
+- **UI Toolkit Package**: Unity's modern UI solution (already in project)
 
 ## Future Enhancements
 
@@ -223,11 +262,13 @@ Potential improvements to consider:
 The system logs detailed information for debugging:
 - RunTracker logs score breakdown when ending a run
 - GameManagerComponent logs final score
-- GameOverUI logs when displaying summary
+- GameOverController logs when displaying summary
+- Use GameOverUITester (F9/F10) for manual testing
 
 ## Notes
 
 - The `MainMenuButton` functionality is marked as TODO and requires scene loading implementation
 - The system automatically hides the Game Over UI on startup
-- All event bindings are properly cleaned up in `OnDestroy()`
-- The UI uses the existing PageUI system for consistent overlay management
+- UI Toolkit provides better performance than Canvas UI
+- Data binding automatically updates UI when data changes
+- USS styling allows easy visual customization without code changes

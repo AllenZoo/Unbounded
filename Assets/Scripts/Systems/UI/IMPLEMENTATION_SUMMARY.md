@@ -1,17 +1,19 @@
-# Game Over Score Summary Menu - Implementation Summary
+# Game Over Score Summary Menu - Implementation Summary (UI Toolkit)
 
 ## What Was Implemented
 
-A complete, scalable Game Over score summary menu system following Unity best practices with clean separation of concerns.
+A complete, scalable Game Over score summary menu system using **Unity's UI Toolkit**, following best practices with clean separation of concerns.
 
 ## Files Created/Modified
 
-### New Files (750+ lines)
+### New Files (UI Toolkit Implementation)
 1. **ScoreSummaryData.cs** - Data transfer object for score information
-2. **GameOverUI.cs** - UI component for displaying the game over screen
-3. **GameOverPage.asset** - ScriptableObject for UI page management
-4. **GAME_OVER_SYSTEM.md** - Comprehensive system documentation
-5. **GAME_OVER_SETUP_GUIDE.md** - Step-by-step Unity integration guide
+2. **GameOverController.cs** - UI Toolkit controller for game over display
+3. **GameOverContext.cs** - ScriptableObject for UI state management
+4. **GameOverUIData.cs** - Data binding object for UI Toolkit
+5. **GameOverUI.uxml** - UI Toolkit visual tree definition
+6. **GAME_OVER_SYSTEM.md** - Comprehensive system documentation
+7. **GAME_OVER_SETUP_GUIDE_UITOOLKIT.md** - Step-by-step UI Toolkit integration guide
 
 ### Modified Files
 1. **IEvent.cs** - Added OnGameOverEvent
@@ -21,7 +23,7 @@ A complete, scalable Game Over score summary menu system following Unity best pr
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         GAME OVER FLOW                          │
+│                    GAME OVER FLOW (UI Toolkit)                  │
 └─────────────────────────────────────────────────────────────────┘
 
     Player Dies
@@ -48,6 +50,54 @@ A complete, scalable Game Over score summary menu system following Unity best pr
             │
             │ Returns score data
             ▼
+┌───────────────────────────┐
+│ ScoreSummaryData          │◄──── (Data Object)
+│  .FromRunData()           │
+└───────────┬───────────────┘
+            │
+            │ 2. Package data
+            ▼
+┌───────────────────────────┐
+│ EventBus                  │
+│ <OnGameOverEvent>         │◄──── (Event)
+│  .Raise()                 │
+└───────────┬───────────────┘
+            │
+            │ 3. Broadcast event
+            ▼
+┌───────────────────────────┐
+│ GameOverController        │◄──── (UI Toolkit Controller)
+│  .OnGameOver()            │
+└───────────┬───────────────┘
+            │
+            │ 4. Update display data
+            ▼
+┌───────────────────────────┐
+│ GameOverUIData            │◄──── (Data Binding Object)
+│  .UpdateFromScoreSummary()│
+└───────────┬───────────────┘
+            │
+            │ 5. Open UI
+            ▼
+┌───────────────────────────┐
+│ GameOverContext           │◄──── (State Manager)
+│  .Open()                  │
+└───────────┬───────────────┘
+            │
+            │ 6. Display via data binding
+            ▼
+┌───────────────────────────┐
+│ UI Document               │
+│  (GameOverUI.uxml)        │
+│                           │
+│  Final Score: 12,345      │
+│  Damage Score: 10,000     │
+│  Time Score: 2,345        │
+│  Bosses Defeated: 3       │
+│                           │
+│  [Retry]  [Main Menu]     │
+└───────────────────────────┘
+```
 ┌───────────────────────────┐
 │ ScoreSummaryData          │◄──── (New, Data Object)
 │  .FromRunData()           │
@@ -191,7 +241,7 @@ EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent {
 
 ✅ **Minimal Changes**: Only 750 lines added/modified
 ✅ **Zero Breaking Changes**: No existing code modified destructively
-✅ **Reused Existing Systems**: ScoreCalculator, EventBus, PageUI
+✅ **Reused Existing Systems**: ScoreCalculator, EventBus, UI Toolkit
 ✅ **Well Documented**: 500+ lines of documentation
 ✅ **Security Verified**: CodeQL scan passed
 ✅ **Code Review Passed**: All feedback addressed
@@ -199,21 +249,21 @@ EventBus<OnGameOverEvent>.Raise(new OnGameOverEvent {
 ## Next Steps for Users
 
 1. **Open Unity Editor**
-2. **Follow GAME_OVER_SETUP_GUIDE.md** to create UI in scene
-3. **Test by triggering player death**
-4. **Customize styling** to match game aesthetic
+2. **Follow GAME_OVER_SETUP_GUIDE_UITOOLKIT.md** to set up UI Toolkit integration
+3. **Test by triggering player death** or press F9 with GameOverUITester
+4. **Customize styling** using USS or UI Builder
 5. **Add animations/sounds** (optional)
 
 ## Integration Checklist
 
-- [ ] Create Canvas in scene
-- [ ] Add GameOverPanel GameObject
-- [ ] Add GameOverUI component
-- [ ] Create TextMeshPro elements
+- [ ] Create UI Document GameObject in scene
+- [ ] Assign GameOverUI.uxml as source
+- [ ] Create GameOverContext ScriptableObject
+- [ ] Create GameOverUIData ScriptableObject
+- [ ] Add GameOverController component
 - [ ] Assign references in Inspector
-- [ ] Set UI layer
-- [ ] Test in Play mode
-- [ ] Customize styling
+- [ ] Test in Play mode with F9
+- [ ] Customize styling in UXML/USS
 - [ ] Add animations (optional)
 - [ ] Add sound effects (optional)
 
@@ -228,6 +278,11 @@ These can be added later without modifying the core system:
 
 2. **Score Animations**
    ```csharp
+   // UI Toolkit animation example
+   var label = root.Q<Label>("TotalScoreLabel");
+   label.experimental.animation.Start(0, targetScore, 2000, 
+       (element, value) => element.text = $"Final Score: {(int)value:N0}");
+   ```
    LeanTween.value(0, targetScore, 2f)
        .setOnUpdate((float val) => {
            scoreText.text = $"{(int)val:N0}";
