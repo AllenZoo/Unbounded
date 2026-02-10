@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 /// <summary>
@@ -6,10 +7,33 @@ using UnityEngine;
 /// </summary>
 public class BossFightInitializer : MonoBehaviour
 {
+
     [SerializeField] private string bossName = "Boss";
-    [SerializeField] private bool autoStartInStart = true;
+    [SerializeField] private bool autoStartInStart = false;
+    [Required, SerializeField] private LocalEventHandler leh;
 
     private bool hasStarted = false;
+
+    private LocalEventBinding<OnAggroStatusChangeEvent> aggroBinding;
+
+    private void Awake()
+    {
+        // Bind to aggro status change events to detect when the boss is engaged
+        aggroBinding = new LocalEventBinding<OnAggroStatusChangeEvent>(OnAggroStatusChange);
+
+        if (leh == null)
+            leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
+    }
+
+    private void OnEnable()
+    {
+        leh.Register(aggroBinding);
+    }
+
+    private void OnDisable()
+    {
+            leh.Unregister(aggroBinding);
+    }
 
     private void Start()
     {
@@ -38,5 +62,14 @@ public class BossFightInitializer : MonoBehaviour
         
         hasStarted = true;
         Debug.Log($"Boss fight started: {actualBossName}");
+    }
+
+    private void OnAggroStatusChange(OnAggroStatusChangeEvent evt)
+    {
+        // If the boss becomes aggroed, start the boss fight
+        if (evt.isAggroed)
+        {
+            StartBossFight();
+        }
     }
 }

@@ -64,11 +64,31 @@ public class SceneLoader : MonoBehaviour
     }
     private IEnumerator LoadScenes(List<SceneField> rawScenesToLoad, SceneField activeSceneToSet, bool showingLoadingBar)
     {
+        if (!string.IsNullOrEmpty(activeSceneToSet.SceneName) &&
+            !rawScenesToLoad.Contains(activeSceneToSet))
+        {
+            Debug.LogError(
+                $"Active scene '{activeSceneToSet}' is not included in scenesToLoad!"
+            );
+        }
+
+
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
         HashSet<SceneField> scenesToLoad = FilterScenesToLoad(rawScenesToLoad);
-        foreach(SceneField scene in scenesToLoad)
+        Scene loadedActiveScene = default;
+
+        foreach (SceneField scene in scenesToLoad)
         {
-            scenesLoading.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
+            var op = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+            scenesLoading.Add(op);
+
+            if (scene == activeSceneToSet)
+            {
+                op.completed += _ =>
+                {
+                    loadedActiveScene = SceneManager.GetSceneByName(scene.SceneName);
+                };
+            }
         }
 
 
@@ -99,15 +119,22 @@ public class SceneLoader : MonoBehaviour
 #endif
                });
         }
-       
 
-        // Set active scene if there is one.
-        if (activeSceneToSet != "")
+
+        if (!string.IsNullOrEmpty(activeSceneToSet))
         {
-            Scene activeScene = SceneManager.GetSceneByName(activeSceneToSet);
+            yield return new WaitUntil(() =>
+            {
+                Scene s = SceneManager.GetSceneByName(activeSceneToSet.SceneName);
+                return s.isLoaded;
+            });
+
+            // Set active scene if there is one.
+            Scene activeScene = SceneManager.GetSceneByName(activeSceneToSet.SceneName);
             SceneManager.SetActiveScene(activeScene);
         }
-        
+
+
         if (showingLoadingBar) yield return new WaitUntil(() => tweenComplete);
 
         yield return new WaitForSecondsRealtime(0.5f);
@@ -131,11 +158,14 @@ public class SceneLoader : MonoBehaviour
             }
 
             // Check if there is a scene to unload.
-            if (SceneManager.GetSceneByName(scene).IsValid())
+            Scene s = SceneManager.GetSceneByName(scene);
+
+            if (s.isLoaded)
             {
                 scenesUnloading.Add(SceneManager.UnloadSceneAsync(scene));
             }
-            
+
+
         }
 
         // Wait for all unloading operations to complete
@@ -153,28 +183,23 @@ public class SceneLoader : MonoBehaviour
     private HashSet<SceneField> FilterScenesToLoad(List<SceneField> rawScenesToLoad)
     {
         HashSet<SceneField> filteredScenes = new HashSet<SceneField>();
+
         foreach (var rawScene in rawScenesToLoad)
         {
             if (rawScene == "") continue;
 
-            // Check if Scene to load is already loaded. If it is, don't add it to list.
-            if (!SceneManager.GetSceneByName(rawScene).IsValid())
+            Scene scene = SceneManager.GetSceneByName(rawScene);
+
+            // Only load if it is NOT loaded
+            if (!scene.isLoaded)
             {
                 filteredScenes.Add(rawScene);
             }
         }
+
         return filteredScenes;
     }
 
-    //public void ShowLoadingScreen()
-    //{
-    //    if (loadingCanvasPfb != null)
-    //    {
-    //        cameraMain.SetActive(true);
-    //        loadingCanvasPfb.SetActive(true);
-    //        bar.fillAmount = 0;
-    //    }
-    //}
 
     public void ShowLoadingScreen()
     {

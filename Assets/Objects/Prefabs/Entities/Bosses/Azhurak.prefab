@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 5780175422548126830}
+  leh: {fileID: 0}
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 6059275055936029469}
@@ -1243,5 +1243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
-  bossName: Boss
-  autoStartInStart: 1
+  bossName: Azhurak
+  autoStartInStart: 0
+  leh: {fileID: 5780175422548126830}

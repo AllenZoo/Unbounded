@@ -856,7 +856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 7418713779254395358}
+  leh: {fileID: 0}
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 2067646286696974389}
@@ -942,8 +942,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
-  bossName: Boss
-  autoStartInStart: 1
+  bossName: Chillcrusher
+  autoStartInStart: 0
+  leh: {fileID: 7418713779254395358}
 --- !u!1 &7520094694584610634
 GameObject:
   m_ObjectHideFlags: 0

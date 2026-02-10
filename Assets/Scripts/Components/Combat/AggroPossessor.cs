@@ -9,7 +9,7 @@ using UnityEngine.Events;
 // Attached to targets that have a
 public class AggroPossessor : MonoBehaviour
 {
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [SerializeField] private LocalEventHandler leh;
 
     [SerializeField] private float aggroRange;
     [SerializeField] private float aggroReleaseRange;
@@ -29,15 +29,8 @@ public class AggroPossessor : MonoBehaviour
 
         aggroDetecter.radius = aggroRange;
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                     "] with root object [" + gameObject.transform.root.name + "] for AggroPossessor.cs");
-            }
-        }
+        if (leh == null)
+            leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
     }
 
     // Detects when AggroTarget is in range.
@@ -54,7 +47,7 @@ public class AggroPossessor : MonoBehaviour
             aggroTarget = collision.gameObject;
             StopAllCoroutines();
             isAggroed = true;
-            localEventHandler.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
+            leh.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
             StartCoroutine(AggroCoroutine());
         }
     }
@@ -74,7 +67,7 @@ public class AggroPossessor : MonoBehaviour
                         aggroBrain.SetAggroTarget(null);
                     }
                     isAggroed = false;
-                    localEventHandler.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
+                    leh.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
                 }
             }
             yield return new WaitForSeconds(0.5f);
@@ -85,6 +78,6 @@ public class AggroPossessor : MonoBehaviour
     private void OnDisable()
     {
         isAggroed = false;
-        localEventHandler?.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
+        leh?.Call(new OnAggroStatusChangeEvent() { isAggroed = isAggroed });
     }
 }

@@ -61,14 +61,19 @@ public class MusicManager : Singleton<MusicManager>
             Debug.LogWarning("MusicManager: Attempted to register null MapMusicConfig");
             return;
         }
-        
+
+        var prevConfig = currentMapMusic;
         currentMapMusic = config;
+
         Debug.Log($"MusicManager: Registered music config for map '{config.MapName}'");
         
+
+        bool newConfig = (prevConfig == null || prevConfig.MapName != config.MapName);
+
         // Set initial state if different from current
-        if (initialState != MusicState.None && initialState != currentState)
+        if (newConfig || (initialState != MusicState.None && initialState != currentState))
         {
-            SetMusicState(initialState);
+            SetMusicState(initialState, forceTransition:true);
         }
     }
     
@@ -77,10 +82,10 @@ public class MusicManager : Singleton<MusicManager>
     /// Handles smooth fade in/out between tracks.
     /// </summary>
     /// <param name="newState">The music state to transition to</param>
-    public void SetMusicState(MusicState newState)
+    public void SetMusicState(MusicState newState, bool forceTransition = false)
     {
         // Don't transition if already in this state
-        if (currentState == newState)
+        if (currentState == newState && !forceTransition)
         {
             return;
         }

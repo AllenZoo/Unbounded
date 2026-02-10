@@ -605,6 +605,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &510336376
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -650,6 +651,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -657,7 +659,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &510336377
 Tilemap:
   m_ObjectHideFlags: 0
@@ -12095,6 +12096,7 @@ TilemapCollider2D:
   m_UseDelaunayMesh: 0
 --- !u!483693784 &613888162
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -12140,6 +12142,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12147,7 +12150,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &613888163
 Tilemap:
   m_ObjectHideFlags: 0
@@ -12524,6 +12526,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!483693784 &781685519
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -12569,6 +12572,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12576,7 +12580,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &781685520
 Tilemap:
   m_ObjectHideFlags: 0
@@ -14128,6 +14131,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &918106787
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -14173,6 +14177,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -14180,7 +14185,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &918106788
 Tilemap:
   m_ObjectHideFlags: 0
@@ -15823,6 +15827,7 @@ Rigidbody2D:
   m_Constraints: 0
 --- !u!483693784 &1446439217
 TilemapRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -15868,6 +15873,7 @@ TilemapRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 11
+  m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -15875,7 +15881,6 @@ TilemapRenderer:
   m_SortOrder: 0
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
-  m_MaskInteraction: 0
 --- !u!1839735485 &1446439218
 Tilemap:
   m_ObjectHideFlags: 0
@@ -16317,6 +16322,7 @@ GameObject:
   m_IsActive: 0
 --- !u!212 &1866002562
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -16362,6 +16368,7 @@ SpriteRenderer:
   m_SortingLayerID: 11905499
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -1581772287, guid: 0b1db2e22d582454c8908196937b293a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -16371,7 +16378,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1866002563
 Transform:
@@ -16586,6 +16592,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5855636714813617146, guid: 80ccea21b8d31a245bc7180ee4d270ea, type: 3}
   m_PrefabInstance: {fileID: 1959098104}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2004038309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2004038311}
+  - component: {fileID: 2004038310}
+  m_Layer: 0
+  m_Name: MusicLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2004038310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004038309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f958890aaf954d44a63759e6c38e3a8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapMusicInitializer
+  mapMusicConfig: {fileID: 11400000, guid: e9ed2c1d1f0939144b6e95f7253d1109, type: 2}
+  initialMusicState: 1
+  autoInitialize: 1
+--- !u!4 &2004038311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004038309}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.15188, y: -1.60095, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2032257722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17137,3 +17190,4 @@ SceneRoots:
   - {fileID: 1732161605}
   - {fileID: 5799813682963886683}
   - {fileID: 1450646591}
+  - {fileID: 2004038311}

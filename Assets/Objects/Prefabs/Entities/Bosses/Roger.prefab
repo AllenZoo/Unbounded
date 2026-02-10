@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 5379839545947120568}
   - component: {fileID: 2857095827299717107}
   - component: {fileID: 8750099223386730952}
+  - component: {fileID: 3598566561858732211}
   m_Layer: 6
   m_Name: Roger
   m_TagString: Entity
@@ -933,6 +934,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3598566561858732211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675867524841792782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
+  bossName: Roger
+  autoStartInStart: 0
+  leh: {fileID: 551598601173631618}
 --- !u!1 &7998717576902393734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996584e3ab0c8334f82e3b27d64b8a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 551598601173631618}
+  leh: {fileID: 0}
   aggroRange: 7
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 4478374123057694167}
