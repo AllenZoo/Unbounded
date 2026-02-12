@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 /// <summary>
@@ -41,6 +42,7 @@ public class GameOverUITester : MonoBehaviour
     /// <summary>
     /// Triggers a test game over with the configured sample data.
     /// </summary>
+    [Button("Trigger Game Over Score")]
     public void TriggerTestGameOver()
     {
         Debug.Log($"[GameOverUITester] Triggering test game over with sample data (Press {testGameOverKey})");
@@ -61,6 +63,7 @@ public class GameOverUITester : MonoBehaviour
     /// <summary>
     /// Triggers a test game over with zero score (edge case testing).
     /// </summary>
+    [Button("Trigger Game Over Zero Score")]
     public void TriggerTestGameOverZeroScore()
     {
         Debug.Log($"[GameOverUITester] Triggering test game over with zero score (Press {testZeroScoreKey})");
@@ -81,6 +84,7 @@ public class GameOverUITester : MonoBehaviour
     /// <summary>
     /// Triggers a test game over with high scores (testing number formatting).
     /// </summary>
+    [Button("Trigger Game Over High Score")]
     public void TriggerTestGameOverHighScore()
     {
         Debug.Log("[GameOverUITester] Triggering test game over with high score");

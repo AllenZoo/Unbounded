@@ -62,6 +62,7 @@ public struct OnSceneLoadRequest: IGlobalEvent
     public List<SceneField> scenesToUnload;
     public SceneField activeSceneToSet;
     public bool showLoadingBar;
+    public bool unloadAllButPersistent;
 }
 
 public struct OnSceneLoadRequestFinish : IGlobalEvent

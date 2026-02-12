@@ -157,7 +157,8 @@ public class GameOverController : MonoBehaviour
                 scenesToLoad = new List<SceneField> { anchorPointScene },
                 scenesToUnload = new List<SceneField> { gameOverScene },
                 activeSceneToSet = anchorPointScene,
-                showLoadingBar = true
+                showLoadingBar = true,
+                unloadAllButPersistent = true
             });
         }
         else
@@ -182,7 +183,8 @@ public class GameOverController : MonoBehaviour
             scenesToLoad = new List<SceneField> { mainMenuScene },
             scenesToUnload = new List<SceneField> { gameOverScene },
             activeSceneToSet = mainMenuScene,
-            showLoadingBar = true
+            showLoadingBar = true,
+            unloadAllButPersistent = true
         });
     }
 

@@ -17,6 +17,7 @@ public class StateComponent : MonoBehaviour
 
     private delegate IEnumerator AnimationCoroutine();
     private delegate void StateAction();
+    private Coroutine deactivationCoroutine;
 
     private void Awake()
     {
@@ -80,6 +81,15 @@ public class StateComponent : MonoBehaviour
     public List<State> GetCCStates
     {
         get { return crowdControlStates; }
+    }
+
+    /// <summary>
+    /// Forces the state back to IDLE, allowing a dead entity to be revived.
+    /// </summary>
+    public void ResetState()
+    {
+        if (deactivationCoroutine != null) StopCoroutine(deactivationCoroutine);
+        SetState(State.IDLE);
     }
 
     private void HandleOnDeathEvent(OnDeathEvent e)
