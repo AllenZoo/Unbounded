@@ -119,6 +119,8 @@ public struct OnGameOverEvent : IGlobalEvent
     public ScoreSummaryData scoreSummary;
 }
 
+public struct OnPlayerDeathEvent : IGlobalEvent { }
+
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
 /// </summary>

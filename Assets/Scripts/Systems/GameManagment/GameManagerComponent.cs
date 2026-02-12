@@ -9,6 +9,8 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
     public int roundNumber = 1; // Round number, (start at 1)
 
+    EventBinding<OnPlayerDeathEvent> playerDeathBinding;
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,11 +18,24 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
         EventBinding<OnSceneLoadRequestFinish> osclrfBinding = new EventBinding<OnSceneLoadRequestFinish>(Handle_OnSceneLoadRequestFinish);
         EventBus<OnSceneLoadRequestFinish>.Register(osclrfBinding);
+
+        playerDeathBinding = new EventBinding<OnPlayerDeathEvent>(OnPlayerDeath);
     }
 
     protected void Start()
     {
         Handle_OnSceneLoadRequestFinish();
+        playerDeathBinding = new EventBinding<OnPlayerDeathEvent>(OnPlayerDeath);
+    }
+
+    private void OnEnable()
+    {
+        if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Register(playerDeathBinding);
+    }
+
+    private void OnDisable()
+    {
+        if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Unregister(playerDeathBinding);
     }
 
     public void StartNewRun()
