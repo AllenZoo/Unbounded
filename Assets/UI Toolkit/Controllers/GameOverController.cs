@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,9 +9,25 @@ using UnityEngine.UIElements;
 /// </summary>
 public class GameOverController : MonoBehaviour
 {
+    [FoldoutGroup("UI Fields")]
     [Required, SerializeField] private UIDocument gameOverUIDocument;
+
+    [FoldoutGroup("UI Fields")]
     [Required, SerializeField] private GameOverContext gameOverContext;
+
+    [FoldoutGroup("UI Fields")]
     [Required, SerializeField] private GameOverUIData gameOverUIData;
+
+
+    [FoldoutGroup("Scenes")]
+    [Required, SerializeField] private SceneField mainMenuScene;
+
+    [FoldoutGroup("Scenes")]
+    [Required, SerializeField] private SceneField anchorPointScene;
+
+    [FoldoutGroup("Scenes")]
+    [Required, SerializeField] private SceneField gameOverScene;
+
 
     private VisualElement rootContainer;
     private VisualElement retryButton;
@@ -133,6 +150,15 @@ public class GameOverController : MonoBehaviour
         if (GameManagerComponent.Instance != null)
         {
             GameManagerComponent.Instance.StartNewRun();
+
+            // Transition to the anchor point scene.
+            EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
+            {
+                scenesToLoad = new List<SceneField> { anchorPointScene },
+                scenesToUnload = new List<SceneField> { gameOverScene },
+                activeSceneToSet = anchorPointScene,
+                showLoadingBar = true
+            });
         }
         else
         {
@@ -150,8 +176,14 @@ public class GameOverController : MonoBehaviour
         // Close the Game Over UI
         gameOverContext.Close();
 
-        // TODO: Implement return to main menu functionality
-        Debug.LogWarning("Main menu functionality not yet implemented");
+        // Transition to the main scene.
+        EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
+        {
+            scenesToLoad = new List<SceneField> { mainMenuScene },
+            scenesToUnload = new List<SceneField> { gameOverScene },
+            activeSceneToSet = mainMenuScene,
+            showLoadingBar = true
+        });
     }
 
     private void OnDestroy()

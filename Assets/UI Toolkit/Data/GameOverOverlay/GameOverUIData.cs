@@ -1,17 +1,19 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 /// <summary>
 /// Data class for the Game Over UI that supports UI Toolkit data binding.
 /// This class converts ScoreSummaryData into formatted strings for display.
 /// </summary>
+[CreateAssetMenu(fileName = "new GameOverUIData", menuName = "System/UI Toolkit/Game Over Data", order = 1)]
 public class GameOverUIData : ScriptableObject
 {
-    public string totalScoreText;
-    public string damageScoreText;
-    public string timeScoreText;
-    public string bossesDefeatedText;
-    public string totalDamageText;
-    public string timeSurvivedText;
+    [ReadOnly] public string totalScoreText;
+    [ReadOnly] public string damageScoreText;
+    [ReadOnly] public string timeScoreText;
+    [ReadOnly] public string bossesDefeatedText;
+    [ReadOnly] public string totalDamageText;
+    [ReadOnly] public string timeSurvivedText;
 
     /// <summary>
     /// Updates the UI data from a ScoreSummaryData object.
