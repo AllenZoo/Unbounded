@@ -26,6 +26,9 @@ public class GameOverController : MonoBehaviour
     [Required, SerializeField] private SceneField anchorPointScene;
 
     [FoldoutGroup("Scenes")]
+    [Required, SerializeField] private SceneField armouryScene;
+
+    [FoldoutGroup("Scenes")]
     [Required, SerializeField] private SceneField gameOverScene;
 
 
@@ -109,6 +112,15 @@ public class GameOverController : MonoBehaviour
             Debug.LogWarning("GameOverController: Received OnGameOverEvent with null scoreSummary");
             return;
         }
+        // Teleport to the Game Over scene if not already there
+        EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
+        {
+            scenesToLoad = new List<SceneField> { gameOverScene },
+            scenesToUnload = new List<SceneField> {  },
+            activeSceneToSet = gameOverScene,
+            showLoadingBar = false,
+            unloadAllButPersistent = true
+        });
 
         // Update the UI data
         gameOverUIData.UpdateFromScoreSummary(e.scoreSummary);
@@ -154,9 +166,9 @@ public class GameOverController : MonoBehaviour
             // Transition to the anchor point scene.
             EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
             {
-                scenesToLoad = new List<SceneField> { anchorPointScene },
+                scenesToLoad = new List<SceneField> { armouryScene },
                 scenesToUnload = new List<SceneField> { gameOverScene },
-                activeSceneToSet = anchorPointScene,
+                activeSceneToSet = armouryScene,
                 showLoadingBar = true,
                 unloadAllButPersistent = true
             });
