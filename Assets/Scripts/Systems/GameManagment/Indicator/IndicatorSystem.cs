@@ -39,7 +39,7 @@ public class IndicatorSystem : Singleton<IndicatorSystem>
 
         foreach (var kv in indicators)
         {
-            if (!kv.Value.activeSelf)
+            if (kv.Value == null || !kv.Value.activeSelf)
             {
                 (removeList ??= new List<IndicatorController>()).Add(kv.Key);
             }

@@ -11,6 +11,9 @@ public class SceneTeleporter : SerializedMonoBehaviour
 
     [Required, SerializeField] private SceneField targetScene;
 
+    [Tooltip("If true, all other currently loaded scenes will be unloaded when teleporting. (apart from persistent scenes)")]
+    [Required, SerializeField] private bool unloadAllOtherScenesButPersist = true;
+
     [Optional, SerializeField] private ScriptableObjectBoolean varToSetTrueOnYesAnswerModal; // Super ugly but works for now :)
 
     [Tooltip("Modal will display if this condition is TRUE.")]
@@ -67,7 +70,7 @@ public class SceneTeleporter : SerializedMonoBehaviour
         //    return;
 
         // TODO: check when this function is called from flow.
-        var teleportIntent = new TeleportInteractionIntent(targetScene);
+        var teleportIntent = new TeleportInteractionIntent(targetScene, unloadAllOtherScenesButPersist);
         var setBoolIntent = new SetBooleanVariableIntent(varToSetTrueOnYesAnswerModal, true);
 
         conditionChecker?.ValidateConditions();

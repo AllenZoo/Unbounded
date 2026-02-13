@@ -1733,7 +1733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7141946526036812657, guid: 1cd3d1584753623429b8dea325a4e651, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7273656540896283096, guid: 1cd3d1584753623429b8dea325a4e651, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7384,6 +7384,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1621824529833183143, guid: b355d32c1a49b8949b4f7a9e50baa5a2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Teleport
+      objectReference: {fileID: 0}
     - target: {fileID: 3403602421358558690, guid: b355d32c1a49b8949b4f7a9e50baa5a2, type: 3}
       propertyPath: m_Name
       value: Settings
@@ -7468,6 +7472,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4065052642450906785, guid: b355d32c1a49b8949b4f7a9e50baa5a2, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4065052642450906785, guid: b355d32c1a49b8949b4f7a9e50baa5a2, type: 3}
     - target: {fileID: 5492155860337617981, guid: b355d32c1a49b8949b4f7a9e50baa5a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

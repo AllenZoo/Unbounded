@@ -77,7 +77,13 @@ public class PlayerTeleporter : MonoBehaviour
             if (!player.activeSelf)
             {
                 player.SetActive(true);
+
+                // Notify systems of respawn so they can reset states, cooldowns, etc.
+                // TODO: make this less coupled
+                player.GetComponentInChildren<LocalEventHandler>().Call(new OnRespawnEvent());
                 
+                // TODO: move this logic to individual components so they can control how to handle resetting.
+                //       Leave like this for now since it doesn't break anything.
                 // Reset state to IDLE to allow movement/input again
                 StateComponent stateComp = player.GetComponent<StateComponent>();
                 if (stateComp != null) stateComp.ResetState();
