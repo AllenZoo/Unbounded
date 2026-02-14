@@ -54,6 +54,12 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
             RunTracker.Instance.StartNewRun();
         }
 
+        // Initialize run history tracking
+        if (RunHistoryManager.Instance != null)
+        {
+            RunHistoryManager.Instance.StartNewRun();
+        }
+
         ChangeState(GameState.WeaponTrial);
     }
 
