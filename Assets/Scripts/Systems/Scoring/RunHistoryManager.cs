@@ -22,6 +22,10 @@ public class RunHistoryManager : MonoBehaviour, IDataPersistence
     private EventBinding<OnGameOverEvent> gameOverBinding;
     private EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding;
     
+    // Cached references for performance
+    private GameObject cachedPlayer;
+    private InventorySystem cachedInventorySystem;
+    
     // Static instance for easy access
     public static RunHistoryManager Instance { get; private set; }
 
@@ -65,6 +69,11 @@ public class RunHistoryManager : MonoBehaviour, IDataPersistence
         currentRunWeapons.Clear();
         trackedWeaponIds.Clear();
         runStartTime = Time.time;
+        
+        // Cache references at the start of a new run
+        cachedPlayer = null;
+        cachedInventorySystem = null;
+        
         Debug.Log("[RunHistoryManager] Started tracking new run");
     }
 
@@ -85,18 +94,21 @@ public class RunHistoryManager : MonoBehaviour, IDataPersistence
     {
         try
         {
-            // Try to get player's equipment inventory
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player == null) return;
+            // Cache player reference if needed
+            if (cachedPlayer == null)
+            {
+                cachedPlayer = GameObject.FindGameObjectWithTag("Player");
+            }
+            if (cachedPlayer == null) return;
 
-            EquipmentWeaponHandler weaponHandler = player.GetComponentInChildren<EquipmentWeaponHandler>();
-            if (weaponHandler == null) return;
+            // Cache inventory system reference if needed
+            if (cachedInventorySystem == null)
+            {
+                cachedInventorySystem = FindObjectOfType<InventorySystem>();
+            }
+            if (cachedInventorySystem == null) return;
 
-            // Access the inventory through reflection or by finding the InventorySystem component
-            InventorySystem inventorySystem = FindObjectOfType<InventorySystem>();
-            if (inventorySystem == null) return;
-
-            Item currentWeapon = inventorySystem.GetItem(0); // Weapon slot is index 0
+            Item currentWeapon = cachedInventorySystem.GetItem(0); // Weapon slot is index 0
             if (currentWeapon == null || currentWeapon.IsEmpty()) return;
             
             string weaponId = currentWeapon.Data.ID;

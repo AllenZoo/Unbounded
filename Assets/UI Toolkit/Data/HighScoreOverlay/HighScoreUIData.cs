@@ -10,6 +10,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new HighScoreUIData", menuName = "System/UI Toolkit/High Score Data", order = 2)]
 public class HighScoreUIData : ScriptableObject
 {
+    private const string HIGH_SCORE_PREFIX = "High Score: ";
+    private const string NO_WEAPONS_TEXT = "No weapons recorded";
+    
     [ReadOnly] public string highScoreText;
     [ReadOnly] public List<RunHistoryDisplayData> runHistoryList;
 
@@ -33,7 +36,7 @@ public class HighScoreUIData : ScriptableObject
         int highScore = RunHistoryManager.Instance.HighScore;
         List<RunHistoryData> history = RunHistoryManager.Instance.RunHistory;
 
-        highScoreText = $"High Score: {highScore:N0}";
+        highScoreText = $"{HIGH_SCORE_PREFIX}{highScore:N0}";
 
         // Convert run history to display data
         runHistoryList = new List<RunHistoryDisplayData>();
@@ -63,7 +66,7 @@ public class HighScoreUIData : ScriptableObject
     /// </summary>
     public void ClearData()
     {
-        highScoreText = "High Score: 0";
+        highScoreText = $"{HIGH_SCORE_PREFIX}0";
         runHistoryList.Clear();
     }
 
@@ -84,7 +87,7 @@ public class HighScoreUIData : ScriptableObject
     {
         if (weapons == null || weapons.Count == 0)
         {
-            return "No weapons recorded";
+            return NO_WEAPONS_TEXT;
         }
 
         // Get unique weapon names
