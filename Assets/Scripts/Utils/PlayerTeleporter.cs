@@ -88,12 +88,7 @@ public class PlayerTeleporter : MonoBehaviour
                 StateComponent stateComp = player.GetComponent<StateComponent>();
                 if (stateComp != null) stateComp.ResetState();
 
-                // Reset health to max
-                StatComponent stats = player.GetComponentInChildren<StatComponent>();
-                if (stats != null && stats.StatContainer != null)
-                {
-                    stats.StatContainer.Health = stats.StatContainer.MaxHealth;
-                }
+                // Reset health to max is now handled by StatComponent via OnRespawnEvent.
             }
 
             if (!hasTeleported)
