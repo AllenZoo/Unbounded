@@ -38,6 +38,13 @@ public class AttackerComponent : SerializedMonoBehaviour
     [SerializeField, ReadOnly] private bool canAttack = true;
     private Coroutine pauseCoroutine;
 
+    #region Local Event Bindings
+    private LocalEventBinding<OnAttackInput> attackInputBinding;
+    private LocalEventBinding<OnDeathEvent> deathEventBinding;
+    private LocalEventBinding<OnWeaponEquippedEvent> equipEventBinding;
+    private LocalEventBinding<OnRespawnEvent> respawnEventBinding;
+    #endregion
+
     private void Awake()
     {
         // Check if target types has atleast one element.
@@ -50,18 +57,46 @@ public class AttackerComponent : SerializedMonoBehaviour
 
     private void Start()
     {
-        LocalEventBinding<OnAttackInput> eventBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
-        leh.Register<OnAttackInput>(eventBinding);
+        attackInputBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
+        leh.Register<OnAttackInput>(attackInputBinding);
 
-        LocalEventBinding<OnDeathEvent> deathEventBinding = new LocalEventBinding<OnDeathEvent>(
+        deathEventBinding = new LocalEventBinding<OnDeathEvent>(
             (e) => { 
                 canAttack = false;
                 StopAllCoroutines();
             });
         leh.Register<OnDeathEvent>(deathEventBinding);
 
-        LocalEventBinding<OnWeaponEquippedEvent> equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
+        equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
         leh.Register<OnWeaponEquippedEvent>(equipEventBinding);
+
+        respawnEventBinding = new LocalEventBinding<OnRespawnEvent>(
+            (e) => {
+                canAttack = true;
+            });
+        leh.Register<OnRespawnEvent>(respawnEventBinding);
+    }
+
+    private void OnEnable()
+    {
+        if (leh != null)
+        {
+            if (attackInputBinding != null) leh.Register<OnAttackInput>(attackInputBinding);
+            if (deathEventBinding != null) leh.Register<OnDeathEvent>(deathEventBinding);
+            if (equipEventBinding != null) leh.Register<OnWeaponEquippedEvent>(equipEventBinding);
+            if (respawnEventBinding != null) leh.Register<OnRespawnEvent>(respawnEventBinding);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (leh != null)
+        {
+            if (attackInputBinding != null) leh.Unregister<OnAttackInput>(attackInputBinding);
+            if (deathEventBinding != null) leh.Unregister<OnDeathEvent>(deathEventBinding);
+            if (equipEventBinding != null) leh.Unregister<OnWeaponEquippedEvent>(equipEventBinding);
+            if (respawnEventBinding != null) leh.Unregister<OnRespawnEvent>(respawnEventBinding);
+        }
     }
 
     public void AttackReq(OnAttackInput input)

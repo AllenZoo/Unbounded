@@ -51,9 +51,12 @@ public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
 
 public struct OnSceneTeleportRequest: IGlobalEvent
 {
+    // TODO-OPT: remove as currently, this is an redundant layer of abstraction on top of OnSceneLoadRequest.
+    // However, it may be useful in the future if we want to have more logic around teleporting vs loading a scene (e.g. checking if player is allowed to teleport, etc.)
     // Requested by objects that want to teleport the player to another scene.
     // e.g. SceneTeleporter.cs
     public SceneField targetScene;
+    public bool unloadAllButPersistent;
 }
 
 public struct OnSceneLoadRequest: IGlobalEvent
@@ -62,6 +65,7 @@ public struct OnSceneLoadRequest: IGlobalEvent
     public List<SceneField> scenesToUnload;
     public SceneField activeSceneToSet;
     public bool showLoadingBar;
+    public bool unloadAllButPersistent;
 }
 
 public struct OnSceneLoadRequestFinish : IGlobalEvent
@@ -114,6 +118,13 @@ public struct OnBossFightEndEvent : IGlobalEvent
     public string bossName;
 }
 
+public struct OnGameOverEvent : IGlobalEvent
+{
+    public ScoreSummaryData scoreSummary;
+}
+
+public struct OnPlayerDeathEvent : IGlobalEvent { }
+
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
 /// </summary>
@@ -142,6 +153,8 @@ public struct OnDamagedEvent: ILocalEvent
 }
 
 public struct OnDeathEvent : ILocalEvent { }
+
+public struct OnRespawnEvent: ILocalEvent { }
 
 public struct OnStateChangeEvent: ILocalEvent {
     public State newState;

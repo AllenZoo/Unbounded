@@ -29,6 +29,8 @@ public class Damageable : MonoBehaviour
 
     private List<IAttack> dotAttacks;
 
+    private LocalEventBinding<OnRespawnEvent> respawnBinding;
+
     private void Awake()
     {
         Assert.IsNotNull(stat, "Damageable object needs a stat component to calculate final damage.");
@@ -43,7 +45,19 @@ public class Damageable : MonoBehaviour
 
         LocalEventBinding<OnStatChangeEvent> statModResBinding = new LocalEventBinding<OnStatChangeEvent>(CheckDeath);
         leh.Register(statModResBinding);
+
+        respawnBinding = new LocalEventBinding<OnRespawnEvent>(OnRespawn);
     }
+
+    private void OnEnable()
+    {
+        leh.Register(respawnBinding);
+    }
+    private void OnDisable()
+    {
+        leh.Unregister(respawnBinding);
+    }
+
 
     // Damage needs to be > 0
     public void TakeDamage(float damage)
@@ -125,5 +139,11 @@ public class Damageable : MonoBehaviour
             // Disable hittable so it can't be hit anymore.
             isHittable = false;
         }
+    }
+
+    private void OnRespawn()
+    {
+        // Re-enable hittable so it can be hit again.
+        isHittable = true;
     }
 }

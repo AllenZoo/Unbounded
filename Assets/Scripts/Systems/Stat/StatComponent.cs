@@ -35,6 +35,8 @@ public class StatComponent : MonoBehaviour
         LocalEventBinding<OnStatBuffEvent> buffBinding = new LocalEventBinding<OnStatBuffEvent>(HandleBuff);
         leh.Register(buffBinding);
 
+        LocalEventBinding<OnRespawnEvent> respawnBinding = new LocalEventBinding<OnRespawnEvent>(HandleRespawn);
+        leh.Register(respawnBinding);
 
         Debug.Assert(statContainer != null);
         // If null reference here, most likely statContainer not serialized.
@@ -132,6 +134,12 @@ public class StatComponent : MonoBehaviour
     {
         leh.Call(new OnStatChangeEvent { statComponent = this });
         OnStatChange?.Invoke();
+    }
+
+    private void HandleRespawn(OnRespawnEvent e)
+    {
+        statContainer.Health = statContainer.MaxHealth;
+        HandleStatChange(); // This notifies BarController to refill the bar
     }
     #endregion    
 

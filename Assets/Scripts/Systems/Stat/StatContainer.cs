@@ -34,7 +34,7 @@ public class StatContainer
     }
 
     // Note: Health is special since it's so frequently modified, we just decided to store it without the modifier chain.
-    private float health;
+    [ReadOnly, ShowInInspector] private float health;
 
     #region Stats
     public float Health { get { return health; } set { health = value; } }

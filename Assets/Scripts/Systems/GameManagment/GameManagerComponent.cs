@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugManager;
 
@@ -9,6 +10,8 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
     public int roundNumber = 1; // Round number, (start at 1)
 
+    EventBinding<OnPlayerDeathEvent> playerDeathBinding;
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,11 +19,24 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
         EventBinding<OnSceneLoadRequestFinish> osclrfBinding = new EventBinding<OnSceneLoadRequestFinish>(Handle_OnSceneLoadRequestFinish);
         EventBus<OnSceneLoadRequestFinish>.Register(osclrfBinding);
+
+        playerDeathBinding = new EventBinding<OnPlayerDeathEvent>(OnPlayerDeath);
     }
 
     protected void Start()
     {
         Handle_OnSceneLoadRequestFinish();
+        playerDeathBinding = new EventBinding<OnPlayerDeathEvent>(OnPlayerDeath);
+    }
+
+    private void OnEnable()
+    {
+        if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Register(playerDeathBinding);
+    }
+
+    private void OnDisable()
+    {
+        if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Unregister(playerDeathBinding);
     }
 
     public void StartNewRun()
@@ -48,6 +64,10 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         {
             int finalScore = RunTracker.Instance.EndRun();
             Debug.Log($"Run ended with final score: {finalScore}");
+            
+            // Create score summary data and trigger game over event
+            ScoreSummaryData scoreSummary = ScoreSummaryData.FromRunData(RunTracker.Instance.CurrentRun);
+            EventBus<OnGameOverEvent>.Call(new OnGameOverEvent { scoreSummary = scoreSummary });
         }
 
         ChangeState(GameState.RunEnd);
