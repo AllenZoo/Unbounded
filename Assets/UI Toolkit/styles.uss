@@ -33,3 +33,54 @@
 
 .unity-button:focus {
 }
+
+/* High Score Run Entry Styles */
+.run-entry {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left-color: rgb(210, 255, 102);
+    border-right-color: rgb(210, 255, 102);
+    border-top-color: rgb(210, 255, 102);
+    border-bottom-color: rgb(210, 255, 102);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+}
+
+.run-entry-header {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.run-score {
+    font-size: 28px;
+    color: rgb(255, 215, 0);
+    -unity-font-style: bold;
+}
+
+.run-timestamp {
+    font-size: 18px;
+    color: rgb(200, 200, 200);
+    align-self: center;
+}
+
+.run-stats {
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 8px;
+}
+
+.run-stats Label {
+    font-size: 16px;
+    color: rgb(220, 220, 220);
+}
+
+.run-weapons {
+    font-size: 14px;
+    color: rgb(180, 220, 255);
+    margin-top: 5px;
+}
