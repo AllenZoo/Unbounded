@@ -34,6 +34,9 @@ public class HighScoreController : MonoBehaviour
             return;
         }
 
+        // Make sure the container blocks pointer events to prevent click-through
+        rootContainer.pickingMode = PickingMode.Position;
+
         // Get UI elements
         backButton = rootContainer.Q<VisualElement>("BackButton");
         highScoreLabel = rootContainer.Q<VisualElement>("HighScoreLabel");
@@ -88,11 +91,19 @@ public class HighScoreController : MonoBehaviour
             RebuildRunHistoryList();
 
             rootContainer.style.display = DisplayStyle.Flex;
+            
+            // Disable player input when UI is open
+            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = true });
+            
             Debug.Log("HighScoreController: Showing High Score UI");
         }
         else
         {
             rootContainer.style.display = DisplayStyle.None;
+            
+            // Re-enable player input when UI is closed
+            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = false });
+            
             Debug.Log("HighScoreController: Hiding High Score UI");
         }
     }
