@@ -7,6 +7,12 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(MotionComponent))]
 public class MovementController : MonoBehaviour
 {
+    // For smoothing movement.
+    [SerializeField] private float acceleration = 25f;
+    [SerializeField] private float deceleration = 30f;
+    [SerializeField] private float speedScale = 2f;
+
+
     [SerializeField] private LocalEventHandler localEventHandler;
     [SerializeField] private bool movementEnabled = true;
     [SerializeField] private StatComponent stat;
@@ -88,15 +94,24 @@ public class MovementController : MonoBehaviour
     // Calculates velocity and moves gameobject appropriately
     private void HandleMovement()
     {
-        float scale = 100;
+        // Normalize diagonal input
+        Vector2 processedDir = motion.dir.sqrMagnitude > 1
+            ? motion.dir.normalized
+            : motion.dir;
 
-        // 0. Normalize motion.dir vector if it exceeeds magnitude of 1 (diagonal movement)
-        Vector2 processed_dir = motion.dir.sqrMagnitude > 1 ? motion.dir.normalized : motion.dir;
+        // Target velocity (no deltaTime scaling here)
+        Vector2 targetVelocity = processedDir * stat.StatContainer.Speed * speedScale;
 
-        // 1. Velocity Calculation
-        Vector2 velocity = processed_dir * stat.StatContainer.Speed * Time.fixedDeltaTime * scale;
+        // Choose accel or decel
+        float rate = processedDir == Vector2.zero ? deceleration : acceleration;
 
-        // 2. Apply translation
-        rb.linearVelocity = velocity;
-    }    
+        // Smooth toward target velocity
+        rb.linearVelocity = Vector2.MoveTowards(
+            rb.linearVelocity,
+            targetVelocity,
+            rate * Time.fixedDeltaTime
+        );
+
+    }
+
 }

@@ -93,7 +93,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  leh: {fileID: 0}
+  leh: {fileID: 8924692159491181220}
   TargetTypes: 0100000003000000
   statComponent: {fileID: 7405677662020513449}
   canAttack: 1
@@ -748,6 +748,7 @@ GameObject:
   - component: {fileID: 3185927748019698975}
   - component: {fileID: 8924692159491181220}
   - component: {fileID: 4344193676809425370}
+  - component: {fileID: 7116229204154582666}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -829,6 +830,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localEventHandler: {fileID: 8924692159491181220}
   inputEnabled: 1
+  move: {fileID: -6630118129487605645, guid: 4eaee7739bef76d42aacc43da94c668a, type: 3}
+  attack: {fileID: 7032549473316083416, guid: 4eaee7739bef76d42aacc43da94c668a, type: 3}
 --- !u!114 &7405677662020512083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,6 +905,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431aa3b18cfe453429020839d5a5a125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7116229204154582666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7405677662020513453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 4eaee7739bef76d42aacc43da94c668a, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &7905380374370108712
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,7 +996,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fcd0183c34c46a84898cf2050976c0ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1034,4 +1067,4 @@ MonoBehaviour:
   sprite: {fileID: 2588634707587799474}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
-  damagedSoundEffect: 0
+  damagedSoundEffect: 2
