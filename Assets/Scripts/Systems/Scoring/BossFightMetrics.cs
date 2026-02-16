@@ -12,6 +12,7 @@ public class BossFightMetrics
     public float damageDealt;
     public float fightDuration; // in seconds
     public float startTime;
+    public bool isDefeated;
     
     public BossFightMetrics(string bossName)
     {

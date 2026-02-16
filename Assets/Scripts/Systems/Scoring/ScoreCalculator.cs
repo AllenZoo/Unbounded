@@ -97,7 +97,7 @@ public static class ScoreCalculator
         {
             damageScore = Mathf.RoundToInt(CalculateDamageScore(runData.totalDamageDealt)),
             timeScore = Mathf.RoundToInt(CalculateTimeScore(runData, optimalTime)),
-            bossesDefeated = runData.bossFights.Count,
+            bossesDefeated = runData.bossFights.FindAll(f => f.isDefeated).Count,
             totalScore = CalculateScore(runData, optimalTime)
         };
     }

@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,40 +8,29 @@ using UnityEngine;
 /// Tracks weapons used during a run and saves completed run data.
 /// Implements IDataPersistence to save/load high score and run history.
 /// </summary>
-public class RunHistoryManager : MonoBehaviour, IDataPersistence
+public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
 {
     private const int MAX_RUN_HISTORY = 50;
 
     [SerializeField] private int currentHighScore = 0;
     [SerializeField] private List<RunHistoryData> runHistory = new List<RunHistoryData>();
-    
+
+    [SerializeField, Required] private InventorySystemContext equipmentInventory;
+
     // Track weapons used during current run
-    private List<WeaponUsageData> currentRunWeapons = new List<WeaponUsageData>();
+    [ReadOnly, ShowInInspector] private List<WeaponUsageData> currentRunWeapons = new List<WeaponUsageData>();
     private HashSet<string> trackedWeaponIds = new HashSet<string>();
     private float runStartTime;
 
     private EventBinding<OnGameOverEvent> gameOverBinding;
     private EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding;
     
-    // Cached references for performance
-    private GameObject cachedPlayer;
-    private InventorySystem cachedInventorySystem;
-    
-    // Static instance for easy access
-    public static RunHistoryManager Instance { get; private set; }
-
     public int HighScore => currentHighScore;
     public List<RunHistoryData> RunHistory => new List<RunHistoryData>(runHistory);
 
-    private void Awake()
+    protected override void Awake()
     {
-        // Singleton pattern
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        base.Awake();
     }
 
     private void OnEnable()
@@ -70,9 +60,6 @@ public class RunHistoryManager : MonoBehaviour, IDataPersistence
         trackedWeaponIds.Clear();
         runStartTime = Time.time;
         
-        // Cache references at the start of a new run
-        cachedPlayer = null;
-        cachedInventorySystem = null;
         
         Debug.Log("[RunHistoryManager] Started tracking new run");
     }
@@ -94,21 +81,8 @@ public class RunHistoryManager : MonoBehaviour, IDataPersistence
     {
         try
         {
-            // Cache player reference if needed
-            if (cachedPlayer == null)
-            {
-                cachedPlayer = GameObject.FindGameObjectWithTag("Player");
-            }
-            if (cachedPlayer == null) return;
-
-            // Cache inventory system reference if needed
-            if (cachedInventorySystem == null)
-            {
-                cachedInventorySystem = FindObjectOfType<InventorySystem>();
-            }
-            if (cachedInventorySystem == null) return;
-
-            Item currentWeapon = cachedInventorySystem.GetItem(0); // Weapon slot is index 0
+            var inventorySystem = equipmentInventory.Get();
+            Item currentWeapon = inventorySystem.GetItem(0); // Weapon slot is index 0
             if (currentWeapon == null || currentWeapon.IsEmpty()) return;
             
             string weaponId = currentWeapon.Data.ID;

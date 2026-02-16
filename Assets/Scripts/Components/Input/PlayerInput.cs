@@ -11,7 +11,7 @@ public class PlayerInput : InputController
     [Required, SerializeField] private InputActionReference move;
     [Required, SerializeField] private InputActionReference attack;
 
-    private void Awake()
+    protected void Awake()
     {
         base.Awake();
     }

@@ -702,6 +702,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12dc2fc7eb35ff43815769b630be89c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   playerInput: {fileID: 622624627}
 --- !u!1 &359657404
 GameObject:
@@ -2120,8 +2129,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5dbad7627820d048b04e5c4c6f8bed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunHistoryManager
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   currentHighScore: 0
   runHistory: []
+  equipmentInventory: {fileID: 11400000, guid: a6a11665f99af4e41873a10acdd397f6, type: 2}
 --- !u!114 &1207737660 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6146312952296456462, guid: 1cd3d1584753623429b8dea325a4e651, type: 3}
