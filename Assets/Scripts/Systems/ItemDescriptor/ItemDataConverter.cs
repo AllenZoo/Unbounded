@@ -9,6 +9,11 @@ public class ItemDataConverter
 {
     public static ItemDescModel ConvertFromItem(Item item)
     {
+        if (item == null || item.IsEmpty())
+        {
+            return null;
+        }
+
         ItemDescModel model = new ItemDescModel();
 
         item.Init();

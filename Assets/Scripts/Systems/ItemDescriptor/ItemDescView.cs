@@ -13,31 +13,49 @@ public class ItemDescView : MonoBehaviour
     /// </summary>
     [Required, SerializeField] private Canvas itemDescCanvas;
 
+    [FoldoutGroup("Empty View")]
+    [Required, SerializeField] private Transform emptyView;
+
+    [FoldoutGroup("Filled View")]
+    [Required, SerializeField] private Transform filledView;
+
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI TitleText;
-    
+
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI BaseDamageText;
     private const string BASE_DAMAGE_FIELD_HEADER_TEXT = "Base Damage: ";
 
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI FinalDamageText;
     private const string FINAL_DAMAGE_FIELD_HEADER_TEXT = "Final Damage: ";
 
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI ProjectileSpeedText;
     private const string PROJECTILE_SPEED_HEADER_TEXT = "Projectile Speed: ";
 
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI ProjectileRangeText;
     private const string PROJECTILE_RANGE_HEADER_TEXT = "Projectile Range: ";
 
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI NumProjectilesText;
     private const string NUM_PROJECTILE_HEADER_TEXT = "Number of Projectiles: ";
 
     // Bonus Stat Fields
+    [FoldoutGroup("Filled View")]
     [SerializeField] private GameObject BonusStatParentBox;
+    [FoldoutGroup("Filled View")]
     [SerializeField] private GameObject BonusStatsPfbParent;
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI BonusStatTextPfb;
 
     // Trait Fields
+    [FoldoutGroup("Filled View")]
     [SerializeField] private GameObject TraitParentBox;
+    [FoldoutGroup("Filled View")]
     [SerializeField] private GameObject TraitPfbParent;
+    [FoldoutGroup("Filled View")]
     [SerializeField] private TextMeshProUGUI TraitTextPfb;
 
     /// <summary>
@@ -47,6 +65,36 @@ public class ItemDescView : MonoBehaviour
     {
         itemDescCanvas.enabled = true;
 
+        if (model == null)
+        {
+            ShowEmptyView();
+            return;
+        } else
+        {
+            ShowFilledView(model);
+        }
+    }
+
+    /// <summary>
+    /// Hides the descriptor view.
+    /// </summary>
+    public void HideView()
+    {
+        itemDescCanvas.enabled = false;
+
+        // Optional cleanup (so stale data isn’t shown when redisplayed)
+        ClearChildren(BonusStatsPfbParent);
+        ClearChildren(TraitPfbParent);
+    }
+
+    private void ShowEmptyView()
+    {
+        filledView.gameObject.SetActive(false);
+        emptyView.gameObject.SetActive(true);
+    }
+
+    private void ShowFilledView (ItemDescModel model)
+    {
         TitleText.text = model.Name;
 
         // --- Core Stats ---
@@ -58,7 +106,8 @@ public class ItemDescView : MonoBehaviour
 
         // --- Bonus Stats ---
         ClearChildren(BonusStatsPfbParent);
-        if (model.BonusStats != null && model.BonusStats.Count > 0) {
+        if (model.BonusStats != null && model.BonusStats.Count > 0)
+        {
             BonusStatParentBox.SetActive(true);
             foreach (var bonusStat in model.BonusStats)
             {
@@ -66,7 +115,8 @@ public class ItemDescView : MonoBehaviour
                 bonusStatText.text = $"{bonusStat.stat}: {bonusStat.value}";
             }
 
-        } else
+        }
+        else
         {
             BonusStatParentBox.SetActive(false);
         }
@@ -81,22 +131,14 @@ public class ItemDescView : MonoBehaviour
                 var traitText = Instantiate(TraitTextPfb, TraitPfbParent.transform);
                 traitText.text = trait;
             }
-        } else
+        }
+        else
         {
             TraitParentBox.SetActive(false);
         }
-    }
 
-    /// <summary>
-    /// Hides the descriptor view.
-    /// </summary>
-    public void HideView()
-    {
-        itemDescCanvas.enabled = false;
-
-        // Optional cleanup (so stale data isn’t shown when redisplayed)
-        ClearChildren(BonusStatsPfbParent);
-        ClearChildren(TraitPfbParent);
+        filledView.gameObject.SetActive(true);
+        emptyView.gameObject.SetActive(false);
     }
 
     /// <summary>

@@ -46,11 +46,12 @@ public class ItemDescController : MonoBehaviour
     {
         model = newModel;
 
-        if (model == null)
-        {
-            Debug.LogWarning("Tried to show ItemDesc with null model.");
-            return;
-        }
+        // TODO: if model = null, display empty preview.
+        //if (model == null)
+        //{
+        //    Debug.LogWarning("Tried to show ItemDesc with null model.");
+        //    return;
+        //}
 
         view.DisplayView(model);
     }
