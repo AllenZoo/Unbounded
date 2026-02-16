@@ -13,6 +13,12 @@ public class ModalController : MonoBehaviour
     private void Start()
     {
         mainContainer = modalUIDocument.rootVisualElement.Q<VisualElement>("Centerer");
+        
+        // Make sure the container blocks pointer events to prevent click-through
+        if (mainContainer != null)
+        {
+            mainContainer.pickingMode = PickingMode.Position;
+        }
 
         VisualElement confirmButton = mainContainer.Q<VisualElement>("ConfirmButton");
         VisualElement cancelButton = mainContainer.Q<VisualElement>("CancelButton");
@@ -37,5 +43,15 @@ public class ModalController : MonoBehaviour
     {
         mainContainer.visible = modalContext.IsOpen;
         mainContainer.dataSource = modalContext.Payload;
+        
+        // Disable player input when modal is open, enable when closed
+        if (modalContext.IsOpen)
+        {
+            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = true });
+        }
+        else
+        {
+            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = false });
+        }
     }
 }

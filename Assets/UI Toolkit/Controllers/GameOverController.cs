@@ -56,6 +56,9 @@ public class GameOverController : MonoBehaviour
             return;
         }
 
+        // Make sure the container blocks pointer events to prevent click-through
+        rootContainer.pickingMode = PickingMode.Position;
+
         // Get buttons
         retryButton = rootContainer.Q<VisualElement>("RetryButton");
         mainMenuButton = rootContainer.Q<VisualElement>("MainMenuButton");
@@ -139,11 +142,19 @@ public class GameOverController : MonoBehaviour
         if (gameOverContext.IsOpen)
         {
             rootContainer.style.display = DisplayStyle.Flex;
+            
+            // Disable player input when UI is open (redundant with DEAD state, but ensures consistency)
+            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = true });
+            
             Debug.Log("GameOverController: Showing Game Over UI");
         }
         else
         {
             rootContainer.style.display = DisplayStyle.None;
+            
+            // Re-enable player input when UI is closed
+            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = false });
+            
             Debug.Log("GameOverController: Hiding Game Over UI");
         }
     }
