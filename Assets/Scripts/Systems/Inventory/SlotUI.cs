@@ -159,13 +159,14 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isMouseOver && item != null && item.Data != null && !item.IsEmpty())
-        {
-            isMouseOver = true;
+        // Note: we allow for null propogation of items, so that we can display empty item description view when it happens.
+        //if (!isMouseOver && item != null && item.Data != null && !item.IsEmpty())
+    
+        isMouseOver = true;
 
-            // Call event to display item on item descriptor UI
-            EventBus<ItemDescReqEvent>.Call(new ItemDescReqEvent { display = true, item = item });
-        }
+        // Call event to display item on item descriptor UI
+        EventBus<ItemDescReqEvent>.Call(new ItemDescReqEvent { display = true, item = item });
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
