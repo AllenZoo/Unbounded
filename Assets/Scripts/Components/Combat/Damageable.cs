@@ -133,11 +133,12 @@ public class Damageable : MonoBehaviour
 
     private void CheckDeath(OnStatChangeEvent e)
     {
+        if (!isHittable) return;
+
         if (e.statComponent.StatContainer.Health <= 0)
         {
-            leh.Call(new OnDeathEvent { });
-            // Disable hittable so it can't be hit anymore.
             isHittable = false;
+            leh.Call(new OnDeathEvent { });
         }
     }
 

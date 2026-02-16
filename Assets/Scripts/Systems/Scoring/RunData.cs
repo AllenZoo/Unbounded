@@ -45,11 +45,12 @@ public class RunData
     /// <summary>
     /// Ends the current boss fight tracking.
     /// </summary>
-    public void EndBossFight()
+    public void EndBossFight(bool curBossWasDefeated)
     {
         if (currentBossIndex >= 0 && currentBossIndex < bossFights.Count)
         {
             bossFights[currentBossIndex].EndFight();
+            bossFights[currentBossIndex].isDefeated = curBossWasDefeated;
             Debug.Log($"Ended boss fight: {bossFights[currentBossIndex].bossName}, Duration: {bossFights[currentBossIndex].fightDuration:F2}s");
         }
     }

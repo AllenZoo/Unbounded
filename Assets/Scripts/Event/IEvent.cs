@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -78,10 +79,6 @@ public struct OnCameraBoundChangeRequest: IGlobalEvent
     public Collider2D newBoundary;
 }
 
-public struct OnPauseChangeRequest: IGlobalEvent {
-    public bool shouldPause;
-}
-
 public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
     public UpgradeCardData cardData;
@@ -124,6 +121,8 @@ public struct OnGameOverEvent : IGlobalEvent
 }
 
 public struct OnPlayerDeathEvent : IGlobalEvent { }
+
+public struct OnResetWeaponRequest : IGlobalEvent { }
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)

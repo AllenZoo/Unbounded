@@ -37,6 +37,7 @@ public class GameOverController : MonoBehaviour
     private VisualElement mainMenuButton;
     
     private EventBinding<OnGameOverEvent> gameOverBinding;
+    private PauseToken pt;
 
     private void Awake()
     {
@@ -55,6 +56,9 @@ public class GameOverController : MonoBehaviour
             Debug.LogError("GameOverController: Could not find GameOverContainer in UI Document");
             return;
         }
+
+        // Make sure the container blocks pointer events to prevent click-through
+        rootContainer.pickingMode = PickingMode.Position;
 
         // Get buttons
         retryButton = rootContainer.Q<VisualElement>("RetryButton");
@@ -139,11 +143,23 @@ public class GameOverController : MonoBehaviour
         if (gameOverContext.IsOpen)
         {
             rootContainer.style.display = DisplayStyle.Flex;
+            
+            // Disable player input when UI is open (redundant with DEAD state, but ensures consistency)
+            if (pt == null)
+            {
+                pt = PauseManager.Instance.RequestPause();
+            }
+
             Debug.Log("GameOverController: Showing Game Over UI");
         }
         else
         {
             rootContainer.style.display = DisplayStyle.None;
+
+            // Re-enable player input when UI is closed
+            pt?.Dispose();
+            pt = null;
+            
             Debug.Log("GameOverController: Hiding Game Over UI");
         }
     }

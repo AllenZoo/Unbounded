@@ -21,10 +21,25 @@ public class EquipmentWeaponHandler : MonoBehaviour
     [SerializeField, ReadOnly] private Item curWeapon;
     [SerializeField, ReadOnly] private Item previousWeapon;
 
+
+    private EventBinding<OnResetWeaponRequest> resetWeaponBinding;
+
     private void Awake()
     {
         attackerComponent = GetComponent<AttackerComponent>();
         if (leh == null) leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
+
+        resetWeaponBinding = new EventBinding<OnResetWeaponRequest>(HandleOnResetWeaponRequest);
+    }
+
+    private void OnEnable()
+    {
+        EventBus<OnResetWeaponRequest>.Register(resetWeaponBinding);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<OnResetWeaponRequest>.Unregister(resetWeaponBinding);
     }
 
     private void Start()
@@ -62,7 +77,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         // Get item from inventory.
         Item item = inventory.GetItem(weaponSlotIndex);
         previousWeapon = curWeapon;
-        curWeapon = item.IsEmpty() ? null : item;
+        curWeapon = (item != null && item.IsEmpty()) ? null : item;
 
         // Don't update anything if curWeapon and previousWeapon are the same.
         if (CheckItemEqual(curWeapon, previousWeapon)) return;
@@ -127,7 +142,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
     private void HandleOnStarterWeaponPickedEvent (OnStarterWeaponCardApplyEffect e)
     {
-        if (!inventory.GetItem(0).IsEmpty())
+        if (inventory.GetItem(0) != null && !inventory.GetItem(0).IsEmpty())
         {
             // TODO: consider blocking new weapon equip. Game logic shouldn't warrant being able to do this anyways.
 
@@ -140,6 +155,12 @@ public class EquipmentWeaponHandler : MonoBehaviour
         Item newWeapon = e.cardData.Item.Clone();
         newWeapon.Init();
         inventory.SetItem(newWeapon, 0);
+        UpdateWeapon();
+    }
+
+    private void HandleOnResetWeaponRequest(OnResetWeaponRequest e)
+    {
+        inventory.SetItem(null, weaponSlotIndex);
         UpdateWeapon();
     }
 

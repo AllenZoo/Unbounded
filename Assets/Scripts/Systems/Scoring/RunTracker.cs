@@ -82,7 +82,7 @@ public class RunTracker : Singleton<RunTracker>
     {
         if (isTrackingBossFight)
         {
-            currentRun.EndBossFight();
+            currentRun.EndBossFight(false);
             isTrackingBossFight = false;
         }
 
@@ -115,7 +115,7 @@ public class RunTracker : Singleton<RunTracker>
         if (isTrackingBossFight)
         {
             // End previous fight if still tracking
-            currentRun.EndBossFight();
+            currentRun.EndBossFight(false);
         }
 
         currentBossName = e.bossName ?? "Unknown Boss";
@@ -130,7 +130,7 @@ public class RunTracker : Singleton<RunTracker>
     {
         if (isTrackingBossFight)
         {
-            currentRun.EndBossFight();
+            currentRun.EndBossFight(true);
             isTrackingBossFight = false;
         }
     }
@@ -176,18 +176,4 @@ public class RunTracker : Singleton<RunTracker>
             EventBus<OnBossFightEndEvent>.Unregister(bossEndBinding);
         }
     }
-
-    ////TODO: for testing only, remove later
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.F5))
-    //    {
-    //        StartNewRun();
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.F6))
-    //    {
-    //        EndRun();
-    //    }
-
-    //}
 }

@@ -48,10 +48,22 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         //    PlayerHP = 100
         //};
 
+        // Reset Player State and Input
+        if (PlayerSingleton.Instance != null)
+        {
+            PlayerSingleton.Instance.ResetPlayer();
+        }
+
         // Initialize run tracking
         if (RunTracker.Instance != null)
         {
             RunTracker.Instance.StartNewRun();
+        }
+
+        // Initialize run history tracking
+        if (RunHistoryManager.Instance != null)
+        {
+            RunHistoryManager.Instance.StartNewRun();
         }
 
         ChangeState(GameState.WeaponTrial);
@@ -68,6 +80,9 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
             // Create score summary data and trigger game over event
             ScoreSummaryData scoreSummary = ScoreSummaryData.FromRunData(RunTracker.Instance.CurrentRun);
             EventBus<OnGameOverEvent>.Call(new OnGameOverEvent { scoreSummary = scoreSummary });
+
+            // Reset Weapon
+            EventBus<OnResetWeaponRequest>.Call(new OnResetWeaponRequest());
         }
 
         ChangeState(GameState.RunEnd);
