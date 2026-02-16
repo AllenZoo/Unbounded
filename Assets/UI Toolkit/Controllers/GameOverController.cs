@@ -145,7 +145,10 @@ public class GameOverController : MonoBehaviour
             rootContainer.style.display = DisplayStyle.Flex;
             
             // Disable player input when UI is open (redundant with DEAD state, but ensures consistency)
-            pt = PauseManager.Instance.RequestPause();
+            if (pt == null)
+            {
+                pt = PauseManager.Instance.RequestPause();
+            }
 
             Debug.Log("GameOverController: Showing Game Over UI");
         }

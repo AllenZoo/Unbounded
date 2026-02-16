@@ -73,7 +73,9 @@ public class SceneLoader : MonoBehaviour
         HideLoadingScreen();
 
         // Unpause the game after loading is done.
-        pt.Dispose(); 
+        pt.Dispose();
+
+
 
         yield return null;
     }
