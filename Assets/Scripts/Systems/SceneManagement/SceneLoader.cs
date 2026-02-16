@@ -57,7 +57,8 @@ public class SceneLoader : MonoBehaviour
             ShowLoadingScreen();
         }
 
-        EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = true });
+        // Pause the game while loading. We will unpause after loading is done by disposing the token.
+        PauseToken pt = PauseManager.Instance.RequestPause(); 
 
         if (e.unloadAllButPersistent)
         {
@@ -68,8 +69,11 @@ public class SceneLoader : MonoBehaviour
         yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
         EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish() { finishedActiveScene = e.activeSceneToSet });
         yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
-        EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest() { shouldPause = false });
+
         HideLoadingScreen();
+
+        // Unpause the game after loading is done.
+        pt.Dispose(); 
 
         yield return null;
     }

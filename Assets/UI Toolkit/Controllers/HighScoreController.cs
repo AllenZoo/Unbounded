@@ -23,6 +23,8 @@ public class HighScoreController : MonoBehaviour
     private VisualElement highScoreLabel;
     private ScrollView runHistoryScrollView;
 
+    private PauseToken pt;
+
     private void Start()
     {
         // Get root container from UI Document
@@ -91,10 +93,10 @@ public class HighScoreController : MonoBehaviour
             RebuildRunHistoryList();
 
             rootContainer.style.display = DisplayStyle.Flex;
-            
+
             // Disable player input when UI is open
-            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = true });
-            
+            pt = PauseManager.Instance.RequestPause();
+
             Debug.Log("HighScoreController: Showing High Score UI");
         }
         else
@@ -102,8 +104,9 @@ public class HighScoreController : MonoBehaviour
             rootContainer.style.display = DisplayStyle.None;
             
             // Re-enable player input when UI is closed
-            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = false });
-            
+            pt?.Dispose();
+            pt = null;
+
             Debug.Log("HighScoreController: Hiding High Score UI");
         }
     }

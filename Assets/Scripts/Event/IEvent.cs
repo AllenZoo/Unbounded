@@ -79,15 +79,6 @@ public struct OnCameraBoundChangeRequest: IGlobalEvent
     public Collider2D newBoundary;
 }
 
-public struct OnPauseChangeRequest: IGlobalEvent {
-    public bool shouldPause;
-
-    // Unique identifier for the reason of pausing, used to prevent conflicts between multiple pause requests.
-    // E.g. if one system requests a pause for reason A, and another system requests a pause for reason B,
-    // then the game should only unpause when both reasons are resolved.
-    public Guid pauseReasonGUID; 
-}
-
 public struct OnUpgradeCardApplyEffect: IGlobalEvent
 {
     public UpgradeCardData cardData;

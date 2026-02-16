@@ -10,6 +10,8 @@ public class ModalController : MonoBehaviour
 
     private VisualElement mainContainer;
 
+    private PauseToken pt;
+
     private void Start()
     {
         mainContainer = modalUIDocument.rootVisualElement.Q<VisualElement>("Centerer");
@@ -47,11 +49,12 @@ public class ModalController : MonoBehaviour
         // Disable player input when modal is open, enable when closed
         if (modalContext.IsOpen)
         {
-            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = true });
+            pt = PauseManager.Instance.RequestPause();
         }
         else
         {
-            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = false });
+            pt?.Dispose();
+            pt = null;
         }
     }
 }

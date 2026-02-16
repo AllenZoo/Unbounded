@@ -37,6 +37,7 @@ public class GameOverController : MonoBehaviour
     private VisualElement mainMenuButton;
     
     private EventBinding<OnGameOverEvent> gameOverBinding;
+    private PauseToken pt;
 
     private void Awake()
     {
@@ -144,16 +145,17 @@ public class GameOverController : MonoBehaviour
             rootContainer.style.display = DisplayStyle.Flex;
             
             // Disable player input when UI is open (redundant with DEAD state, but ensures consistency)
-            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = true });
-            
+            pt = PauseManager.Instance.RequestPause();
+
             Debug.Log("GameOverController: Showing Game Over UI");
         }
         else
         {
             rootContainer.style.display = DisplayStyle.None;
-            
+
             // Re-enable player input when UI is closed
-            EventBus<OnPauseChangeRequest>.Call(new OnPauseChangeRequest { shouldPause = false });
+            pt?.Dispose();
+            pt = null;
             
             Debug.Log("GameOverController: Hiding Game Over UI");
         }
