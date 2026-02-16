@@ -8,4 +8,13 @@ public class PlayerSingleton : Singleton<PlayerSingleton>
     {
         return GetComponentInChildren<StatComponent>();
     }
+
+    public void TogglePlayerInput(bool enabled)
+    {
+        var playerInput = GetComponentInChildren<PlayerInput>();
+        if (playerInput != null)
+        {
+            playerInput.enabled = enabled;
+        }
+    }
 }

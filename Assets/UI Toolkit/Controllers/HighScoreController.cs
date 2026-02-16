@@ -18,9 +18,6 @@ public class HighScoreController : MonoBehaviour
     [FoldoutGroup("UI Fields")]
     [Required, SerializeField] private HighScoreUIData highScoreUIData;
 
-    [FoldoutGroup("Scenes")]
-    [Required, SerializeField] private SceneField mainMenuScene;
-
     private VisualElement rootContainer;
     private VisualElement backButton;
     private VisualElement highScoreLabel;
@@ -178,16 +175,6 @@ public class HighScoreController : MonoBehaviour
         
         // Close the High Score UI
         highScoreContext.Close();
-
-        // Return to main menu
-        EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
-        {
-            scenesToLoad = new List<SceneField> { mainMenuScene },
-            scenesToUnload = new List<SceneField> { },
-            activeSceneToSet = mainMenuScene,
-            showLoadingBar = true,
-            unloadAllButPersistent = false
-        });
     }
 
     private void OnDestroy()
