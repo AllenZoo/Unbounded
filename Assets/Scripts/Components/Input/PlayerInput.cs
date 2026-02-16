@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(StateComponent))]
@@ -52,6 +53,9 @@ public class PlayerInput : InputController
             Debug.LogError("Attack input action is not assigned!");
             return;
         }
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
 
         // Handle attack input (left click or just pressed)
         if (attack.action.IsPressed())

@@ -588,7 +588,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 0}
+  acceleration: 25
+  deceleration: 30
+  speedScale: 2
+  localEventHandler: {fileID: 8924692159491181220}
   movementEnabled: 1
   stat: {fileID: 7405677662020513449}
   rb: {fileID: 7405677662020512086}

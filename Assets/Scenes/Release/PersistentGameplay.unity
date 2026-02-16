@@ -7125,10 +7125,6 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 3185927748019698975, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
-    - target: {fileID: 7007573682738182030, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
-      propertyPath: localEventHandler
-      value: 
-      objectReference: {fileID: 7405677661359215959}
     - target: {fileID: 7405677662020513450, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.52
@@ -7178,17 +7174,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
---- !u!114 &7405677661359215959 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8924692159491181220, guid: 5e8caeb23e9c0f04b8ed6598c415dbca, type: 3}
-  m_PrefabInstance: {fileID: 7405677661359215958}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d5ef85e9dc8c6a4d929246b5cb7bca0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7411242989109254242
 GameObject:
   m_ObjectHideFlags: 0
