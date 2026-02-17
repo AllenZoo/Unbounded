@@ -13,8 +13,7 @@ public class WeaponSlotCondition : IItemCondition
             return true;
         }
 
-        // Check if Item data is type of SO_Weapon_Item.
-        //return item.data.attacker != null;
-        return item.HasComponent<ItemAttackContainerComponent>();
+        // Check if Item has an attacker (weapon items have non-null attacker)
+        return item.Data.attacker != null;
     }
 }

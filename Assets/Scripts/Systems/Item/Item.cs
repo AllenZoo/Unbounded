@@ -128,7 +128,6 @@ public class Item
     private static IEnumerable<object> GetItemComponentTypes()
     {
         // For Odin serialization of interfaces.
-        yield return new ItemAttackContainerComponent(null);
         yield return new ItemBaseStatComponent();
         yield return new ItemUpgradeComponent();
         // yield return new ItemUpgraderComponent();
@@ -220,7 +219,7 @@ public class Item
 
             if (components != null && components.Count > 0)
             {
-                // Aggregate component hashes in a commutative way (order doesn’t matter)
+                // Aggregate component hashes in a commutative way (order doesnï¿½t matter)
                 int compHash = 0;
                 foreach (var comp in components)
                 {

@@ -32,7 +32,7 @@ public class ItemDataConverter
         model.ProjectileRange = finalAttacker.AttackData.Distance;
         model.FireRate = finalStatContainer.Dexterity; // TODO: calculate this via the DEX stat. Also check if this is accurate (like will it include the player's Dexterity Stat too.)
         model.NumProjectilesPerAttack = finalAttacker.AttackerData.numAttacks;
-        model.CanViewUpgrades = item.HasComponent<ItemAttackContainerComponent>();
+        model.CanViewUpgrades = item.Data.attacker != null;
 
         model.BonusStats = new List<BonusStatEntry>();
         StatContainer diff = finalStatContainer.Diff(baseStatContainer);
