@@ -11,10 +11,36 @@ public class PlayerInput : InputController
     [Required, SerializeField] private InputActionReference move;
     [Required, SerializeField] private InputActionReference attack;
 
+    private bool isAttacking;
+
     protected void Awake()
     {
         base.Awake();
+
+        if (attack == null || attack.action == null)
+        {
+            Debug.LogError("Attack input action is not assigned!");
+            return;
+        }
+
     }
+
+    private void OnEnable()
+    {
+        attack.action.performed += OnAttackPerformed;
+        attack.action.canceled += OnAttackCanceled;
+
+        attack.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        attack.action.performed -= OnAttackPerformed;
+        attack.action.canceled -= OnAttackCanceled;
+
+        attack.action.Disable();
+    }
+
 
     // Handles all inputs
     private void Handle_Input()
@@ -48,23 +74,29 @@ public class PlayerInput : InputController
 
     private void Handle_Attack_Input()
     {
-        if (attack == null || attack.action == null)
+        // Handle attack input (left click or just pressed)
+        if (isAttacking)
         {
-            Debug.LogError("Attack input action is not assigned!");
-            return;
-        }
+            // Mouse position in world space
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
+            AttackSpawnInfo info = new AttackSpawnInfo(worldPos);
+            base.InvokeAttackInput(KeyCode.Mouse0, info);
+        }
+    }
+
+    private void OnAttackPerformed(InputAction.CallbackContext context)
+    {
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
 
-        // Handle attack input (left click or just pressed)
-        if (attack.action.IsPressed())
-        {
-            // Mouse position in world space
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            AttackSpawnInfo info = new AttackSpawnInfo(mousePos);
-            base.InvokeAttackInput(KeyCode.Mouse0, info);
-        }
+        isAttacking = true;
+    }
+
+    private void OnAttackCanceled(InputAction.CallbackContext context)
+    {
+        isAttacking = false;
     }
 
     private void Update()
