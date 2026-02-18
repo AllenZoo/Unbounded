@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -188,6 +189,7 @@ GameObject:
   - component: {fileID: 3571654063033329167}
   - component: {fileID: 5349686431237858370}
   - component: {fileID: 4428250969172840418}
+  - component: {fileID: 1377213946171768850}
   m_Layer: 5
   m_Name: Equipment
   m_TagString: UI
@@ -399,6 +401,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 337.21136, y: 165.24329}
   m_EdgeRadius: 0
+--- !u!114 &1377213946171768850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6009033260288310317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c10a4cf1c3c3d40b3665adb9ea6478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockGameplayInput
 --- !u!1 &6009033260393703994
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,6 +764,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

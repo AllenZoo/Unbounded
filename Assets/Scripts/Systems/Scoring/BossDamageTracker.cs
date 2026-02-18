@@ -10,6 +10,7 @@ public class BossDamageTracker : MonoBehaviour
 {
     [Required, SerializeField] private Damageable damageable;
     [Required, SerializeField] private LocalEventHandler leh;
+    [Tooltip("Optionally include damage taken in score calculation"), SerializeField] private bool includeDamageInScore = true;
     private bool hasRegistered = false;
 
     // Store event bindings for proper cleanup
@@ -64,7 +65,7 @@ public class BossDamageTracker : MonoBehaviour
     /// </summary>
     private void OnBossDamaged(OnDamagedEvent e)
     {
-        if (RunTracker.Instance != null)
+        if (RunTracker.Instance != null && includeDamageInScore)
         {
             RunTracker.Instance.RecordDamageDealt(e.damage, damageable.EntityType);
         }

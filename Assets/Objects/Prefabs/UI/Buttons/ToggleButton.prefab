@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3253006287991749402}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -87,6 +86,7 @@ GameObject:
   - component: {fileID: 3253006287991749402}
   - component: {fileID: 338740951817737297}
   - component: {fileID: 951047308606559454}
+  - component: {fileID: 8184513336180450452}
   - component: {fileID: 9118998770384255854}
   - component: {fileID: 7709828729833094534}
   m_Layer: 5
@@ -110,7 +110,6 @@ RectTransform:
   m_Children:
   - {fileID: 3253006287198639188}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -188,6 +187,18 @@ MonoBehaviour:
   hoverButton: {fileID: 338740951817737297}
   hoverColour: {r: 0, g: 0, b: 0, a: 0}
   defaultSelectColour: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &8184513336180450452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3253006287991749401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c10a4cf1c3c3d40b3665adb9ea6478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockGameplayInput
 --- !u!114 &9118998770384255854
 MonoBehaviour:
   m_ObjectHideFlags: 0

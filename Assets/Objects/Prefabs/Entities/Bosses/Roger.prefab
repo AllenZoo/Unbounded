@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 4766584382804231312}
   - component: {fileID: 7165033660003850737}
   - component: {fileID: 2575488980943653629}
+  - component: {fileID: 8563742684754305823}
   m_Layer: 6
   m_Name: HitboxCollider
   m_TagString: Untagged
@@ -236,6 +237,21 @@ MonoBehaviour:
     emptyDropRate: 0.5
     data: {fileID: 11400000, guid: 1ab1bd69905ceea4ba5d8927d78df6d0, type: 2}
   maxItems: 3
+--- !u!114 &8563742684754305823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2346725273626351608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4f8117a67f4c2d9166b9782bffe892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossDamageTracker
+  damageable: {fileID: 7675867523333100217}
+  leh: {fileID: 551598601173631618}
+  includeDamageInScore: 0
 --- !u!1 &2828177287472881816
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +742,6 @@ GameObject:
   - component: {fileID: 5379839545947120568}
   - component: {fileID: 2857095827299717107}
   - component: {fileID: 8750099223386730952}
-  - component: {fileID: 3598566561858732211}
   m_Layer: 6
   m_Name: Roger
   m_TagString: Entity
@@ -934,21 +949,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3598566561858732211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7675867524841792782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
-  bossName: Roger
-  autoStartInStart: 0
-  leh: {fileID: 551598601173631618}
 --- !u!1 &7998717576902393734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceleration: 25
+  deceleration: 30
+  speedScale: 2
   localEventHandler: {fileID: 551598601173631618}
   movementEnabled: 1
   stat: {fileID: 7675867524841792779}
@@ -1023,6 +1026,8 @@ GameObject:
   - component: {fileID: 6469528187220326039}
   - component: {fileID: 4478374123057694167}
   - component: {fileID: 4601295066563477203}
+  - component: {fileID: 4210240424965474994}
+  - component: {fileID: 242017627963527585}
   m_Layer: 7
   m_Name: AggroHandler
   m_TagString: Untagged
@@ -1116,3 +1121,33 @@ MonoBehaviour:
   leh: {fileID: 551598601173631618}
   barContext: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
   barConfig: {fileID: 11400000, guid: 628202827cbae3f4e88e431767c83788, type: 2}
+--- !u!114 &4210240424965474994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8907500197970909349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3c516fb81773b45b37833892277287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IndicatorTarget
+  targetTransform: {fileID: 7675867524841792780}
+  indicatorIconSprite: {fileID: 1772827320, guid: 602ddf47aa173cc4e940a205c1a31405, type: 3}
+  createIndicatorOnStart: 1
+--- !u!114 &242017627963527585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8907500197970909349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7379f0a62f84fe7aa1ba12d6e84d9ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightInitializer
+  bossName: Roger
+  autoStartInStart: 0
+  leh: {fileID: 551598601173631618}

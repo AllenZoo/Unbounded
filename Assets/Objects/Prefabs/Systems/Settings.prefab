@@ -178,6 +178,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -402,17 +403,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2ddd24957353849a58ff89ff050dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soPromptData: {fileID: 11400000, guid: c6f1756aac7067f43a7b1152aae0d391, type: 2}
-  priority: 5
-  requiredKeyPress: 0
-  sceneTeleporterPromptData:
-    message: 
-    shouldDisplayPrompt: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   conditionChecker: {fileID: 0}
-  OnTeleportRequest:
-    m_PersistentCalls:
-      m_Calls: []
-  teleportOnCollision: 0
+  targetScene:
+    m_SceneAsset: {fileID: 0}
+    m_SceneName: 
+  unloadAllOtherScenesButPersist: 1
+  varToSetTrueOnYesAnswerModal: {fileID: 0}
+  modalDisplayCondition: {fileID: 0}
+  modalContext: {fileID: 0}
+  teleportModalData: {fileID: 0}
 --- !u!1 &1762502842276312962
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,6 +526,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -565,6 +574,7 @@ GameObject:
   - component: {fileID: 3799420913429094921}
   - component: {fileID: 2967239461881266640}
   - component: {fileID: 4246862145957452413}
+  - component: {fileID: 729894846869803042}
   m_Layer: 5
   m_Name: Settings
   m_TagString: UI
@@ -704,6 +714,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 392.657, y: 271.5808}
   m_EdgeRadius: 0
+--- !u!114 &729894846869803042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3403602421358558690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c10a4cf1c3c3d40b3665adb9ea6478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockGameplayInput
 --- !u!1 &3403602422600333466
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,6 +892,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

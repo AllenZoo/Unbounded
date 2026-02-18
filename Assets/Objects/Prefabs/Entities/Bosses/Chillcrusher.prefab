@@ -664,7 +664,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  leh: {fileID: 0}
+  leh: {fileID: 7418713779254395358}
   TargetTypes: 00000000
   statComponent: {fileID: 6844724702161644723}
   canAttack: 1
@@ -726,6 +726,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceleration: 25
+  deceleration: 30
+  speedScale: 2
   localEventHandler: {fileID: 7418713779254395358}
   movementEnabled: 1
   stat: {fileID: 6844724702161644723}
