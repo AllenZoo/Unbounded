@@ -518,7 +518,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementController
+  acceleration: 25
+  deceleration: 30
+  speedScale: 2
   localEventHandler: {fileID: -3388595544745265729}
   movementEnabled: 1
   stat: {fileID: 4456538979408597558}
@@ -1170,6 +1173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossDamageTracker
   damageable: {fileID: 4456538981051934084}
   leh: {fileID: -3388595544745265729}
+  includeDamageInScore: 1
 --- !u!1001 &1378911660151175224
 PrefabInstance:
   m_ObjectHideFlags: 0
