@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(StateComponent))]
 public class PlayerInput : InputController
@@ -22,7 +23,6 @@ public class PlayerInput : InputController
             Debug.LogError("Attack input action is not assigned!");
             return;
         }
-
     }
 
     private void OnEnable()
@@ -31,6 +31,7 @@ public class PlayerInput : InputController
         attack.action.canceled += OnAttackCanceled;
 
         attack.action.Enable();
+        move.action.Enable();
     }
 
     private void OnDisable()
@@ -39,6 +40,7 @@ public class PlayerInput : InputController
         attack.action.canceled -= OnAttackCanceled;
 
         attack.action.Disable();
+        move.action.Disable();
     }
 
 
@@ -88,7 +90,10 @@ public class PlayerInput : InputController
 
     private void OnAttackPerformed(InputAction.CallbackContext context)
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        //if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        //    return;
+
+        if (IsPointerOverBlockingUI())
             return;
 
         isAttacking = true;
@@ -98,6 +103,43 @@ public class PlayerInput : InputController
     {
         isAttacking = false;
     }
+
+    // TODO: look over and polish
+    private bool IsPointerOverBlockingUI()
+    {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+        // ---------- UGUI CHECK ----------
+        if (EventSystem.current != null)
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current);
+            eventData.position = mousePosition;
+
+            var results = new System.Collections.Generic.List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+
+            foreach (var result in results)
+            {
+                if (result.gameObject.GetComponentInParent<BlockGameplayInput>() != null)
+                    return true;
+            }
+        }
+
+        // ---------- UI TOOLKIT CHECK ----------
+        //foreach (var document in FindObjectsOfType<UIDocument>())
+        //{
+        //    if (document.rootVisualElement == null)
+        //        continue;
+
+        //    var picked = document.rootVisualElement.panel.Pick(mousePosition);
+
+        //    if (picked != null && picked.ClassListContains("block-gameplay"))
+        //        return true;
+        //}
+
+        return false;
+    }
+
 
     private void Update()
     {

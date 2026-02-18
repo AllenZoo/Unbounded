@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -148,6 +149,7 @@ GameObject:
   - component: {fileID: 593166038921095033}
   - component: {fileID: 593166038921095032}
   - component: {fileID: 7651386539662549050}
+  - component: {fileID: 3918103103109496534}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -262,10 +264,26 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   conditionChecker: {fileID: 0}
-  teleportOnCollision: 0
   targetScene:
     m_SceneAsset: {fileID: 0}
     m_SceneName: 
+  unloadAllOtherScenesButPersist: 1
+  varToSetTrueOnYesAnswerModal: {fileID: 0}
+  modalDisplayCondition: {fileID: 0}
+  modalContext: {fileID: 0}
+  teleportModalData: {fileID: 0}
+--- !u!114 &3918103103109496534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593166038921095029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c10a4cf1c3c3d40b3665adb9ea6478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockGameplayInput
 --- !u!1 &593166039132500431
 GameObject:
   m_ObjectHideFlags: 0
