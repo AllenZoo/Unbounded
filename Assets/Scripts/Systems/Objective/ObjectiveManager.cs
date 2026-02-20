@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// <summary>
 /// Handles all objective functionality. Basically a tutorial manager.
 /// </summary>
-public class ObjectiveManager : MonoBehaviour
+public class ObjectiveManager : MonoBehaviour, IDataPersistence
 {
     public UnityEvent OnTutorialComplete;
     public event Action<Objective> OnObjectiveActivated;
@@ -165,22 +165,43 @@ public class ObjectiveManager : MonoBehaviour
         return null;
     }
 
-    private void Update()
+
+    public void LoadData(GameData data)
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    StartUpTutorialObjectives();
-        //    //Debug.Log("Here in update!");
-        //    //ActivateObjective(test);
+        this.TutorialStateBoolean.Set(data.tutorialComplete);
 
-        //}
+        foreach (var obj in tutorialObjectives)
+        {
+            if (obj.IsEmpty()) continue;
 
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    CompleteAndAdvanceCurrent();
-        //    //Debug.Log("Here in update!");
-        //    //ActivateObjective(test);
+            if (data.objectiveStates.TryGetValue(obj.GetData().name, out ObjectiveState savedState))
+            {
+                obj.SetState(savedState);
+            }
+        }
 
-        //}
+        // If an objective was active, we need to re-initialize its logic/UI
+        curActive = tutorialObjectives.Find(o => o.GetState() == ObjectiveState.ACTIVE);
+        if (curActive != null)
+        {
+            // We temporarily set it to INACTIVE to satisfy the ActivateObjective check,
+            // or better yet, refactor the core activation logic into a helper.
+            curActive.SetState(ObjectiveState.INACTIVE);
+            ActivateObjective(curActive);
+        }
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.tutorialComplete = TutorialStateBoolean.Value;
+        data.objectiveStates.Clear();
+
+        foreach (var obj in tutorialObjectives)
+        {
+            if (!obj.IsEmpty())
+            {
+                data.objectiveStates[obj.GetData().name] = obj.GetState();
+            }
+        }
     }
 }

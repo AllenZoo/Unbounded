@@ -1,9 +1,13 @@
+using Sirenix.OdinInspector;
 using System;
+using System.ComponentModel;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Scriptable Object Variables/Boolean")]
-public partial class ScriptableObjectBoolean : ScriptableObject
+public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistence
 {
+    [SerializeField, Sirenix.OdinInspector.ReadOnly, ShowInInspector] private string id;
+
     [SerializeField] private bool value;
 
     [Tooltip("Reset to default OnDisable")]
@@ -49,6 +53,26 @@ public partial class ScriptableObjectBoolean : ScriptableObject
 #endif
     }
 
+    public void LoadData(GameData data)
+    {
+        value = data.soBooleanStates[id];
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.soBooleanStates[id] = value;
+    }
+
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            id = Guid.NewGuid().ToString();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
+    }
 }
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD

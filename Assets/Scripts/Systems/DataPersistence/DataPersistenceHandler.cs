@@ -223,7 +223,11 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
             .OfType<IDataPersistence>();
 
-        return new List<IDataPersistence>(dataPersistenceObjects);
+        // Find ScriptableObjects (specifically ScriptableObjectBoolean or any SO implementing IDataPersistence)
+        var soPersistence = Resources.FindObjectsOfTypeAll<ScriptableObject>()
+            .OfType<IDataPersistence>();
+
+        return dataPersistenceObjects.Concat(soPersistence).ToList();
     }
     private IEnumerator AutoSave()
     {

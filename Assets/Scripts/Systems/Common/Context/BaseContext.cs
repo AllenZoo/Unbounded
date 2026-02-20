@@ -2,7 +2,9 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public abstract class BaseContext : ScriptableObject { }
+public abstract class BaseContext : ScriptableObject {
+    public abstract void ResetState();
+}
 public class BaseContext<T> : BaseContext where T : MonoBehaviour
 {
     public Action<T> OnContextChanged;
@@ -16,6 +18,13 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
             Debug.LogWarning("Trying to initialize a context that has already been initialized");
             return;
         }
+
+        if (context == null) {
+            Debug.LogWarning("Context being intialized is null!");
+            return;
+        }
+
+
         initialized = true;
         this.context = context;
     }
@@ -40,19 +49,23 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
         OnContextChanged?.Invoke(context);
     }
 
-    private void OnDisable()
-    {
-        ResetState();
-    }
 
-    private void OnDestroy()
-    {
-        ResetState();
-    }
-
-    private void ResetState()
+    public override void ResetState()
     {
         initialized = false;
         context = null;
     }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void ResetAll()
+    {
+        var all = Resources.FindObjectsOfTypeAll<BaseContext>();
+
+        foreach (var context in all)
+        {
+            context.ResetState();
+        }
+    }
+#endif
 }
