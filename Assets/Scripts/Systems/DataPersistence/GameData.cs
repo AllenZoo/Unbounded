@@ -29,6 +29,9 @@ public class GameData
     public int highScore;
     public List<RunHistoryData> runHistory;
 
+    public SceneField currentScene;
+    public float playerCurrentHealth;
+
     public GameData()
     {
         playerEquippedWeapon = null;

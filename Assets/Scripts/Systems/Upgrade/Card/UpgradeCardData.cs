@@ -30,6 +30,12 @@ public class UpgradeCardData : ScriptableObject, IIdentifiableSO
     [TextArea(5, 8)]
     public string description;
 
+    [Button("Generate New GUID")]
+    private void GenerateNewGUID()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
