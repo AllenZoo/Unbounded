@@ -1466,36 +1466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2ddd24957353849a58ff89ff050dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTeleporter
---- !u!114 &2149667934747962907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205728459896006996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2ddd24957353849a58ff89ff050dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneTeleporter
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  conditionChecker: {fileID: 0}
-  targetScene:
-    m_SceneAsset: {fileID: 102900000, guid: 66793af297ebded439365d850d137618, type: 3}
-    m_SceneName: Armoury
-  unloadAllOtherScenesButPersist: 1
-  varToSetTrueOnYesAnswerModal: {fileID: 0}
-  modalDisplayCondition: {fileID: 0}
-  modalContext: {fileID: 0}
-  teleportModalData: {fileID: 0}
 --- !u!114 &4730448802048897271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1703,15 +1673,15 @@ GameObject:
   - component: {fileID: 9205728459896007003}
   - component: {fileID: 9205728459896007000}
   - component: {fileID: 9205728459896007001}
-  - component: {fileID: 2149667934747962907}
   - component: {fileID: 4730448802048897271}
+  - component: {fileID: 9205728459896007004}
   m_Layer: 5
   m_Name: load
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &9205728459896007000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1756,9 +1726,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2149667934747962907}
-        m_TargetAssemblyTypeName: SceneTeleporter, Assembly-CSharp
-        m_MethodName: Teleport
+      - m_Target: {fileID: 9205728459896007004}
+        m_TargetAssemblyTypeName: EventInvoker, Assembly-CSharp
+        m_MethodName: InvokeEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1792,11 +1762,40 @@ RectTransform:
   - {fileID: 9205728460059731208}
   m_Father: {fileID: 653119652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 79.69751, y: -86.16483}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 147.3649, y: 42.8225}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9205728459896007004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9205728459896006996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeda5c1eae682f548af8eb3e56385ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventInvoker
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: globalEvent
+      Entry: 7
+      Data: 0|OnLoadGameRequest, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+  invokeOnLoad: 0
+  invokeDelay: 0
 --- !u!224 &9205728460059731208
 RectTransform:
   m_ObjectHideFlags: 0
