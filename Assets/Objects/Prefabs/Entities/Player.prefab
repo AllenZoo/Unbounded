@@ -752,6 +752,7 @@ GameObject:
   - component: {fileID: 8924692159491181220}
   - component: {fileID: 4344193676809425370}
   - component: {fileID: 7116229204154582666}
+  - component: {fileID: 8955262542362227767}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -938,6 +939,19 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8955262542362227767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7405677662020513453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9544ba4bca0bf2f4196f8cb065093773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDataPersistenceComponent
+  stats: {fileID: 7405677662020513449}
 --- !u!1 &7905380374370108712
 GameObject:
   m_ObjectHideFlags: 0

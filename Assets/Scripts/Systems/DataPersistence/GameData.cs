@@ -29,6 +29,22 @@ public class GameData
     public int highScore;
     public List<RunHistoryData> runHistory;
 
+    public SceneField currentScene;
+    public float playerCurrentHealth;
+
+    /// <summary>
+    /// Objectives
+    /// </summary>
+    public bool tutorialComplete;
+    public Dictionary<string, ObjectiveState> objectiveStates;
+
+    /// <summary>
+    /// Global Variables
+    /// 
+    /// Hold state for all ScriptableObjectBoolean objects.
+    /// </summary>
+    public Dictionary<string, bool> soBooleanStates;
+
     public GameData()
     {
         playerEquippedWeapon = null;
@@ -37,5 +53,10 @@ public class GameData
         soundEffectsVolume = 100f;
         highScore = 0;
         runHistory = new List<RunHistoryData>();
+        currentScene = new SceneField("");
+        playerCurrentHealth = 0;
+        objectiveStates = new Dictionary<string, ObjectiveState>();
+        tutorialComplete = false;
+        soBooleanStates = new Dictionary<string, bool>();
     }
 }

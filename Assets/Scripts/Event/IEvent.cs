@@ -124,6 +124,8 @@ public struct OnPlayerDeathEvent : IGlobalEvent { }
 
 public struct OnResetWeaponRequest : IGlobalEvent { }
 
+public struct OnLoadGameRequest : IGlobalEvent { }
+
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)
 /// </summary>

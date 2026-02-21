@@ -31,6 +31,9 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     private string selectedProfileId = "";
     private Coroutine autoSaveCoroutine;
 
+    private EventBinding<OnLoadGameRequest> loadGameRequestEventBinding;
+
+    #region Inspector Buttons
     [ContextMenu("Save Game")]
     void SaveGameContextMenu()
     {
@@ -60,7 +63,9 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     {
         NewGame();
     }
+    #endregion
 
+    
     protected override void Awake()
     {
         base.Awake();
@@ -85,6 +90,8 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         }
 
         InitializeSelectedProfileId();
+
+        loadGameRequestEventBinding = new EventBinding<OnLoadGameRequest>(LoadGame);
     }
 
     protected void Start()
@@ -94,6 +101,21 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
             LoadGame();
         }
     }
+    protected void OnEnable()
+    {
+        if (loadGameRequestEventBinding != null)
+        {
+            EventBus<OnLoadGameRequest>.Register(loadGameRequestEventBinding);
+        }
+    }
+    protected void OnDisable()
+    {
+        if (loadGameRequestEventBinding != null)
+        {
+            EventBus<OnLoadGameRequest>.Unregister(loadGameRequestEventBinding);
+        }
+    }
+
 
     public void ChangeSelectedProfileId(string newProfileId)
     {
@@ -127,7 +149,6 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     {
         this.gameData = new GameData();
     }
-
     public void LoadGame()
     {
         if (disableDataPersistence)
@@ -154,7 +175,6 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
             dataPersister.LoadData(gameData);
         }
     }
-
     public void SaveGame()
     {
         // return right away if data persistence is disabled
@@ -203,7 +223,11 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
             .OfType<IDataPersistence>();
 
-        return new List<IDataPersistence>(dataPersistenceObjects);
+        // Find ScriptableObjects (specifically ScriptableObjectBoolean or any SO implementing IDataPersistence)
+        var soPersistence = Resources.FindObjectsOfTypeAll<ScriptableObject>()
+            .OfType<IDataPersistence>();
+
+        return dataPersistenceObjects.Concat(soPersistence).ToList();
     }
     private IEnumerator AutoSave()
     {
