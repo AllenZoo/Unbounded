@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,7 +17,9 @@ public class SpawnRates
 [System.Serializable]
 public class SpawnRate
 {
+#if UNITY_EDITOR
     [GameObjectWithSpawnable]
+#endif
     public GameObject prefab;
 
     public float minSpawn;
@@ -32,6 +32,7 @@ public class SpawnRate
     public float spawnRate;
 }
 
+#if UNITY_EDITOR
 // Custom property drawer to enforce the requirement
 [CustomPropertyDrawer(typeof(GameObjectWithSpawnableAttribute))]
 public class GameObjectWithSpawnableDrawer : PropertyDrawer
@@ -61,3 +62,4 @@ public class GameObjectWithSpawnableDrawer : PropertyDrawer
 
 // Custom attribute to mark GameObject fields that should contain a Spawnable component
 public class GameObjectWithSpawnableAttribute : PropertyAttribute { }
+#endif

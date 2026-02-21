@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Main Audio Manager class. Any audio effects being played must go through here.
 /// </summary>
-[RequiredComponents(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class AudioManager : Singleton<AudioManager>, IDataPersistence
 {
     //[SerializeField] private AudioClip[] audioClips;
