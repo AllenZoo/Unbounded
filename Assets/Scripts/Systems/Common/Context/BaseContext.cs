@@ -13,7 +13,8 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
 
     public void Init(T context)
     {
-        if (initialized)
+        // if context != null -> already intialized.
+        if (initialized && this.context != null)
         {
             Debug.LogWarning("Trying to initialize a context that has already been initialized");
             return;
@@ -56,16 +57,16 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
         context = null;
     }
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void ResetAll()
-    {
-        var all = Resources.FindObjectsOfTypeAll<BaseContext>();
+//#if UNITY_EDITOR || DEVELOPMENT_BUILD
+//    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+//    private static void ResetAll()
+//    {
+//        var all = Resources.FindObjectsOfTypeAll<BaseContext>();
 
-        foreach (var context in all)
-        {
-            context.ResetState();
-        }
-    }
-#endif
+//        foreach (var context in all)
+//        {
+//            context.ResetState();
+//        }
+//    }
+//#endif
 }
