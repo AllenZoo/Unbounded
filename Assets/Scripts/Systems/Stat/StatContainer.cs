@@ -11,6 +11,14 @@ public class StatContainer
     [SerializeField, Required]
     private SO_StatContainer baseStats;
 
+    // For debugging purposes.
+    [SerializeField, ReadOnly] private float curSPD = 0;
+    [SerializeField, ReadOnly] private float curATK = 0;
+    [SerializeField, ReadOnly] private float curDEF = 0;
+    [SerializeField, ReadOnly] private float curDEX = 0;
+    [SerializeField, ReadOnly] private float curHP = 0;
+    [SerializeField, ReadOnly] private float curMAX_HP = 0;
+
     public StatContainer(SO_StatContainer baseStats)
     {
         if (baseStats == null)
@@ -20,7 +28,7 @@ public class StatContainer
 
         this.baseStats = baseStats;
         this.StatMediator = new StatMediator();
-        health = baseStats.health;
+        curHP = baseStats.health;
     }
 
     public void Init()
@@ -30,22 +38,54 @@ public class StatContainer
             throw new ArgumentNullException(nameof(baseStats));
         }
         this.StatMediator = new StatMediator();
-        health = baseStats.health;
+        curHP = baseStats.health;
+
+        // Indirectly initialize 'cur' stats for debugging purposes.
+        var i = Health;
+        i = MaxHealth;
+        i = Attack;
+        i = Defense;
+        i = Dexterity;
+        i = Speed;
     }
 
-    // Note: Health is special since it's so frequently modified, we just decided to store it without the modifier chain.
-    [ReadOnly, ShowInInspector] private float health;
 
     #region Stats
-    public float Health { get { return health; } set { health = value; } }
-    public float MaxHealth => GetModifiedStat(Stat.MAX_HP, baseStats.maxHealth);
-    public float Attack => GetModifiedStat(Stat.ATK, baseStats.attack);
-    public float Defense => GetModifiedStat(Stat.DEF, baseStats.defense);
-    public float Dexterity => GetModifiedStat(Stat.DEX, baseStats.dexterity);
+    // Note: Health is special since it's so frequently modified, we just decided to store it without the modifier chain.
+    public float Health { get { return curHP; } set { curHP = value; } }
+    public float MaxHealth
+    {
+        get
+        {
+            curMAX_HP = GetModifiedStat(Stat.MAX_HP, baseStats.maxHealth);
+            return curMAX_HP;
+        }
+    }
+    public float Attack
+    {
+        get
+        {
+            curATK = GetModifiedStat(Stat.ATK, baseStats.attack);
+            return curATK;
+        }
+    }
+    public float Defense
+    {
+        get
+        {
+            curDEF = GetModifiedStat(Stat.DEF, baseStats.defense);
+            return curDEF;
+        }
+    }
+    public float Dexterity { get {
+            curDEX = GetModifiedStat(Stat.DEX, baseStats.dexterity);
+            return curDEX;
+        }
+    }
     public float Speed { 
         get { 
-            curSpeed = GetModifiedStat(Stat.SPD, baseStats.speed);
-            return curSpeed;
+            curSPD = GetModifiedStat(Stat.SPD, baseStats.speed);
+            return curSPD;
         } 
     }
 
@@ -61,9 +101,6 @@ public class StatContainer
         StatMediator.CalculateFinalStat(query);
         return query.Value;
     }
-
-    // For debugging purposes.
-    [SerializeField, ReadOnly] private float curSpeed = 0;
     #endregion
 
     public float GetStatValue(Stat stat)

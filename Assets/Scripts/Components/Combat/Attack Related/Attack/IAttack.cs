@@ -8,8 +8,9 @@ public interface IAttack {
     void OnLand(AttackComponent ac);
 
     // Should be called when the attack hits a target
-    bool Hit(Damageable hit, Transform hitMaker);
+    bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac);
 
+    // TODO: see if we can completely remove this function.
     void SetModifiers(float atkStat, double percentageDamageIncrease);
 
     void Reset(AttackComponent ac);

@@ -20,8 +20,8 @@ public class AttackComponent : SerializedMonoBehaviour
     //public AttackData Data { get; private set; } // Note: doesn't seem like this is even used..
 
 
-    public IAttack Attack { get { return attack; } private set { } }
-    public IAttackMovement Movement { get { return movement; } private set { } }
+    public IAttack Attack { get { return attack; } private set { attack = value; } }
+    public IAttackMovement Movement { get { return movement; } private set { movement = value; } }
 
 
     [Tooltip("The projectile data associated with Attack")]
@@ -32,10 +32,6 @@ public class AttackComponent : SerializedMonoBehaviour
 
     public AttackContext AttackContext { get; private set; }
 
-
-    //public List<EntityType> TargetTypes {  get { return targetTypes; } set { targetTypes = value ?? new List<EntityType>(); } }
-    //[Header("Debugging (Reset fields to empty)")]
-    //[SerializeField] private List<EntityType> targetTypes = new List<EntityType>();
 
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
     public event Action<Damageable> OnHit;
@@ -165,7 +161,7 @@ public class AttackComponent : SerializedMonoBehaviour
         }
 
         // Trigger Hit
-        var hitSuccess = attack.Hit(hit, this.transform);
+        var hitSuccess = attack.Hit(hit, this.transform, this);
         if (hitSuccess) hitTargets.Add(hit);
 
         // Reset hit cooldown if attack does not disappear after a hit, and if the attack can repeat hit a target.
