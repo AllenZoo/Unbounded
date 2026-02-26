@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
-  m_Name: Ice Blood
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeCardData
-  id: 4a861efc-517f-4037-8c57-4ff4a3632181
-  title: Ice Blood
-  icon: {fileID: 786911374, guid: f1719dd0a6e035d4fbc6a8485028262e, type: 3}
-  cardColor: {r: 0.59362763, g: 0.8679245, b: 0.8571846, a: 1}
+  m_Name: Vitamin C
+  m_EditorClassIdentifier: 
+  id: c187c7d6-e78e-4d2a-99ba-18de12be281e
+  title: Vitamin C
+  icon: {fileID: -577956333, guid: a4a18c13e48e95744a60f3c7206c60e2, type: 3}
+  cardColor: {r: 1, g: 0.60828614, b: 0, a: 1}
   rarity: 0
   mods:
   - modifier:
-      rid: 33268053810348149
-    modifierDescription: +50 MAX_HP to weapon permanently
-  description: 
+      rid: 5455592254877204483
+    modifierDescription: +1 DEF to weapon permanently
+  description: Mmm, yummy.
   references:
     version: 2
     RefIds:
-    - rid: 33268053810348149
+    - rid: 5455592254877204483
       type: {class: StatModifier, ns: , asm: Assembly-CSharp}
       data:
-        Stat: 1
+        Stat: 4
         operation:
-          rid: 33268053810348150
+          rid: 5455592254877204484
         MarkedForRemoval: 0
-    - rid: 33268053810348150
+    - rid: 5455592254877204484
       type: {class: AddOperation, ns: , asm: Assembly-CSharp}
       data:
-        value: 50
+        value: 1

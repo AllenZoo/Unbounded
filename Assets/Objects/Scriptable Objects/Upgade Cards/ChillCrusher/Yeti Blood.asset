@@ -10,43 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
-  m_Name: Snow Armour
+  m_Name: Yeti Blood
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeCardData
-  id: 9a40c6f1-14e2-42e8-851a-6c3792068807
-  title: Snow Armour
-  icon: {fileID: 1681122576, guid: 06b1200b8edae98418f153be1eb39242, type: 3}
-  cardColor: {r: 0.18734777, g: 0.3365213, b: 0.6754716, a: 1}
+  id: 4a861efc-517f-4037-8c57-4ff4a3632181
+  title: Yeti Blood
+  icon: {fileID: 786911374, guid: f1719dd0a6e035d4fbc6a8485028262e, type: 3}
+  cardColor: {r: 0.59362763, g: 0.8679245, b: 0.8571846, a: 1}
   rarity: 0
   mods:
   - modifier:
       rid: 33268053810348149
-    modifierDescription: +4 DEF to weapon permanently
+    modifierDescription: +30 MAX_HP to weapon permanently
   - modifier:
-      rid: 6496907048202535264
-    modifierDescription: +20 MAX_HP to weapon permanently
-  description: Oooo, Shiny
+      rid: 6496907048202535263
+    modifierDescription: Increase Damage by 10%
+  description: Why is the blood blue?
   references:
     version: 2
     RefIds:
     - rid: 33268053810348149
       type: {class: StatModifier, ns: , asm: Assembly-CSharp}
       data:
-        Stat: 4
+        Stat: 1
         operation:
           rid: 33268053810348150
         MarkedForRemoval: 0
     - rid: 33268053810348150
       type: {class: AddOperation, ns: , asm: Assembly-CSharp}
       data:
-        value: 4
-    - rid: 6496907048202535264
-      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+        value: 30
+    - rid: 6496907048202535263
+      type: {class: DamageModifier, ns: , asm: Assembly-CSharp}
       data:
-        Stat: 1
-        operation:
-          rid: 6496907048202535265
-        MarkedForRemoval: 0
-    - rid: 6496907048202535265
-      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
-      data:
-        value: 20
+        percentageIncrease: 10

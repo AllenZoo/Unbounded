@@ -20,7 +20,7 @@ MonoBehaviour:
   mods:
   - modifier:
       rid: 33268281639960655
-    modifierDescription: x2 ATK to weapon permanently
+    modifierDescription: +7 ATK to weapon permanently
   description: 
   references:
     version: 2
@@ -35,4 +35,4 @@ MonoBehaviour:
     - rid: 33268281639960657
       type: {class: MultiplyOperation, ns: , asm: Assembly-CSharp}
       data:
-        value: 2
+        value: 7

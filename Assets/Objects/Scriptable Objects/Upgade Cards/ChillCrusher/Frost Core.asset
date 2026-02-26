@@ -10,57 +10,57 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
-  m_Name: Cold Steel
+  m_Name: Frost Core
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeCardData
-  id: 1affbd08-2c90-4466-8a03-2caf59cf40e3
-  title: Cold Steel
-  icon: {fileID: 2126652749, guid: 0baf438e494381047a4d71c0ccab7cf6, type: 3}
-  cardColor: {r: 0.27700236, g: 0.35936978, b: 0.94716984, a: 1}
-  rarity: 1
+  id: cf7a0115-ab29-45f9-9c5e-89237cf45c7a
+  title: Frost Core
+  icon: {fileID: 1936748201, guid: 3c75b1e85b11ea846948c15cd76db88f, type: 3}
+  cardColor: {r: 0.4851746, g: 0.2657671, b: 0.86415094, a: 1}
+  rarity: 2
   mods:
   - modifier:
-      rid: 33268053810348154
-    modifierDescription: +1 ATK to weapon permanently
+      rid: 6496907048202535254
+    modifierDescription: Increases Projectile Speed (+3)
   - modifier:
-      rid: 33268053810348156
-    modifierDescription: +1 DEF to weapon permanently
+      rid: 6496907048202535256
+    modifierDescription: 
   - modifier:
-      rid: 33268053810348158
-    modifierDescription: +30 MAX_HP to weapon permanently
-  description: -90 degrees celsius..
+      rid: 6496907048202535258
+    modifierDescription: 
+  description: A bit heavy.
   references:
     version: 2
     RefIds:
-    - rid: 33268053810348154
-      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
-      data:
-        Stat: 2
-        operation:
-          rid: 33268053810348155
-        MarkedForRemoval: 0
-    - rid: 33268053810348155
-      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
-      data:
-        value: 1
-    - rid: 33268053810348156
-      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
-      data:
-        Stat: 4
-        operation:
-          rid: 33268053810348157
-        MarkedForRemoval: 0
-    - rid: 33268053810348157
-      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
-      data:
-        value: 1
-    - rid: 33268053810348158
+    - rid: 6496907048202535254
       type: {class: StatModifier, ns: , asm: Assembly-CSharp}
       data:
         Stat: 1
         operation:
-          rid: 33268053810348159
+          rid: 6496907048202535255
         MarkedForRemoval: 0
-    - rid: 33268053810348159
+    - rid: 6496907048202535255
       type: {class: AddOperation, ns: , asm: Assembly-CSharp}
       data:
-        value: 30
+        value: 80
+    - rid: 6496907048202535256
+      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        Stat: 4
+        operation:
+          rid: 6496907048202535257
+        MarkedForRemoval: 0
+    - rid: 6496907048202535257
+      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
+      data:
+        value: 8
+    - rid: 6496907048202535258
+      type: {class: StatModifier, ns: , asm: Assembly-CSharp}
+      data:
+        Stat: 5
+        operation:
+          rid: 6496907048202535259
+        MarkedForRemoval: 0
+    - rid: 6496907048202535259
+      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
+      data:
+        value: -2

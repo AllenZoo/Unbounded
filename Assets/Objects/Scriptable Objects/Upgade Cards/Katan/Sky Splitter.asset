@@ -20,11 +20,11 @@ MonoBehaviour:
   mods:
   - modifier:
       rid: 3587002153543401472
-    modifierDescription: x2 ATK to weapon permanently
+    modifierDescription: +3 ATK to weapon permanently
   - modifier:
       rid: 3587002153543401477
     modifierDescription: Add piercing to weapon
-  description: 
+  description: If your aiming to split the sky, you better swing hard.
   references:
     version: 2
     RefIds:
@@ -33,14 +33,14 @@ MonoBehaviour:
       data:
         Stat: 2
         operation:
-          rid: 3587002153543401476
+          rid: 6496907048202535252
         MarkedForRemoval: 0
-    - rid: 3587002153543401476
-      type: {class: MultiplyOperation, ns: , asm: Assembly-CSharp}
-      data:
-        value: 2
     - rid: 3587002153543401477
       type: {class: TraitModifier, ns: , asm: Assembly-CSharp}
       data:
         <AddPiercing>k__BackingField: 1
         <NumAtksToAdd>k__BackingField: 0
+    - rid: 6496907048202535252
+      type: {class: AddOperation, ns: , asm: Assembly-CSharp}
+      data:
+        value: 3
