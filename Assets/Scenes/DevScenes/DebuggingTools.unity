@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 1073386117}
   - component: {fileID: 1073386118}
   m_Layer: 0
-  m_Name: PlayerStatsTester
+  m_Name: PlayerGodStatsTester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,10 +265,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsTester
   toggleGodModeKey: 103
-  godHealth: 999999
-  godAttack: 999999
-  godDefense: 999999
-  godDexterity: 999999
+  godHealth: 10000
+  godAttack: 500
+  godDefense: 500
+  godDexterity: 20
   godSpeed: 10
 --- !u!1 &1099186041
 GameObject:

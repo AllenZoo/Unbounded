@@ -12,6 +12,7 @@ public class PlayerStatsTester : MonoBehaviour
     [Header("Test Controls")]
     [Tooltip("Key to toggle God Mode")]
     public KeyCode toggleGodModeKey = KeyCode.G;
+    [SerializeField] private bool disableGUI = true;
 
     [Header("God Mode Stats")]
     [SerializeField] private float godHealth = 999999f;
@@ -22,6 +23,8 @@ public class PlayerStatsTester : MonoBehaviour
 
     [Header("Status")]
     [ReadOnly, ShowInInspector] private bool isGodMode = false;
+
+
 
     private StatComponent _statComponent;
 
@@ -101,6 +104,7 @@ public class PlayerStatsTester : MonoBehaviour
 
     private void OnGUI()
     {
+        if (disableGUI) return;
         // Display test instructions in the game view
         // Positioned to avoid overlap with PlayerDeathTester (150) and GameOverUITester (10)
         GUILayout.BeginArea(new Rect(10, 240, 300, 100));
