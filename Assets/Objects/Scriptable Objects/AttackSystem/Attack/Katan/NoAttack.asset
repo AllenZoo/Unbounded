@@ -12,11 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: NoAttack
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   AttackName: Attack
   AttackPfb: {fileID: 0}
   BaseDamage: 5
   AttackSound: {fileID: 0}
-  RotOffset: 0
+  SpriteRotOffset: 0
   Distance: 5
   InitialSpeed: 0
   BaseKnockback: 0
@@ -25,7 +34,6 @@ MonoBehaviour:
   IsPiercing: 0
   IsDOT: 0
   DotDuration: 5
-  LastsUntilDuration: 0
   DisappearOnHit: 1
   CanRepeat: 0
   RehitCooldown: -1
