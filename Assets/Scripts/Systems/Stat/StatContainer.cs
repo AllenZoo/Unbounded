@@ -44,7 +44,7 @@ public class StatContainer
     public float Dexterity => GetModifiedStat(Stat.DEX, baseStats.dexterity);
     public float Speed { 
         get { 
-            curSpeed = GetModifiedStat(Stat.SPD, baseStats.speed);
+            curSpeed = GetModifiedStat(Stat.SPD, baseStats.speed/10);
             return curSpeed;
         } 
     }
