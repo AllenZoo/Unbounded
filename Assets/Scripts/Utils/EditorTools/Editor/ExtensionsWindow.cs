@@ -1,8 +1,11 @@
 using System;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 
 public class ExtensionsWindow : EditorWindow
 {
@@ -39,7 +42,9 @@ public class ExtensionsWindow : EditorWindow
             if (scene != null)
             {
                 var opts = new LoadSceneParameters { };
+                #if UNITY_EDITOR
                 EditorSceneManager.LoadSceneInPlayMode(scene.path, opts);
+                #endif
             }
         }
     }

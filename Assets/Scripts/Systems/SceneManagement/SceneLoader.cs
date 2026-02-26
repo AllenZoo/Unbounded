@@ -82,7 +82,7 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator UnloadAllExceptPersistent()
     {
-        List<string> scenesToUnload = new List<string>();
+        List<Scene> scenesToUnload = new List<Scene>();
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
@@ -110,14 +110,14 @@ public class SceneLoader : MonoBehaviour
 
             if (!isPersistent && scene.isLoaded)
             {
-                scenesToUnload.Add(name);
+                scenesToUnload.Add(scene);
             }
         }
 
         List<AsyncOperation> operations = new List<AsyncOperation>();
-        foreach (var name in scenesToUnload)
+        foreach (var scene in scenesToUnload)
         {
-            operations.Add(SceneManager.UnloadSceneAsync(name));
+            operations.Add(SceneManager.UnloadSceneAsync(scene));
         }
 
         foreach (var op in operations)
@@ -139,37 +139,32 @@ public class SceneLoader : MonoBehaviour
 
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
         HashSet<SceneField> scenesToLoad = FilterScenesToLoad(rawScenesToLoad);
-        Scene loadedActiveScene = default;
 
         foreach (SceneField scene in scenesToLoad)
         {
             var op = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             scenesLoading.Add(op);
-
-            if (scene == activeSceneToSet)
-            {
-                op.completed += _ =>
-                {
-                    loadedActiveScene = SceneManager.GetSceneByName(scene.SceneName);
-                };
-            }
         }
 
 
-        float totalProgress = 0;
         bool tweenComplete = false;
-        for (int i = 0; i < scenesLoading.Count; ++i)
+        if (scenesLoading.Count > 0)
         {
-            var sceneLoading = scenesLoading[i];
-            while (!sceneLoading.isDone)
+            while (true)
             {
-                totalProgress += sceneLoading.progress;
-                float targetFill = totalProgress / scenesLoading.Count;
+                float currentProgress = 0;
+                bool allDone = true;
+                foreach (var op in scenesLoading)
+                {
+                    currentProgress += op.progress;
+                    if (!op.isDone) allDone = false;
+                }
 
+                float targetFill = currentProgress / scenesLoading.Count;
                 if (showingLoadingBar) bar.DOFillAmount(targetFill, 0.5f).SetUpdate(true);
 
-                //Debug.Log($"Percentage Loaded {totalProgress / scenesLoading.Count * 100} %");
-                yield return null; // NOTE: IMPORTANT DO NOT REMOVE THIS LINE OR IT WILL INFINITE LOOP.
+                if (allDone) break;
+                yield return null;
             }
         }
 
@@ -187,17 +182,20 @@ public class SceneLoader : MonoBehaviour
         }
 
 
-        if (!string.IsNullOrEmpty(activeSceneToSet))
+        if (!string.IsNullOrEmpty(activeSceneToSet.SceneName))
         {
             yield return new WaitUntil(() =>
             {
-                Scene s = SceneManager.GetSceneByName(activeSceneToSet.SceneName);
-                return s.isLoaded;
+                Scene s = GetLoadedScene(activeSceneToSet.SceneName);
+                return s.IsValid() && s.isLoaded;
             });
 
             // Set active scene if there is one.
-            Scene activeScene = SceneManager.GetSceneByName(activeSceneToSet.SceneName);
-            SceneManager.SetActiveScene(activeScene);
+            Scene activeScene = GetLoadedScene(activeSceneToSet.SceneName);
+            if (activeScene.IsValid())
+            {
+                SceneManager.SetActiveScene(activeScene);
+            }
         }
 
 
@@ -225,14 +223,12 @@ public class SceneLoader : MonoBehaviour
             }
 
             // Check if there is a scene to unload.
-            Scene s = SceneManager.GetSceneByName(scene);
+            Scene s = GetLoadedScene(scene.SceneName);
 
-            if (s.isLoaded)
+            if (s.IsValid() && s.isLoaded)
             {
-                scenesUnloading.Add(SceneManager.UnloadSceneAsync(scene));
+                scenesUnloading.Add(SceneManager.UnloadSceneAsync(s));
             }
-
-
         }
 
         // Wait for all unloading operations to complete
@@ -253,18 +249,30 @@ public class SceneLoader : MonoBehaviour
 
         foreach (var rawScene in rawScenesToLoad)
         {
-            if (rawScene == "") continue;
+            if (string.IsNullOrEmpty(rawScene.SceneName)) continue;
 
-            Scene scene = SceneManager.GetSceneByName(rawScene);
-
-            // Only load if it is NOT loaded
-            if (!scene.isLoaded)
+            // Only load if it is NOT already loaded
+            Scene scene = GetLoadedScene(rawScene.SceneName);
+            if (!scene.IsValid() || !scene.isLoaded)
             {
                 filteredScenes.Add(rawScene);
             }
         }
 
         return filteredScenes;
+    }
+
+    private Scene GetLoadedScene(string sceneName)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene s = SceneManager.GetSceneAt(i);
+            if (s.name == sceneName && s.isLoaded)
+            {
+                return s;
+            }
+        }
+        return default;
     }
 
 

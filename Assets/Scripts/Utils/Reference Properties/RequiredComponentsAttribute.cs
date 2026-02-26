@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+/// TODO: deprecated. Techinically the same as UnityEngine.RequireComponent
+
+#if UNITY_EDITOR
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Struct, Inherited = true)]
 public class RequiredComponentsAttribute : PropertyAttribute
 {
@@ -46,3 +49,4 @@ public class RequiredComponentsDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif
