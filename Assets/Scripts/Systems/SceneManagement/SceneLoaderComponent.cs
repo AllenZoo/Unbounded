@@ -1,4 +1,4 @@
-using NUnit.Framework;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,11 +20,26 @@ public class SceneLoaderComponent : MonoBehaviour
     {
         foreach (SceneField scene in scenesToLoad)
         {
-            if (!SceneManager.GetSceneByName(scene.SceneName).IsValid())
+            if (string.IsNullOrEmpty(scene.SceneName)) continue;
+
+            // Robust check to see if scene is already LOADED
+            if (!IsSceneLoaded(scene.SceneName))
             {
-                // If no current Scene Actively Loaded. Load it.
                 SceneManager.LoadScene(scene.SceneName, LoadSceneMode.Additive);
             }
         }
+    }
+
+    private bool IsSceneLoaded(string sceneName)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene s = SceneManager.GetSceneAt(i);
+            if (s.name == sceneName && s.isLoaded)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
