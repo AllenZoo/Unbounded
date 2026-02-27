@@ -12,20 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: ArrowAttack
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   AttackName: ArrowAttack |
   AttackPfb: {fileID: 1403582844052442411, guid: 1be32f6b49bdd4f48bf3ca99d2b4e8cd, type: 3}
-  BaseDamage: 5
+  BaseDamage: 30
   AttackSound: {fileID: 8300000, guid: da5b1f874fe55df44814ed9c5bd1c327, type: 3}
-  RotOffset: 0
+  SpriteRotOffset: 0
   Distance: 24
-  InitialSpeed: 8
+  InitialSpeed: 12
   BaseKnockback: 0
   BaseStunDuration: 1
   IsAOE: 0
   IsPiercing: 1
   IsDOT: 0
   DotDuration: 5
-  LastsUntilDuration: 0
   DisappearOnHit: 1
   CanRepeat: 0
   RehitCooldown: -1

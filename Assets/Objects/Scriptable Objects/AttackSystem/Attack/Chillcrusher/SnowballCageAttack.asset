@@ -12,20 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: SnowballCageAttack
   m_EditorClassIdentifier: Assembly-CSharp::AttackData
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   AttackName: Snowball Cage Attack|
   AttackPfb: {fileID: 7363673462885834939, guid: 642a06f5eb498034a94d89be4578c897, type: 3}
   BaseDamage: 5
   AttackSound: {fileID: 0}
-  RotOffset: 0
-  Distance: 5
-  InitialSpeed: 1
-  BaseKnockback: 0
-  BaseStunDuration: 1
+  SpriteRotOffset: 0
+  Distance: -1
+  InitialSpeed: -1
+  BaseKnockback: 1
+  BaseStunDuration: 0
   IsAOE: 0
   IsPiercing: 0
   IsDOT: 0
   DotDuration: 5
-  LastsUntilDuration: 0
   DisappearOnHit: 0
   CanRepeat: 1
   RehitCooldown: 2

@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,13 @@ using UnityEngine.UIElements;
 public class MovementController : MonoBehaviour
 {
     // For smoothing movement.
-    [SerializeField] private float acceleration = 25f;
-    [SerializeField] private float deceleration = 30f;
-    [SerializeField] private float speedScale = 2f;
+    [Tooltip("High acceleration means faster changes in velocity, and thus more responsive movement.")]
+    [SerializeField] private float acceleration = 50f;
+
+    [Tooltip("High deceleration means faster changes in velocity, and thus more responsive stopping.")]
+    [SerializeField] private float deceleration = 50f;
+
+    [SerializeField, ReadOnly] private const float SPEED_SCALE = 2/5f;
 
 
     [SerializeField] private LocalEventHandler localEventHandler;
@@ -100,7 +105,7 @@ public class MovementController : MonoBehaviour
             : motion.dir;
 
         // Target velocity (no deltaTime scaling here)
-        Vector2 targetVelocity = processedDir * stat.StatContainer.Speed * speedScale;
+        Vector2 targetVelocity = processedDir * stat.StatContainer.Speed * SPEED_SCALE;
 
         // Choose accel or decel
         float rate = processedDir == Vector2.zero ? deceleration : acceleration;

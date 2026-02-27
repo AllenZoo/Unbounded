@@ -12,11 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: KatanPiercingFireball
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   AttackName: KatanPiercingFireball|
   AttackPfb: {fileID: 5066251419482662075, guid: c3d70c087a950a74ba88ac7e9b4ed7cb, type: 3}
   BaseDamage: 5
   AttackSound: {fileID: 0}
-  RotOffset: 0
+  SpriteRotOffset: 0
   Distance: 40
   InitialSpeed: 8
   BaseKnockback: 18

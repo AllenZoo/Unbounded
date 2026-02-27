@@ -86,10 +86,7 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
     {
         return attackerData.chargeUp;
     }
-    public override float GetCooldown()
-    {
-        return attackerData.cooldown;
-    }
+
     public override bool IsInitialized()
     {
         return attackData != null && attackerData != null && attackIndicator != null;

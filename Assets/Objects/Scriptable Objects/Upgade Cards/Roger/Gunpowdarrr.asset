@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a256fd25c0e589f4a94bb50b2fe00b5c, type: 3}
-  m_Name: Gunpowderrr
+  m_Name: Gunpowdarrr
   m_EditorClassIdentifier: 
   id: 535f6994-b87e-4e1a-8e87-7504b796d179
-  title: Gunpowderrr
+  title: Gunpowdarrr
   icon: {fileID: -1008234145, guid: 602ddf47aa173cc4e940a205c1a31405, type: 3}
   cardColor: {r: 0.75110114, g: 0.8301887, b: 0.49733, a: 1}
-  rarity: 1
+  rarity: 0
   mods:
   - modifier:
       rid: 5455592278805184514
-    modifierDescription: Increases Range (+ 5 Distance)
+    modifierDescription: Increases Range (+ 1 Distance)
   description: Increases range of projectile. *should be fine to ingest some gunpowder,
     right?*
   references:
@@ -29,4 +29,4 @@ MonoBehaviour:
     - rid: 5455592278805184514
       type: {class: RangeModifier, ns: , asm: Assembly-CSharp}
       data:
-        <RangeToAdd>k__BackingField: 5
+        <RangeToAdd>k__BackingField: 1

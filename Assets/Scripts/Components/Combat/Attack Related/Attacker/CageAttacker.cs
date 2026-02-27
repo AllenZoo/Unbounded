@@ -211,7 +211,7 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
         return attackerData.chargeUp;
     }
 
-    public override float GetCooldown()
+    public override float GetCooldown(float dex)
     {
         // No Cooldown for CageAttacker
         // TODO: implement for this case in AttackComponent.

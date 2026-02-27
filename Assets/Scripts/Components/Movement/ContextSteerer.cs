@@ -139,7 +139,9 @@ public class ContextSteerer : MonoBehaviour
             // Draw ray for debugging
             // Debug.DrawRay(rayPos, dir * rayLength, Color.red, 1f);
 
-            if (hit.collider != null)
+            // Avoid own hard collider by checking if hit.collider.transform.root is not the same as this.transform.root
+            // (e.g. hard colliders usually have ObstacleCollider layer)
+            if (hit.collider != null && hit.collider.transform.root != transform.root)
             {
                 // Adjust the danger weight based on the distance to the obstacle
                 
@@ -158,7 +160,7 @@ public class ContextSteerer : MonoBehaviour
     {
 
         // Calculate and store difference of two arrays: targetDirWeights - dangerDirWeights
-        double[] weights = new double[8];
+        double[] weights = new double[16];
 
         for (int i = 0; i < weights.Length; i++)
         {
@@ -178,7 +180,7 @@ public class ContextSteerer : MonoBehaviour
         // Draw ray pointing in direction of avgDir for debugging
         // Debug.DrawRay(transform.position, avgDir, Color.red, 1f);
 
-        return avgDir.normalized; // Stub
+        return avgDir.normalized;
     }
 
     private double Sigmoid(float x)

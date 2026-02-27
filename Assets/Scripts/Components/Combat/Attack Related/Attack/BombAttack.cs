@@ -11,24 +11,12 @@ public class BombAttack : IAttack
 
     [Required, OdinSerialize] private BombAttackData bombAttackData;
 
-    /// <summary>
-    /// The the atk stat attached to Attack. Boosts the base damage of said attack.
-    /// Generally the cumulation of weapon stats + player stats after modifiers applied for each.
-    /// </summary>
-    [SerializeField, ReadOnly] private float atkStat = 0;
-
-    /// <summary>
-    /// Damage modifier to apply to final calculated damage.
-    /// For example after Attack.Damage - Damageable.Defense = TrueDamage
-    /// We apply % modifier to TrueDamage: TrueDamage + TrueDamage * % modifier.
-    /// </summary>
-    [SerializeField, ReadOnly] private double percentageDamageIncrease = 0;
 
     public BombAttack() { }
 
-    public bool Hit(Damageable hit, Transform hitMaker)
+    public bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac)
     {
-        float calculatedDamage = CalculateDamage(bombAttackData.BaseDamage, atkStat);
+        float calculatedDamage = CalculateDamage(bombAttackData.BaseDamage, ac.AttackContext.AtkStat);
 
         // Damage the target.
         if (bombAttackData.IsDOT)
@@ -37,7 +25,7 @@ public class BombAttack : IAttack
             return true;
         }
 
-        hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
+        hit.TakeDamage(calculatedDamage, ac.AttackContext.PercentageDamageIncrease);
 
         // Knockback the target if:
         //      - attack has knockback
@@ -125,8 +113,8 @@ public class BombAttack : IAttack
 
     public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
-        this.atkStat = atkStat;
-        this.percentageDamageIncrease = percentageDamageIncrease;
+        //this.atkStat = atkStat;
+        //this.percentageDamageIncrease = percentageDamageIncrease;
     }
 
 

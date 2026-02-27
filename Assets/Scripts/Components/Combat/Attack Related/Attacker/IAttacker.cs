@@ -8,7 +8,7 @@ public interface IAttacker
     void Attack(KeyCode keyCode, AttackContext attackContext);
     void StopAttack(); // For attackers that have continuous attacks (like spiral attacker)
     bool IsInitialized();
-    float GetCooldown();
+    float GetCooldown(float dex);
     float GetChargeUp();
     IAttacker DeepClone();
 

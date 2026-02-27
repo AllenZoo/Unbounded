@@ -139,11 +139,6 @@ public class SpiralAttacker : BaseAttacker<SpiralAttackerData>
         return attackerData.chargeUp;
     }
 
-    public override float GetCooldown()
-    {
-        return attackerData.cooldown;
-    }
-
     public override bool IsInitialized()
     {
         return attackerData != null && attackData != null;

@@ -15,12 +15,15 @@ MonoBehaviour:
   id: 3253ba75-726c-4f0b-b2ed-7a60b114aa38
   title: Cyro Bullet
   icon: {fileID: 353892173, guid: 56c7eda0deeeee447afa9bebcae8d1ca, type: 3}
-  cardColor: {r: 0.59362763, g: 0.8679245, b: 0.8571846, a: 1}
-  rarity: 2
+  cardColor: {r: 0.43086502, g: 0.73584926, b: 0.9245283, a: 1}
+  rarity: 1
   mods:
   - modifier:
       rid: 33268053810348161
-    modifierDescription: Increases Projectile Speed (+8)
+    modifierDescription: Increases Projectile Speed (+5)
+  - modifier:
+      rid: 6496907048202535253
+    modifierDescription: Increases Range (+ 2 Distance)
   description: 
   references:
     version: 2
@@ -28,4 +31,8 @@ MonoBehaviour:
     - rid: 33268053810348161
       type: {class: ProjectileSpeedModifier, ns: , asm: Assembly-CSharp}
       data:
-        <ProjectileSpeedToAdd>k__BackingField: 8
+        <ProjectileSpeedToAdd>k__BackingField: 5
+    - rid: 6496907048202535253
+      type: {class: RangeModifier, ns: , asm: Assembly-CSharp}
+      data:
+        <RangeToAdd>k__BackingField: 2

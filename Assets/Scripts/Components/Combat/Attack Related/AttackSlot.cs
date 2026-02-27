@@ -33,7 +33,7 @@ public class AttackSlot
         }
 
         Attacker.Attack(k, ac);
-        nextReadyTime = Time.time + Attacker.GetCooldown();
+        nextReadyTime = Time.time + Attacker.GetCooldown(ac.DexStat);
     }
 
     public void StopTrigger()

@@ -12,20 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c1eba1e5d785446bc8e29b82c8a2cf, type: 3}
   m_Name: KatanSlashSlow
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   AttackName: KatanSwordSlashSlow|
   AttackPfb: {fileID: 5941095962020261751, guid: 8b761839920a3f5499d6cb2ab6d23ae7, type: 3}
   BaseDamage: 5
   AttackSound: {fileID: 0}
-  RotOffset: 0
+  SpriteRotOffset: 0
   Distance: 20
   InitialSpeed: 5
   BaseKnockback: 0
-  BaseStunDuration: 1
+  BaseStunDuration: 0
   IsAOE: 1
   IsPiercing: 1
   IsDOT: 0
   DotDuration: 5
-  LastsUntilDuration: 1
   DisappearOnHit: 1
   CanRepeat: 0
   RehitCooldown: -1

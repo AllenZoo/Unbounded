@@ -20,40 +20,19 @@ public class ProjectileAttack: IAttack
     [Required, OdinSerialize]
     private AttackData attackData;
 
-    /// <summary>
-    /// The the atk stat attached to Attack. Boosts the base damage of said attack.
-    /// Generally the cumulation of weapon stats + player stats after modifiers applied for each.
-    /// </summary>
-    [SerializeField, ReadOnly] private float atkStat = 0;
+    // For Debugging
+    [SerializeField, ReadOnly] private AttackDamageModifiers adm = new AttackDamageModifiers();
 
     /// <summary>
-    /// Damage modifier to apply to final calculated damage.
-    /// For example after Attack.Damage - Damageable.Defense = TrueDamage
-    /// We apply % modifier to TrueDamage: TrueDamage + TrueDamage * % modifier.
-    /// </summary>
-    [SerializeField, ReadOnly]  private double percentageDamageIncrease = 0;
-
-    public ProjectileAttack()
-    {
-        this.atkStat = 0f;
-    }
-    public ProjectileAttack(float atkStat)
-    {
-        this.atkStat = atkStat;
-    }
-
-
-    // Logic to determine what happens when the attack hits a target.
-    // TODO: maybe refactor what passes througuh Hit (probably thing that got hit --> Hittable?)
-    /// <summary>
-    /// 
+    /// Algorithm for handling what happens when a projectile attack hits a damageable target.
     /// </summary>
     /// <param name="hit"></param>
-    /// <param name="hitObject"></param>
-
-    public bool Hit(Damageable hit, Transform hitMaker)
+    /// <param name="hitMaker"></param>
+    /// <param name="ac"></param>
+    /// <returns></returns>
+    public bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac)
     {
-        float calculatedDamage = CalculateDamage(attackData.BaseDamage, atkStat);
+        float calculatedDamage = CalculateDamage(attackData.BaseDamage, ac.AttackContext.AtkStat);
 
         // Damage the target.
         if (attackData.IsDOT)
@@ -62,7 +41,7 @@ public class ProjectileAttack: IAttack
             return true;
         }
 
-        hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
+        hit.TakeDamage(calculatedDamage, ac.AttackContext.PercentageDamageIncrease);
         
         // Knockback the target if:
         //      - attack has knockback
@@ -81,17 +60,26 @@ public class ProjectileAttack: IAttack
     public void OnLaunch(AttackComponent ac)
     {
         // Do nothing for basic projectile attack.
+
+        // Initialize base states
+        if (adm == null)
+        {
+            adm = new AttackDamageModifiers();
+        }
+        adm.AtkStat = ac.AttackContext.AtkStat;
+        adm.PercentageDamageIncrease = ac.AttackContext.PercentageDamageIncrease;
     }
 
-    public void OnLand(AttackComponent crStarter)
+    public void OnLand(AttackComponent ac)
     {
         // Do nothing for basic projectile attack.
+        //adm = null;
 
     }
     public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
-        this.atkStat = atkStat;
-        this.percentageDamageIncrease = percentageDamageIncrease;
+        //this.atkStat = atkStat;
+        //this.percentageDamageIncrease = percentageDamageIncrease;
     }
 
     public void Reset(AttackComponent ac)
@@ -110,3 +98,4 @@ public class ProjectileAttack: IAttack
 
     }
 }
+

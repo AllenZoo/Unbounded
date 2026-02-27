@@ -50,7 +50,7 @@ public class AttackerWrapper : IAttacker, IAttackNode
     /// Similar to CanAttack, individual Cooldowns willl be handled in main Attack() function.
     /// </summary>
     /// <returns></returns>
-    public float GetCooldown()
+    public float GetCooldown(float dex)
     {
         return 0f;
     }

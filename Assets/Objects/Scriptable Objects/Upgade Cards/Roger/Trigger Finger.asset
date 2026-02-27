@@ -16,12 +16,12 @@ MonoBehaviour:
   title: Trigger Finger
   icon: {fileID: -1264653176, guid: 40e34857295389a4a9512694e05c7abd, type: 3}
   cardColor: {r: 0.8773585, g: 0.65252423, b: 0.2027857, a: 1}
-  rarity: 1
+  rarity: 0
   mods:
   - modifier:
       rid: 5455592254877204487
-    modifierDescription: +2 DEX to weapon permanently
-  description: Faster trigger = more bullets? I think that's how physics works :)
+    modifierDescription: +1 DEX to weapon permanently
+  description: Faster trigger = more bullets? I think that's how physics works...
   references:
     version: 2
     RefIds:
@@ -35,4 +35,4 @@ MonoBehaviour:
     - rid: 5455592300184600576
       type: {class: AddOperation, ns: , asm: Assembly-CSharp}
       data:
-        value: 2
+        value: 1

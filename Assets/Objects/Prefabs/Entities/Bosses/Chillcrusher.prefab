@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 1603088527654440822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.022, y: -0.87, z: 0}
+  m_LocalPosition: {x: -0.022, y: -0.433, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -728,7 +728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 25
   deceleration: 30
-  speedScale: 2
   localEventHandler: {fileID: 7418713779254395358}
   movementEnabled: 1
   stat: {fileID: 6844724702161644723}
@@ -1099,6 +1098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossDamageTracker
   damageable: {fileID: 6727926159154374472}
   leh: {fileID: 7418713779254395358}
+  includeDamageInScore: 1
 --- !u!1 &7977180491257379268
 GameObject:
   m_ObjectHideFlags: 0

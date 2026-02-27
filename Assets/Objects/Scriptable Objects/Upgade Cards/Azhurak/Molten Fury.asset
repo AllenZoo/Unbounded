@@ -20,8 +20,8 @@ MonoBehaviour:
   mods:
   - modifier:
       rid: 33268281639960655
-    modifierDescription: x2 ATK to weapon permanently
-  description: 
+    modifierDescription: +7 ATK to weapon permanently
+  description: IT'S MOLTEN, IT'S RED, SWING IT AROUND TO MAKE EVERYTHING DEAD
   references:
     version: 2
     RefIds:
@@ -35,4 +35,4 @@ MonoBehaviour:
     - rid: 33268281639960657
       type: {class: MultiplyOperation, ns: , asm: Assembly-CSharp}
       data:
-        value: 2
+        value: 7

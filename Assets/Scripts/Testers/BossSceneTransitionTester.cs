@@ -35,6 +35,9 @@ public class BossSceneTransitionTester : MonoBehaviour
     [Button("Anchorpoint (Homebase)", ButtonHeight = 40), GUIColor(1f, 1f, 0.6f)]
     public void TeleportToHomebase() => TeleportToScene("Anchorpoint");
 
+    [Button("Armoury", ButtonHeight = 40), GUIColor(1f, 1f, 0.6f)]
+    public void TeleportToArmoury() => TeleportToScene("Armoury");
+
     [Title("Custom Scene")]
     [SerializeField] private SceneField customScene;
 

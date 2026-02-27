@@ -7,22 +7,12 @@ public abstract class BaseAttack<T> : IAttack where T : AttackData
     public AttackData AttackData { get => attackData; set => attackData = (T)value; }
     [Required, OdinSerialize] protected T attackData;
 
-    /// <summary>
-    /// The the atk stat attached to Attack. Boosts the base damage of said attack.
-    /// Generally the cumulation of weapon stats + player stats after modifiers applied for each.
-    /// </summary>
-    [SerializeField, ReadOnly] protected float atkStat = 0;
+    //[SerializeField, ReadOnly] protected float atkStat = 0;
+    //[SerializeField, ReadOnly] protected double percentageDamageIncrease = 0;
 
-    /// <summary>
-    /// Damage modifier to apply to final calculated damage.
-    /// For example after Attack.Damage - Damageable.Defense = TrueDamage
-    /// We apply % modifier to TrueDamage: TrueDamage + TrueDamage * % modifier.
-    /// </summary>
-    [SerializeField, ReadOnly] protected double percentageDamageIncrease = 0;
-
-    public bool Hit(Damageable hit, Transform hitMaker)
+    public bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac)
     {
-        float calculatedDamage = CalculateDamage(attackData.BaseDamage, atkStat);
+        float calculatedDamage = CalculateDamage(attackData.BaseDamage, ac.AttackContext.AtkStat);
 
         // Damage the target.
         if (attackData.IsDOT)
@@ -31,7 +21,7 @@ public abstract class BaseAttack<T> : IAttack where T : AttackData
             return true;
         }
 
-        hit.TakeDamage(calculatedDamage, percentageDamageIncrease);
+        hit.TakeDamage(calculatedDamage, ac.AttackContext.PercentageDamageIncrease);
 
         // Knockback the target if:
         //      - attack has knockback
@@ -51,8 +41,8 @@ public abstract class BaseAttack<T> : IAttack where T : AttackData
     public abstract void Reset(AttackComponent ac);
     public void SetModifiers(float atkStat, double percentageDamageIncrease)
     {
-        this.atkStat = atkStat;
-        this.percentageDamageIncrease = percentageDamageIncrease;
+        //this.atkStat = atkStat;
+        //this.percentageDamageIncrease = percentageDamageIncrease;
     }
         
 
