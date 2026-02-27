@@ -25,6 +25,13 @@ public class UpgradeCardViewManager : CardViewManagerBase<UpgradeCardData>
     /// </summary>
     [SerializeField, ReadOnly] private UpgradeCardData cardData;
 
+
+    [Button("Set Card Data"), GUIColor(0.4f, 0.8f, 1f)]
+    public void SetCardDataInspector(UpgradeCardData cardData)
+    {
+        SetCardData(cardData);
+    }
+
     private void Start()
     {
         cardView = GetComponent<UpgradeCardView>();
