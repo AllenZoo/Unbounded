@@ -57,7 +57,7 @@ public class AttackerComponent : SerializedMonoBehaviour
 
     private void Start()
     {
-        attackInputBinding = new LocalEventBinding<OnAttackInput>(AttackReq);
+        attackInputBinding = new LocalEventBinding<OnAttackInput>(AttackRequest);
         leh.Register<OnAttackInput>(attackInputBinding);
 
         deathEventBinding = new LocalEventBinding<OnDeathEvent>(
@@ -99,7 +99,7 @@ public class AttackerComponent : SerializedMonoBehaviour
         }
     }
 
-    public void AttackReq(OnAttackInput input)
+    public void AttackRequest(OnAttackInput input)
     {
         // Attack if attack is ready and if data is not null.
         if (canAttack)
@@ -108,7 +108,8 @@ public class AttackerComponent : SerializedMonoBehaviour
             AttackContext ac = new AttackContext(
                 input.attackInfo,
                 this,
-                statComponent.StatContainer.Attack
+                statComponent.StatContainer.Attack,
+                statComponent.StatContainer.Dexterity
             );
 
             foreach (var attackSlot in attackSlots)

@@ -92,11 +92,6 @@ public class ProjectileAttacker: BaseAttacker<AttackerData>
         return attackerData != null && attackData != null;
     }
 
-    public override float GetCooldown()
-    {
-        return attackerData.cooldown;
-    }
-
     public override float GetChargeUp()
     {
         return attackerData.chargeUp;
