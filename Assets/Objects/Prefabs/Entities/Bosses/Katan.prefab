@@ -45,9 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dee1dba92f05f145bb0c24f04dbfdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceThreshold: 0
+  log: 0
+  showRays: 0
   obstaclesLayermask:
     serializedVersion: 2
     m_Bits: 512
+  dangerDirCurPosOffsets: 0.13
 --- !u!114 &5869552945510471096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +588,12 @@ MonoBehaviour:
   leh: {fileID: -3388595544745265729}
   statContainer:
     baseStats: {fileID: 11400000, guid: f2e55452db5863a49b02705625ec6884, type: 2}
-    curSpeed: 0
+    curSPD: 0
+    curATK: 0
+    curDEF: 0
+    curDEX: 0
+    curHP: 0
+    curMAX_HP: 0
 --- !u!50 &4456538979408597579
 Rigidbody2D:
   serializedVersion: 5
@@ -867,7 +876,7 @@ Transform:
   m_GameObject: {fileID: 5041681082339125450}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.022, y: -0.87, z: 0}
+  m_LocalPosition: {x: 0, y: -0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
