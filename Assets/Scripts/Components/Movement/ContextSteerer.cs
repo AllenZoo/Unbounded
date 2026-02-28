@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,12 @@ using UnityEngine;
 // Generally used by EnemyAIComponent.
 public class ContextSteerer : MonoBehaviour
 {
+    [FoldoutGroup("Debugging")]
+    [SerializeField] private float distanceThreshold = 4.65f; // TODO: temp variable, to play around with. After testing make this a constant such that all bosses have same value.
+    [FoldoutGroup("Debugging")]
+    [SerializeField] private bool showRays = false; // For debugging, to show the rays being cast to detect obstacles.
+
+
     [Tooltip("Used to specify what layers raycast will interact with.")]
     [SerializeField] LayerMask obstaclesLayermask;
 
@@ -91,13 +98,14 @@ public class ContextSteerer : MonoBehaviour
             // If angle > 90, then assign a weight of 0 (or maybe add some randomization to get out of sticky situations)
             if (angle > 90)
             {
-                float random = Random.Range(0f, 0.2f);
+                // TODO: assign a small random weigt (not zero) to directions that are opposite to targetDir, to add some randomization and help get out of sticky situations (e.g. when surrounded by obstacles).
+                float random = Random.Range(0f, 0.35f);
                 targetDirWeights[System.Array.IndexOf(directions, dir)] = random;
             }
             else
             {
                 // Else, assign a weight of 1 - (angle / 90)
-                targetDirWeights[System.Array.IndexOf(directions, dir)] = 1 - (angle / 90);
+                targetDirWeights[System.Array.IndexOf(directions, dir)] = 1;// - (angle / 90);
             }
         }
 
@@ -123,7 +131,6 @@ public class ContextSteerer : MonoBehaviour
             dangerDirWeights[i] = 0;
         }
 
-
         // Define ray length
         float rayLength = 5f;
 
@@ -137,19 +144,17 @@ public class ContextSteerer : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(rayPos, dir, rayLength, obstaclesLayermask);
 
             // Draw ray for debugging
-            // Debug.DrawRay(rayPos, dir * rayLength, Color.red, 1f);
+             Debug.DrawRay(rayPos, dir * rayLength, Color.yellow, 1f);
 
             // Avoid own hard collider by checking if hit.collider.transform.root is not the same as this.transform.root
             // (e.g. hard colliders usually have ObstacleCollider layer)
             if (hit.collider != null && hit.collider.transform.root != transform.root)
             {
                 // Adjust the danger weight based on the distance to the obstacle
-                
-
                 double distanceFactor = rayLength -  (hit.distance);
 
                 // ReLU (play around with threshold to achieve better behaviour)
-                double weight = ReLU(distanceFactor, 4.65);
+                double weight = ReLU(distanceFactor, distanceThreshold);
 
                 dangerDirWeights[System.Array.IndexOf(directions, dir)] = weight;
             }
@@ -178,7 +183,7 @@ public class ContextSteerer : MonoBehaviour
         }
 
         // Draw ray pointing in direction of avgDir for debugging
-        // Debug.DrawRay(transform.position, avgDir, Color.red, 1f);
+        Debug.DrawRay(transform.position, avgDir, Color.blue, 1f);
 
         return avgDir.normalized;
     }
@@ -200,12 +205,34 @@ public class ContextSteerer : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    // For debugging
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        CalculateDangerDirWeights(transform.position);
-    //    }
-    //}
+
+
+    private void VisualizeVector(Vector2 vec, Color colour)
+    {
+        Debug.DrawRay(transform.position, vec, colour);
+    }
+
+    private void VisualizeVectors(List<Vector2> vectors, Color colour)
+    {
+        foreach (Vector2 vec in vectors)
+        {
+            Debug.DrawRay(transform.position, vec, colour);
+        }
+    }
+
+    private void Update()
+    {
+        if (showRays)
+        {
+            // Show the rays for debugging
+            foreach (Vector2 dir in directions)
+            {
+                Debug.DrawRay(transform.position, dir * 5f, Color.red);
+            }
+
+            // Show best direction ray for debugging
+            Vector2 bestDir = CalculateBestDir();
+            Debug.DrawRay(transform.position, bestDir.normalized * 5f, Color.blue);
+        }
+    }
 }
