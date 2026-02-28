@@ -12,7 +12,11 @@ public class IndicatorTarget : MonoBehaviour
 
     private void Start()
     {
-        if (IndicatorSystem.Instance == null) Debug.LogError("Indicator System Reference is null!");
+        if (IndicatorSystem.Instance == null)
+        {
+            Debug.LogError("Indicator System Reference is null!");
+            return;
+        }
 
         if (createIndicatorOnStart)
         {

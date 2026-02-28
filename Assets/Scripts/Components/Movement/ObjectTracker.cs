@@ -51,7 +51,6 @@ public class ObjectTracker : MonoBehaviour
 
             // Cast a ray
             RaycastHit2D targetHit = Physics2D.Raycast(transform.position, rayDirection, sightRange, targetLayerMask);
-            // 
            
             // Debug draw to visualize the cone rays (optional)
             Debug.DrawRay(transform.position, rayDirection.normalized * sightRange, Color.green);
