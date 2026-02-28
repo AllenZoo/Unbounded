@@ -11,7 +11,7 @@ public class PlayerSingleton : Singleton<PlayerSingleton>
 
     public void TogglePlayerInput(bool enabled)
     {
-        var playerInput = GetComponentInChildren<PlayerInput>();
+        var playerInput = GetComponentInChildren<PlayerIntent>();
         if (playerInput != null)
         {
             playerInput.InputEnabled = enabled;
@@ -32,7 +32,7 @@ public class PlayerSingleton : Singleton<PlayerSingleton>
         if (leh != null) leh.Call(new OnRespawnEvent());
 
         // Ensure input is enabled
-        var playerInput = GetComponent<PlayerInput>();
+        var playerInput = GetComponent<PlayerIntent>();
         if (playerInput != null)
         {
             playerInput.InputEnabled = true;
