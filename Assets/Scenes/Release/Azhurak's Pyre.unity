@@ -30811,7 +30811,7 @@ GameObject:
   - component: {fileID: 1432221333}
   - component: {fileID: 1432221332}
   - component: {fileID: 1432221331}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41783,19 +41783,24 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5730656753172400174, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
-    - target: {fileID: 7266419101424992167, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
-      propertyPath: showRays
+    - target: {fileID: 5846011541778627442, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7266419101424992167, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
-      propertyPath: distanceThreshold
-      value: 8
+    - target: {fileID: 6536854046363874876, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717223705758984902, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8377890676778570884, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 8377890676778570884, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5544627156817183579, guid: aee136fdc6dac9941ae898b7ad4911a9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
