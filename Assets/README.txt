@@ -29,6 +29,8 @@ Put it in Systems if:
 - It is NOT a gameplay mechanic
 - It could be reused in another project
 
+If I copied this file into a completely different game, would it still make sense?
+
 Examples:
 - ObjectPool
 - AudioManager
