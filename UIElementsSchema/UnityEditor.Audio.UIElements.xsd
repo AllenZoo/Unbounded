@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.Accessibility" elementFormDefault="qualified" targetNamespace="UnityEditor.Audio.UIElements" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:appui="Unity.AppUI.UI" xmlns:editor="UnityEditor.UIElements" xmlns:nav="Unity.AppUI.Navigation" xmlns:modelSelector="Unity.AI.ModelSelector.Components" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.Accessibility" elementFormDefault="qualified" targetNamespace="UnityEditor.Audio.UIElements" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="UnityEngine.UIElements.xsd" namespace="UnityEngine.UIElements" />
   <xs:complexType name="TickmarksType">
     <xs:complexContent mixed="false">
@@ -24,7 +24,7 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Tickmarks" substitutionGroup="engine:VisualElement" xmlns:q1="UnityEditor.Audio.UIElements" type="q1:TickmarksType" />
-  <xs:complexType name="AudioRandomRangeSliderTrackerType">
+  <xs:complexType name="AudioLevelMeterType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:attribute default="" name="name" type="xs:string" use="optional" />
@@ -46,7 +46,7 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="AudioRandomRangeSliderTracker" substitutionGroup="engine:VisualElement" xmlns:q2="UnityEditor.Audio.UIElements" type="q2:AudioRandomRangeSliderTrackerType" />
+  <xs:element name="AudioLevelMeter" substitutionGroup="engine:VisualElement" xmlns:q2="UnityEditor.Audio.UIElements" type="q2:AudioLevelMeterType" />
   <xs:complexType name="AudioContainerElementClipFieldType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
@@ -75,7 +75,7 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="AudioContainerElementClipField" substitutionGroup="engine:VisualElement" xmlns:q3="UnityEditor.Audio.UIElements" type="q3:AudioContainerElementClipFieldType" />
-  <xs:complexType name="AudioLevelMeterType">
+  <xs:complexType name="AudioRandomRangeSliderTrackerType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:attribute default="" name="name" type="xs:string" use="optional" />
@@ -97,5 +97,5 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="AudioLevelMeter" substitutionGroup="engine:VisualElement" xmlns:q4="UnityEditor.Audio.UIElements" type="q4:AudioLevelMeterType" />
+  <xs:element name="AudioRandomRangeSliderTracker" substitutionGroup="engine:VisualElement" xmlns:q4="UnityEditor.Audio.UIElements" type="q4:AudioRandomRangeSliderTrackerType" />
 </xs:schema>
