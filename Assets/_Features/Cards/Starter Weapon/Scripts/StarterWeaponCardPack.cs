@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StaterWeaponCardPack : CardPackBase<StarterWeaponData, OnDisplayStaterWeaponCardsRequest>
+public class StarterWeaponCardPack : CardPackBase<StarterWeaponData, OnDisplayStaterWeaponCardsRequest>
 {
     protected override OnDisplayStaterWeaponCardsRequest CreateDisplayEvent(HashSet<StarterWeaponData> cards)
     {
