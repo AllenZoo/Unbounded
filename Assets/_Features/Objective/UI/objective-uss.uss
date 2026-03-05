@@ -2,5 +2,31 @@
 }
 
 .unity-text-title-element {
-	
+}
+
+.objective-background {
+    background-color: rgba(59, 55, 55, 0.4);
+    /* Unity 6 Background Blur properties */
+    background-blur-radius: 20px;
+    background-blur-sigma: 5.0;
+}
+
+/* Style for individual objective tasks */
+.objective-task {
+    flex-grow: 1;
+    flex-direction: row;
+    -unity-text-align: middle-left;
+    flex-wrap: nowrap;
+    position: relative;
+    top: 1px;
+    left: 6px;
+    width: 182px;
+    align-self: center;
+    font-size: 8px;
+}
+
+/* Disabled state: triggered by .disabled class or SetEnabled(false) in C# */
+.objective-task.disabled,
+.objective-task:disabled {
+    opacity: 0.5;
 }

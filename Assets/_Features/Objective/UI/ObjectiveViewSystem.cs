@@ -1,23 +1,23 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 
 public class ObjectiveViewSystem : MonoBehaviour
 {
     [SerializeField, Required] private ObjectiveManagerContext context;
-    [SerializeField, Required] private ObjectiveView pfbObjectiveView;
-    [SerializeField, Required] private Transform objectiveListParent;
+    [SerializeField, Required] private ObjectiveView objectiveView;
+    [SerializeField, Required] private VisualTreeAsset taskItemTemplate;
 
     private ObjectiveManager objectiveManager;
-    private readonly Dictionary<Objective, ObjectiveView> activeViews = new();
+    private readonly Dictionary<Objective, VisualElement> activeViews = new();
 
     private void Awake()
     {
         Assert.IsNotNull(context);
-        Assert.IsNotNull(pfbObjectiveView);
-        Assert.IsNotNull(objectiveListParent);
+        Assert.IsNotNull(objectiveView);
+        Assert.IsNotNull(taskItemTemplate);
     }
 
     private void Start()
@@ -36,34 +36,37 @@ public class ObjectiveViewSystem : MonoBehaviour
 
     private void OnDestroy()
     {
-        objectiveManager.OnObjectiveActivated -= HandleObjectiveActivated;
-        objectiveManager.OnObjectiveCompleted -= HandleObjectiveCompleted;
+        if (objectiveManager != null)
+        {
+            objectiveManager.OnObjectiveActivated -= HandleObjectiveActivated;
+            objectiveManager.OnObjectiveCompleted -= HandleObjectiveCompleted;
+        }
     }
 
     private void HandleObjectiveActivated(Objective obj)
     {
-        var view = Instantiate(pfbObjectiveView, objectiveListParent);
-        view.SetData(obj);
-        activeViews.Add(obj, view);
+        var element = objectiveView.AddTask(obj, taskItemTemplate);
+        if (element != null)
+        {
+            activeViews.Add(obj, element);
+            // Optionally update header on every new objective
+            var data = obj.GetData();
+            if (data != null)
+                objectiveView.SetHeader("Main Objectives", data.ObjectiveName);
+        }
     }
 
     private void HandleObjectiveCompleted(Objective obj)
     {
-        // Optionally, fade out or remove the view.
-        var view = activeViews[obj];
-        if (view != null)
+        if (activeViews.TryGetValue(obj, out var element))
         {
-            Destroy(view.gameObject);
-            activeViews.Remove(obj);
+            objectiveView.UpdateTaskElement(element, obj);
         }
     }
 
     public void ClearAllViews()
     {
-        foreach (var kvp in activeViews)
-        {
-            Destroy(kvp.Value.gameObject);
-        }
+        objectiveView.ClearTasks();
         activeViews.Clear();
     }
 }

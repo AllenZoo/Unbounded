@@ -1,30 +1,73 @@
-using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
-/// A view component for displaying the UI elements of a ObjectiveView prefab.
-///
-/// This class is responsible for configuring the visual elements such as the title,
-/// icon (with rotation), and description based on the provided <see cref="Objective"/>.
-/// It should be attached to the corresponding UI prefab in the Unity Editor.
+/// Main controller for the ObjectiveSystemUI. It handles the header and provides
+/// an entry point to manage the list of dynamic task items.
 /// </summary>
-/// <remarks>
-/// Expects serialized references to UI elements (TextMeshProUGUI for title and description).
-/// The <see cref="SetData"/> method should be called with valid data to populate the card.
-/// </remarks>
 public class ObjectiveView : MonoBehaviour
 {
-    [SerializeField, Required] private TextMeshProUGUI titleText;
-    [SerializeField, Required] private TextMeshProUGUI descText;
-    //private Objective data;
+    [SerializeField] private UIDocument modalUIDocument;
+    
+    private Label _titleLabel;
+    private Label _subtitleLabel;
+    private VisualElement _tasksContainer;
 
-    public void SetData(Objective obj)
+    private void Awake()
+    {
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
+        if (modalUIDocument == null) modalUIDocument = GetComponent<UIDocument>();
+        if (modalUIDocument != null && modalUIDocument.rootVisualElement != null)
+        {
+            var root = modalUIDocument.rootVisualElement;
+            _titleLabel = root.Q<Label>("Title");
+            _subtitleLabel = root.Q<Label>("Subtitle");
+            _tasksContainer = root.Q<VisualElement>("Tasks");
+        }
+    }
+
+    public void SetHeader(string title, string subtitle)
+    {
+        if (_titleLabel == null) InitializeUI();
+        if (_titleLabel != null) _titleLabel.text = title;
+        if (_subtitleLabel != null) _subtitleLabel.text = subtitle;
+    }
+
+    public VisualElement AddTask(Objective obj, VisualTreeAsset template)
+    {
+        if (_tasksContainer == null) InitializeUI();
+        if (_tasksContainer == null) return null;
+
+        var taskItem = template.CloneTree();
+        UpdateTaskElement(taskItem, obj);
+        _tasksContainer.Add(taskItem);
+        return taskItem;
+    }
+
+    public void UpdateTaskElement(VisualElement element, Objective obj)
     {
         var data = obj.GetData();
-        this.titleText.text = data.ObjectiveName;
-        this.descText.text = data.ObjectiveText;
+        if (data == null) return;
+
+        var label = element.Q<Label>("TaskLabel");
+        if (label != null) label.text = data.ObjectiveText;
+
+        var check = element.Q<VisualElement>("Check");
+        if (check != null)
+            check.style.display = (obj.GetState() == ObjectiveState.COMPLETE) ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (obj.GetState() == ObjectiveState.ACTIVE)
+            element.RemoveFromClassList("disabled");
+        else
+            element.AddToClassList("disabled");
+    }
+
+    public void ClearTasks()
+    {
+        _tasksContainer?.Clear();
     }
 }
