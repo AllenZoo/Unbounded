@@ -1,14 +1,16 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 /// <summary>
-/// Main controller for the ObjectiveSystemUI. It handles the header and provides
+/// Main View for the ObjectiveSystemUI. It handles the header and provides
 /// an entry point to manage the list of dynamic task items.
 /// </summary>
 public class ObjectiveView : MonoBehaviour
 {
-    [SerializeField] private UIDocument modalUIDocument;
-    
+    [Required, SerializeField] private UIDocument objectiveUIDocument;
+    [Required, SerializeField] private VisualTreeAsset taskItemTemplate;
+
     private Label _titleLabel;
     private Label _subtitleLabel;
     private VisualElement _tasksContainer;
@@ -20,53 +22,70 @@ public class ObjectiveView : MonoBehaviour
 
     private void InitializeUI()
     {
-        if (modalUIDocument == null) modalUIDocument = GetComponent<UIDocument>();
-        if (modalUIDocument != null && modalUIDocument.rootVisualElement != null)
+        if (objectiveUIDocument == null) objectiveUIDocument = GetComponent<UIDocument>();
+        if (objectiveUIDocument != null && objectiveUIDocument.rootVisualElement != null)
         {
-            var root = modalUIDocument.rootVisualElement;
+            var root = objectiveUIDocument.rootVisualElement;
             _titleLabel = root.Q<Label>("Title");
             _subtitleLabel = root.Q<Label>("Subtitle");
             _tasksContainer = root.Q<VisualElement>("Tasks");
         }
     }
 
-    public void SetHeader(string title, string subtitle)
+    /// <summary>
+    /// Main entry point for updating the view. It takes in a config object that contains all necessary information to populate the header and task list.
+    /// </summary>
+    /// <param name="config"></param>
+    public void UpdateView(ObjectiveViewConfig config)
+    {
+        if (config == null) return;
+        SetHeader(config.HeaderTitle, config.HeaderSubtitle);
+        ClearTasks();
+        foreach (var task in config.TaskItems)
+        {
+            AddTask(task, taskItemTemplate);
+        }
+    }
+
+    private void SetHeader(string title, string subtitle)
     {
         if (_titleLabel == null) InitializeUI();
         if (_titleLabel != null) _titleLabel.text = title;
         if (_subtitleLabel != null) _subtitleLabel.text = subtitle;
     }
 
-    public VisualElement AddTask(Objective obj, VisualTreeAsset template)
+    private VisualElement AddTask(TaskItemConfig task, VisualTreeAsset template)
     {
         if (_tasksContainer == null) InitializeUI();
         if (_tasksContainer == null) return null;
 
-        var taskItem = template.CloneTree();
-        UpdateTaskElement(taskItem, obj);
+        var container = template.CloneTree();
+        var taskItem = container.Q<VisualElement>(className: "objective-task");
+        if (taskItem == null) return null;
+
+        UpdateTaskElement(taskItem, task);
         _tasksContainer.Add(taskItem);
         return taskItem;
     }
 
-    public void UpdateTaskElement(VisualElement element, Objective obj)
+    private void UpdateTaskElement(VisualElement element, TaskItemConfig task)
     {
-        var data = obj.GetData();
-        if (data == null) return;
+        if (task == null) return;
 
         var label = element.Q<Label>("TaskLabel");
-        if (label != null) label.text = data.ObjectiveText;
+        if (label != null) label.text = task.TaskText;
 
         var check = element.Q<VisualElement>("Check");
         if (check != null)
-            check.style.display = (obj.GetState() == ObjectiveState.COMPLETE) ? DisplayStyle.Flex : DisplayStyle.None;
+            check.style.display = (task.IsComplete) ? DisplayStyle.Flex : DisplayStyle.None;
 
-        if (obj.GetState() == ObjectiveState.ACTIVE)
+        if (!task.IsComplete)
             element.RemoveFromClassList("disabled");
         else
             element.AddToClassList("disabled");
     }
 
-    public void ClearTasks()
+    private void ClearTasks()
     {
         _tasksContainer?.Clear();
     }

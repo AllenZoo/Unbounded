@@ -156,7 +156,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2010735730797688367}
   - component: {fileID: 2010735730797688366}
-  - component: {fileID: 8881560815768860616}
   - component: {fileID: 2010735730797688364}
   m_Layer: 5
   m_Name: ObjectiveView
@@ -198,24 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac10877ef8f160449a4438fac4ccc7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 2010735731078011446}
-  descText: {fileID: 0}
---- !u!114 &8881560815768860616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010735730797688368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a29450e153b3beb4d9bc649a44cf6e5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  view: {fileID: 2010735730797688366}
-  data:
-    state: 0
-    data: {fileID: 0}
+  modalUIDocument: {fileID: 0}
 --- !u!222 &2010735730797688364
 CanvasRenderer:
   m_ObjectHideFlags: 0

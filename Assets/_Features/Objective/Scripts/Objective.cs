@@ -9,8 +9,14 @@ using UnityEngine;
 [Serializable]
 public class Objective
 {
+    public ObjectiveState State => state;
+    public ObjectiveData Data => data;
+
+
     [SerializeField] private ObjectiveState state;
     [SerializeField] private ObjectiveData data;
+
+    public event Action<Objective> OnObjectiveComplete;
 
     public Objective(ObjectiveState state, ObjectiveData data)
     {
@@ -19,7 +25,16 @@ public class Objective
     }
 
     public bool IsEmpty() => data == null;
+    public bool IsComplete() => state == ObjectiveState.COMPLETE;
 
+    public void CompleteObjective()
+    {
+        if (state == ObjectiveState.ACTIVE)
+        {
+            state = ObjectiveState.COMPLETE;
+            OnObjectiveComplete?.Invoke(this);
+        }
+    }
 
     #region Getters and Setters
     public ObjectiveState GetState()

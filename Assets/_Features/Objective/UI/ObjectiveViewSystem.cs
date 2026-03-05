@@ -1,72 +1,35 @@
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UIElements;
 
+
+/// <summary>
+/// Main Glue component of the MVC model. Connects view, controller, and initial model together.
+/// </summary>
 public class ObjectiveViewSystem : MonoBehaviour
 {
-    [SerializeField, Required] private ObjectiveManagerContext context;
-    [SerializeField, Required] private ObjectiveView objectiveView;
-    [SerializeField, Required] private VisualTreeAsset taskItemTemplate;
+    [Required, SerializeField] private ObjectiveView objectiveView;
+    [Required, SerializeField] private ObjectiveGroupData data;
 
-    private ObjectiveManager objectiveManager;
-    private readonly Dictionary<Objective, VisualElement> activeViews = new();
+    private ObjectiveController objectiveController;
 
     private void Awake()
     {
-        Assert.IsNotNull(context);
         Assert.IsNotNull(objectiveView);
-        Assert.IsNotNull(taskItemTemplate);
+        Assert.IsNotNull(data);
+
+        objectiveController = new ObjectiveController.Builder().WithObjectiveGroup(data).Build(objectiveView);
+        objectiveController.ShowView();
     }
 
     private void Start()
     {
-        objectiveManager = context.GetContext().Value;
-
-        if (objectiveManager == null)
-        {
-            Debug.LogError("Objective Manager is null! Maybe context was not hooked up properly.");
-            return;
-        }
-
-        objectiveManager.OnObjectiveActivated += HandleObjectiveActivated;
-        objectiveManager.OnObjectiveCompleted += HandleObjectiveCompleted;
+        ObjectiveManager.Instance.OnObjectiveLoaded += HandleObjectiveLoaded;
     }
 
-    private void OnDestroy()
+    private void HandleObjectiveLoaded(LoadObjectiveRequest request)
     {
-        if (objectiveManager != null)
-        {
-            objectiveManager.OnObjectiveActivated -= HandleObjectiveActivated;
-            objectiveManager.OnObjectiveCompleted -= HandleObjectiveCompleted;
-        }
-    }
-
-    private void HandleObjectiveActivated(Objective obj)
-    {
-        var element = objectiveView.AddTask(obj, taskItemTemplate);
-        if (element != null)
-        {
-            activeViews.Add(obj, element);
-            // Optionally update header on every new objective
-            var data = obj.GetData();
-            if (data != null)
-                objectiveView.SetHeader("Main Objectives", data.ObjectiveName);
-        }
-    }
-
-    private void HandleObjectiveCompleted(Objective obj)
-    {
-        if (activeViews.TryGetValue(obj, out var element))
-        {
-            objectiveView.UpdateTaskElement(element, obj);
-        }
-    }
-
-    public void ClearAllViews()
-    {
-        objectiveView.ClearTasks();
-        activeViews.Clear();
+        objectiveController.UpdateModel(request.objectives);
     }
 }

@@ -6,7 +6,6 @@
             <ui:Image source="project://database/Assets/_Graphics/UI/Objective/Diamond.png?fileID=2800000&amp;guid=e871d8d29c2a9b64b90abfc0bd3a8917&amp;type=3#Diamond" scale-mode="ScaleToFit" name="Diamond" style="position: absolute; background-image: none; background-color: rgba(126, 44, 44, 0); top: 8px; left: 9px; width: 57.96px; height: 57.96px;"/>
             <ui:Label text="Tutorial" focusable="true" name="Subtitle" style="position: absolute; top: 57px; left: 77px; font-size: 30.88px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="Tasks" style="flex-grow: 1; position: absolute; height: 201px; width: 513px; top: 105px; left: 2px; align-self: auto; justify-content: flex-start; align-items: auto; align-content: auto;">
-        </ui:VisualElement>
+        <ui:VisualElement name="Tasks" class="objective-tasks-container" style="flex-grow: 1; position: absolute; height: 231px; width: 513px; top: 105px; left: 2px; padding-top: 4px;"/>
     </ui:VisualElement>
 </ui:UXML>

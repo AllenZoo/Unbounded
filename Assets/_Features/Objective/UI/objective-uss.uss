@@ -11,18 +11,24 @@
     background-blur-sigma: 5.0;
 }
 
+.objective-tasks-container{
+    flex-direction: column;
+    padding: 10px 4px;
+    row-gap: 12px;
+    width: 100%;
+}
+
 /* Style for individual objective tasks */
 .objective-task {
-    flex-grow: 1;
+    flex-grow: 0;
     flex-direction: row;
     -unity-text-align: middle-left;
     flex-wrap: nowrap;
     position: relative;
-    top: 1px;
     left: 6px;
-    width: 182px;
-    align-self: center;
-    font-size: 8px;
+    width: 462px;
+    align-self: flex-start;
+    font-size: 22.46px;
 }
 
 /* Disabled state: triggered by .disabled class or SetEnabled(false) in C# */

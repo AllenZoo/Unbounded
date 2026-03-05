@@ -1516,8 +1516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac10877ef8f160449a4438fac4ccc7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 7772623391113642719}
-  descText: {fileID: 0}
+  modalUIDocument: {fileID: 0}
 --- !u!114 &827486077714558753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,7 +1529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29450e153b3beb4d9bc649a44cf6e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view: {fileID: 7772623391500938951}
+  masterView: {fileID: 0}
   data:
     state: 0
     data: {fileID: 0}
@@ -1626,7 +1625,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2876951701995050326}
-  - component: {fileID: 5007187488950585567}
   - component: {fileID: 3240397508909207661}
   - component: {fileID: 6080800941146337666}
   - component: {fileID: 4343078144622192311}
@@ -1657,21 +1655,6 @@ RectTransform:
   m_AnchoredPosition: {x: 77.3, y: -54}
   m_SizeDelta: {x: 191, y: 131}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5007187488950585567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8492638093089085560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84e9864eaf51e8408d6169b47b64582, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  context: {fileID: 11400000, guid: 02fbf2b089c96f34e9d42b60f7912e20, type: 2}
-  pfbObjectiveView: {fileID: 2010735730797688366, guid: d4868c87a5b08e048b4553a1115142fc, type: 3}
-  objectiveListParent: {fileID: 7764910026501817085}
 --- !u!223 &3240397508909207661
 Canvas:
   m_ObjectHideFlags: 0
