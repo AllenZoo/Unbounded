@@ -14,7 +14,7 @@
 .objective-tasks-container{
     flex-direction: column;
     padding: 10px 4px;
-    row-gap: 12px;
+    row-gap: 15px;
     width: 100%;
 }
 
@@ -22,17 +22,55 @@
 .objective-task {
     flex-grow: 0;
     flex-direction: row;
+    align-items: flex-start;
+    column-gap: 20px;
     -unity-text-align: middle-left;
     flex-wrap: nowrap;
     position: relative;
     left: 6px;
-    width: 462px;
+    width: 510px;
     align-self: flex-start;
-    font-size: 22.46px;
+    padding: 8px 0;
 }
 
-/* Disabled state: triggered by .disabled class or SetEnabled(false) in C# */
-.objective-task.disabled,
-.objective-task:disabled {
+.icon-container {
+    flex-shrink: 0;
+    width: 58px;
+    height: 47px;
+    position: relative;
+}
+
+.icon-box {
+    position: absolute;
+    width: 47px;
+    height: 47px;
+    left: 5px;
+}
+
+.icon-check {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    top: -12px;
+    left: 0;
+    display: none;
+}
+
+.task-label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: normal;
+    color: rgb(243, 242, 235);
+    font-size: 22.46px;
+    -unity-font-style: bold;
+    padding-top: 8px; /* Alignment with first line of icon */
+}
+
+/* Complete state: show checkmark */
+.objective-task.disabled .icon-check {
+    display: flex;
+}
+
+.objective-task.disabled .task-label {
     opacity: 0.5;
 }

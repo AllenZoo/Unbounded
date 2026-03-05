@@ -1,10 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/_Features/Objective/UI/objective-uss.uss?fileID=7433441132597879392&amp;guid=f9cb07ebafff94d428b8ab6f1b43ab64&amp;type=3#objective-uss"/>
     <ui:VisualElement name="TaskRoot" class="objective-task">
-        <ui:VisualElement name="IconContainer" style="flex-grow: 0; height: 47px; width: 49px;">
-            <ui:Image name="Box" source="project://database/Assets/_Graphics/UI/Objective/box.png?fileID=2800000&amp;guid=d00298afdec5d794ea7adf32b109a532&amp;type=3#box" style="height: 47.72px; position: absolute; width: 47.72px;"/>
-            <ui:Image name="Check" source="project://database/Assets/_Graphics/UI/Objective/check.png?fileID=2800000&amp;guid=d1f24d290cc2a8d4bbedfd88d19d311b&amp;type=3#check" style="height: 58.71px; position: absolute; top: -12px; width: 58.71px; left: 0; display: none;"/>
+        <ui:VisualElement name="IconContainer" class="icon-container">
+            <ui:Image name="Box" source="project://database/Assets/_Graphics/UI/Objective/box.png?fileID=2800000&amp;guid=d00298afdec5d794ea7adf32b109a532&amp;type=3#box" class="icon-box"/>
+            <ui:Image name="Check" source="project://database/Assets/_Graphics/UI/Objective/check.png?fileID=2800000&amp;guid=d1f24d290cc2a8d4bbedfd88d19d311b&amp;type=3#check" class="icon-check"/>
         </ui:VisualElement>
-        <ui:Label name="TaskLabel" text="Task Description Goes Here" style="white-space: normal; -unity-text-align: middle-left; color: rgb(243, 242, 235); font-size: 22.46px; -unity-font-style: bold; flex-grow: 1; padding-left: 10px;"/>
+        <ui:Label name="TaskLabel" class="task-label" text="Task Description Goes Here"/>
     </ui:VisualElement>
 </ui:UXML>
