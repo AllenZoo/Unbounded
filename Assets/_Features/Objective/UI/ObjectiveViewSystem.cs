@@ -6,10 +6,17 @@ using UnityEngine.Assertions;
 
 /// <summary>
 /// Main Glue component of the MVC model. Connects view, controller, and initial model together.
+/// 
+/// View is required on instantiation.
+/// Model can be empty.
 /// </summary>
 public class ObjectiveViewSystem : MonoBehaviour
 {
     [Required, SerializeField] private ObjectiveView objectiveView;
+
+    [SerializeField] private bool loadInitialObjectiveGroup = true;
+
+    [ShowIf(nameof(loadInitialObjectiveGroup))]
     [Required, SerializeField] private ObjectiveGroupData data;
 
     private ObjectiveController objectiveController;
@@ -17,19 +24,44 @@ public class ObjectiveViewSystem : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(objectiveView);
-        Assert.IsNotNull(data);
 
-        objectiveController = new ObjectiveController.Builder().WithObjectiveGroup(data).Build(objectiveView);
-        objectiveController.ShowView();
+        if (data == null)
+        {
+            objectiveController = new ObjectiveController.Builder().WithoutInitialObjectiveGroup().Build(objectiveView);
+            objectiveController.HideView();
+        }
+        else
+        {
+            objectiveController = new ObjectiveController.Builder().WithObjectiveGroup(data).Build(objectiveView);
+            objectiveController.ShowView();
+        }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        ObjectiveManager.Instance.OnObjectiveLoaded += HandleObjectiveLoaded;
+        if (ObjectiveManager.Instance != null)
+        {
+            ObjectiveManager.Instance.OnObjectiveLoaded += HandleObjectiveLoaded;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (ObjectiveManager.Instance != null)
+        {
+            ObjectiveManager.Instance.OnObjectiveLoaded -= HandleObjectiveLoaded;
+        }
+
     }
 
     private void HandleObjectiveLoaded(LoadObjectiveRequest request)
     {
+        if (request.objectives == null)
+        {
+            Debug.LogError("Received LoadObjectiveRequest with null objective group! This is not supported.");
+            return;
+        }
+
         objectiveController.UpdateModel(request.objectives);
     }
 }

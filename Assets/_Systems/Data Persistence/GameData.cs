@@ -36,7 +36,7 @@ public class GameData
     /// Objectives
     /// </summary>
     public bool tutorialComplete;
-    public Dictionary<string, ObjectiveState> objectiveStates;
+    //public Dictionary<string, ObjectiveState> objectiveStates;
 
     /// <summary>
     /// Global Variables
@@ -55,7 +55,7 @@ public class GameData
         runHistory = new List<RunHistoryData>();
         currentScene = new SceneField("");
         playerCurrentHealth = 0;
-        objectiveStates = new Dictionary<string, ObjectiveState>();
+        //objectiveStates = new Dictionary<string, ObjectiveState>();
         tutorialComplete = false;
         soBooleanStates = new Dictionary<string, bool>();
     }

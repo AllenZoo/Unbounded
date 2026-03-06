@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// TODO: Deprecated
+/// 
 /// Attached to components that act as objective points. Function will be called from UnityEvent.
 /// </summary>
 public class ObjectivePoint : MonoBehaviour

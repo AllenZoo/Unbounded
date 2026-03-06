@@ -30,7 +30,9 @@ public class ObjectiveGroup
         objectives = new List<Objective>();
         foreach (var objectiveData in data.Objectives)
         {
-            objectives.Add(new Objective(ObjectiveState.INACTIVE, objectiveData));
+            objectives.Add(new Objective(ObjectiveState.ACTIVE, objectiveData));
         }
     }
+
+    public bool IsEmpty() => data == null || objectives.Count == 0;
 }

@@ -25,6 +25,11 @@ public class ObjectiveController
             return this;
         }
 
+        public Builder WithoutInitialObjectiveGroup()
+        {
+            return this;
+        }
+
         public ObjectiveController Build(ObjectiveView view)
         {
             if (view == null)
@@ -55,7 +60,7 @@ public class ObjectiveController
     {
         view.gameObject.SetActive(true);
 
-        if (model != null)
+        if (model != null && !model.IsEmpty())
         {
             var config = GenerateViewConfig(model);
             view.UpdateView(config);
