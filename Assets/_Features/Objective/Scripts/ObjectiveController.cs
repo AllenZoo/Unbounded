@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class ObjectiveController
 {
+    public event Action OnObjectiveCompleted;
+
     private ObjectiveView view;
     private ObjectiveGroup model;
 
@@ -89,6 +92,13 @@ public class ObjectiveController
     {
         if (model != null && !model.IsEmpty())
         {
+            // TODO: animate dissolve of objective view when complete, instead of just hiding it.
+            if (model.IsComplete()) {
+                OnObjectiveCompleted?.Invoke();
+                HideView();
+                return;
+            }
+
             var config = GenerateViewConfig(model);
             view.UpdateView(config);
         }

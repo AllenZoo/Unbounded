@@ -35,6 +35,7 @@ public class EventInvoker : SerializedMonoBehaviour
         InvokeEvent();
     }
 
+    [Button("Invoke Event")]
     public void InvokeEvent()
     {
         var eventType = globalEvent.GetType();

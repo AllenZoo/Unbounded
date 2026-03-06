@@ -12,6 +12,8 @@ using UnityEngine.Assertions;
 /// </summary>
 public class ObjectiveViewSystem : MonoBehaviour
 {
+    public event Action OnObjectiveCompleted;
+
     [Required, SerializeField] private ObjectiveView objectiveView;
 
     [SerializeField] private bool loadInitialObjectiveGroup = true;
@@ -37,11 +39,21 @@ public class ObjectiveViewSystem : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        OnObjectiveCompleted += HandleObjectiveCompleted;
+    }
+
     private void OnEnable()
     {
         if (ObjectiveManager.Instance != null)
         {
             ObjectiveManager.Instance.OnObjectiveLoaded += HandleObjectiveLoaded;
+        }
+
+        if (objectiveController != null)
+        {
+            objectiveController.OnObjectiveCompleted += OnObjectiveCompleted;
         }
     }
 
@@ -52,6 +64,11 @@ public class ObjectiveViewSystem : MonoBehaviour
             ObjectiveManager.Instance.OnObjectiveLoaded -= HandleObjectiveLoaded;
         }
 
+        if (objectiveController != null)
+        {
+            objectiveController.OnObjectiveCompleted -= OnObjectiveCompleted;
+        }
+        OnObjectiveCompleted -= HandleObjectiveCompleted;
     }
 
     public void Update()
@@ -68,5 +85,10 @@ public class ObjectiveViewSystem : MonoBehaviour
         }
 
         objectiveController.UpdateModel(request.objectives);
+    }
+
+    private void HandleObjectiveCompleted()
+    {
+        ObjectiveManager.Instance.OnCurObjectiveComplete();
     }
 }

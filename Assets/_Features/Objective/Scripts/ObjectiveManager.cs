@@ -11,9 +11,6 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
 {
     public event Action<LoadObjectiveRequest> OnObjectiveLoaded;
 
-    public event Action<Objective> OnObjectiveActivated;
-    public event Action<Objective> OnObjectiveCompleted;
-
 
     private EventBinding<LoadObjectiveRequest> lorBinding;
     private ObjectiveGroup curObjectiveGroup;
@@ -53,6 +50,10 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
         OnObjectiveLoaded?.Invoke(request);
     }
 
+    public void OnCurObjectiveComplete()
+    {
+        curObjectiveGroup = null;
+    }
 
     public void LoadData(GameData data)
     {

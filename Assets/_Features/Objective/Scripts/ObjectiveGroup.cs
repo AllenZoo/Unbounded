@@ -42,10 +42,13 @@ public class ObjectiveGroup
 
     public void Cleanup()
     {
+        if (objectives == null) return;
+
         foreach (var objective in objectives)
         {
             objective.OnObjectiveComplete -= HandleObjectiveComplete;
         }
+        objectives.Clear();
     }
 
     public void Update(float deltaTime)
@@ -60,6 +63,7 @@ public class ObjectiveGroup
     }
 
     public bool IsEmpty() => data == null || objectives.Count == 0;
+    public bool IsComplete() => objectives.TrueForAll(obj => obj.State == ObjectiveState.COMPLETE);
 
     private void HandleObjectiveComplete()
     {

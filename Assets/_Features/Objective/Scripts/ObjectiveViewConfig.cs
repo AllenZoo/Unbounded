@@ -9,6 +9,13 @@ public class ObjectiveViewConfig
     public string HeaderSubtitle { get; private set; }
     public List<TaskItemConfig> TaskItems { get; private set; }
 
+    public ObjectiveViewConfig()
+    {
+        HeaderTitle = "<u>Main Objectives</u>";
+        HeaderSubtitle = "All Done";
+        TaskItems = new List<TaskItemConfig>();
+    }
+
     public ObjectiveViewConfig(string headerTitle, string headerSubtitle, List<TaskItemConfig> taskItems)
     {
         HeaderTitle = headerTitle;
@@ -21,6 +28,7 @@ public class TaskItemConfig
 {
     public string TaskText { get; private set; }
     public bool IsComplete { get; private set; }
+
     public TaskItemConfig(string taskText, bool isComplete)
     {
         TaskText = taskText;
