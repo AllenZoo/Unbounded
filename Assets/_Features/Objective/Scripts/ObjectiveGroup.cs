@@ -27,12 +27,34 @@ public class ObjectiveGroup
     public void Initialize(ObjectiveGroupData data)
     {
         this.data = data;
+
+        // Redundent Cleanup. (But just in case)
+        Cleanup();
+
         objectives = new List<Objective>();
         foreach (var objectiveData in data.Objectives)
         {
-            objectives.Add(new Objective(ObjectiveState.ACTIVE, objectiveData));
+            var curObjective = new Objective(ObjectiveState.ACTIVE, objectiveData);
+            curObjective.OnObjectiveComplete += HandleObjectiveComplete;
+            objectives.Add(curObjective);
+        }
+    }
+
+    public void Cleanup()
+    {
+        foreach (var objective in objectives)
+        {
+            objective.OnObjectiveComplete -= HandleObjectiveComplete;
         }
     }
 
     public bool IsEmpty() => data == null || objectives.Count == 0;
+
+    private void HandleObjectiveComplete()
+    {
+        // Chain Event.
+        OnStateChanged?.Invoke();
+    }
+
+
 }

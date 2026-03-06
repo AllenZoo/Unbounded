@@ -13,7 +13,7 @@ public class Objective
     [SerializeField] private ObjectiveState state;
     [SerializeField] private ObjectiveData data;
 
-    public event Action<Objective> OnObjectiveComplete;
+    public event Action OnObjectiveComplete;
 
     public Objective(ObjectiveState state, ObjectiveData data)
     {
@@ -42,7 +42,7 @@ public class Objective
         if (state == ObjectiveState.ACTIVE)
         {
             state = ObjectiveState.COMPLETE;
-            OnObjectiveComplete?.Invoke(this);
+            OnObjectiveComplete?.Invoke();
             
             foreach(var condition in Conditions) {
                 condition.Cleanup();

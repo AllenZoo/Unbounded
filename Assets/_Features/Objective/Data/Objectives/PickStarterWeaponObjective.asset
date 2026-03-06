@@ -15,5 +15,6 @@ MonoBehaviour:
   ObjectiveName: 
   ObjectiveText: Pick a starter weapon from the armour stand.
   HighlightableContext: {fileID: 0}
-  ObjectivePointContext: {fileID: 0}
+  Conditions:
+  - {fileID: 11400000, guid: 7306c05f3ba3873438be3a3f37e6a64b, type: 2}
   ObjectiveDescription: 

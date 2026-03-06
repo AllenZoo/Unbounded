@@ -13,6 +13,9 @@ public class ObjectiveController
     {
         this.view = view;
         this.model = group;
+
+        ConnectModel();
+        ConnectView();
     }
 
     public class Builder
@@ -60,6 +63,25 @@ public class ObjectiveController
     {
         view.gameObject.SetActive(true);
 
+        if (model != null && !model.IsEmpty())
+        {
+            var config = GenerateViewConfig(model);
+            view.UpdateView(config);
+        }
+    }
+
+    private void ConnectModel()
+    {
+        // For any event subscriptions necessary.
+        model.OnStateChanged += HandleModelUpdate;
+    }
+    private void ConnectView()
+    {
+        // For any event subscriptions necessary.
+    }
+
+    private void HandleModelUpdate()
+    {
         if (model != null && !model.IsEmpty())
         {
             var config = GenerateViewConfig(model);

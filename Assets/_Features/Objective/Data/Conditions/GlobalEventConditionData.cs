@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GlobalEventConditionData", menuName = "System/Objective/Conditions/GlobalEventConditionData", order = 1)]
 public class GlobalEventConditionData : ObjectiveConditionData
 {
-    [TypeFilter(nameof(GetEventTypes))]
+    [ValueDropdown(nameof(GetEventTypes))]
     public Type globalEventType;
 
     public override IObjectiveCondition CreateInstance()
@@ -24,7 +24,7 @@ public class GlobalEventConditionData : ObjectiveConditionData
     {
         return AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(a => a.GetTypes())
-            .Where(t => typeof(IGlobalEvent).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            .Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
     }
 }
 
