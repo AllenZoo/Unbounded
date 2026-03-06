@@ -49,7 +49,6 @@ public class Objective
             }
         }
     }
-
     public void CheckCompletion()
     {
         if (state != ObjectiveState.ACTIVE) return;
@@ -67,6 +66,15 @@ public class Objective
         if (allMet)
         {
             CompleteObjective();
+        }
+    }
+
+    public void Update(float deltaTime)
+    {
+        if (state != ObjectiveState.ACTIVE) return;
+        foreach (var condition in Conditions)
+        {
+            condition.Update(deltaTime);
         }
     }
 

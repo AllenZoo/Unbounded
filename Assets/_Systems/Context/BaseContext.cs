@@ -17,12 +17,26 @@ using UnityEngine;
 
 public abstract class BaseContext : ScriptableObject {
     public abstract void ResetState();
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetAllContexts()
+    {
+        // FindObjectsOfTypeAll will find the assets even if not currently in the scene
+        var all = Resources.FindObjectsOfTypeAll<BaseContext>();
+        foreach (var ctx in all)
+        {
+            ctx.ResetState();
+        }
+    }
+#endif
+
 }
-public class BaseContext<T> : BaseContext where T : MonoBehaviour
+public class BaseContext<T> : BaseContext where T : Component
 {
     public Action<T> OnContextChanged;
 
-    // In the future, we can consider having this as a list, so that we can store multiple monobehaviours that share the same context scriptable object.
+    // In the future, we can consider having this as a list, so that we can store multiple monobehaviours/components that share the same context scriptable object.
     // Currently the Context Initializer that lasts fires will set the context.
     [SerializeField, ReadOnly] private T context;
     private bool initialized = false;
@@ -44,6 +58,7 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
 
         initialized = true;
         this.context = context;
+        OnContextChanged?.Invoke(context);
     }
 
     /// <summary>
@@ -71,18 +86,7 @@ public class BaseContext<T> : BaseContext where T : MonoBehaviour
     {
         initialized = false;
         context = null;
+        OnContextChanged = null;
     }
 
-//#if UNITY_EDITOR || DEVELOPMENT_BUILD
-//    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-//    private static void ResetAll()
-//    {
-//        var all = Resources.FindObjectsOfTypeAll<BaseContext>();
-
-//        foreach (var context in all)
-//        {
-//            context.ResetState();
-//        }
-//    }
-//#endif
 }

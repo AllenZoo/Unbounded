@@ -4,12 +4,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="new move to point condition", menuName ="System/Objective/Conditions/MoveToPointCondition")]
 public class MoveToPointConditionData : ObjectiveConditionData
 {
-    public Vector3 TargetPosition;
+    public TransformContext transformContext;
     public float DistanceThreshold = 1f;
 
     public override IObjectiveCondition CreateInstance()
     {
-        return new MoveToPointCondition(TargetPosition, DistanceThreshold);
+        return new MoveToPointCondition(this);
     }
 }
 
@@ -17,14 +17,13 @@ public class MoveToPointCondition : IObjectiveCondition
 {
     public event Action OnStateChanged;
     private Objective owner;
-    private Vector3 targetPos;
-    private float threshold;
+    private MoveToPointConditionData data;
     private bool isMet;
+    private Transform targetTransform;
 
-    public MoveToPointCondition(Vector3 targetPos, float threshold)
+    public MoveToPointCondition(MoveToPointConditionData data)
     {
-        this.targetPos = targetPos;
-        this.threshold = threshold;
+        this.data = data;
     }
 
     public bool IsMet() => isMet;
@@ -32,22 +31,39 @@ public class MoveToPointCondition : IObjectiveCondition
     public void Initialize(Objective owner)
     {
         this.owner = owner;
-        // In a real system, you might subscribe to a Tick event or use a coroutine from a Mono manager
-        // For simplicity, we'll assume there's some periodic check.
+        targetTransform = data.transformContext.GetContext().Value;
+        if (targetTransform == null)
+        {
+            // If not loaded yet, subscribe to context changes
+            data.transformContext.OnContextChanged += HandleContextChanged;
+        }
     }
 
-    public void Update()
+    public void Update(float deltaTime)
     {
+        if (targetTransform == null) return;
         if (isMet || owner.State != ObjectiveState.ACTIVE) return;
+        
 
-        // Note: In a real project, the Player reference should be managed by a PlayerManager
-        var player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null && Vector3.Distance(player.transform.position, targetPos) < threshold)
+        var player = PlayerSingleton.Instance.gameObject;
+        if (player != null && Vector3.Distance(player.transform.position, targetTransform.position) < data.DistanceThreshold)
         {
             isMet = true;
             OnStateChanged?.Invoke();
         }
     }
 
-    public void Cleanup() { }
+    public void Cleanup() {
+        data.transformContext.OnContextChanged -= HandleContextChanged;
+    }
+
+    private void HandleContextChanged(Transform newTransform)
+    {
+        targetTransform = newTransform;
+        if (targetTransform == null)
+        {
+            Debug.LogError("MoveToPointCondition: No valid transform found in context.");
+            return;
+        }
+    }
 }

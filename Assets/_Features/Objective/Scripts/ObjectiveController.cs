@@ -70,6 +70,11 @@ public class ObjectiveController
         }
     }
 
+    public void Update(float deltaTime)
+    {
+        model.Update(deltaTime);
+    } 
+
     private void ConnectModel()
     {
         // For any event subscriptions necessary.

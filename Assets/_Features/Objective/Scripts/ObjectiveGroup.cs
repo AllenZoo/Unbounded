@@ -15,7 +15,7 @@ public class ObjectiveGroup
 
     public ObjectiveGroup ()
     {
-        data = new ObjectiveGroupData();
+        data = ScriptableObject.CreateInstance<ObjectiveGroupData>();
         objectives = new List<Objective>();
     }
 
@@ -45,6 +45,17 @@ public class ObjectiveGroup
         foreach (var objective in objectives)
         {
             objective.OnObjectiveComplete -= HandleObjectiveComplete;
+        }
+    }
+
+    public void Update(float deltaTime)
+    {
+        foreach (var objective in objectives)
+        {
+            if (objective.State == ObjectiveState.ACTIVE)
+            {
+                objective.Update(deltaTime);
+            }
         }
     }
 

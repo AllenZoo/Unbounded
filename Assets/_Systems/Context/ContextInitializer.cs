@@ -5,7 +5,7 @@ using UnityEngine;
 /// ContextInitializer is the MonoBehaviour component responsible for initializing a BaseContext with the correct reference.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ContextInitializer<T> : MonoBehaviour where T : MonoBehaviour
+public class ContextInitializer<T> : MonoBehaviour where T : Component
 {
     [SerializeField, Required] protected BaseContext contextRef;
     [SerializeField, Required] protected T context;

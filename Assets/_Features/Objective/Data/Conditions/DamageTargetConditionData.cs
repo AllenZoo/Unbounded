@@ -41,14 +41,13 @@ public class DamageTargetCondition : IObjectiveCondition
     {
         this.owner = owner;
         damageableComponent = data.damageableContext.GetContext().Value;
-
-        if (damageableComponent != null)
+        if (damageableComponent == null)
+        {
+            // Context not loaded yet, subscribe to context change event, which will fire when it does load.
+            data.damageableContext.OnContextChanged += HandleDamageableContextChanged;
+        } else
         {
             damageableComponent.OnDamaged += HandleDamage;
-        }
-        else
-        {
-            Debug.LogError("DamageTargetCondition: No valid damageable component found in context.");
         }
     }
     public void Cleanup() {
@@ -60,7 +59,11 @@ public class DamageTargetCondition : IObjectiveCondition
         {
             Debug.LogError("Tried to cleanup null Damageable Component! (Shouldn't really happen.)");
         }
+
+        data.damageableContext.OnContextChanged -= HandleDamageableContextChanged;
     }
+
+    public void Update(float deltaTime) { }
 
     private void HandleDamage(float damageAmount)
     {
@@ -70,6 +73,23 @@ public class DamageTargetCondition : IObjectiveCondition
         if (accumulatedDamage >= data.damageAmountThreshold)
         {
             OnStateChanged?.Invoke();
+        }
+    }
+
+    private void HandleDamageableContextChanged(Damageable newDamageable)
+    {
+        if (damageableComponent != null)
+        {
+            damageableComponent.OnDamaged -= HandleDamage;
+        }
+        damageableComponent = newDamageable;
+        if (damageableComponent != null)
+        {
+            damageableComponent.OnDamaged += HandleDamage;
+        }
+        else
+        {
+            Debug.LogError("DamageTargetCondition: No valid Damageable found in context.");
         }
     }
 }

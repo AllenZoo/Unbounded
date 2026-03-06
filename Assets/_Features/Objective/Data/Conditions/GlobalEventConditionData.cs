@@ -64,4 +64,9 @@ public class GlobalEventCondition : IObjectiveCondition
     {
         if (binding != null) EventBusUtil.Unsubscribe(eventType, binding);
     }
+
+    public void Update(float deltaTime)
+    {
+
+    }
 }

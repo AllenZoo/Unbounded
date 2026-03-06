@@ -54,6 +54,11 @@ public class ObjectiveViewSystem : MonoBehaviour
 
     }
 
+    public void Update()
+    {
+        objectiveController.Update(Time.deltaTime);
+    }
+
     private void HandleObjectiveLoaded(LoadObjectiveRequest request)
     {
         if (request.objectives == null)
