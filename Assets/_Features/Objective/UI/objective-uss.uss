@@ -1,0 +1,93 @@
+:root {
+}
+
+.unity-text-title-element {
+}
+
+.objective-background {
+    background-color: rgba(59, 55, 55, 0.4);
+    background-blur-radius: 20px;
+    background-blur-sigma: 5;
+    opacity: 1;
+}
+
+.objective-background.disabled {
+    opacity: 0;
+    transition-duration: 1s;
+    transition-delay: 1s;
+    transition-timing-function: ease-in-out-sine;
+    display: flex;
+}
+
+.objective-tasks-container {
+    flex-direction: column;
+    padding: 10px 4px;
+    row-gap: 15px;
+    width: 100%;
+}
+
+.objective-task {
+    flex-grow: 0;
+    flex-direction: row;
+    align-items: flex-start;
+    column-gap: 20px;
+    -unity-text-align: middle-left;
+    flex-wrap: nowrap;
+    position: relative;
+    left: 6px;
+    width: 510px;
+    align-self: flex-start;
+    padding: 8px 0;
+}
+
+.icon-container {
+    flex-shrink: 0;
+    width: 58px;
+    height: 47px;
+    position: relative;
+}
+
+.icon-box {
+    position: absolute;
+    width: 47px;
+    height: 47px;
+    left: 5px;
+}
+
+.icon-check {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    top: -12px;
+    left: 0;
+    display: none;
+}
+
+.task-label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: normal;
+    color: rgb(243, 242, 235);
+    font-size: 22.46px;
+    -unity-font-style: bold;
+    padding-top: 8px;
+}
+
+.objective-task.disabled .icon-check {
+    display: flex;
+}
+
+.objective-task.disabled .task-label {
+    opacity: 0.5;
+}
+
+.objective-task.disabled .icon-check {
+    opacity: 0.5;
+}
+
+.objective-task.disabled .icon-box {
+    opacity: 0.5;
+}
+
+.disabled {
+}

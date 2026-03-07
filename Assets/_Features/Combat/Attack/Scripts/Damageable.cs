@@ -12,6 +12,10 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class Damageable : MonoBehaviour
 {
+    // Event that gets called when this Damageable takes damage. Passes the amount of damage taken as a parameter.
+    // This is hooked onto by outside systems (non-local), from DamageableContext. (e.g. tracking damage for DamageTargetCondition)
+    public event Action<float> OnDamaged; 
+
     [SerializeField] private LocalEventHandler leh;
     [SerializeField] private StatComponent stat;
 
@@ -84,6 +88,7 @@ public class Damageable : MonoBehaviour
         }
 
         leh.Call(new OnDamagedEvent { damage = calculatedDamage });
+        OnDamaged?.Invoke(calculatedDamage);
     }
 
 

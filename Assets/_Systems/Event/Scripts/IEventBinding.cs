@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEventBinding<T>
+public interface IEventBinding { }
+
+public interface IEventBinding<T> : IEventBinding
 {
     public Action<T> OnEvent { get; set; }
     public Action OnEventNoArgs { get; set; }

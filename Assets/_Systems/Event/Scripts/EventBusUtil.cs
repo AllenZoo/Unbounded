@@ -55,6 +55,26 @@ public static class EventBusUtil
         EventBusTypes = InitializeAllBuses();
     }
 
+    /// <summary>
+    /// Subscribes to an event of the given type. This uses reflection and is intended for generic or dynamically-defined event listeners.
+    /// </summary>
+    public static void Subscribe(Type eventType, IEventBinding binding)
+    {
+        var busType = typeof(EventBus<>).MakeGenericType(eventType);
+        var registerMethod = busType.GetMethod("Register", BindingFlags.Public | BindingFlags.Static);
+        registerMethod?.Invoke(null, new object[] { binding });
+    }
+
+    /// <summary>
+    /// Unsubscribes from an event of the given type.
+    /// </summary>
+    public static void Unsubscribe(Type eventType, IEventBinding binding)
+    {
+        var busType = typeof(EventBus<>).MakeGenericType(eventType);
+        var unregisterMethod = busType.GetMethod("Unregister", BindingFlags.Public | BindingFlags.Static);
+        unregisterMethod?.Invoke(null, new object[] { binding });
+    }
+
     static List<Type> InitializeAllBuses()
     {
         List<Type> eventBusTypes = new List<Type>();

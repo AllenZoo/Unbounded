@@ -1,69 +1,87 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+
+/// <summary>
+/// Main Glue component of the MVC model. Connects view, controller, and initial model together.
+/// 
+/// View is required on instantiation.
+/// Model can be empty.
+/// </summary>
 public class ObjectiveViewSystem : MonoBehaviour
 {
-    [SerializeField, Required] private ObjectiveManagerContext context;
-    [SerializeField, Required] private ObjectiveView pfbObjectiveView;
-    [SerializeField, Required] private Transform objectiveListParent;
+    [Required, SerializeField] private ObjectiveView objectiveView;
 
-    private ObjectiveManager objectiveManager;
-    private readonly Dictionary<Objective, ObjectiveView> activeViews = new();
+    [SerializeField] private bool loadInitialObjectiveGroup = true;
+
+    [ShowIf(nameof(loadInitialObjectiveGroup))]
+    [Required, SerializeField] private ObjectiveGroupData data;
+
+    private ObjectiveController objectiveController;
 
     private void Awake()
     {
-        Assert.IsNotNull(context);
-        Assert.IsNotNull(pfbObjectiveView);
-        Assert.IsNotNull(objectiveListParent);
+        Assert.IsNotNull(objectiveView);
+
+        if (data == null || !loadInitialObjectiveGroup)
+        {
+            objectiveController = new ObjectiveController.Builder().WithoutInitialObjectiveGroup().Build(objectiveView);
+            objectiveController.HideView();
+        }
+        else
+        {
+            objectiveController = new ObjectiveController.Builder().WithObjectiveGroup(data).Build(objectiveView);
+            objectiveController.ShowView();
+        }
     }
 
-    private void Start()
-    {
-        objectiveManager = context.GetContext().Value;
 
-        if (objectiveManager == null)
+    private void OnEnable()
+    {
+        if (ObjectiveManager.Instance != null)
         {
-            Debug.LogError("Objective Manager is null! Maybe context was not hooked up properly.");
+            ObjectiveManager.Instance.OnObjectiveLoaded += HandleObjectiveLoaded;
+        }
+
+        if (objectiveController != null)
+        {
+            objectiveController.OnObjectiveCompleted += HandleObjectiveCompleted;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (ObjectiveManager.Instance != null)
+        {
+            ObjectiveManager.Instance.OnObjectiveLoaded -= HandleObjectiveLoaded;
+        }
+
+        if (objectiveController != null)
+        {
+            objectiveController.OnObjectiveCompleted -= HandleObjectiveCompleted;
+        }
+    }
+
+    public void Update()
+    {
+        objectiveController.Update(Time.deltaTime);
+    }
+
+    private void HandleObjectiveLoaded(LoadObjectiveRequest request)
+    {
+        if (request.objectives == null)
+        {
+            Debug.LogError("Received LoadObjectiveRequest with null objective group! This is not supported.");
             return;
         }
 
-        objectiveManager.OnObjectiveActivated += HandleObjectiveActivated;
-        objectiveManager.OnObjectiveCompleted += HandleObjectiveCompleted;
+        objectiveController.UpdateModel(request.objectives);
     }
 
-    private void OnDestroy()
+    private void HandleObjectiveCompleted()
     {
-        objectiveManager.OnObjectiveActivated -= HandleObjectiveActivated;
-        objectiveManager.OnObjectiveCompleted -= HandleObjectiveCompleted;
-    }
-
-    private void HandleObjectiveActivated(Objective obj)
-    {
-        var view = Instantiate(pfbObjectiveView, objectiveListParent);
-        view.SetData(obj);
-        activeViews.Add(obj, view);
-    }
-
-    private void HandleObjectiveCompleted(Objective obj)
-    {
-        // Optionally, fade out or remove the view.
-        var view = activeViews[obj];
-        if (view != null)
-        {
-            Destroy(view.gameObject);
-            activeViews.Remove(obj);
-        }
-    }
-
-    public void ClearAllViews()
-    {
-        foreach (var kvp in activeViews)
-        {
-            Destroy(kvp.Value.gameObject);
-        }
-        activeViews.Clear();
+        ObjectiveManager.Instance.OnCurObjectiveComplete();
     }
 }

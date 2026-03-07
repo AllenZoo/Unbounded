@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906b4b953d8cf0d4ca7f37f9387e66d8, type: 3}
+  m_Name: MoveObjective
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectiveData
+  ObjectiveName: Move
+  ObjectiveText: Move to the armour stand.
+  HighlightableContext: {fileID: 0}
+  Conditions:
+  - {fileID: 11400000, guid: ff268680b1ebf7148b379ab9e77d999f, type: 2}
+  ObjectiveDescription: 

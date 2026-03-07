@@ -1,12 +1,24 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class ContextInitializer<T> : MonoBehaviour where T : MonoBehaviour
+/// <summary>
+/// ContextInitializer is the MonoBehaviour component responsible for initializing a BaseContext with the correct reference.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class ContextInitializer<T> : MonoBehaviour where T : Component
 {
     [SerializeField, Required] protected BaseContext contextRef;
     [SerializeField, Required] protected T context;
+    [SerializeField] protected bool loadOnAwake = true;
     [SerializeField] protected bool loadOnEnable = true;
 
+    protected void Awake()
+    {
+        if (loadOnAwake)
+        {
+            LoadContext();
+        }
+    }
 
     protected void OnEnable()
     {

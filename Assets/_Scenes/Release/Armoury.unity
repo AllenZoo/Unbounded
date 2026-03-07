@@ -5012,7 +5012,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: c492563a4ce82b543b61434e54f9904e, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -5020,7 +5021,10 @@ MonoBehaviour:
     SerializationNodes:
     - Name: globalEvent
       Entry: 7
-      Data: 0|OnTutorialObjectiveRequest, Assembly-CSharp
+      Data: 0|LoadObjectiveRequest, Assembly-CSharp
+    - Name: objectives
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

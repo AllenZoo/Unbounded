@@ -99,11 +99,12 @@ public struct OnDisplayStaterWeaponCardsRequest : IGlobalEvent
     public HashSet<StarterWeaponData> starterWeaponCards;
 }
 
-// Invoked in editor via EventInvoker.cs
-public struct OnTutorialObjectiveRequest : IGlobalEvent
+// Event invoked when we want to inject objectives into the ObjectiveManager.
+public struct LoadObjectiveRequest: IGlobalEvent
 {
-
+    public ObjectiveGroupData objectives;
 }
+
 
 public struct OnBossFightStartEvent : IGlobalEvent
 {

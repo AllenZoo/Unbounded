@@ -1,30 +1,138 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
-/// A view component for displaying the UI elements of a ObjectiveView prefab.
-///
-/// This class is responsible for configuring the visual elements such as the title,
-/// icon (with rotation), and description based on the provided <see cref="Objective"/>.
-/// It should be attached to the corresponding UI prefab in the Unity Editor.
+/// Main View for the ObjectiveSystemUI. It handles the header and provides
+/// an entry point to manage the list of dynamic task items.
 /// </summary>
-/// <remarks>
-/// Expects serialized references to UI elements (TextMeshProUGUI for title and description).
-/// The <see cref="SetData"/> method should be called with valid data to populate the card.
-/// </remarks>
 public class ObjectiveView : MonoBehaviour
 {
-    [SerializeField, Required] private TextMeshProUGUI titleText;
-    [SerializeField, Required] private TextMeshProUGUI descText;
-    //private Objective data;
+    [Required, SerializeField] private UIDocument objectiveUIDocument;
+    [Required, SerializeField] private VisualTreeAsset taskItemTemplate;
 
-    public void SetData(Objective obj)
+    private Label _titleLabel;
+    private Label _subtitleLabel;
+    private VisualElement _tasksContainer;
+    private VisualElement _background;
+
+    #region Editor Testing
+    [Button("Test Disable Background")]
+    public void TestDisbleBackground()
     {
-        var data = obj.GetData();
-        this.titleText.text = data.ObjectiveName;
-        this.descText.text = data.ObjectiveText;
+        Debug.Log("Testing background disable");
+        if (_background == null)
+        {
+            Debug.LogError("Background element not found. Make sure to initialize the UI first.");
+        }
+        _background.AddToClassList("disabled");
+    }
+
+    [Button("Test Enable Background")]
+    public void TestEnableBackground()
+    {
+        Debug.Log("Testing background enable");
+        if (_background == null)
+        {
+            Debug.LogError("Background element not found. Make sure to initialize the UI first.");
+        }
+        _background.RemoveFromClassList("disabled");
+    }
+    #endregion
+
+
+    private void Awake()
+    {
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
+        if (objectiveUIDocument == null) objectiveUIDocument = GetComponent<UIDocument>();
+        if (objectiveUIDocument != null && objectiveUIDocument.rootVisualElement != null)
+        {
+            var root = objectiveUIDocument.rootVisualElement;
+            _background = root.Q<VisualElement>("ObjectiveBackground");
+            _titleLabel = root.Q<Label>("Title");
+            _subtitleLabel = root.Q<Label>("Subtitle");
+            _tasksContainer = root.Q<VisualElement>("Tasks");
+        }
+    }
+
+    /// <summary>
+    /// Main entry point for updating the view. It takes in a config object that contains all necessary information to populate the header and task list.
+    /// </summary>
+    /// <param name="config"></param>
+    public void UpdateView(ObjectiveViewConfig config)
+    {
+        if (config == null) return;
+
+        // Check if the objective is complete and fade away if so.
+        if (config.IsComplete)
+        {
+            FadeAway();
+        }
+        else
+        {
+            // Ensure background is visible if not complete.
+            _background?.RemoveFromClassList("disabled");
+        }
+
+        SetHeader(config.HeaderTitle, config.HeaderSubtitle);
+        ClearTasks();
+        foreach (var task in config.TaskItems)
+        {
+            AddTask(task, taskItemTemplate);
+        }
+    }
+
+    private void SetHeader(string title, string subtitle)
+    {
+        if (_titleLabel == null) InitializeUI();
+        if (_titleLabel != null) _titleLabel.text = title;
+        if (_subtitleLabel != null) _subtitleLabel.text = subtitle;
+    }
+
+    private VisualElement AddTask(TaskItemConfig task, VisualTreeAsset template)
+    {
+        if (_tasksContainer == null) InitializeUI();
+        if (_tasksContainer == null) return null;
+
+        var container = template.CloneTree();
+        var taskItem = container.Q<VisualElement>(className: "objective-task");
+        if (taskItem == null) return null;
+
+        UpdateTaskElement(taskItem, task);
+        _tasksContainer.Add(taskItem);
+        return taskItem;
+    }
+
+    private void UpdateTaskElement(VisualElement element, TaskItemConfig task)
+    {
+        if (task == null) return;
+
+        var label = element.Q<Label>("TaskLabel");
+        if (label != null) label.text = task.TaskText;
+
+        var check = element.Q<VisualElement>("Check");
+        if (check != null)
+            check.style.display = (task.IsComplete) ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (!task.IsComplete)
+            element.RemoveFromClassList("disabled");
+        else
+            element.AddToClassList("disabled");
+    }
+
+    private void FadeAway()
+    {
+        // Fade out UI when objective is completed.
+        // Note: This style has transition fade out animation built in.
+        _background?.AddToClassList("disabled");
+    }
+
+    private void ClearTasks()
+    {
+        _tasksContainer?.Clear();
     }
 }
