@@ -12,8 +12,6 @@ using UnityEngine.Assertions;
 /// </summary>
 public class ObjectiveViewSystem : MonoBehaviour
 {
-    public event Action OnObjectiveCompleted;
-
     [Required, SerializeField] private ObjectiveView objectiveView;
 
     [SerializeField] private bool loadInitialObjectiveGroup = true;
@@ -27,7 +25,7 @@ public class ObjectiveViewSystem : MonoBehaviour
     {
         Assert.IsNotNull(objectiveView);
 
-        if (data == null)
+        if (data == null || !loadInitialObjectiveGroup)
         {
             objectiveController = new ObjectiveController.Builder().WithoutInitialObjectiveGroup().Build(objectiveView);
             objectiveController.HideView();
@@ -39,10 +37,6 @@ public class ObjectiveViewSystem : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        OnObjectiveCompleted += HandleObjectiveCompleted;
-    }
 
     private void OnEnable()
     {
@@ -53,7 +47,7 @@ public class ObjectiveViewSystem : MonoBehaviour
 
         if (objectiveController != null)
         {
-            objectiveController.OnObjectiveCompleted += OnObjectiveCompleted;
+            objectiveController.OnObjectiveCompleted += HandleObjectiveCompleted;
         }
     }
 
@@ -66,9 +60,8 @@ public class ObjectiveViewSystem : MonoBehaviour
 
         if (objectiveController != null)
         {
-            objectiveController.OnObjectiveCompleted -= OnObjectiveCompleted;
+            objectiveController.OnObjectiveCompleted -= HandleObjectiveCompleted;
         }
-        OnObjectiveCompleted -= HandleObjectiveCompleted;
     }
 
     public void Update()

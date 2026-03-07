@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectiveViewSystem
   objectiveView: {fileID: 1477093831}
-  loadInitialObjectiveGroup: 1
+  loadInitialObjectiveGroup: 0
   data: {fileID: 11400000, guid: c492563a4ce82b543b61434e54f9904e, type: 2}
 --- !u!1 &834575402
 GameObject:
@@ -1870,10 +1870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51c7eaba7de2494a9d39ec6bcdcfc5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contextRef: {fileID: 11400000, guid: 02fbf2b089c96f34e9d42b60f7912e20, type: 2}
-  context: {fileID: 1363445786}
-  loadOnAwake: 1
-  loadOnEnable: 1
 --- !u!114 &1363445788
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,32 @@ public class ObjectiveView : MonoBehaviour
     private Label _titleLabel;
     private Label _subtitleLabel;
     private VisualElement _tasksContainer;
+    private VisualElement _background;
+
+    #region Editor Testing
+    [Button("Test Disable Background")]
+    public void TestDisbleBackground()
+    {
+        Debug.Log("Testing background disable");
+        if (_background == null)
+        {
+            Debug.LogError("Background element not found. Make sure to initialize the UI first.");
+        }
+        _background.AddToClassList("disabled");
+    }
+
+    [Button("Test Enable Background")]
+    public void TestEnableBackground()
+    {
+        Debug.Log("Testing background enable");
+        if (_background == null)
+        {
+            Debug.LogError("Background element not found. Make sure to initialize the UI first.");
+        }
+        _background.RemoveFromClassList("disabled");
+    }
+    #endregion
+
 
     private void Awake()
     {
@@ -26,6 +52,7 @@ public class ObjectiveView : MonoBehaviour
         if (objectiveUIDocument != null && objectiveUIDocument.rootVisualElement != null)
         {
             var root = objectiveUIDocument.rootVisualElement;
+            _background = root.Q<VisualElement>("ObjectiveBackground");
             _titleLabel = root.Q<Label>("Title");
             _subtitleLabel = root.Q<Label>("Subtitle");
             _tasksContainer = root.Q<VisualElement>("Tasks");
@@ -39,6 +66,18 @@ public class ObjectiveView : MonoBehaviour
     public void UpdateView(ObjectiveViewConfig config)
     {
         if (config == null) return;
+
+        // Check if the objective is complete and fade away if so.
+        if (config.IsComplete)
+        {
+            FadeAway();
+        }
+        else
+        {
+            // Ensure background is visible if not complete.
+            _background?.RemoveFromClassList("disabled");
+        }
+
         SetHeader(config.HeaderTitle, config.HeaderSubtitle);
         ClearTasks();
         foreach (var task in config.TaskItems)
@@ -83,6 +122,13 @@ public class ObjectiveView : MonoBehaviour
             element.RemoveFromClassList("disabled");
         else
             element.AddToClassList("disabled");
+    }
+
+    private void FadeAway()
+    {
+        // Fade out UI when objective is completed.
+        // Note: This style has transition fade out animation built in.
+        _background?.AddToClassList("disabled");
     }
 
     private void ClearTasks()

@@ -6,19 +6,26 @@
 
 .objective-background {
     background-color: rgba(59, 55, 55, 0.4);
-    /* Unity 6 Background Blur properties */
     background-blur-radius: 20px;
-    background-blur-sigma: 5.0;
+    background-blur-sigma: 5;
+    opacity: 1;
 }
 
-.objective-tasks-container{
+.objective-background.disabled {
+    opacity: 0;
+    transition-duration: 1s;
+    transition-delay: 1s;
+    transition-timing-function: ease-in-out-sine;
+    display: flex;
+}
+
+.objective-tasks-container {
     flex-direction: column;
     padding: 10px 4px;
     row-gap: 15px;
     width: 100%;
 }
 
-/* Style for individual objective tasks */
 .objective-task {
     flex-grow: 0;
     flex-direction: row;
@@ -63,14 +70,24 @@
     color: rgb(243, 242, 235);
     font-size: 22.46px;
     -unity-font-style: bold;
-    padding-top: 8px; /* Alignment with first line of icon */
+    padding-top: 8px;
 }
 
-/* Complete state: show checkmark */
 .objective-task.disabled .icon-check {
     display: flex;
 }
 
 .objective-task.disabled .task-label {
     opacity: 0.5;
+}
+
+.objective-task.disabled .icon-check {
+    opacity: 0.5;
+}
+
+.objective-task.disabled .icon-box {
+    opacity: 0.5;
+}
+
+.disabled {
 }

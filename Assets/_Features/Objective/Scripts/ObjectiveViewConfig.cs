@@ -8,6 +8,7 @@ public class ObjectiveViewConfig
     public string HeaderTitle { get; private set; }
     public string HeaderSubtitle { get; private set; }
     public List<TaskItemConfig> TaskItems { get; private set; }
+    public bool IsComplete => TaskItems.TrueForAll(task => task.IsComplete); // true even if list is empty.
 
     public ObjectiveViewConfig()
     {

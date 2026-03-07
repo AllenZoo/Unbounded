@@ -92,13 +92,12 @@ public class ObjectiveController
     {
         if (model != null && !model.IsEmpty())
         {
-            // TODO: animate dissolve of objective view when complete, instead of just hiding it.
             if (model.IsComplete()) {
-                OnObjectiveCompleted?.Invoke();
-                HideView();
-                return;
+                OnObjectiveCompleted?.Invoke(); 
             }
 
+            // View also has access to whether Objective is complete, so we can just pass the config and let it decide how to display based on that state.
+            // e.g. when objective is complete, it will dissolve the container.
             var config = GenerateViewConfig(model);
             view.UpdateView(config);
         }
@@ -124,6 +123,14 @@ public class ObjectiveController
                 taskItems.Add(new TaskItemConfig(task.Data.ObjectiveText, task.IsComplete()));
             }
         }
+        return new ObjectiveViewConfig(headerTitle, headerSubtitle, taskItems);
+    }
+
+    private ObjectiveViewConfig GenerateEmptyViewConfig()
+    {
+        var headerTitle = "<u>Main Objectives</u>";
+        var headerSubtitle = "All Done";
+        var taskItems = new List<TaskItemConfig>();
         return new ObjectiveViewConfig(headerTitle, headerSubtitle, taskItems);
     }
 }

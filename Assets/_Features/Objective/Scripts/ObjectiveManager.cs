@@ -52,6 +52,7 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
 
     public void OnCurObjectiveComplete()
     {
+        Debug.Log("Here!");
         curObjectiveGroup = null;
     }
 
