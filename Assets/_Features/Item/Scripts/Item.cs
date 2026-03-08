@@ -51,10 +51,10 @@ public class Item
     }
     private ItemModifierMediator itemModifierMediator;
 
+    // TODO: init these properties through scriptable object.
     [SerializeReference, InlineEditor, ValueDropdown(nameof(GetItemComponentTypes))]
     public List<IItemComponent> components = new List<IItemComponent>();
 
-    // TODO: after adding this check hovering over weapon disables it..
     private bool isInitialized = false;
 
     #region Constructor
@@ -76,6 +76,11 @@ public class Item
     {
         this.components = components;
         this.dataGUID = Data.ID;
+    }
+
+    public void Init(ItemData data)
+    {
+        // TODO:
     }
 
     // Should be run once per unique Item object. 
@@ -165,18 +170,18 @@ public class Item
 
     public void Load(Item item)
     {
-        if (item.dataGUID != null)
-        {
-            // Load the ItemData from Database
-            data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(item.dataGUID);
-        }
+        //if (item.dataGUID != null)
+        //{
+        //    // Load the ItemData from Database
+        //    data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(item.dataGUID);
+        //}
 
-        if (components == null) return;
+        //if (components == null) return;
 
-        foreach (var component in components)
-        {
-            component.Load(item);
-        }
+        //foreach (var component in components)
+        //{
+        //    component.Load(item);
+        //}
     }
 
     public void Save()

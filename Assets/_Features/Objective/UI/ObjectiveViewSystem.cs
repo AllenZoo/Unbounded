@@ -64,6 +64,11 @@ public class ObjectiveViewSystem : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        objectiveController.Cleanup();
+    }
+
     public void Update()
     {
         objectiveController.Update(Time.deltaTime);
