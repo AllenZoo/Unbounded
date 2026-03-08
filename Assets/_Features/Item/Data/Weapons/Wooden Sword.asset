@@ -41,3 +41,27 @@ MonoBehaviour:
   spriteRot: 0
   isStackable: 0
   description: Made from a very tough tree.
+  initialComponents:
+  - rid: 4862693688974770911
+  - rid: 4862693688974770912
+  - rid: 4862693688974770913
+  - rid: 4862693688974770914
+  references:
+    version: 2
+    RefIds:
+    - rid: 4862693688974770911
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4862693688974770912
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: 5b3ff18b58c9a914ba97a641c2062dde, type: 2}
+        BaseStatGUID: 
+    - rid: 4862693688974770913
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgradeCardsGUID: []
+    - rid: 4862693688974770914
+      type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
+      data:
+        equipmentType: 0

@@ -41,3 +41,27 @@ MonoBehaviour:
   spriteRot: 0
   isStackable: 0
   description: A mystical weapon of mass production..
+  initialComponents:
+  - rid: 4862693688974770904
+  - rid: 4862693688974770903
+  - rid: 4862693688974770905
+  - rid: 4862693688974770906
+  references:
+    version: 2
+    RefIds:
+    - rid: 4862693688974770903
+      type: {class: ItemBaseStatComponent, ns: , asm: Assembly-CSharp}
+      data:
+        <BaseStats>k__BackingField: {fileID: 11400000, guid: f36979738565b8d4ba1c259de4a43496, type: 2}
+        BaseStatGUID: 
+    - rid: 4862693688974770904
+      type: {class: ItemAttackContainerComponent, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4862693688974770905
+      type: {class: ItemUpgradeComponent, ns: , asm: Assembly-CSharp}
+      data:
+        upgradeCardsGUID: []
+    - rid: 4862693688974770906
+      type: {class: ItemEquipmentComponent, ns: , asm: Assembly-CSharp}
+      data:
+        equipmentType: 1

@@ -17,7 +17,7 @@ using UnityEngine.EventSystems;
 //                         Another option to approach above is to have UI subscribe to some OnInventoryModified in Inventory_SO and have the system 
 //                        call that event when it modifies the data. This would require the system to have a reference to the Inventory_SO.
 [RequireComponent(typeof(InventorySystem))]
-public class InventoryUI : MonoBehaviour
+public class InventoryView : MonoBehaviour
 {
     /// <summary>
     /// The context shared by Inventory UI systems that exist in the same system. Useful for keeping track of selected objects, and inventories in the middle of

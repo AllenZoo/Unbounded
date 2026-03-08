@@ -15,9 +15,14 @@ public class ItemDataConverter
         }
 
         ItemDescModel model = new ItemDescModel();
-
-        item.Init();
+        
         var mediator = item.ItemModifierMediator;
+
+        if (mediator == null)
+        {
+            Debug.LogError("ItemModifierMediator is null for item: " + item.Data.itemName);
+            return model;
+        }
 
         StatContainer baseStatContainer = mediator.QueryStatsBeforeModification().Value;
         StatContainer finalStatContainer = mediator.QueryStatsAfterModification().Value;

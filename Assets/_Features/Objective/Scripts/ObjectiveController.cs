@@ -77,7 +77,11 @@ public class ObjectiveController
     {
         model.Update(deltaTime);
     } 
-
+    public void Cleanup()
+    {
+        if (model == null) return;
+        model.OnStateChanged -= HandleModelUpdate;
+    }
     private void ConnectModel()
     {
         // For any event subscriptions necessary.
@@ -125,7 +129,6 @@ public class ObjectiveController
         }
         return new ObjectiveViewConfig(headerTitle, headerSubtitle, taskItems);
     }
-
     private ObjectiveViewConfig GenerateEmptyViewConfig()
     {
         var headerTitle = "<u>Main Objectives</u>";
