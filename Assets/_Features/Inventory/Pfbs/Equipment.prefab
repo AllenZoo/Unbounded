@@ -873,8 +873,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentSystem
   view: {fileID: 6338985737974586348}
-  initializeWithInventoryData: 1
-  inventoryData: {fileID: 11400000, guid: f7e77c9f6f100c74d99c203ef7e58243, type: 2}
+  initMode: 1
+  inventorySystem: {fileID: 6009033260288310315}
+  inventoryData: {fileID: 0}
 --- !u!1 &6009033260393703994
 GameObject:
   m_ObjectHideFlags: 0

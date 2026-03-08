@@ -17,6 +17,8 @@ public class EquipmentController
 
         ConnectModel();
         ConnectView();
+
+        UpdateView();
     }
 
     public class Builder
@@ -50,22 +52,36 @@ public class EquipmentController
     public void Cleanup()
     {
         // Unsubscribe from any Model or View Events here.
+        model.OnInventoryDataModified -= HandleModelModified;
     }
 
     private void ConnectModel()
     {
         // Subscribe to any Model Events here.
+        model.OnInventoryDataModified += HandleModelModified;
     }
 
     private void ConnectView()
     {
         // Subscribe to any View Events here.
     }
+
+    private void UpdateView()
+    {
+        var config = GenerateEquipmentViewConfig(model);
+        view.UpdateView(config);
+    }
+
+    private void HandleModelModified()
+    {
+        UpdateView();
+    }
+
     private EquipmentViewConfig GenerateEquipmentViewConfig(Inventory inventory)
     {
-        string weaponName = "";
-        string weaponDescription = "";
-        if (inventory.Items[0] != null)
+        string weaponName = "No Weapon Equipped";
+        string weaponDescription = "\"No Weapon? Guess I'll just have to run around...\"";
+        if (!inventory.GetItem(0).IsEmpty())
         {
             weaponName = inventory.Items[0].Data.itemName;
             weaponDescription = inventory.Items[0].Data.description;

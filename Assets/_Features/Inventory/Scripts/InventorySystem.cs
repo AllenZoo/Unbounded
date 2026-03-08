@@ -17,7 +17,6 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     // SO_Inventory.
     public event Action<Inventory> OnInventoryDataReset;
 
-    // TODO: MAJOR CHANGE HERE FOR HOW SYSTEM WORKS. (we initialize with inventory data)
     [SerializeField] private InventoryData inventoryData;
     public Inventory Inventory => inventory;
     [SerializeField, ReadOnly] private Inventory inventory;
@@ -43,7 +42,8 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     [Tooltip("Optional field. Used to initialize a SO InventorySystemContext ref.")]
     [SerializeField, AllowNull] private InventorySystemContext systemContext;
 
-    // Something in here throwing error and causing script to disable itself (or coudl be in Start)
+    [ReadOnly] private bool initialized = false;
+
     private void Awake()
     {
         // Check that inventory is not null
@@ -53,19 +53,19 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         {
             slotRules = new SerializedDictionary<int, SO_Conditions>();
         }
-        inventory = new Inventory(inventoryData);
-        systemContext?.Init(this);
-    }
-
-    private void Start()
-    {
         Init();
     }
 
     // Init
-    private void Init()
+    public void Init()
     {
+        // Check if already initialized to prevent double initialization.
+        if (initialized) return; 
+
+        inventory = new Inventory(inventoryData);
+        systemContext?.Init(this);
         inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
+        initialized = true;
     }
 
     #region Inventory Actions
@@ -374,6 +374,8 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         {
             inventory = data.inventories[inventoryGuid];
             inventory.Load(inventory); // Looks weird but this is how we pass on the GUID data down to the items.
+
+            initialized = true; //TODO: check if we can set this here.
 
             OnInventoryDataModified?.Invoke();
         }

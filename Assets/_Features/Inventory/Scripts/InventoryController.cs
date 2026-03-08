@@ -1,16 +1,9 @@
 using UnityEngine;
 
-public class InventoryController : MonoBehaviour
+/// <summary>
+/// Main Controller class of Inventory MVC.
+/// </summary>
+public class InventoryController
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // TODO: refactor eventually.
 }
