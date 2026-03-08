@@ -11,5 +11,6 @@ using UnityEditor;
 //[CreateAssetMenu(fileName = "New Inventory", menuName = "System/Inventory/InventoryData")]
 public class InventoryData : SerializedScriptableObject
 {
-    public List<ItemData> items;
+    public List<ItemData> InitItems;
+    public int Slots;
 }

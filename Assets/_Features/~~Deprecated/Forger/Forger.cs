@@ -33,7 +33,7 @@ public class Forger : IForger
     /// <returns>the preview item or null if invalid</returns>
     public Item Forge(List<Item> stones, Item equipment)
     {
-        Item previewItem = equipment.Clone();
+        Item previewItem = equipment.DeepClone();
 
         if (!previewItem.HasComponent<ItemUpgradeComponent>())
         {

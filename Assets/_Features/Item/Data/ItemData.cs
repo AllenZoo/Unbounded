@@ -40,9 +40,7 @@ public class ItemData : SerializedScriptableObject, IIdentifiableSO
         yield return new ItemAttackContainerComponent(null);
         yield return new ItemBaseStatComponent();
         yield return new ItemUpgradeComponent();
-        // yield return new ItemUpgraderComponent();
         yield return new ItemEquipmentComponent(EquipmentType.SWORD);
-        //yield return new ItemValueComponent();
     }
 
 #if UNITY_EDITOR

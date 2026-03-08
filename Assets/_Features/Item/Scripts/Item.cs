@@ -20,9 +20,7 @@ public interface IItemComponent
 public class Item
 {
     [HorizontalGroup("Row1")] // HideLabel, PreviewField(50)
-
-    //[NonSerialized, ShowInInspector]
-    
+                              
     public ItemData Data => data;
 
     [UnityEngine.SerializeField]
@@ -58,33 +56,24 @@ public class Item
     private bool isInitialized = false;
 
     #region Constructor
-    
     public Item()
     {
         // For creating empty Item.
     }
 
-    public Item(ItemData baseData, int quantity)
+    public void Init(ItemData data, int quantity)
     {
-        this.data = baseData;
+        if (data == null) return;
+
+        this.data = data;
+        this.components = data.initialComponents.Select(c => c.DeepClone()).ToList();
         this.quantity = quantity;
-        this.itemModifierMediator = new ItemModifierMediator(this);
-        this.dataGUID = Data.ID;
-    }
 
-    public Item(ItemData baseData, int quantity, List<IItemComponent> components): this(baseData, quantity)
-    {
-        this.components = components;
-        this.dataGUID = Data.ID;
-    }
-
-    public void Init(ItemData data)
-    {
-        // TODO:
+        Init();
     }
 
     // Should be run once per unique Item object. 
-    public void Init()
+    private void Init()
     {
         if (isInitialized) return;
 
@@ -146,17 +135,15 @@ public class Item
 
     /// <summary>
     /// Creates a deep copy of the item.
+    /// 
+    /// Item is already properly initialized, so the clone will have its ItemModifierMediator and components ready to use.
     /// </summary>
     /// <returns></returns>
-    public Item Clone()
+    public Item DeepClone()
     {
-        List<IItemComponent> clonedComponents = new List<IItemComponent>();
-        foreach (var component in components)
-        {
-            clonedComponents.Add(component.DeepClone());
-        }
-
-        return new Item(Data, quantity, clonedComponents);
+        Item item = new Item();
+        item.Init(Data, quantity);
+        return item;
     }
 
     /// <summary>

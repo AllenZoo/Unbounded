@@ -113,18 +113,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
         if (attackerItem.ItemModifierMediator == null)
         {
-            Debug.Log($"ItemModiferMediator is null. Initializing.");
-            attackerItem.Init();
+            Debug.LogError($"ItemModiferMediator is null. This should not have happened.");
         }
        
         IAttacker attackerToSet = attackerItem?.ItemModifierMediator?.QueryAttackerAfterModification();
         attackerComponent.SetAttacker(new List<IAttacker>() { attackerToSet });
     }
 
-    private void UpdateAttacker()
-    {
-        UpdateAttacker(curWeapon);
-    }
 
     /// <summary>
     /// Handles UCAE = UpgradeCardApplyEffect event.
@@ -152,8 +147,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
         }
 
         // Equip that item into inventory system
-        Item newWeapon = e.cardData.Item.Clone();
-        newWeapon.Init();
+        Item newWeapon = e.cardData.Item.DeepClone();
         inventory.SetItem(newWeapon, 0);
         UpdateWeapon();
     }

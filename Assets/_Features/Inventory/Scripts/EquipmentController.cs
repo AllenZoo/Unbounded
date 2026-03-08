@@ -25,7 +25,7 @@ public class EquipmentController
 
         public Builder WithInitialInventory(InventoryData data)
         {
-            //model.Init(data);
+            model.Init(data);
             return this;
         }
 

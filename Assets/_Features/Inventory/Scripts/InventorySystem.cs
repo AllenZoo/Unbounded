@@ -17,8 +17,9 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     // SO_Inventory.
     public event Action<Inventory> OnInventoryDataReset;
 
-
-    [SerializeField] private Inventory inventory;
+    // TODO: MAJOR CHANGE HERE FOR HOW SYSTEM WORKS. (we initialize with inventory data)
+    [SerializeField] private InventoryData inventoryData;
+    private Inventory inventory;
 
     [Tooltip("Inventory GUID associated with inventory for data persistence purposes. Make sure to generate with Context Menu option.")]
     [SerializeField, ReadOnly, Required] private string inventoryGuid;
@@ -45,13 +46,13 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     private void Awake()
     {
         // Check that inventory is not null
-        Assert.IsNotNull(inventory, "Inventory is null.");
+        Assert.IsNotNull(inventoryData, "Inventory is null.");
 
         if (slotRules == null)
         {
             slotRules = new SerializedDictionary<int, SO_Conditions>();
         }
-        inventory.Init();
+        inventory = new Inventory(inventoryData);
         systemContext?.Init(this);
     }
 

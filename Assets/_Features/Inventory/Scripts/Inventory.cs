@@ -10,45 +10,34 @@ public class Inventory
     public event Action OnInventoryDataModified;
 
     public List<Item> Items { get { return items; } private set { } }
-    [SerializeField] private List<Item> items = new List<Item>();
+    private List<Item> items = new List<Item>();
     public int Slots { get { return slots; } private set { } }
-    [SerializeField] private int slots = 9;
+    private int slots = 9;
+
+    public Inventory()
+    {
+
+    }
 
     //// Init through scriptable object.
-    //public Inventory()
-    //{
-    //    items = new List<Item>();
-    //    slots = 9;
-    //    Init();
-    //}
-
-    //public Inventory(List<Item> items, int numSlots)
-    //{
-    //    // Assert that items.Count <= numSlots.
-    //    Assert.IsTrue(items.Count <= numSlots, "Inventory items.Count must be less than or equal to numSlots.");
-
-    //    this.items = items;
-    //    this.slots = numSlots;
-
-    //    // Check if items.Count is less than numSlots. If so add null until items.Count == numSlots.
-    //    if (this.items.Count < this.slots)
-    //    {
-    //        int difference = this.slots - this.items.Count;
-    //        for (int i = 0; i < difference; i++)
-    //        {
-    //            this.items.Add(null);
-    //        }
-    //    }
-    //    Init();
-    //}
-
-    public void Init()
+    public Inventory(InventoryData inventoryData)
     {
+        Init(inventoryData);
+    }
+
+    /// <summary>
+    /// Initializer function that is called in case we need to create an empty inventory first and then load with data later.
+    /// </summary>
+    /// <param name="inventoryData"></param>
+    public void Init(InventoryData inventoryData)
+    {
+        this.slots = inventoryData.Slots;
         AdjustItemsToSlots();
-        // Necessary so that the ItemModifierMediator in Item gets initialized properly since not serializable.
-        foreach (Item item in items)
+        foreach (ItemData itemData in inventoryData.InitItems)
         {
-            if (item != null) item.Init();
+            Item item = new Item();
+            item.Init(itemData, 1);
+            items.Add(item);
         }
     }
 
@@ -72,7 +61,7 @@ public class Inventory
             && item1.Data.isStackable && item2.Data.isStackable)
         {
             // Stack items.
-            Item stackedItem = item1.Clone();
+            Item stackedItem = item1.DeepClone();
             stackedItem.quantity += item2.quantity;
             items[index] = stackedItem;
         }
@@ -172,7 +161,7 @@ public class Inventory
         EventBus<OnInventoryModifiedEvent>.Call(new OnInventoryModifiedEvent());
         OnInventoryDataModified?.Invoke();
 
-        Item secondHalf = originalItem.Clone();
+        Item secondHalf = originalItem.DeepClone();
         secondHalf.quantity = secondHalfQuantity;
         return secondHalf;
     }
@@ -230,6 +219,14 @@ public class Inventory
         items.Clear();
         AdjustItemsToSlots();
     }
+
+    /// <summary>
+    /// Adjusts the number of items in the collection to match the number of available slots by adding or removing items
+    /// as necessary.
+    /// </summary>
+    /// <remarks>If there are more items than slots, excess items are removed from the end of the collection.
+    /// If there are fewer items than slots, new empty items are added to fill the remaining slots. This method also
+    /// triggers the inventory data modified event after making adjustments.</remarks>
     private void AdjustItemsToSlots()
     {
         if (items.Count > slots)
