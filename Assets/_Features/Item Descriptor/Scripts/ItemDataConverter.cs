@@ -7,14 +7,14 @@ using UnityEngine;
 /// </summary>
 public class ItemDataConverter
 {
-    public static ItemDescModel ConvertFromItem(Item item)
+    public static ItemDescViewConfig ConvertFromItem(Item item)
     {
         if (item == null || item.IsEmpty())
         {
             return null;
         }
 
-        ItemDescModel model = new ItemDescModel();
+        ItemDescViewConfig model = new ItemDescViewConfig();
         
         var mediator = item.ItemModifierMediator;
 

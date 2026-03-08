@@ -60,8 +60,11 @@ public class ItemDescView : MonoBehaviour
 
     /// <summary>
     /// Populates the descriptor view with model data.
+    /// 
+    /// If model is null, shows the empty view (which just has a "No Item Selected" text).
+    /// Otherwise, shows the filled view with all relevant data populated.
     /// </summary>
-    public void DisplayView(ItemDescModel model)
+    public void DisplayView(ItemDescViewConfig model)
     {
         itemDescCanvas.enabled = true;
 
@@ -93,7 +96,7 @@ public class ItemDescView : MonoBehaviour
         emptyView.gameObject.SetActive(true);
     }
 
-    private void ShowFilledView (ItemDescModel model)
+    private void ShowFilledView (ItemDescViewConfig model)
     {
         TitleText.text = model.Name;
 

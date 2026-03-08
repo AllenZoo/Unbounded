@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Data class that the Item Descriptor bases the View on.
 /// </summary>
-public class ItemDescModel
+public class ItemDescViewConfig
 {
     public string Name;
     public string Description;
@@ -40,7 +40,7 @@ public class ItemDescModel
     /// </summary>
     public List<string> Traits;
     
-    public ItemDescModel()
+    public ItemDescViewConfig()
     {
 
     }

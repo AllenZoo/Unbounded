@@ -83,8 +83,8 @@ public class EquipmentController
         string weaponDescription = "\"No Weapon? Guess I'll just have to run around...\"";
         if (!inventory.GetItem(0).IsEmpty())
         {
-            weaponName = inventory.Items[0].Data.itemName;
-            weaponDescription = inventory.Items[0].Data.description;
+            weaponName = inventory.GetItem(0).Data.itemName;
+            weaponDescription = inventory.GetItem(0).Data.description;
         }
         return new EquipmentViewConfig("<u>Equipment</u>", weaponName, weaponDescription);
     }
