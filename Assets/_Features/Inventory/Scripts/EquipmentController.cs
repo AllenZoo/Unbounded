@@ -29,6 +29,12 @@ public class EquipmentController
             return this;
         }
 
+        public Builder WithInventorySystem(InventorySystem inventorySystem)
+        {
+            model = inventorySystem.Inventory;
+            return this;
+        }
+
         public Builder WithoutInitialInventory()
         {
             return this;

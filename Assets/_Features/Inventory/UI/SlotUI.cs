@@ -13,7 +13,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     public event Action<InventorySystem, SlotUI, PointerEventData.InputButton> OnDragItem;
     public event Action<InventorySystem, SlotUI>  OnEndDragItem, OnDropItem;
 
-    private InventoryUI inventoryUI;
+    private InventoryView inventoryUI;
     private InventorySystem parentSystem;
 
     [Header("For debugging, don't set via inspector.")]
@@ -47,7 +47,7 @@ public class SlotUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHa
     private void Awake()
     {
         Assert.IsNotNull(itemIconElement, "Need item data sprite gameobject.");
-        inventoryUI = GetComponentInParent<InventoryUI>();
+        inventoryUI = GetComponentInParent<InventoryView>();
         Assert.IsNotNull(inventoryUI, "ERROR: Slot UI existing without parent Inventory UI reference!");
 
         parentSystem = GetComponentInParent<InventorySystem>();

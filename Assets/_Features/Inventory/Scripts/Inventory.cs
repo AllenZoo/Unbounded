@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,9 @@ public class Inventory
     public event Action OnInventoryDataModified;
 
     public List<Item> Items { get { return items; } private set { } }
-    private List<Item> items = new List<Item>();
+    [SerializeField, ReadOnly] private List<Item> items = new List<Item>();
     public int Slots { get { return slots; } private set { } }
-    private int slots = 9;
+    [SerializeField, ReadOnly] private int slots = 9;
 
     public Inventory()
     {

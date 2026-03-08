@@ -19,7 +19,8 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
 
     // TODO: MAJOR CHANGE HERE FOR HOW SYSTEM WORKS. (we initialize with inventory data)
     [SerializeField] private InventoryData inventoryData;
-    private Inventory inventory;
+    public Inventory Inventory => inventory;
+    [SerializeField, ReadOnly] private Inventory inventory;
 
     [Tooltip("Inventory GUID associated with inventory for data persistence purposes. Make sure to generate with Context Menu option.")]
     [SerializeField, ReadOnly, Required] private string inventoryGuid;

@@ -157,18 +157,18 @@ public class Item
 
     public void Load(Item item)
     {
-        //if (item.dataGUID != null)
-        //{
-        //    // Load the ItemData from Database
-        //    data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(item.dataGUID);
-        //}
+        if (item.dataGUID != null)
+        {
+            // Load the ItemData from Database
+            data = ScriptableObjectDatabase.Instance.Data.Get<ItemData>(item.dataGUID);
+        }
 
-        //if (components == null) return;
+        if (components == null) return;
 
-        //foreach (var component in components)
-        //{
-        //    component.Load(item);
-        //}
+        foreach (var component in components)
+        {
+            component.Load(item);
+        }
     }
 
     public void Save()
