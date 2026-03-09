@@ -68,6 +68,13 @@ public class ItemDescSystem : MonoBehaviour
 
     public void OnInventoryModifiedEvent()
     {
+        // Model is an Item , not an Inventory, so we don't really need to do anything here for now.
+        // But if we want the item descriptor to dynamically update based on inventory modifications
+        // (e.g. if the item descriptor should reflect changes to item stats based on inventory buffs/debuffs),
+        // then we can trigger an update here after refactoring model to be flexible to inventory registration.
+
+        // e.g. we can initialize with equipment system.
+
         //controller.UpdateModel(model);
     }
 }
