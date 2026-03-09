@@ -9,10 +9,14 @@ public class ItemDescViewConfig
 {
     public string Name;
     public string Description;
-    public float BaseAtk; // TODO-OPT: prob not necessary to display this, since player's probably care more about final ATK anyways.
-    public float FinalAtk;
-    public double PercentageDamageIncrease;
 
+
+    public float Damage; // in Damage: 50 (2 + 23 + 25), this is the 50
+    public float BaseAtk; // // in Damage: 50 (2 + 23 + 25), this is the 2
+    public float BonusAtk; // in Damage: 50 (2 + 23 + 25), this is the 23
+    public double PercentageDamageIncrease; // in Damage: 50 (2 + 23 + 25), this is the 100%
+    public float DamageIncreaseFromPercent; // in Damage: 50 (2 + 23 + 25), this is the 25
+    
     /// <summary>
     /// In terms of m/s
     /// </summary>

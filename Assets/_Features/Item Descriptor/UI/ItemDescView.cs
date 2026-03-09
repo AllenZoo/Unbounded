@@ -5,6 +5,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
+using UnityEngine.UI;
 
 public class ItemDescView : MonoBehaviour
 {
@@ -20,43 +21,60 @@ public class ItemDescView : MonoBehaviour
     [Required, SerializeField] private Transform filledView;
 
     [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI TitleText;
+    [Required, SerializeField] private TextMeshProUGUI TitleText;
 
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI BaseDamageText;
-    private const string BASE_DAMAGE_FIELD_HEADER_TEXT = "Base Damage: ";
+    #region Colours
+    [SerializeField] private Color green = new Color32(61, 119, 72, 255);
+    [SerializeField] private Color red = new Color32(168, 65, 52, 255);
+    [SerializeField] private Color gold = new Color32(151, 103, 9, 255);
+    [SerializeField] private Color gray = new Color32(99, 96, 90, 255);
+    #endregion
 
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI FinalDamageText;
-    private const string FINAL_DAMAGE_FIELD_HEADER_TEXT = "Final Damage: ";
+    #region Core Display
+    [FoldoutGroup("Filled View/Core Display")]
+    [Required, SerializeField] private TextMeshProUGUI DamageText;
+    private const string BASE_DAMAGE_FIELD_HEADER_TEXT = "Damage: ";
 
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI ProjectileSpeedText;
-    private const string PROJECTILE_SPEED_HEADER_TEXT = "Projectile Speed: ";
-
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI ProjectileRangeText;
-    private const string PROJECTILE_RANGE_HEADER_TEXT = "Projectile Range: ";
-
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI NumProjectilesText;
+    [FoldoutGroup("Filled View/Core Display")]
+    [Required, SerializeField] private TextMeshProUGUI NumProjectilesText;
     private const string NUM_PROJECTILE_HEADER_TEXT = "Number of Projectiles: ";
 
-    // Bonus Stat Fields
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private GameObject BonusStatParentBox;
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private GameObject BonusStatsPfbParent;
-    [FoldoutGroup("Filled View")]
-    [SerializeField] private TextMeshProUGUI BonusStatTextPfb;
+    [FoldoutGroup("Filled View/Core Display")]
+    [Required, SerializeField] private TextMeshProUGUI ProjectileRangeText;
+    private const string PROJECTILE_RANGE_HEADER_TEXT = "Range: ";
 
+    [FoldoutGroup("Filled View/Core Display")]
+    [Required, SerializeField] private TextMeshProUGUI ProjectileSpeedText;
+    private const string PROJECTILE_SPEED_HEADER_TEXT = "Projectile Speed: ";
+    #endregion
+
+    #region Bonus Stats
+    // Bonus Stat Fields
+    [FoldoutGroup("Filled View/Bonus Stats")]
+    [SerializeField] private GameObject BonusStatParentBox;
+    [FoldoutGroup("Filled View/Bonus Stats")]
+    [SerializeField] private GameObject BonusStatsPfbParent;
+    [FoldoutGroup("Filled View/Bonus Stats")]
+    [SerializeField] private TextMeshProUGUI BonusStatTextPfb;
+    #endregion
+
+    #region Other Stats
     // Trait Fields
-    [FoldoutGroup("Filled View")]
+    [FoldoutGroup("Filled View/Other Stats")]
     [SerializeField] private GameObject TraitParentBox;
-    [FoldoutGroup("Filled View")]
+    [FoldoutGroup("Filled View/Other Stats")]
     [SerializeField] private GameObject TraitPfbParent;
-    [FoldoutGroup("Filled View")]
+    [FoldoutGroup("Filled View/Other Stats")]
     [SerializeField] private TextMeshProUGUI TraitTextPfb;
+    #endregion
+
+    #region Visual Displays
+    [FoldoutGroup("Filled View/Visual Displays")]
+    [SerializeField, Required] private Image weaponImage;
+
+    [FoldoutGroup("Filled View/Visual Displays")]
+    [SerializeField, Required] private Image projectileImage;
+    #endregion
 
     /// <summary>
     /// Populates the descriptor view with model data.
@@ -78,18 +96,6 @@ public class ItemDescView : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Hides the descriptor view.
-    /// </summary>
-    public void HideView()
-    {
-        itemDescCanvas.enabled = false;
-
-        // Optional cleanup (so stale data isn’t shown when redisplayed)
-        ClearChildren(BonusStatsPfbParent);
-        ClearChildren(TraitPfbParent);
-    }
-
     private void ShowEmptyView()
     {
         filledView.gameObject.SetActive(false);
@@ -98,14 +104,34 @@ public class ItemDescView : MonoBehaviour
 
     private void ShowFilledView (ItemDescViewConfig model)
     {
+        // TODO: modify ItemDescViewConfig.
         TitleText.text = model.Name;
 
-        // --- Core Stats ---
-        BaseDamageText.text = $"{BASE_DAMAGE_FIELD_HEADER_TEXT}{model.BaseAtk}";
-        FinalDamageText.text = $"{FINAL_DAMAGE_FIELD_HEADER_TEXT}{model.FinalAtk}";
-        ProjectileSpeedText.text = $"{PROJECTILE_SPEED_HEADER_TEXT}{model.ProjectileSpeed}";
-        ProjectileRangeText.text = $"{PROJECTILE_RANGE_HEADER_TEXT}{model.ProjectileRange}";
-        NumProjectilesText.text = $"{NUM_PROJECTILE_HEADER_TEXT}{model.NumProjectilesPerAttack}";
+        // --- Core Display Stats ---
+
+        // Damage: 50 (2 + 23 + 25)
+        DamageText.text = $"<color={ColorTag(gold)}>{BASE_DAMAGE_FIELD_HEADER_TEXT}{model.Damage}</color>" +
+            $"<color={ColorTag(gray)}> ({model.BaseAtk} + </color>" +
+            $"<color={ColorTag(green)}>{model.BonusAtk}</color>" +
+            $"<color={ColorTag(gray)}> + </color>" +
+            $"<color={ColorTag(red)}>{model.DamageIncreaseFromPercent}</color>" +
+            $"<color={ColorTag(gray)}>)</color>";
+        
+        // Number of Projectiles: 2 (1 + 1)
+        NumProjectilesText.text =
+            $"{NUM_PROJECTILE_HEADER_TEXT}" +
+            $"<color={ColorTag(gold)}>{model.NumProjectilesPerAttack}</color>";
+        
+        // Projectile Range: 12 (6 + 6)
+        ProjectileRangeText.text = 
+            $"{PROJECTILE_RANGE_HEADER_TEXT}" +
+            $"<color={ColorTag(gold)}>{model.ProjectileRange}</color>";
+
+        // Projectile Speed: 12 (6 + 6)
+        ProjectileSpeedText.text =
+            $"{PROJECTILE_SPEED_HEADER_TEXT}" +
+            $"<color={ColorTag(gold)}>{model.ProjectileSpeed}</color>";
+
 
         // --- Bonus Stats ---
         ClearChildren(BonusStatsPfbParent);
@@ -115,7 +141,7 @@ public class ItemDescView : MonoBehaviour
             foreach (var bonusStat in model.BonusStats)
             {
                 var bonusStatText = Instantiate(BonusStatTextPfb, BonusStatsPfbParent.transform);
-                bonusStatText.text = $"{bonusStat.stat}: {bonusStat.value}";
+                bonusStatText.text = $"<color={ColorTag(green)}>{bonusStat.stat}: {bonusStat.value}</color>";
             }
 
         }
@@ -124,7 +150,7 @@ public class ItemDescView : MonoBehaviour
             BonusStatParentBox.SetActive(false);
         }
 
-        // --- Traits ---
+        // --- Other/Traits ---
         ClearChildren(TraitPfbParent);
         if (model.Traits != null && model.Traits.Count > 0)
         {
@@ -132,7 +158,7 @@ public class ItemDescView : MonoBehaviour
             foreach (string trait in model.Traits)
             {
                 var traitText = Instantiate(TraitTextPfb, TraitPfbParent.transform);
-                traitText.text = trait;
+                traitText.text = $"<color={ColorTag(red)}>{trait}</color>";
             }
         }
         else
@@ -153,5 +179,10 @@ public class ItemDescView : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    private string ColorTag(Color color)
+    {
+        return $"#{ColorUtility.ToHtmlStringRGB(color)}";
     }
 }

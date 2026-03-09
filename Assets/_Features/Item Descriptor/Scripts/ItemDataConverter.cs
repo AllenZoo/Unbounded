@@ -31,8 +31,11 @@ public class ItemDataConverter
         model.Name = item.Data.itemName;
         model.Description = item.Data.description;
         model.BaseAtk = baseStatContainer.Attack;
-        model.FinalAtk = finalStatContainer.Attack;
+        model.BonusAtk = finalStatContainer.Attack - baseStatContainer.Attack;
         model.PercentageDamageIncrease = mediator.GetPercentageDamageIncreaseTotal();
+
+        model.Damage = (float)(model.BaseAtk + model.BonusAtk + (model.BaseAtk + model.BonusAtk) * (model.PercentageDamageIncrease / 100f));
+
         model.ProjectileSpeed = finalAttacker.AttackData.InitialSpeed;
         model.ProjectileRange = finalAttacker.AttackData.Distance;
         model.FireRate = finalStatContainer.Dexterity; // TODO: calculate this via the DEX stat. Also check if this is accurate (like will it include the player's Dexterity Stat too.)
