@@ -13,8 +13,14 @@ public class CircleScaler : MonoBehaviour
 
     public void TransitionCircleRadius(float startRadius, float endRadius, float transitionTime)
     {
+        circleObj.transform.DOKill();
         circleObj.transform.localScale = new Vector3(startRadius * 2, startRadius * 2, 1);
         circleObj.transform
             .DOScale(new Vector3(endRadius * 2, endRadius * 2, 1), transitionTime);
+    }
+
+    private void OnDisable()
+    {
+        circleObj.transform.DOKill();
     }
 }

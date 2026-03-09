@@ -30,8 +30,9 @@ public class ObjectFader : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public bool setDoFade(bool shouldFade)
+    public bool SetDoFade(bool shouldFade)
     {
+        if (doFade == shouldFade) return doFade;
         doFade = shouldFade;
         OnDoFade();
         return doFade;
@@ -68,6 +69,16 @@ public class ObjectFader : MonoBehaviour
         // Use DOTween to animate the alpha value back to 1
         currentTween = spriteRenderer.DOFade(1f, fadeDuration)
             .SetEase(easeType);
+    }
+
+    private void OnDisable()
+    {
+        // Clean up any active tweens when the object is disabled
+        if (currentTween != null && currentTween.IsActive())
+        {
+            currentTween.Kill();
+        }
+
     }
 
     private void OnDestroy()

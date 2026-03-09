@@ -68,7 +68,8 @@ public class Highlightable : MonoBehaviour
             1f
         )
         .SetLoops(-1, LoopType.Yoyo)
-        .SetEase(Ease.InOutSine);
+        .SetEase(Ease.InOutSine)
+        .SetLink(this.gameObject);
 
         // Display Arrow if present
         if (hasArrow)
@@ -102,23 +103,13 @@ public class Highlightable : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        highlightTween?.Kill();
+    }
 
-    // TODO: for debugging. Remove afterwards.
-
-    //private bool toggle = false;
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        if (!toggle)
-    //        {
-    //            Highlight();
-    //        }
-    //        else
-    //        {
-    //            StopHighlight();
-    //        }
-    //        toggle = !toggle;
-    //    }
-    //}
+    private void OnDestroy()
+    {
+        highlightTween?.Kill();
+    }
 }

@@ -129,7 +129,8 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
             RotateMode.FastBeyond360
         )
         .SetEase(Ease.Linear)
-        .SetLoops(-1, LoopType.Incremental);
+        .SetLoops(-1, LoopType.Incremental)
+        .SetLink(this.coroutineRunner.gameObject.gameObject, LinkBehaviour.KillOnDisable);
 
 
         yield return new WaitForSeconds(0);
@@ -138,7 +139,7 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
     {
         cageSequence?.Kill();
 
-        cageSequence = DOTween.Sequence();
+        cageSequence = DOTween.Sequence().SetLink(this.coroutineRunner.gameObject, LinkBehaviour.KillOnDisable);
 
         float half = cycleTime * 0.5f;
 
@@ -174,8 +175,14 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
     }
     private void UpdateCageRadius(List<AttackComponent> projectiles, Transform centerPoint, float radius)
     {
+        // Safety check for the center point
+        if (centerPoint == null) return;
+
         foreach (var projectile in projectiles)
         {
+            // Safety check: skip projectiles that have been destroyed or deactivated
+            if (projectile == null || projectile.gameObject == null) continue;
+
             // Dir from center to projectile in ring.
             Vector2 dir = projectile.transform.position - centerPoint.position;
 
@@ -192,6 +199,9 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
     {
         if (cageRoot != null)
         {
+            // Kill the radius update sequence
+            cageSequence?.Kill();
+
             // Destroy projectiles
             cageRoot.transform.DOKill();
             GameObject.Destroy(cageRoot);

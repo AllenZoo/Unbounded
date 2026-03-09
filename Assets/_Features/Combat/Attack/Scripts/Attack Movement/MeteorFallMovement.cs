@@ -23,7 +23,8 @@ public class MeteorFallMovement : IAttackMovement
         attackComponent.transform.DOMove(targetPos, timeToTarget)
             .OnStart(() => attackComponent.TriggerAttackLaunch())
             .SetEase(Ease.InQuad)  
-            .OnComplete(() => attackComponent.TriggerAttackLand()); // We add TriggerLand to AttackComponent
+            .OnComplete(() => attackComponent.TriggerAttackLand())
+            .SetLink(attackComponent.gameObject); // We add TriggerLand to AttackComponent
     }
 
     public void UpdateMovement(AttackComponent ac, Rigidbody2D rb)
