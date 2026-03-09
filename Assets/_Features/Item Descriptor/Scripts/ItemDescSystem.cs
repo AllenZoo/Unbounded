@@ -11,8 +11,10 @@ public class ItemDescSystem : MonoBehaviour
     [ShowIf(nameof(initializeWithItemData))]
     [Required, SerializeField] private Item model; // Generally Empty Initially
 
-
     private ItemDescController controller;
+
+    private EventBinding<ItemDescReqEvent> itemDescReqBinding;
+    private EventBinding<OnInventoryModifiedEvent> inventoryModifiedEventBinding;
 
     private void Awake()
     {
@@ -29,12 +31,21 @@ public class ItemDescSystem : MonoBehaviour
         {
             controller.HideView();
         }
+
+        itemDescReqBinding = new EventBinding<ItemDescReqEvent>(OnItemDescReqEvent);
+        inventoryModifiedEventBinding = new EventBinding<OnInventoryModifiedEvent>(OnInventoryModifiedEvent);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        EventBinding<ItemDescReqEvent> itemDescReqBinding = new EventBinding<ItemDescReqEvent>(OnItemDescReqEvent);
         EventBus<ItemDescReqEvent>.Register(itemDescReqBinding);
+        EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedEventBinding);
+    }
+    
+    private void OnDisable()
+    {
+        EventBus<ItemDescReqEvent>.Unregister(itemDescReqBinding);
+        EventBus<OnInventoryModifiedEvent>.Unregister(inventoryModifiedEventBinding);
     }
 
     private void OnDestroy()
@@ -53,5 +64,10 @@ public class ItemDescSystem : MonoBehaviour
         {
             controller.HideView();
         }
+    }
+
+    public void OnInventoryModifiedEvent()
+    {
+        //controller.UpdateModel(model);
     }
 }

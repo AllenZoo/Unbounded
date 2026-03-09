@@ -43,7 +43,11 @@ public class ItemDescViewConfig
     /// Weapon traits. Eg piercing attacks, multi-attacks.
     /// </summary>
     public List<string> Traits;
-    
+
+    public Sprite weaponImage;
+    public float weaponImageRot;
+    public Sprite projectileImage;
+
     public ItemDescViewConfig()
     {
 

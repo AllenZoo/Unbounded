@@ -60,11 +60,15 @@ public class ItemDataConverter
         {
             model.Traits.Add("+ Piercing");
         }
-
         if (model.PercentageDamageIncrease > 0)
         {
             model.Traits.Add($"% Damage Increase: +{model.PercentageDamageIncrease}%");
         }
+
+
+        model.weaponImage = item.Data.itemSprite;
+        model.weaponImageRot = item.Data.spriteRot;
+        model.projectileImage = item.Data.attacker.AttackData.attackIcon.Icon;
 
         return model;
     }

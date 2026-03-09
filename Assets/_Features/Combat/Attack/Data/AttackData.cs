@@ -35,6 +35,11 @@ public class AttackData : SerializedScriptableObject
     [FoldoutGroup("VFX and SFX")]
     public AudioClip AttackSound;
 
+    // TODO: this is only been added for item descriptor attack projectile display. Currently only integrated with starter weapons.
+    //       We will completely refactor this in another issue
+    [FoldoutGroup("VFX and SFX")]
+    public IconData attackIcon;
+
     [FoldoutGroup("VFX and SFX")]
     [Tooltip("Rotational offset applied on spawn")]
     public float SpriteRotOffset = 0f;

@@ -166,6 +166,12 @@ public class ItemDescView : MonoBehaviour
             TraitParentBox.SetActive(false);
         }
 
+        weaponImage.sprite = model.weaponImage;
+        // Rotate weapon image by specified amount (if any).
+        weaponImage.transform.rotation = Quaternion.Euler(0, 0, model.weaponImageRot);
+
+        projectileImage.sprite = model.projectileImage;
+
         filledView.gameObject.SetActive(true);
         emptyView.gameObject.SetActive(false);
     }
