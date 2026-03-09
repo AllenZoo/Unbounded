@@ -26,7 +26,7 @@ public class InteractablePrompter : WorldInteractableObject
     private PageUIContext pageUIContext;
 
     [SerializeField, Tooltip("Commands to execute on interact/uninteract.")]
-    private List<UITriggerCommand> commands;
+    private List<UITriggerCommand> commands = new List<UITriggerCommand>();
 
 
     private void Awake()
