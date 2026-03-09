@@ -161,7 +161,11 @@ public class SceneLoader : MonoBehaviour
                 }
 
                 float targetFill = currentProgress / scenesLoading.Count;
-                if (showingLoadingBar) bar.DOFillAmount(targetFill, 0.5f).SetUpdate(true);
+                if (showingLoadingBar)
+                {
+                    bar.DOKill();
+                    bar.DOFillAmount(targetFill, 0.5f).SetUpdate(true);
+                }
 
                 if (allDone) break;
                 yield return null;

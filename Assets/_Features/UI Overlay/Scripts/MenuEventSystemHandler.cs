@@ -124,7 +124,7 @@ public class MenuEventSystemHandler : MonoBehaviour
         if (animationExclusions.Contains(eventData.selectedObject)) return;
 
         Vector3 newScale = eventData.selectedObject.transform.localScale * selectedAnimationScale;
-        scaleUpTween = eventData.selectedObject.transform.DOScale(newScale, scaleDuration);
+        scaleUpTween = eventData.selectedObject.transform.DOScale(newScale, scaleDuration).SetLink(gameObject);
     }
 
     public void OnDeselect(BaseEventData eventData)
@@ -132,7 +132,7 @@ public class MenuEventSystemHandler : MonoBehaviour
         if (animationExclusions.Contains(eventData.selectedObject)) return;
 
         Selectable sel = eventData.selectedObject.GetComponent<Selectable>();
-        scaleDownTween = eventData.selectedObject.transform.DOScale(scales[sel], scaleDuration);
+        scaleDownTween = eventData.selectedObject.transform.DOScale(scales[sel], scaleDuration).SetLink(gameObject);
     }
 
     public void OnPointerEnter(BaseEventData eventData)

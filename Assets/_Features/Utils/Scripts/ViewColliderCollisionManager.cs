@@ -130,7 +130,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
         // Unfade
         if (objFader != null)
         {
-            this.objFader.setDoFade(false);
+            this.objFader.SetDoFade(false);
         }
 
         // Set sorting order to old order before any collisions between static and dynamic view colliders.
@@ -211,7 +211,7 @@ public class ViewColliderCollisionManager : MonoBehaviour
         if (shouldFadeIfInFront)
         {
             // If shouldFadeIfInFront == true, objFader should not be null.
-            objFader.setDoFade(ShouldCurFade());
+            objFader.SetDoFade(ShouldCurFade());
         }
     }
 

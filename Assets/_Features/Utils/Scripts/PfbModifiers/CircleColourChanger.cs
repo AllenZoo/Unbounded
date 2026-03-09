@@ -18,6 +18,7 @@ public class CircleColourChanger : MonoBehaviour
     {
         if (circleRenderer != null)
         {
+            circleRenderer.DOKill();
             circleRenderer.color = startColour;
             return circleRenderer.DOColor(endColour, duration);
         }
