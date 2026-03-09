@@ -11,6 +11,7 @@ using UnityEngine;
 /// </summary>
 public class EquipmentSystem : MonoBehaviour
 {
+    // This PageUI reference is used to control the visibility and sorting order of the equipment UI page within the UI overlay system.
     [Required, SerializeField] private EquipmentView view;
 
     [SerializeField] private EquipmentInitializationMode initMode;

@@ -14,6 +14,8 @@ public class ItemDescView : MonoBehaviour
     /// </summary>
     [Required, SerializeField] private Canvas itemDescCanvas;
 
+    [Required, SerializeField] private PageUI page;
+
     [FoldoutGroup("Empty View")]
     [Required, SerializeField] private Transform emptyView;
 
@@ -85,6 +87,7 @@ public class ItemDescView : MonoBehaviour
     public void DisplayView(ItemDescViewConfig model)
     {
         itemDescCanvas.enabled = true;
+        page.MoveToTop();
 
         if (model == null)
         {
