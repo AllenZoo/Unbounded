@@ -10,9 +10,7 @@ public class Inventory
 {
     public event Action OnInventoryDataModified;
 
-    public List<Item> Items { get { return items; } private set { } }
     [SerializeField, ReadOnly] private List<Item> items = new List<Item>();
-    public int Slots { get { return slots; } private set { } }
     [SerializeField, ReadOnly] private int slots = 9;
 
     public Inventory()
@@ -92,6 +90,13 @@ public class Inventory
         OnInventoryDataModified?.Invoke();
     }
 
+    /// <summary>
+    /// Function to get item.
+    /// 
+    /// Item should be guranteed to not be null. To check if item is empty, use item.IsEmpty() instead of checking if item is null.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public Item GetItem(int index)
     {
         return items[index];

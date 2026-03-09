@@ -7,14 +7,14 @@ using UnityEngine;
 /// </summary>
 public class ItemDataConverter
 {
-    public static ItemDescModel ConvertFromItem(Item item)
+    public static ItemDescViewConfig ConvertFromItem(Item item)
     {
         if (item == null || item.IsEmpty())
         {
             return null;
         }
 
-        ItemDescModel model = new ItemDescModel();
+        ItemDescViewConfig model = new ItemDescViewConfig();
         
         var mediator = item.ItemModifierMediator;
 
@@ -31,12 +31,20 @@ public class ItemDataConverter
         model.Name = item.Data.itemName;
         model.Description = item.Data.description;
         model.BaseAtk = baseStatContainer.Attack;
-        model.FinalAtk = finalStatContainer.Attack;
-        model.PercentageDamageIncrease = mediator.GetPercentageDamageIncreaseTotal();
-        model.ProjectileSpeed = finalAttacker.AttackData.InitialSpeed;
-        model.ProjectileRange = finalAttacker.AttackData.Distance;
+        model.BonusAtk = finalStatContainer.Attack - baseStatContainer.Attack;
+        model.PercentageDamageIncrease = (float)mediator.QueryPercentageDamageIncreaseTotal();
+
+        // Calculate the absolute contribution from the percentage bonus for the UI breakdown
+        float basePlusBonus = model.BaseAtk + model.BonusAtk;
+        model.DamageIncreaseFromPercent = (float)(basePlusBonus * (model.PercentageDamageIncrease / 100f));
+        
+        // Sum the parts for total Damage
+        model.Damage = basePlusBonus + model.DamageIncreaseFromPercent;
+
+        if (finalAttacker != null && finalAttacker.AttackData != null) model.ProjectileSpeed = finalAttacker.AttackData.InitialSpeed;
+        if (finalAttacker != null && finalAttacker.AttackData != null) model.ProjectileRange = finalAttacker.AttackData.Distance;
         model.FireRate = finalStatContainer.Dexterity; // TODO: calculate this via the DEX stat. Also check if this is accurate (like will it include the player's Dexterity Stat too.)
-        model.NumProjectilesPerAttack = finalAttacker.AttackerData.numAttacks;
+        if (finalAttacker != null && finalAttacker.AttackerData != null) model.NumProjectilesPerAttack = finalAttacker.AttackerData.numAttacks;
         model.CanViewUpgrades = item.HasComponent<ItemAttackContainerComponent>();
 
         model.BonusStats = new List<BonusStatEntry>();
@@ -53,15 +61,19 @@ public class ItemDataConverter
 
         // TRAITS (add more here when required)
         model.Traits = new List<string>();
-        if (finalAttacker.AttackData.IsPiercing)
+        if (finalAttacker != null && finalAttacker.AttackData != null && finalAttacker.AttackData.IsPiercing)
         {
             model.Traits.Add("+ Piercing");
         }
-
         if (model.PercentageDamageIncrease > 0)
         {
             model.Traits.Add($"% Damage Increase: +{model.PercentageDamageIncrease}%");
         }
+
+
+        model.weaponImage = item.Data.itemSprite;
+        model.weaponImageRot = item.Data.spriteRot;
+        model.projectileImage = (item.Data.attacker != null && item.Data.attacker.AttackData != null && item.Data.attacker.AttackData.attackIcon != null) ? item.Data.attacker.AttackData.attackIcon.Icon : null;
 
         return model;
     }

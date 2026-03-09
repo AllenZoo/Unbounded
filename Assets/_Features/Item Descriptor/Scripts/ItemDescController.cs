@@ -1,83 +1,94 @@
+using NUnit.Framework;
 using UnityEngine;
 
-public class ItemDescController : MonoBehaviour
+public class ItemDescController
 {
-    [SerializeField] private bool HideUIOnStart = true;
-    [SerializeField] private ItemDescView view;
-    
-
-    private ItemDescModel model;
-
-    private void Awake()
+    private ItemDescView view;
+    private Item model;
+   
+    public ItemDescController(ItemDescView view, Item model)
     {
-        if (view == null)
+        this.view = view;
+        this.model = model;
+
+        ConnectModel();
+        ConnectView();
+    }
+
+    public class Builder
+    {
+        private Item model = new Item();
+
+        public Builder WithoutModel()
         {
-            view = GetComponentInChildren<ItemDescView>();
+            return this;
+        }
+
+        public Builder WithItemModel(Item model)
+        {
+            this.model = model;
+            return this;
+        }
+
+        public ItemDescController Build(ItemDescView view)
+        {
+            Assert.IsNotNull(view);
+            return new ItemDescController(view, model);
         }
     }
 
-    private void Start()
+    private void ConnectModel()
     {
-        EventBinding<ItemDescReqEvent> itemDescReqBinding = new EventBinding<ItemDescReqEvent>(OnItemDescReqEvent);
-        EventBus<ItemDescReqEvent>.Register(itemDescReqBinding);
-
-        if (HideUIOnStart)
-        {
-            Hide();
-        }
+        // Subscribe to any relevant model events here.
     }
 
-    public void OnItemDescReqEvent(ItemDescReqEvent itemDescReqEvent)
+    private void ConnectView()
     {
-        if (itemDescReqEvent.display)
-        {
-            ItemDescModel model = ItemDataConverter.ConvertFromItem(itemDescReqEvent.item);
-            Show(model);
-        } else
-        {
-            Hide();
-        }
+        // Subscribe to any relevant view events here.
+    }
+
+    public void Cleanup()
+    {
+        // Unsubscribe from all events here.
+
+    }
+
+    public void UpdateModel(Item model)
+    {
+        this.model = model;
+        UpdateView();
+    }
+
+    public void UpdateView()
+    {
+        ItemDescViewConfig viewConfig = GenerateItemDescViewConfig(model);
+        view.DisplayView(viewConfig);
+        ShowView();
+
     }
 
     /// <summary>
     /// Injects the model data and shows the descriptor.
     /// </summary>
-    public void Show(ItemDescModel newModel)
+    public void ShowView()
     {
-        model = newModel;
-
-        // TODO: if model = null, display empty preview.
-        //if (model == null)
-        //{
-        //    Debug.LogWarning("Tried to show ItemDesc with null model.");
-        //    return;
-        //}
-
-        view.DisplayView(model);
+        view.gameObject.SetActive(true);
     }
 
     /// <summary>
     /// Hides the descriptor view.
     /// </summary>
-    public void Hide()
+    public void HideView()
     {
-        view.HideView();
+        view.gameObject.SetActive(false);
         model = null;
     }
 
-    /// <summary>
-    /// Example hook for when an item is hovered.
-    /// </summary>
-    public void OnItemHovered(ItemDescModel hoveredModel)
+    private ItemDescViewConfig GenerateItemDescViewConfig(Item model)
     {
-        Show(hoveredModel);
-    }
+        if (model.IsEmpty()) return null;
 
-    /// <summary>
-    /// Example hook for when hover ends.
-    /// </summary>
-    public void OnItemUnhovered()
-    {
-        Hide();
+        var config = ItemDataConverter.ConvertFromItem(model);
+        return config;
     }
 }
