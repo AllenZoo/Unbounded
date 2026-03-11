@@ -8,7 +8,7 @@ public class BehaviourDefinitionData : SerializedScriptableObject
 {
     [Required]
     [Tooltip("This is the main identifier and differentiator between behaviours. Should be unique. NOTE: shouldn't be 'empty'.")]
-    public string Name; // For debugging purposes
+    public string Name; // For debugging purposes, + used for behaviour transitions.
 
     [OdinSerialize]
     public IAttacker Attacker;

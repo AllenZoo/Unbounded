@@ -15,7 +15,10 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     [OdinSerialize]
     private List<BehaviourDefinition> behaviours = new();
     private List<BehaviourDefinition> enabledBehaviours = new();
-    
+
+    [Required, OdinSerialize]
+    private BehaviourDefinition emptyBehaviour;
+
     [OdinSerialize]
     private BehaviourDefinition rageBehaviour;
 
@@ -43,8 +46,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     private bool debug = false;
     [OdinSerialize, ReadOnly, ShowIf(nameof(debug))] 
     private BehaviourDefinition currentBehaviour;
-    [OdinSerialize, ReadOnly, ShowIf(nameof(debug))] 
-    private BehaviourDefinition emptyBehaviour = new BehaviourDefinition() { name="empty"};
+
 
     // Local variable to help keep track of the likelihood of a behaviour being selected as the 'next' behaviour
     // Simple algorithm right now = assign a value of 1 to every behaviour. +1 if behaviour wasn't selected and reset 0 if it was.
@@ -102,7 +104,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             //       if we do, enemy will be permanently stuck in empty behaviour, and be empty forver :(
             return;
         }
-        currentBehaviour.chaseBehaviourInstance.DoFrameUpdateLogic(false);
+        currentBehaviour.ChaseBehaviourInstance.DoFrameUpdateLogic(false);
     }
 
     public override void DoPhysicsUpdateLogic()
@@ -114,33 +116,26 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             // If not initialized we return.
             return;
         }
-        currentBehaviour.chaseBehaviourInstance.DoPhysicsUpdateLogic();
+        currentBehaviour.ChaseBehaviourInstance.DoPhysicsUpdateLogic();
     }
 
     public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
     {
+        // Initialize self.
         base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
 
-        // Initalize all possible ChaseSOBase Behaviours
+        // Initalize all Behaviours
         foreach(var behaviour in behaviours)
         {
-            behaviour.chaseBehaviourInstance = Instantiate(behaviour.chaseBehaviour);
-            behaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+            behaviour.Init(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
         }
 
+        // Initialize Empty Behaviour
+        emptyBehaviour?.Init(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+
         // Initalize Rage Behaviour (if not null)
-        if (rageBehaviour != null)
-        {
-            if (rageBehaviour.chaseBehaviour == null)
-            {
-                Debug.Log("[EnemyAttackRotatePatterns] Rage Behaviour Chase Behaviour SO is null!" +
-                    " Make sure to set Rage Behaviour to null in Attack Rotation pattern if boss doesn't have rage behaviour");
-            } else
-            {
-                rageBehaviour.chaseBehaviourInstance = Instantiate(rageBehaviour.chaseBehaviour);
-                rageBehaviour.chaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
-            }       
-        }
+        rageBehaviour?.Init(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+   
 
         enabledBehaviours = behaviours.Where(b => !b.DisableBehaviour).ToList();
 
@@ -237,8 +232,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
                 selectedBehaviour = kvp.Key;
                 if (debug)
                 {
-                    Debug.Log($"Selected Behaviour is: {selectedBehaviour.name}");
-                    Debug.Log($"Transitioning from {currentBehaviour.name} to {selectedBehaviour.name}.");
+                    Debug.Log($"Selected Behaviour is: {selectedBehaviour.Data.Name}");
+                    Debug.Log($"Transitioning from {currentBehaviour.Data.Name} to {selectedBehaviour.Data.Name}.");
                 }
                 break;
             }
@@ -265,7 +260,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             string debugMsg = "Updated Behaviour Selection Weight Map \n";
             foreach (var kvp in behaviourSelectionWeightMap)
             {
-                debugMsg += $"Behaviour [{kvp.Key.name}] has a weight of [{kvp.Value}] \n";
+                debugMsg += $"Behaviour [{kvp.Key.Data.Name}] has a weight of [{kvp.Value}] \n";
             }
             Debug.Log(debugMsg);
         }
@@ -288,7 +283,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     private void TransitionBehaviour(BehaviourDefinition newBehaviour) {
         var prevBehaviour = currentBehaviour;
         
-        if (prevBehaviour.name.Equals(newBehaviour.name))
+        if (prevBehaviour.Data.Name.Equals(newBehaviour.Data.Name))
         {
             return;
         }
@@ -296,7 +291,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 
         if (debug)
         {
-            Debug.Log($"Transitioning to new behaviour: [{newBehaviour.name}]");
+            Debug.Log($"Transitioning to new behaviour: [{newBehaviour.Data.Name}]");
         }
 
         // 1a. Revert previous stat changes
@@ -306,9 +301,9 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         }
         
         // 1b. Apply new stat changes
-        if (currentBehaviour.addStatModifiers != null)
+        if (currentBehaviour.Data.AddStatModifiers != null)
         {
-            foreach (AddStatModifier addStatModifier in currentBehaviour.addStatModifiers)
+            foreach (AddStatModifier addStatModifier in currentBehaviour.Data.AddStatModifiers)
             {
                 var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
                 enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
@@ -321,7 +316,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         if (enemyAIComponent.AttackerComponent != null)
         {
             enemyAIComponent.AttackerComponent.PauseAttacker(transitionPauseTime);
-            enemyAIComponent.AttackerComponent.SetAttacker(new List<IAttacker>() { currentBehaviour.attacker });
+            enemyAIComponent.AttackerComponent.SetAttacker(new List<IAttacker>() { currentBehaviour.Attacker });
         }
     }
 
@@ -355,27 +350,57 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 [Serializable]
 public class BehaviourDefinition
 {
-    [Required]
-    [Tooltip("This is the main identifier and differentiator between behaviours. Should be unique. NOTE: shouldn't be 'empty'.")]
-    public string name; // For debugging purposes
+     public BehaviourDefinitionData Data { get { return data; } private set { } }  // Initial Static Data
+    [Required, SerializeField] private BehaviourDefinitionData data;
 
-    [OdinSerialize]
-    public IAttacker attacker;
+    [ReadOnly] public EnemyChaseSOBase ChaseBehaviourInstance; // We should initialize this ref and not the above, since SO are shared. We need to create new ref using Instantiate.
 
-    public EnemyChaseSOBase chaseBehaviour;
-    [ReadOnly] public EnemyChaseSOBase chaseBehaviourInstance; // We should initialize this ref and not the above, since SO are shared. We need to create new ref using Instantiate.
-    public List<AddStatModifier> addStatModifiers;
-
-    [SerializeField, Tooltip("For keeping track of what attacker and attack objs are being used")]
-    [TextArea(3, 10)]
-    private string behaviourDescription = "";
-
+    [OdinSerialize, ReadOnly]
+    private IAttacker clonedAttacker;
+    public IAttacker Attacker => clonedAttacker ?? Data.Attacker;
 
     public bool DisableBehaviour { get { return disableBehaviour; } private set { } }
 
     [Header("Debugging")]
     [SerializeField, Tooltip("Disable behaviour for debugging")]
     private bool disableBehaviour = false;
+
+    public class Builder
+    {
+        private BehaviourDefinitionData data;
+        public Builder WithBuilderData(BehaviourDefinitionData data)
+        {
+            this.data = data;
+            return this;
+        }
+        public Builder WithoutBuilderData()
+        {
+            return this;
+        }
+
+        public BehaviourDefinition Build()
+        {
+            return new BehaviourDefinition() { Data = data };
+        }
+
+    }
+
+
+    public void Init(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
+    {
+        // TODO: ensure DeepClone in all IAttacker works.
+        clonedAttacker = Data.Attacker?.DeepClone();
+
+        if (Data.ChaseBehaviour != null)
+        {
+            ChaseBehaviourInstance = UnityEngine.Object.Instantiate(Data.ChaseBehaviour);
+            ChaseBehaviourInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+        } else
+        {
+            Debug.LogWarning($"Chase Behaviour for {Data.Name} is null.");
+        }
+        
+    }
 }
 
 [Serializable]

@@ -213,7 +213,10 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
 
     public override IAttacker DeepClone()
     {
-        throw new System.NotImplementedException();
+        CageAttacker clone = new CageAttacker();
+        clone.attackerData = UnityEngine.Object.Instantiate(attackerData);
+        clone.attackData = UnityEngine.Object.Instantiate(attackData);
+        return clone;
     }
 
     public override float GetChargeUp()

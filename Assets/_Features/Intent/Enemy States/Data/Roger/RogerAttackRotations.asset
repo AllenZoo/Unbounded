@@ -16,12 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: cdf5e852c982db44cba9aa6c8562148b, type: 2}
-    - {fileID: 11400000, guid: 8e677ba1b825bab489afc8969e959530, type: 2}
-    - {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
-    - {fileID: 11400000, guid: 99236147fa7a2774dbe74a3f83946124, type: 2}
-    - {fileID: 11400000, guid: 4ac9511ca02e86244a7512423305fc35, type: 2}
-    - {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
+    - {fileID: 11400000, guid: d8f85710e633a3a4ab57d7d45451c5c9, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,43 +32,12 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 1|BehaviourDefinition, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: 'Phase 1 [Cannonball Attack]'
-    - Name: attacker
-      Entry: 7
-      Data: 2|ProjectileAttacker, Assembly-CSharp
-    - Name: attackerData
-      Entry: 10
-      Data: 0
-    - Name: attackData
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: chaseBehaviour
-      Entry: 10
-      Data: 2
-    - Name: chaseBehaviourInstance
+    - Name: data
       Entry: 6
       Data: 
-    - Name: addStatModifiers
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
+    - Name: ChaseBehaviourInstance
+      Entry: 6
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: behaviourDescription
-      Entry: 1
-      Data: Fire SingleShot attack pattern with BulletAttack projectiles
     - Name: disableBehaviour
       Entry: 5
       Data: false
@@ -82,44 +46,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|BehaviourDefinition, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: 'Phase 2 [Sword Chase Attack]'
-    - Name: attacker
-      Entry: 7
-      Data: 5|ProjectileAttacker, Assembly-CSharp
-    - Name: attackerData
-      Entry: 10
-      Data: 3
-    - Name: attackData
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: chaseBehaviour
-      Entry: 10
-      Data: 5
-    - Name: chaseBehaviourInstance
+      Data: 2|BehaviourDefinition, Assembly-CSharp
+    - Name: data
       Entry: 6
       Data: 
-    - Name: addStatModifiers
-      Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[AddStatModifier, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
+    - Name: ChaseBehaviourInstance
+      Entry: 6
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: behaviourDescription
-      Entry: 1
-      Data: Fire SpamAttack with SwordAttack projectiles.
     - Name: disableBehaviour
       Entry: 5
       Data: false
@@ -129,6 +62,21 @@ MonoBehaviour:
     - Name: 
       Entry: 13
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: emptyBehaviour
+      Entry: 7
+      Data: 3|BehaviourDefinition, Assembly-CSharp
+    - Name: data
+      Entry: 10
+      Data: 0
+    - Name: ChaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: disableBehaviour
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -137,33 +85,6 @@ MonoBehaviour:
       Data: 
     - Name: currentBehaviour
       Entry: 6
-      Data: 
-    - Name: emptyBehaviour
-      Entry: 7
-      Data: 7|BehaviourDefinition, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: empty
-    - Name: attacker
-      Entry: 6
-      Data: 
-    - Name: chaseBehaviour
-      Entry: 6
-      Data: 
-    - Name: chaseBehaviourInstance
-      Entry: 6
-      Data: 
-    - Name: addStatModifiers
-      Entry: 6
-      Data: 
-    - Name: behaviourDescription
-      Entry: 1
-      Data: 
-    - Name: disableBehaviour
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
       Data: 
   rageModeHPThreshold: -1
   transitionTimeRange:
