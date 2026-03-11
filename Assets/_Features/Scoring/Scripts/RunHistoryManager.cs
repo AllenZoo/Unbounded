@@ -40,6 +40,7 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
 
         inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(HandleInventoryModified);
         EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Register(this);
     }
 
     private void OnDisable()
@@ -49,6 +50,7 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
         
         if (inventoryModifiedBinding != null)
             EventBus<OnInventoryModifiedEvent>.Unregister(inventoryModifiedBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Unregister(this);
     }
 
     /// <summary>

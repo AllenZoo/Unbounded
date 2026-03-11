@@ -368,20 +368,30 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     #endregion
 
     #region Data Persistence
+    private void OnEnable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Unregister(this);
+    }
+
     public void LoadData(GameData data)
     {
-        if (data.inventories.ContainsKey(inventoryGuid))
+        if (data.inventories.TryGetValue(inventoryGuid, out var savedInventory))
         {
-            inventory = data.inventories[inventoryGuid];
-            inventory.Load(inventory); // Looks weird but this is how we pass on the GUID data down to the items.
-
-            initialized = true; //TODO: check if we can set this here.
-
-            OnInventoryDataModified?.Invoke();
+            SetInventoryData(savedInventory);
+            inventory.Load(inventory);
+            initialized = true;
+            Debug.Log($"[InventorySystem] Loaded inventory {inventoryGuid}");
         }
         else
         {
-            Debug.Log("Cannot load inventory that has never been saved");
+            Debug.Log($"[InventorySystem] No saved data found for inventory {inventoryGuid}");
         }
     }
 

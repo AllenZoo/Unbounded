@@ -65,7 +65,19 @@ public class AudioManager : Singleton<AudioManager>, IDataPersistence
     /// Load Audio Data
     /// </summary>
     /// <param name="data"></param>
-    public void LoadData(GameData data)
+    
+    private void OnEnable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Unregister(this);
+    }
+public void LoadData(GameData data)
     {
         backgroundMusicVolume.Set(data.backgroundMusicVolume);
         soundEffectsVolume.Set(data.soundEffectsVolume);

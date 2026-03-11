@@ -26,12 +26,24 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     private FileDataHandler dataHandler;
     private GameData gameData;
-    private List<IDataPersistence> dataPersisters = new List<IDataPersistence>();
+    private readonly HashSet<IDataPersistence> dataPersisters = new();
 
     private string selectedProfileId = "";
     private Coroutine autoSaveCoroutine;
 
     private EventBinding<OnLoadGameRequest> loadGameRequestEventBinding;
+
+    #region Registration
+    public void Register(IDataPersistence dataPersister)
+    {
+        dataPersisters.Add(dataPersister);
+    }
+
+    public void Unregister(IDataPersistence dataPersister)
+    {
+        dataPersisters.Remove(dataPersister);
+    }
+    #endregion
 
     #region Inspector Buttons
     [ContextMenu("Save Game")]
@@ -65,24 +77,10 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     }
     #endregion
 
-    
     protected override void Awake()
     {
         base.Awake();
-        dataPersisters = FindAllDataPersistenceObjects();
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-
-
-        // Start Auto Saving if enabled.
-        if (autoSave)
-        {
-            if (autoSaveCoroutine != null)
-            {
-                StopCoroutine(autoSaveCoroutine);
-            }
-
-            autoSaveCoroutine = StartCoroutine(AutoSave());
-        }
 
         if (disableDataPersistence)
         {
@@ -96,11 +94,22 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     protected void Start()
     {
+        // Start Auto Saving if enabled.
+        if (autoSave)
+        {
+            if (autoSaveCoroutine != null)
+            {
+                StopCoroutine(autoSaveCoroutine);
+            }
+            autoSaveCoroutine = StartCoroutine(AutoSave());
+        }
+
         if (loadOnStart)
         {
             LoadGame();
         }
     }
+
     protected void OnEnable()
     {
         if (loadGameRequestEventBinding != null)
@@ -108,6 +117,7 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
             EventBus<OnLoadGameRequest>.Register(loadGameRequestEventBinding);
         }
     }
+
     protected void OnDisable()
     {
         if (loadGameRequestEventBinding != null)
@@ -116,22 +126,16 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         }
     }
 
-
     public void ChangeSelectedProfileId(string newProfileId)
     {
-        // update the profile to use for saving and loading
         this.selectedProfileId = newProfileId;
-        // load the game, which will use that profile, updating our game data accordingly
         LoadGame();
     }
 
     public void DeleteProfileData(string profileId)
     {
-        // delete the data for this profile id
         dataHandler.Delete(profileId);
-        // initialize the selected profile id
         InitializeSelectedProfileId();
-        // reload the game so that our data matches the newly selected profile id
         LoadGame();
     }
 
@@ -149,12 +153,10 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     {
         this.gameData = new GameData();
     }
+
     public void LoadGame()
     {
-        if (disableDataPersistence)
-        {
-            return;
-        }
+        if (disableDataPersistence) return;
 
         this.gameData = dataHandler.Load(selectedProfileId);
 
@@ -163,44 +165,53 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
             NewGame();
         }
 
-        // after starting new Game, this.gameData != null.
         if (this.gameData == null)
         {
             Debug.Log("No data was found. A New Game needs to be started before data can be loaded.");
             return;
         }
 
+        // Version Check and Migration
+        if (gameData.gameVersion != Application.version)
+        {
+            Debug.LogWarning($"Loaded data version ({gameData.gameVersion}) differs from current version ({Application.version}). Attempting migration.");
+            MigrateData(gameData);
+            gameData.gameVersion = Application.version;
+        }
+
+        // Notify all registered persisters to load data
         foreach (IDataPersistence dataPersister in dataPersisters)
         {
             dataPersister.LoadData(gameData);
         }
     }
+
+    private void MigrateData(GameData data)
+    {
+        // Add future migration logic here
+        // Example: if (data.gameVersion == "0.1") { ... migrate to 0.2 ... }
+    }
+
     public void SaveGame()
     {
-        // return right away if data persistence is disabled
-        if (disableDataPersistence)
-        {
-            return;
-        }
+        if (disableDataPersistence) return;
 
-        // if we don't have any data to save, log a warning here
         if (this.gameData == null)
         {
             Debug.LogWarning("No data was found. A New Game needs to be started before data can be saved.");
             return;
         }
 
+        // Notify all registered persisters to save data into gameData object
         foreach (IDataPersistence dataPersister in dataPersisters)
         {
             dataPersister.SaveData(gameData);
         }
 
-        // timestamp the data so we know when it was last saved
         gameData.lastUpdated = System.DateTime.Now.ToBinary();
-
-        // save that data to a file using the data handler
         dataHandler.Save(gameData, selectedProfileId);
     }
+
     public bool HasGameData()
     {
         return gameData != null;
@@ -210,6 +221,7 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     {
         return dataHandler.LoadAllProfiles();
     }
+
     private void OnApplicationQuit()
     {
         if (saveOnApplicationQuit)
@@ -217,18 +229,7 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
             SaveGame();
         }
     }
-    private List<IDataPersistence> FindAllDataPersistenceObjects()
-    {
-        // FindObjectsofType takes in an optional boolean to include inactive gameobjects
-        IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
-            .OfType<IDataPersistence>();
 
-        // Find ScriptableObjects (specifically ScriptableObjectBoolean or any SO implementing IDataPersistence)
-        var soPersistence = Resources.FindObjectsOfTypeAll<ScriptableObject>()
-            .OfType<IDataPersistence>();
-
-        return dataPersistenceObjects.Concat(soPersistence).ToList();
-    }
     private IEnumerator AutoSave()
     {
         while (true)

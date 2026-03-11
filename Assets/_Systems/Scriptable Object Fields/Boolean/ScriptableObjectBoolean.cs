@@ -4,9 +4,11 @@ using System.ComponentModel;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Scriptable Object Variables/Boolean")]
-public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistence
+public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistence, IIdentifiableSO
 {
     [SerializeField, Sirenix.OdinInspector.ReadOnly, ShowInInspector] private string id;
+    public string ID => id;
+
 
     [SerializeField] private bool value;
 
@@ -55,7 +57,14 @@ public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistenc
 
     public void LoadData(GameData data)
     {
-        value = data.soBooleanStates[id];
+        if (data.soBooleanStates.TryGetValue(id, out var savedValue))
+        {
+            Set(savedValue);
+        }
+        else
+        {
+            ResetValue();
+        }
     }
 
     public void SaveData(GameData data)

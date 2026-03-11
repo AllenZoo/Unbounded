@@ -14,13 +14,27 @@ public class PlayerDataPersistenceComponent : MonoBehaviour, IDataPersistence
         Assert.IsNotNull(stats, "PlayerDataPersistenceComponent is missing reference to StatComponent!");
     }
 
-    public void LoadData(GameData data)
+    
+    private void OnEnable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Unregister(this);
+    }
+public void LoadData(GameData data)
     {
         stats.StatContainer.Health = data.playerCurrentHealth;
+        stats.StatContainer.Gold = data.playerGold;
     }
 
     public void SaveData(GameData data)
     {
         data.playerCurrentHealth = stats.StatContainer.Health;
+        data.playerGold = stats.StatContainer.Gold;
     }
 }

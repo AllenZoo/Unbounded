@@ -15,6 +15,7 @@ public class ScriptableObjectDatabaseData : SerializedScriptableObject
     [TableList(AlwaysExpanded = true)]
     [SerializeField]
     private List<ScriptableObject> allScriptableObjects = new();
+    public List<ScriptableObject> AllScriptableObjects => allScriptableObjects;
 
     private Dictionary<string, ScriptableObject> guidToSO;
 

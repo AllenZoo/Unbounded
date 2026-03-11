@@ -16,11 +16,13 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
     private void OnEnable()
     {
         EventBus<OnSceneLoadRequestFinish>.Register(sceneLoadFinishBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Register(this);
     }
 
     private void OnDisable() 
     { 
         EventBus<OnSceneLoadRequestFinish>.Unregister(sceneLoadFinishBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Unregister(this);
     }
 
     private void Start()

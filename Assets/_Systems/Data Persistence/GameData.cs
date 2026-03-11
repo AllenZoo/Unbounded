@@ -9,6 +9,7 @@ using UnityEngine;
 [Serializable]
 public class GameData
 {
+    public string gameVersion;
     public long lastUpdated;
     public Item playerEquippedWeapon;
 
@@ -31,6 +32,7 @@ public class GameData
 
     public SceneField currentScene;
     public float playerCurrentHealth;
+    public float playerGold;
 
     /// <summary>
     /// Objectives
@@ -47,6 +49,7 @@ public class GameData
 
     public GameData()
     {
+        gameVersion = Application.version;
         playerEquippedWeapon = null;
         inventories = new Dictionary<string, Inventory> ();
         backgroundMusicVolume = 100f;
@@ -55,6 +58,7 @@ public class GameData
         runHistory = new List<RunHistoryData>();
         currentScene = new SceneField("");
         playerCurrentHealth = 0;
+        playerGold = 0;
         //objectiveStates = new Dictionary<string, ObjectiveState>();
         tutorialComplete = false;
         soBooleanStates = new Dictionary<string, bool>();
