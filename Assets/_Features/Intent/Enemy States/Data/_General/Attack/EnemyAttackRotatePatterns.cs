@@ -388,7 +388,6 @@ public class BehaviourDefinition
 
     public void Init(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
     {
-        // TODO: ensure DeepClone in all IAttacker works.
         clonedAttacker = Data.Attacker?.DeepClone();
 
         if (Data.ChaseBehaviour != null)
