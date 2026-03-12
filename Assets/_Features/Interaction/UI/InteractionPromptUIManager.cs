@@ -27,26 +27,35 @@ public class InteractionPromptUIManager : MonoBehaviour
 
     private void Start()
     {
-        interactablePromptData.OnDataChanged += Rerender;
-        interactablePromptData.SetData(onInitData);
+        if (interactablePromptData != null)
+        {
+            interactablePromptData.OnDataChanged += Rerender;
+            interactablePromptData.SetData(onInitData);
+        }
         Rerender();
+    }
+
+    private void OnDestroy()
+    {
+        if (interactablePromptData != null)
+        {
+            interactablePromptData.OnDataChanged -= Rerender;
+        }
     }
 
     private void Rerender()
     {
+        if (this == null || canvas == null || interactablePromptData == null) return;
+
         if (!interactablePromptData.Data.shouldDisplayPrompt) {
-            //displayObject.SetActive(false);
             canvas.enabled = false;
+            if (displayObject != null) displayObject.SetActive(false);
             return;
         }
 
         // If we reach here, we should display data.
-        if (canvas == null)
-            return;
-
-
         canvas.enabled = true;
-        displayObject.SetActive(true);
-        textDisplay.text = interactablePromptData.Data.message;
+        if (displayObject != null) displayObject.SetActive(true);
+        if (textDisplay != null) textDisplay.text = interactablePromptData.Data.message;
     }
 }
