@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using System;
 
 /// <summary>
 /// Used in BootStrap scene to manage scene loading.
@@ -29,6 +29,8 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     private List<Camera> disabledCameras = new List<Camera>();
 
+    private bool isLoading = false;
+
 
     private void Awake()
     {
@@ -47,36 +49,43 @@ public class SceneLoader : MonoBehaviour
 
     private void OnSceneLoadRequestEvent(OnSceneLoadRequest e)
     {
+        if (isLoading)
+        {
+            Debug.LogWarning("Scene loading already in progress. Ignoring request.");
+            return;
+        }
         StartCoroutine(OnSceneLoadRequestEventCoroutine(e));
     }
 
     private IEnumerator OnSceneLoadRequestEventCoroutine(OnSceneLoadRequest e)
     {
-        if (e.showLoadingBar)
+        isLoading = true;
+        try
         {
-            ShowLoadingScreen();
+            if (e.showLoadingBar)
+            {
+                ShowLoadingScreen();
+            }
+
+            // Pause the game while loading. We will unpause after loading is done by disposing the token.
+            using (PauseToken pt = PauseManager.Instance.RequestPause())
+            {
+                if (e.unloadAllButPersistent)
+                {
+                    yield return StartCoroutine(UnloadAllExceptPersistent());
+                }
+
+                yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
+                yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
+                EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish() { finishedActiveScene = e.activeSceneToSet });
+                yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
+            }
         }
-
-        // Pause the game while loading. We will unpause after loading is done by disposing the token.
-        PauseToken pt = PauseManager.Instance.RequestPause(); 
-
-        if (e.unloadAllButPersistent)
+        finally
         {
-            yield return StartCoroutine(UnloadAllExceptPersistent());
+            HideLoadingScreen();
+            isLoading = false;
         }
-
-        yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
-        yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
-        EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish() { finishedActiveScene = e.activeSceneToSet });
-        yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
-
-        HideLoadingScreen();
-
-        // Unpause the game after loading is done.
-        pt.Dispose();
-
-
-
         yield return null;
     }
 
@@ -117,12 +126,13 @@ public class SceneLoader : MonoBehaviour
         List<AsyncOperation> operations = new List<AsyncOperation>();
         foreach (var scene in scenesToUnload)
         {
-            operations.Add(SceneManager.UnloadSceneAsync(scene));
+            var op = SceneManager.UnloadSceneAsync(scene);
+            if (op != null) operations.Add(op);
         }
 
         foreach (var op in operations)
         {
-            if (op != null) yield return new WaitUntil(() => op.isDone);
+            yield return new WaitUntil(() => op.isDone);
         }
     }
 
@@ -132,7 +142,7 @@ public class SceneLoader : MonoBehaviour
             !rawScenesToLoad.Contains(activeSceneToSet))
         {
             Debug.LogError(
-                $"Active scene '{activeSceneToSet}' is not included in scenesToLoad!"
+                $"Active scene '{activeSceneToSet.SceneName}' is not included in scenesToLoad!"
             );
         }
 
@@ -142,8 +152,16 @@ public class SceneLoader : MonoBehaviour
 
         foreach (SceneField scene in scenesToLoad)
         {
-            var op = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-            scenesLoading.Add(op);
+            if (string.IsNullOrEmpty(scene.SceneName)) continue;
+            var op = SceneManager.LoadSceneAsync(scene.SceneName, LoadSceneMode.Additive);
+            if (op != null)
+            {
+                scenesLoading.Add(op);
+            }
+            else
+            {
+                Debug.LogError($"Failed to load scene '{scene.SceneName}'. It might not be in the Build Settings.");
+            }
         }
 
 
@@ -152,19 +170,20 @@ public class SceneLoader : MonoBehaviour
         {
             while (true)
             {
-                float currentProgress = 0;
+                float totalProgress = 0;
                 bool allDone = true;
                 foreach (var op in scenesLoading)
                 {
-                    currentProgress += op.progress;
+                    if (op == null) continue;
+                    totalProgress += op.progress;
                     if (!op.isDone) allDone = false;
                 }
 
-                float targetFill = currentProgress / scenesLoading.Count;
-                if (showingLoadingBar)
+                float targetFill = totalProgress / scenesLoading.Count;
+                if (showingLoadingBar && bar != null)
                 {
-                    bar.DOKill();
-                    bar.DOFillAmount(targetFill, 0.5f).SetUpdate(true);
+                    // Smoothly interpolate the bar instead of killing/restarting tweens every frame.
+                    bar.fillAmount = Mathf.Max(bar.fillAmount, targetFill);
                 }
 
                 if (allDone) break;
@@ -172,8 +191,9 @@ public class SceneLoader : MonoBehaviour
             }
         }
 
-        if (showingLoadingBar)
+        if (showingLoadingBar && bar != null)
         {
+            bar.DOKill();
             bar.DOFillAmount(1f, 0.6f)
                .SetUpdate(true) // uses unscaled time
                .OnComplete(() =>
@@ -183,6 +203,10 @@ public class SceneLoader : MonoBehaviour
                    Debug.Log("Tween completed");
 #endif
                });
+        }
+        else
+        {
+            tweenComplete = true;
         }
 
 
@@ -231,7 +255,8 @@ public class SceneLoader : MonoBehaviour
 
             if (s.IsValid() && s.isLoaded)
             {
-                scenesUnloading.Add(SceneManager.UnloadSceneAsync(s));
+                var op = SceneManager.UnloadSceneAsync(s);
+                if (op != null) scenesUnloading.Add(op);
             }
         }
 
