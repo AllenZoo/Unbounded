@@ -168,6 +168,7 @@ public class SceneLoader : MonoBehaviour
         bool tweenComplete = false;
         if (scenesLoading.Count > 0)
         {
+            float visualProgress = 0;
             while (true)
             {
                 float totalProgress = 0;
@@ -182,8 +183,14 @@ public class SceneLoader : MonoBehaviour
                 float targetFill = totalProgress / scenesLoading.Count;
                 if (showingLoadingBar && bar != null)
                 {
-                    // Smoothly interpolate the bar instead of killing/restarting tweens every frame.
-                    bar.fillAmount = Mathf.Max(bar.fillAmount, targetFill);
+                    // Smoothly interpolate the bar towards the target progress.
+                    // This creates a much more fluid motion than snapping to raw progress values.
+                    visualProgress = Mathf.Lerp(visualProgress, targetFill, Time.unscaledDeltaTime * 5f);
+                    
+                    // Ensure it never goes backwards and actually reaches the target if it's close.
+                    if (targetFill - visualProgress < 0.01f) visualProgress = targetFill;
+                    
+                    bar.fillAmount = visualProgress;
                 }
 
                 if (allDone) break;

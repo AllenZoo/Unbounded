@@ -336,6 +336,23 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
 
             double percentage = curHP / maxHP;
             curHPThreshold = percentage;
+
+            // Immediately transition to rage phase if threshold is breached and we are not already in rage
+            if (rageBehaviour != null && curHPThreshold <= rageModeHPThreshold)
+            {
+                if (currentBehaviour == null || !currentBehaviour.Data.Name.Equals(rageBehaviour.Data.Name))
+                {
+                    if (debug)
+                    {
+                        Debug.Log("HP below threshold! Immediately transitioning to Rage Phase.");
+                    }
+                    TransitionBehaviour(rageBehaviour);
+                    // Reset timer to full duration of a rotation when entering rage. 
+                    // Note: this doesn't really matter since the next behaviour after rage will always be rage until death,
+                    // but we do this just for consistency and to avoid any potential weird edge cases. 
+                    timer = UnityEngine.Random.Range(transitionTimeRange.min + transitionPauseTime, transitionTimeRange.max + transitionPauseTime);
+                }
+            }
             
             if (debug)
             {
