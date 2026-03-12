@@ -49,7 +49,7 @@ public class GameData
 
     public GameData()
     {
-        gameVersion = Application.version;
+        //gameVersion = Application.version;
         playerEquippedWeapon = null;
         inventories = new Dictionary<string, Inventory> ();
         backgroundMusicVolume = 100f;

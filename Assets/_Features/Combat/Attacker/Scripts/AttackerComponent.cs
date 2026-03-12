@@ -111,7 +111,7 @@ public class AttackerComponent : SerializedMonoBehaviour
                 statComponent.StatContainer.Attack,
                 statComponent.StatContainer.Dexterity
             );
-
+             
             foreach (var attackSlot in attackSlots)
             {
                 // Check if ready. E.g. if cooldown has recovered.

@@ -30,18 +30,18 @@ public class ProjectileAttack: IAttack
     /// <param name="hitMaker"></param>
     /// <param name="ac"></param>
     /// <returns></returns>
-    public bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac)
+    public bool Hit(Damageable hit, Transform attackObj, AttackComponent ac, Transform attackSource)
     {
-        float calculatedDamage = CalculateDamage(attackData.BaseDamage, ac.AttackContext.AtkStat);
+        float calculatedDamage = CalculateDamage(attackData.BaseDamage, ac.AttackerContext.AtkStat);
 
         // Damage the target.
         if (attackData.IsDOT)
         {
-            hit.TakeDamageOverTime(this, calculatedDamage);
+            hit.TakeDamageOverTime(this, calculatedDamage, attackSource);
             return true;
         }
 
-        hit.TakeDamage(calculatedDamage, ac.AttackContext.PercentageDamageIncrease);
+        hit.TakeDamage(calculatedDamage, ac.AttackerContext.PercentageDamageIncrease, attackSource);
         
         // Knockback the target if:
         //      - attack has knockback
@@ -51,7 +51,7 @@ public class ProjectileAttack: IAttack
             Knockbackable kb = hit.GetComponent<Knockbackable>();
             if (kb != null)
             {
-                kb.Knockback(hit.transform.position - hitMaker.position, attackData.BaseKnockback, attackData.BaseStunDuration);
+                kb.Knockback(hit.transform.position - attackObj.position, attackData.BaseKnockback, attackData.BaseStunDuration);
             }
         }
         return true;
@@ -66,8 +66,8 @@ public class ProjectileAttack: IAttack
         {
             adm = new AttackDamageModifiers();
         }
-        adm.AtkStat = ac.AttackContext.AtkStat;
-        adm.PercentageDamageIncrease = ac.AttackContext.PercentageDamageIncrease;
+        adm.AtkStat = ac.AttackerContext.AtkStat;
+        adm.PercentageDamageIncrease = ac.AttackerContext.PercentageDamageIncrease;
     }
 
     public void OnLand(AttackComponent ac)

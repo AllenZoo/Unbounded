@@ -14,18 +14,18 @@ public class BombAttack : IAttack
 
     public BombAttack() { }
 
-    public bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac)
+    public bool Hit(Damageable hit, Transform attackObj, AttackComponent ac, Transform attackSource)
     {
-        float calculatedDamage = CalculateDamage(bombAttackData.BaseDamage, ac.AttackContext.AtkStat);
+        float calculatedDamage = CalculateDamage(bombAttackData.BaseDamage, ac.AttackerContext.AtkStat);
 
         // Damage the target.
         if (bombAttackData.IsDOT)
         {
-            hit.TakeDamageOverTime(this, calculatedDamage);
+            hit.TakeDamageOverTime(this, calculatedDamage, attackSource);
             return true;
         }
 
-        hit.TakeDamage(calculatedDamage, ac.AttackContext.PercentageDamageIncrease);
+        hit.TakeDamage(calculatedDamage, ac.AttackerContext.PercentageDamageIncrease, attackSource);
 
         // Knockback the target if:
         //      - attack has knockback
@@ -35,7 +35,7 @@ public class BombAttack : IAttack
             Knockbackable kb = hit.GetComponent<Knockbackable>();
             if (kb != null)
             {
-                kb.Knockback(hit.transform.position - hitMaker.position, bombAttackData.BaseKnockback, bombAttackData.BaseStunDuration);
+                kb.Knockback(hit.transform.position - attackObj.position, bombAttackData.BaseKnockback, bombAttackData.BaseStunDuration);
             }
         }
         return true;

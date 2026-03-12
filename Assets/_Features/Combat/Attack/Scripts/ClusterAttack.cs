@@ -36,7 +36,7 @@ public class ClusterAttack : BaseAttack<ClusterAttackData>
 
         // We need the original context to ensure the sub-attacks know who the attacker is
         // NOTE: Ensure ac.attackContext is made public or internal in AttackComponent.cs
-        AttackerContext originalContext = ac.AttackContext;
+        AttackerContext originalContext = ac.AttackerContext;
 
         float baseAngle = Mathf.Atan2(ac.Rb.linearVelocity.y, ac.Rb.linearVelocity.x) * Mathf.Rad2Deg;
 

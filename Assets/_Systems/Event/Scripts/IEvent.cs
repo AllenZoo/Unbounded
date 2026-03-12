@@ -142,7 +142,7 @@ public struct OnMovementInput: ILocalEvent
 {
     public Vector2 movementInput;
 }
-
+ 
 public struct OnAttackInput: ILocalEvent
 {
     public KeyCode keyCode;
@@ -152,6 +152,7 @@ public struct OnAttackInput: ILocalEvent
 public struct OnDamagedEvent: ILocalEvent
 {
     public float damage;
+    public Transform attackSource; 
 }
 
 public struct OnDeathEvent : ILocalEvent { }
