@@ -382,6 +382,12 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (inventoryGuid == null)
+        {
+            Debug.LogError("Inventory GUID is null. Cannot load inventory data.");
+            return;
+        }
+
         if (data.inventories.TryGetValue(inventoryGuid, out var savedInventory))
         {
             SetInventoryData(savedInventory);
@@ -397,6 +403,12 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
+        if (inventoryGuid == null)
+        {
+            Debug.LogError("Inventory GUID is null. Cannot save inventory data.");
+            return;
+        }
+
         if (data.inventories.ContainsKey(inventoryGuid))
         {
             data.inventories[inventoryGuid] = inventory;

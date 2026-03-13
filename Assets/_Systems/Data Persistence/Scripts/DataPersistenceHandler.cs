@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,8 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     private string selectedProfileId = "";
     private Coroutine autoSaveCoroutine;
 
+    private bool isSaving = false;
+
     private EventBinding<OnLoadGameRequest> loadGameRequestEventBinding;
 
     #region Registration
@@ -46,11 +49,6 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     #endregion
 
     #region Inspector Buttons
-    [ContextMenu("Save Game")]
-    void SaveGameContextMenu()
-    {
-        SaveGame();
-    }
 
     [Button("Save Game")]
     private void SaveGameButton()
@@ -58,11 +56,6 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         SaveGame();
     }
 
-    [ContextMenu("Load Game")]
-    void LoadGameContextMenu()
-    {
-        LoadGame();
-    }
 
     [Button("Load Game")]
     private void LoadGameButton()
@@ -108,6 +101,10 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         {
             LoadGame();
         }
+
+        // Auto Discovery of IDataPersistence objects in the scene and register them
+        List<IDataPersistence> dataPersistenceObjects = FindAllDataPersistenceObjects();
+        dataPersisters.UnionWith(dataPersistenceObjects);
     }
 
     protected void OnEnable()
@@ -188,13 +185,13 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     private void MigrateData(GameData data)
     {
-        // Add future migration logic here
+        // Add future migration logic here 
         // Example: if (data.gameVersion == "0.1") { ... migrate to 0.2 ... }
     }
 
-    public void SaveGame()
+    public async void SaveGame(bool sync = true)
     {
-        if (disableDataPersistence) return;
+        if (disableDataPersistence || isSaving) return;
 
         if (this.gameData == null)
         {
@@ -209,7 +206,35 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         }
 
         gameData.lastUpdated = System.DateTime.Now.ToBinary();
-        dataHandler.Save(gameData, selectedProfileId);
+
+        // 2. Create a "Snapshot" / Deep Copy (MUST BE MAIN THREAD)
+        // This ensures the background thread has its own private version to work with (if async mode is selected)
+        // Prevents game data from being modified while the background thread is serializing and writing to disk, which could cause errors or data corruption.
+        GameData dataSnapshot = (GameData) SerializationUtility.CreateCopy(gameData);
+
+        // 3. Offload Serialization and Disk I/O to a background thread
+        string profileId = selectedProfileId;
+
+        try
+        {
+            isSaving = true;
+            if (sync)
+            {
+                dataHandler.Save(dataSnapshot, profileId);
+            }
+            else
+            {
+                await System.Threading.Tasks.Task.Run(() => dataHandler.Save(dataSnapshot, profileId));
+            }
+        } catch (System.Exception e)
+        {
+            Debug.LogError("Error occurred while saving data: " + e.Message);
+        }
+        finally
+        {
+            isSaving = false;
+        }
+
     }
 
     public bool HasGameData()
@@ -226,7 +251,7 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     {
         if (saveOnApplicationQuit)
         {
-            SaveGame();
+            SaveGame(true);
         }
     }
 
@@ -235,8 +260,14 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         while (true)
         {
             yield return new WaitForSeconds(autoSaveTimeSeconds);
-            SaveGame();
-            Debug.Log("Auto Saved Game");
+            SaveGame(sync:false);
+            Debug.Log("Auto Saved Game (Async)");
         }
+    }
+
+    private List<IDataPersistence> FindAllDataPersistenceObjects()
+    {
+        return FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .OfType<IDataPersistence>().ToList();
     }
 }

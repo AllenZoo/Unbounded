@@ -26,7 +26,7 @@ public class PlayerDataPersistenceComponent : MonoBehaviour, IDataPersistence
         if (DataPersistenceHandler.Instance != null)
             DataPersistenceHandler.Instance.Unregister(this);
     }
-    public void LoadData(GameData data)
+     public void LoadData(GameData data)
     {
         stats.StatContainer.Health = data.playerCurrentHealth;
         stats.StatContainer.Gold = data.playerGold;
