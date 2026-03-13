@@ -390,8 +390,9 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
 
         if (data.inventories.TryGetValue(inventoryGuid, out var savedInventory))
         {
-            SetInventoryData(savedInventory);
+            this.inventory = savedInventory;
             inventory.Load(inventory);
+            SetInventoryData(inventory);
             initialized = true;
             Debug.Log($"[InventorySystem] Loaded inventory {inventoryGuid}");
         }
@@ -400,6 +401,7 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
             Debug.Log($"[InventorySystem] No saved data found for inventory {inventoryGuid}");
         }
     }
+
 
     public void SaveData(GameData data)
     {
@@ -440,14 +442,21 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         return inventory;
     }
 
-    public void SetInventoryData(Inventory inventory)
+    public void SetInventoryData(Inventory newInventory)
     {
-        this.inventory = inventory;
-        
-        // Recreate inventory object with new inventoryData.
-        Init();
+        // Unsubscribe from old inventory if it exists
+        if (this.inventory != null)
+            this.inventory.OnInventoryDataModified -= InvokeInventorySystemOnInventoryModified;
+
+        this.inventory = newInventory;
+
+        // Subscribe to the new inventory
+        this.inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
+
+        systemContext?.Init(this);
+
         OnInventoryDataModified?.Invoke();
-        OnInventoryDataReset?.Invoke(inventory);
+        OnInventoryDataReset?.Invoke(newInventory);
     }
     #endregion
 }

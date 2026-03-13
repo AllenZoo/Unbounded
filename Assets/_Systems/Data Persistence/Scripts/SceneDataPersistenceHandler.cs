@@ -35,7 +35,7 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
         Debug.Log($"Loading scene: {data.currentScene.SceneName}");
         currentScene = data.currentScene;
         // Load the current scene from the GameData and set it as the active scene
-        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest { targetScene = data.currentScene, unloadAllButPersistent = true});
+        //EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest { targetScene = data.currentScene, unloadAllButPersistent = true});
     }
 
     public void SaveData(GameData data)

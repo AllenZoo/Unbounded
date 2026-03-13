@@ -11,7 +11,7 @@ public class GameData
 {
     public string gameVersion;
     public long lastUpdated;
-    public Item playerEquippedWeapon;
+    //public Item playerEquippedWeapon;
 
     /// <summary>
     /// Maps InventorySystem GUID to Invenotry.
@@ -50,7 +50,7 @@ public class GameData
     public GameData()
     {
         //gameVersion = Application.version;
-        playerEquippedWeapon = null;
+        //playerEquippedWeapon = null;
         inventories = new Dictionary<string, Inventory> ();
         backgroundMusicVolume = 100f;
         soundEffectsVolume = 100f;

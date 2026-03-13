@@ -23,6 +23,7 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
 
     private EventBinding<OnResetWeaponRequest> resetWeaponBinding;
+    private EventBinding<OnInventoryModifiedEvent> inventoryModifiedBinding;
 
     private void Awake()
     {
@@ -30,16 +31,19 @@ public class EquipmentWeaponHandler : MonoBehaviour
         if (leh == null) leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(this.gameObject);
 
         resetWeaponBinding = new EventBinding<OnResetWeaponRequest>(HandleOnResetWeaponRequest);
+        inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(UpdateWeapon);
     }
 
     private void OnEnable()
     {
         EventBus<OnResetWeaponRequest>.Register(resetWeaponBinding);
+        EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
     }
 
     private void OnDisable()
     {
         EventBus<OnResetWeaponRequest>.Unregister(resetWeaponBinding);
+        EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
     }
 
     private void Start()
@@ -79,10 +83,13 @@ public class EquipmentWeaponHandler : MonoBehaviour
         previousWeapon = curWeapon;
         curWeapon = (item != null && item.IsEmpty()) ? null : item;
 
-        // Don't update anything if curWeapon and previousWeapon are the same.
-        if (CheckItemEqual(curWeapon, previousWeapon)) return;
 
-        Debug.Log("Updating Attacker (should only see this once)");
+        // Don't update anything if curWeapon and previousWeapon are the same.
+        // Add a check: if we have a weapon but the attacker is null, we MUST update.
+        bool attackerMissing = curWeapon != null && attackerComponent.AttackSlots == null;
+        if (CheckItemEqual(curWeapon, previousWeapon) && !attackerMissing) return;
+
+        //Debug.Log("Updating Attacker (should only see this once)");
         UpdateAttacker(curWeapon);
 
         if (previousWeapon != null && !previousWeapon.IsEmpty() && previousWeapon.ItemModifierMediator != null)
@@ -172,4 +179,5 @@ public class EquipmentWeaponHandler : MonoBehaviour
 
         return item1.Equals(item2);
     }
+
 }
