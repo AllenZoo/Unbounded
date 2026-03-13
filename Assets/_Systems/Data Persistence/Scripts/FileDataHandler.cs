@@ -5,6 +5,10 @@ using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 
+/// <summary>
+/// This class handles save file creation, deletion, and modification.
+/// It is responsible for the actual reading and writing of data to files, and also handles encryption and decryption of data if that option is enabled.
+/// </summary>
 public class FileDataHandler
 {
     private string dataDirPath = "";
