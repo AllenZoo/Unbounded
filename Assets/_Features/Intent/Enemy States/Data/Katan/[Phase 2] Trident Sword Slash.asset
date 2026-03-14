@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3899c619380cdfa42bdcf12907a141f2, type: 3}
+  m_Name: '[Phase 2] Trident Sword Slash'
+  m_EditorClassIdentifier: Assembly-CSharp::BehaviourDefinitionData
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: edf05fe669b3d04438dfb19b003864e8, type: 2}
+    - {fileID: 11400000, guid: 8f6a6b03f19446d4cb449bec78a82e2a, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Attacker
+      Entry: 7
+      Data: 0|ProjectileAttacker, Assembly-CSharp
+    - Name: attackerData
+      Entry: 10
+      Data: 0
+    - Name: attackData
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+  Name: '[Phase 2] Trident Sword Slash'
+  ChaseBehaviour: {fileID: 11400000, guid: 7c6d66523be285e4382c46bb11681b0c, type: 2}
+  AddStatModifiers: []
+  BehaviourDescription: Fire TridentAttack pattern with KatanSlashFast projectiles

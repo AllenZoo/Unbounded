@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugManager;
 
-public class GameManagerComponent : Singleton<GameManagerComponent>
+public class GameManagerComponent : Singleton<GameManagerComponent>, IDataPersistence
 {
     public GameState State { get; private set; }
     public RoomState RoomState { get; private set; }
@@ -33,7 +33,6 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
     {
         if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Register(playerDeathBinding);
     }
-
     private void OnDisable()
     {
         if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Unregister(playerDeathBinding);
@@ -41,12 +40,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
     public void StartNewRun()
     {
-        //CurrentRun = new RunData
-        //{
-        //    Mode = mode,
-        //    CurrentFloor = 0,
-        //    PlayerHP = 100
-        //};
+        DataPersistenceHandler.Instance.NewGame();
 
         // Reset Player State and Input
         if (PlayerSingleton.Instance != null)
@@ -67,6 +61,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         }
 
         ChangeState(GameState.WeaponTrial);
+        roundNumber = 1;
     }
 
     public void OnPlayerDeath()
@@ -83,9 +78,27 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
 
             // Reset Weapon
             EventBus<OnResetWeaponRequest>.Call(new OnResetWeaponRequest());
+
+            // Reset Game Data to a "New Run" state (preserving high scores)
+            DataPersistenceHandler.Instance.ResetToNewState();
         }
 
         ChangeState(GameState.RunEnd);
+    }
+
+    public void LoadData(GameData data)
+    {
+        roundNumber = data.roundNumber;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.roundNumber = roundNumber;
+    }
+
+    public void ResetData()
+    {
+        roundNumber = 1;
     }
 
     private void ChangeState(GameState newState)

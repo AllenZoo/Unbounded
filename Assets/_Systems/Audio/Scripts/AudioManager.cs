@@ -65,11 +65,23 @@ public class AudioManager : Singleton<AudioManager>, IDataPersistence
     /// Load Audio Data
     /// </summary>
     /// <param name="data"></param>
-    public void LoadData(GameData data)
+    
+    private void OnEnable()
     {
-        backgroundMusicVolume.Set(data.backgroundMusicVolume);
-        soundEffectsVolume.Set(data.soundEffectsVolume);
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Register(this);
     }
+
+    private void OnDisable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Unregister(this);
+    }
+    public void LoadData(GameData data)
+        {
+            backgroundMusicVolume.Set(data.backgroundMusicVolume);
+            soundEffectsVolume.Set(data.soundEffectsVolume);
+        }
 
     /// <summary>
     /// Save Audio Data
@@ -79,6 +91,10 @@ public class AudioManager : Singleton<AudioManager>, IDataPersistence
     {
         data.backgroundMusicVolume = backgroundMusicVolume.Value;
         data.soundEffectsVolume = soundEffectsVolume.Value;
+    }
+
+    public void ResetData() { 
+        // Preserve volume settings when restting data. No need to reset on new game.
     }
 }
 

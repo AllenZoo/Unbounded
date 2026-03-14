@@ -30,7 +30,7 @@ public class AttackComponent : SerializedMonoBehaviour
     [Tooltip("The movement data associated with Attack")]
     [Required, OdinSerialize] private IAttackMovement movement;
 
-    public AttackerContext AttackContext { get; private set; }
+    public AttackerContext AttackerContext { get; private set; }
 
 
     [SerializeField] private List<Damageable> hitTargets = new List<Damageable>();
@@ -55,7 +55,7 @@ public class AttackComponent : SerializedMonoBehaviour
         //Data = data;
         Movement = movement;
         Attack = logic;
-        this.AttackContext = context;
+        this.AttackerContext = context;
         movement.UpdateMovement(this, Rb);
     }
 
@@ -128,26 +128,26 @@ public class AttackComponent : SerializedMonoBehaviour
     {
         AttackData ad = attack.AttackData;
 
-        if (AttackContext == null)
+        if (AttackerContext == null)
         {
             Debug.LogError("AttackContext is NULL", this);
         }
-        else if (AttackContext.AttackerComponent == null)
+        else if (AttackerContext.AttackerComponent == null)
         {
             Debug.LogError("AttackContext.AttackerComponent is NULL", this);
         }
-        else if (AttackContext.AttackerComponent.TargetTypes == null)
+        else if (AttackerContext.AttackerComponent.TargetTypes == null)
         {
             Debug.LogError("AttackContext.AttackerComponent.TargetTypes is NULL", this);
         }
-        else if (!AttackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
+        else if (!AttackerContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
             //Debug.Log($"Hit rejected: EntityType {hit.EntityType} not in TargetTypes", this);
         }
 
 
         // Check if hit target EntityType matches what the attack can hit.
-        if (!AttackContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
+        if (!AttackerContext.AttackerComponent.TargetTypes.Contains(hit.EntityType))
         {
             // Attack can't hit this target.
             return false;
@@ -161,7 +161,7 @@ public class AttackComponent : SerializedMonoBehaviour
         }
 
         // Trigger Hit
-        var hitSuccess = attack.Hit(hit, this.transform, this);
+        var hitSuccess = attack.Hit(hit, this.transform, this, AttackerContext.AttackerTransform);
         if (hitSuccess) hitTargets.Add(hit);
 
         // Reset hit cooldown if attack does not disappear after a hit, and if the attack can repeat hit a target.

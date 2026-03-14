@@ -80,7 +80,25 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
     }
     public override IAttacker DeepClone()
     {
-        throw new System.NotImplementedException();
+        MeteorAttacker clone = new MeteorAttacker();
+        clone.attackerData = UnityEngine.Object.Instantiate(attackerData);
+        clone.attackData = UnityEngine.Object.Instantiate(attackData);
+        // Copy indicator and other parameters
+        // NOTE: we are referencing the indicator instance - i am assuming it is a scriptable object that doesn't need to be unique.
+        // If it DOES, we need to implement DeepClone for that too.
+        var field = typeof(MeteorAttacker).GetField("attackIndicator", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        field.SetValue(clone, field.GetValue(this));
+        
+        var timeToTargetField = typeof(MeteorAttacker).GetField("timeToTarget", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        timeToTargetField.SetValue(clone, timeToTargetField.GetValue(this));
+        
+        var effectDurationField = typeof(MeteorAttacker).GetField("explosionAfterEffectDuration", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        effectDurationField.SetValue(clone, effectDurationField.GetValue(this));
+        
+        var radiusGrowthField = typeof(MeteorAttacker).GetField("radiusGrowthTime", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        radiusGrowthField.SetValue(clone, radiusGrowthField.GetValue(this));
+
+        return clone;
     }
     public override float GetChargeUp()
     {

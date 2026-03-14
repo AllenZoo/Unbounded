@@ -4,14 +4,19 @@ using System.ComponentModel;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Boolean Variable", menuName = "System/Scriptable Object Variables/Boolean")]
-public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistence
+public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistence, IIdentifiableSO
 {
     [SerializeField, Sirenix.OdinInspector.ReadOnly, ShowInInspector] private string id;
+    public string ID => id;
+
 
     [SerializeField] private bool value;
 
     [Tooltip("Reset to default OnDisable")]
     [SerializeField] private bool resetToDefault = true;
+
+    // Whether to reset this value when starting a new game
+    [SerializeField] private bool resetOnNewGame = true; 
 
     [Tooltip("The default value to reset to when needed.")]
     [SerializeField] private bool defaultValue;
@@ -55,12 +60,27 @@ public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistenc
 
     public void LoadData(GameData data)
     {
-        value = data.soBooleanStates[id];
+        if (data.soBooleanStates.TryGetValue(id, out var savedValue))
+        {
+            Set(savedValue);
+        }
+        else
+        {
+            ResetValue();
+        }
     }
 
     public void SaveData(GameData data)
     {
         data.soBooleanStates[id] = value;
+    }
+
+    public void ResetData()
+    {
+        if (resetOnNewGame)
+        {
+            ResetValue();
+        }
     }
 
     private void OnValidate()

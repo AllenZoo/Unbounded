@@ -15,7 +15,7 @@ public abstract class WorldInteractableObject : SerializedMonoBehaviour, IIntera
     public UnityEvent OnUninteract;
 
     [SerializeField]
-    protected List<InteractionPreconditionData> preconditions;
+    protected List<InteractionPreconditionData> preconditions = new List<InteractionPreconditionData>();
 
 
 

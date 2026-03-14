@@ -12,6 +12,7 @@ using UnityEngine.Assertions;
 public class AttackerComponent : SerializedMonoBehaviour
 {
     // New Attacker :)
+    [field: SerializeField, ReadOnly] public List<AttackSlot> AttackSlots { get { return attackSlots; } private set { } }
     [Required, OdinSerialize]
     private List<AttackSlot> attackSlots = new();
 
@@ -111,7 +112,7 @@ public class AttackerComponent : SerializedMonoBehaviour
                 statComponent.StatContainer.Attack,
                 statComponent.StatContainer.Dexterity
             );
-
+             
             foreach (var attackSlot in attackSlots)
             {
                 // Check if ready. E.g. if cooldown has recovered.

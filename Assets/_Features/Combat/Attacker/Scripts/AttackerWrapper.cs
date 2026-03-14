@@ -34,7 +34,16 @@ public class AttackerWrapper : IAttacker, IAttackNode
 
     public IAttacker DeepClone()
     {
-        throw new System.NotImplementedException();
+        var clone = new AttackerWrapper();
+        if (attackers != null)
+        {
+            clone.attackers = new List<IAttacker>();
+            foreach (var attacker in attackers)
+            {
+                clone.attackers.Add(attacker?.DeepClone());
+            }
+        }
+        return clone;
     }
 
     /// <summary>

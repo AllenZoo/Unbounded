@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 /// <summary>
@@ -40,6 +41,7 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
 
         inventoryModifiedBinding = new EventBinding<OnInventoryModifiedEvent>(HandleInventoryModified);
         EventBus<OnInventoryModifiedEvent>.Register(inventoryModifiedBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Register(this);
     }
 
     private void OnDisable()
@@ -49,6 +51,7 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
         
         if (inventoryModifiedBinding != null)
             EventBus<OnInventoryModifiedEvent>.Unregister(inventoryModifiedBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Unregister(this);
     }
 
     /// <summary>
@@ -145,7 +148,7 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
     }
 
     /// <summary>
-    /// Saves data through the DataPersistenceHandler.
+    /// (HELPER) Saves data through the DataPersistenceHandler.
     /// </summary>
     private void SaveData()
     {
@@ -186,5 +189,9 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
         Debug.Log($"[RunHistoryManager] Saved: High Score={currentHighScore}, History size={runHistory.Count}");
     }
 
+    public void ResetData()
+    {
+        // Preserve state, no changes needed on reset.   
+    }
     #endregion
 }

@@ -22,7 +22,7 @@ public class Damageable : MonoBehaviour
     [Tooltip("Attacks targetting this entitytype will be able to damage it.")]
     [SerializeField] private EntityType entityType;
 
-    // Refers to dot attacks that the Damageable is currently taking damage from.
+    // Refers to dot attacks that the Damageable is currently taking damage from. 
     public EntityType EntityType { get { return entityType; } }
 
     // Can take damage if true. (Checked by Damageable component to see if hit should register damage)
@@ -35,7 +35,7 @@ public class Damageable : MonoBehaviour
 
     private LocalEventBinding<OnRespawnEvent> respawnBinding;
 
-    private void Awake()
+    private void Awake() 
     {
         Assert.IsNotNull(stat, "Damageable object needs a stat component to calculate final damage.");
         
@@ -64,11 +64,11 @@ public class Damageable : MonoBehaviour
 
 
     // Damage needs to be > 0
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform attackSource)
     {
-        TakeDamage(damage, 0);
+        TakeDamage(damage, 0, attackSource);
     }
-    public void TakeDamage(float damage, double percentageDamageIncrease)
+    public void TakeDamage(float damage, double percentageDamageIncrease, Transform attackSource)
     {
         Debug.Log($"Percentage Damage Increase is [{percentageDamageIncrease}]");
 
@@ -87,18 +87,18 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        leh.Call(new OnDamagedEvent { damage = calculatedDamage });
+        leh.Call(new OnDamagedEvent { damage = calculatedDamage, attackSource = attackSource });
         OnDamaged?.Invoke(calculatedDamage);
     }
 
 
-    public void TakeDamageOverTime(IAttack attack, float damage)
+    public void TakeDamageOverTime(IAttack attack, float damage, Transform attackSource)
     {
         dotAttacks.Add(attack);
-        StartCoroutine(DamageOverTime(attack, damage));
+        StartCoroutine(DamageOverTime(attack, damage, attackSource));
     }
 
-    private IEnumerator DamageOverTime(IAttack attack, float damage)
+    private IEnumerator DamageOverTime(IAttack attack, float damage, Transform attackSource)
     {
         float total_duration = 0;
         while (dotAttacks.Contains(attack))
@@ -109,7 +109,7 @@ public class Damageable : MonoBehaviour
                 yield break;
             }
 
-            TakeDamage(damage);
+            TakeDamage(damage, attackSource);
             total_duration += 1f;
             yield return new WaitForSeconds(1f);
         }

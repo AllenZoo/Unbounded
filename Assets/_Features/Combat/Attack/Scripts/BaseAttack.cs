@@ -10,18 +10,18 @@ public abstract class BaseAttack<T> : IAttack where T : AttackData
     //[SerializeField, ReadOnly] protected float atkStat = 0;
     //[SerializeField, ReadOnly] protected double percentageDamageIncrease = 0;
 
-    public bool Hit(Damageable hit, Transform hitMaker, AttackComponent ac)
+    public bool Hit(Damageable hit, Transform attackPos, AttackComponent ac, Transform attackSource)
     {
-        float calculatedDamage = CalculateDamage(attackData.BaseDamage, ac.AttackContext.AtkStat);
+        float calculatedDamage = CalculateDamage(attackData.BaseDamage, ac.AttackerContext.AtkStat);
 
         // Damage the target.
         if (attackData.IsDOT)
         {
-            hit.TakeDamageOverTime(this, calculatedDamage);
+            hit.TakeDamageOverTime(this, calculatedDamage, attackSource);
             return true;
         }
 
-        hit.TakeDamage(calculatedDamage, ac.AttackContext.PercentageDamageIncrease);
+        hit.TakeDamage(calculatedDamage, ac.AttackerContext.PercentageDamageIncrease, attackSource);
 
         // Knockback the target if:
         //      - attack has knockback
@@ -31,7 +31,7 @@ public abstract class BaseAttack<T> : IAttack where T : AttackData
             Knockbackable kb = hit.GetComponent<Knockbackable>();
             if (kb != null)
             {
-                kb.Knockback(hit.transform.position - hitMaker.position, attackData.BaseKnockback, attackData.BaseStunDuration);
+                kb.Knockback(hit.transform.position - attackPos.position, attackData.BaseKnockback, attackData.BaseStunDuration);
             }
         }
         return true;

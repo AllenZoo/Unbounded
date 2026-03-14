@@ -26,6 +26,7 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
         if (lorBinding != null)
         {
             EventBus<LoadObjectiveRequest>.Register(lorBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Register(this);
         }
     }
     private void OnDisable()
@@ -33,6 +34,7 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
         if (lorBinding != null)
         {
             EventBus<LoadObjectiveRequest>.Unregister(lorBinding);
+        if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Unregister(this);
         }
     }
 
@@ -63,5 +65,10 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
     public void SaveData(GameData data)
     {
         
+    }
+
+    public void ResetData()
+    {
+
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -368,25 +369,49 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
     #endregion
 
     #region Data Persistence
+    private void OnEnable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        if (DataPersistenceHandler.Instance != null)
+            DataPersistenceHandler.Instance.Unregister(this);
+    }
+
     public void LoadData(GameData data)
     {
-        if (data.inventories.ContainsKey(inventoryGuid))
+        if (inventoryGuid == null)
         {
-            inventory = data.inventories[inventoryGuid];
-            inventory.Load(inventory); // Looks weird but this is how we pass on the GUID data down to the items.
+            Debug.LogError("Inventory GUID is null. Cannot load inventory data.");
+            return;
+        }
 
-            initialized = true; //TODO: check if we can set this here.
-
-            OnInventoryDataModified?.Invoke();
+        if (data.inventories.TryGetValue(inventoryGuid, out var savedInventory))
+        {
+            this.inventory = savedInventory;
+            inventory.Load(inventory);
+            SetInventoryData(inventory);
+            initialized = true;
+            Debug.Log($"[InventorySystem] Loaded inventory {inventoryGuid}");
         }
         else
         {
-            Debug.Log("Cannot load inventory that has never been saved");
+            Debug.Log($"[InventorySystem] No saved data found for inventory {inventoryGuid}");
         }
     }
 
+
     public void SaveData(GameData data)
     {
+        if (inventoryGuid == null)
+        {
+            Debug.LogError("Inventory GUID is null. Cannot save inventory data.");
+            return;
+        }
+
         if (data.inventories.ContainsKey(inventoryGuid))
         {
             data.inventories[inventoryGuid] = inventory;
@@ -394,6 +419,18 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         {
             data.inventories.TryAdd(inventoryGuid, inventory);
         }
+    }
+
+    public void ResetData()
+    {
+        if (inventoryGuid == null)
+        {
+            Debug.LogError("Inventory GUID is null. Cannot reset inventory data.");
+            return;
+        }
+        inventory.OnInventoryDataModified -= InvokeInventorySystemOnInventoryModified;
+        initialized = false;
+        Init();
     }
     #endregion
 
@@ -418,14 +455,21 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         return inventory;
     }
 
-    public void SetInventoryData(Inventory inventory)
+    public void SetInventoryData(Inventory newInventory)
     {
-        this.inventory = inventory;
-        
-        // Recreate inventory object with new inventoryData.
-        Init();
+        // Unsubscribe from old inventory if it exists
+        if (this.inventory != null)
+            this.inventory.OnInventoryDataModified -= InvokeInventorySystemOnInventoryModified;
+
+        this.inventory = newInventory;
+
+        // Subscribe to the new inventory
+        this.inventory.OnInventoryDataModified += InvokeInventorySystemOnInventoryModified;
+
+        systemContext?.Init(this);
+
         OnInventoryDataModified?.Invoke();
-        OnInventoryDataReset?.Invoke(inventory);
+        OnInventoryDataReset?.Invoke(newInventory);
     }
     #endregion
 }
