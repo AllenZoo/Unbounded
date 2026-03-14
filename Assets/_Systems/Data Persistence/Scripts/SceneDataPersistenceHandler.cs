@@ -56,7 +56,7 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
         string currentSceneName = SceneManager.GetActiveScene().name;
         currentScene = new SceneField(currentSceneName);
 
-        string[] invalidActiveScenes = new string[] { "DontDestroyOnLoad", "PersistentScene", "MenuScene", "DebuggingTools" };
+        string[] invalidActiveScenes = new string[] { "DontDestroyOnLoad", "PersistentScene", "MenuScene", "DebuggingTools", "GameOver Scene" };
         bool isInvalidScene = System.Linq.Enumerable.Contains(invalidActiveScenes, currentSceneName);
 
         // Update the last valid scene ONLY if we are in a gameplay scene
