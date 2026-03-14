@@ -66,4 +66,9 @@ public class ObjectiveManager : Singleton<ObjectiveManager>, IDataPersistence
     {
         
     }
+
+    public void ResetData()
+    {
+
+    }
 }

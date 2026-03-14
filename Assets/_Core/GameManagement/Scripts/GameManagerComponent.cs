@@ -40,12 +40,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>, IDataPersis
 
     public void StartNewRun()
     {
-        //CurrentRun = new RunData
-        //{
-        //    Mode = mode,
-        //    CurrentFloor = 0,
-        //    PlayerHP = 100
-        //};
+        DataPersistenceHandler.Instance.NewGame();
 
         // Reset Player State and Input
         if (PlayerSingleton.Instance != null)
@@ -83,6 +78,9 @@ public class GameManagerComponent : Singleton<GameManagerComponent>, IDataPersis
 
             // Reset Weapon
             EventBus<OnResetWeaponRequest>.Call(new OnResetWeaponRequest());
+
+            // Reset Game Data to a "New Run" state (preserving high scores)
+            DataPersistenceHandler.Instance.ResetToNewState();
         }
 
         ChangeState(GameState.RunEnd);
@@ -96,6 +94,11 @@ public class GameManagerComponent : Singleton<GameManagerComponent>, IDataPersis
     public void SaveData(GameData data)
     {
         data.roundNumber = roundNumber;
+    }
+
+    public void ResetData()
+    {
+        roundNumber = 1;
     }
 
     private void ChangeState(GameState newState)

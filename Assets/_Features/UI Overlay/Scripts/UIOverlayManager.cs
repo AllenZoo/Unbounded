@@ -22,6 +22,15 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
 
     private List<IUIPage> uiPages = new List<IUIPage>();
 
+    public void CloseAllPages()
+    {
+        for (int i = 0; i < uiPages.Count; i++)
+        {
+            uiPages[i].ClosePage();
+        }
+        OnPageOrderModified?.Invoke();
+    }
+
     // Method to add a new UI page
     public void AddUIPage(IUIPage uiPage)
     {

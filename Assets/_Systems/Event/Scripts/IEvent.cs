@@ -17,6 +17,7 @@ public interface IGlobalEvent: IEvent
 
 }
 
+#region Deprecated Events
 public struct OnMapGeneratedEvent : IGlobalEvent
 {
     public GameObject startRoomPfb;
@@ -40,15 +41,17 @@ public struct OnPlayerExitRoom: IGlobalEvent
     public Collider2D roomBoundary;
 }
 
+public struct OnCommissionViewInfoRequestEvent : IGlobalEvent
+{
+    public Commission commission;
+}
+#endregion
+
 public struct OnInventoryModifiedEvent : IGlobalEvent
 {
     
 }
 
-public struct OnCommissionViewInfoRequestEvent: IGlobalEvent
-{
-    public Commission commission;
-}
 
 public struct OnSceneTeleportRequest: IGlobalEvent
 {
@@ -126,6 +129,8 @@ public struct OnPlayerDeathEvent : IGlobalEvent { }
 public struct OnResetWeaponRequest : IGlobalEvent { }
 
 public struct OnLoadGameRequest : IGlobalEvent { }
+
+public struct OnNewGameRequest : IGlobalEvent { }
 
 /// <summary>
 /// For events that act locally. (Personal Buses for any entity)

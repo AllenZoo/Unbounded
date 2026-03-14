@@ -37,4 +37,10 @@ public class PlayerDataPersistenceComponent : MonoBehaviour, IDataPersistence
         data.playerCurrentHealth = stats.StatContainer.Health;
         data.playerGold = stats.StatContainer.Gold;
     }
+
+    public void ResetData()
+    {
+        stats.StatContainer.Health = stats.StatContainer.MaxHealth;
+        stats.StatContainer.Gold = 0;
+    }
 }

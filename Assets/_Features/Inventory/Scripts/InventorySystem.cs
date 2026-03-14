@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -418,6 +419,18 @@ public class InventorySystem : MonoBehaviour, IDataPersistence
         {
             data.inventories.TryAdd(inventoryGuid, inventory);
         }
+    }
+
+    public void ResetData()
+    {
+        if (inventoryGuid == null)
+        {
+            Debug.LogError("Inventory GUID is null. Cannot reset inventory data.");
+            return;
+        }
+        inventory.OnInventoryDataModified -= InvokeInventorySystemOnInventoryModified;
+        initialized = false;
+        Init();
     }
     #endregion
 

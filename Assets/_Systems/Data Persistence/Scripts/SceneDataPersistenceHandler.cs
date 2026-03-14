@@ -20,8 +20,8 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
         if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Register(this);
     }
 
-    private void OnDisable() 
-    { 
+    private void OnDisable()
+    {
         EventBus<OnSceneLoadRequestFinish>.Unregister(sceneLoadFinishBinding);
         if (DataPersistenceHandler.Instance != null) DataPersistenceHandler.Instance.Unregister(this);
     }
@@ -36,7 +36,7 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
         Debug.Log($"Loading scene: {data.currentScene.SceneName}");
         currentScene = data.currentScene;
         // Load the current scene from the GameData and set it as the active scene
-        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest { targetScene = data.currentScene, unloadAllButPersistent = true});
+        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest { targetScene = data.currentScene, unloadAllButPersistent = true });
     }
 
     public void SaveData(GameData data)
@@ -44,20 +44,32 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
         data.currentScene = lastValidActiveScene;
     }
 
+    public void ResetData()
+    {
+        // Set default scene to armoury
+        lastValidActiveScene = new SceneField("Armoury");
+        currentScene = lastValidActiveScene;
+    }
 
     private void FetchCurrentSceneAndSave()
     {
-        currentScene = new SceneField(SceneManager.GetActiveScene().name);
-
-        if (lastValidActiveScene == null) lastValidActiveScene = currentScene;
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        currentScene = new SceneField(currentSceneName);
 
         string[] invalidActiveScenes = new string[] { "DontDestroyOnLoad", "PersistentScene", "MenuScene", "DebuggingTools" };
+        bool isInvalidScene = System.Linq.Enumerable.Contains(invalidActiveScenes, currentSceneName);
 
-        if (!invalidActiveScenes.Contains(currentScene.SceneName))
+        // Update the last valid scene ONLY if we are in a gameplay scene
+        if (!isInvalidScene)
         {
             lastValidActiveScene = currentScene;
+            // Only save the game if we've successfully transitioned to a valid location
+            DataPersistenceHandler.Instance.SaveGame(sync: false);
         }
-
-        DataPersistenceHandler.Instance.SaveGame(sync:false);
+        else if (lastValidActiveScene == null)
+        {
+            // If we are in the menu and have no valid scene yet, default to Armoury
+            lastValidActiveScene = new SceneField("Armoury");
+        }
     }
 }

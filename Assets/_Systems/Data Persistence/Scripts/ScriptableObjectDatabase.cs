@@ -50,4 +50,16 @@ public class ScriptableObjectDatabase : Singleton<ScriptableObjectDatabase>, IDa
             }
         }
     }
+
+    public void ResetData()
+    {
+        if (Data == null) return;
+        foreach (var so in Data.AllScriptableObjects)
+        {
+            if (so is IDataPersistence persistence)
+            {
+                persistence.ResetData();
+            }
+        }
+    }
 }

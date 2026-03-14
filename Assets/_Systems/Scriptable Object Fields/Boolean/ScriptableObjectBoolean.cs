@@ -15,6 +15,9 @@ public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistenc
     [Tooltip("Reset to default OnDisable")]
     [SerializeField] private bool resetToDefault = true;
 
+    // Whether to reset this value when starting a new game
+    [SerializeField] private bool resetOnNewGame = true; 
+
     [Tooltip("The default value to reset to when needed.")]
     [SerializeField] private bool defaultValue;
 
@@ -70,6 +73,14 @@ public partial class ScriptableObjectBoolean : ScriptableObject, IDataPersistenc
     public void SaveData(GameData data)
     {
         data.soBooleanStates[id] = value;
+    }
+
+    public void ResetData()
+    {
+        if (resetOnNewGame)
+        {
+            ResetValue();
+        }
     }
 
     private void OnValidate()

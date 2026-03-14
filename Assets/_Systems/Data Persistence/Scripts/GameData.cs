@@ -57,8 +57,8 @@ public class GameData
         highScore = 0;
         runHistory = new List<RunHistoryData>();
         currentScene = new SceneField("");
-        playerCurrentHealth = 0;
-        playerGold = 0;
+        playerCurrentHealth = 1;
+        playerGold = 1;
         //objectiveStates = new Dictionary<string, ObjectiveState>();
         tutorialComplete = false;
         soBooleanStates = new Dictionary<string, bool>();

@@ -34,7 +34,9 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     private bool isSaving = false;
 
-    private EventBinding<OnLoadGameRequest> loadGameRequestEventBinding;
+    private EventBinding<OnNewGameRequest> newGameRequestBinding;
+    private EventBinding<OnLoadGameRequest> loadGameRequestBinding;
+
 
     #region Registration
     public void Register(IDataPersistence dataPersister)
@@ -82,7 +84,8 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
         InitializeSelectedProfileId();
         NewGame();
-        loadGameRequestEventBinding = new EventBinding<OnLoadGameRequest>(LoadGame);
+        newGameRequestBinding = new EventBinding<OnNewGameRequest>(OnNewGameRequest);   
+        loadGameRequestBinding = new EventBinding<OnLoadGameRequest>(LoadGame);
     }
 
     protected void Start()
@@ -109,17 +112,27 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     protected void OnEnable()
     {
-        if (loadGameRequestEventBinding != null)
+        if (loadGameRequestBinding != null)
         {
-            EventBus<OnLoadGameRequest>.Register(loadGameRequestEventBinding);
+            EventBus<OnLoadGameRequest>.Register(loadGameRequestBinding);
+        }
+
+        if (newGameRequestBinding != null)
+        {
+            EventBus<OnNewGameRequest>.Register(newGameRequestBinding);
         }
     }
 
     protected void OnDisable()
     {
-        if (loadGameRequestEventBinding != null)
+        if (loadGameRequestBinding != null)
         {
-            EventBus<OnLoadGameRequest>.Unregister(loadGameRequestEventBinding);
+            EventBus<OnLoadGameRequest>.Unregister(loadGameRequestBinding);
+        }
+
+        if (newGameRequestBinding != null)
+        {
+            EventBus<OnNewGameRequest>.Unregister(newGameRequestBinding);
         }
     }
 
@@ -146,20 +159,36 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         }
     }
 
-    public void NewGame()
+        public void NewGame()
     {
-        this.gameData = new GameData();
+        // Initialize new GameData object if null
+        if (this.gameData == null)
+        {
+            this.gameData = new GameData();
+        }
+
+        // Always call reset data to ensure defaults are set (like the Armoury scene)
+        foreach (IDataPersistence dataPersister in dataPersisters)
+        {
+            dataPersister.ResetData();
+        }
     }
 
     public void LoadGame()
     {
         if (disableDataPersistence) return;
 
+        if (UIOverlayManager.Instance != null)
+        {
+            UIOverlayManager.Instance.CloseAllPages();
+        }
+
         this.gameData = dataHandler.Load(selectedProfileId);
 
         if (this.gameData == null && initializeDataIfNull)
         {
             NewGame();
+            ResetToNewState();
         }
 
         if (this.gameData == null)
@@ -238,6 +267,27 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
 
     }
 
+    /// <summary>
+    /// Function should be called on gameover so that we reset state to a "New Game" state, with some values being preserved.
+    /// 
+    /// Resets Game Data, and then saves that state to file.
+    /// </summary>
+    public void ResetToNewState()
+    {
+        if (disableDataPersistence || isSaving || gameData == null) return;
+
+        // Notify all registered persisters to reset data state.
+        foreach (IDataPersistence dataPersister in dataPersisters)
+        {
+            dataPersister.ResetData();
+        }
+
+        // Save to file.
+        SaveGame(sync: true);
+    }
+
+    
+
     public bool HasGameData()
     {
         return gameData != null;
@@ -246,6 +296,13 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
         return dataHandler.LoadAllProfiles();
+    }
+
+    private void OnNewGameRequest()
+    {
+        // Essentially Starts a new game.
+        ResetToNewState();
+        LoadGame();
     }
 
     private void OnApplicationQuit()

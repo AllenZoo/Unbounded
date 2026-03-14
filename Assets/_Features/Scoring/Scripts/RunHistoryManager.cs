@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 /// <summary>
@@ -147,7 +148,7 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
     }
 
     /// <summary>
-    /// Saves data through the DataPersistenceHandler.
+    /// (HELPER) Saves data through the DataPersistenceHandler.
     /// </summary>
     private void SaveData()
     {
@@ -188,5 +189,9 @@ public class RunHistoryManager : Singleton<RunHistoryManager>, IDataPersistence
         Debug.Log($"[RunHistoryManager] Saved: High Score={currentHighScore}, History size={runHistory.Count}");
     }
 
+    public void ResetData()
+    {
+        // Preserve state, no changes needed on reset.   
+    }
     #endregion
 }

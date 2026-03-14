@@ -77,11 +77,11 @@ public class AudioManager : Singleton<AudioManager>, IDataPersistence
         if (DataPersistenceHandler.Instance != null)
             DataPersistenceHandler.Instance.Unregister(this);
     }
-public void LoadData(GameData data)
-    {
-        backgroundMusicVolume.Set(data.backgroundMusicVolume);
-        soundEffectsVolume.Set(data.soundEffectsVolume);
-    }
+    public void LoadData(GameData data)
+        {
+            backgroundMusicVolume.Set(data.backgroundMusicVolume);
+            soundEffectsVolume.Set(data.soundEffectsVolume);
+        }
 
     /// <summary>
     /// Save Audio Data
@@ -91,6 +91,10 @@ public void LoadData(GameData data)
     {
         data.backgroundMusicVolume = backgroundMusicVolume.Value;
         data.soundEffectsVolume = soundEffectsVolume.Value;
+    }
+
+    public void ResetData() { 
+        // Preserve volume settings when restting data. No need to reset on new game.
     }
 }
 
