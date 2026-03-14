@@ -1,16 +1,17 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
 {
     private SceneField currentScene;
-
+    private SceneField lastValidActiveScene;
     private EventBinding<OnSceneLoadRequestFinish> sceneLoadFinishBinding;
 
 
     private void Awake()
     {
-        sceneLoadFinishBinding = new EventBinding<OnSceneLoadRequestFinish>(FetchCurrentScene);
+        sceneLoadFinishBinding = new EventBinding<OnSceneLoadRequestFinish>(FetchCurrentSceneAndSave);
     }
 
     private void OnEnable()
@@ -27,7 +28,7 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-        FetchCurrentScene();
+        FetchCurrentSceneAndSave();
     }
 
     public void LoadData(GameData data)
@@ -35,17 +36,28 @@ public class SceneDataPersistenceHandler : MonoBehaviour, IDataPersistence
         Debug.Log($"Loading scene: {data.currentScene.SceneName}");
         currentScene = data.currentScene;
         // Load the current scene from the GameData and set it as the active scene
-        //EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest { targetScene = data.currentScene, unloadAllButPersistent = true});
+        EventBus<OnSceneTeleportRequest>.Call(new OnSceneTeleportRequest { targetScene = data.currentScene, unloadAllButPersistent = true});
     }
 
     public void SaveData(GameData data)
     {
-        data.currentScene = currentScene;
+        data.currentScene = lastValidActiveScene;
     }
 
 
-    private void FetchCurrentScene()
+    private void FetchCurrentSceneAndSave()
     {
         currentScene = new SceneField(SceneManager.GetActiveScene().name);
+
+        if (lastValidActiveScene == null) lastValidActiveScene = currentScene;
+
+        string[] invalidActiveScenes = new string[] { "DontDestroyOnLoad", "PersistentScene", "MenuScene", "DebuggingTools" };
+
+        if (!invalidActiveScenes.Contains(currentScene.SceneName))
+        {
+            lastValidActiveScene = currentScene;
+        }
+
+        DataPersistenceHandler.Instance.SaveGame(sync:false);
     }
 }

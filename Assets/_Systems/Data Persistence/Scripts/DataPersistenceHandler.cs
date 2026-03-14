@@ -81,7 +81,7 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         }
 
         InitializeSelectedProfileId();
-
+        NewGame();
         loadGameRequestEventBinding = new EventBinding<OnLoadGameRequest>(LoadGame);
     }
 
@@ -218,6 +218,7 @@ public class DataPersistenceHandler : Singleton<DataPersistenceHandler>
         try
         {
             isSaving = true;
+            Debug.Log("Saving Game Data" + (sync ? " (Sync)" : " (Async)"));
             if (sync)
             {
                 dataHandler.Save(dataSnapshot, profileId);

@@ -16,6 +16,8 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: acc329a4f8b49e4409e1a9a64805c11b, type: 2}
+    - {fileID: 11400000, guid: 3c807ff5bc908ad42ba243f78fff5955, type: 2}
     - {fileID: 11400000, guid: d8f85710e633a3a4ab57d7d45451c5c9, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -33,9 +35,12 @@ MonoBehaviour:
       Entry: 7
       Data: 1|BehaviourDefinition, Assembly-CSharp
     - Name: data
+      Entry: 10
+      Data: 0
+    - Name: ChaseBehaviourInstance
       Entry: 6
       Data: 
-    - Name: ChaseBehaviourInstance
+    - Name: clonedAttacker
       Entry: 6
       Data: 
     - Name: disableBehaviour
@@ -48,9 +53,12 @@ MonoBehaviour:
       Entry: 7
       Data: 2|BehaviourDefinition, Assembly-CSharp
     - Name: data
+      Entry: 10
+      Data: 1
+    - Name: ChaseBehaviourInstance
       Entry: 6
       Data: 
-    - Name: ChaseBehaviourInstance
+    - Name: clonedAttacker
       Entry: 6
       Data: 
     - Name: disableBehaviour
@@ -70,8 +78,11 @@ MonoBehaviour:
       Data: 3|BehaviourDefinition, Assembly-CSharp
     - Name: data
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: ChaseBehaviourInstance
+      Entry: 6
+      Data: 
+    - Name: clonedAttacker
       Entry: 6
       Data: 
     - Name: disableBehaviour

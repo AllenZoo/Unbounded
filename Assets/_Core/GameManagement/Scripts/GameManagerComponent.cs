@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugManager;
 
-public class GameManagerComponent : Singleton<GameManagerComponent>
+public class GameManagerComponent : Singleton<GameManagerComponent>, IDataPersistence
 {
     public GameState State { get; private set; }
     public RoomState RoomState { get; private set; }
@@ -33,7 +33,6 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
     {
         if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Register(playerDeathBinding);
     }
-
     private void OnDisable()
     {
         if (playerDeathBinding != null) EventBus<OnPlayerDeathEvent>.Unregister(playerDeathBinding);
@@ -67,6 +66,7 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         }
 
         ChangeState(GameState.WeaponTrial);
+        roundNumber = 1;
     }
 
     public void OnPlayerDeath()
@@ -86,6 +86,16 @@ public class GameManagerComponent : Singleton<GameManagerComponent>
         }
 
         ChangeState(GameState.RunEnd);
+    }
+
+    public void LoadData(GameData data)
+    {
+        roundNumber = data.roundNumber;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.roundNumber = roundNumber;
     }
 
     private void ChangeState(GameState newState)
