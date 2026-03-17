@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 8924692159491181220}
+  leh: {fileID: 0}
 --- !u!114 &7007573682738182030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 50
   deceleration: 50
-  localEventHandler: {fileID: 8924692159491181220}
+  leh: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 7405677662020513449}
   rb: {fileID: 7405677662020512086}
@@ -821,7 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6986ae1d2084546a54982d4570778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 8924692159491181220}
+  leh: {fileID: 0}
   inputEnabled: 1
   move: {fileID: -6630118129487605645, guid: 4eaee7739bef76d42aacc43da94c668a, type: 3}
   attack: {fileID: 7032549473316083416, guid: 4eaee7739bef76d42aacc43da94c668a, type: 3}
@@ -940,7 +940,9 @@ GameObject:
   - component: {fileID: 1382679116282834283}
   - component: {fileID: 2588634707587799474}
   - component: {fileID: 758206096474696908}
+  - component: {fileID: 6791881428907704565}
   - component: {fileID: 2611898876193215710}
+  - component: {fileID: 6970067489123807345}
   m_Layer: 0
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -1045,6 +1047,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6791881428907704565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905380374370108712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce611dcaa6ff014a82ba7cb75594c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationSystem
+  leh: {fileID: 8924692159491181220}
+  motionComponent: {fileID: 7470423636725235223}
+  stateComponent: {fileID: 7405677662020512083}
+  controller: {fileID: 2611898876193215710}
 --- !u!114 &2611898876193215710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,7 +1075,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 8924692159491181220}
+  animator: {fileID: 758206096474696908}
+--- !u!114 &6970067489123807345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905380374370108712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4283a41afe310449076b98d8508815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectsController
+  leh: {fileID: 8924692159491181220}
   sprite: {fileID: 2588634707587799474}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}

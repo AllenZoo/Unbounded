@@ -107,8 +107,10 @@ GameObject:
   - component: {fileID: 2949133825111826509}
   - component: {fileID: 6908826409817190399}
   - component: {fileID: 2359868387371073753}
+  - component: {fileID: 9008491206737551911}
   - component: {fileID: 5076426400479562636}
   - component: {fileID: 1720855473050207554}
+  - component: {fileID: 8843767686539604508}
   m_Layer: 6
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -212,6 +214,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9008491206737551911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769911455289477505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce611dcaa6ff014a82ba7cb75594c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationSystem
+  leh: {fileID: 7418713779254395358}
+  motionComponent: {fileID: 1462472357773047387}
+  stateComponent: {fileID: 7534848392714771236}
+  controller: {fileID: 5076426400479562636}
 --- !u!114 &5076426400479562636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,11 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 7418713779254395358}
-  sprite: {fileID: 6908826409817190399}
-  damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  defaultMaterial: {fileID: 0}
-  damagedSoundEffect: 3
+  animator: {fileID: 0}
 --- !u!114 &1720855473050207554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +260,23 @@ MonoBehaviour:
   sr: {fileID: 6908826409817190399}
   onDeathSfx: 4
   DelayTime: 0
+--- !u!114 &8843767686539604508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769911455289477505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4283a41afe310449076b98d8508815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectsController
+  leh: {fileID: 7418713779254395358}
+  sprite: {fileID: 6908826409817190399}
+  damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  defaultMaterial: {fileID: 0}
+  damagedSoundEffect: 0
 --- !u!1 &2400384043743418956
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +336,12 @@ MonoBehaviour:
   leh: {fileID: 7418713779254395358}
   statContainer:
     baseStats: {fileID: 11400000, guid: cc4c77501f194b74fb7b8c0ee99f06b3, type: 2}
-    curSpeed: 0
+    curSPD: 0
+    curATK: 0
+    curDEF: 0
+    curDEX: 0
+    curHP: 0
+    curMAX_HP: 0
 --- !u!50 &2300400052392067168
 Rigidbody2D:
   serializedVersion: 5
@@ -373,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAIComponent
-  localEventHandler: {fileID: 7418713779254395358}
+  leh: {fileID: 0}
   inputEnabled: 1
   contextSteerer: {fileID: 254786034007624787}
   feetTransform: {fileID: 6099873915776761124}
@@ -713,7 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 7418713779254395358}
+  leh: {fileID: 0}
 --- !u!114 &7691096889908441478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,7 +764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 25
   deceleration: 30
-  localEventHandler: {fileID: 7418713779254395358}
+  leh: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 6844724702161644723}
   rb: {fileID: 2300400052392067168}
@@ -863,6 +899,7 @@ MonoBehaviour:
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 2067646286696974389}
   aggroBrain: {fileID: 3455523255771751478}
+  aggroOnDamaged: 1
   aggroTarget: {fileID: 0}
   distFromTarget: -1
   isAggroed: 0
@@ -1214,9 +1251,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dee1dba92f05f145bb0c24f04dbfdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceThreshold: 0
+  log: 0
+  showRays: 0
   obstaclesLayermask:
     serializedVersion: 2
     m_Bits: 512
+  dangerDirCurPosOffsets: 0.185
 --- !u!114 &6739001895110071426
 MonoBehaviour:
   m_ObjectHideFlags: 0
