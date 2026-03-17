@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc83623b40b93184ba0c6334bb7412db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAIComponent
-  localEventHandler: {fileID: 5780175422548126830}
+  leh: {fileID: 0}
   inputEnabled: 1
   contextSteerer: {fileID: 7266419101424992167}
   feetTransform: {fileID: 155345384337959670}
@@ -461,6 +461,7 @@ GameObject:
   - component: {fileID: 4097270603458788675}
   - component: {fileID: 8339263113030172487}
   - component: {fileID: 8054300219359953534}
+  - component: {fileID: 7751956664228297660}
   m_Layer: 6
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -576,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd26925c98e64a44b0194e45e7b56b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 5780175422548126830}
+  leh: {fileID: 5780175422548126830}
   sprite: {fileID: 3914420639214489742}
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
@@ -598,6 +599,21 @@ MonoBehaviour:
   sr: {fileID: 3914420639214489742}
   onDeathSfx: 4
   DelayTime: 0
+--- !u!114 &7751956664228297660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4424972299574004049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce611dcaa6ff014a82ba7cb75594c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationSystem
+  motionComponent: {fileID: 4581128603877340785}
+  stateComponent: {fileID: 4744106068313248134}
+  controller: {fileID: 8339263113030172487}
 --- !u!1 &4942712808090694242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,7 +1131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 5780175422548126830}
+  leh: {fileID: 0}
 --- !u!114 &5846011541778627442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,7 +1146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 50
   deceleration: 50
-  localEventHandler: {fileID: 5780175422548126830}
+  leh: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 6115604619293661680}
   rb: {fileID: 2454464455002840039}

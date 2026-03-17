@@ -9,7 +9,7 @@ using UnityEngine;
 public class StateComponent : MonoBehaviour
 {
     [SerializeField] private LocalEventHandler localEventHandler;
-    public State state { get; private set; } = State.IDLE;
+    public State State { get; private set; } = State.IDLE;
 
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField, ReadOnly] State debuggingState = State.IDLE;
@@ -55,17 +55,17 @@ public class StateComponent : MonoBehaviour
     // If dead, cannot switch to any other state. (unless maybe new State 'Revived' we add)
     public void ReqStateChange(State newState)
     {
-        if (newState == state)
+        if (newState == State)
         {
             return;
         }
 
-        if (state == State.DEAD)
+        if (State == State.DEAD)
         {
             return;
         }
 
-        if (crowdControlStates.Contains(state))
+        if (crowdControlStates.Contains(State))
         {
             if (newState == State.CCFREE)
             {
@@ -130,8 +130,8 @@ public class StateComponent : MonoBehaviour
 
     private void SetState(State state)
     {
-        State oldState = this.state;
-        this.state = state;
+        State oldState = this.State;
+        this.State = state;
         localEventHandler.Call(new OnStateChangeEvent { newState = state, oldState = oldState });
 
         // Debugging

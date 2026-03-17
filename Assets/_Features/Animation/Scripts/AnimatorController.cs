@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -6,13 +7,16 @@ using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
 /// <summary>
+/// Wrapper for Animator.
+/// 
+/// Takes in AnimationState and does stuff based on that input.
+/// 
 /// Controls a bunch of graphics stuff.
 /// </summary>
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
-    [NotNull]
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [Required, SerializeField] private LocalEventHandler leh;
 
     // For changing colour of the sprite (giving it a tint) based on state.
     [SerializeField] private SpriteRenderer sprite;
@@ -75,7 +79,7 @@ public class AnimatorController : MonoBehaviour
         
         Assert.IsNotNull(damageMaterial, "Need material for being damaged");
 
-        localEventHandler= InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        leh= InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
     private void Start()
@@ -83,13 +87,13 @@ public class AnimatorController : MonoBehaviour
         Debug.Assert(animator != null, "Animator null in animation controller for object: " + gameObject);
 
         LocalEventBinding<OnMotionChangeEvent> motionEventBinding = new LocalEventBinding<OnMotionChangeEvent>(Motion_OnMotionChange);
-        localEventHandler.Register<OnMotionChangeEvent>(motionEventBinding);
+        leh.Register<OnMotionChangeEvent>(motionEventBinding);
 
         LocalEventBinding<OnStateChangeEvent> stateEventBinding = new LocalEventBinding<OnStateChangeEvent>(HandleOnStateChange);
-        localEventHandler.Register<OnStateChangeEvent>(stateEventBinding);
+        leh.Register<OnStateChangeEvent>(stateEventBinding);
 
         LocalEventBinding<OnDamagedEvent> damagedEventBinding = new LocalEventBinding<OnDamagedEvent>(HandleOnDamagedEvent);
-        localEventHandler.Register<OnDamagedEvent>(damagedEventBinding);
+        leh.Register<OnDamagedEvent>(damagedEventBinding);
 
 
         // TODO: take a look at this.

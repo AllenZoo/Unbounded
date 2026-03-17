@@ -18,7 +18,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private const float SPEED_SCALE = 2/5f;
 
 
-    [SerializeField] private LocalEventHandler localEventHandler;
+    [SerializeField] private LocalEventHandler leh;
     [SerializeField] private bool movementEnabled = true;
     [SerializeField] private StatComponent stat;
     [SerializeField] private Rigidbody2D rb;
@@ -43,21 +43,14 @@ public class MovementController : MonoBehaviour
         Assert.IsNotNull(stat, "Class of type StatComponent must exist on obj with MovementController");
         Assert.IsNotNull(rb, "Rigidbody2D must exist on obj with MovementController");
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                                                  "] with root object [" + gameObject.transform.root.name + "] for MovementController.cs");
-            }
-        }
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        Assert.IsNotNull(leh, "LocalEventHandler must exist in parent of obj with MovementController");
     }
 
     private void Start()
     {
         LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(HandleOnStateChange);
-        localEventHandler.Register(stateChangeBinding);
+        leh.Register(stateChangeBinding);
     }
 
     private void FixedUpdate()
@@ -100,9 +93,9 @@ public class MovementController : MonoBehaviour
     private void HandleMovement()
     {
         // Normalize diagonal input
-        Vector2 processedDir = motion.dir.sqrMagnitude > 1
-            ? motion.dir.normalized
-            : motion.dir;
+        Vector2 processedDir = motion.Dir.sqrMagnitude > 1
+            ? motion.Dir.normalized
+            : motion.Dir;
 
         // Target velocity (no deltaTime scaling here)
         Vector2 targetVelocity = processedDir * stat.StatContainer.Speed * SPEED_SCALE;
