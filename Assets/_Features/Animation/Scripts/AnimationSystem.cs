@@ -43,7 +43,7 @@ public class AnimationSystem : MonoBehaviour
     private void UpdateAnimatorState()
     {
         AnimatorState newStruct = builder.CreateAnimatorState();
-        //controller.SetAnimationState(newStruct);
+        controller.UpdateAnimator(newStruct);
     }
 
 
