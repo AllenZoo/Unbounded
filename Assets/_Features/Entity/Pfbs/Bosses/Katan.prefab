@@ -381,6 +381,7 @@ MonoBehaviour:
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 7599973659860923114}
   aggroBrain: {fileID: 916700090708789427}
+  aggroOnDamaged: 1
   aggroTarget: {fileID: 0}
   distFromTarget: -1
   isAggroed: 0
@@ -655,7 +656,7 @@ MonoBehaviour:
   tracker: {fileID: 5869552945510471096}
   attackerComponent: {fileID: 7449954481719588691}
   attackRange: 18
-  enemyIdleBase: {fileID: 11400000, guid: 6665ddef87cc40a4795fb273d68d70d1, type: 2}
+  enemyIdleBase: {fileID: 11400000, guid: 6ba24126c4bdef340b52f74a74fa732c, type: 2}
   enemyChaseBase: {fileID: 11400000, guid: fa62713da2400e44493971eea1c833bd, type: 2}
   enemyAttackBase: {fileID: 11400000, guid: 83eba0a654af7fc458c12211e45373d9, type: 2}
   centerTransform: {fileID: 4456538979408597553}
