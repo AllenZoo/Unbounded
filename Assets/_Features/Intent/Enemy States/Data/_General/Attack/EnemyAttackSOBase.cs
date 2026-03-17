@@ -11,14 +11,16 @@ public class EnemyAttackSOBase : SerializedScriptableObject
     protected ContextSteerer contextSteerer;
     protected ObjectTracker tracker;
     protected Transform feetTransform;
+    protected LocalEventHandler leh;
 
-    public virtual void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
+    public virtual void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform, LocalEventHandler leh)
     {
         this.enemyAIComponent = enemyAIComponent;
         this.enemyObject = enemyObject;
         this.contextSteerer = contextSteerer;
         this.tracker = tracker;
         this.feetTransform = feetTransform;
+        this.leh = leh;
     }
 
     public virtual void DoEnterLogic() { }

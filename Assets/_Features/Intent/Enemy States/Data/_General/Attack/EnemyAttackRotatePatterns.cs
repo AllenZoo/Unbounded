@@ -60,6 +60,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     public override void DoAnimationTriggerEventLogic()
     {
         base.DoAnimationTriggerEventLogic();
+        // TODO: trigger attack animation.
     }
 
     public override void DoEnterLogic()
@@ -91,12 +92,13 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             }
         }
 
-        // Attack
+        // Attack target.
         if (enemyAIComponent.AggroTarget != null) { 
             Transform targetTransform = enemyAIComponent.AggroTarget.transform;
             enemyAIComponent.InvokeAttackInput(KeyCode.K, new AttackSpawnInfo(targetTransform.position));
         }
 
+        // If current behaviour is empty, we have no chase behaviour.
         if (currentBehaviour.Equals(emptyBehaviour))
         {
             // If not initialized we return.
@@ -119,10 +121,10 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
         currentBehaviour.ChaseBehaviourInstance.DoPhysicsUpdateLogic();
     }
 
-    public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
+    public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform, LocalEventHandler leh)
     {
         // Initialize self.
-        base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+        base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform, leh);
 
         // Initalize all Behaviours
         foreach(var behaviour in behaviours)

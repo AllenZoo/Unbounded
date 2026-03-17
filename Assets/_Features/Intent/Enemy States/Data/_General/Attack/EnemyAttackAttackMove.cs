@@ -14,10 +14,10 @@ public class EnemyAttackAttackMove : EnemyAttackSOBase
 
     private EnemyChaseSOBase chaseInstance;
 
-    public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform)
+    public override void Initialize(EnemyAIComponent enemyAIComponent, GameObject enemyObject, ContextSteerer contextSteerer, ObjectTracker tracker, Transform feetTransform, LocalEventHandler leh)
     {
         chaseInstance = Instantiate(chase);
-        base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
+        base.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform, leh);
         chaseInstance.Initialize(enemyAIComponent, enemyObject, contextSteerer, tracker, feetTransform);
     }
 
