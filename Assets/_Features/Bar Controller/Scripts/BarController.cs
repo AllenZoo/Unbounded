@@ -40,16 +40,6 @@ public class BarController : MonoBehaviour
         Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
     }
 
-    protected void Start()
-    {
-        //localEventHandlerContext.OnInitialized += OnLEHInit;
-        //OnLEHInit(); // this call is in case we don't subscribe before OnInitialized gets called in LEH.
-        //if (useBarContext) { 
-        //    barContext.OnBarContextChange += Render;
-        //    barContext.OnBarContextChange += OnBarContextChange;
-        //}
-        //Render();
-    }
 
     protected void OnEnable()
     {
@@ -90,6 +80,20 @@ public class BarController : MonoBehaviour
     {
         ClearSubscriptions();
         this.leh = leh;
+
+        // Temporary fix to fetching the StatComponent.
+        // Ideally, the BarController would be initialized with a StatComponent inside some model object,
+        // but for now just try to find it in the LEH's gameobject or children.
+        if (this.leh != null)
+        {
+            // Try to find the StatComponent immediately to initialize statObject
+            statObject = this.leh.GetComponent<StatComponent>();
+            if (statObject == null)
+            {
+                statObject = this.leh.GetComponentInChildren<StatComponent>();
+            }
+        }
+
         Register();
         Render();
     }
@@ -140,6 +144,7 @@ public class BarController : MonoBehaviour
         }
 
         leh = null;
+        statObject = null;
     }
 
 
