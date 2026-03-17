@@ -656,7 +656,7 @@ MonoBehaviour:
   shaderBank: {fileID: 11400000, guid: c0fa9c82ac275f947a466b358b28dfbe, type: 2}
   leh: {fileID: 551598601173631618}
   sr: {fileID: 4766584381322637732}
-  onDeathSfx: 0
+  onDeathSfx: 4
   DelayTime: 0
 --- !u!1 &6104322146501104156
 GameObject:
@@ -1075,6 +1075,7 @@ MonoBehaviour:
   aggroReleaseRange: 100
   aggroDetecter: {fileID: 4478374123057694167}
   aggroBrain: {fileID: 649064099983020949}
+  aggroOnDamaged: 1
   aggroTarget: {fileID: 0}
   distFromTarget: -1
   isAggroed: 0

@@ -105,4 +105,5 @@ public enum SoundType
     Damaged,
     Enemy_Damaged,
     Death,
+    Target_Dummy_Damaged,
 }
