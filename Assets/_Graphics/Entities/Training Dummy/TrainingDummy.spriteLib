@@ -13,6 +13,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
   m_Library:
+  - m_Name: Idle
+    m_Hash: 1008081451
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Idle_0
+      m_Hash: 288431053
+      m_Sprite: {fileID: -1904194769, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1904194769, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
   - m_Name: Damaged
     m_Hash: 326473335
     m_CategoryList: []
@@ -51,5 +62,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 0
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639094489041969806
+  m_ModificationHash: 639094495631447578
   m_Version: 1
