@@ -523,6 +523,8 @@ GameObject:
   - component: {fileID: 6050364102642844282}
   - component: {fileID: 1525321218040658794}
   - component: {fileID: 754150248401199100}
+  - component: {fileID: 914240839673675084}
+  - component: {fileID: 7661785325472223773}
   m_Layer: 6
   m_Name: GraphicsHandler
   m_TagString: Untagged
@@ -614,7 +616,7 @@ Animator:
   m_GameObject: {fileID: 4766584381322637754}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6b10c949f4a32024b96ee2e1b7ed5756, type: 2}
+  m_Controller: {fileID: 9100000, guid: d2dec6c81b9b1f24ca2743752b41da38, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -689,6 +691,36 @@ MonoBehaviour:
   damageMaterial: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   defaultMaterial: {fileID: 0}
   damagedSoundEffect: 3
+--- !u!114 &914240839673675084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4766584381322637754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 3816a6ec12a634a4c99c8b529c977ded, type: 3}
+--- !u!114 &7661785325472223773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4766584381322637754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0
+  m_labelHash: 0
+  m_SpriteKey: 0
+  m_SpriteHash: 0
 --- !u!1 &6104322146501104156
 GameObject:
   m_ObjectHideFlags: 0
