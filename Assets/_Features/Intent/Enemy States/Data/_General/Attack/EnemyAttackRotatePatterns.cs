@@ -60,7 +60,8 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     public override void DoAnimationTriggerEventLogic()
     {
         base.DoAnimationTriggerEventLogic();
-        // TODO: trigger attack animation.
+        // TODO: check logic. May need to add a new RequestStateChangeEvent to avoid confusion.
+        //leh.Call(new OnStateChangeEvent { newState = State.ATTACKING });
     }
 
     public override void DoEnterLogic()
@@ -312,7 +313,6 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
                 appliedStatModifiers.Add(statModifier);
             }
         }
-        
 
         // 2. Set Attacker
         if (enemyAIComponent.AttackerComponent != null)

@@ -70,10 +70,11 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
                 ObjectScale = indicatorRadius,
                 AttackDuration = timeToTarget + explosionAfterEffectDuration
             };
-            // Play sfx here
-            AudioManager.PlaySound(attackData.AttackSound, 1);
             AttackSpawner.Spawn(attackData, ac, amc, attackComponent.Attack, attackComponent.Movement);
         }
+
+        // Play sfx here (Just one for all meteors, so that it's not too loud)
+        AudioManager.PlaySound(attackData.AttackSound, 1);
     }
     public override void StopAttack()
     {
