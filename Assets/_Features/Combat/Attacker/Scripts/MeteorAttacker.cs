@@ -74,7 +74,7 @@ public class MeteorAttacker : BaseAttacker<MeteorAttackerData>
         }
 
         // Play sfx here (Just one for all meteors, so that it's not too loud)
-        AudioManager.PlaySound(attackData.AttackSound, 1);
+        AudioManager.PlaySound(attackData.AttackSound, 0.7f);
     }
     public override void StopAttack()
     {
