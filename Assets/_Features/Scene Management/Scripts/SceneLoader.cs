@@ -23,14 +23,11 @@ public class SceneLoader : MonoBehaviour
     [Tooltip("List of scenes that should never be unloaded.")]
     [SerializeField] private List<SceneField> persistentScenes;
 
-    /// <summary>
-    /// Reference to disabled cameras so that our main camera is the one rendering the loading screen.
-    /// Useful for re-enabling after loading is done.
-    /// </summary>
+
+    private Queue<OnSceneLoadRequest> loadQueue;
     private List<Camera> disabledCameras = new List<Camera>();
-
     private bool isLoading = false;
-
+    private Coroutine queueCoroutine;
 
     private void Awake()
     {
@@ -40,6 +37,8 @@ public class SceneLoader : MonoBehaviour
 
         EventBinding<OnSceneLoadRequest> onSceneLoadBinding = new EventBinding<OnSceneLoadRequest>(OnSceneLoadRequestEvent);
         EventBus<OnSceneLoadRequest>.Register(onSceneLoadBinding);
+
+        loadQueue = new Queue<OnSceneLoadRequest>();
     }
 
     private void OnEnable()
@@ -49,44 +48,65 @@ public class SceneLoader : MonoBehaviour
 
     private void OnSceneLoadRequestEvent(OnSceneLoadRequest e)
     {
-        if (isLoading)
+        loadQueue.Enqueue(e);
+        if (!isLoading)
         {
-            Debug.LogWarning("Scene loading already in progress. Ignoring request.");
-            return;
+            if (queueCoroutine != null) StopCoroutine(queueCoroutine);
+            queueCoroutine = StartCoroutine(HandleLoadQueue());
         }
-        StartCoroutine(OnSceneLoadRequestEventCoroutine(e));
     }
 
-    private IEnumerator OnSceneLoadRequestEventCoroutine(OnSceneLoadRequest e)
+    private IEnumerator HandleLoadQueue()
     {
         isLoading = true;
+        
         try
         {
-            if (e.showLoadingBar)
+            while (loadQueue.Count > 0)
             {
-                ShowLoadingScreen();
-            }
-
-            // Pause the game while loading. We will unpause after loading is done by disposing the token.
-            using (PauseToken pt = PauseManager.Instance.RequestPause())
-            {
-                if (e.unloadAllButPersistent)
-                {
-                    yield return StartCoroutine(UnloadAllExceptPersistent());
-                }
-
-                yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
-                yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
-                EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish() { finishedActiveScene = e.activeSceneToSet });
-                yield return new WaitForSecondsRealtime(1f); // Delay a bit so that scene transition more smooth. (if we dont do this, we will see previous frame for a split second before transition). This due to how our pause system affects camera.
+                OnSceneLoadRequest loadRequest = loadQueue.Dequeue();
+                yield return StartCoroutine(OnSceneLoadRequestEventCoroutine(loadRequest));
             }
         }
         finally
         {
             HideLoadingScreen();
             isLoading = false;
+            queueCoroutine = null;
         }
-        yield return null;
+    }
+
+    private IEnumerator OnSceneLoadRequestEventCoroutine(OnSceneLoadRequest e)
+    {
+        if (e.showLoadingBar)
+        {
+            ShowLoadingScreen();
+        }
+
+        // Pause the game while loading. We will unpause after loading is done by disposing the token.
+        using (PauseToken pt = PauseManager.Instance.RequestPause())
+        {
+            if (e.unloadAllButPersistent)
+            {
+                yield return StartCoroutine(UnloadAllExceptPersistent());
+            }
+
+            yield return StartCoroutine(UnloadScenes(e.scenesToUnload));
+            
+            // Perform the loading
+            yield return StartCoroutine(LoadScenes(e.scenesToLoad, e.activeSceneToSet, e.showLoadingBar));
+            
+            EventBus<OnSceneLoadRequestFinish>.Call(new OnSceneLoadRequestFinish() { finishedActiveScene = e.activeSceneToSet });
+            
+            // Close all UI pages on load
+            if (UIOverlayManager.Instance != null)
+            {
+                UIOverlayManager.Instance.CloseAllPages();
+            }
+
+            // Small delay for smooth transition and ensuring frame is rendered
+            yield return new WaitForSecondsRealtime(0.5f); 
+        }
     }
 
     private IEnumerator UnloadAllExceptPersistent()
@@ -111,7 +131,6 @@ public class SceneLoader : MonoBehaviour
                 }
             }
 
-            // Always keep Bootstrap and PersistentGameplay
             if (name == "Bootstrap" || name == "PersistentGameplay")
             {
                 isPersistent = true;
@@ -126,27 +145,22 @@ public class SceneLoader : MonoBehaviour
         List<AsyncOperation> operations = new List<AsyncOperation>();
         foreach (var scene in scenesToUnload)
         {
-            var op = SceneManager.UnloadSceneAsync(scene);
-            if (op != null) operations.Add(op);
+            try {
+                var op = SceneManager.UnloadSceneAsync(scene);
+                if (op != null) operations.Add(op);
+            } catch (Exception ex) {
+                Debug.LogWarning($"Failed to unload scene {scene.name}: {ex.Message}");
+            }
         }
 
         foreach (var op in operations)
         {
-            yield return new WaitUntil(() => op.isDone);
+            while (!op.isDone) yield return null;
         }
     }
 
     private IEnumerator LoadScenes(List<SceneField> rawScenesToLoad, SceneField activeSceneToSet, bool showingLoadingBar)
     {
-        if (!string.IsNullOrEmpty(activeSceneToSet.SceneName) &&
-            !rawScenesToLoad.Contains(activeSceneToSet))
-        {
-            Debug.LogError(
-                $"Active scene '{activeSceneToSet.SceneName}' is not included in scenesToLoad!"
-            );
-        }
-
-
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
         HashSet<SceneField> scenesToLoad = FilterScenesToLoad(rawScenesToLoad);
 
@@ -158,17 +172,11 @@ public class SceneLoader : MonoBehaviour
             {
                 scenesLoading.Add(op);
             }
-            else
-            {
-                Debug.LogError($"Failed to load scene '{scene.SceneName}'. It might not be in the Build Settings.");
-            }
         }
 
-
-        bool tweenComplete = false;
         if (scenesLoading.Count > 0)
         {
-            float visualProgress = 0;
+            float visualProgress = bar != null ? bar.fillAmount : 0;
             while (true)
             {
                 float totalProgress = 0;
@@ -184,12 +192,8 @@ public class SceneLoader : MonoBehaviour
                 if (showingLoadingBar && bar != null)
                 {
                     // Smoothly interpolate the bar towards the target progress.
-                    // This creates a much more fluid motion than snapping to raw progress values.
-                    visualProgress = Mathf.Lerp(visualProgress, targetFill, Time.unscaledDeltaTime * 5f);
-                    
-                    // Ensure it never goes backwards and actually reaches the target if it's close.
-                    if (targetFill - visualProgress < 0.01f) visualProgress = targetFill;
-                    
+                    float displayTarget = targetFill >= 0.9f ? 1.0f : targetFill;
+                    visualProgress = Mathf.MoveTowards(visualProgress, displayTarget, Time.unscaledDeltaTime * 2f);
                     bar.fillAmount = visualProgress;
                 }
 
@@ -198,68 +202,47 @@ public class SceneLoader : MonoBehaviour
             }
         }
 
+        // Finalize bar
         if (showingLoadingBar && bar != null)
         {
             bar.DOKill();
-            bar.DOFillAmount(1f, 0.6f)
-               .SetUpdate(true) // uses unscaled time
-               .OnComplete(() =>
-               {
-                   tweenComplete = true;
-#if UNITY_EDITOR
-                   Debug.Log("Tween completed");
-#endif
-               });
+            bool tweenDone = false;
+            bar.DOFillAmount(1f, 0.3f)
+               .SetUpdate(true)
+               .OnComplete(() => tweenDone = true);
+            yield return new WaitUntil(() => tweenDone);
         }
-        else
-        {
-            tweenComplete = true;
-        }
-
 
         if (!string.IsNullOrEmpty(activeSceneToSet.SceneName))
         {
-            yield return new WaitUntil(() =>
+            Scene s = GetLoadedScene(activeSceneToSet.SceneName);
+            int retryCount = 0;
+            while ((!s.IsValid() || !s.isLoaded) && retryCount < 100)
             {
-                Scene s = GetLoadedScene(activeSceneToSet.SceneName);
-                return s.IsValid() && s.isLoaded;
-            });
+                yield return null;
+                s = GetLoadedScene(activeSceneToSet.SceneName);
+                retryCount++;
+            }
 
-            // Set active scene if there is one.
-            Scene activeScene = GetLoadedScene(activeSceneToSet.SceneName);
-            if (activeScene.IsValid())
+            if (s.IsValid() && s.isLoaded)
             {
-                SceneManager.SetActiveScene(activeScene);
+                SceneManager.SetActiveScene(s);
             }
         }
 
-
-        if (showingLoadingBar) yield return new WaitUntil(() => tweenComplete);
-
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.2f);
     }
 
     private IEnumerator UnloadScenes(List<SceneField> scenesToUnload)
     {
-        if (scenesToUnload == null || scenesToUnload.Count == 0)
-        {
-            yield break;
-        }
+        if (scenesToUnload == null || scenesToUnload.Count == 0) yield break;
 
-        List<AsyncOperation> scenesUnloading = new List<AsyncOperation>(scenesToUnload.Count);
-
-        // Start all scene unloading operations
+        List<AsyncOperation> scenesUnloading = new List<AsyncOperation>();
         foreach (var scene in scenesToUnload)
         {
-            if (scene.SceneName == "PersistentGameplay")
-            {
-                Debug.LogError("BIG NONO: Tried to disable persistent gameplay! Make sure you have the correct scene set as active");
-                continue;
-            }
+            if (scene.SceneName == "PersistentGameplay") continue;
 
-            // Check if there is a scene to unload.
             Scene s = GetLoadedScene(scene.SceneName);
-
             if (s.IsValid() && s.isLoaded)
             {
                 var op = SceneManager.UnloadSceneAsync(s);
@@ -267,27 +250,21 @@ public class SceneLoader : MonoBehaviour
             }
         }
 
-        // Wait for all unloading operations to complete
         foreach (var operation in scenesUnloading)
         {
-            yield return new WaitUntil(() => operation.isDone);
+            while (!operation.isDone) yield return null;
         }
     }
 
-    /// <summary>
-    /// Given a list of scenes, filters out any invalid or already loaded scenes. Should also remove duplicates.
-    /// </summary>
-    /// <param name="rawScenesToLoad"></param>
-    /// <returns></returns>
     private HashSet<SceneField> FilterScenesToLoad(List<SceneField> rawScenesToLoad)
     {
         HashSet<SceneField> filteredScenes = new HashSet<SceneField>();
+        if (rawScenesToLoad == null) return filteredScenes;
 
         foreach (var rawScene in rawScenesToLoad)
         {
             if (string.IsNullOrEmpty(rawScene.SceneName)) continue;
 
-            // Only load if it is NOT already loaded
             Scene scene = GetLoadedScene(rawScene.SceneName);
             if (!scene.IsValid() || !scene.isLoaded)
             {
@@ -311,38 +288,28 @@ public class SceneLoader : MonoBehaviour
         return default;
     }
 
-
     public void ShowLoadingScreen()
     {
-        if (loadingCanvasPfb != null)
+        if (loadingCanvasPfb != null && !loadingCanvasPfb.activeSelf)
         {
             loadingCanvasPfb.SetActive(true);
             bar.fillAmount = 0;
 
-            // ensure it's rendered
-            var canvas = loadingCanvasPfb.GetComponentInChildren<Canvas>();
-            if (canvas != null)
-            {
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            }
-
-            // disable other cams
             foreach (var cam in Camera.allCameras)
             {
-                if (cam.enabled)
+                if (cam.enabled && cam.gameObject != cameraMain)
                 {
                     cam.enabled = false;
                     disabledCameras.Add(cam);
                 }
             }
 
-            // activate main camera
             cameraMain.SetActive(true);
             var camComp = cameraMain.GetComponent<Camera>();
             if (camComp != null)
             {
                 camComp.enabled = true;
-                camComp.depth = 1000; // ensure on top
+                camComp.depth = 1000;
             }
         }
     }
@@ -355,13 +322,9 @@ public class SceneLoader : MonoBehaviour
             cameraMain.SetActive(false);
         }
 
-        // Re-enable previously disabled cameras
         foreach (var cam in disabledCameras)
         {
-            if (cam != null)
-            {
-                cam.enabled = true;
-            }
+            if (cam != null) cam.enabled = true;
         }
         disabledCameras.Clear();
     }
