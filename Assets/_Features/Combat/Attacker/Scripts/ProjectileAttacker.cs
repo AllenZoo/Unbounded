@@ -39,7 +39,7 @@ public class ProjectileAttacker: BaseAttacker<ProjectileAttackerData>
         }
 
         // Play sfx here
-        AudioManager.PlaySound(attackData.AttackSound, 1);
+        AudioManager.PlaySound(attackData.AttackSound, attackData.VolumeScale);
 
         //Debug.Log($"Attacking with num atks value of [{attackerData.numAttacks}]");
         for (int i = 0; i < attackerData.numAttacks; i++)

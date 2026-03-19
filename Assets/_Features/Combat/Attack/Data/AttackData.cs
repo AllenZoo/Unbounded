@@ -35,6 +35,9 @@ public class AttackData : SerializedScriptableObject
     [FoldoutGroup("VFX and SFX")]
     public AudioClip AttackSound;
 
+    [FoldoutGroup("VFX and SFX")]
+    public float VolumeScale = 1f;
+
     // TODO: this is only been added for item descriptor attack projectile display. Currently only integrated with starter weapons.
     //       We will completely refactor this in another issue
     [FoldoutGroup("VFX and SFX")]

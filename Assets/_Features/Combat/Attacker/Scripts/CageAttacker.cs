@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
     private MonoBehaviour coroutineRunner; // instance that runs the coroutine.
     private Coroutine curCoroutine; // keeps track of running coroutine. If null, this means no coroutine is currently running.
     private bool attacking = false;
+    private Guid soundLoopGuid;
 
     private GameObject cageRoot; // root parent that contains the multiple child component attacks of the cage.
 
@@ -48,6 +50,8 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
         if (!attacking)
         {
             attacking = true;
+            // Start SFX loop
+            soundLoopGuid = AudioManager.PlaySoundLoop(attackData.AttackSound, attackData.VolumeScale);
             curCoroutine = coroutineRunner.StartCoroutine(AttackCoroutine(ac));
         }
     }
@@ -120,8 +124,7 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
             attackerData.CycleTime
         );
 
-       
-
+         
         // Rotate Cage.
         cageRoot.transform.DORotate(
             new Vector3(0, 0, 360f),
@@ -209,6 +212,12 @@ public class CageAttacker : BaseAttacker<CageAttackerData>
         }
 
         attacking = false;
+
+        // Stop SFX loop
+        if (soundLoopGuid != Guid.Empty)
+        {
+            AudioManager.StopSoundLoop(soundLoopGuid);
+        }
     }
 
     public override IAttacker DeepClone()

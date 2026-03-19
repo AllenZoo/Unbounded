@@ -10,21 +10,21 @@ using UnityEngine;
 /// </summary>
 public class IntentController : MonoBehaviour
 {
-    public LocalEventHandler LocalEventHandler { get { return localEventHandler; } private set { } }
+    public LocalEventHandler LocalEventHandler { get { return leh; } private set { } }
     [NotNull]
-    [SerializeField] protected LocalEventHandler localEventHandler;
+    [SerializeField] protected LocalEventHandler leh;
 
     public bool inputEnabled = true;
 
     protected void Awake()
     {
-        localEventHandler = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
     protected void Start()
     {
         LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(HandleStateChanged);
-        localEventHandler.Register(stateChangeBinding);
+        leh.Register(stateChangeBinding);
     }
 
     public void InvokeMovementInput(Vector2 movementInput)
@@ -33,7 +33,7 @@ public class IntentController : MonoBehaviour
         {
             return;
         }
-        localEventHandler.Call(new OnMovementInput { movementInput = movementInput });
+        leh.Call(new OnMovementInput { movementInput = movementInput });
     }
 
     public void InvokeAttackInput(KeyCode keyCode, AttackSpawnInfo attackInfo)
@@ -42,7 +42,7 @@ public class IntentController : MonoBehaviour
         {
             return;
         }
-        localEventHandler.Call(new OnAttackInput { keyCode = keyCode, attackInfo = attackInfo });
+        leh.Call(new OnAttackInput { keyCode = keyCode, attackInfo = attackInfo });
     }
 
     /// <summary>

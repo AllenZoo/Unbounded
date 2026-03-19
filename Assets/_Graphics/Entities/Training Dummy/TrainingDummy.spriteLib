@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
+  m_Library:
+  - m_Name: Idle
+    m_Hash: 1008081451
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Idle_0
+      m_Hash: 288431053
+      m_Sprite: {fileID: -1904194769, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1904194769, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 1
+  - m_Name: Damaged
+    m_Hash: 326473335
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Damaged_0
+      m_Hash: 590457341
+      m_Sprite: {fileID: 2108466138, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2108466138, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    - m_Name: Damaged_1
+      m_Hash: 339122539
+      m_Sprite: {fileID: -201084237, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -201084237, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    - m_Name: Damaged_2
+      m_Hash: 222283985
+      m_Sprite: {fileID: -1457383042, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1457383042, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    - m_Name: Damaged_3
+      m_Hash: 976812103
+      m_Sprite: {fileID: 340708619, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 340708619, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    - m_Name: Damaged_4
+      m_Hash: 610037220
+      m_Sprite: {fileID: -933484763, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -933484763, guid: 9b5cee4ebdf8f354981143003d319bbf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 5
+  - m_Name: Damaged_Forward
+    m_Hash: 172383688
+    m_CategoryList: []
+    m_OverrideEntries: []
+    m_FromMain: 0
+    m_EntryOverrideCount: 0
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 639094495631447578
+  m_Version: 1

@@ -68,6 +68,10 @@ public class ObjectiveGroup
     private void HandleObjectiveComplete()
     {
         // Chain Event.
+        if (IsComplete())
+        {
+            data.SetTrueOnComplete.ForEach(boolSO => boolSO.Set(true));
+        }
         OnStateChanged?.Invoke();
     }
 

@@ -61,11 +61,7 @@ public class AttackerComponent : SerializedMonoBehaviour
         attackInputBinding = new LocalEventBinding<OnAttackInput>(AttackRequest);
         leh.Register<OnAttackInput>(attackInputBinding);
 
-        deathEventBinding = new LocalEventBinding<OnDeathEvent>(
-            (e) => { 
-                canAttack = false;
-                StopAllCoroutines();
-            });
+        deathEventBinding = new LocalEventBinding<OnDeathEvent>(HandleOnDeathEvent);
         leh.Register<OnDeathEvent>(deathEventBinding);
 
         equipEventBinding = new LocalEventBinding<OnWeaponEquippedEvent>(HandleWeaponEquipped);
@@ -215,6 +211,13 @@ public class AttackerComponent : SerializedMonoBehaviour
             UpdatePercentageDamageIncrease(equipped);
             equipped.ItemModifierMediator.OnModifierChange += UpdatePercentageDamageIncrease;
         }
+    }
+
+    private void HandleOnDeathEvent(OnDeathEvent e)
+    {
+        canAttack = false;
+        StopAllCoroutines();
+        KillAttackSlots();
     }
 
     private void UpdatePercentageDamageIncrease(Item weapon)

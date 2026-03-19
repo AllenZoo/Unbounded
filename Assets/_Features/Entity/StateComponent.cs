@@ -8,8 +8,9 @@ using UnityEngine;
 // some logic.
 public class StateComponent : MonoBehaviour
 {
-    [SerializeField] private LocalEventHandler localEventHandler;
-    public State state { get; private set; } = State.IDLE;
+    public TrackedEvent OnStateChanged = new TrackedEvent("OnStateChanged");
+    [SerializeField] private LocalEventHandler leh;
+    public State State { get; private set; } = State.IDLE;
 
     [Header("For debugging, doesn't affect anything.")]
     [SerializeField, ReadOnly] State debuggingState = State.IDLE;
@@ -19,35 +20,51 @@ public class StateComponent : MonoBehaviour
     private delegate void StateAction();
     private Coroutine deactivationCoroutine;
 
+    [SerializeField] private float damageStateDuration = 0.5f;
+    private Coroutine damageResetCoroutine;
+
+
+    #region Local Event Bindings
+    LocalEventBinding<OnStateChangeEvent> stateChangeBinding;
+    LocalEventBinding<OnKnockBackBeginEvent> knockBackBeginBinding;
+    LocalEventBinding<OnKnockBackEndEvent> knockBackEndBinding;
+    LocalEventBinding<OnDeathEvent> onDeathBinding;
+    LocalEventBinding<OnMovementInput> onMovementInputBinding;
+    LocalEventBinding<OnDamagedEvent> onDamagedBinding;
+    #endregion
+
+
     private void Awake()
     {
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassigned and not found in parent for object [" + gameObject +
-                    "] with root object [" + gameObject.transform.root.name + "] for StateComponent.cs");
-            }
-        }
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        if (leh == null) Debug.LogError("StateComponent on " + gameObject.name + " couldn't find LocalEventHandler in parents.");
+
+        stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(HandleStateChanged);
+        knockBackBeginBinding = new LocalEventBinding<OnKnockBackBeginEvent>(HandleKnockBackBeginEvent);
+        knockBackEndBinding = new LocalEventBinding<OnKnockBackEndEvent>(HandleKnockBackEndEvent);
+        onDeathBinding = new LocalEventBinding<OnDeathEvent>(HandleOnDeathEvent);
+        onMovementInputBinding = new LocalEventBinding<OnMovementInput>(HandleMovementInputEvent);
+        onDamagedBinding = new LocalEventBinding<OnDamagedEvent>(HandleOnDamagedEvent);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(HandleStateChanged);
-        localEventHandler.Register(stateChangeBinding);
+        leh.Register(stateChangeBinding);
+        leh.Register(knockBackBeginBinding);
+        leh.Register(knockBackEndBinding);
+        leh.Register(onDeathBinding);
+        leh.Register(onMovementInputBinding);
+        leh.Register(onDamagedBinding);
+    }
 
-        LocalEventBinding<OnKnockBackBeginEvent> knockBackBeginBinding = new LocalEventBinding<OnKnockBackBeginEvent>(HandleKnockBackBeginEvent);
-        localEventHandler.Register(knockBackBeginBinding);
-
-        LocalEventBinding<OnKnockBackEndEvent> knockBackEndBinding = new LocalEventBinding<OnKnockBackEndEvent>(HandleKnockBackEndEvent);
-        localEventHandler.Register(knockBackEndBinding);
-
-        LocalEventBinding<OnDeathEvent> onDeathBinding = new LocalEventBinding<OnDeathEvent>(HandleOnDeathEvent);
-        localEventHandler.Register(onDeathBinding);
-
-        LocalEventBinding<OnMovementInput> onMovementInputBinding = new LocalEventBinding<OnMovementInput>(HandleMovementInputEvent);
-        localEventHandler.Register(onMovementInputBinding);
+    private void OnDisable()
+    {
+        leh.Unregister(stateChangeBinding);
+        leh.Unregister(knockBackBeginBinding);
+        leh.Unregister(knockBackEndBinding);
+        leh.Unregister(onDeathBinding);
+        leh.Unregister(onMovementInputBinding);
+        leh.Unregister(onDamagedBinding);
     }
 
     // If current state is not part of a CC state (crowd controlled state), then change state.
@@ -55,17 +72,17 @@ public class StateComponent : MonoBehaviour
     // If dead, cannot switch to any other state. (unless maybe new State 'Revived' we add)
     public void ReqStateChange(State newState)
     {
-        if (newState == state)
+        if (newState == State)
         {
             return;
         }
 
-        if (state == State.DEAD)
+        if (State == State.DEAD)
         {
             return;
         }
 
-        if (crowdControlStates.Contains(state))
+        if (crowdControlStates.Contains(State))
         {
             if (newState == State.CCFREE)
             {
@@ -127,12 +144,31 @@ public class StateComponent : MonoBehaviour
     {
         ReqStateChange(State.CCFREE);
     }
+    private void HandleOnDamagedEvent(OnDamagedEvent e)
+    {
+        ReqStateChange(State.DAMAGED);
+
+        // TODO: think about maybe adding a locked state so we can't change state until damaged is done.
+
+        // Reset timer if hit again
+        if (damageResetCoroutine != null) StopCoroutine(damageResetCoroutine);
+        damageResetCoroutine = StartCoroutine(WaitThenRevertFromDamaged());
+    }
+    private IEnumerator WaitThenRevertFromDamaged()
+    {
+        yield return new WaitForSeconds(damageStateDuration);
+        if (State == State.DAMAGED) // Only revert if still in Damaged state
+        {
+            ReqStateChange(State.IDLE);
+        }
+    }
 
     private void SetState(State state)
     {
-        State oldState = this.state;
-        this.state = state;
-        localEventHandler.Call(new OnStateChangeEvent { newState = state, oldState = oldState });
+        State oldState = this.State;
+        this.State = state;
+        OnStateChanged.Invoke();
+        leh.Call(new OnStateChangeEvent { newState = state, oldState = oldState });
 
         // Debugging
         debuggingState = state;

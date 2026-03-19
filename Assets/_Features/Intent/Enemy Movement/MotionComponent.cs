@@ -1,47 +1,50 @@
+using Sirenix.OdinInspector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// Component that listens for movement input events and keeps track of the current and last direction of movement.
+/// </summary>
 public class MotionComponent : MonoBehaviour
 {
-    [NotNull]
-    [SerializeField] private LocalEventHandler localEventHandler;
+    public TrackedEvent OnMotionChanged = new TrackedEvent("MotionComponent.OnMotionChanged", false);
 
-    public Vector2 dir { get; private set; }
+    [Required, SerializeField] private LocalEventHandler leh;
+    private LocalEventBinding<OnMovementInput> movementInputEventBinding;
+
+    public Vector2 Dir { get; private set; }
 
     // Last Direction of one of: (1,0), (1, 1), (1, -1), (0, 1), (0, -1), (-1, -1), (-1, 1)
-    public Vector2 lastDir { get; private set; }
+    public Vector2 LastDir { get; private set; }
 
     private bool wasDiaganol = false;
 
     private void Awake()
     {
-        dir = Vector2.zero;
+        Dir = Vector2.zero;
 
-        if (localEventHandler == null)
-        {
-            localEventHandler = GetComponentInParent<LocalEventHandler>();
-            if (localEventHandler == null)
-            {
-                Debug.LogError("LocalEventHandler unassgined and not found in parent for object [" + gameObject +
-                    "] with root object [" + gameObject.transform.root.name + "]");
-            }
-        }
+        leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
+        Assert.IsNotNull(leh);
+
+        movementInputEventBinding = new LocalEventBinding<OnMovementInput>(OnMovementInput);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        LocalEventBinding<OnMovementInput> eventBinding = new LocalEventBinding<OnMovementInput>(OnMovementInput);
-        localEventHandler.Register<OnMovementInput>(eventBinding);
+        leh.Register<OnMovementInput>(movementInputEventBinding);
     }
+
+    private void OnDisable()
+    {
+        leh.Unregister<OnMovementInput>(movementInputEventBinding);
+    }
+
 
     private void OnMovementInput(OnMovementInput input)
     {
         float offset = 0.1f;
-        this.dir = input.movementInput;
+        this.Dir = input.movementInput;
 
         float r_x = Mathf.Round(input.movementInput.x);
         float r_y = Mathf.Round(input.movementInput.y);
@@ -70,9 +73,10 @@ public class MotionComponent : MonoBehaviour
 
         if (Math.Abs(r_x) == 1 || Math.Abs(r_y) == 1)
         {
-            lastDir = new Vector2(r_x, r_y);
+            LastDir = new Vector2(r_x, r_y);
         }
 
-        localEventHandler.Call(new OnMotionChangeEvent { newDir = dir, lastDir = lastDir });
+        leh.Call(new OnMotionChangeEvent { newDir = Dir, lastDir = LastDir });
+        OnMotionChanged?.Invoke();
     }
 }

@@ -117,11 +117,16 @@ public class SpiralAttacker : BaseAttacker<SpiralAttackerData>
                 AttackSpawner.Spawn(attackData, ac, amc, attackComponent.Attack, attackComponent.Movement);
             }
 
+            // Play sfx for this wave
+            AudioManager.PlaySound(attackData.AttackSound, attackData.VolumeScale);
+
             // Wait before spawning the next wave (but not after the last wave)
             if (waveIndex < totalWaves - 1)
             {
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
+
+            
         }
 
         isAttacking = false;

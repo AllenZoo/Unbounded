@@ -77,13 +77,13 @@ public class EnemyAIComponent : IntentController
         // Init State Machine SO Variables
         EnemyIdleBaseInstance.Initialize(this, gameObject);
         EnemyChaseBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
-        EnemyAttackBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform);
+        EnemyAttackBaseInstance.Initialize(this, gameObject, contextSteerer, tracker, feetTransform, leh);
 
         StateMachine.Initialize(EnemyIdleState);
 
         // Subscribe to state change event
         LocalEventBinding<OnStateChangeEvent> stateChangeBinding = new LocalEventBinding<OnStateChangeEvent>(OnStateChange);
-        localEventHandler.Register(stateChangeBinding);
+        leh.Register(stateChangeBinding);
     }
 
     protected void Update()
