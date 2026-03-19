@@ -127,13 +127,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1471168880}
     m_Modifications:
-    - target: {fileID: 6697286029762107665, guid: d89748c268418204b8f390820a60ed1d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
+    - target: {fileID: 6082101771037184526, guid: d89748c268418204b8f390820a60ed1d, type: 3}
+      propertyPath: m_labelHash
+      value: 9.631186e-18
       objectReference: {fileID: 0}
-    - target: {fileID: 6697286029762107665, guid: d89748c268418204b8f390820a60ed1d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
+    - target: {fileID: 6082101771037184526, guid: d89748c268418204b8f390820a60ed1d, type: 3}
+      propertyPath: m_CategoryHash
+      value: 3.0997532e-27
       objectReference: {fileID: 0}
     - target: {fileID: 6697286029762107665, guid: d89748c268418204b8f390820a60ed1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -178,6 +178,14 @@ PrefabInstance:
     - target: {fileID: 6697286029762107666, guid: d89748c268418204b8f390820a60ed1d, type: 3}
       propertyPath: m_Name
       value: TargetDummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660696534958051577, guid: d89748c268418204b8f390820a60ed1d, type: 3}
+      propertyPath: m_labelHash
+      value: 9.631186e-18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660696534958051577, guid: d89748c268418204b8f390820a60ed1d, type: 3}
+      propertyPath: m_CategoryHash
+      value: 3.0997532e-27
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

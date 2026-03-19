@@ -114,7 +114,7 @@ public class EffectsController : MonoBehaviour
         runningDamageEffect = true;
         HandleEffects(curState);
 
-        AudioManager.PlaySound(damagedSoundEffect, 1);
+        AudioManager.PlaySound(damagedSoundEffect, 1.5f);
         sprite.material = damageMaterial;
         yield return new WaitForSeconds(0.2f);
         sprite.material = defaultMaterial;

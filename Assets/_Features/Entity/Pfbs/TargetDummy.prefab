@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf0c988e5ae71840a7fb9500df54aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leh: {fileID: 0}
+  leh: {fileID: 5568533047378888733}
   stat: {fileID: 6697286029762107671}
   entityType: 1
   isDamageable: 1
@@ -206,7 +206,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.8, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8891733823681008728}
@@ -412,8 +412,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentTransform: {fileID: 6697286029762107665}
   shouldFadeIfInFront: 1
-  objFader: {fileID: 0}
-  objSprite: {fileID: 0}
+  objFader: {fileID: 8669033658794770940}
+  objSprite: {fileID: 1846434600958212104}
   alwaysUnder: 0
   alwaysAbove: 0
   objFeet: {fileID: 5289244482681820321}

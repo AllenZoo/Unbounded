@@ -118,7 +118,7 @@ public class SpiralAttacker : BaseAttacker<SpiralAttackerData>
             }
 
             // Play sfx for this wave
-            AudioManager.PlaySound(attackData.AttackSound, 1);
+            AudioManager.PlaySound(attackData.AttackSound, attackData.VolumeScale);
 
             // Wait before spawning the next wave (but not after the last wave)
             if (waveIndex < totalWaves - 1)
