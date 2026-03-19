@@ -8,9 +8,9 @@ public class PageUIContext : ScriptableObject
 {
     public PageUI PageUI { get { return initialized ? pageUI : null; } }
 
-    [SerializeField, ReadOnly] private PageUI pageUI;
+    [System.NonSerialized, ShowInInspector, ReadOnly] private PageUI pageUI;
 
-    [SerializeField, ReadOnly] private bool initialized = false;
+    [System.NonSerialized, ShowInInspector, ReadOnly] private bool initialized = false;
     public void Init(PageUI pageUI)
     {
         if (initialized)
