@@ -34,11 +34,13 @@ public class AnimationSystem : MonoBehaviour
     private void OnEnable()
     {
         motionComponent.OnMotionChanged.Subscribe(UpdateAnimatorState);
+        stateComponent.OnStateChanged.Subscribe(UpdateAnimatorState);
     }
 
     private void OnDisable()
     {
         motionComponent.OnMotionChanged.Unsubscribe(UpdateAnimatorState);
+        stateComponent.OnStateChanged.Unsubscribe(UpdateAnimatorState);
     }
 
     /// <summary>

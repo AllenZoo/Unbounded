@@ -273,9 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 5568533047378888733}
+  leh: {fileID: 5568533047378888733}
   debuggingState: 0
   crowdControlStates: 05000000
+  damageStateDuration: 0.5
 --- !u!114 &5568533047378888733
 MonoBehaviour:
   m_ObjectHideFlags: 0

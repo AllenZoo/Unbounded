@@ -25,10 +25,11 @@ public class AnimatorController : MonoBehaviour
     public static string RUNNING_ANIMATION_NAME = "Running";
     public static string ATTACKING_ANIMATION_NAME = "Attacking";
     public static string STUNNED_ANIMATION_NAME = "Stunned";
+    public static string DAMAGED_ANIMATION_NAME = "Damaged";
 
     // Update this whenever a new animation is added.
     // TODO: incorporate this in checking for animation clips.
-    private static int ANIMATION_CLIP_COUNT = 5;
+    private static int ANIMATION_CLIP_COUNT = 6;
 
     // Animator Parameter Names
     public static string DIRECTION_PARAMETER_X = "xDir";
@@ -94,6 +95,9 @@ public class AnimatorController : MonoBehaviour
                 break;
             case State.ATTACKING:
                 animator.Play(ATTACKING_ANIMATION_NAME);
+                break;
+            case State.DAMAGED:
+                animator.Play(DAMAGED_ANIMATION_NAME);
                 break;
             default:
                 Debug.LogWarning("Implement animator for state: " + state.ToString());
