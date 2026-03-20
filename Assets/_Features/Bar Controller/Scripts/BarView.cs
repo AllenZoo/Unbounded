@@ -11,7 +11,10 @@ public class BarView : MonoBehaviour, IView<BarConfig>
     [Required, SerializeField] private Image fillImage;
 
     // Text Component is required, but displaying it is not.
-    [Required, SerializeField] private TextMeshProUGUI text;
+    [Required, SerializeField] private TextMeshProUGUI barOwnerText;
+
+    // Text Component is required, but displaying it is not.
+    [Required, SerializeField] private TextMeshProUGUI valueText;
 
     public Canvas DisplayCanvas => display;
 
@@ -27,27 +30,9 @@ public class BarView : MonoBehaviour, IView<BarConfig>
 
     public void UpdateView(BarConfig config)
     {
-        throw new System.NotImplementedException();
-        //if (!this) return;
-        //if (!isActiveAndEnabled) return;
-        //if (!fillImage) return;
-
-        //if (useBarContext)
-        //{
-        //    displayUI?.SetActive(barContext.IsVisible);
-        //}
-
-        //if (statObject == null || statObject.StatContainer == null) return;
-
-        //float fill = 0f;
-
-        //switch (statToTrack)
-        //{
-        //    case BarTrackStat.HP:
-        //        float max = statObject.StatContainer.MaxHealth;
-        //        fill = max > 0 ? statObject.StatContainer.Health / max : 0f;
-        //        break;
-        //}
-        //fillImage.fillAmount = Mathf.Clamp01(fill);
+        float fill = config.MaxValue > 0 ? config.CurrentValue / config.MaxValue : 0f;
+        valueText.text = config.BarValueText;
+        barOwnerText.text = config.BarOwnerText;
+        fillImage.fillAmount = Mathf.Clamp01(fill);
     }
 }

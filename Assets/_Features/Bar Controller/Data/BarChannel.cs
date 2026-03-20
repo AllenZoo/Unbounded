@@ -15,7 +15,7 @@ using UnityEngine;
 /// 
 /// </summary>
 [CreateAssetMenu(fileName ="new Bar Channel", menuName ="System/General UI/BarContext")]
-public class BarChannel : ScriptableObject
+public class BarChannel : ScriptableObject, IModel
 {
     public Action OnBarContextChange;
 

@@ -16,15 +16,17 @@ using UnityEngine.UI;
 ///     - initialize in beginning similar to player via lehContext
 ///     - reinitialize on AGGRO via BossBattleHealthBarSpawner.
 /// </summary>
-public class BarController : IController<StatContainer, BarView, BarConfig>
+public class BarController : IController<BarChannel, BarView, BarConfig>
 {
     protected BarView view;
-    protected StatContainer model;
+    protected BarChannel model;
+    protected bool displayValueText; // essentially a config. Eventually make into class when we have more config options.
 
-    protected BarController(BarView view, StatContainer model)
+    protected BarController(BarView view, BarChannel model, bool displayValueText)
     {
         this.view = view;
         this.model = model;
+        this.displayValueText = displayValueText;
 
         ConnectView();
         ConnectModel();
@@ -32,17 +34,24 @@ public class BarController : IController<StatContainer, BarView, BarConfig>
 
     public class Builder
     {
-        private StatContainer model;    
+        private BarChannel model = new();   
+        private bool displayValueText = false;
 
-        public Builder WithModel(StatContainer model) { 
+        public Builder WithModel(BarChannel model) { 
             this.model = model;
+            return this;
+        }
+
+        public Builder WithConfig(bool displayValueText)
+        {
+            this.displayValueText = displayValueText;
             return this;
         }
        
         public BarController Build(BarView view)
         {
             Assert.IsNotNull(view, "View cannot be null when building BarController!");
-            return new BarController(view, model);
+            return new BarController(view, model, displayValueText);
         }
     }
     
@@ -64,7 +73,7 @@ public class BarController : IController<StatContainer, BarView, BarConfig>
         // Unsubscribe from all events here.
     }
 
-    public void UpdateState(StatContainer model)
+    public void UpdateState(BarChannel model)
     {
         this.model = model;
         UpdateView();
@@ -77,9 +86,24 @@ public class BarController : IController<StatContainer, BarView, BarConfig>
         view.ShowView();
     }
 
-    public BarConfig CreateConfig(StatContainer model)
+    public BarConfig CreateConfig(BarChannel model)
     {
-        throw new System.NotImplementedException();
+        // Default to tracking HP. Can add more stats later if needed.
+        var statContainer = model.Stat.StatContainer;
+
+        var valueText = $"{statContainer.Health}/{statContainer.MaxHealth}";
+        if (!displayValueText)
+        {
+            valueText = "";
+        }
+
+        // Display bar owner text only for bosses, for player we can just leave it blank or display player name if needed.
+        var barOwnerText = model.BossBarConfig != null ? model.BossBarConfig.name : "";
+
+
+        BarConfig config = new BarConfig(statContainer.Health, statContainer.MaxHealth, valueText, barOwnerText);
+
+        return config;
     }
 }
 

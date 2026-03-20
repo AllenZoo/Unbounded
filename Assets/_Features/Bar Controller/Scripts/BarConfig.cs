@@ -7,11 +7,13 @@ public class BarConfig
 {
     public float CurrentValue { get; private set; }
     public float MaxValue { get; private set; }
-    public string DisplayText { get; private set; }
-    public BarConfig(float currentValue, float maxValue, string displayText)
+    public string BarValueText { get; private set; } // set to "" if none
+    public string BarOwnerText { get; private set; } // set to "" if none
+    public BarConfig(float currentValue, float maxValue, string displayText, string barOwnerText)
     {
         CurrentValue = currentValue;
         MaxValue = maxValue;
-        DisplayText = displayText;
+        BarValueText = displayText;
+        BarOwnerText = barOwnerText;
     }
 }
