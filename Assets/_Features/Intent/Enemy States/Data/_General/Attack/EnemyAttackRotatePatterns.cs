@@ -35,6 +35,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     [SerializeField]
     private FloatRange transitionTimeRange;
     private float timer = 0f;
+    private float attackThrottleTimer = 0f;
 
     [Tooltip("Time where boss does nothing for a bit to allow for player to react to next attack.")]
     [SerializeField]
@@ -93,8 +94,10 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
             }
         }
 
-        // Attack target.
-        if (enemyAIComponent.AggroTarget != null) { 
+        // Attack target. (Throttled to avoid every-frame event overhead)
+        attackThrottleTimer -= Time.deltaTime;
+        if (attackThrottleTimer <= 0f && enemyAIComponent.AggroTarget != null) { 
+            attackThrottleTimer = 0.1f;
             Transform targetTransform = enemyAIComponent.AggroTarget.transform;
             enemyAIComponent.InvokeAttackInput(KeyCode.K, new AttackSpawnInfo(targetTransform.position));
         }

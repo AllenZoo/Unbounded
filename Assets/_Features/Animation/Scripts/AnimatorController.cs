@@ -29,6 +29,15 @@ public class AnimatorController : MonoBehaviour
 
     // Update this whenever a new animation is added.
     // TODO: incorporate this in checking for animation clips.
+    
+    // Cached Hashes for performance and to avoid missing state warnings
+    private static readonly int IdleHash = Animator.StringToHash(IDLE_ANIMATION_NAME);
+    private static readonly int WalkingHash = Animator.StringToHash(WALKING_ANIMATION_NAME);
+    private static readonly int RunningHash = Animator.StringToHash(RUNNING_ANIMATION_NAME);
+    private static readonly int AttackingHash = Animator.StringToHash(ATTACKING_ANIMATION_NAME);
+    private static readonly int StunnedHash = Animator.StringToHash(STUNNED_ANIMATION_NAME);
+    private static readonly int DamagedHash = Animator.StringToHash(DAMAGED_ANIMATION_NAME);
+
     private static int ANIMATION_CLIP_COUNT = 6;
 
     // Animator Parameter Names
@@ -76,28 +85,38 @@ public class AnimatorController : MonoBehaviour
         animator.SetFloat(LAST_DIRECTION_PARAMETER_Y, lastDir.y);
     }
 
+    private State? currentState;
+
     // Modifies the state of the animator 
     private void HandleAnimation(State state)
     {
+        if (animator == null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null) return;
+        if (animator.layerCount <= 0) return;
+
+        if (state == currentState) return;
+        currentState = state;
+
         switch (state)
         {
             case State.IDLE:
-                animator.Play(IDLE_ANIMATION_NAME);
+                if (animator.HasState(0, IdleHash)) animator.Play(IdleHash);
                 break;
             case State.WALKING:
-                animator.Play(WALKING_ANIMATION_NAME);
+                if (animator.HasState(0, WalkingHash)) animator.Play(WalkingHash);
                 break;
             case State.RUNNING:
-                animator.Play(RUNNING_ANIMATION_NAME);
+                if (animator.HasState(0, RunningHash)) animator.Play(RunningHash);
                 break;
             case State.STUNNED:
-                animator.Play(STUNNED_ANIMATION_NAME);
+                if (animator.HasState(0, StunnedHash)) animator.Play(StunnedHash);
                 break;
             case State.ATTACKING:
-                animator.Play(ATTACKING_ANIMATION_NAME);
+                if (animator.HasState(0, AttackingHash)) animator.Play(AttackingHash);
                 break;
             case State.DAMAGED:
-                animator.Play(DAMAGED_ANIMATION_NAME);
+                if (animator.HasState(0, DamagedHash)) animator.Play(DamagedHash);
+                break;
+            case State.DEAD:
                 break;
             default:
                 Debug.LogWarning("Implement animator for state: " + state.ToString());

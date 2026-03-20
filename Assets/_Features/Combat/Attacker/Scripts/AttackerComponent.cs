@@ -101,6 +101,18 @@ public class AttackerComponent : SerializedMonoBehaviour
         // Attack if attack is ready and if data is not null.
         if (canAttack)
         {
+            bool anyReady = false;
+            foreach (var slot in attackSlots)
+            {
+                if (slot.IsReady)
+                {
+                    anyReady = true;
+                    break;
+                }
+            }
+
+            if (!anyReady) return;
+
             // Create new attack context.
             AttackerContext ac = new AttackerContext(
                 input.attackInfo,

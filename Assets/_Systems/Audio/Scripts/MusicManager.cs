@@ -54,6 +54,26 @@ public class MusicManager : Singleton<MusicManager>
     /// </summary>
     /// <param name="config">The map music configuration to use</param>
     /// <param name="initialState">Optional initial music state to play</param>
+    
+    /// <summary>
+    /// Preloads all audio data for a given map music configuration.
+    /// Moves the load/decompression hit to the registration phase rather than first play.
+    /// </summary>
+    private void PreloadMapTracks(MapMusicConfig config)
+    {
+        if (config == null) return;
+
+        foreach (MusicState state in System.Enum.GetValues(typeof(MusicState)))
+        {
+            AudioClip clip = config.GetTrack(state);
+            if (clip != null && clip.loadState == AudioDataLoadState.Unloaded)
+            {
+                // Trigger non-blocking load of audio data
+                clip.LoadAudioData();
+            }
+        }
+    }
+
     public void RegisterMapMusic(MapMusicConfig config, MusicState initialState = MusicState.Peaceful)
     {
         if (config == null)
@@ -69,6 +89,9 @@ public class MusicManager : Singleton<MusicManager>
         
 
         bool newConfig = (prevConfig == null || prevConfig.MapName != config.MapName);
+
+        // Preload all tracks for the new map config to avoid stall when switching
+        if (newConfig) PreloadMapTracks(config);
 
         // Set initial state if different from current
         if (newConfig || (initialState != MusicState.None && initialState != currentState))
