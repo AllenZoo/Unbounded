@@ -1,6 +1,5 @@
 using Sirenix.OdinInspector;
 using TMPro;
-using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
