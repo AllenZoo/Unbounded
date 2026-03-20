@@ -10,6 +10,10 @@ public class BossBarController : BarController
 
     private BossBarConfig bossConfig;
 
+    protected BossBarController(BarView view, StatContainer model) : base(view, model)
+    {
+    }
+
     public void Setup(BossBarConfig config)
     {
         bossConfig = config;
@@ -21,7 +25,7 @@ public class BossBarController : BarController
         base.Render();
         if (!bossText) return;
 
-        bossConfig = barContext.BossBarConfig;
+        bossConfig = barChannel.BossBarConfig;
 
         if (bossText != null && bossConfig != null)
         {

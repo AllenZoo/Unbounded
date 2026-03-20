@@ -4,7 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 
 [Serializable]
-public class StatContainer
+public class StatContainer: IModel
 {
     public IStatMediator StatMediator { get; private set; }
 

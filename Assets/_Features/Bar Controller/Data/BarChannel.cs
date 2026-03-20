@@ -14,8 +14,8 @@ using UnityEngine;
 /// Once data is initialized, then we can display it on the UI.
 /// 
 /// </summary>
-[CreateAssetMenu(fileName ="new Bar Context", menuName ="System/General UI/BarContext")]
-public class BarContext : ScriptableObject
+[CreateAssetMenu(fileName ="new Bar Channel", menuName ="System/General UI/BarContext")]
+public class BarChannel : ScriptableObject
 {
     public Action OnBarContextChange;
 
@@ -27,4 +27,7 @@ public class BarContext : ScriptableObject
 
     public BossBarConfig BossBarConfig { get { return bossBarConfig; } set { bossBarConfig = value; OnBarContextChange?.Invoke(); } }
     [SerializeField, ReadOnly] private BossBarConfig bossBarConfig;
+
+    public StatComponent Stat { get { return stat; } set { stat = value; OnBarContextChange?.Invoke(); } }
+    [SerializeField, ReadOnly] private StatComponent stat;
 }

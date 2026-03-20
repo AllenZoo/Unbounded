@@ -81,7 +81,6 @@ public class BaseContext<T> : BaseContext where T : Component
         OnContextChanged?.Invoke(context);
     }
 
-
     public override void ResetState()
     {
         initialized = false;

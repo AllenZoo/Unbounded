@@ -1,7 +1,7 @@
 using UnityEngine.Assertions;
 using UnityEngine;
 
-public class ItemDescController
+public class ItemDescController: IController<Item, ItemDescView, ItemDescViewConfig>
 {
     private ItemDescView view;
     private Item model;
@@ -61,7 +61,7 @@ public class ItemDescController
 
     public void UpdateView()
     {
-        ItemDescViewConfig viewConfig = GenerateItemDescViewConfig(model);
+        ItemDescViewConfig viewConfig = CreateConfig(model);
         view.DisplayView(viewConfig);
         ShowView();
 
@@ -84,7 +84,7 @@ public class ItemDescController
         model = null;
     }
 
-    private ItemDescViewConfig GenerateItemDescViewConfig(Item model)
+    private ItemDescViewConfig CreateConfig(Item model)
     {
         if (model.IsEmpty()) return null;
 

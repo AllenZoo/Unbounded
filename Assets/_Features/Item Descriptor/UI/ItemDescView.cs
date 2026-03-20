@@ -7,8 +7,9 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.UI;
 
-public class ItemDescView : MonoBehaviour
+public class ItemDescView : MonoBehaviour, IView<ItemDescViewConfig>
 {
+    public Canvas DisplayCanvas => itemDescCanvas;
     /// <summary>
     /// For hiding/showing view.
     /// </summary>
@@ -193,5 +194,22 @@ public class ItemDescView : MonoBehaviour
     private string ColorTag(Color color)
     {
         return $"#{ColorUtility.ToHtmlStringRGB(color)}";
+    }
+
+    // Not really used, but here to satisfy the IView interface. DisplayView is the main method that should be used to populate and show the view.
+    // TODO-OPT: refactor such that we have this supported, but for now just leave it as it is..
+    public void ShowView()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void HideView()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void UpdateView(ItemDescViewConfig config)
+    {
+        throw new System.NotImplementedException();
     }
 }

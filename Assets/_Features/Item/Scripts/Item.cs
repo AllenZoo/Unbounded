@@ -17,7 +17,7 @@ public interface IItemComponent
 }
 
 [System.Serializable]
-public class Item
+public class Item: IModel
 {
     [HorizontalGroup("Row1")] // HideLabel, PreviewField(50)
                               

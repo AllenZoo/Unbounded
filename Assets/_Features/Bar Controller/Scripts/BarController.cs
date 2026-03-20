@@ -16,173 +16,71 @@ using UnityEngine.UI;
 ///     - initialize in beginning similar to player via lehContext
 ///     - reinitialize on AGGRO via BossBattleHealthBarSpawner.
 /// </summary>
-public class BarController : MonoBehaviour
+public class BarController : IController<StatContainer, BarView, BarConfig>
 {
-    [Tooltip("The local event handler belonging to the entity whose stats we are tracking. Could be overriden (eg. bosses) but initial connection here!")]
-    [SerializeField, Required] public LocalEventHandlerContext localEventHandlerContext;
-    [SerializeField, Required] public BarContext barContext;
-    [Tooltip("False for player, true for bosses")]
-    [SerializeField] protected bool useBarContext; // false for player, true for bosses
+    protected BarView view;
+    protected StatContainer model;
 
-    [SerializeField, Required] public GameObject displayUI;
-    [SerializeField, Required] protected BarTrackStat statToTrack;
-    [SerializeField, Required, ValidateInput(nameof(ValidateIsChild), "fillImage must be a child of displayUI!")]
-    protected Image fillImage;
-
-    protected StatComponent statObject;
-    protected LocalEventHandler leh;
-    protected LocalEventBinding<OnStatChangeEvent> statModResBinding;
-
-    protected void Awake()
+    protected BarController(BarView view, StatContainer model)
     {
-        Assert.IsNotNull(localEventHandlerContext, "Bar Controller needs a local event handler context!");
-        Assert.IsNotNull(barContext, "Bar Controller needs a bar context!");
-        Assert.IsNotNull(fillImage, "Bar controller needs a fill image");
+        this.view = view;
+        this.model = model;
+
+        ConnectView();
+        ConnectModel();
     }
 
-
-    protected void OnEnable()
+    public class Builder
     {
-        localEventHandlerContext.OnInitialized += OnLEHInit;
+        private StatContainer model;    
 
-        if (useBarContext)
-        {
-            barContext.OnBarContextChange += Render;
-            barContext.OnBarContextChange += OnBarContextChange;
+        public Builder WithModel(StatContainer model) { 
+            this.model = model;
+            return this;
         }
-
-        OnLEHInit();
-        Render();
-    }
-
-    protected void OnDisable()
-    {
-        localEventHandlerContext.OnInitialized -= OnLEHInit;
-
-        if (useBarContext)
+       
+        public BarController Build(BarView view)
         {
-            barContext.OnBarContextChange -= Render;
-            barContext.OnBarContextChange -= OnBarContextChange;
-        }
-
-        ClearSubscriptions();
-    }
-
-
-    #region Helpers
-
-    /// <summary>
-    /// Main setter. Clears previous subscriptions from previous LEH and 
-    /// handles subscriptions for new one :)
-    /// </summary>
-    /// <param name="leh"></param>
-    public void SetLEH(LocalEventHandler leh)
-    {
-        ClearSubscriptions();
-        this.leh = leh;
-
-        // Temporary fix to fetching the StatComponent.
-        // Ideally, the BarController would be initialized with a StatComponent inside some model object,
-        // but for now just try to find it in the LEH's gameobject or children.
-        if (this.leh != null)
-        {
-            // Try to find the StatComponent immediately to initialize statObject
-            statObject = this.leh.GetComponent<StatComponent>();
-            if (statObject == null)
-            {
-                statObject = this.leh.GetComponentInChildren<StatComponent>();
-            }
-        }
-
-        Register();
-        Render();
-    }
-
-    protected void OnStatChange(OnStatChangeEvent e)
-    {
-        // Update the bar to reflect the new stat
-        statObject = e.statComponent;
-        Render();
-    }
-
-    protected void OnBarContextChange()
-    {
-        if (leh != null && leh.Equals(barContext.LEH)) return;           
-        SetLEH(barContext.LEH);
-    }
-
-    /// <summary>
-    /// Helper function to bind the new LEH.
-    /// </summary>
-    protected void OnLEHInit()
-    {
-        if (localEventHandlerContext.Initialized && localEventHandlerContext.LocalEventHandler != null)
-        {
-            SetLEH(localEventHandlerContext.LocalEventHandler);
+            Assert.IsNotNull(view, "View cannot be null when building BarController!");
+            return new BarController(view, model);
         }
     }
+    
 
-    protected void Register()
+    private void ConnectModel()
     {
-        if (leh != null)
-        {
-            // Subscribe Stat Change to OnStatChange()
-            statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
-            leh.Register(statModResBinding);
-        }
+        // Subscribe to any relevant model events here.
+        
+        // TODO; when structure is clear, maybe we would subscribe to some model.OnChange event, but currently we just depedn on LEH sub.
     }
 
-    /// <summary>
-    /// Helper to unregister any subscriptions relevant to curent local event handler.
-    /// </summary>
-    protected void ClearSubscriptions()
+    private void ConnectView()
     {
-        if (leh != null && statModResBinding != null)
-        {
-            leh.Unregister(statModResBinding);
-            statModResBinding = null;
-        }
-
-        leh = null;
-        statObject = null;
+        // Subscribe to any relevant view events here.
     }
 
-
-    protected virtual void Render()
+    public void Cleanup()
     {
-        if (!this) return;
-        if (!isActiveAndEnabled) return;
-        if (!fillImage) return;
-
-        if (useBarContext)
-        {
-            displayUI?.SetActive(barContext.IsVisible);
-        }
-
-        if (statObject == null || statObject.StatContainer == null) return;
-
-        float fill = 0f;
-
-        switch (statToTrack)
-        {
-            case BarTrackStat.HP:
-                float max = statObject.StatContainer.MaxHealth;
-                fill = max > 0 ? statObject.StatContainer.Health / max : 0f;
-                break;
-        }
-        fillImage.fillAmount = Mathf.Clamp01(fill);
-    }
-    #endregion
-
-    #region Validators
-
-    protected bool ValidateIsChild(GameObject obj)
-    {
-        if (obj == null || displayUI == null) return false; // Ensures both fields are assigned
-        return obj.transform.IsChildOf(displayUI.transform); // Checks if displayImage is a child of displayUI
+        // Unsubscribe from all events here.
     }
 
-    #endregion
+    public void UpdateState(StatContainer model)
+    {
+        this.model = model;
+        UpdateView();
+    }
+
+    public void UpdateView()
+    {
+        var viewConfig = CreateConfig(model);
+        view.UpdateView(viewConfig);
+        view.ShowView();
+    }
+
+    public BarConfig CreateConfig(StatContainer model)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
 public enum BarTrackStat

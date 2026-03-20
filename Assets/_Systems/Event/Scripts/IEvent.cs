@@ -108,6 +108,10 @@ public struct LoadObjectiveRequest: IGlobalEvent
     public ObjectiveGroupData objectives;
 }
 
+public struct OnSpawnBossHPBarRequest: IGlobalEvent
+{
+    //public string 
+}
 
 public struct OnBossFightStartEvent : IGlobalEvent
 {
