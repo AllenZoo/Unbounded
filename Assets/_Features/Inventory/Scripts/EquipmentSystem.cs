@@ -47,6 +47,8 @@ public class EquipmentSystem : MonoBehaviour
             controller = new EquipmentController.Builder()
                 .WithInventorySystem(inventorySystem)
                 .Build(view);
+
+            inventorySystem.OnInventoryDataReset += HandleInventoryReset;
         }
         else
         {
@@ -56,5 +58,18 @@ public class EquipmentSystem : MonoBehaviour
                 .Build(view);
         }
     }
-}
 
+    private void OnDestroy()
+    {
+        if (inventorySystem != null)
+        {
+            inventorySystem.OnInventoryDataReset -= HandleInventoryReset;
+        }
+        controller?.Cleanup();
+    }
+
+    private void HandleInventoryReset(Inventory newInventory)
+    {
+        controller.SetModel(newInventory);
+    }
+}

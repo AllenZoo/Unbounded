@@ -157,6 +157,8 @@ public class Item: IModel
 
     public void Load(Item item)
     {
+        if (item == null) return;
+        this.quantity = item.quantity;
         if (item.dataGUID != null)
         {
             // Load the ItemData from Database
@@ -212,7 +214,7 @@ public class Item: IModel
 
             if (components != null && components.Count > 0)
             {
-                // Aggregate component hashes in a commutative way (order doesn’t matter)
+                // Aggregate component hashes in a commutative way (order doesnï¿½t matter)
                 int compHash = 0;
                 foreach (var comp in components)
                 {

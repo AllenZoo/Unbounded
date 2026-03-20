@@ -49,6 +49,23 @@ public class EquipmentController
         }
     }
 
+    public void SetModel(Inventory newModel)
+    {
+        if (model != null)
+        {
+            model.OnInventoryDataModified -= HandleModelModified;
+        }
+
+        model = newModel;
+
+        if (model != null)
+        {
+            model.OnInventoryDataModified += HandleModelModified;
+        }
+
+        UpdateView();
+    }
+
     public void Cleanup()
     {
         // Unsubscribe from any Model or View Events here.
