@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,15 +11,11 @@ using UnityEngine.Assertions;
 /// </summary>
 public class BarSystem : MonoBehaviour
 {
-
-
-    // For now we default to HP.
-    //[SerializeField, Required] private BarTrackStat statToTrack;
-
-    [Tooltip("Config on whether or not to display the value text (e.g. 100/100) on the bar. For now, this is just a config variable that is not yet implemented.")]
     [SerializeField] private bool displayValueText = false;
 
-    // Fetched References.
+    // Optional context to auto-initialize the channel (mostly for player)
+    [SerializeField] private LocalEventHandlerContext localEventHandlerContext;
+
     protected LocalEventHandler leh;
     protected LocalEventBinding<OnStatChangeEvent> statModResBinding;
 
@@ -33,51 +28,78 @@ public class BarSystem : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(barView, "Bar System needs a Bar View!");
-        controller = new BarController.Builder().WithConfig(displayValueText).Build(barView);
+        controller = new BarController.Builder().WithModel(barChannel).WithConfig(displayValueText).Build(barView);
         statModResBinding = new LocalEventBinding<OnStatChangeEvent>(OnStatChange);
     }
 
     protected void OnEnable()
     {
         barChannel.OnBarContextChange += OnBarChannelUpdate;
+        
+        if (localEventHandlerContext != null)
+        {
+            localEventHandlerContext.OnInitialized += OnContextInit;
+            if (localEventHandlerContext.Initialized) OnContextInit();
+        }
+
+        OnBarChannelUpdate();
     }
 
     protected void OnDisable()
     {
         barChannel.OnBarContextChange -= OnBarChannelUpdate;
+        
+        if (localEventHandlerContext != null)
+        {
+            localEventHandlerContext.OnInitialized -= OnContextInit;
+        }
+
+        ResetState();
+    }
+
+    private void OnContextInit()
+    {
+        if (localEventHandlerContext.LocalEventHandler != null)
+        {
+            // Auto-populate the channel from the context
+            barChannel.Stat = localEventHandlerContext.LocalEventHandler.GetComponent<StatComponent>();
+            barChannel.LEH = localEventHandlerContext.LocalEventHandler;
+            barChannel.IsVisible = true;
+        }
     }
 
     private void OnBarChannelUpdate()
     {
-        // Fetch latest updated barChannel values.
-        var stat = barChannel.Stat;
-        var leh = barChannel.LEH;
-
-        // Reset system before updating to avoid duplicate event registrations and wrong stat references.
         ResetState();
 
-        // Update system state.
-        UpdateState(stat, leh);
+        var stat = barChannel.Stat;
+        var newLeh = barChannel.LEH;
+
+        if (stat != null && newLeh != null)
+        {
+            UpdateState(stat, newLeh);
+        }
+
+        controller.UpdateState(barChannel);
     }
 
-    private void UpdateState(StatComponent statObject, LocalEventHandler leh)
+    private void UpdateState(StatComponent statObject, LocalEventHandler newLeh)
     {
-        leh.Register(statModResBinding);
+        this.leh = newLeh;
+        this.leh.Register(statModResBinding);
     }
 
     private void ResetState()
     {
-        leh?.Unregister(statModResBinding);
-        leh = null;
+        if (this.leh != null)
+        {
+            this.leh.Unregister(statModResBinding);
+            this.leh = null;
+        }
     }
-
-    #region Helpers
 
     protected void OnStatChange(OnStatChangeEvent e)
     {
-        // Update controller, whenever stat value (e.g. HP changes) changes, to update the view.
         controller.UpdateState(barChannel); 
     }  
-    #endregion
-
 }

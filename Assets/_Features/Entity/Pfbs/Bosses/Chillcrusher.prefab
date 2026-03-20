@@ -381,9 +381,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 7418713779254395358}
+  leh: {fileID: 0}
   debuggingState: 0
   crowdControlStates: 05000000
+  damageStateDuration: 0.5
 --- !u!114 &7418713779254395358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,8 +953,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leh: {fileID: 7418713779254395358}
-  barContext: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
+  barChannel: {fileID: 11400000, guid: ea2f611fd8aca684c94a62e9f8d0a447, type: 2}
   barConfig: {fileID: 11400000, guid: e1291f700580d7c41818d63e4af626ed, type: 2}
+  stat: {fileID: 6844724702161644723}
 --- !u!114 &6299457134379989787
 MonoBehaviour:
   m_ObjectHideFlags: 0

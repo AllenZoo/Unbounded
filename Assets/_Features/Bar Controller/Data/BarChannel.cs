@@ -5,14 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Idea of the class is as follows.
-/// 
-/// We have two parts, the Bar UI and the data that the Bar UI references to display.
-/// 
-/// Since the data we require is related to some context data structure, we initialize the SO through there.
-/// 
-/// Once data is initialized, then we can display it on the UI.
-/// 
+/// Model for the bar UI. Acts as a channel between an entity (player/boss) and the UI.
 /// </summary>
 [CreateAssetMenu(fileName ="new Bar Channel", menuName ="System/General UI/BarContext")]
 public class BarChannel : ScriptableObject, IModel
@@ -30,4 +23,23 @@ public class BarChannel : ScriptableObject, IModel
 
     public StatComponent Stat { get { return stat; } set { stat = value; OnBarContextChange?.Invoke(); } }
     [SerializeField, ReadOnly] private StatComponent stat;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    public static void ResetAllChannels()
+    {
+        var channels = Resources.FindObjectsOfTypeAll<BarChannel>();
+        foreach (var channel in channels)
+        {
+            channel.Clear();
+        }
+    }
+
+    public void Clear()
+    {
+        leh = null;
+        stat = null;
+        bossBarConfig = null;
+        isVisible = false;
+        OnBarContextChange?.Invoke();
+    }
 }

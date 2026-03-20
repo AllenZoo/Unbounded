@@ -4190,6 +4190,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2840770262792896953, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
+      propertyPath: localEventHandlerContext
+      value: 
+      objectReference: {fileID: 11400000, guid: 69041c0e0ac2e7f498830792ebc87653, type: 2}
     - target: {fileID: 2928225305487993216, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4264,7 +4268,7 @@ PrefabInstance:
       objectReference: {fileID: 622624635}
     - target: {fileID: 3878716493377449588, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3878716493377449588, guid: 8b50e33d5057261459df2d0726c821ea, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
