@@ -176,11 +176,17 @@ public class StatComponent : MonoBehaviour
             StatModifier equippedDEXStatModifier = new StatModifier(Stat.DEX, new AddOperation(esc.Dexterity), -1);
             StatModifier equippedDEFStatModifier = new StatModifier(Stat.DEF, new AddOperation(esc.Defense), -1);
             StatModifier equippedSPDStatModifier = new StatModifier(Stat.SPD, new AddOperation(esc.Speed), -1);
+            StatModifier equippedMAXHPStatModifier = new StatModifier(Stat.MAX_HP, new AddOperation(esc.MaxHealth), -1);
 
             StatContainer.StatMediator.AddModifier(item, equippedATKStatModifier);
             StatContainer.StatMediator.AddModifier(item, equippedDEXStatModifier);
             StatContainer.StatMediator.AddModifier(item, equippedDEFStatModifier);
             StatContainer.StatMediator.AddModifier(item, equippedSPDStatModifier);
+            StatContainer.StatMediator.AddModifier(item, equippedMAXHPStatModifier);
+
+            // Heal player by the amount of Max HP gained from weapon
+            statContainer.Health += esc.MaxHealth;
+            HandleStatChange();
 
             if (Debug.isDebugBuild)
             {
