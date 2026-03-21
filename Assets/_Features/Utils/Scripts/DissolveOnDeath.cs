@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -20,6 +21,9 @@ public class DissolveOnDeath : MonoBehaviour
     [SerializeField] private float DelayTime = 0f;
 
     private LocalEventBinding<OnDeathEvent> OnDeathBinding;
+    private LocalEventBinding<OnRespawnEvent> OnRespawnBinding;
+    [SerializeField, ReadOnly] private Material originalMaterial; // serialized for debugging purposes.
+    private Coroutine dissolveCoroutine;
 
     #region Unity Lifecycle Methods
     private void Awake()
@@ -29,22 +33,34 @@ public class DissolveOnDeath : MonoBehaviour
         Assert.IsNotNull(shaderBank);
         Assert.IsNotNull(leh);
         Assert.IsNotNull(sr);
+        originalMaterial = sr.material;
+        // If we captured a dissolve material as original, try to find a better one
+        if (originalMaterial != null && (originalMaterial.name.Contains("Dissolve") || originalMaterial.HasProperty("_Fade")))
+        {
+             Material defaultSpriteMat = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+             if (defaultSpriteMat != null) originalMaterial = defaultSpriteMat;
+        }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        OnDeathBinding = new LocalEventBinding<OnDeathEvent>(OnDeathEvent);
+        if (OnDeathBinding == null) OnDeathBinding = new LocalEventBinding<OnDeathEvent>(OnDeathEvent);
         leh.Register(OnDeathBinding);
+
+        if (OnRespawnBinding == null) OnRespawnBinding = new LocalEventBinding<OnRespawnEvent>(OnRespawn);
+        leh.Register(OnRespawnBinding);
     }
 
     private void OnDestroy()
     {
         leh.Unregister(OnDeathBinding);
+        leh.Unregister(OnRespawnBinding);
     }
 
     private void OnDisable()
     {
         leh.Unregister(OnDeathBinding);
+        leh.Unregister(OnRespawnBinding);
     }
     #endregion
 
@@ -53,13 +69,33 @@ public class DissolveOnDeath : MonoBehaviour
         // Set the sprite material to dissolve.
         Material dissolve = new Material(shaderBank.DissolveMaterial);
         AudioManager.PlaySound(onDeathSfx, 1);
-        StartCoroutine(StartDissolving(dissolve));
+        
+        if (dissolveCoroutine != null) StopCoroutine(dissolveCoroutine);
+        dissolveCoroutine = StartCoroutine(StartDissolving(dissolve));
+    }
+
+    private void OnRespawn(OnRespawnEvent e)
+    {
+        if (dissolveCoroutine != null)
+        {
+            StopCoroutine(dissolveCoroutine);
+            dissolveCoroutine = null;
+        }
+
+        // Restore original material and ensure it's fully visible
+        sr.material = originalMaterial;
+        if (sr.material.HasProperty("_Fade"))
+        {
+            sr.material.SetFloat("_Fade", 1f);
+        }
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
     }
 
     private IEnumerator StartDissolving(Material dissolve)
     {
         yield return new WaitForSeconds(DelayTime);
         sr.material = dissolve;
+        sr.color = Color.white; // Ensure visibility by overriding black tint from EffectsController
 
         // Ensure _Fade starts at 1 (fully visible)
         dissolve.SetFloat("_Fade", 1f);
@@ -70,6 +106,7 @@ public class DissolveOnDeath : MonoBehaviour
 
         // Wait for dissolve to finish
         yield return new WaitForSeconds(1f);
+        dissolveCoroutine = null;
     }
 
 }

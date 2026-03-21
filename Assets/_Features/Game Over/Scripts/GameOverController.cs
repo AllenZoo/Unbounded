@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,6 +18,9 @@ public class GameOverController : MonoBehaviour
 
     [FoldoutGroup("UI Fields")]
     [Required, SerializeField] private GameOverUIData gameOverUIData;
+
+    [FoldoutGroup("UI Fields")]
+    [SerializeField, Min(0)] private float gameOverDelay = 1.0f;
 
 
     [FoldoutGroup("Scenes")]
@@ -116,11 +120,22 @@ public class GameOverController : MonoBehaviour
             Debug.LogWarning("GameOverController: Received OnGameOverEvent with null scoreSummary");
             return;
         }
+
+        StartCoroutine(ShowGameOverWithDelay(e));
+    }
+
+    private IEnumerator ShowGameOverWithDelay(OnGameOverEvent e)
+    {
+        if (gameOverDelay > 0)
+        {
+            yield return new WaitForSeconds(gameOverDelay);
+        }
+
         // Teleport to the Game Over scene if not already there
         EventBus<OnSceneLoadRequest>.Call(new OnSceneLoadRequest
         {
             scenesToLoad = new List<SceneField> { gameOverScene },
-            scenesToUnload = new List<SceneField> {  },
+            scenesToUnload = new List<SceneField> { },
             activeSceneToSet = gameOverScene,
             showLoadingBar = false,
             unloadAllButPersistent = true
@@ -128,7 +143,7 @@ public class GameOverController : MonoBehaviour
 
         // Update the UI data
         gameOverUIData.UpdateFromScoreSummary(e.scoreSummary);
-        
+
         // Open the context
         gameOverContext.Open(e.scoreSummary);
     }

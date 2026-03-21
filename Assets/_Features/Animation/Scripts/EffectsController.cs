@@ -21,6 +21,9 @@ public class EffectsController : MonoBehaviour
 
     // Information about entity state.
     private State curState;
+    private LocalEventBinding<OnStateChangeEvent> stateEventBinding;
+    private LocalEventBinding<OnDamagedEvent> damagedEventBinding;
+    private LocalEventBinding<OnRespawnEvent> respawnBinding;
 
     private void Awake()
     {
@@ -40,13 +43,23 @@ public class EffectsController : MonoBehaviour
         leh = InitializerUtil.FindComponentInParent<LocalEventHandler>(gameObject);
     }
 
-    private void Start()
-    { 
-        LocalEventBinding<OnStateChangeEvent> stateEventBinding = new LocalEventBinding<OnStateChangeEvent>(HandleOnStateChange);
-        leh.Register<OnStateChangeEvent>(stateEventBinding);
+        private void OnEnable()
+    {
+        if (stateEventBinding == null) stateEventBinding = new LocalEventBinding<OnStateChangeEvent>(HandleOnStateChange);
+        leh.Register(stateEventBinding);
 
-        LocalEventBinding<OnDamagedEvent> damagedEventBinding = new LocalEventBinding<OnDamagedEvent>(HandleOnDamagedEvent);
-        leh.Register<OnDamagedEvent>(damagedEventBinding);
+        if (damagedEventBinding == null) damagedEventBinding = new LocalEventBinding<OnDamagedEvent>(HandleOnDamagedEvent);
+        leh.Register(damagedEventBinding);
+
+        if (respawnBinding == null) respawnBinding = new LocalEventBinding<OnRespawnEvent>(HandleRespawn);
+        leh.Register(respawnBinding);
+    }
+
+    private void OnDisable()
+    {
+        leh.Unregister(stateEventBinding);
+        leh.Unregister(damagedEventBinding);
+        leh.Unregister(respawnBinding);
     }
 
     private void PlayDamagedEffect(float damage)
@@ -101,7 +114,7 @@ public class EffectsController : MonoBehaviour
                 sprite.color = new Color(0.745283f, 0.614507f, 0.614507f);
                 break;
             case State.DEAD:
-                sprite.color = Color.black;
+                sprite.color = Color.white; // Keep white so dissolve pattern is visible
                 break;
             default:
                 sprite.color = Color.white;
@@ -115,11 +128,21 @@ public class EffectsController : MonoBehaviour
         HandleEffects(curState);
 
         AudioManager.PlaySound(damagedSoundEffect, 1.5f);
-        sprite.material = damageMaterial;
+        if (curState != State.DEAD) sprite.material = damageMaterial;
         yield return new WaitForSeconds(0.2f);
-        sprite.material = defaultMaterial;
+        if (curState == State.DEAD) yield break; // Stop and don't reset if dead, let death scripts handle it
 
+        sprite.material = defaultMaterial;
         runningDamageEffect = false;
         HandleEffects(curState);
     }
+
+    private void HandleRespawn(OnRespawnEvent e)
+    {
+        runningDamageEffect = false;
+        sprite.material = defaultMaterial;
+        sprite.color = Color.white;
+    }
 }
+
+    

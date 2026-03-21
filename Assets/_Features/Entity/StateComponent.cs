@@ -133,7 +133,7 @@ public class StateComponent : MonoBehaviour
         if (e.newState == State.DEAD)
         {
             // Destroy(gameObject, 1.0f);
-            StartCoroutine(WaitThenCall(DeactivateEntity, 1.0f));
+            StartCoroutine(WaitThenCall(DeactivateEntity, 1.5f));
         }
     }
     private void HandleKnockBackBeginEvent(OnKnockBackBeginEvent e)
