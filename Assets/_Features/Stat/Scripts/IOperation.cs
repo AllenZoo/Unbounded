@@ -42,7 +42,7 @@ public class MultiplyOperation : IOperation
 
     public float Calculate(float value)
     {
-        return this.value + value;
+        return this.value * value;
     }
 
     public float GetValue()

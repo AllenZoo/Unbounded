@@ -80,6 +80,7 @@ public class StatMediator : IStatMediator
     }
     public void AddModifier(StatModifier modifier)
     {
+        Debug.Log($"[StatMediator] Adding modifier: {modifier.Stat} value {modifier.operation.GetValue()}");
         modifiers.Add(modifier);
         modifier.MarkedForRemoval = false;
 
@@ -87,6 +88,7 @@ public class StatMediator : IStatMediator
 
         modifier.OnDispose += (modifier) => InvalidateCache(modifier.Stat);
         modifier.OnDispose += (modifier) => modifiers.Remove(modifier);
+        modifier.OnDispose += (modifier) => OnStatChange?.Invoke();
 
         OnStatChange?.Invoke();
     }

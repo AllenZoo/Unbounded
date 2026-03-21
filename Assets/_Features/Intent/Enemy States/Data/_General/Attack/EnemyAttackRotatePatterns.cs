@@ -144,6 +144,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
    
 
         enabledBehaviours = behaviours.Where(b => !b.DisableBehaviour).ToList();
+        Debug.Log($"[{this.name}] Initialized with {behaviours.Count} behaviours, {enabledBehaviours.Count} enabled.");
 
         ResetBehaviourSelectionWeightMap();
         currentBehaviour = emptyBehaviour;
@@ -156,6 +157,13 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     {
         base.ResetValues();
         ResetBehaviourSelectionWeightMap();
+
+        foreach (StatModifier statModifier in appliedStatModifiers)
+        {
+            statModifier.Dispose();
+        }
+        appliedStatModifiers.Clear();
+
         currentBehaviour = emptyBehaviour;
     }
     #endregion
@@ -286,25 +294,22 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
     /// NOTE: If we are transitioning into same behaviour, simply returns. Good for handling repeated rage phase behaviour.
     /// </summary>
     /// <param name="newBehaviour"></param>
-    private void TransitionBehaviour(BehaviourDefinition newBehaviour) {
-        var prevBehaviour = currentBehaviour;
-        
-        if (prevBehaviour.Data.Name.Equals(newBehaviour.Data.Name))
+        private void TransitionBehaviour(BehaviourDefinition newBehaviour) {
+        if (currentBehaviour != null && currentBehaviour.Data != null && currentBehaviour.Data.Name.Equals(newBehaviour.Data.Name))
         {
             return;
         }
-        currentBehaviour = newBehaviour;
 
-        if (debug)
-        {
-            Debug.Log($"Transitioning to new behaviour: [{newBehaviour.Data.Name}]");
-        }
+        Debug.Log($"[EnemyAttackRotatePatterns] Transitioning to: {newBehaviour.Data.Name}");
+
+        currentBehaviour = newBehaviour;
 
         // 1a. Revert previous stat changes
         foreach (StatModifier statModifier in appliedStatModifiers)
         {
             statModifier.Dispose();
         }
+        appliedStatModifiers.Clear();
         
         // 1b. Apply new stat changes
         if (currentBehaviour.Data.AddStatModifiers != null)
@@ -314,6 +319,7 @@ public class EnemyAttackRotatePatterns : EnemyAttackSOBase
                 var statModifier = new StatModifier(addStatModifier.stat, new AddOperation(addStatModifier.amount), -1);
                 enemyAIComponent.LocalEventHandler.Call(new OnStatBuffEvent { buff = statModifier });
                 appliedStatModifiers.Add(statModifier);
+                Debug.Log($"[EnemyAttackRotatePatterns] APPLIED MODIFIER: {addStatModifier.stat} +{addStatModifier.amount} for {newBehaviour.Data.Name}");
             }
         }
 

@@ -543,7 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leh: {fileID: 0}
+  leh: {fileID: -3388595544745265729}
 --- !u!114 &6475032671688007822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,8 +556,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccadc89df742544a91c40680e9f14cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementController
-  acceleration: 50
-  deceleration: 50
+  acceleration: 80
+  deceleration: 80
   leh: {fileID: 0}
   movementEnabled: 1
   stat: {fileID: 4456538979408597558}

@@ -55,6 +55,8 @@ public class StatComponent : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //statContainer.StatMediator.Update(Time.deltaTime);
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //gold += 10;
@@ -123,6 +125,7 @@ public class StatComponent : MonoBehaviour
     /// <param name="e"></param>
     private void HandleBuff(OnStatBuffEvent e)
     {
+        Debug.Log($"[{gameObject.name}] StatComponent received buff: {e.buff.Stat} with value {e.buff.operation.GetValue()}");
         statContainer.StatMediator.AddModifier(e.buff);
     }
 

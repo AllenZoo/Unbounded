@@ -89,16 +89,26 @@ public class MovementController : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
     }
 
+    private float lastLoggedSpeed = -1f;
+
     // Calculates velocity and moves gameobject appropriately
     private void HandleMovement()
     {
+        float currentSpeed = stat.StatContainer.Speed;
+        if (Mathf.Abs(currentSpeed - lastLoggedSpeed) > 0.01f)
+        {
+            // Only log if it's a significant change
+            Debug.Log($"[{gameObject.name}] Current Speed: {currentSpeed} (Target Velocity Magnitude: {currentSpeed * SPEED_SCALE})");
+            lastLoggedSpeed = currentSpeed;
+        }
+
         // Normalize diagonal input
         Vector2 processedDir = motion.Dir.sqrMagnitude > 1
             ? motion.Dir.normalized
             : motion.Dir;
 
         // Target velocity (no deltaTime scaling here)
-        Vector2 targetVelocity = processedDir * stat.StatContainer.Speed * SPEED_SCALE;
+        Vector2 targetVelocity = processedDir * currentSpeed * SPEED_SCALE;
 
         // Choose accel or decel
         float rate = processedDir == Vector2.zero ? deceleration : acceleration;

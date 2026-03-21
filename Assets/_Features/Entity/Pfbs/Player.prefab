@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de126eafc91601428cc194ab2676aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leh: {fileID: 0}
+  leh: {fileID: 8924692159491181220}
 --- !u!114 &7007573682738182030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 50
   deceleration: 50
-  leh: {fileID: 0}
+  leh: {fileID: 8924692159491181220}
   movementEnabled: 1
   stat: {fileID: 7405677662020513449}
   rb: {fileID: 7405677662020512086}
@@ -837,9 +837,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac64e2fd65523d4f9e923c99c3a3c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localEventHandler: {fileID: 8924692159491181220}
+  leh: {fileID: 0}
   debuggingState: 0
   crowdControlStates: 05000000
+  damageStateDuration: 0.5
 --- !u!114 &3185927748019698975
 MonoBehaviour:
   m_ObjectHideFlags: 0
