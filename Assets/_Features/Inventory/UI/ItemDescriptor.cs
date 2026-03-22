@@ -17,8 +17,8 @@ using UnityEngine.Assertions;
 /// </summary>
 public class ItemDescriptor : MonoBehaviour
 {
-    // TODO: Fix the slight jerking motion when ItemDescriptor is toggled on. 
-    //      The issue may be caused by only disabling the display and then re-enabling it, which could affect formatting. 
+    // TODO: Fix the slight jerking motion when ItemDescriptor is toggled on.
+    //      The issue may be caused by only disabling the display and then re-enabling it, which could affect formatting.
     //      Previously, this wasn't a problem because the entire ItemDescriptor object was disabled, ensuring the display was always enabled when ItemDescriptor was active.
 
 
@@ -29,7 +29,7 @@ public class ItemDescriptor : MonoBehaviour
     [Required, SerializeField] private GameObject displayUI; // The actual object we toggle on and off, depending on the selection context.
 
     [Header("UI elements")]
-    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextName must be a child of displayUI.")] 
+    [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextName must be a child of displayUI.")]
     private TextMeshProUGUI itemTextName;
 
     [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextDesc must be a child of displayUI.")]
@@ -37,7 +37,7 @@ public class ItemDescriptor : MonoBehaviour
 
     [Required, SerializeField, ValidateInput(nameof(ValidateDisplayText), "itemTextStats must be a child of displayUI.")]
     private TextMeshProUGUI itemTextStats;
-    
+   
     private void Awake()
     {
         Assert.IsNotNull(context, "Item Descriptor context is null! This will make it unable to display any relevant info needed.");
@@ -113,10 +113,36 @@ public class ItemDescriptor : MonoBehaviour
     /// <param name="item"></param>
     private void HandleItemDisplay(Item item)
     {
-        if (item?.Data?.attacker?.AttackData != null)
+        StatComponent playerStats = null;
+        try { playerStats = PlayerSingleton.Instance?.GetPlayerStatComponent(); } catch { }
+
+        if (item?.Data?.attacker != null)
         {
-            var attackData = item.Data?.attacker?.AttackData;
-            itemTextStats.text += $"Base ATK Damage: {attackData.BaseDamage}\n";
+            var attacker = item.Data.attacker;
+            if (attacker.AttackData != null)
+            {
+                var attackData = attacker.AttackData;
+                float playerAtk = playerStats != null ? playerStats.StatContainer.Attack : 0f;
+                float totalBaseDamage = Mathf.Floor(attackData.BaseDamage + playerAtk);
+
+                itemTextStats.text += $"Damage: {totalBaseDamage}\n";
+
+                if (attacker.AttackerData != null)
+                {
+                    float baseCooldown = attacker.AttackerData.cooldown;
+                    float playerDex = playerStats != null ? playerStats.StatContainer.Dexterity : 0f;
+                    float finalCooldown = attacker.GetCooldown(playerDex);
+
+                    if (Mathf.Abs(finalCooldown - baseCooldown) > 0.001f)
+                    {
+                        itemTextStats.text += $"Cooldown: {baseCooldown:F2}s -> <color=#00FF00>{finalCooldown:F2}s</color>\n";
+                    }
+                    else
+                    {
+                        itemTextStats.text += $"Cooldown: {baseCooldown:F2}s\n";
+                    }
+                }
+            }
         }
 
         // Base Weapon Stats
@@ -137,7 +163,7 @@ public class ItemDescriptor : MonoBehaviour
             {
                 itemTextStats.text += $"\t{stat.Key}: {stat.Value} \n";
             }
-            
+           
         }
 
         // Upgrades
@@ -151,7 +177,7 @@ public class ItemDescriptor : MonoBehaviour
                 itemTextStats.text += "Modifiers:\n";
                 itemTextStats.text += iuc.GetItemDescriptorText();
             }
-            
+           
         }
 
         if (item.HasComponent<ItemUpgraderComponent>())

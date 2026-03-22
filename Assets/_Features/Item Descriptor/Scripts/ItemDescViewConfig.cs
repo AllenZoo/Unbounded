@@ -14,6 +14,8 @@ public class ItemDescViewConfig
     public float Damage; // in Damage: 50 (2 + 23 + 25), this is the 50
     public float BaseAtk; // // in Damage: 50 (2 + 23 + 25), this is the 2
     public float BonusAtk; // in Damage: 50 (2 + 23 + 25), this is the 23
+    public float PlayerAtk; // contribution from player's attack stat
+    public float PlayerDex; // player's dexterity stat
     public double PercentageDamageIncrease; // in Damage: 50 (2 + 23 + 25), this is the 100%
     public float DamageIncreaseFromPercent; // in Damage: 50 (2 + 23 + 25), this is the 25
     

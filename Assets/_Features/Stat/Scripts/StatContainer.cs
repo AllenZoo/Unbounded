@@ -118,6 +118,22 @@ public class StatContainer: IModel
         };
     }
 
+    public float GetBaseStatValue(Stat stat)
+    {
+        if (baseStats == null) return 0f;
+        return stat switch
+        {
+            Stat.HP => baseStats.health,
+            Stat.MAX_HP => baseStats.maxHealth,
+            Stat.ATK => baseStats.attack,
+            Stat.DEF => baseStats.defense,
+            Stat.DEX => baseStats.dexterity,
+            Stat.SPD => baseStats.speed,
+            Stat.GOLD => baseStats.gold,
+            _ => 0f
+        };
+    }
+
     /// <summary>
     /// Util function to get a dictionary of all non zero stats for item descriptor purposes.
     /// </summary>

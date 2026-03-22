@@ -81,7 +81,7 @@ public class ItemDescView : MonoBehaviour, IView<ItemDescViewConfig>
 
     /// <summary>
     /// Populates the descriptor view with model data.
-    /// 
+    ///
     /// If model is null, shows the empty view (which just has a "No Item Selected" text).
     /// Otherwise, shows the filled view with all relevant data populated.
     /// </summary>
@@ -113,21 +113,21 @@ public class ItemDescView : MonoBehaviour, IView<ItemDescViewConfig>
 
         // --- Core Display Stats ---
 
-        // Damage: 50 (2 + 23 + 25)
+        // Damage: 50 (30 + 10 + 10)
         DamageText.text = $"<color={ColorTag(gold)}>{BASE_DAMAGE_FIELD_HEADER_TEXT}{model.Damage}</color>" +
             $"<color={ColorTag(gray)}> ({model.BaseAtk} + </color>" +
             $"<color={ColorTag(green)}>{model.BonusAtk}</color>" +
             $"<color={ColorTag(gray)}> + </color>" +
             $"<color={ColorTag(red)}>{model.DamageIncreaseFromPercent}</color>" +
             $"<color={ColorTag(gray)}>)</color>";
-        
+       
         // Number of Projectiles: 2 (1 + 1)
         NumProjectilesText.text =
             $"{NUM_PROJECTILE_HEADER_TEXT}" +
             $"<color={ColorTag(gold)}>{model.NumProjectilesPerAttack}</color>";
-        
+       
         // Projectile Range: 12 (6 + 6)
-        ProjectileRangeText.text = 
+        ProjectileRangeText.text =
             $"{PROJECTILE_RANGE_HEADER_TEXT}" +
             $"<color={ColorTag(gold)}>{model.ProjectileRange}</color>";
 
