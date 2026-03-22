@@ -12,6 +12,11 @@ public interface IAttacker
     float GetChargeUp();
     IAttacker DeepClone();
 
+    // Base damage of projectile.
+    // TODO: refactor this out.
+    public float BaseDamage { get; }
+
+
     // TODO: figure out if there's a better way to pass in Data info through interface.
     // Fields required from this: numAttacks, wholeObj <- ItemModifierMediator + smt else.
     public ProjectileAttackerData AttackerData { get;  set; }

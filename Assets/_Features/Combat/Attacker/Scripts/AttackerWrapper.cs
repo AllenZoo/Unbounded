@@ -1,4 +1,4 @@
-
+using System.Linq;
 using Sirenix.Serialization;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +10,11 @@ public class AttackerWrapper : IAttacker, IAttackNode
 {
     [OdinSerialize]
     public List<IAttacker> attackers;
+
+    // Base Damage of projectile
+    public float BaseDamage => (attackers != null && attackers.Count > 0) ? attackers.Sum(a => a.BaseDamage) : 0f;
+
+
 
     // TODO: we shoudln't really use this properties.. maybe just leave it here as is for now, we can refactor later :) (+1000%)
     public ProjectileAttackerData AttackerData { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

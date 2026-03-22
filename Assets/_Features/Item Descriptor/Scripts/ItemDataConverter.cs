@@ -30,7 +30,12 @@ public class ItemDataConverter
 
         model.Name = item.Data.itemName;
         model.Description = item.Data.description;
+
         model.BaseAtk = baseStatContainer.Attack;
+        // Include projectile damage as part of base attack for item.
+        float attackerBaseDamage = (finalAttacker != null) ? finalAttacker.BaseDamage : 0f;
+        model.BaseAtk = baseStatContainer.Attack + attackerBaseDamage;
+
         model.BonusAtk = finalStatContainer.Attack - baseStatContainer.Attack;
         model.PercentageDamageIncrease = (float)mediator.QueryPercentageDamageIncreaseTotal();
 

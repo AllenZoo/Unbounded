@@ -13,6 +13,11 @@ public abstract class BaseAttacker<T>: IAttacker, IAttackNode where T: Projectil
     public ProjectileAttackerData AttackerData { get => attackerData; set => attackerData = (T)value; }
     public abstract AttackData AttackData { get; set; }
 
+    // Base damage of projectile.
+    public float BaseDamage => AttackData != null ? AttackData.BaseDamage : 0f;
+
+
+
     /// <summary>
     /// Current multiplier math: Every 10 dex = 0.25f reduction in cooldown. For reference, fireball staff attack has 0.5s cooldown, meaning that 10 dex would reduce the cooldown by half.
     /// This is subject to change as we playtest and balance the game, but for now this is the formula we are using.
