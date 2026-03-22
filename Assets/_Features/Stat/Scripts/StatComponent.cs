@@ -77,6 +77,8 @@ public class StatComponent : MonoBehaviour
         Item equipped = e.equipped;
         Item unequipped = e.unequipped;
 
+        float oldMax = statContainer.MaxHealth;
+
         if (equipped != null && !equipped.IsEmpty())
         {
             equipped.ItemModifierMediator.OnModifierChange += HandleEquippedWeaponItemChange;
@@ -100,6 +102,14 @@ public class StatComponent : MonoBehaviour
                 Debug.LogError("Unequipped item doesn't have base stat/proper stat container handling!");
             }
         }
+
+        float newMax = statContainer.MaxHealth;
+        if (newMax > oldMax)
+        {
+            statContainer.Health += (newMax - oldMax);
+        }
+        statContainer.Health = Mathf.Min(statContainer.Health, newMax);
+        HandleStatChange();
 
         if (Debug.isDebugBuild)
         {
@@ -153,12 +163,22 @@ public class StatComponent : MonoBehaviour
     /// <param name="item"></param>
     private void HandleEquippedWeaponItemChange(Item item)
     {
+        float oldMax = statContainer.MaxHealth;
+
         // Clear previous modifiers.
         StatContainer.StatMediator.RemoveModifiersFromSource(item);
 
         // Apply the updated one
         // Add stat modifiers from equipped item (if equiopped item has stats)
         ApplyWeaponStatModifiers(item);
+
+        float newMax = statContainer.MaxHealth;
+        if (newMax > oldMax)
+        {
+            statContainer.Health += (newMax - oldMax);
+        }
+        statContainer.Health = Mathf.Min(statContainer.Health, newMax);
+        HandleStatChange();
     }
 
     /// <summary>
@@ -183,10 +203,6 @@ public class StatComponent : MonoBehaviour
             StatContainer.StatMediator.AddModifier(item, equippedDEFStatModifier);
             StatContainer.StatMediator.AddModifier(item, equippedSPDStatModifier);
             StatContainer.StatMediator.AddModifier(item, equippedMAXHPStatModifier);
-
-            // Heal player by the amount of Max HP gained from weapon
-            statContainer.Health += esc.MaxHealth;
-            HandleStatChange();
 
             if (Debug.isDebugBuild)
             {
